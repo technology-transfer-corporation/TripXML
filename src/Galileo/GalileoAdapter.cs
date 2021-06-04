@@ -104,11 +104,12 @@ namespace Galileo
         {
             try
             {
-
-                ows = ProviderSystems.System == "Production"
-                        ? new wsGalileoProd.XmlSelect { Url = ProviderSystems.URL }
-                        : new wsGalileoCopy.XmlSelect { Url = ProviderSystems.URL };
-
+                if (ows == null)
+                {
+                    ows = ProviderSystems.System == "Production"
+                            ? new wsGalileoProd.XmlSelect { Url = ProviderSystems.URL }
+                            : new wsGalileoCopy.XmlSelect { Url = ProviderSystems.URL };
+                }
                 // CoreLib.SendTrace(sb.Append($"{mstrUserID} - {mstrProfile}").ToString(), "ttGalileoAdapter", "Create Session", mstrProfile, String.Empty)
                 CoreLib.SendTrace(ProviderSystems.UserID, "ttGalileoAdapter", "Create Session", "", ProviderSystems.LogUUID);
                 string token = ProviderSystems.System == "Production" 
