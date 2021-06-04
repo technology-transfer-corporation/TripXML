@@ -1,43 +1,29 @@
 ﻿using System;
 using System.Text;
 using System.Xml;
-using Microsoft.VisualBasic;
 using TripXMLMain;
 
 namespace Galileo
 {
     public class AirServices : GalileoBase
     {
-        private XmlDocument doc = new XmlDocument();
-        private XmlElement xmRoot;
-        private XmlNodeList xmlNL;
-        private XmlNode priceItinararies;
-        private int flight_counter = 0;
-        private int inbound_flg_count = 0;
-        private int[][] scores = new int[10][];
         private string[,] combinations = new string[600, 16];
         private string[,] inbound_comb = new string[600, 16];
-        private bool dup_check = false;
-        private int index = 0;
-        private int flight_in_val = 0;
-        private int unique_outbounds = 0;
-        private int x;
-        private int in_flg_counter = 0;
-        private int r = 0;
-        private int turn = 0;
-        private string b = "a";
-        private bool dup_verifier = false;
         private int count = 0;
-        private string mstrVersion = "";
-        private string mstrXslPath = "";
-        private StringBuilder sb = new StringBuilder();
-        private string _tracerID;
+        private bool dup_check = false;
+        private bool dup_verifier = false;
+        private int turn = 0;
+        private int unique_outbounds = 0;
+
+        public AirServices()
+        {
+            Request = "";
+            ConversationID = "";
+        }
 
         public string AirAvail()
         {
-            GalileoAdapter ttGA = null;
-            string strRequest = "";
-            string strResponse = "";
+            string strResponse;
 
             // *****************************************************************
             // Transform OTA AirAvail Request into Native Galileo Request     *
@@ -45,88 +31,63 @@ namespace Galileo
 
             try
             {
-                var otaDoc = new XmlDocument();
-                XmlElement otaElement;
-                otaDoc.LoadXml(Request);
-                otaElement = otaDoc.DocumentElement;
-                if (otaElement is object && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value is object)
-                {
-                    _tracerID = otaElement.Attributes["EchoToken"].Value;
-                }
-                else
-                {
-                    _tracerID = "";
-                }
 
-                otaDoc = null;
-                otaElement = null;
-                strRequest = Request;
-                strRequest = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_AirAvailRQ.xsl").ToString());
-                sb.Remove(0, sb.Length);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append("Error Transforming OTA Request.").Append(Environment.NewLine).Append(ex.Message).ToString());
-                sb.Remove(0, sb.Length);
-            }
+                string strRequest = SetRequest("Galileo_AirAvailRQ.xsl");
 
-            if (strRequest.Trim().Length == 0)
-            {
-                throw new Exception("Transformation produced empty xml.");
-            }
-            else if (strRequest.Substring(0, 4) == "ERR:")
-            {
-                if (strRequest == "ERR:")
-                {
+                if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-                }
-                else
-                {
-                    throw new Exception(strRequest.Substring(4));
-                }
-            }
 
-            // *******************************************************************************
-            // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
-            // ******************************************************************************* 
+                // *******************************************************************************
+                // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
+                // ******************************************************************************* 
 
-            try
-            {
-                var arg_ProviderSystems = ProviderSystems;
-                ttGA = new GalileoAdapter(arg_ProviderSystems);
-                ProviderSystems = arg_ProviderSystems;
-                ttGA.TracerID = _tracerID;
+                GalileoAdapter ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
                 strResponse = ttGA.SendMessage(strRequest);
+
+                // *****************************************************************
+                // Transform Native Galileo AirAvail Response into OTA Response   *
+                // ***************************************************************** 
+
+                try
+                {
+                    if (strResponse.Length > 1500)
+                    {
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    }
+                    else
+                    {
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse, ProviderSystems.LogUUID);
+                    }
+
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_AirAvailRS.xsl");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                throw ex;
-            }
-
-            // *****************************************************************
-            // Transform Native Galileo AirAvail Response into OTA Response   *
-            // ***************************************************************** 
-
-            try
-            {
-                strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_AirAvailRS.xsl").ToString());
-                sb.Remove(0, sb.Length);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append(sb.Append("Error Transforming Native Response.").Append(Environment.NewLine).Append(ex.Message).ToString()).ToString());
-                sb.Remove(0, sb.Length);
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.AirAvail, ex.Message, ProviderSystems);
             }
 
             return strResponse;
-            sb = null;
+
         }
 
         public string AirFlifo()
         {
-            GalileoAdapter ttGA = null;
-            string strRequest = "";
-            string strResponse = "";
+            string strResponse;
 
             // *****************************************************************
             // Transform OTA AirFlifo Request into Native Galileo Request     *
@@ -134,863 +95,372 @@ namespace Galileo
 
             try
             {
-                var otaDoc = new XmlDocument();
-                XmlElement otaElement;
-                otaDoc.LoadXml(Request);
-                otaElement = otaDoc.DocumentElement;
-                if (otaElement is object && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value is object)
-                {
-                    _tracerID = otaElement.Attributes["EchoToken"].Value;
-                }
-                else
-                {
-                    _tracerID = "";
-                }
 
-                otaDoc = null;
-                otaElement = null;
-                strRequest = Request;
-                strRequest = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_AirFlifoRQ.xsl").ToString());
-                sb.Remove(0, sb.Length);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append("Error Transforming OTA Request.").Append(Environment.NewLine).Append(ex.Message).ToString());
-                sb.Remove(0, sb.Length);
-            }
-
-            if (strRequest.Trim().Length == 0)
-            {
-                throw new Exception("Transformation produced empty xml.");
-            }
-            else if (strRequest.Substring(0, 4) == "ERR:")
-            {
-                if (strRequest == "ERR:")
-                {
+                string strRequest = SetRequest("Galileo_AirFlifoRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-                }
-                else
-                {
-                    throw new Exception(strRequest.Substring(4));
-                }
-            }
 
-            // *******************************************************************************
-            // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
-            // ******************************************************************************* 
+                // *******************************************************************************
+                // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
+                // ******************************************************************************* 
 
-            try
-            {
-                var arg_ProviderSystems = ProviderSystems;
-                ttGA = new GalileoAdapter(arg_ProviderSystems);
-                ProviderSystems = arg_ProviderSystems;
-                ttGA.TracerID = _tracerID;
+                GalileoAdapter ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
                 strResponse = ttGA.SendMessage(strRequest);
+
+
+                // *****************************************************************
+                // Transform Native Galileo AirFlifo Response into OTA Response   *
+                // ***************************************************************** 
+                try
+                {
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_AirFlifoRS.xsl");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                throw ex;
-            }
-            finally
-            {
-                ttGA = null;
-            }
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.AirFlifo, ex.Message, ProviderSystems);
 
-            // *****************************************************************
-            // Transform Native Galileo AirFlifo Response into OTA Response   *
-            // ***************************************************************** 
-
-            try
-            {
-                strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_AirFlifoRS.xsl").ToString());
-                sb.Remove(0, sb.Length);
             }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append(sb.Append("Error Transforming Native Response.").Append(Environment.NewLine).Append(ex.Message).ToString()).ToString());
-                sb.Remove(0, sb.Length);
-            }
-
             return strResponse;
-            sb = null;
+
         }
 
         public string LowFare()
         {
-            GalileoAdapter ttGA = null;
-            string strRequest = "";
-            string strResponse = "";
-            DateTime RequestTime;
-            DateTime ResponseTime;
-            string strMessage = "";
-            var sbNativelog = new StringBuilder();
 
+            string strResponse;
             // *****************************************************************
             // Transform OTA LowFare Request into Native Galileo Request     *
             // ***************************************************************** 
 
             try
             {
-                var otaDoc = new XmlDocument();
-                XmlElement otaElement;
-                otaDoc.LoadXml(Request);
-                otaElement = otaDoc.DocumentElement;
-                if (otaElement is object && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value is object)
-                {
-                    _tracerID = otaElement.Attributes["EchoToken"].Value;
-                }
-                else
-                {
-                    _tracerID = "";
-                }
-
-                otaDoc = null;
-                otaElement = null;
-                RequestTime = DateTime.Now;
-                Request = Request.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "").Replace("<?xml version=\"1.0\"?>", "");
-                strRequest = Request;
-                strRequest = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_LowFareRQ.xsl").ToString());
-                sb.Remove(0, sb.Length);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append("Error Transforming OTA Request.").Append(Environment.NewLine).Append(ex.Message).ToString());
-                sb.Remove(0, sb.Length);
-            }
-
-            if (strRequest.Trim().Length == 0)
-            {
-                throw new Exception("Transformation produced empty xml.");
-            }
-            else if (strRequest.Substring(0, 4) == "ERR:")
-            {
-                if (strRequest == "ERR:")
-                {
+                string strRequest = SetRequest("Galileo_LowFareRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-                }
-                else
-                {
-                    throw new Exception(strRequest.Substring(4));
-                }
-            }
 
-            // *******************************************************************************
-            // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
-            // ******************************************************************************* 
+                // *******************************************************************************
+                // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
+                // ******************************************************************************* 
 
-            try
-            {
-                var arg_ProviderSystems = ProviderSystems;
-                ttGA = new GalileoAdapter(arg_ProviderSystems);
-                ProviderSystems = arg_ProviderSystems;
-                ttGA.TracerID = _tracerID;
+                GalileoAdapter ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
                 strResponse = ttGA.SendMessage(strRequest);
-                strMessage = sbNativelog.Append(strRequest).Append(Environment.NewLine).Append(strResponse).ToString();
-                sbNativelog.Remove(0, sbNativelog.Length);
+
+                // *****************************************************************
+                // Transform Native Galileo LowFare Response into OTA Response   *
+                // ***************************************************************** 
+                try
+                {
+                    strResponse = strResponse.Replace("</FareQuoteSuperBB_9>", $"{Request}</FareQuoteSuperBB_9>");
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_LowFareRS.xsl");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                throw ex;
-            }
-            finally
-            {
-                ttGA = null;
-            }
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.LowFare, ex.Message, ProviderSystems);
 
-            // *****************************************************************
-            // Transform Native Galileo LowFare Response into OTA Response   *
-            // ***************************************************************** 
-
-            try
-            {
-                strResponse = strResponse.Replace("</FareQuoteSuperBB_9>", Request + "</FareQuoteSuperBB_9>");
-                strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_LowFareRS.xsl").ToString());
-                sb.Remove(0, sb.Length);
             }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append(sb.Append("Error Transforming Native Response.").Append(Environment.NewLine).Append(ex.Message).ToString()).ToString());
-                sb.Remove(0, sb.Length);
-            }
-
-            ResponseTime = DateTime.Now;
-            if (ProviderSystems.LogNative)
-            {
-                TripXMLTools.TripXMLLog.LogMessage("LowFare", ref strMessage, RequestTime, ResponseTime, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
-            }
-
-            sbNativelog = null;
             return strResponse;
-            sb = null;
         }
 
         public string AirSeatMap()
         {
-            GalileoAdapter ttGA = null;
-            string strRequest = "";
-            string strResponse = "";
+            string strResponse;
 
             // *****************************************************************
             // Transform OTA AirSeatMap Request into Native Galileo Request     *
             // ***************************************************************** 
-
             try
             {
-                var otaDoc = new XmlDocument();
-                XmlElement otaElement;
-                otaDoc.LoadXml(Request);
-                otaElement = otaDoc.DocumentElement;
-                if (otaElement is object && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value is object)
-                {
-                    _tracerID = otaElement.Attributes["EchoToken"].Value;
-                }
-                else
-                {
-                    _tracerID = "";
-                }
-
-                otaDoc = null;
-                otaElement = null;
-                strRequest = Request;
-                strRequest = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_AirSeatMapRQ.xsl").ToString());
-                sb.Remove(0, sb.Length);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append("Error Transforming OTA Request.").Append(Environment.NewLine).Append(ex.Message).ToString());
-                sb.Remove(0, sb.Length);
-            }
-
-            if (strRequest.Trim().Length == 0)
-            {
-                throw new Exception("Transformation produced empty xml.");
-            }
-            else if (strRequest.Substring(0, 4) == "ERR:")
-            {
-                if (strRequest == "ERR:")
-                {
+                string strRequest = SetRequest("Galileo_AirSeatMapRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-                }
-                else
-                {
-                    throw new Exception(strRequest.Substring(4));
-                }
-            }
 
-            // *******************************************************************************
-            // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
-            // ******************************************************************************* 
-
-            try
-            {
-                var arg_ProviderSystems = ProviderSystems;
-                ttGA = new GalileoAdapter(arg_ProviderSystems);
-                ProviderSystems = arg_ProviderSystems;
-                ttGA.TracerID = _tracerID;
+                // *******************************************************************************
+                // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+                GalileoAdapter ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
                 strResponse = ttGA.SendMessage(strRequest);
+
+
+                // *****************************************************************
+                // Transform Native Galileo AirSeatMap Response into OTA Response   *
+                // ***************************************************************** 
+                try
+                {
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_AirSeatMapRS.xsl");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                throw ex;
-            }
-            finally
-            {
-                ttGA = null;
-            }
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.AirSeatMap, ex.Message, ProviderSystems);
 
-            // *****************************************************************
-            // Transform Native Galileo AirSeatMap Response into OTA Response   *
-            // ***************************************************************** 
-
-            try
-            {
-                strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_AirSeatMapRS.xsl").ToString());
-                sb.Remove(0, sb.Length);
             }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append(sb.Append("Error Transforming Native Response.").Append(Environment.NewLine).Append(ex.Message).ToString()).ToString());
-                sb.Remove(0, sb.Length);
-            }
-
             return strResponse;
-            sb = null;
         }
 
         public string AirPrice()
         {
-            GalileoAdapter ttGA = null;
-            string strRequest = "";
-            string strResponse = "";
-            DateTime RequestTime;
-            DateTime ResponseTime;
-            string strMessage = "";
-            var sbNativelog = new StringBuilder();
-            // *****************************************************************
-            // Transform OTA AirPrice Request into Native Galileo Request     *
-            // ***************************************************************** 
+            string strResponse;
 
+            // *****************************************************************
+            // Transform OTA AirSeatMap Request into Native Galileo Request     *
+            // ***************************************************************** 
             try
             {
-                var otaDoc = new XmlDocument();
-                XmlElement otaElement;
-                otaDoc.LoadXml(Request);
-                otaElement = otaDoc.DocumentElement;
-                if (otaElement is object && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value is object)
-                {
-                    _tracerID = otaElement.Attributes["EchoToken"].Value;
-                }
-                else
-                {
-                    _tracerID = "";
-                }
-
-                otaDoc = null;
-                otaElement = null;
-                RequestTime = DateTime.Now;
-                strRequest = Request;
-                strRequest = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_AirPriceRQ.xsl").ToString());
-                sb.Remove(0, sb.Length);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append("Error Transforming OTA Request.").Append(Environment.NewLine).Append(ex.Message).ToString());
-                sb.Remove(0, sb.Length);
-            }
-
-            if (strRequest.Trim().Length == 0)
-            {
-                throw new Exception("Transformation produced empty xml.");
-            }
-            else if (strRequest.Substring(0, 4) == "ERR:")
-            {
-                if (strRequest == "ERR:")
-                {
+                string strRequest = SetRequest("Galileo_AirPriceRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-                }
-                else
-                {
-                    throw new Exception(strRequest.Substring(4));
-                }
-            }
 
-            // *******************************************************************************
-            // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
-            // ******************************************************************************* 
-
-            try
-            {
-                var arg_ProviderSystems = ProviderSystems;
-                ttGA = new GalileoAdapter(arg_ProviderSystems);
-                ProviderSystems = arg_ProviderSystems;
-                ttGA.TracerID = _tracerID;
+                // *******************************************************************************
+                // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+                GalileoAdapter ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
                 strResponse = ttGA.SendMessage(strRequest);
-                strMessage = sbNativelog.Append(strRequest).Append(Environment.NewLine).Append(strResponse).ToString();
-                sbNativelog.Remove(0, sbNativelog.Length);
+
+                // *****************************************************************
+                // Transform Native Galileo AirPrice Response into OTA Response   *
+                // ***************************************************************** 
+
+                try
+                {
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_AirPriceRS.xsl");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                throw ex;
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.AirPrice, ex.Message, ProviderSystems);
             }
-            finally
-            {
-                ttGA = null;
-            }
-
-            // *****************************************************************
-            // Transform Native Galileo AirPrice Response into OTA Response   *
-            // ***************************************************************** 
-
-            try
-            {
-                strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_AirPriceRS.xsl").ToString());
-                sb.Remove(0, sb.Length);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append(sb.Append("Error Transforming Native Response.").Append(Environment.NewLine).Append(ex.Message).ToString()).ToString());
-                sb.Remove(0, sb.Length);
-            }
-
-            ResponseTime = DateTime.Now;
-            if (ProviderSystems.LogNative)
-            {
-                TripXMLTools.TripXMLLog.LogMessage("AirPrice", ref strMessage, RequestTime, ResponseTime, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
-            }
-
-            sb = null;
-            sbNativelog = null;
             return strResponse;
         }
 
         public string AirRules()
         {
-            GalileoAdapter ttGA = null;
-            XmlDocument oReqDoc = null;
-            XmlElement oRoot = null;
-            XmlNode oNode = null;
-            string strRequest = "";
-            string strResponse = "";
-            string Token = "";
-            DateTime RequestTime;
-            DateTime ResponseTime;
-            string strMessage = "";
-            var sbNativelog = new StringBuilder();
+            string strResponse;
+
+            // *****************************************************************
+            // Transform OTA AirSeatMap Request into Native Galileo Request     *
+            // ***************************************************************** 
             try
             {
-
-                // *****************************************************************
-                // Transform OTA AirRules Request into Native Galileo Request     *
-                // ***************************************************************** 
-
-                try
-                {
-                    var otaDoc = new XmlDocument();
-                    XmlElement otaElement;
-                    otaDoc.LoadXml(Request);
-                    otaElement = otaDoc.DocumentElement;
-                    if (otaElement is object && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value is object)
-                    {
-                        _tracerID = otaElement.Attributes["EchoToken"].Value;
-                    }
-                    else
-                    {
-                        _tracerID = "";
-                    }
-
-                    otaDoc = null;
-                    otaElement = null;
-                    RequestTime = DateTime.Now;
-                    strRequest = Request;
-                    strRequest = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_AirRulesRQ.xsl").ToString());
-                    sb.Remove(0, sb.Length);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(sb.Append("Error Transforming OTA Request.").Append(Environment.NewLine).Append(ex.Message).ToString());
-                    sb.Remove(0, sb.Length);
-                }
-
-                if (strRequest.Trim().Length == 0)
-                {
+                string strRequest = SetRequest("Galileo_AirRulesRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-                }
 
-                try
-                {
-                    oReqDoc = new XmlDocument();
-                    oReqDoc.LoadXml(strRequest);
-                    oRoot = oReqDoc.DocumentElement;
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(strRequest);
+                var oRoot = oDoc.DocumentElement;
 
-                    // AirRules Tariff Request
-                    oNode = oRoot.SelectSingleNode("FareQuoteTariffDisplay_8_0");
-                    strRequest = oNode.OuterXml;
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(sb.Append("Error Loading Transformed Request XML Document. ").Append(ex.Message).ToString());
-                    sb.Remove(0, sb.Length);
-                }
-
-                // Create Session
-                try
-                {
-                    var arg_ProviderSystems = ProviderSystems;
-                    ttGA = new GalileoAdapter(arg_ProviderSystems);
-                    ProviderSystems = arg_ProviderSystems;
-                    ttGA.TracerID = _tracerID;
-                    Token = ttGA.CreateSession();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(sb.Append("Unable to Create Session.").Append(Environment.NewLine).Append(ex.Message).ToString());
-                    sb.Remove(0, sb.Length);
-                }
+                // *******************************************************************************
+                // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+                GalileoAdapter ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
 
                 // *******************************************************************
                 // Send Transformed Request AirRules Tariff to the Galileo Adapter  *
                 // ******************************************************************* 
-
-                try
-                {
-                    strResponse = ttGA.SendMessage(strRequest, Token);
-                    strMessage = sbNativelog.Append(strRequest).Append(Environment.NewLine).Append(strResponse).ToString();
-                    sbNativelog.Remove(0, sbNativelog.Length);
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                strResponse = ttGA.SendMessage(strRequest);
 
                 if (strResponse.IndexOf("NO FARES FOUND FOR INPUT REQUEST") == -1)
                 {
-
                     // *******************************************************************
                     // Send Transformed Request AirRules Tariff to the Galileo Adapter  *
                     // ******************************************************************* 
-                    try
-                    {
-                        // AirRules Request
-                        oNode = oRoot.SelectSingleNode("FareQuoteRulesDisplay_8_0");
-                        strRequest = oNode.OuterXml;
-                        strResponse = ttGA.SendMessage(strRequest, Token);
-                        strMessage = sbNativelog.Append(strMessage).Append(Environment.NewLine).Append(strRequest).Append(Environment.NewLine).Append(strResponse).ToString();
-                        sbNativelog.Remove(0, sbNativelog.Length);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
+                    // AirRules Request
+                    var oNode = oRoot.SelectSingleNode("FareQuoteRulesDisplay_8_0");
+                    strRequest = oNode.OuterXml;
+                    strResponse = ttGA.SendMessage(strRequest);
                 }
 
                 // *****************************************************************
                 // Transform Native Galileo AirRules Response into OTA Response   *
                 // ***************************************************************** 
-
                 try
                 {
-                    strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_AirRulesRS.xsl").ToString());
-                    sb.Remove(0, sb.Length);
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_AirRulesRS.xsl");
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception(sb.Append("Error Transforming Native Response. ").Append(ex.Message).ToString());
-                    sb.Remove(0, sb.Length);
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
                 }
-
-                ResponseTime = DateTime.Now;
-                if (ProviderSystems.LogNative)
+                finally
                 {
-                    TripXMLTools.TripXMLLog.LogMessage("AirRules", ref strMessage, RequestTime, ResponseTime, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
                 }
-
-                return strResponse;
             }
-            catch (Exception exx)
+            catch (Exception ex)
             {
-                throw exx;
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.AirRules, ex.Message, ProviderSystems);
             }
-            finally
-            {
-                oNode = null;
-                oRoot = null;
-                oReqDoc = null;
-                sbNativelog = null;
-                if (Token.Trim().Length > 0)
-                {
-                    if (ttGA is object)
-                        ttGA.CloseSession(Token);
-                }
-
-                ttGA = null;
-            }
-
-            sb = null;
+            return strResponse;
         }
 
         public string LowFarePlus()
         {
-            GalileoAdapter ttGA = null;
-            string strRequest = "";
-            string strResponse = "";
-            string Token = "";
-            DateTime RequestTime;
-            DateTime ResponseTime;
-            string strMessage = "";
-            var sbNativelog = new StringBuilder();
+            string strResponse;
+
             // *****************************************************************
             // Transform OTA LowFarePlus Request into Native Galileo Request     *
             // ***************************************************************** 
-
             try
             {
-                var otaDoc = new XmlDocument();
-                XmlElement otaElement;
-                otaDoc.LoadXml(Request);
-                otaElement = otaDoc.DocumentElement;
-                if (otaElement is object && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value is object)
-                {
-                    _tracerID = otaElement.Attributes["EchoToken"].Value;
-                }
-                else
-                {
-                    _tracerID = "";
-                }
-
-                otaDoc = null;
-                otaElement = null;
-                RequestTime = DateTime.Now;
-                Request = Request.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "").Replace("<?xml version=\"1.0\"?>", "");
-                strRequest = Request;
-                strRequest = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_LowFarePlusRQ1.xsl").ToString());
-                sb.Remove(0, sb.Length);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append("Error Transforming OTA Request.").Append(Environment.NewLine).Append(ex.Message).ToString());
-                sb.Remove(0, sb.Length);
-            }
-
-            if (strRequest.Trim().Length == 0)
-            {
-                throw new Exception("Transformation produced empty xml.");
-            }
-            else if (strRequest.Substring(0, 4) == "ERR:")
-            {
-                if (strRequest == "ERR:")
-                {
+                string strRequest = SetRequest("Galileo_LowFarePlusRQ1.xsl");
+                if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-                }
-                else
-                {
-                    throw new Exception(strRequest.Substring(4));
-                }
-            }
 
-            // *******************************************************************************
-            // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
-            // ******************************************************************************* 
+                // *******************************************************************************
+                // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+                GalileoAdapter ttGA = SetAdapter(ProviderSystems.SessionPool ? "V1" : "");
+                bool inSession = SetConversationID(ttGA);
+                strResponse = ttGA.SendMessage(strRequest);
 
-            try
-            {
-                // ttGA = New GalileoAdapter(ProviderSystems)
-                // strResponse = ttGA.SendMessage(strRequest)
-                // ProviderSystems.SessionPool = True
-                if (ProviderSystems.SessionPool)
+                // *****************************************************************
+                // Transform Native Galileo LowFarePlus Response into OTA Response   *
+                // ***************************************************************** 
+
+                try
                 {
-                    var argProviderSystems = ProviderSystems;
-                    string argversion = "V1";
-                    ttGA = new GalileoAdapter(argProviderSystems, argversion);
-                    ProviderSystems = argProviderSystems;
-                    ttGA.TracerID = _tracerID;
-                    Token = ttGA.CheckSessionV3();
-                    strResponse = ttGA.SendMessage(strRequest, Token);
-                    strMessage = sbNativelog.Append(strRequest).Append(Environment.NewLine).Append(strResponse).ToString();
-                    sbNativelog.Remove(0, sbNativelog.Length);
+                    strResponse = strResponse.Replace("</FareQuoteSuperBB_9>", $"{Request}</FareQuoteSuperBB_9>").Replace(" xmlns=\"\"", "");
+                    strResponse = strResponse.Replace("</FareQuoteSuperBB_25>", $"{Request}</FareQuoteSuperBB_25>").Replace(" xmlns=\"\"", "");
+
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_LowFarePlusRS1.xsl");
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_LowFarePlusRS2.xsl");
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_LowFarePlusRS3.xsl");
                 }
-                else
+                catch (Exception ex)
                 {
-                    var arg_ProviderSystems = ProviderSystems;
-                    ttGA = new GalileoAdapter(arg_ProviderSystems);
-                    ProviderSystems = arg_ProviderSystems;
-                    ttGA.TracerID = _tracerID;
-                    strResponse = ttGA.SendMessage(strRequest);
-                    strMessage = sbNativelog.Append(strRequest).Append(Environment.NewLine).Append(strResponse).ToString();
-                    sbNativelog.Remove(0, sbNativelog.Length);
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
                 }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+
             }
             catch (Exception ex)
             {
-                throw ex;
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.LowFarePlus, ex.Message, ProviderSystems);
             }
-            finally
-            {
-                if (Token.Trim().Length > 0)
-                {
-                    if (ttGA is object)
-                        ttGA.CloseSessionFromPool(Token);
-                }
-
-                ttGA = null;
-            }
-
-            // *****************************************************************
-            // Transform Native Galileo LowFarePlus Response into OTA Response   *
-            // ***************************************************************** 
-
-            try
-            {
-                strResponse = strResponse.Replace("</FareQuoteSuperBB_9>", Request + "</FareQuoteSuperBB_9>").Replace(" xmlns=\"\"", "");
-                strResponse = strResponse.Replace("</FareQuoteSuperBB_25>", Request + "</FareQuoteSuperBB_25>").Replace(" xmlns=\"\"", "");
-                strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_LowFarePlusRS1.xsl").ToString());
-                sb.Remove(0, sb.Length);
-                strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_LowFarePlusRS2.xsl").ToString());
-                sb.Remove(0, sb.Length);
-                strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_LowFarePlusRS3.xsl").ToString());
-                sb.Remove(0, sb.Length);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append(sb.Append("Error Transforming Native Response.").Append(Environment.NewLine).Append(ex.Message).ToString()).ToString());
-                sb.Remove(0, sb.Length);
-            }
-            finally
-            {
-                ttGA = null;
-            }
-
-            ResponseTime = DateTime.Now;
-            if (ProviderSystems.LogNative)
-            {
-                TripXMLTools.TripXMLLog.LogMessage("LowFarePlus", ref strMessage, RequestTime, ResponseTime, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
-            }
-
-            sbNativelog = null;
             return strResponse;
-            sb = null;
         }
 
         public string LowFareSchedule()
         {
-            GalileoAdapter ttGA = null;
-            string strRequest = "";
-            string strResponse = "";
-            string Token = "";
-            DateTime RequestTime;
-            DateTime ResponseTime;
-            string strMessage = "";
-            var sbNativelog = new StringBuilder();
+            string strResponse;
 
             // *****************************************************************
             // Transform OTA LowFarePlus Request into Native Galileo Request     *
             // ***************************************************************** 
-
             try
             {
-                var otaDoc = new XmlDocument();
-                XmlElement otaElement;
-                otaDoc.LoadXml(Request);
-                otaElement = otaDoc.DocumentElement;
-                if (otaElement is object && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value is object)
-                {
-                    _tracerID = otaElement.Attributes["EchoToken"].Value;
-                }
-                else
-                {
-                    _tracerID = "";
-                }
-
-                otaDoc = null;
-                otaElement = null;
-                RequestTime = DateTime.Now;
-                Request = Request.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "").Replace("<?xml version=\"1.0\"?>", "");
-                strRequest = Request;
-                strRequest = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_LowFareScheduleRQ.xsl").ToString());
-                sb.Remove(0, sb.Length);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append("Error Transforming OTA Request.").Append(Environment.NewLine).Append(ex.Message).ToString());
-                sb.Remove(0, sb.Length);
-            }
-
-            if (strRequest.Trim().Length == 0)
-            {
-                throw new Exception("Transformation produced empty xml.");
-            }
-            else if (strRequest.Substring(0, 4) == "ERR:")
-            {
-                if (strRequest == "ERR:")
-                {
+                string strRequest = SetRequest("Galileo_LowFareScheduleRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-                }
-                else
-                {
-                    throw new Exception(strRequest.Substring(4));
-                }
-            }
 
-            // *******************************************************************************
-            // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
-            // ******************************************************************************* 
+                // *******************************************************************************
+                // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+                GalileoAdapter ttGA = SetAdapter(ProviderSystems.SessionPool ? "V1" : "");
+                bool inSession = SetConversationID(ttGA);
+                strResponse = ttGA.SendMessage(strRequest);
 
-            try
-            {
-                // ttGA = New GalileoAdapter(ProviderSystems)
-                // strResponse = ttGA.SendMessage(strRequest)
-                // ProviderSystems.SessionPool = True
-                if (ProviderSystems.SessionPool)
-                {
-                    var argProviderSystems = ProviderSystems;
-                    string argversion = "V1";
-                    ttGA = new GalileoAdapter(argProviderSystems, argversion);
-                    ProviderSystems = argProviderSystems;
-                    ttGA.TracerID = _tracerID;
-                    Token = ttGA.CheckSessionV3();
-                    strResponse = ttGA.SendMessage(strRequest, Token);
-                    strMessage = sbNativelog.Append(strRequest).Append(Environment.NewLine).Append(strResponse).ToString();
-                    sbNativelog.Remove(0, sbNativelog.Length);
-                }
-                else
-                {
-                    var arg_ProviderSystems = ProviderSystems;
-                    ttGA = new GalileoAdapter(arg_ProviderSystems);
-                    ProviderSystems = arg_ProviderSystems;
-                    ttGA.TracerID = _tracerID;
-                    strResponse = ttGA.SendMessage(strRequest);
-                    strMessage = sbNativelog.Append(strRequest).Append(Environment.NewLine).Append(strResponse).ToString();
-                    sbNativelog.Remove(0, sbNativelog.Length);
-                }
+                // *****************************************************************
+                // Transform Native Galileo LowFarePlus Response into OTA Response   *
+                // ***************************************************************** 
 
-                CoreLib.SendTrace(ProviderSystems.UserName, "AirServices", strResponse.Substring(0, 50), strResponse.Substring(0, 50), ProviderSystems.LogUUID);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                if (Token.Trim().Length > 0)
-                {
-                    if (ttGA is object)
-                        ttGA.CloseSessionFromPool(Token);
-                }
-
-                ttGA = null;
-            }
-
-            // *****************************************************************
-            // Transform Native Galileo LowFarePlus Response into OTA Response   *
-            // ***************************************************************** 
-
-            try
-            {
-                strResponse = strResponse.Replace("</FareQuoteSuperBB_9>", Request + "</FareQuoteSuperBB_9>").Replace(" xmlns=\"\"", "");
-                strResponse = strResponse.Replace("</FareQuoteSuperBB_25>", Request + "</FareQuoteSuperBB_25>").Replace(" xmlns=\"\"", "");
-                strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_LowFarePlusRS1.xsl").ToString());
-                sb.Remove(0, sb.Length);
-                Console.WriteLine("Just after the 1st response");
-                strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_LowFarePlusRS2.xsl").ToString());
-                sb.Remove(0, sb.Length);
-                strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_LowFarePlusRS3.xsl").ToString());
-                sb.Remove(0, sb.Length);
-                doc.LoadXml(strResponse);
-                xmRoot = doc.DocumentElement;
                 try
                 {
+                    strResponse = strResponse.Replace("</FareQuoteSuperBB_9>", $"{Request}</FareQuoteSuperBB_9>").Replace(" xmlns=\"\"", "");
+                    strResponse = strResponse.Replace("</FareQuoteSuperBB_25>", $"{Request}</FareQuoteSuperBB_25>").Replace(" xmlns=\"\"", "");
+
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_LowFarePlusRS1.xsl");
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_LowFarePlusRS2.xsl");
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_LowFarePlusRS3.xsl");
+
+                    var doc = new XmlDocument();
+                    doc.LoadXml(strResponse);
                     workOnPricedItinerary(doc);
+                    strResponse = createXml(doc);
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception(sb.Append(sb.Append("Error @ workOnPricedItinerary").Append(Environment.NewLine).Append(ex.Message).ToString()).ToString());
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
                 }
-
-                try
+                finally
                 {
-                    strResponse = createXml();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(sb.Append(sb.Append("Error @ createXml").Append(Environment.NewLine).Append(ex.Message).ToString()).ToString());
-                }
-
-                ResponseTime = DateTime.Now;
-                if (ProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("LowFareSchedule", ref strMessage, RequestTime, ResponseTime, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(sb.Append(sb.Append("Error Transforming Native Response.").Append(Environment.NewLine).Append(ex.Message).ToString()).ToString());
-                sb.Remove(0, sb.Length);
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.LowFareSchedule, ex.Message, ProviderSystems);
             }
-            finally
-            {
-                ttGA = null;
-                sbNativelog = null;
-            }
-
             return strResponse;
         }
 
@@ -1005,8 +475,9 @@ namespace Galileo
             var sb_DepDateTime_1 = new StringBuilder();
             var sb_DepDateTime_2 = new StringBuilder();
             var sb_DepDateTime_3 = new StringBuilder();
-            xmlNL = doc.GetElementsByTagName("PricedItinerary");
+            var xmlNL = doc.GetElementsByTagName("PricedItinerary");
             count = xmlNL.Count;
+
             int index = 0;
             int c = 0;
             int filghtNo_1 = 0;
@@ -1014,7 +485,7 @@ namespace Galileo
             int filghtNo_3 = 0;
             int d = 0;
             var loopTo = count - 1;
-            for (x = 0; x <= loopTo; x++)
+            for (int x = 0; x <= loopTo; x++)
             {
                 c = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS ").SelectSingleNode("PricedItineraries ").SelectNodes("PricedItinerary ")[x].SelectSingleNode("AirItinerary ").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment").Count;
                 int inBoundFlightCount = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS ").SelectSingleNode("PricedItineraries ").SelectNodes("PricedItinerary ")[x].SelectSingleNode("AirItinerary ").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment").Count;
@@ -1077,7 +548,7 @@ namespace Galileo
                     sb_DepDateTime_1.Append(doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[x].SelectSingleNode("AirItinerary ").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[0].Attributes["DepartureDateTime"].Value);
                     sb_DepDateTime_2.Append(doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[x].SelectSingleNode("AirItinerary ").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[1].Attributes["DepartureDateTime"].Value);
                     sb_DepDateTime_3.Append(doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[x].SelectSingleNode("AirItinerary ").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[2].Attributes["DepartureDateTime"].Value);
-                    dup_verifier = duplicantChecker_3(filghtNo_1, filghtNo_2, filghtNo_3, sb_rezBookDesigCode_1.ToString(), sb_rezBookDesigCode_2.ToString(), sb_rezBookDesigCode_3.ToString(), sb_AL_CodeMak_1.ToString(), sb_AL_CodeMak_2.ToString(), sb_AL_CodeMak_3.ToString(), sb_DepDateTime_1.ToString(), sb_DepDateTime_2.ToString(), sb_DepDateTime_3.ToString());
+                    var dup_verifier = duplicantChecker_3(filghtNo_1, filghtNo_2, filghtNo_3, sb_rezBookDesigCode_1.ToString(), sb_rezBookDesigCode_2.ToString(), sb_rezBookDesigCode_3.ToString(), sb_AL_CodeMak_1.ToString(), sb_AL_CodeMak_2.ToString(), sb_AL_CodeMak_3.ToString(), sb_DepDateTime_1.ToString(), sb_DepDateTime_2.ToString(), sb_DepDateTime_3.ToString());
                     if (dup_verifier == false)
                     {
                         combinations[x, 0] = filghtNo_1.ToString();
@@ -1131,7 +602,6 @@ namespace Galileo
                     sb_DepDateTime_2.Append(doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[x].SelectSingleNode("AirItinerary ").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[1].Attributes["DepartureDateTime"].Value);
 
                     // fillinf in to inbound_comb array
-
                     inbound_comb[x, 0] = filghtNo_1.ToString();
                     inbound_comb[x, 1] = filghtNo_2.ToString();
                     inbound_comb[x, 4] = sb_rezBookDesigCode_1.ToString();
@@ -1198,7 +668,7 @@ namespace Galileo
                     dup_check = true;
                 }
 
-                ind += 1;
+                ind ++;
             }
 
             return dup_check;
@@ -1214,7 +684,7 @@ namespace Galileo
                     dup_check = true;
                 }
 
-                ind += 1;
+                ind ++;
             }
 
             return dup_check;
@@ -1229,208 +699,203 @@ namespace Galileo
                 {
                     dup_check = true;
                 }
-
-                z += 1;
+                z++;
             }
 
             return dup_check;
         }
 
-        private string createXml()
+        private string createXml(XmlDocument doc)
         {
-            string strResponse = "";
-            sb.Remove(0, sb.Length);
-            sb.Append("<OTA_AirLowFareSearchScheduleRS><Success/><PricedItineraries></PricedItineraries></OTA_AirLowFareSearchScheduleRS>");
-            var doc_response = new XmlDocument();
-            XmlNode Root = null;
-            XmlNode node = null;
-            XmlNode priceItinarary = null;
-            XmlNode nItem = null;
-            XmlAttribute Attribute = null;
-            var sb2 = new StringBuilder();
-            object flight_val_in = 0;
-            int pct_fairdowncount = 0;
-            int flightSeg_Counter = 0;
-            doc_response.LoadXml(sb.ToString());
-            Console.WriteLine("****************** Came in side the <OTA_AirLowFareSearchPlusRS> ***********************");
-            Root = doc_response.DocumentElement;
-            Attribute = doc_response.CreateAttribute("Version");
-            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS").Attributes["Version"].Value;
-            Root.Attributes.Append(Attribute);
-            Attribute = doc_response.CreateAttribute("TransactionIdentifier");
-            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS").Attributes["TransactionIdentifier"].Value;
-            Root.Attributes.Append(Attribute);
+            string strResponse;
+            try
+            {                
+                int inbound_flg_count = 0;
+                var doc_response = new XmlDocument();
+                XmlNode Root = null;
+                XmlNode node = null;
+                XmlNode priceItinarary = null;
+                XmlNode nItem = null;
+                XmlAttribute Attribute = null;
+                var sb2 = new StringBuilder();
+                object flight_val_in = 0;
+                int pct_fairdowncount = 0;
+                int flightSeg_Counter = 0;
+                doc_response.LoadXml("<OTA_AirLowFareSearchScheduleRS><Success/><PricedItineraries></PricedItineraries></OTA_AirLowFareSearchScheduleRS>");
+                Console.WriteLine("****************** Came in side the <OTA_AirLowFareSearchPlusRS> ***********************");
+                Root = doc_response.DocumentElement;
+                Attribute = doc_response.CreateAttribute("Version");
+                Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS").Attributes["Version"].Value;
+                Root.Attributes.Append(Attribute);
+                Attribute = doc_response.CreateAttribute("TransactionIdentifier");
+                Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS").Attributes["TransactionIdentifier"].Value;
+                Root.Attributes.Append(Attribute);
 
 
-            // ******************** Working on Priced Itineraries ***********************
+                // ******************** Working on Priced Itineraries ***********************
 
-            priceItinararies = doc_response.SelectSingleNode("OTA_AirLowFareSearchScheduleRS/PricedItineraries");
-            int seqNo = 0;
-            for (int y = 1, loopTo = count; y <= loopTo; y++)
-            {
-                if (combinations[y - 1, 0] is object)
+                var priceItinararies = doc_response.SelectSingleNode("OTA_AirLowFareSearchScheduleRS/PricedItineraries");
+                int seqNo = 0;
+                for (int y = 1, loopTo = count; y <= loopTo; y++)
                 {
-                    seqNo += 1;
-                    XmlNode pi = doc_response.CreateElement("PricedItinerary");
-                    priceItinararies.AppendChild(pi);
-                    Attribute = doc_response.CreateAttribute("SequenceNumber");
-                    Attribute.Value = seqNo.ToString();
-                    pi.Attributes.Append(Attribute);
-                    XmlNode airItinerary = doc_response.CreateElement("AirItinerary");
-                    pi.AppendChild(airItinerary);
-                    XmlNode Odo_node = doc_response.CreateElement("OriginDestinationOptions");
-                    airItinerary.AppendChild(Odo_node);
-                    XmlNode nw_nItem = doc_response.CreateElement("OriginDestinationOption");
-                    Odo_node.AppendChild(nw_nItem);
-
-
-                    // **********************************************
-                    // *    Printing the out bound tags             *
-                    // **********************************************
-
-
-                    // considerring if the out bound consists only two filght items
-                    if (combinations[y - 1, 1] is null)
+                    if (combinations[y - 1, 0] is object)
                     {
-                        turn = 1;
-                    }
-                    else if (combinations[y - 1, 2] is null)
-                    {
-                        turn = 2;
-                    }
-                    else
-                    {
-                        turn = 3;
-                    }
-                    // #Region "Loop for printing OutBound Flight Segments"
-                    // ***********************
-                    // For loop for priniting Flight Segments (OUT_Bounds)
-                    // ***********************
-                    int fl_No_OutBound = 0;
-                    flightSeg_Counter = 0;
-                    for (int k = 1, loopTo1 = turn; k <= loopTo1; k++)
-                    {
-                        flightSeg_Counter += 1;
-                        node = doc_response.CreateElement("FlightSegment");
-                        nw_nItem.AppendChild(node);
-                        Attribute = doc_response.CreateAttribute("DepartureDateTime");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].Attributes["DepartureDateTime"].Value;
-                        node.Attributes.Append(Attribute);
-                        Attribute = doc_response.CreateAttribute("ArrivalDateTime");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].Attributes["ArrivalDateTime"].Value;
-                        node.Attributes.Append(Attribute);
-                        Attribute = doc_response.CreateAttribute("RPH");
-                        Attribute.Value = "1";
-                        node.Attributes.Append(Attribute);
-                        Attribute = doc_response.CreateAttribute("FlightNumber");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].Attributes["FlightNumber"].Value;
-                        fl_No_OutBound = int.Parse(Attribute.Value);
-                        node.Attributes.Append(Attribute);
-                        Attribute = doc_response.CreateAttribute("ResBookDesigCode");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].Attributes["ResBookDesigCode"].Value;
-                        node.Attributes.Append(Attribute);
-                        Attribute = doc_response.CreateAttribute("NumberInParty");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].Attributes["NumberInParty"].Value;
-                        node.Attributes.Append(Attribute);
-                        Attribute = doc_response.CreateAttribute("E_TicketEligibility");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].Attributes["E_TicketEligibility"].Value;
-                        node.Attributes.Append(Attribute);
-                        nItem = doc_response.CreateElement("DepartureAirport");
-                        node.AppendChild(nItem);
-                        Attribute = doc_response.CreateAttribute("LocationCode");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("DepartureAirport").Attributes["LocationCode"].Value;
-                        nItem.Attributes.Append(Attribute);
-                        nItem = doc_response.CreateElement("ArrivalAirport");
-                        node.AppendChild(nItem);
-                        Attribute = doc_response.CreateAttribute("LocationCode");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("ArrivalAirport").Attributes["LocationCode"].Value;
-                        nItem.Attributes.Append(Attribute);
-                        nItem = doc_response.CreateElement("OperatingAirline");
-                        Attribute = doc_response.CreateAttribute("Code");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("OperatingAirline").Attributes["Code"].Value;
-                        nItem.Attributes.Append(Attribute);
-                        node.AppendChild(nItem);
-                        nItem = doc_response.CreateElement("Equipment");
-                        Attribute = doc_response.CreateAttribute("AirEquipType");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("Equipment").Attributes["AirEquipType"].Value;
-                        nItem.Attributes.Append(Attribute);
-                        node.AppendChild(nItem);
-                        nItem = doc_response.CreateElement("MarketingAirline");
-                        Attribute = doc_response.CreateAttribute("Code");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("MarketingAirline").Attributes["Code"].Value;
-                        nItem.Attributes.Append(Attribute);
-                        node.AppendChild(nItem);
-                        nItem = doc_response.CreateElement("TPA_Extensions");
-                        Attribute = doc_response.CreateAttribute("PricingSource");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("TPA_Extensions").Attributes["PricingSource"].Value;
-                        nItem.Attributes.Append(Attribute);
-                        node.AppendChild(nItem);
-                        node = doc_response.CreateElement("JourneyTotalDuration");
-                        node.InnerText = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("TPA_Extensions").SelectSingleNode("JourneyTotalDuration").InnerText;
-                        nItem.AppendChild(node);
-                        var node_2 = doc_response.CreateElement("FromTotalBaseFare");
-                        nItem.AppendChild(node_2);
-                        Attribute = doc_response.CreateAttribute("Amount");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("BaseFare").Attributes["Amount"].Value;
-                        // Attribute.Value = "1000"
-                        node_2.Attributes.Append(Attribute);
-                        Attribute = doc_response.CreateAttribute("CurrencyCode");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("BaseFare").Attributes["CurrencyCode"].Value;
-                        // Attribute.Value = "USD"
-                        node_2.Attributes.Append(Attribute);
-                        Attribute = doc_response.CreateAttribute("DecimalPlaces");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("BaseFare").Attributes["DecimalPlaces"].Value;
-                        // Attribute.Value = "2"
-                        node_2.Attributes.Append(Attribute);
-                        var node_3 = doc_response.CreateElement("FromTotalTax");
-                        nItem.AppendChild(node_3);
-                        Attribute = doc_response.CreateAttribute("Amount");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("Taxes").SelectSingleNode("Tax").Attributes["Amount"].Value;
-                        // Attribute.Value = "1000"
-                        node_3.Attributes.Append(Attribute);
-                        Attribute = doc_response.CreateAttribute("CurrencyCode");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("Taxes").SelectSingleNode("Tax").Attributes["CurrencyCode"].Value;
-                        // Attribute.Value = "USD"
-                        node_3.Attributes.Append(Attribute);
-                        Attribute = doc_response.CreateAttribute("DecimalPlaces");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("Taxes").SelectSingleNode("Tax").Attributes["DecimalPlaces"].Value;
-                        // Attribute.Value = "2"
-                        node_3.Attributes.Append(Attribute);
-                        var node_4 = doc_response.CreateElement("FromTotalFare");
-                        nItem.AppendChild(node_4);
-                        Attribute = doc_response.CreateAttribute("PricingSource");
-                        Attribute.Value = "Private";
-                        node_4.Attributes.Append(Attribute);
-                        Attribute = doc_response.CreateAttribute("Amount");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("TotalFare").Attributes["Amount"].Value;
-                        // Attribute.Value = "1000"
-                        node_4.Attributes.Append(Attribute);
-                        Attribute = doc_response.CreateAttribute("CurrencyCode");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("TotalFare").Attributes["CurrencyCode"].Value;
-                        // Attribute.Value = "USD"
-                        node_4.Attributes.Append(Attribute);
-                        Attribute = doc_response.CreateAttribute("DecimalPlaces");
-                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("TotalFare").Attributes["DecimalPlaces"].Value;
-                        // Attribute.Value = "2"
-                        node_4.Attributes.Append(Attribute);
-                        // nItem.AppendChild(node)
+                        seqNo += 1;
+                        XmlNode pi = doc_response.CreateElement("PricedItinerary");
+                        priceItinararies.AppendChild(pi);
+                        Attribute = doc_response.CreateAttribute("SequenceNumber");
+                        Attribute.Value = seqNo.ToString();
+                        pi.Attributes.Append(Attribute);
+                        XmlNode airItinerary = doc_response.CreateElement("AirItinerary");
+                        pi.AppendChild(airItinerary);
+                        XmlNode Odo_node = doc_response.CreateElement("OriginDestinationOptions");
+                        airItinerary.AppendChild(Odo_node);
+                        XmlNode nw_nItem = doc_response.CreateElement("OriginDestinationOption");
+                        Odo_node.AppendChild(nw_nItem);
 
-                    }
-
-                    XmlNode tickInfo = doc_response.CreateElement("TicketingInfo");
-                    pi.AppendChild(tickInfo);
-                    Attribute = doc_response.CreateAttribute("TicketTimeLimit");
-                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("TicketingInfo").Attributes["TicketTimeLimit"].Value;
-                    tickInfo.Attributes.Append(Attribute);
-                    XmlNode inbound = doc_response.CreateElement("OriginDestinationOption");
-                    Odo_node.AppendChild(inbound);
-                    for (int m = 1, loopTo2 = count; m <= loopTo2; m++)
-                    {
-
-                        // matching outbounds with one flight items againsat the in bounds
-                        if (combinations[y - 1, 1] is null && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment").Count == 1)
+                        // **********************************************
+                        // *    Printing the out bound tags             *
+                        // **********************************************
+                        // considerring if the out bound consists only two filght items
+                        if (combinations[y - 1, 1] is null)
                         {
-                            try
+                            turn = 1;
+                        }
+                        else if (combinations[y - 1, 2] is null)
+                        {
+                            turn = 2;
+                        }
+                        else
+                        {
+                            turn = 3;
+                        }
+                        // #Region "Loop for printing OutBound Flight Segments"
+                        // ***********************
+                        // For loop for priniting Flight Segments (OUT_Bounds)
+                        // ***********************
+                        int fl_No_OutBound = 0;
+                        flightSeg_Counter = 0;
+                        for (int k = 1, loopTo1 = turn; k <= loopTo1; k++)
+                        {
+                            flightSeg_Counter += 1;
+                            node = doc_response.CreateElement("FlightSegment");
+                            nw_nItem.AppendChild(node);
+                            Attribute = doc_response.CreateAttribute("DepartureDateTime");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].Attributes["DepartureDateTime"].Value;
+                            node.Attributes.Append(Attribute);
+                            Attribute = doc_response.CreateAttribute("ArrivalDateTime");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].Attributes["ArrivalDateTime"].Value;
+                            node.Attributes.Append(Attribute);
+                            Attribute = doc_response.CreateAttribute("RPH");
+                            Attribute.Value = "1";
+                            node.Attributes.Append(Attribute);
+                            Attribute = doc_response.CreateAttribute("FlightNumber");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].Attributes["FlightNumber"].Value;
+                            fl_No_OutBound = int.Parse(Attribute.Value);
+                            node.Attributes.Append(Attribute);
+                            Attribute = doc_response.CreateAttribute("ResBookDesigCode");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].Attributes["ResBookDesigCode"].Value;
+                            node.Attributes.Append(Attribute);
+                            Attribute = doc_response.CreateAttribute("NumberInParty");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].Attributes["NumberInParty"].Value;
+                            node.Attributes.Append(Attribute);
+                            Attribute = doc_response.CreateAttribute("E_TicketEligibility");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].Attributes["E_TicketEligibility"].Value;
+                            node.Attributes.Append(Attribute);
+                            nItem = doc_response.CreateElement("DepartureAirport");
+                            node.AppendChild(nItem);
+                            Attribute = doc_response.CreateAttribute("LocationCode");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("DepartureAirport").Attributes["LocationCode"].Value;
+                            nItem.Attributes.Append(Attribute);
+                            nItem = doc_response.CreateElement("ArrivalAirport");
+                            node.AppendChild(nItem);
+                            Attribute = doc_response.CreateAttribute("LocationCode");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("ArrivalAirport").Attributes["LocationCode"].Value;
+                            nItem.Attributes.Append(Attribute);
+                            nItem = doc_response.CreateElement("OperatingAirline");
+                            Attribute = doc_response.CreateAttribute("Code");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("OperatingAirline").Attributes["Code"].Value;
+                            nItem.Attributes.Append(Attribute);
+                            node.AppendChild(nItem);
+                            nItem = doc_response.CreateElement("Equipment");
+                            Attribute = doc_response.CreateAttribute("AirEquipType");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("Equipment").Attributes["AirEquipType"].Value;
+                            nItem.Attributes.Append(Attribute);
+                            node.AppendChild(nItem);
+                            nItem = doc_response.CreateElement("MarketingAirline");
+                            Attribute = doc_response.CreateAttribute("Code");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("MarketingAirline").Attributes["Code"].Value;
+                            nItem.Attributes.Append(Attribute);
+                            node.AppendChild(nItem);
+                            nItem = doc_response.CreateElement("TPA_Extensions");
+                            Attribute = doc_response.CreateAttribute("PricingSource");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("TPA_Extensions").Attributes["PricingSource"].Value;
+                            nItem.Attributes.Append(Attribute);
+                            node.AppendChild(nItem);
+                            node = doc_response.CreateElement("JourneyTotalDuration");
+                            node.InnerText = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[k - 1].SelectSingleNode("TPA_Extensions").SelectSingleNode("JourneyTotalDuration").InnerText;
+                            nItem.AppendChild(node);
+                            var node_2 = doc_response.CreateElement("FromTotalBaseFare");
+                            nItem.AppendChild(node_2);
+                            Attribute = doc_response.CreateAttribute("Amount");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("BaseFare").Attributes["Amount"].Value;
+                            // Attribute.Value = "1000"
+                            node_2.Attributes.Append(Attribute);
+                            Attribute = doc_response.CreateAttribute("CurrencyCode");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("BaseFare").Attributes["CurrencyCode"].Value;
+                            // Attribute.Value = "USD"
+                            node_2.Attributes.Append(Attribute);
+                            Attribute = doc_response.CreateAttribute("DecimalPlaces");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("BaseFare").Attributes["DecimalPlaces"].Value;
+                            // Attribute.Value = "2"
+                            node_2.Attributes.Append(Attribute);
+                            var node_3 = doc_response.CreateElement("FromTotalTax");
+                            nItem.AppendChild(node_3);
+                            Attribute = doc_response.CreateAttribute("Amount");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("Taxes").SelectSingleNode("Tax").Attributes["Amount"].Value;
+                            // Attribute.Value = "1000"
+                            node_3.Attributes.Append(Attribute);
+                            Attribute = doc_response.CreateAttribute("CurrencyCode");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("Taxes").SelectSingleNode("Tax").Attributes["CurrencyCode"].Value;
+                            // Attribute.Value = "USD"
+                            node_3.Attributes.Append(Attribute);
+                            Attribute = doc_response.CreateAttribute("DecimalPlaces");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("Taxes").SelectSingleNode("Tax").Attributes["DecimalPlaces"].Value;
+                            // Attribute.Value = "2"
+                            node_3.Attributes.Append(Attribute);
+                            var node_4 = doc_response.CreateElement("FromTotalFare");
+                            nItem.AppendChild(node_4);
+                            Attribute = doc_response.CreateAttribute("PricingSource");
+                            Attribute.Value = "Private";
+                            node_4.Attributes.Append(Attribute);
+                            Attribute = doc_response.CreateAttribute("Amount");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("TotalFare").Attributes["Amount"].Value;
+                            // Attribute.Value = "1000"
+                            node_4.Attributes.Append(Attribute);
+                            Attribute = doc_response.CreateAttribute("CurrencyCode");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("TotalFare").Attributes["CurrencyCode"].Value;
+                            // Attribute.Value = "USD"
+                            node_4.Attributes.Append(Attribute);
+                            Attribute = doc_response.CreateAttribute("DecimalPlaces");
+                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("TotalFare").Attributes["DecimalPlaces"].Value;
+                            // Attribute.Value = "2"
+                            node_4.Attributes.Append(Attribute);
+                            // nItem.AppendChild(node)
+
+                        }
+
+                        XmlNode tickInfo = doc_response.CreateElement("TicketingInfo");
+                        pi.AppendChild(tickInfo);
+                        Attribute = doc_response.CreateAttribute("TicketTimeLimit");
+                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("TicketingInfo").Attributes["TicketTimeLimit"].Value;
+                        tickInfo.Attributes.Append(Attribute);
+                        XmlNode inbound = doc_response.CreateElement("OriginDestinationOption");
+                        Odo_node.AppendChild(inbound);
+                        for (int m = 1, loopTo2 = count; m <= loopTo2; m++)
+                        {
+
+                            // matching outbounds with one flight items againsat the in bounds
+                            if (combinations[y - 1, 1] is null && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment").Count == 1)
                             {
                                 string xml_flightNo1 = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[0].Attributes["FlightNumber"].Value.ToString();
                                 string comb_flightNo1 = combinations[y - 1, 0];
@@ -1439,6 +904,7 @@ namespace Galileo
                                 int new_flNo = 0;
                                 if (xml_flightNo1.Equals(comb_flightNo1) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[0].Attributes["ResBookDesigCode"].Value.ToString().Equals(combinations[y - 1, 4]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[0].SelectSingleNode("MarketingAirline").Attributes["Code"].Value.ToString().Equals(combinations[y - 1, 8]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[0].Attributes["DepartureDateTime"].Value.ToString().Equals(combinations[y - 1, 12]))
                                 {
+                                    int r = 0;
                                     inbound_flg_count += 1;
                                     if (inbound_comb[m - 1, 1] is null)
                                     {
@@ -1568,7 +1034,7 @@ namespace Galileo
 
                                         // in_flg_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")(m - 1).SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")(1).SelectNodes("FlightSegment").Count
 
-                                        in_flg_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment").Count;
+                                        var in_flg_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment").Count;
                                         for (int index_2 = 1, loopTo4 = in_flg_counter; index_2 <= loopTo4; index_2++)
                                         {
                                             node = doc_response.CreateElement("OriginClass");
@@ -1604,7 +1070,7 @@ namespace Galileo
                                             Attribute = doc_response.CreateAttribute("PassengerType");
                                             Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown")[fdc].SelectSingleNode("PassengerTypeQuantity").Attributes["Code"].Value;
                                             node.Attributes.Append(Attribute);
-                                            flight_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown")[fdc].SelectSingleNode("FareBasisCodes").SelectNodes("FareBasisCode").Count;
+                                            var flight_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown")[fdc].SelectSingleNode("FareBasisCodes").SelectNodes("FareBasisCode").Count;
                                             for (int p = 0, loopTo6 = flight_counter - 1; p <= loopTo6; p++)
                                             {
                                                 XmlNode fbItem = doc_response.CreateElement("FareBasisCode");
@@ -1616,19 +1082,12 @@ namespace Galileo
                                         }
                                     }
                                 }
-                            }
-                            catch
-                            {
-                            }
-                        }
 
-                        // #Region "' else if 'condition for  matching outbounds with two flight items againsat the in bounds"
-
-                        else if (combinations[y - 1, 2] is null && combinations[y - 1, 1] is object && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment").Count == 2)
-                        {
-                            // checking whether outbound consists of only two flightItems 
-                            try
+                            }
+                            else if (combinations[y - 1, 2] is null && combinations[y - 1, 1] is object && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment").Count == 2)
                             {
+                                // checking whether outbound consists of only two flightItems 
+
                                 string xml_flightNo1 = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[0].Attributes["FlightNumber"].Value.ToString();
                                 string comb_flightNo1 = combinations[y - 1, 0];
                                 string xml_flightNo2 = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[1].Attributes["FlightNumber"].Value.ToString();
@@ -1638,6 +1097,7 @@ namespace Galileo
                                 xml_flightNo2 = digit_checker(xml_flightNo2, comb_flightNo2);
                                 comb_flightNo2 = digit_checker(comb_flightNo2, xml_flightNo2);
                                 int new_flNo = 0;
+                                int r = 0;
                                 if (xml_flightNo1.Equals(comb_flightNo1) && xml_flightNo2.Equals(comb_flightNo2) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[0].Attributes["ResBookDesigCode"].Value.ToString().Equals(combinations[y - 1, 4]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[1].Attributes["ResBookDesigCode"].Value.ToString().Equals(combinations[y - 1, 5]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[0].SelectSingleNode("MarketingAirline").Attributes["Code"].Value.ToString().Equals(combinations[y - 1, 8]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[1].SelectSingleNode("MarketingAirline").Attributes["Code"].Value.ToString().Equals(combinations[y - 1, 9]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[0].Attributes["DepartureDateTime"].Value.ToString().Equals(combinations[y - 1, 12]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[1].Attributes["DepartureDateTime"].Value.ToString().Equals(combinations[y - 1, 13]))
                                 {
                                     inbound_flg_count += 1;
@@ -1769,7 +1229,7 @@ namespace Galileo
                                         // node = doc_response.CreateElement("OriginClass");
                                         // Attribute = doc_response.CreateAttribute("Index");
 
-                                        in_flg_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment").Count;
+                                        var in_flg_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment").Count;
 
                                         // in_flg_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")(m - 1).SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")(1).SelectNodes("FlightSegment").Count
 
@@ -1793,7 +1253,7 @@ namespace Galileo
                                             Attribute = doc_response.CreateAttribute("PassengerType");
                                             Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown")[fdc].SelectSingleNode("PassengerTypeQuantity").Attributes["Code"].Value;
                                             node.Attributes.Append(Attribute);
-                                            flight_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown")[fdc].SelectSingleNode("FareBasisCodes").SelectNodes("FareBasisCode").Count;
+                                            var flight_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown")[fdc].SelectSingleNode("FareBasisCodes").SelectNodes("FareBasisCode").Count;
                                             for (int p = 0, loopTo10 = flight_counter - 1; p <= loopTo10; p++)
                                             {
                                                 XmlNode fbItem = doc_response.CreateElement("FareBasisCode");
@@ -1822,236 +1282,234 @@ namespace Galileo
                                         // #End Region
                                     }
                                 }
-                            }
-                            catch (Exception e)
-                            {
-                            }
-                        }
-                        // #End Region
 
-                        // #Region "' else if' condision for matching out bounds with three flight items against the inbounds"
-                        else if (combinations[y - 1, 2] is object && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment").Count == 3)
-                        {
-                            string aa = combinations[y - 1, 2].ToString();
-                            string xml_flightNo1 = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[0].Attributes["FlightNumber"].Value.ToString();
-                            string comb_flightNo1 = combinations[y - 1, 0];
-                            string comb_flightNo2 = combinations[y - 1, 1];
-                            string xml_flightNo2 = null;
-                            try
-                            {
-                                xml_flightNo2 = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[1].Attributes["FlightNumber"].Value.ToString();
                             }
-                            catch
+                            else if (combinations[y - 1, 2] is object && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment").Count == 3)
                             {
-                            }
-
-                            string xml_flightNo3 = null;
-                            string comb_flightNo3 = combinations[y - 1, 2];
-                            try
-                            {
-                                xml_flightNo3 = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[2].Attributes["FlightNumber"].Value.ToString();
-                            }
-                            catch
-                            {
-                            }
-
-                            xml_flightNo1 = digit_checker(xml_flightNo1, comb_flightNo1);
-                            comb_flightNo1 = digit_checker(comb_flightNo1, xml_flightNo1);
-                            xml_flightNo2 = digit_checker(xml_flightNo2, comb_flightNo2);
-                            comb_flightNo2 = digit_checker(comb_flightNo2, xml_flightNo2);
-                            xml_flightNo3 = digit_checker(xml_flightNo3, comb_flightNo3);
-                            comb_flightNo3 = digit_checker(comb_flightNo3, xml_flightNo3);
-                            if (xml_flightNo1.Equals(comb_flightNo1) && xml_flightNo2.Equals(comb_flightNo2) && xml_flightNo3.Equals(comb_flightNo3) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[0].Attributes["ResBookDesigCode"].Value.ToString().Equals(combinations[y - 1, 4]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[1].Attributes["ResBookDesigCode"].Value.ToString().Equals(combinations[y - 1, 5]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[2].Attributes["ResBookDesigCode"].Value.ToString().Equals(combinations[y - 1, 6]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[0].SelectSingleNode("MarketingAirline").Attributes["Code"].Value.ToString().Equals(combinations[y - 1, 8]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[1].SelectSingleNode("MarketingAirline").Attributes["Code"].Value.ToString().Equals(combinations[y - 1, 9]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[2].SelectSingleNode("MarketingAirline").Attributes["Code"].Value.ToString().Equals(combinations[y - 1, 10]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[0].Attributes["DepartureDateTime"].Value.ToString().Equals(combinations[y - 1, 12]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[1].Attributes["DepartureDateTime"].Value.ToString().Equals(combinations[y - 1, 13]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[2].Attributes["DepartureDateTime"].Value.ToString().Equals(combinations[y - 1, 14]))
-                            {
-                                inbound_flg_count += 1;
-                                if (inbound_comb[m - 1, 1] is null)
+                                string aa = combinations[y - 1, 2].ToString();
+                                string xml_flightNo1 = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[0].Attributes["FlightNumber"].Value.ToString();
+                                string comb_flightNo1 = combinations[y - 1, 0];
+                                string comb_flightNo2 = combinations[y - 1, 1];
+                                string xml_flightNo2 = null;
+                                try
                                 {
-                                    r = 1;
+                                    xml_flightNo2 = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[1].Attributes["FlightNumber"].Value.ToString();
                                 }
-                                else if (inbound_comb[m - 1, 2] is null && inbound_comb[m - 1, 3] is null)
+                                catch
                                 {
-                                    r = 2;
-                                }
-                                else if (inbound_comb[m - 1, 3] is null)
-                                {
-                                    r = 3;
                                 }
 
-                                // ***********************
-                                // For loop for priniting Flight Segments (IN_Bounds)
-                                // ***********************
-                                for (int e = 1, loopTo11 = r; e <= loopTo11; e++)
+                                string xml_flightNo3 = null;
+                                string comb_flightNo3 = combinations[y - 1, 2];
+                                try
                                 {
-                                    node = doc_response.CreateElement("FlightSegment");
-                                    inbound.AppendChild(node);
-                                    Attribute = doc_response.CreateAttribute("DepartureDateTime");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].Attributes["DepartureDateTime"].Value;
-                                    node.Attributes.Append(Attribute);
-                                    Attribute = doc_response.CreateAttribute("ArrivalDateTime");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].Attributes["ArrivalDateTime"].Value;
-                                    node.Attributes.Append(Attribute);
-                                    Attribute = doc_response.CreateAttribute("RPH");
-                                    Attribute.Value = inbound_flg_count.ToString();
-                                    node.Attributes.Append(Attribute);
+                                    xml_flightNo3 = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[2].Attributes["FlightNumber"].Value.ToString();
+                                }
+                                catch
+                                {
+                                }
 
-                                    // ' ************************** ERROR ***************************************************
-
-                                    Attribute = doc_response.CreateAttribute("FlightNumber");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].Attributes["FlightNumber"].Value;
-
-                                    // 'Attribute.Value = Convert.ToString(flight_val_in)
-                                    node.Attributes.Append(Attribute);
-                                    Attribute = doc_response.CreateAttribute("ResBookDesigCode");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].Attributes["ResBookDesigCode"].Value;
-                                    node.Attributes.Append(Attribute);
-                                    Attribute = doc_response.CreateAttribute("NumberInParty");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].Attributes["NumberInParty"].Value;
-                                    node.Attributes.Append(Attribute);
-                                    Attribute = doc_response.CreateAttribute("E_TicketEligibility");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].Attributes["E_TicketEligibility"].Value;
-                                    node.Attributes.Append(Attribute);
-
-                                    // ************************************************
-                                    // ' tags in side the filgtItem tag of inbounds
-                                    // ************************************************
-
-                                    nItem = doc_response.CreateElement("DepartureAirport");
-                                    Attribute = doc_response.CreateAttribute("LocationCode");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].SelectSingleNode("DepartureAirport").Attributes["LocationCode"].Value;
-                                    nItem.Attributes.Append(Attribute);
-                                    node.AppendChild(nItem);
-                                    nItem = doc_response.CreateElement("ArrivalAirport");
-                                    Attribute = doc_response.CreateAttribute("LocationCode");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].SelectSingleNode("ArrivalAirport").Attributes["LocationCode"].Value;
-                                    nItem.Attributes.Append(Attribute);
-                                    node.AppendChild(nItem);
-                                    nItem = doc_response.CreateElement("OperatingAirline");
-                                    Attribute = doc_response.CreateAttribute("Code");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].SelectSingleNode("OperatingAirline").Attributes["Code"].Value;
-                                    nItem.Attributes.Append(Attribute);
-                                    node.AppendChild(nItem);
-                                    nItem = doc_response.CreateElement("Equipment");
-                                    Attribute = doc_response.CreateAttribute("AirEquipType");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].SelectSingleNode("Equipment").Attributes["AirEquipType"].Value;
-                                    nItem.Attributes.Append(Attribute);
-                                    node.AppendChild(nItem);
-                                    nItem = doc_response.CreateElement("MarketingAirline");
-                                    Attribute = doc_response.CreateAttribute("Code");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].SelectSingleNode("MarketingAirline").Attributes["Code"].Value;
-                                    nItem.Attributes.Append(Attribute);
-                                    node.AppendChild(nItem);
-                                    nItem = doc_response.CreateElement("TPA_Extensions");
-                                    Attribute = doc_response.CreateAttribute("PricingSource");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].SelectSingleNode("TPA_Extensions").Attributes["PricingSource"].Value;
-                                    nItem.Attributes.Append(Attribute);
-                                    node.AppendChild(nItem);
-                                    node = doc_response.CreateElement("CabinType");
-                                    Attribute = doc_response.CreateAttribute("Cabin");
-                                    Attribute.Value = "Economy";
-                                    node.Attributes.Append(Attribute);
-                                    nItem.AppendChild(node);
-                                    node = doc_response.CreateElement("JourneyTotalDuration");
-                                    node = doc_response.CreateElement("JourneyTotalDuration");
-                                    node.InnerText = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment ")[e - 1].SelectSingleNode("TPA_Extensions").SelectSingleNode("JourneyTotalDuration").InnerText;
-                                    nItem.AppendChild(node);
-                                    node = doc_response.CreateElement("TotalBaseFare");
-                                    Attribute = doc_response.CreateAttribute("Amount");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("BaseFare").Attributes["Amount"].Value;
-                                    node.Attributes.Append(Attribute);
-                                    Attribute = doc_response.CreateAttribute("CurrencyCode");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("BaseFare").Attributes["CurrencyCode"].Value;
-                                    node.Attributes.Append(Attribute);
-                                    Attribute = doc_response.CreateAttribute("DecimalPlaces");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("BaseFare").Attributes["DecimalPlaces"].Value;
-                                    node.Attributes.Append(Attribute);
-                                    nItem.AppendChild(node);
-                                    node = doc_response.CreateElement("TotalTax");
-                                    Attribute = doc_response.CreateAttribute("Amount");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("Taxes").SelectSingleNode("Tax").Attributes["Amount"].Value;
-                                    node.Attributes.Append(Attribute);
-                                    Attribute = doc_response.CreateAttribute("CurrencyCode");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("Taxes").SelectSingleNode("Tax").Attributes["CurrencyCode"].Value;
-                                    node.Attributes.Append(Attribute);
-                                    Attribute = doc_response.CreateAttribute("DecimalPlaces");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("Taxes").SelectSingleNode("Tax").Attributes["DecimalPlaces"].Value;
-                                    node.Attributes.Append(Attribute);
-                                    nItem.AppendChild(node);
-                                    node = doc_response.CreateElement("TotalFare");
-                                    Attribute = doc_response.CreateAttribute("Amount");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("TotalFare").Attributes["Amount"].Value;
-                                    node.Attributes.Append(Attribute);
-                                    Attribute = doc_response.CreateAttribute("CurrencyCode");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("TotalFare").Attributes["CurrencyCode"].Value;
-                                    node.Attributes.Append(Attribute);
-                                    Attribute = doc_response.CreateAttribute("DecimalPlaces");
-                                    Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("TotalFare").Attributes["DecimalPlaces"].Value;
-                                    node.Attributes.Append(Attribute);
-                                    nItem.AppendChild(node);
-                                    in_flg_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment").Count;
-
-                                    // in_flg_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")(m - 1).SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")(1).SelectNodes("FlightSegment").Count
-
-                                    for (int index_2 = 1, loopTo12 = in_flg_counter; index_2 <= loopTo12; index_2++)
+                                xml_flightNo1 = digit_checker(xml_flightNo1, comb_flightNo1);
+                                comb_flightNo1 = digit_checker(comb_flightNo1, xml_flightNo1);
+                                xml_flightNo2 = digit_checker(xml_flightNo2, comb_flightNo2);
+                                comb_flightNo2 = digit_checker(comb_flightNo2, xml_flightNo2);
+                                xml_flightNo3 = digit_checker(xml_flightNo3, comb_flightNo3);
+                                comb_flightNo3 = digit_checker(comb_flightNo3, xml_flightNo3);
+                                if (xml_flightNo1.Equals(comb_flightNo1) && xml_flightNo2.Equals(comb_flightNo2) && xml_flightNo3.Equals(comb_flightNo3) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[0].Attributes["ResBookDesigCode"].Value.ToString().Equals(combinations[y - 1, 4]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[1].Attributes["ResBookDesigCode"].Value.ToString().Equals(combinations[y - 1, 5]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[2].Attributes["ResBookDesigCode"].Value.ToString().Equals(combinations[y - 1, 6]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[0].SelectSingleNode("MarketingAirline").Attributes["Code"].Value.ToString().Equals(combinations[y - 1, 8]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[1].SelectSingleNode("MarketingAirline").Attributes["Code"].Value.ToString().Equals(combinations[y - 1, 9]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[2].SelectSingleNode("MarketingAirline").Attributes["Code"].Value.ToString().Equals(combinations[y - 1, 10]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[0].Attributes["DepartureDateTime"].Value.ToString().Equals(combinations[y - 1, 12]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment ")[1].Attributes["DepartureDateTime"].Value.ToString().Equals(combinations[y - 1, 13]) && doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment")[2].Attributes["DepartureDateTime"].Value.ToString().Equals(combinations[y - 1, 14]))
+                                {
+                                    int r = 0;
+                                    inbound_flg_count += 1;
+                                    if (inbound_comb[m - 1, 1] is null)
                                     {
-                                        node = doc_response.CreateElement("OriginClass");
-                                        Attribute = doc_response.CreateAttribute("Index");
-                                        Attribute.Value = index_2.ToString();
+                                        r = 1;
+                                    }
+                                    else if (inbound_comb[m - 1, 2] is null && inbound_comb[m - 1, 3] is null)
+                                    {
+                                        r = 2;
+                                    }
+                                    else if (inbound_comb[m - 1, 3] is null)
+                                    {
+                                        r = 3;
+                                    }
+
+                                    // ***********************
+                                    // For loop for priniting Flight Segments (IN_Bounds)
+                                    // ***********************
+                                    for (int e = 1, loopTo11 = r; e <= loopTo11; e++)
+                                    {
+                                        node = doc_response.CreateElement("FlightSegment");
+                                        inbound.AppendChild(node);
+                                        Attribute = doc_response.CreateAttribute("DepartureDateTime");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].Attributes["DepartureDateTime"].Value;
                                         node.Attributes.Append(Attribute);
+                                        Attribute = doc_response.CreateAttribute("ArrivalDateTime");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].Attributes["ArrivalDateTime"].Value;
+                                        node.Attributes.Append(Attribute);
+                                        Attribute = doc_response.CreateAttribute("RPH");
+                                        Attribute.Value = inbound_flg_count.ToString();
+                                        node.Attributes.Append(Attribute);
+
+                                        // ' ************************** ERROR ***************************************************
+
+                                        Attribute = doc_response.CreateAttribute("FlightNumber");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].Attributes["FlightNumber"].Value;
+
+                                        // 'Attribute.Value = Convert.ToString(flight_val_in)
+                                        node.Attributes.Append(Attribute);
+                                        Attribute = doc_response.CreateAttribute("ResBookDesigCode");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].Attributes["ResBookDesigCode"].Value;
+                                        node.Attributes.Append(Attribute);
+                                        Attribute = doc_response.CreateAttribute("NumberInParty");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].Attributes["NumberInParty"].Value;
+                                        node.Attributes.Append(Attribute);
+                                        Attribute = doc_response.CreateAttribute("E_TicketEligibility");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].Attributes["E_TicketEligibility"].Value;
+                                        node.Attributes.Append(Attribute);
+
+                                        // ************************************************
+                                        // ' tags in side the filgtItem tag of inbounds
+                                        // ************************************************
+
+                                        nItem = doc_response.CreateElement("DepartureAirport");
+                                        Attribute = doc_response.CreateAttribute("LocationCode");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].SelectSingleNode("DepartureAirport").Attributes["LocationCode"].Value;
+                                        nItem.Attributes.Append(Attribute);
+                                        node.AppendChild(nItem);
+                                        nItem = doc_response.CreateElement("ArrivalAirport");
+                                        Attribute = doc_response.CreateAttribute("LocationCode");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].SelectSingleNode("ArrivalAirport").Attributes["LocationCode"].Value;
+                                        nItem.Attributes.Append(Attribute);
+                                        node.AppendChild(nItem);
+                                        nItem = doc_response.CreateElement("OperatingAirline");
+                                        Attribute = doc_response.CreateAttribute("Code");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].SelectSingleNode("OperatingAirline").Attributes["Code"].Value;
+                                        nItem.Attributes.Append(Attribute);
+                                        node.AppendChild(nItem);
+                                        nItem = doc_response.CreateElement("Equipment");
+                                        Attribute = doc_response.CreateAttribute("AirEquipType");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].SelectSingleNode("Equipment").Attributes["AirEquipType"].Value;
+                                        nItem.Attributes.Append(Attribute);
+                                        node.AppendChild(nItem);
+                                        nItem = doc_response.CreateElement("MarketingAirline");
+                                        Attribute = doc_response.CreateAttribute("Code");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].SelectSingleNode("MarketingAirline").Attributes["Code"].Value;
+                                        nItem.Attributes.Append(Attribute);
+                                        node.AppendChild(nItem);
+                                        nItem = doc_response.CreateElement("TPA_Extensions");
+                                        Attribute = doc_response.CreateAttribute("PricingSource");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment")[e - 1].SelectSingleNode("TPA_Extensions").Attributes["PricingSource"].Value;
+                                        nItem.Attributes.Append(Attribute);
+                                        node.AppendChild(nItem);
+                                        node = doc_response.CreateElement("CabinType");
                                         Attribute = doc_response.CreateAttribute("Cabin");
                                         Attribute.Value = "Economy";
                                         node.Attributes.Append(Attribute);
-                                        node.InnerText = "U";
                                         nItem.AppendChild(node);
-                                    }
-
-                                    pct_fairdowncount = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown").Count;
-                                    for (int fdc = 0, loopTo13 = pct_fairdowncount - 1; fdc <= loopTo13; fdc++)
-                                    {
-                                        node = doc_response.CreateElement("FareBasisCodes");
-                                        Attribute = doc_response.CreateAttribute("PassengerType");
-                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown")[fdc].SelectSingleNode("PassengerTypeQuantity").Attributes["Code"].Value;
+                                        node = doc_response.CreateElement("JourneyTotalDuration");
+                                        node = doc_response.CreateElement("JourneyTotalDuration");
+                                        node.InnerText = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[1].SelectNodes("FlightSegment ")[e - 1].SelectSingleNode("TPA_Extensions").SelectSingleNode("JourneyTotalDuration").InnerText;
+                                        nItem.AppendChild(node);
+                                        node = doc_response.CreateElement("TotalBaseFare");
+                                        Attribute = doc_response.CreateAttribute("Amount");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("BaseFare").Attributes["Amount"].Value;
                                         node.Attributes.Append(Attribute);
-                                        flight_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown")[fdc].SelectSingleNode("FareBasisCodes").SelectNodes("FareBasisCode").Count;
-                                        for (int p = 0, loopTo14 = flight_counter - 1; p <= loopTo14; p++)
+                                        Attribute = doc_response.CreateAttribute("CurrencyCode");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("BaseFare").Attributes["CurrencyCode"].Value;
+                                        node.Attributes.Append(Attribute);
+                                        Attribute = doc_response.CreateAttribute("DecimalPlaces");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("BaseFare").Attributes["DecimalPlaces"].Value;
+                                        node.Attributes.Append(Attribute);
+                                        nItem.AppendChild(node);
+                                        node = doc_response.CreateElement("TotalTax");
+                                        Attribute = doc_response.CreateAttribute("Amount");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("Taxes").SelectSingleNode("Tax").Attributes["Amount"].Value;
+                                        node.Attributes.Append(Attribute);
+                                        Attribute = doc_response.CreateAttribute("CurrencyCode");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("Taxes").SelectSingleNode("Tax").Attributes["CurrencyCode"].Value;
+                                        node.Attributes.Append(Attribute);
+                                        Attribute = doc_response.CreateAttribute("DecimalPlaces");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("Taxes").SelectSingleNode("Tax").Attributes["DecimalPlaces"].Value;
+                                        node.Attributes.Append(Attribute);
+                                        nItem.AppendChild(node);
+                                        node = doc_response.CreateElement("TotalFare");
+                                        Attribute = doc_response.CreateAttribute("Amount");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("TotalFare").Attributes["Amount"].Value;
+                                        node.Attributes.Append(Attribute);
+                                        Attribute = doc_response.CreateAttribute("CurrencyCode");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("TotalFare").Attributes["CurrencyCode"].Value;
+                                        node.Attributes.Append(Attribute);
+                                        Attribute = doc_response.CreateAttribute("DecimalPlaces");
+                                        Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").SelectSingleNode("TotalFare").Attributes["DecimalPlaces"].Value;
+                                        node.Attributes.Append(Attribute);
+                                        nItem.AppendChild(node);
+                                        var in_flg_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[y - 1].SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[0].SelectNodes("FlightSegment").Count;
+
+                                        // in_flg_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")(m - 1).SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")(1).SelectNodes("FlightSegment").Count
+
+                                        for (int index_2 = 1, loopTo12 = in_flg_counter; index_2 <= loopTo12; index_2++)
                                         {
-                                            XmlNode fbItem = doc_response.CreateElement("FareBasisCode");
-                                            fbItem.InnerText = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown")[fdc].SelectSingleNode("FareBasisCodes").SelectNodes("FareBasisCode")[p].InnerText;
-                                            node.AppendChild(fbItem);
+                                            node = doc_response.CreateElement("OriginClass");
+                                            Attribute = doc_response.CreateAttribute("Index");
+                                            Attribute.Value = index_2.ToString();
+                                            node.Attributes.Append(Attribute);
+                                            Attribute = doc_response.CreateAttribute("Cabin");
+                                            Attribute.Value = "Economy";
+                                            node.Attributes.Append(Attribute);
+                                            node.InnerText = "U";
+                                            nItem.AppendChild(node);
                                         }
 
-                                        nItem.AppendChild(node);
+                                        pct_fairdowncount = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown").Count;
+                                        for (int fdc = 0, loopTo13 = pct_fairdowncount - 1; fdc <= loopTo13; fdc++)
+                                        {
+                                            node = doc_response.CreateElement("FareBasisCodes");
+                                            Attribute = doc_response.CreateAttribute("PassengerType");
+                                            Attribute.Value = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown")[fdc].SelectSingleNode("PassengerTypeQuantity").Attributes["Code"].Value;
+                                            node.Attributes.Append(Attribute);
+                                            var flight_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown")[fdc].SelectSingleNode("FareBasisCodes").SelectNodes("FareBasisCode").Count;
+                                            for (int p = 0, loopTo14 = flight_counter - 1; p <= loopTo14; p++)
+                                            {
+                                                XmlNode fbItem = doc_response.CreateElement("FareBasisCode");
+                                                fbItem.InnerText = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")[m - 1].SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown")[fdc].SelectSingleNode("FareBasisCodes").SelectNodes("FareBasisCode")[p].InnerText;
+                                                node.AppendChild(fbItem);
+                                            }
+
+                                            nItem.AppendChild(node);
+                                        }
+
+                                        // node = doc_response.CreateElement("FareBasisCodes")
+                                        // Attribute = doc_response.CreateAttribute("PassengerType")
+                                        // node.Attributes.Append(Attribute)
+                                        // nItem.AppendChild(node)
+
+
+                                        // flight_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")(m - 1).SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("FareInfos").SelectNodes("FareInfo").Count
+
+                                        // For p As Integer = 0 To flight_counter - 1
+                                        // nItem = doc_response.CreateElement("FareBasisCode")
+                                        // Dim ss As String = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")(m - 1).SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("FareInfos").SelectNodes("FareInfo")(p).SelectSingleNode("FareReference").InnerText
+                                        // nItem.InnerText = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")(m - 1).SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("FareInfos").SelectNodes("FareInfo")(p).SelectSingleNode("FareReference").InnerText
+                                        // node.AppendChild(nItem)
+                                        // Next
                                     }
-
-                                    // node = doc_response.CreateElement("FareBasisCodes")
-                                    // Attribute = doc_response.CreateAttribute("PassengerType")
-                                    // node.Attributes.Append(Attribute)
-                                    // nItem.AppendChild(node)
-
-
-                                    // flight_counter = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")(m - 1).SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("FareInfos").SelectNodes("FareInfo").Count
-
-                                    // For p As Integer = 0 To flight_counter - 1
-                                    // nItem = doc_response.CreateElement("FareBasisCode")
-                                    // Dim ss As String = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")(m - 1).SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("FareInfos").SelectNodes("FareInfo")(p).SelectSingleNode("FareReference").InnerText
-                                    // nItem.InnerText = doc.SelectSingleNode("OTA_AirLowFareSearchPlusRS/PricedItineraries").SelectNodes("PricedItinerary")(m - 1).SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("FareInfos").SelectNodes("FareInfo")(p).SelectSingleNode("FareReference").InnerText
-                                    // node.AppendChild(nItem)
-                                    // Next
                                 }
+
+                                // #End Region
                             }
-
-                            // #End Region
                         }
-                    }
 
-                    inbound_flg_count = 0;
-                    unique_outbounds += 1;
+                        inbound_flg_count = 0;
+                        unique_outbounds += 1;
+                    }
                 }
 
-                flightSeg_Counter = 0;
+                doc_response.AppendChild(Root);
+                strResponse = Root.OuterXml;
             }
-
-            doc_response.AppendChild(Root);
-            strResponse = Root.OuterXml;
+            catch (Exception ex)
+            {
+                strResponse = ex.Message;
+            }
             return strResponse;
         }
 
@@ -2087,108 +1545,61 @@ namespace Galileo
 
         public string FareDisplay()
         {
-            GalileoAdapter ttGA = null;
-            string strRequest = "";
-            string strResponse = "";
-            XmlDocument oDoc = null;
-            XmlElement oRoot = null;
-            XmlNode oNode = null;
+            string strResponse;
 
             // *****************************************************************
-            // Transform OTA FareDisplay Request into Native Galileo Request     *
+            // Transform OTA LowFarePlus Request into Native Galileo Request     *
             // ***************************************************************** 
-
             try
             {
-                var otaDoc = new XmlDocument();
-                XmlElement otaElement;
-                otaDoc.LoadXml(Request);
-                otaElement = otaDoc.DocumentElement;
-                if (otaElement is object && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value is object)
-                {
-                    _tracerID = otaElement.Attributes["EchoToken"].Value;
-                }
-                else
-                {
-                    _tracerID = "";
-                }
+                string strRequest = SetRequest("Galileo_FareDisplayRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
+                    throw new Exception("Transformation produced empty xml.");
 
-                otaDoc = null;
-                otaElement = null;
-                Request = Request.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "").Replace("<?xml version=\"1.0\"?>", "");
-                strRequest = Request;
-                strRequest = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_FareDisplayRQ.xsl").ToString());
-                sb.Remove(0, sb.Length);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append("Error Transforming OTA Request.").Append(Environment.NewLine).Append(ex.Message).ToString());
-                sb.Remove(0, sb.Length);
-            }
-
-            if (strRequest.Trim().Length == 0)
-            {
-                throw new Exception("Transformation produced empty xml.");
-            }
-
-            // *******************************************************************************
-            // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
-            // ******************************************************************************* 
-
-            try
-            {
-                var arg_ProviderSystems = ProviderSystems;
-                ttGA = new GalileoAdapter(arg_ProviderSystems);
-                ProviderSystems = arg_ProviderSystems;
-                ttGA.TracerID = _tracerID;
+                // *******************************************************************************
+                // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+                GalileoAdapter ttGA = SetAdapter(ProviderSystems.SessionPool ? "V1" : "");
+                bool inSession = SetConversationID(ttGA);
                 strResponse = ttGA.SendMessage(strRequest);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                ttGA = null;
-            }
 
-            // ****************************************************************
-            // Add OriginDestinationInformation Request to Native Response   *
-            // ****************************************************************
-
-            try
-            {
-                oDoc = new XmlDocument();
+                // ****************************************************************
+                // Add OriginDestinationInformation Request to Native Response   *
+                // ****************************************************************
+                var oDoc = new XmlDocument();
                 oDoc.LoadXml(strResponse);
-                oRoot = oDoc.DocumentElement;
-                oNode = oDoc.CreateNode(XmlNodeType.Element, "", "Request", "");
+                var oRoot = oDoc.DocumentElement;
+                var oNode = oDoc.CreateNode(XmlNodeType.Element, "", "Request", "");
                 oNode.InnerXml = Request;
                 oRoot.AppendChild(oNode);
-                strResponse = oDoc.OuterXml;
+                strResponse = oDoc.OuterXml;                
+
+                // *****************************************************************
+                // Transform Native Galileo FareDisplay Response into OTA Response   *
+                // ***************************************************************** 
+                try
+                {
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_FareDisplayRS.xsl");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+
             }
             catch (Exception ex)
             {
-                throw new Exception(sb.Append("Error Loading OTA Request into Native Response.").Append(Environment.NewLine).Append(ex.Message).ToString());
-                sb.Remove(0, sb.Length);
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.FareDisplay, ex.Message, ProviderSystems);
             }
-
-            // *****************************************************************
-            // Transform Native Galileo FareDisplay Response into OTA Response   *
-            // ***************************************************************** 
-
-            try
-            {
-                strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Galileo_FareDisplayRS.xsl").ToString());
-                sb.Remove(0, sb.Length);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append(sb.Append("Error Transforming Native Response.").Append(Environment.NewLine).Append(ex.Message).ToString()).ToString());
-                sb.Remove(0, sb.Length);
-            }
-
             return strResponse;
-            sb = null;
         }
 
     }

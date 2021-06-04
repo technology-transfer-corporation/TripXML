@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Reflection;
-using System.Text;
 using TripXMLMain;
 
 namespace Galileo
