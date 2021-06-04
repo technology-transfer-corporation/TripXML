@@ -328,11 +328,21 @@ namespace Galileo
                 CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Send to Galileo", oReqDoc.DocumentElement.OuterXml, ProviderSystems.LogUUID);
                 startTime = DateTime.Now;
                 var requesttime = DateTime.Now;
-                
-                xmlResponse = string.IsNullOrEmpty(SessionToken) 
-                        ? (XmlElement)(ows as wsGalileoProd.XmlSelect).SubmitXml(mstrProfile, oReqDoc.DocumentElement, mxmlFilter.DocumentElement)
-                        : (XmlElement)(ows as wsGalileoCopy.XmlSelect).SubmitXmlOnSession(SessionToken, oReqDoc.DocumentElement, mxmlFilter.DocumentElement);
-                
+
+
+                switch (ProviderSystems.System)
+                {
+                    case "Production":
+                        xmlResponse = string.IsNullOrEmpty(SessionToken)
+                           ? (ows as wsGalileoProd.XmlSelect).SubmitXml(mstrProfile, oReqDoc.DocumentElement, mxmlFilter.DocumentElement)
+                           : (ows as wsGalileoProd.XmlSelect).SubmitXmlOnSession(SessionToken, oReqDoc.DocumentElement, mxmlFilter.DocumentElement);
+                        break;
+                    default:
+                        xmlResponse = string.IsNullOrEmpty(SessionToken)
+                           ? (ows as wsGalileoCopy.XmlSelect).SubmitXml(mstrProfile, oReqDoc.DocumentElement, mxmlFilter.DocumentElement)
+                           : (ows as wsGalileoCopy.XmlSelect).SubmitXmlOnSession(SessionToken, oReqDoc.DocumentElement, mxmlFilter.DocumentElement);
+                        break;
+                }
 
                 var responsetime = DateTime.Now;
                 if (ProviderSystems.AddLog)
