@@ -2011,7 +2011,6 @@ namespace Sabre
                         {
                             throw new Exception($"Error Loading Transformed Request XML Document.\r\n{ex.Message}");
                         }
-
                     }
 
                     if (Request.Contains("TransactionStatusCode=\"End\"") || Request.Contains("TransactionStatusCode='End'"))
