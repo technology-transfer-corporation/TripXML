@@ -2016,7 +2016,7 @@ namespace Sabre
 
                     if (Request.Contains("TransactionStatusCode=\"End\"") || Request.Contains("TransactionStatusCode='End'"))
                     {
-                        string strER = @"<SabreCommandLLSRQ xmlns=""http://webservices.sabre.com/sabreXML/2003/07"" Version=""2.0.0""><Request Output=""SCREEN"" MDRSubset=""AD01"" CDATA=""true""><HostCommand>6TRIPXML\ER</HostCommand></Request></SabreCommandLLSRQ>";
+                        string strER = @"<SabreCommandLLSRQ xmlns=""http://webservices.sabre.com/sabreXML/2011/10"" Version=""2.0.0""><Request Output=""SCREEN"" MDRSubset=""AD01"" CDATA=""true""><HostCommand>6TRIPXML\ER</HostCommand></Request></SabreCommandLLSRQ>";
                         strResponse = ttSA.SendMessage(strER, "*ER", "SabreCommandLLSRQ", ConversationID);
                         if (strResponse.Contains("*WARNING EDITS*") | strResponse.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strResponse.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED") | strResponse.Contains("END OR IGNORE PNR") | strResponse.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | strResponse.Contains("MIN CONNX TIME"))
                         {
