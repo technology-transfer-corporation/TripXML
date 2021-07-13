@@ -1,0 +1,12 @@
+<BL RequestorID="AllianceTravel">
+	<Message Name="LowFare" Direction="In">
+		<ProviderBL Name="Amadeus" System="Production" PCC="SFO1S210S">
+			<Preferences>
+				<PrivateFare Code="OMNI" StartDate="20090517" EndDate="20991231">
+					<Route Depart="***" Arrival="***"/>
+					<Airline Code="CX"/>
+				</PrivateFare>
+			</Preferences>
+		</ProviderBL>
+	</Message>
+</BL>
