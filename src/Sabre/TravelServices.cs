@@ -1995,7 +1995,7 @@ namespace Sabre
                                     //oNodeBD.OuterXml = argstrRequest3;
 
                                     // Fatal Error
-                                    if (strResponse.Trim().Length > 0)
+                                    if (strResponse.Trim().Length > 0 && !strResponse.Contains("*"))
                                     {
                                         strResponse = BuildOTAResponse(strResponse);
                                         strResponse = strResponse.Replace("</OTA_TravelItineraryRS>", $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID></OTA_TravelItineraryRS>");
@@ -2131,27 +2131,33 @@ namespace Sabre
 
                 strNative += $"{strRequest}{strResponse}";
 
+                if (Segment == "BulkDocument")
+                    strResponse = strResponse.Replace("<![CDATA[", "<Line>").Replace("]]>", "</Line>").Replace("\r\n", "").Trim();
+
                 // Check for Errors
-                strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_TB_Errors.xsl");
+                var transResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_TB_Errors.xsl");
 
-                CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "strResponse", strResponse, ProviderSystems.LogUUID);
+                if (string.IsNullOrEmpty(transResponse) && Segment == "BulkDocument")
+                    transResponse = strResponse;
+
+                CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "strResponse", transResponse, ProviderSystems.LogUUID);
                 // Log Errors
-                if (strResponse.Contains("<Error") & Segment == "BulkDocument")
+                if (transResponse.Contains("<Error") & Segment == "BulkDocument")
                 {
-                    Warnings += strResponse.Replace("<Error", "<Warning").Replace("</Error", "</Warning");
-                    strResponse = "";
+                    Warnings += transResponse.Replace("<Error", "<Warning").Replace("</Error", "</Warning");
+                    transResponse = "";
                 }
-                else if (strResponse.Contains("<Error"))
+                else if (transResponse.Contains("<Error"))
                 {
-                    Errors += strResponse;
+                    Errors += transResponse;
                 }
-                else if (strResponse.Contains("<Warning"))
+                else if (transResponse.Contains("<Warning"))
                 {
-                    Warnings += strResponse;
-                    strResponse = "";
+                    Warnings += transResponse;
+                    transResponse = "";
                 }
 
-                return strResponse;
+                return transResponse;
             }
             else
             {
