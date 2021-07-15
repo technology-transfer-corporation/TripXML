@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 15 Jul 2021 - Samokhvalov - Fix Branded Fares display
    Date: 21 Apr 2021 - Kobelev - Added Quantity to SSR HK flag.
    Date: 09 Oct 2020 - Samokhvalov - Fix Branded Fares display
    Date: 05 Oct 2020 - Kobelev - OperatingAirline identification when there are two Operated By lines in one airsegment.
@@ -1250,26 +1251,28 @@
 
   <xsl:template match="fareComponentDetailsGroup" mode="FareFamily">
     <xsl:for-each select="couponDetailsGroup">
-      <FareFamily>
-        <xsl:variable name="segref">
-          <xsl:value-of select="productId/referenceDetails/value"/>
-        </xsl:variable>
-        <xsl:attribute name="RPH">
-          <xsl:value-of select="../../../../../originDestinationDetails/itineraryInfo[elementManagementItinerary/reference/number = $segref]/elementManagementItinerary/lineNumber"/>
-          <!--<xsl:value-of select="productId/referenceDetails/value"/>-->
-        </xsl:attribute>
-        <xsl:variable name="tstref">
-          <xsl:value-of select="../../../pricingRecordId/uniqueReference"/>
-        </xsl:variable>
-        <xsl:choose>
-          <xsl:when test="../fareFamilyDetails/fareFamilyname">
-            <xsl:value-of select="../fareFamilyDetails/fareFamilyname"/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:value-of select="../../../../../Ticket_GetPricingOptionsReply[documentInformation/documentSelection/uniqueReference=$tstref]/documentInformation[pricingOptionsGroup/paxSegTstReference/referenceDetails/value=$segref]/pricingOptionsGroup[pricingOptionKey/pricingOptionKey='PFF' and paxSegTstReference/referenceDetails/value=$segref]/optionDetail/criteriaDetails/attributeDescription"/>
-          </xsl:otherwise>
-        </xsl:choose>
-      </FareFamily>
+      <xsl:if test="../fareFamilyDetails/fareFamilyname">
+        <FareFamily>
+          <xsl:variable name="segref">
+            <xsl:value-of select="productId/referenceDetails/value"/>
+          </xsl:variable>
+          <xsl:attribute name="RPH">
+            <xsl:value-of select="../../../../../originDestinationDetails/itineraryInfo[elementManagementItinerary/reference/number = $segref]/elementManagementItinerary/lineNumber"/>
+            <!--<xsl:value-of select="productId/referenceDetails/value"/>-->
+          </xsl:attribute>
+          <xsl:variable name="tstref">
+            <xsl:value-of select="../../../pricingRecordId/uniqueReference"/>
+          </xsl:variable>
+          <xsl:choose>
+            <xsl:when test="../fareFamilyDetails/fareFamilyname">
+              <xsl:value-of select="../fareFamilyDetails/fareFamilyname"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="../../../../../Ticket_GetPricingOptionsReply[documentInformation/documentSelection/uniqueReference=$tstref]/documentInformation[pricingOptionsGroup/paxSegTstReference/referenceDetails/value=$segref]/pricingOptionsGroup[pricingOptionKey/pricingOptionKey='PFF' and paxSegTstReference/referenceDetails/value=$segref]/optionDetail/criteriaDetails/attributeDescription"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </FareFamily>
+      </xsl:if>
     </xsl:for-each>
   </xsl:template>
 
