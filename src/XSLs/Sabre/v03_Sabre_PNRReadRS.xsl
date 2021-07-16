@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 08 Jul 2021 - Kobelev - Branded Fare Name different for different Segments.
   Date: 08 Jul 2021 - Kobelev - Branded Fare Name fix.
   Date: 01 Jul 2021 - Kobelev - Branded Fare when price command starts with WPBR.
   Date: 27 May 2021 - Kobelev - Branded Fare when information paired by Segments.
@@ -847,7 +848,9 @@
       </xsl:when>
       <xsl:when test="contains(CustomerInfo/PaymentInfo/Payment/Form/Text,'XXXXX')">
         <TravelCost>
-          <xsl:apply-templates select="CustomerInfo/PaymentInfo/Payment/Form" mode="Text"/>
+          <xsl:apply-templates select="CustomerInfo/PaymentInfo/Payment/Form" mode="Text">
+            <xsl:with-param name="accMCO" select="AccountingInfo"></xsl:with-param>
+          </xsl:apply-templates>
         </TravelCost>
       </xsl:when>
       <xsl:when test="contains(CustomerInfo/PaymentInfo/Payment/Form/TPA_Extensions/Text,'XXXXX')">
@@ -924,7 +927,9 @@
       </xsl:when>
       <xsl:when test="CustomerInfo/PaymentInfo/Payment/Form/Text">
         <TravelCost>
-          <xsl:apply-templates select="CustomerInfo/PaymentInfo/Payment/Form" mode="Text"/>
+          <xsl:apply-templates select="CustomerInfo/PaymentInfo/Payment/Form" mode="Text">
+            <xsl:with-param name="accMCO" select="AccountingInfo"></xsl:with-param>
+          </xsl:apply-templates>
         </TravelCost>
       </xsl:when>
     </xsl:choose>
@@ -3970,9 +3975,29 @@
                   </xsl:apply-templates>
                 </xsl:when>
                 <xsl:otherwise>
+                  <xsl:variable name="ffSegs">
+                    <xsl:call-template name="tokenizeString">
+                      <!-- store anything left in another variable -->
+                      <xsl:with-param name="list" select="substring-before(translate(concat('S1',substring-after($brcmd, 'S1')), '/','-'), '$P')"/>
+                      <xsl:with-param name="delimiter" select="'$'"/>
+                    </xsl:call-template>
+                  </xsl:variable>
+
+                  <xsl:variable name="flSeg" select="PTC_FareBreakdown/FlightSegment[@SegmentNumber!='']" />
+
+                  <xsl:for-each select="msxsl:node-set($ffSegs)/elem/node()[1]">
+                    <xsl:if test="contains(.,'*BR')">
+                      <xsl:apply-templates select="$flSeg" mode="ffSegmental">
+                        <xsl:with-param name="brID" select="."/>
+                      </xsl:apply-templates>
+                    </xsl:if>
+                  </xsl:for-each>
+                  
+                  <!--
                   <xsl:apply-templates select="PTC_FareBreakdown/FlightSegment[@SegmentNumber!='']" mode="ffSegmental">
-                    <xsl:with-param name="brID" select="concat('S1',substring-after($brcmd, 'S1'))"/>
+                    <xsl:with-param name="brID" select="substring-before(translate(concat('S1',substring-after($brcmd, 'S1')), '/','-'), '$P')"/>
                   </xsl:apply-templates>
+                  -->
                 </xsl:otherwise>
               </xsl:choose>
 
@@ -4121,7 +4146,10 @@
   </xsl:template>
 
   <xsl:template match="FlightSegment" mode="ffSegmental">
-    <!-- S1*BRECONOMY?S2*BRECOFLEX -->
+    <!-- 
+    S1*BRECONOMY?S2*BRECOFLEX 
+    S1/2$S3-5*BRMAIN
+    -->
     <xsl:param name="brID"/>
     <xsl:variable name="seg">
       <xsl:value-of select="concat('S', @SegmentNumber,'*')"/>
@@ -4132,6 +4160,7 @@
 
     <xsl:variable name="pStart" select="substring-after(substring-before($brID, '-'), 'S')" />
     <xsl:variable name="pEnd" select="substring-before(substring-after($brID, '-'), '*BR')" />
+
     <xsl:variable name="ssSegs">
       <xsl:call-template name="displayNumbers">
         <xsl:with-param name="pStart" select="$pStart"/>
@@ -4211,6 +4240,7 @@
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
+
     <xsl:if test="contains($brID, @SegmentNumber) or contains($ssSegs, @SegmentNumber)">
       <FareFamily>
         <xsl:attribute name="RPH">
@@ -4723,6 +4753,8 @@
   <!--			Form of Payment Credit Card        						                               -->
   <!--************************************************************************************-->
   <xsl:template match="Payment/Form" mode="Text">
+    <xsl:param name="accMCO"/>
+
     <xsl:if test="starts-with(Text, '*')">
       <xsl:variable name="cardText">
         <xsl:value-of select="translate(Text, translate(Text, '0123456789', ''), '')"/>
@@ -4731,14 +4763,17 @@
       <xsl:variable name="cardNum">
         <xsl:value-of select="substring($cardText, (substring($cardText,1,1)='1') +1)"/>
       </xsl:variable>
+
       <FormOfPayment>
         <xsl:attribute name="RPH">
           <xsl:value-of select="@RPH"/>
         </xsl:attribute>
 
-        <xsl:if test="//./AccountingInfo[Airline/@Code='XD']">
-          <xsl:apply-templates select="//./AccountingInfo[Airline/@Code='XD']" mode="mco">
-          </xsl:apply-templates>
+        <xsl:if test="count($accMCO) > 0">
+          <xsl:if test="$accMCO[Airline/@Code='XD']">
+            <xsl:apply-templates select="$accMCO[Airline/@Code='XD']" mode="mco">
+            </xsl:apply-templates>
+          </xsl:if>
         </xsl:if>
 
         <xsl:choose>
@@ -4784,20 +4819,36 @@
                   <xsl:choose>
                     <xsl:when test="starts-with($card, '*') or starts-with($card, '-')">
                       <xsl:value-of select="substring-before(substring($card,4),'Â')"/>
+                      <xsl:value-of select="substring-before(substring($card,4),'¥')"/>
                       <xsl:value-of select="substring-before(substring($card,4),'?')"/>
                     </xsl:when>
                     <xsl:otherwise>
                       <xsl:value-of select="substring-before(substring($card,3),'Â')"/>
+                      <xsl:value-of select="substring-before(substring($card,3),'¥')"/>
                       <xsl:value-of select="substring-before(substring($card,3),'?')"/>
                     </xsl:otherwise>
                   </xsl:choose>
                 </xsl:attribute>
                 <xsl:attribute name="ExpireDate">
-                  <!-- *VI4XXXXXXXXXXX8882?03/20-XN -->
-                  <!-- *VI4XXXXXXXXXXX1111?1/19 -->
+                  <!-- 
+                  *VI4XXXXXXXXXXX8882?03/20-XN
+                  *VI4XXXXXXXXXXX1111?1/19 
+                  *CA5XXXXXXXXXXX2120¥11/22
+                  -->
                   <xsl:variable name="exp">
-                    <xsl:value-of select="translate(substring(substring-after(substring($card,4),'?'),0,6),'/','')"/>
+                    <xsl:choose>
+                      <xsl:when test="contains($card, '¥')">
+                        <xsl:value-of select="translate(substring(substring-after(substring($card,4),'¥'),0,6),'/','')"/>
+                      </xsl:when>
+                      <xsl:when test="contains($card, 'Â')">
+                        <xsl:value-of select="translate(substring(substring-after(substring($card,4),'Â'),0,6),'/','')"/>
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <xsl:value-of select="translate(substring(substring-after(substring($card,4),'?'),0,6),'/','')"/>
+                      </xsl:otherwise>
+                    </xsl:choose>
                   </xsl:variable>
+
                   <xsl:choose>
                     <xsl:when test="string-length($exp)=3">
                       <xsl:value-of select="concat(0,$exp)"/>
