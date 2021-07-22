@@ -1,0 +1,719 @@
+﻿using System;
+using System.Linq;
+using System.Text;
+using System.Xml;
+using TripXMLMain;
+
+namespace Worldspan
+{
+    public class PNRServices : WorldspanBase
+    {
+        public PNRServices()
+        {
+            ConversationID = "";
+            Request = "";
+        }
+
+        public string Queue()
+        {
+
+            string strResponse = String.Empty;
+            // *****************************************************************
+            // Transform OTA Queue Request into Native Worldspan Request     *
+            // ***************************************************************** 
+            try
+            {
+                string strRequest = SetRequest("Worldspan_QueueRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
+                    throw new Exception("Transformation produced empty xml.");
+
+                var ttProviderSystems = ProviderSystems;
+                ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
+                // *******************************************************************************
+                // Send Transformed Request to the Worldspan Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+                var ttWA = SetAdapter(ttProviderSystems);
+                bool inSession = SetConversationID(ttWA);
+                var strToReplace = "";
+
+                if (Request.Contains("ListQueue"))
+                {
+
+                    strResponse = ttWA.SendCryptic(strRequest) ?? string.Empty;
+
+                    if (strResponse.Contains(")"))
+                    {
+                        int i = 0;
+                        string strResponseQL = strResponse;
+                        while (i < 10 && strResponse.Contains(")"))
+                        {
+                            strResponse = ttWA.SendCryptic("MD");
+                            strResponseQL += strResponse;
+                            i++;
+                        }
+
+                        strResponse = strResponseQL;
+                    }
+
+                    strResponse = $"<ListQueue>{strResponse}</ListQueue>";
+                    strToReplace = "</ListQueue>";
+                }
+                else if (Request.Contains("PlaceQueue"))
+                {
+                    // send *pnrloc
+                    strResponse = ttWA.SendCryptic(strRequest.Substring(0, 7));
+                    // If (Not strResponse.Contains("INVALID") AndAlso Not strResponse.Contains("INVLD ADDRESS")) Then
+                    if (strResponse.Contains(strRequest.Substring(1, 6)))
+                    {
+                        strResponse = ttWA.SendCryptic(strRequest.Substring(7));
+                    }
+
+                    strResponse = $"<PlaceQueue>{strResponse}</PlaceQueue>";
+                    inSession = false;
+                    strToReplace = "</PlaceQueue>";
+                }
+                else if (Request.Contains("RemoveQueue"))
+                {
+                    // send *pnrloc
+                    strResponse = ttWA.SendCryptic(strRequest.Substring(0, 7));
+                    // If (Not strResponse.Contains("INVALID") AndAlso Not strResponse.Contains("INVLD ADDRESS")) Then
+                    if (strResponse.Contains(strRequest.Substring(1, 6)))
+                    {
+                        strResponse = ttWA.SendCryptic(strRequest.Substring(7));
+                    }
+
+                    strResponse = $"<RemoveQueue>{strResponse}</RemoveQueue>";
+                    inSession = false;
+                    strToReplace = "</RemoveQueue>";
+                }
+
+
+                // *******************************************************************************
+                // check if message is queue lists and if need need to scroll the response      *
+                // ******************************************************************************* 
+                try
+                {
+                    if (inSession)
+                        strResponse = strResponse.Replace(strToReplace,
+                            $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
+
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Worldspan_QueueRS.xsl");
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttWA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.Queue, ex.Message, ProviderSystems);
+            }
+
+            return strResponse;
+        }
+
+        public string PNRRead()
+        {
+            string strResponse;
+
+            // *****************************************************************
+            // Transform OTA PNRRead Request into Native Worldspan Request     *
+            // ***************************************************************** 
+            try
+            {
+                var ttProviderSystems = ProviderSystems;
+                ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
+                var ttWA = SetAdapter(ttProviderSystems);
+                string strRequest = SetRequest("Worldspan_PNRReadRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
+                    throw new Exception("Transformation produced empty xml.");
+
+
+                // *******************************************************************************
+                // Send Transformed Request to the Worldspan Adapter and Getting Native Response  *
+                // *******************************************************************************                                 
+                bool inSession = SetConversationID(ttWA);
+                strResponse = ttWA.SendMessage(strRequest);
+
+                if (!string.IsNullOrEmpty(strResponse)
+                    && !strResponse.Contains("no session configured with name ")
+                    && !strResponse.Contains("NO BRIDGE BRANCH") & !strResponse.Contains("SECURED PNR"))
+                {
+                    // If strResponse.Contains("EQV_BAS_FAR_CUR_COD") Then
+                    // *******************************************************************************
+                    // Send 4* Command in order to retrive more detqailed TST information          *
+                    // ******************************************************************************* 
+                    try
+                    {
+                        var oDoc = new XmlDocument();
+                        oDoc.LoadXml(Request);
+                        var oRoot = oDoc.DocumentElement;
+                        var pnrNum = oRoot.SelectSingleNode("UniqueID/@ID").InnerText;
+                        // send to ticket
+                        //ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
+                        //ttWA = SetAdapter(ttProviderSystems);
+                        //inSession = SetConversationID(ttWA);
+                        // CoreLib.SendTrace(ProviderSystems.UserID, "WorldspanCommand", "4*", "", ProviderSystems.LogUUID)
+                        //ttWA.ConversationID = ConversationID;
+                        string pRead = ttWA.SendCryptic($"*{pnrNum}", conversationID: ConversationID);
+                        if (!strResponse.Contains("SECURED PNR") && !pRead.Contains("Error"))
+                        {
+
+                            #region 4*
+
+                            string str4Display = ttWA.SendCryptic("4*");
+                            var lstLines = str4Display
+                                .Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                                    StringSplitOptions.RemoveEmptyEntries).ToList();
+                            // Conduct Move Down (MD)
+                            if (lstLines.Last().Contains(")&gt;"))
+                            {
+                                string str4More = ttWA.SendCryptic("MD");
+                                var lstMoreLines = str4More
+                                    .Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                                        StringSplitOptions.RemoveEmptyEntries).ToList();
+                                foreach (string line in lstMoreLines)
+                                {
+                                    if (!lstLines.Contains(line))
+                                    {
+                                        lstLines.Add(line);
+                                    }
+                                }
+                            }
+
+                            var sb4 = new StringBuilder("<PNR_4_INF>");
+                            foreach (string line in lstLines)
+                            {
+                                var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                                if (!string.IsNullOrEmpty(strLine))
+                                {
+                                    sb4.Append($"<Line>{strLine}</Line>");
+                                }
+                            }
+
+                            sb4.Append("</PNR_4_INF>");
+
+                            #endregion
+
+                            #region *DH
+
+
+                            string strDisplayDHA = ttWA.SendCryptic("*DH");
+                            lstLines = strDisplayDHA.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                                StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                            // Conduct Move Down (MD)
+                            if (lstLines.Last().Contains(")&gt;"))
+                            {
+                                string strDHMore = ttWA.SendCryptic("MD");
+                                var lstMoreLines = strDHMore
+                                    .Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                                        StringSplitOptions.RemoveEmptyEntries).ToList();
+                                foreach (string line in lstMoreLines)
+                                {
+                                    if (!lstLines.Contains(line))
+                                    {
+                                        lstLines.Add(line);
+                                    }
+                                }
+                            }
+
+                            if (lstLines.Exists(l => l.Contains("**DOCUMENT COMMANDS**")))
+                            {
+                                // lstTemp = lstLines.GetRange(1, 2) - Thi sis in Case if we would need name of the passanger
+                                var lstTemp = lstLines.GetRange(0, 2);
+                                lstLines = lstTemp;
+                            }
+
+                            var sbDH = new StringBuilder("<PNR_DH_INF>");
+                            foreach (string line in lstLines.GetRange(1, lstLines.Count - 1))
+                            {
+                                var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                                var lineElem = strLine.Split(new string[] { " ", "*" },
+                                    StringSplitOptions.RemoveEmptyEntries).ToList();
+                                // If Not String.IsNullOrEmpty(line) AndAlso (line.Length > 40 OrElse line.Trim.StartsWith("NO DOC HISTORY DATA FOUND")) Then
+                                if (!string.IsNullOrEmpty(strLine) && (lineElem.Count > 3 || strLine.Trim().StartsWith("NO DOC HISTORY DATA FOUND")))
+                                {
+                                    sbDH.Append($"<Line TicketNumber='{lineElem[3]}'>{strLine}</Line>");
+                                }
+                            }
+
+                            sbDH.Append("</PNR_DH_INF>");
+
+                            #endregion
+
+                            #region *DHV
+
+
+                            string strDisplayDHV = ttWA.SendCryptic("*DHV");
+                            lstLines = strDisplayDHV.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                                StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                            // Conduct Move Down (MD)
+                            if (lstLines.Last().Contains(")&gt;"))
+                            {
+                                string strDHMore = ttWA.SendCryptic("MD", conversationID: ConversationID);
+                                var lstMoreLines = strDHMore
+                                    .Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                                        StringSplitOptions.RemoveEmptyEntries).ToList();
+                                foreach (string line in lstMoreLines)
+                                {
+                                    if (!lstLines.Contains(line))
+                                    {
+                                        lstLines.Add(line);
+                                    }
+                                }
+                            }
+
+                            if (lstLines.Exists(l => l.Contains("**DOCUMENT COMMANDS** ")))
+                            {
+                                // lstTemp = lstLines.GetRange(1, 2) - Thi sis in Case if we would need name of the passanger
+                                var lstTemp = lstLines.GetRange(0, 2);
+                                lstLines = lstTemp;
+                            }
+
+                            var sbDHV = new StringBuilder("<PNR_DHV_INF>");
+                            foreach (string line in lstLines.GetRange(1, lstLines.Count - 1))
+                            {
+                                var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                                if (!string.IsNullOrEmpty(strLine) && (strLine.Length > 34 || strLine.Trim().StartsWith("NO DOC HISTORY DATA FOUND")))
+                                {
+                                    var lineElem = strLine.Split(new string[] { " ", "*" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                                    if (lineElem.Count > 3)
+                                    {
+                                        sbDHV.Append($"<Line TicketNumber='{lineElem[3]}'>{strLine}</Line>");
+                                    }
+                                }
+                            }
+
+                            sbDHV.Append("</PNR_DHV_INF>");
+
+                            #endregion
+
+                            #region *HI
+
+
+                            string strDisplayHI = ttWA.SendCryptic("*HI");
+                            lstLines = strDisplayHI.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                                StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                            // Conduct Move Bottom (MB)
+                            if (lstLines.Last().Equals(")"))
+                            {
+                                string strDHMore = ttWA.SendCryptic("MB", conversationID: ConversationID);
+                                var lstMoreLines = strDHMore
+                                    .Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                                        StringSplitOptions.RemoveEmptyEntries).ToList();
+                                foreach (string line in lstMoreLines)
+                                {
+                                    if (!lstLines.Contains(line))
+                                    {
+                                        lstLines.Add(line);
+                                    }
+                                }
+                            }
+
+                            if (lstLines.Exists(l => l.Contains("**DOCUMENT COMMANDS**")))
+                            {
+                                // lstTemp = lstLines.GetRange(1, 2) - Thi sis in Case if we would need name of the passanger
+                                var lstTemp = lstLines.GetRange(0, 2);
+                                lstLines = lstTemp;
+                            }
+
+                            // R-FLYUSRX-DIR -CR- 1QE/1P GS RS 05MAR20 0112Z 10C7F9 ***
+                            // R-FLYUSRX-DIR -CR- 1QE/1P GS RS 05MAR20 0112Z 4A02D4 ***
+                            // R-0571788MSG -CR- DTK@93D/1P GS XP 04MAR20 1920Z CBB07D ***
+
+                            var sbH = new StringBuilder("<PNR_HI_INF>");
+                            var bBookElem = false;
+                            foreach (string line in lstLines.GetRange(1, lstLines.Count - 1))
+                            {
+                                var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                                if (!string.IsNullOrEmpty(strLine) && strLine.Trim().StartsWith("R-") && strLine.Trim().Contains(" -CR- ") && bBookElem)
+                                {
+                                    var elems = strLine.Split(new string[] { "-", " ", "/", "*" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                                    string pcc = string.Empty;
+                                    string agent = string.Empty;
+                                    foreach (string elem in elems)
+                                    {
+                                        if (elem.Equals("CR"))
+                                        {
+                                            int index = elems.IndexOf(elem);
+                                            pcc = elems[index + 1].Contains("@")
+                                                ? elems[index + 1].Substring(elems[index + 1].Length - 3)
+                                                : elems[index + 1];
+                                            agent = elems[index + 4];
+                                            break;
+                                        }
+                                    }
+
+                                    sbH.Append($"<Line PCC='{pcc}' Agent='{agent}'>{strLine}</Line>");
+                                }
+                                else 
+                                {
+                                    bBookElem = line.Trim().StartsWith("AS ");
+                                }
+                            }
+
+                            sbH.Append("</PNR_HI_INF>");
+
+                            #endregion
+
+                            strResponse = strResponse.Replace("</DPW8>", $"{sb4}{sbDH}{sbDHV}{sbH}</DPW8>");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                    }
+
+                    // End If
+
+                    // ************************************************
+                    // calculate year in all dates and arrival date  *
+                    // ************************************************
+                    try
+                    {
+                        var oDoc = new XmlDocument();
+                        oDoc.LoadXml(strResponse);
+                        var oRoot = oDoc.DocumentElement;
+                        if (oRoot.SelectNodes("AIR_SEGMENT_INFO") != null)
+                        {
+                            foreach (XmlNode oNode in oRoot.SelectNodes("AIR_SEGMENT_INFO/AIR_ITEM"))
+                            {
+                                var dtDepartureDate = Convert.ToDateTime($"{oNode.SelectSingleNode("DEP_DATE/DEP_DAY").InnerText}{oNode.SelectSingleNode("DEP_DATE/DEP_MONTH").InnerText}{DateTime.Now.Year}");
+                                var dtArrivalDate = Convert.ToDateTime($"{oNode.SelectSingleNode("ARR_DATE/ARR_DAY").InnerText}{oNode.SelectSingleNode("ARR_DATE/ARR_MONTH").InnerText}{DateTime.Now.Year}");
+
+                                if (DateTime.Now.DayOfYear > dtDepartureDate.DayOfYear)
+                                {
+                                    dtDepartureDate = dtDepartureDate.AddYears(1);
+                                }
+
+                                oNode.SelectSingleNode("DEP_DATE").InnerText = dtDepartureDate.ToString("yyyy-MM-dd");
+                                if (DateTime.Now.DayOfYear > dtArrivalDate.DayOfYear)
+                                {
+                                    dtArrivalDate = dtArrivalDate.AddYears(1);
+                                }
+
+                                oNode.SelectSingleNode("ARR_DATE").InnerText = dtArrivalDate.ToString("yyyy-MM-dd");
+                            }
+
+                            strResponse = oRoot.OuterXml;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                    }
+                }
+
+
+
+                // *****************************************************************
+                // Transform Native Worldspan PNRRead Response into OTA Response   *
+                // ***************************************************************** 
+                try
+                {
+                    if (strResponse.Length > 1500)
+                    {
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I",
+                            strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)),
+                            ProviderSystems.LogUUID);
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II",
+                            strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    }
+                    else
+                    {
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse,
+                            ProviderSystems.LogUUID);
+                    }
+
+                    var strToReplace = "</DPW8>";
+
+
+                    if (inSession)
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{ strToReplace}");
+
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Worldspan_PNRReadRS.xsl");
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttWA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                        ttProviderSystems.Profile = ProviderSystems.ProfileXML;
+                    }
+                }
+
+            }
+            catch (Exception exx)
+            {
+                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, exx.Message, ProviderSystems);
+            }
+
+            return strResponse;
+        }
+
+        public string PNRCancel()
+        {
+            string strResponse;
+
+            // *****************************************************************
+            // Transform OTA PNRCancel Request into Native Worldspan Request     *
+            // ***************************************************************** 
+
+            try
+            {
+                string strRequest = SetRequest("Worldspan_PNRCancelRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
+                    throw new Exception("Transformation produced empty xml.");
+
+                // *******************************************************************************
+                // Send Transformed Request to the Worldspan Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+                var ttWA = SetAdapter(ProviderSystems);
+                bool inSession = SetConversationID(ttWA);
+
+                strResponse = ttWA.SendMessage(strRequest);
+
+                // *****************************************************************
+                // Transform Native Worldspan PNRCancel Response into OTA Response   *
+                // ***************************************************************** 
+
+                try
+                {
+                    var strToReplace = strResponse.Contains("XPW3") ? "</XPW3>" : "XXW";
+
+                    if (inSession)
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{ strToReplace}");
+
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Worldspan_PNRCancelRS.xsl");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttWA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRCancel, ex.Message, ProviderSystems);
+            }
+
+            return strResponse;
+        }
+
+        public string PNRReprice()
+        {
+            string strResponse;
+
+            // *****************************************************************
+            // Transform OTA PNRReprice Request into Native Worldspan Request     *
+            // ***************************************************************** 
+            var oDoc = new XmlDocument();
+            try
+            {
+                string strRequest = SetRequest("Worldspan_PNRRepriceRQ.xsl");
+                CoreLib.SendTrace(ProviderSystems.UserID, "PNRRePrice", "Request", strRequest, ProviderSystems.LogUUID);
+                if (string.IsNullOrEmpty(strRequest))
+                    throw new Exception("Transformation produced empty xml.");
+
+                oDoc.LoadXml(Request);
+                bool bStoredFare = oDoc.DocumentElement.Attributes.GetNamedItem("StoreFare").InnerText.Equals("true");
+                var recordLocator = oDoc.DocumentElement.SelectSingleNode("UniqueID/@ID") != null
+                    ? oDoc.DocumentElement.SelectSingleNode("UniqueID/@ID").Value
+                    : string.Empty;
+
+                // *******************************************************************************
+                // Send Transformed Request to the Worldspan Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+
+                // Dim oDoc As New XmlDocument()
+                XmlElement oRoot;
+                XmlNode oNode;
+                modCore.TripXMLProviderSystems ttProviderSystems = ProviderSystems;
+                WorldspanAdapter ttWA;
+                bool inSession = false;
+                if (Request.Contains("Markup"))
+                {
+
+                    ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
+                    ttWA = SetAdapter(ttProviderSystems);
+                    inSession = SetConversationID(ttWA);
+                    oDoc.LoadXml(strRequest);
+                    oRoot = oDoc.DocumentElement;
+
+                    foreach (XmlNode currentONode in oRoot)
+                    {
+                        oNode = currentONode;
+                        ttWA.SendCryptic(oNode.InnerText);
+                    }
+
+                    ttWA.CloseSession();
+                    inSession = false;
+                    ttProviderSystems.Profile = ProviderSystems.ProfileXML;
+                    ttWA = SetAdapter(ttProviderSystems);
+                    recordLocator = oRoot.SelectSingleNode("ScreenEntry[1]").InnerXml.Substring(1);
+                    strResponse = ttWA.SendMessage($"<DPC8><MSG_VERSION>8</MSG_VERSION><REC_LOC>{recordLocator}</REC_LOC><ETR_INF>Y</ETR_INF><ALL_PNR_INF>Y</ALL_PNR_INF><PRC_INF>Y</PRC_INF></DPC8>");
+                }
+                else
+                {
+                    ttProviderSystems.Profile = ProviderSystems.ProfileXML;
+                    ttWA = SetAdapter(ttProviderSystems);
+                    inSession = false; //SetConversationID(ttWA);
+                    strResponse = ttWA.SendMessage(strRequest);
+                    strResponse = strResponse.Replace("xmlns=\"http://www.opentravel.org/OTA_RS/2003/05\" ", "");
+
+                    // ---------------------------------------------
+                    // Identifying Fare Type (Private or Published)
+                    // ---------------------------------------------
+                    oDoc.LoadXml(Request);
+                    oRoot = oDoc.DocumentElement;
+                    string pnrType = oRoot.SelectSingleNode("StoredFare/@FareType").InnerXml;
+                    strResponse = strResponse.Replace("<AirItineraryPricingInfo>",
+                        $"<AirItineraryPricingInfo PricingSource=\"{pnrType}\">");
+
+                    // ---------------------------------------------
+                }
+
+                // *****************************************************************
+                // Transform Native Worldspan PNRReprice Response into OTA Response   *
+                // ***************************************************************** 
+                try
+                {
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Response", strResponse, ProviderSystems.LogUUID);
+
+                    var strToReplace = "</OTA_AirPriceRS>";
+                    if (inSession)
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
+
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Worldspan_PNRRepriceRS.xsl");
+
+                    #region W/o Storing for Price Comparecing
+
+                    if (!Request.Contains("Markup"))
+                    {
+
+                        if (!string.IsNullOrEmpty(recordLocator))
+                        {
+                            string strPNRResp = ttWA.SendMessage($"<DPC8><MSG_VERSION>8</MSG_VERSION><REC_LOC>{recordLocator}</REC_LOC><ETR_INF>Y</ETR_INF><ALL_PNR_INF>Y</ALL_PNR_INF><PRC_INF>Y</PRC_INF></DPC8>");
+
+                            Version = string.IsNullOrEmpty(Version) ? "v03" : Version;
+
+                            strToReplace = "</DPC8>";
+                            if (inSession)
+                                strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
+
+                            strPNRResp = CoreLib.TransformXML(strPNRResp, XslPath, $"{Version}Worldspan_PNRReadRS.xsl");
+
+                            oDoc.LoadXml(strPNRResp);
+                            oRoot = oDoc.DocumentElement;
+                            foreach (XmlNode currentONode1 in oRoot.ChildNodes)
+                            {
+                                oNode = currentONode1;
+                                if (oNode.Name.Equals("TravelItinerary"))
+                                {
+                                    foreach (XmlNode tiNode in oNode.ChildNodes)
+                                    {
+                                        if (tiNode.Name.Equals("ItineraryInfo"))
+                                        {
+                                            foreach (XmlNode iiNode in tiNode.ChildNodes)
+                                            {
+                                                if (iiNode.Name.Equals("ReservationItems"))
+                                                {
+                                                    foreach (XmlNode riNode in iiNode.ChildNodes)
+                                                    {
+                                                        if (riNode.Name.Equals("ItemPricing"))
+                                                        {
+                                                            strResponse =
+                                                                strResponse.Replace(
+                                                                    $"<AirItineraryPricingInfo PricingSource=\"\" />",
+                                                                    $"{riNode.InnerXml.Replace("AirFareInfo", "AirItineraryPricingInfo")}");
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // ---------------------------------------------
+                    }
+
+                    #endregion
+
+                    // Bug 999 - T-robot Worldspan - 4PQC after each call of repricing with change of stored fare
+                    if (bStoredFare)
+                    {
+                        ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
+                        ttWA = SetAdapter(ttProviderSystems);
+                        SetConversationID(ttWA);
+                        ttWA.SendCryptic($"*{recordLocator}");
+                        ttWA.SendCryptic("4PQC");
+                        ttWA.SendCryptic("ER");
+                        ttWA.CloseSession();
+                    }
+
+                    if (strResponse.Length > 1500)
+                    {
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response I",
+                            strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)),
+                            ProviderSystems.LogUUID);
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response II",
+                            strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    }
+                    else
+                    {
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response I", strResponse,
+                            ProviderSystems.LogUUID);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttWA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
+            }
+
+            return strResponse;
+        }
+
+    }
+}
