@@ -71,7 +71,7 @@
             <xsl:apply-templates select="PRC_INF/PRC_QUO">
               <xsl:with-param name="sn" select="'1'"/>
             </xsl:apply-templates>
-            <xsl:apply-templates select="PRC_INF/TIC_REC_PRC_QUO[1]" >
+            <xsl:apply-templates select="PRC_INF/TIC_REC_PRC_QUO[last()]" >
               <xsl:with-param name="sn" select="'2'"/>
             </xsl:apply-templates>
           </xsl:otherwise>
