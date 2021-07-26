@@ -132,7 +132,7 @@ namespace Worldspan
             try
             {
                 var ttProviderSystems = ProviderSystems;
-                ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
+                ttProviderSystems.Profile = ProviderSystems.ProfileXML;
                 var ttWA = SetAdapter(ttProviderSystems);
                 string strRequest = SetRequest("Worldspan_PNRReadRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
@@ -142,7 +142,7 @@ namespace Worldspan
                 // *******************************************************************************
                 // Send Transformed Request to the Worldspan Adapter and Getting Native Response  *
                 // *******************************************************************************                                 
-                bool inSession = SetConversationID(ttWA);
+                bool inSession = false; //SetConversationID(ttWA);
                 strResponse = ttWA.SendMessage(strRequest);
 
                 if (!string.IsNullOrEmpty(strResponse)
@@ -160,9 +160,9 @@ namespace Worldspan
                         var oRoot = oDoc.DocumentElement;
                         var pnrNum = oRoot.SelectSingleNode("UniqueID/@ID").InnerText;
                         // send to ticket
-                        //ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
-                        //ttWA = SetAdapter(ttProviderSystems);
-                        //inSession = SetConversationID(ttWA);
+                        ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
+                        ttWA = SetAdapter(ttProviderSystems);
+                        inSession = SetConversationID(ttWA);
                         // CoreLib.SendTrace(ProviderSystems.UserID, "WorldspanCommand", "4*", "", ProviderSystems.LogUUID)
                         //ttWA.ConversationID = ConversationID;
                         string pRead = ttWA.SendCryptic($"*{pnrNum}", conversationID: ConversationID);
@@ -192,13 +192,27 @@ namespace Worldspan
                             }
 
                             var sb4 = new StringBuilder("<PNR_4_INF>");
+                            var ptcPos = 0;
                             foreach (string line in lstLines)
                             {
+                                var trNum = "";
                                 var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
                                 if (!string.IsNullOrEmpty(strLine))
                                 {
-                                    sb4.Append($"<Line>{strLine}</Line>");
+                                    var index = lstLines.IndexOf(line);
+                                    //TR-   1. 4P*FSR.SR                           8YQ/LV 23JUL
+                                    //TR-   2. 4P*FSR.SR/-$P10.00/#TR           1P/0G3/RO 23JUL 1819Z
+                                    //TR-   3. 4P*FSR.SR/-$P0.00/#TR            1P/0G3/RO 23JUL 1819Z
+                                    //TR-   4. 4P*FSR.SR/-$P10.00/#TR           1P/0G3/RO 23JUL 1819Z
+                                    if (strLine.StartsWith("TR-   ") && index > 1)
+                                    {
+                                        ptcPos++;
+                                        strResponse = FilterPricePNRByTR(strResponse, line, ptcPos);
+                                        trNum = line.Split(new[] { "TR-", " ", ". ", }, StringSplitOptions.RemoveEmptyEntries).ToList()[0];
+                                    }
+                                    sb4.Append(strLine.StartsWith("TR-   ") && ptcPos > 0 ? $"<Line ID=\"{ptcPos}\" TR=\"{trNum}\">{strLine}</Line>" : $"<Line>{strLine}</Line>");
                                 }
+
                             }
 
                             sb4.Append("</PNR_4_INF>");
@@ -713,6 +727,41 @@ namespace Worldspan
             }
 
             return strResponse;
+        }
+
+        private string FilterPricePNRByTR(string response, string request, int index)
+        {
+            if (string.IsNullOrEmpty(request))
+                return response;
+
+            //TR-   1. 4P*FSR.SR                           8YQ/LV 23JUL
+            //TR-   2. 4P*FSR.SR/-$P10.00/#TR           1P/0G3/RO 23JUL 1819Z
+            //TR-   3. 4P*FSR.SR/-$P0.00/#TR            1P/0G3/RO 23JUL 1819Z
+            //TR-   4. 4P*FSR.SR/-$P10.00/#TR           1P/0G3/RO 23JUL 1819Z
+
+            var rqElem = request.Split(new[] {"TR-"," ", ". ", },StringSplitOptions.RemoveEmptyEntries).ToList();
+            //TR-   2. 4P*FSR.SR/-$P10.00/#TR           1P/0G3/RO 23JUL 1819Z
+            //---------------------------------------------------------------
+            //0:2
+            //1:4P*FSR.SR/-$P10.00/#TR
+            //2:1P/0G3/RO
+            //3:23JUL
+            //4:1819Z
+            
+            XmlDocument docRS = new XmlDocument();
+            docRS.LoadXml(response);
+            XmlElement rootRS = docRS.DocumentElement;
+
+            var nodeList = docRS.SelectNodes($"//TIC_REC_PRC_QUO[TIC_REC_NUM={rqElem[0]}]/PTC_FAR_DTL");
+            for (int i = 0; i < nodeList.Count; i++)
+            {
+                if (i+1 != index)
+                {
+                    nodeList[i].ParentNode?.RemoveChild(nodeList[i]);
+                }
+            }
+
+            return docRS.InnerXml;
         }
 
     }
