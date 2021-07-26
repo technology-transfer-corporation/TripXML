@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 26 Jul 2021 - Kobelev - Multiple Price Qoutes with different Markups for different PTC. 
 Date: 23 Jul 2021 - kobelev - Multiple Price Qoutes with different PTC. 
 Date: 30 Apr 2021 - Samokhvalov - Tour Code remark fixes. Bug 1432
 Date: 13 Apr 2021 - Samokhvalov - Tour Code remark fixes.
@@ -64,7 +65,7 @@ Date: 23 Feb 2015 - Rastko
 -->
   <xsl:output method="xml" omit-xml-declaration="yes" />
 
-  <xsl:key name="pqPTC" match="//DPW8/PRC_INF/TIC_REC_PRC_QUO/PTC_FAR_DTL/PTC/text()" use="." />
+  <xsl:key name="trPTC" match="//DPW8/PNR_4_INF/Line/@TR" use="." />
 
   <xsl:variable name="loop">
     <xsl:value-of select="count(//DPW8/PRC_INF/PRC_QUO/PTC_FAR_DTL) + 1"/>
@@ -185,8 +186,10 @@ Date: 23 Feb 2015 - Rastko
                 <xsl:apply-templates select="TVL_SEG_INF/TVL_ITM"/>
                 <xsl:variable name="pq" select="PRC_INF/TIC_REC_PRC_QUO"></xsl:variable>
 
-                <xsl:variable name="lPTC">
-                  <xsl:for-each select="$pq/PTC_FAR_DTL/PTC/text()[generate-id() = generate-id(key('pqPTC',.)[1])]">
+                <xsl:variable name="tr" select="PNR_4_INF/Line[@ID]"></xsl:variable>
+
+                <xsl:variable name="lTR">
+                  <xsl:for-each select="$tr/@TR[generate-id() = generate-id(key('trPTC',.)[1])]">
                     <xsl:if test=". !=''">
                       <xsl:value-of select="concat(., ',')"/>
                     </xsl:if>
@@ -195,11 +198,12 @@ Date: 23 Feb 2015 - Rastko
 
                 <xsl:variable name="elems">
                   <xsl:call-template name="tokenizeString">
-                    <xsl:with-param name="list" select="$lPTC"/>
+                    <xsl:with-param name="list" select="$lTR"/>
                     <xsl:with-param name="delimiter" select="','"/>
                   </xsl:call-template>
                 </xsl:variable>
 
+                <!--
                 <xsl:variable name="cPQ">
                   <xsl:choose>
                     <xsl:when test="count(msxsl:node-set($elems)/elem) = '2'">
@@ -211,6 +215,9 @@ Date: 23 Feb 2015 - Rastko
                                 )]) > 1">
                           <xsl:value-of select="2"/>
                         </xsl:when>
+                        <xsl:when test="count(tr) > 1">
+                          <xsl:value-of select="count(tr)"/>                        
+                        </xsl:when>
                         <xsl:otherwise>
                           <xsl:value-of select="1"/>
                         </xsl:otherwise>
@@ -221,6 +228,7 @@ Date: 23 Feb 2015 - Rastko
                     </xsl:otherwise>
                   </xsl:choose>
                 </xsl:variable>
+                -->
 
                 <xsl:choose>
                   <xsl:when test="PRC_INF/TIC_REC_PRC_QUO">
@@ -228,13 +236,15 @@ Date: 23 Feb 2015 - Rastko
                       <xsl:when test="PRC_INF/TIC_REC_PRC_QUO[DOC_INS]">
                         <xsl:apply-templates select="PRC_INF/TIC_REC_PRC_QUO[DOC_INS]"  mode="ticketed"/>
                       </xsl:when>
+                      <xsl:when test="count(msxsl:node-set($elems)/elem) > 1">
+                        <xsl:call-template name="JoinedPQ">
+                          <xsl:with-param name="PQs" select="PRC_INF/TIC_REC_PRC_QUO[contains(concat(',', $lTR), concat(',', TIC_REC_NUM, ','))]" />
+                        </xsl:call-template>
+                      </xsl:when>
                       <xsl:otherwise>
-                        <xsl:apply-templates select="PRC_INF/TIC_REC_PRC_QUO[last()]"  mode="notticketed">
-                          <xsl:with-param name="coutnPQ" select="$cPQ" />
-                        </xsl:apply-templates>
+                        <xsl:apply-templates select="PRC_INF/TIC_REC_PRC_QUO[last()]"  mode="notticketed" />
                       </xsl:otherwise>
                     </xsl:choose>
-
                   </xsl:when>
                   <xsl:otherwise>
                     <xsl:apply-templates select="PRC_INF/PRC_QUO" />
@@ -933,6 +943,91 @@ Date: 23 Feb 2015 - Rastko
               </xsl:for-each>
             </xsl:otherwise>
           </xsl:choose>
+        </PTC_FareBreakdowns>
+      </AirFareInfo>
+    </ItemPricing>
+  </xsl:template>
+
+  <xsl:template name="JoinedPQ">
+    <xsl:param name="PQs" />
+    <ItemPricing>
+      <AirFareInfo>
+        <ItinTotalFare>
+          <BaseFare>
+            <xsl:variable name="amount">
+              <xsl:choose>
+                <xsl:when test="$PQs[1]/TTL_BAS_FAR_AMT!=''">
+                  <xsl:value-of select="format-number(sum($PQs/TTL_BAS_FAR_AMT),'#.00')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:value-of select="format-number(sum($PQs/EQV_BAS_FAR_AMT),'#.00')"/>
+                </xsl:otherwise>
+              </xsl:choose>
+            </xsl:variable>
+
+            <xsl:attribute name="Amount">
+              <xsl:value-of select="translate($amount,'.','')"/>
+            </xsl:attribute>
+
+            <xsl:attribute name="CurrencyCode">
+              <xsl:choose>
+                <xsl:when test="$PQs[last()]/TTL_BAS_FAR_CUR_COD != ''">
+                  <xsl:value-of select="$PQs[last()]/TTL_BAS_FAR_CUR_COD"/>
+                </xsl:when>
+                <xsl:when test="$PQs[last()]/EQV_BAS_FAR_CUR_COD != ''">
+                  <xsl:value-of select="$PQs[last()]/EQV_BAS_FAR_CUR_COD"/>
+                </xsl:when>
+                <xsl:otherwise>USD</xsl:otherwise>
+              </xsl:choose>
+            </xsl:attribute>
+
+            <xsl:attribute name="DecimalPlaces">
+              <xsl:value-of select="string-length(substring-after($amount,'.'))"/>
+            </xsl:attribute>
+          </BaseFare>
+          <Taxes>
+            <xsl:attribute name="Amount">
+              <xsl:value-of select="translate(format-number(sum($PQs/TTL_TAX_AMT),'#.00'),'.','')"/>
+            </xsl:attribute>
+            <xsl:attribute name="CurrencyCode">
+              <xsl:choose>
+                <xsl:when test="$PQs[last()]/TTL_BAS_FAR_CUR_COD != ''">
+                  <xsl:value-of select="$PQs[last()]/TTL_BAS_FAR_CUR_COD"/>
+                </xsl:when>
+                <xsl:otherwise>USD</xsl:otherwise>
+              </xsl:choose>
+            </xsl:attribute>
+            <xsl:attribute name="DecimalPlaces">
+              <xsl:value-of select="string-length(substring-after($PQs[last()]/TTL_TAX_AMT,'.'))"/>
+            </xsl:attribute>
+          </Taxes>
+          <TotalFare>
+            <xsl:attribute name="Amount">
+              <xsl:value-of select="translate(format-number(sum($PQs/TTL_PRC_AMT),'#.00'),'.','')"/>
+            </xsl:attribute>
+            <xsl:attribute name="CurrencyCode">
+              <xsl:choose>
+                <xsl:when test="$PQs[last()]/TTL_BAS_FAR_CUR_COD != ''">
+                  <xsl:value-of select="$PQs[last()]/TTL_BAS_FAR_CUR_COD"/>
+                </xsl:when>
+                <xsl:otherwise>USD</xsl:otherwise>
+              </xsl:choose>
+            </xsl:attribute>
+            <xsl:attribute name="DecimalPlaces">
+              <xsl:value-of select="string-length(substring-after($PQs[last()]/TTL_PRC_AMT,'.'))"/>
+            </xsl:attribute>
+          </TotalFare>
+        </ItinTotalFare>
+        <PTC_FareBreakdowns>
+          <xsl:for-each select="msxsl:node-set($PQs)">
+            <xsl:variable name="prc_cmd">
+              <xsl:value-of select="PRC_QUO_CMD"/>
+            </xsl:variable>
+            <xsl:variable name="prc_txt">
+              <xsl:value-of select="DOC_INS/DOC_INS_TXT"/>
+            </xsl:variable>
+            <xsl:apply-templates select="PTC_FAR_DTL" mode="single" />
+          </xsl:for-each>
         </PTC_FareBreakdowns>
       </AirFareInfo>
     </ItemPricing>
