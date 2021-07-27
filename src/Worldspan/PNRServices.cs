@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Collections.Generic;
 using TripXMLMain;
 
 namespace Worldspan
@@ -572,9 +573,10 @@ namespace Worldspan
                 modCore.TripXMLProviderSystems ttProviderSystems = ProviderSystems;
                 WorldspanAdapter ttWA;
                 bool inSession = false;
+                List<string> trElems = new List<string>();
                 if (Request.Contains("Markup"))
                 {
-
+                    #region Apply Markups
                     ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
                     ttWA = SetAdapter(ttProviderSystems);
                     inSession = SetConversationID(ttWA);
@@ -586,13 +588,68 @@ namespace Worldspan
                         oNode = currentONode;
                         ttWA.SendCryptic(oNode.InnerText);
                     }
-
                     ttWA.CloseSession();
                     inSession = false;
+                    #endregion
+
+                    #region ReRead PNR
                     ttProviderSystems.Profile = ProviderSystems.ProfileXML;
                     ttWA = SetAdapter(ttProviderSystems);
                     recordLocator = oRoot.SelectSingleNode("ScreenEntry[1]").InnerXml.Substring(1);
                     strResponse = ttWA.SendMessage($"<DPC8><MSG_VERSION>8</MSG_VERSION><REC_LOC>{recordLocator}</REC_LOC><ETR_INF>Y</ETR_INF><ALL_PNR_INF>Y</ALL_PNR_INF><PRC_INF>Y</PRC_INF></DPC8>");
+                    #endregion
+
+                    #region 4*
+                    ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
+                    ttWA = SetAdapter(ttProviderSystems);
+                    inSession = SetConversationID(ttWA);
+                    string pnr = ttWA.SendCryptic($"*{recordLocator}");
+                    string str4Display = ttWA.SendCryptic("4*");
+                    var lstLines = str4Display.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    // Conduct Move Down (MD)
+                    if (lstLines.Last().Contains(")&gt;"))
+                    {
+                        string str4More = ttWA.SendCryptic("MD");
+                        var lstMoreLines = str4More.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        foreach (string line in lstMoreLines)
+                        {
+                            if (!lstLines.Contains(line))
+                            {
+                                lstLines.Add(line);
+                            }
+                        }
+                    }
+                    ttWA.CloseSession();
+                    inSession = false;
+                    var sb4 = new StringBuilder("<PNR_4_INF>");
+                    var ptcPos = 0;
+                    foreach (string line in lstLines)
+                    {
+                        var trNum = "";
+                        var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                        if (!string.IsNullOrEmpty(strLine))
+                        {
+                            var index = lstLines.IndexOf(line);
+                            //TR-   1. 4P*FSR.SR                           8YQ/LV 23JUL
+                            //TR-   2. 4P*FSR.SR/-$P10.00/#TR           1P/0G3/RO 23JUL 1819Z
+                            //TR-   3. 4P*FSR.SR/-$P0.00/#TR            1P/0G3/RO 23JUL 1819Z
+                            //TR-   4. 4P*FSR.SR/-$P10.00/#TR           1P/0G3/RO 23JUL 1819Z
+                            if (strLine.StartsWith("TR-   ") && index > 1)
+                            {
+                                ptcPos++;
+                                strResponse = FilterPricePNRByTR(strResponse, line, ptcPos);
+                                trNum = line.Split(new[] { "TR-", " ", ". ", }, StringSplitOptions.RemoveEmptyEntries).ToList()[0];
+                                trElems.Add(trNum);
+                            }
+                            sb4.Append(strLine.StartsWith("TR-   ") && ptcPos > 0 ? $"<Line ID=\"{ptcPos}\" TR=\"{trNum}\">{strLine}</Line>" : $"<Line>{strLine}</Line>");
+
+                        }
+
+                    }
+
+                    sb4.Append("</PNR_4_INF>");
+                    strResponse = strResponse.Replace("</DPW8>", $"{sb4}</DPW8>");
+                    #endregion
                 }
                 else
                 {
@@ -619,11 +676,23 @@ namespace Worldspan
                 // ***************************************************************** 
                 try
                 {
-                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Response", strResponse, ProviderSystems.LogUUID);
-
                     var strToReplace = "</OTA_AirPriceRS>";
                     if (inSession)
                         strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
+
+                    if (strResponse.Length > 1500)
+                    {
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response I",
+                            strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)),
+                            ProviderSystems.LogUUID);
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response II",
+                            strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    }
+                    else
+                    {
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response I", strResponse,
+                            ProviderSystems.LogUUID);
+                    }
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Worldspan_PNRRepriceRS.xsl");
 
@@ -689,23 +758,11 @@ namespace Worldspan
                         ttWA = SetAdapter(ttProviderSystems);
                         SetConversationID(ttWA);
                         ttWA.SendCryptic($"*{recordLocator}");
-                        ttWA.SendCryptic("4PQC");
+
+                        ttWA.SendCryptic(trElems.Count() > 0 ? $"4PQCTR{string.Join("/", trElems).TrimEnd('/')}" : "4PQC" );
+
                         ttWA.SendCryptic("ER");
                         ttWA.CloseSession();
-                    }
-
-                    if (strResponse.Length > 1500)
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response I",
-                            strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)),
-                            ProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response II",
-                            strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response I", strResponse,
-                            ProviderSystems.LogUUID);
                     }
                 }
                 catch (Exception ex)
