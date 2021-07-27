@@ -1,10 +1,13 @@
 <?xml version="1.0" ?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-<!-- ================================================================== -->
-<!-- Worldspan_UpdateInsertRQ.xsl 													       -->
-<!-- ================================================================== -->
-<!-- Date: 16 Feb 2010 - Rastko - added insert FOP									       -->
-<!-- ================================================================== -->
+<!-- 
+================================================================== 
+Worldspan_UpdateInsertRQ.xsl 													       
+================================================================== 
+Date: 27 Jul 2021 - Kobelev - Markup has to be associated with correct TR number.
+Date: 16 Feb 2010 - Rastko - added insert FOP									    
+================================================================== 
+-->
 	<xsl:output method="xml" omit-xml-declaration="yes" />
 	<xsl:variable name="pcc" select="UpdateInsert/OTA_UpdateRQ/POS/Source/@PseudoCityCode"/>
 	<xsl:template match="/">
@@ -98,7 +101,7 @@
 									<xsl:value-of select="."/>
 								</xsl:for-each>
 								<xsl:if test="Markup">
-									<xsl:value-of select="concat('#TR',$sf + 1)"/>
+									<xsl:value-of select="concat('#TR',$sf)"/>
 								</xsl:if>
 								<xsl:if test="Commission">
 									<xsl:variable name="apos">#</xsl:variable>
