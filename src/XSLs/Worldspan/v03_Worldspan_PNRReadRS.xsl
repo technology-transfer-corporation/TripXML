@@ -185,7 +185,6 @@ Date: 23 Feb 2015 - Rastko
                 <xsl:apply-templates select="AIR_SEG_INF/AIR_ITM"/>
                 <xsl:apply-templates select="TVL_SEG_INF/TVL_ITM"/>
                 <xsl:variable name="pq" select="PRC_INF/TIC_REC_PRC_QUO"></xsl:variable>
-
                 <xsl:variable name="tr" select="PNR_4_INF/Line[@ID]"></xsl:variable>
 
                 <xsl:variable name="lTR">
@@ -195,7 +194,7 @@ Date: 23 Feb 2015 - Rastko
                     </xsl:if>
                   </xsl:for-each>
                 </xsl:variable>
-
+                
                 <xsl:variable name="elems">
                   <xsl:call-template name="tokenizeString">
                     <xsl:with-param name="list" select="$lTR"/>
