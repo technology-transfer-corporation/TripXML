@@ -4,6 +4,7 @@
   ================================================================== 
    Worldspan_PNRRepriceRS.xsl 												
   ================================================================== 
+   Date: 27 Jul 2021 - Kobelev - Price Qoutes for each PTC will have in RPH reference TR it belong.
    Date: 06 Jun 2019 - Kobelev - Adjutment of price compare display. 
    Date: 08 Jan 2019 - Kobelev - PricingSource Identifier Corrected
    Date: 08 Feb 2018 - Samokhvalov - Added error object  						
@@ -870,7 +871,12 @@
             <xsl:variable name="prc_txt">
               <xsl:value-of select="DOC_INS/DOC_INS_TXT"/>
             </xsl:variable>
-            <xsl:apply-templates select="PTC_FAR_DTL" mode="single" />
+            <xsl:variable name="tr_num">
+              <xsl:value-of select="TIC_REC_NUM"/>
+            </xsl:variable>
+            <xsl:apply-templates select="PTC_FAR_DTL" mode="single">
+              <xsl:with-param name="tr_num" select="$tr_num" />
+            </xsl:apply-templates>
           </xsl:for-each>
         </PTC_FareBreakdowns>
       </AirItineraryPricingInfo>
@@ -1007,7 +1013,7 @@
   </xsl:template>
 
   <xsl:template match="PTC_FAR_DTL" mode="single">
-
+    <xsl:param name="tr_num" />
     <xsl:variable name="base">
       <xsl:choose>
         <xsl:when test="BAS_FAR_AMT!=''">
@@ -1066,7 +1072,14 @@
 
     <PTC_FareBreakdown>
       <xsl:attribute name="RPH">
-        <xsl:value-of select="position()"/>
+        <xsl:choose>
+          <xsl:when test="$tr_num!=''">
+            <xsl:value-of select="$tr_num"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="position()"/>    
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:attribute>
       <xsl:choose>
         <xsl:when test="FAR_SHE_ORI[contains(text(), ' SR')]">

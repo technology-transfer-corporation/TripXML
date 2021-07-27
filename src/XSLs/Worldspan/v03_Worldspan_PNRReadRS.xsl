@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 27 Jul 2021 - Kobelev - Price Qoutes for each PTC will have in RPH reference TR it belong.
 Date: 26 Jul 2021 - Kobelev - Multiple Price Qoutes with different Markups for different PTC. 
 Date: 23 Jul 2021 - kobelev - Multiple Price Qoutes with different PTC. 
 Date: 30 Apr 2021 - Samokhvalov - Tour Code remark fixes. Bug 1432
@@ -1025,7 +1026,12 @@ Date: 23 Feb 2015 - Rastko
             <xsl:variable name="prc_txt">
               <xsl:value-of select="DOC_INS/DOC_INS_TXT"/>
             </xsl:variable>
-            <xsl:apply-templates select="PTC_FAR_DTL" mode="single" />
+            <xsl:variable name="tr_num">
+              <xsl:value-of select="TIC_REC_NUM"/>
+            </xsl:variable>
+            <xsl:apply-templates select="PTC_FAR_DTL" mode="single">
+              <xsl:with-param name="tr_num" select="$tr_num" />
+            </xsl:apply-templates>
           </xsl:for-each>
         </PTC_FareBreakdowns>
       </AirFareInfo>
@@ -1385,7 +1391,7 @@ Date: 23 Feb 2015 - Rastko
   </xsl:template>
 
   <xsl:template match="PTC_FAR_DTL" mode="single">
-
+    <xsl:param name="tr_num" />
     <xsl:variable name="base">
       <xsl:choose>
         <xsl:when test="BAS_FAR_AMT!=''">
@@ -1444,7 +1450,14 @@ Date: 23 Feb 2015 - Rastko
 
     <PTC_FareBreakdown>
       <xsl:attribute name="RPH">
-        <xsl:value-of select="position()"/>
+        <xsl:choose>
+          <xsl:when test="$tr_num!=''">
+            <xsl:value-of select="$tr_num"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="position()"/>    
+          </xsl:otherwise>
+        </xsl:choose>        
       </xsl:attribute>
       <xsl:choose>
         <xsl:when test="FAR_SHE_ORI[contains(text(), ' SR')]">
