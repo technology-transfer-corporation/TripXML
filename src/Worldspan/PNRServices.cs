@@ -762,7 +762,7 @@ namespace Worldspan
                         ttWA.SendCryptic(trElems.Count() > 0 ? $"4PQCTR{string.Join("/", trElems).TrimEnd('/')}" : "4PQC" );
 
                         ttWA.SendCryptic("ER");
-                        ttWA.CloseSession();
+                        inSession = false;
                     }
                 }
                 catch (Exception ex)
