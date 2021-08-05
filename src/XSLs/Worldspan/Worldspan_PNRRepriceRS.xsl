@@ -4,6 +4,7 @@
   ================================================================== 
    Worldspan_PNRRepriceRS.xsl 												
   ================================================================== 
+   Date: 05 Aug 2021 - Kobelev - BUG 1464 correct display of Total Fare per PTC.
    Date: 27 Jul 2021 - Kobelev - Price Qoutes for each PTC will have in RPH reference TR it belong.
    Date: 06 Jun 2019 - Kobelev - Adjutment of price compare display. 
    Date: 08 Jan 2019 - Kobelev - PricingSource Identifier Corrected
@@ -522,7 +523,7 @@
             <xsl:variable name="nip">
               <xsl:value-of select="PTC_FareBreakdown/PassengerTypeQuantity/@Quantity"/>
             </xsl:variable>
-            <xsl:value-of select="$bf * $nip"/>
+            <xsl:value-of select="$bf"/> <!--  * $nip -->
           </xsl:attribute>
           <xsl:attribute name="DecimalPlaces">
             <xsl:value-of select="PTC_FareBreakdown/PassengerFare/TotalFare/@DecimalPlaces"/>
@@ -548,6 +549,9 @@
           <xsl:apply-templates select="PTC_FareBreakdown/PassengerFare//Taxes/Tax" mode="PTC"/>
         </Taxes>
         <TotalFare>
+          <xsl:variable name="tx">
+            <xsl:value-of select="translate(string(PTC_FareBreakdown/PassengerFare//Taxes/Tax/@Amount),'.','')"/>
+          </xsl:variable>
           <xsl:attribute name="Amount">
             <xsl:variable name="bf">
               <xsl:value-of select="translate(string(PTC_FareBreakdown/PassengerFare/TotalFare/@Amount),'.','')"/>
@@ -555,7 +559,7 @@
             <xsl:variable name="nip">
               <xsl:value-of select="PTC_FareBreakdown/PassengerTypeQuantity/@Quantity"/>
             </xsl:variable>
-            <xsl:value-of select="$bf * $nip"/>
+            <xsl:value-of select="$bf + $tx"/> <!--  * $nip -->
           </xsl:attribute>
           <xsl:attribute name="DecimalPlaces">
             <xsl:value-of select="PTC_FareBreakdown/PassengerFare/TotalFare/@DecimalPlaces"/>
@@ -608,7 +612,7 @@
           <xsl:value-of select="../../..//PassengerTypeQuantity/@Quantity"/>
         </xsl:variable>
         <xsl:variable name="tottax">
-          <xsl:value-of select="$bf * $nip"/>
+          <xsl:value-of select="$bf "/> <!-- * $nip -->
         </xsl:variable>
         <xsl:choose>
           <xsl:when test="$tottax='NaN'">0</xsl:when>
@@ -717,8 +721,21 @@
             <xsl:attribute name="DecimalPlaces">2</xsl:attribute>
           </TotalFare>
         </ItinTotalFare>
-        <PTC_FareBreakdowns>
-          <xsl:apply-templates select="PTC_FAR_DTL" mode="Details" />
+        <PTC_FareBreakdowns>          
+          <xsl:variable name="trNum">
+            <xsl:choose>
+              <xsl:when test="./TIC_REC_NUM">
+                <xsl:value-of select="TIC_REC_NUM"/>                
+              </xsl:when>            
+            <xsl:otherwise>
+              <xsl:value-of select="1"/>              
+            </xsl:otherwise>
+          </xsl:choose>
+          
+          </xsl:variable>
+          <xsl:apply-templates select="PTC_FAR_DTL" mode="Details">
+            <xsl:with-param name="trN" select="$trNum" />          
+        </xsl:apply-templates>
         </PTC_FareBreakdowns>
       </AirItineraryPricingInfo>
     </PricedItinerary>
@@ -884,6 +901,7 @@
   </xsl:template>
 
   <xsl:template match="PTC_FAR_DTL" mode="Details">
+    <xsl:param name="trN"/>
     <xsl:variable name="base">
       <xsl:choose>
         <xsl:when test="BAS_FAR_AMT!=''">
@@ -903,18 +921,27 @@
     <xsl:variable name="nip">
       <xsl:value-of select="count(../../../PAX_INF/NME_ITM[PTC=$paxtype])"/>
     </xsl:variable>
+    <!-- 
     <xsl:variable name="totbase">
       <xsl:value-of select="$base * $nip"/>
     </xsl:variable>
     <xsl:variable name="tottax">
       <xsl:value-of select="$tax * $nip"/>
     </xsl:variable>
+    -->
     <xsl:variable name="totfare">
-      <xsl:value-of select="$totbase + $tottax"/>
+      <xsl:value-of select="$base + $tax"/>
     </xsl:variable>
     <PTC_FareBreakdown>
       <xsl:attribute name="RPH">
-        <xsl:value-of select="position()"/>
+        <xsl:choose>
+          <xsl:when test="$trN=''">
+            <xsl:value-of select="position()"/>          
+          </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$trN"/>                  
+        </xsl:otherwise>
+        </xsl:choose>        
       </xsl:attribute>
       <xsl:choose>
         <xsl:when test="FAR_SHE_ORI[contains(text(), ' SR')]">
@@ -948,7 +975,7 @@
       <PassengerFare>
         <BaseFare>
           <xsl:attribute name="Amount">
-            <xsl:value-of select="$totbase"/>
+            <xsl:value-of select="$base"/>
           </xsl:attribute>
           <xsl:attribute name="CurrencyCode">
             <xsl:choose>
@@ -962,7 +989,7 @@
         </BaseFare>
         <Taxes>
           <xsl:attribute name="Amount">
-            <xsl:value-of select="$tottax"/>
+            <xsl:value-of select="$tax"/>
           </xsl:attribute>
           <xsl:attribute name="CurrencyCode">
             <xsl:choose>
