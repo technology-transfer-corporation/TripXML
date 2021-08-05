@@ -824,7 +824,12 @@ Date: 23 Feb 2015 - Rastko
             <xsl:variable name="prc_txt">
               <xsl:value-of select="DOC_INS/DOC_INS_TXT"/>
             </xsl:variable>
-            <xsl:apply-templates select="PTC_FAR_DTL" mode="single" />
+            <xsl:variable name="tr_num">
+                <xsl:value-of select="TIC_REC_NUM"/>
+              </xsl:variable>
+            <xsl:apply-templates select="PTC_FAR_DTL" mode="single">
+              <xsl:with-param name="tr_num" select="$tr_num" />
+            </xsl:apply-templates>
           </xsl:for-each>
         </PTC_FareBreakdowns>
       </AirFareInfo>
@@ -939,7 +944,14 @@ Date: 23 Feb 2015 - Rastko
                 <xsl:variable name="prc_txt">
                   <xsl:value-of select="DOC_INS/DOC_INS_TXT"/>
                 </xsl:variable>
-                <xsl:apply-templates select="PTC_FAR_DTL" mode="single" />
+
+                <xsl:variable name="trN">
+                  <xsl:value-of select="TIC_REC_NUM"/>
+                </xsl:variable>
+
+                <xsl:apply-templates select="PTC_FAR_DTL" mode="single">
+                  <xsl:with-param name="tr_num" select="$trN"/>
+                </xsl:apply-templates>
               </xsl:for-each>
             </xsl:otherwise>
           </xsl:choose>
