@@ -83,7 +83,7 @@ namespace Galileo
                     strPriceAgain = oRoot.SelectSingleNode("PriceAgain").InnerXml;
                 }
 
-                var iStartPrice = strRequest.Contains("<StorePriceMods>").ToString();
+                var iStartPrice = strRequest.IndexOf("<StorePriceMods>").ToString();
                 iEndPrice = (strRequest.IndexOf("</StorePriceMods>") + 17).ToString();
 
                 var strPricingReq = Convert.ToDouble(iStartPrice) != -1
