@@ -1,0 +1,266 @@
+﻿using System.Net;
+using System.Xml;
+using System.IO;
+using System.IO.Compression;
+using TripXMLMain;
+using System.Text;
+using System;
+using System.Reflection;
+using System.Globalization;
+
+
+public class ttHttpWebClient {
+    
+    private StringBuilder sb = new StringBuilder();
+
+    private const string SOAP_NS = "http://schemas.xmlsoap.org/soap/envelope/";
+    private const string XSD_NS = "http://www.w3.org/2001/XMLSchema";
+    private const string XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
+
+    private const string XSI_NS2 = "http://xml.amadeus.com/ws/2009/01/WBS_Session-2.0.xsd";
+    
+    private HttpWebRequest mHttpRequest;
+    
+    private string mstrServiceURL = "";
+    private string mstrSoapAction = "";
+    private string mstrHttpMethod = "";
+    private string mstrHeader = "";
+    private string mstrBody = "";
+    
+    public string ServiceURL {
+        get {
+            return mstrServiceURL;
+        }
+        set {
+            mstrServiceURL = value;
+        }
+    }
+    
+    public string SoapAction {
+        get {
+            return mstrSoapAction;
+        }
+        set {
+            mstrSoapAction = value;
+        }
+    }
+    
+    public string HttpMethod {
+        get {
+            return mstrHttpMethod;
+        }
+        set {
+            mstrHttpMethod = value;
+        }
+    }
+    
+    public string Header {
+        get {
+            return mstrHeader;
+        }
+        set {
+            mstrHeader = value;
+        }
+    }
+    
+    public string Body {
+        get {
+            return mstrBody;
+        }
+        set {
+            mstrBody = value;
+        }
+    }
+    private  String Convert(byte[] input, Decoder decoder)
+    {
+        char[] char_array = new char[decoder.GetCharCount(input, 0, input.Length, true)];
+
+        int cout, bout;
+        bool completed;
+        decoder.Convert(input, 0, input.Length, char_array, 0, char_array.Length, true, out cout, out bout, out completed);
+
+        return new String(char_array);
+    }
+    
+    public string ComposeMessage() {
+        string Message = "";
+
+        Message = sb.Append("<soap:Envelope xmlns:soap=\'").Append(SOAP_NS).Append("\' xmlns:xsi=\'").Append(XSI_NS).Append("\' xmlns:xsd=\'").Append(XSD_NS).Append("\'>").Append("<soap:Header xmlns=\"http://webservices.amadeus.com/definitions\">").Append(mstrHeader).Append("</soap:Header>").Append("<soap:Body>").Append(mstrBody).Append("</soap:Body>").Append("</soap:Envelope>").ToString();
+        sb.Remove(0, sb.Length);
+
+        
+        return Message;
+    }
+    private string ComposeMessageSOAP2()
+    {
+        string Message = "";
+
+        Message = sb.Append("<soapenv:Envelope xmlns:soapenv=\'").Append(SOAP_NS).Append("\' xmlns:awsec=\'").Append(XSI_NS2).Append("\' xmlns:xsd=\'").Append(XSD_NS).Append("\'>").Append("<soap:Header>").Append(mstrHeader).Append("</soap:Header>").Append("<soap:Body>").Append(mstrBody).Append("</soap:Body>").Append("</soapenv:Envelope>").ToString();
+        sb.Remove(0, sb.Length);
+
+
+        return Message;
+    }
+    
+    private void HttpConnect() {
+        mHttpRequest = ((HttpWebRequest)(WebRequest.Create(mstrServiceURL)));
+        mHttpRequest.Method = mstrHttpMethod;
+        mHttpRequest.ContentType = "text/xml ; charset=utf-8";
+        mHttpRequest.Headers.Add("SOAPAction", mstrSoapAction);
+        mHttpRequest.Headers.Add("Content-Encoding: gzip");
+        mHttpRequest.Headers.Add("Accept-Encoding: gzip");
+        mHttpRequest.KeepAlive = false;
+        mHttpRequest.Timeout = 90000;
+        //  1 Minute
+    }
+    
+    public string SendHttpRequest(string UserID, string strMessage) {
+        StreamWriter oWriter = null;
+        // Warning!!! Optional parameters not supported
+        StreamReader oReader = null;
+        HttpWebResponse oHttpResponse = null;
+        string Message = "";
+        string strResponse = "";
+
+        System.DateTime StartTime;
+        try {
+            //if ((strMessage.Length > 0)) {
+            //    Message = strMessage;
+            //}
+            //else {
+            //    Message = ComposeMessage();
+            //}
+            Message = ComposeMessage();
+
+            StartTime = System.DateTime.Now;
+            CoreLib.SendTrace(UserID, "AmadeusWSAdapter", "Sent to AmadeusWS", Message.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""));
+            HttpConnect();
+
+
+            //addLog(Message, UserID);
+
+            //oWriter = new StreamWriter(mHttpRequest.GetRequestStream());
+            oWriter = new StreamWriter(new GZipStream(mHttpRequest.GetRequestStream(), CompressionMode.Compress, false));
+            oWriter.Write(Message);
+            //oWriter.Write(query_byte);
+        }
+        catch (Exception ex) {
+            addLog("<EXOR><M>" + Message + "</M><SendHttpRequest/>", UserID);
+            throw new Exception(ex.Message);
+        }
+        finally {
+            if (!(oWriter == null)) {
+                oWriter.Close();
+            }
+        }
+        try {
+            oHttpResponse = ((HttpWebResponse)(mHttpRequest.GetResponse()));
+            Stream stream = oHttpResponse.GetResponseStream();
+            //oReader = new StreamReader(oHttpResponse.GetResponseStream());
+            
+            ////////////////////////////
+            Stream decompressionStream = null;
+
+
+            decompressionStream = new GZipStream(stream, CompressionMode.Decompress, false);
+
+
+
+            oReader = new StreamReader(decompressionStream);
+            
+            //////////////////////////////
+            strResponse = oReader.ReadToEnd();
+
+            if (strResponse.Length > 50000)
+                CoreLib.SendTrace(UserID, "AmadeusWSAdapter", "Received from AmadeusWS", strResponse.Substring(0, 50000).Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""));
+            else
+                CoreLib.SendTrace(UserID, "AmadeusWSAdapter", "Received from AmadeusWS", strResponse.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""));
+
+            return strResponse;
+        }
+        catch (Exception ex) {
+
+            addLog("<EXOR><M>" + Message + "</M><SendHttpRequest/>", UserID);
+
+            if (ex.Message == "The operation has timed out")
+            {
+                strResponse = "<Error>Time out received from Amadeus</Error>";
+                return strResponse;
+            }
+
+            FieldInfo fi = mHttpRequest.GetType().GetField("_HttpResponse", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (fi != null) 
+            {
+                oHttpResponse = (HttpWebResponse)fi.GetValue(mHttpRequest);
+                Stream stream = oHttpResponse.GetResponseStream();
+                Stream decompressionStream = null;
+                decompressionStream = new GZipStream(stream, CompressionMode.Decompress, false);
+                oReader = new StreamReader(decompressionStream);
+                strResponse = oReader.ReadToEnd();
+
+                addLog("<EXSHR/><M>" + Message + "</M><R>" + strResponse + "</R>", UserID);
+                return strResponse;
+            }
+
+            if (oHttpResponse == null)
+            {
+                addLog("<EXHRN/>" + Message, UserID);
+                strResponse = "<Error>Connection problem with Amadeus</Error>";
+                return strResponse;
+            }
+            
+            throw new Exception(sb.Append("Error Getting Response.").Append("\r\n").Append(ex.Message).ToString());
+            sb.Remove(0, sb.Length);
+        }
+        finally {
+            CoreLib.SendTrace(UserID, "AmadeusWSAdapter", sb.Append("AmadeusWS Response Time = ").Append(((int)(System.DateTime.Now.Subtract(StartTime).TotalSeconds))).Append(" seconds.").ToString(), "");
+            sb.Remove(0, sb.Length);
+            if (!(oHttpResponse == null)) {
+                oHttpResponse.Close();
+            }
+            if (!(oReader == null)) {
+                oReader.Close();
+            }
+            if (!(mHttpRequest == null)) {
+                mHttpRequest = null;
+            }
+            sb = null;
+        }
+    }
+
+    public static void addLog(string msg, string username)
+    {
+        try
+        {
+            string FilePath = "log\\" + username + "_" + DateTime.Today.ToString("dd-MM-yyyy");
+            string DirPath = "C:\\TripXML\\log";
+            FilePath = "C:\\TripXML\\" + FilePath + ".txt";
+
+            if (!Directory.Exists(DirPath))
+            {
+                Directory.CreateDirectory(DirPath);
+            }
+            if (!File.Exists(FilePath))
+            {
+                using (StreamWriter sw = File.CreateText(FilePath))
+                {
+                    sw.WriteLine("created On - " + DateTime.Now.ToString() + "\r\n");
+                    sw.Flush();
+                    sw.Close();
+                }
+            }
+            using (StreamWriter sw = File.AppendText(FilePath))
+            {
+                DateTimeFormatInfo myDTFI = new CultureInfo("fr-FR", true).DateTimeFormat;
+
+                sw.WriteLine(DateTime.UtcNow.ToString(myDTFI).Substring(11) + " GMT - " + msg + "\r\n");
+                sw.Flush();
+                sw.Close();
+            }
+        }
+        catch (Exception)
+        {
+        }
+    }
+}
+
