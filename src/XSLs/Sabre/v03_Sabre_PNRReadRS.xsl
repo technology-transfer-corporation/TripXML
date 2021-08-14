@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 13 Aug 2021 - Kobelev - Controling Carrier in Special Remarks Remark Type "Endorsements".
   Date: 08 Jul 2021 - Kobelev - Branded Fare Name different for different Segments.
   Date: 08 Jul 2021 - Kobelev - Branded Fare Name fix.
   Date: 01 Jul 2021 - Kobelev - Branded Fare when price command starts with WPBR.
@@ -733,7 +734,9 @@
 
             <xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo]" mode="TourCode"/>
             <xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo]" mode="Endorsement"/>
-
+            <xsl:if test="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE']">
+              <xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE'][contains(Text, 'P/')]" mode="Endorsement"/>
+            </xsl:if>
           </SpecialRemarks>
         </xsl:if>
         <xsl:if test="RemarkInfo/Remark[@Type!='Itinerary']">
@@ -3992,7 +3995,7 @@
                       </xsl:apply-templates>
                     </xsl:if>
                   </xsl:for-each>
-                  
+
                   <!--
                   <xsl:apply-templates select="PTC_FareBreakdown/FlightSegment[@SegmentNumber!='']" mode="ffSegmental">
                     <xsl:with-param name="brID" select="substring-before(translate(concat('S1',substring-after($brcmd, 'S1')), '/','-'), '$P')"/>
@@ -5180,6 +5183,56 @@
     </SpecialRemark>
   </xsl:template>
 
+  <xsl:template match="Endorsement" mode="Endorsement">
+    <xsl:variable select="substring-after(Text, '/')" name="airline" />
+    <xsl:if test="string-length($airline) = 2">
+
+      <xsl:variable name="elems">
+        <xsl:call-template name="tokenizeString">
+          <xsl:with-param name="list" select="substring-before(Text, '-')"/>
+          <xsl:with-param name="delimiter" select="' '"/>
+        </xsl:call-template>
+      </xsl:variable>
+
+      <xsl:variable name="flts">
+        <xsl:call-template name="ListToString">
+          <xsl:with-param name="list" select="msxsl:node-set($elems)/elem/node()[1]"/>
+          <xsl:with-param name="delem" select="','" />
+        </xsl:call-template>
+      </xsl:variable>
+      
+      <SpecialRemark>
+        <xsl:attribute name="RPH">
+          <xsl:value-of select="$airline"/>
+        </xsl:attribute>
+        <xsl:attribute name="RemarkType">Endorsement</xsl:attribute>
+        <FlightRefNumber>
+          <xsl:attribute name="RPH">
+            <xsl:for-each select="../../../../../../../ReservationItems/Item[FlightSegment]">
+              <xsl:variable name="flt" select="concat(FlightSegment/OriginLocation/@LocationCode,FlightSegment/DestinationLocation/@LocationCode)" />
+              <xsl:if test="contains($flts, $flt)">
+                <xsl:variable name="rph">
+                  <xsl:if test="@RPH">
+                    <xsl:value-of select="format-number(./@RPH,'#')"/>
+                  </xsl:if>
+                </xsl:variable>
+                <xsl:if test="position() > 1">
+                  <xsl:text> </xsl:text>
+                </xsl:if>
+                <xsl:call-template name="string-trim">
+                  <xsl:with-param name="string" select="$rph" />
+                </xsl:call-template>
+              </xsl:if>
+            </xsl:for-each>
+          </xsl:attribute>
+        </FlightRefNumber>
+        <Text>
+          <xsl:value-of select="Text"/>
+        </Text>
+      </SpecialRemark>
+    </xsl:if>
+  </xsl:template>
+
   <!-- ********************************************************************************* -->
   <!-- Miscellaneous other               -->
   <!-- ********************************************************************************* -->
@@ -5412,5 +5465,12 @@
     </xsl:if>
   </xsl:template>
 
+  <xsl:template name="ListToString">
+    <xsl:param name="list"/>
+    <xsl:param name="delem"/>
+    <xsl:for-each select="$list">
+      <xsl:value-of select="concat(., substring($delem, 2 - (position() != last())))"/>
+    </xsl:for-each>
+  </xsl:template>
 
 </xsl:stylesheet>
