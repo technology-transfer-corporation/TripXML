@@ -695,7 +695,7 @@
           <xsl:attribute name="DecimalPlaces">
             <xsl:value-of select="$dect"/>
           </xsl:attribute>
-          <Tax>
+          <!--<Tax>
             <xsl:attribute name="TaxCode">TotalTax</xsl:attribute>
             <xsl:attribute name="Amount">
               <xsl:value-of select="$Taxf"/>
@@ -706,7 +706,7 @@
             <xsl:attribute name="DecimalPlaces">
               <xsl:value-of select="$dect"/>
             </xsl:attribute>
-          </Tax>
+          </Tax>-->
         </Taxes>
         <xsl:if test="fareList/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'TOF']">
           <Fees>
@@ -1646,7 +1646,7 @@
                   <xsl:choose>
                     <xsl:when test="../../RTSVI/Line[contains(.,$citypair)]">
                       <xsl:variable name="oa">
-                        <xsl:value-of select="substring-after(../../RTSVI/Line[contains(.,$citypair)],$citypair)"/>
+                        <xsl:value-of select="substring-before(substring-after(../../RTSVI/Line[contains(.,$citypair)],$citypair), ' FOR ')"/>
                       </xsl:variable>
                       <xsl:choose>
                         <xsl:when test="contains($oa,'  ')">
