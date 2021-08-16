@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
    Date: 15 Jul 2021 - Samokhvalov - Fix Branded Fares display
    Date: 21 Apr 2021 - Kobelev - Added Quantity to SSR HK flag.
    Date: 09 Oct 2020 - Samokhvalov - Fix Branded Fares display
@@ -332,6 +333,11 @@
                             <xsl:apply-templates select="Ticket_DisplayTSTReply/fareList/otherPricingInfo/attributeDetails[attributeType='PAY']" mode="TourCode"/>
                           </xsl:otherwise>
                         </xsl:choose>
+
+                        <xsl:if test="pricingRecordGroup/productPricingQuotationRecord/documentDetailsGroup/fareComponentDetailsGroup[fareFamilyOwner]">
+                          <xsl:apply-templates select="pricingRecordGroup/productPricingQuotationRecord/documentDetailsGroup/fareComponentDetailsGroup" mode="controllingCarrier"/>
+                        </xsl:if>
+
                       </SpecialRemarks>
                     </xsl:if>
                     <xsl:if test="dataElementsMaster/dataElementsIndiv[contains(elementManagementData/segmentName,'PL')]">
@@ -4225,6 +4231,43 @@
         <xsl:value-of select="otherDataFreetext/longFreetext"/>
       </Text>
     </SpecialRemark>
+  </xsl:template>
+
+  <xsl:template match="fareComponentDetailsGroup" mode="controllingCarrier">
+
+    <xsl:if test="fareFamilyDetails/fareFamilyname">
+      <SpecialRemark>
+        
+        <xsl:attribute name="RPH">
+          <xsl:call-template name="string-trim">
+            <xsl:with-param name="string" select="fareFamilyOwner" />
+          </xsl:call-template>
+        </xsl:attribute>
+        <xsl:attribute name="RemarkType">Z</xsl:attribute>
+
+        <FlightRefNumber>
+          <xsl:attribute name="RPH">
+            <xsl:for-each select="couponDetailsGroup/productId/referenceDetails[type='ST']/value">
+              <xsl:variable name="segref">
+                <xsl:value-of select="."/>
+              </xsl:variable>
+              <xsl:variable name="rph">
+                <xsl:value-of select="/PNR_Reply/originDestinationDetails/itineraryInfo[elementManagementItinerary/reference/number = $segref]/elementManagementItinerary/lineNumber"/>
+              </xsl:variable>
+              <xsl:if test="position() > 1">
+                <xsl:text> </xsl:text>
+              </xsl:if>
+              <xsl:value-of select="$rph"/>
+            </xsl:for-each>
+          </xsl:attribute>
+        </FlightRefNumber>
+        
+        <Text>
+          <xsl:value-of select="concat(marketFareComponent/boardPointDetails/trueLocationId,marketFareComponent/offpointDetails/trueLocationId, ' -',fareFamilyDetails/fareFamilyname, '/', fareFamilyOwner/companyIdentification/otherCompany)"/>
+        </Text>
+      </SpecialRemark>
+    </xsl:if>
+
   </xsl:template>
   <!-- ************************************************************** -->
   <!-- UHP                        	   	                              -->
