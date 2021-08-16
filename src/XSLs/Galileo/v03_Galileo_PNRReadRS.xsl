@@ -4,6 +4,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
   Date: 01 Mar 2021 - Kobelev - ARNK Segments added Segment Number.
   Date: 18 Feb 2021 - Kobelev - Ticketing Date Time.
   Date: 20 Jan 2021 - Kobelev - Removed ADT,CHD,INF from NameRmkInfo in order to create Birthday tag corectly.
@@ -41,6 +42,9 @@
   ================================================================== 
   -->
   <xsl:output omit-xml-declaration="yes" />
+
+  <xsl:key name="conCarr" match="//PNRBFManagement_53/DocProdDisplayStoredQuote/PNRFareDetail/FareOwnCarrier" use="." />
+
   <xsl:template match="/">
     <OTA_TravelItineraryRS Version="v03" AltLangID="Galileo">
       <xsl:apply-templates select="PNRBFManagement_17" />
@@ -304,6 +308,10 @@
               </xsl:if>
               <xsl:if test="../DocProdDisplayStoredQuote/EndorsementBox">
                 <xsl:apply-templates select="../DocProdDisplayStoredQuote[EndorsementBox]" mode="Endorsement"/>
+              </xsl:if>
+
+              <xsl:if test="../DocProdDisplayStoredQuote/PNRFareDetail/FareOwnCarrier">
+                <xsl:apply-templates select="../DocProdDisplayStoredQuote[PNRFareDetail/FareOwnCarrier]" mode="Endorsement"/>
               </xsl:if>
 
             </SpecialRemarks>
@@ -2450,6 +2458,10 @@
       </xsl:apply-templates>
     </xsl:if>
 
+    <xsl:if test="PNRFareDetail/FareOwnCarrier">
+      <xsl:apply-templates select="." mode="controllingCarrier" />
+    </xsl:if>
+
   </xsl:template>
 
   <xsl:template match="DocProdDisplayStoredQuote" mode="EndorsementInfo">
@@ -2563,6 +2575,78 @@
         <xsl:value-of select="$endo"/>
       </Text>
     </SpecialRemark>
+  </xsl:template>
+
+  <xsl:template match="DocProdDisplayStoredQuote" mode="controllingCarrier">
+    <xsl:variable name="cc" select="PNRFareDetail" />
+    <xsl:variable name="gqd" select="GenQuoteDetails[1]" />
+    <xsl:variable name="segs" select="SegRelatedInfo[UniqueKey=$gqd/UniqueKey]" />
+    <xsl:variable name="air" select="//PNRBFRetrieve/AirSeg" />
+
+    <xsl:variable name="lCarr">
+      <xsl:for-each select="$cc/FareOwnCarrier[generate-id() = generate-id(key('conCarr',.)[1])]">
+        <xsl:if test=". !=''">
+          <xsl:value-of select="concat(., ',')"/>
+        </xsl:if>
+      </xsl:for-each>
+    </xsl:variable>
+
+    <xsl:variable name="elems">
+      <xsl:call-template name="tokenizeString">
+        <xsl:with-param name="list" select="$lCarr"/>
+        <xsl:with-param name="delimiter" select="','"/>
+      </xsl:call-template>
+    </xsl:variable>
+
+    <xsl:for-each select="msxsl:node-set($elems)/elem">
+
+      <xsl:variable name="al">
+        <xsl:value-of select="text()"/>
+      </xsl:variable>
+
+      <SpecialRemark>
+        <xsl:attribute name="RPH">
+          <xsl:value-of select="$al"/>
+        </xsl:attribute>
+        <xsl:attribute name="RemarkType">Z</xsl:attribute>
+        
+        <FlightRefNumber>
+          <xsl:attribute name="RPH">
+            <xsl:for-each select="$segs">
+              <xsl:variable name="rph">
+                <xsl:value-of select="RelSegNum"/>
+              </xsl:variable>
+              <xsl:if test="position() > 1">
+                <xsl:text> </xsl:text>
+              </xsl:if>
+              <xsl:value-of select="$rph"/>
+            </xsl:for-each>
+          </xsl:attribute>
+        </FlightRefNumber>
+        
+        <xsl:variable name="fltPath">
+          <xsl:for-each select="$segs/RelSegNum">
+            <xsl:variable name="sN" select="node()[1]" />
+            <xsl:variable name="bfInfo" select="$air[SegNum=$sN]" />
+            <xsl:variable name="port">
+              <xsl:value-of select="concat($bfInfo/StartAirp,$bfInfo/EndAirp)"/>
+            </xsl:variable>
+
+            <xsl:if test="position() > 1">
+              <xsl:text> </xsl:text>
+            </xsl:if>
+            <xsl:value-of select="$port"/>
+          </xsl:for-each>
+        </xsl:variable>
+
+        <Text>
+          <xsl:call-template name="string-trim">
+            <xsl:with-param name="string" select="concat($fltPath,' -/', $al)" />
+          </xsl:call-template>
+        </Text>
+      </SpecialRemark>
+
+    </xsl:for-each>
   </xsl:template>
 
   <!--************************************************************************************-->
@@ -3637,5 +3721,37 @@ End Function
     </xsl:call-template>
   </xsl:template>
 
-
+  <!--############################################################-->
+  <!--## Template to tokenize strings                           ##-->
+  <!--############################################################-->
+  <xsl:template name="tokenizeString">
+    <!--passed template parameter -->
+    <xsl:param name="list"/>
+    <xsl:param name="delimiter"/>
+    <xsl:choose>
+      <xsl:when test="contains($list, $delimiter)">
+        <elem>
+          <!-- get everything in front of the first delimiter -->
+          <xsl:value-of select="substring-before($list,$delimiter)"/>
+        </elem>
+        <xsl:call-template name="tokenizeString">
+          <!-- store anything left in another variable -->
+          <xsl:with-param name="list" select="substring-after($list,$delimiter)"/>
+          <xsl:with-param name="delimiter" select="$delimiter"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:choose>
+          <xsl:when test="$list = ''">
+            <xsl:text/>
+          </xsl:when>
+          <xsl:otherwise>
+            <elem>
+              <xsl:value-of select="$list"/>
+            </elem>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
 </xsl:stylesheet>
