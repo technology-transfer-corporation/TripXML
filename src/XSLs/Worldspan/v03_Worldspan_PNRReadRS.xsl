@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
 Date: 27 Jul 2021 - Kobelev - Price Qoutes for each PTC will have in RPH reference TR it belong.
 Date: 26 Jul 2021 - Kobelev - Multiple Price Qoutes with different Markups for different PTC. 
 Date: 23 Jul 2021 - kobelev - Multiple Price Qoutes with different PTC. 
@@ -67,6 +68,7 @@ Date: 23 Feb 2015 - Rastko
   <xsl:output method="xml" omit-xml-declaration="yes" />
 
   <xsl:key name="trPTC" match="//DPW8/PNR_4_INF/Line/@TR" use="." />
+  <xsl:key name="conCarr" match="//DPW8/AIR_SEG_INF/AIR_ITM/ARL_COD" use="." />
 
   <xsl:variable name="loop">
     <xsl:value-of select="count(//DPW8/PRC_INF/PRC_QUO/PTC_FAR_DTL) + 1"/>
@@ -195,7 +197,7 @@ Date: 23 Feb 2015 - Rastko
                     </xsl:if>
                   </xsl:for-each>
                 </xsl:variable>
-                
+
                 <xsl:variable name="elems">
                   <xsl:call-template name="tokenizeString">
                     <xsl:with-param name="list" select="$lTR"/>
@@ -282,9 +284,14 @@ Date: 23 Feb 2015 - Rastko
                       </xsl:for-each>
                     </Remarks>
                   </xsl:if>
-                  <xsl:choose>
-                    <xsl:when test="RMK_INF/SPE_RMK_INF/RMK_ITM[RMK_TYP='IT'] or RMK_INF/SPE_RMK_INF/RMK_ITM[RMK_TYP='ER'] or RMK_INF/SPE_RMK_INF/RMK_ITM[RMK_TYP='CON'] or /DPW8/PNR_4_INF/Line[contains(., 'TDTC-')] or ETR_INF/TOU_COD">
-                      <SpecialRemarks>
+
+                  <SpecialRemarks>
+                    <xsl:choose>
+                      <xsl:when test="RMK_INF/SPE_RMK_INF/RMK_ITM[RMK_TYP='IT'] 
+                      or RMK_INF/SPE_RMK_INF/RMK_ITM[RMK_TYP='ER'] 
+                      or RMK_INF/SPE_RMK_INF/RMK_ITM[RMK_TYP='CON'] 
+                      or /DPW8/PNR_4_INF/Line[contains(., 'TDTC-')] or ETR_INF/TOU_COD">
+
                         <xsl:for-each select="RMK_INF/SPE_RMK_INF/RMK_ITM[RMK_TYP='IT' or RMK_TYP='ER' or RMK_TYP='CON']">
                           <xsl:choose>
                             <xsl:when test="RMK_TYP='IT'">
@@ -325,7 +332,6 @@ Date: 23 Feb 2015 - Rastko
 
                           </xsl:choose>
                         </xsl:for-each>
-
                         <xsl:if test="ETR_INF/TOU_COD">
                           <!--<SpecialRemarks>-->
                           <!--xsl:apply-templates select="RMK_INF/UNQ_RMK_INF/RMK_ITM[RMK_ALP='Z']" mode="HistoryRemark"/-->
@@ -363,9 +369,78 @@ Date: 23 Feb 2015 - Rastko
                           </xsl:if>
                           <!--</SpecialRemarks>-->
                         </xsl:if>
-                      </SpecialRemarks>
-                    </xsl:when>
-                  </xsl:choose>
+
+                      </xsl:when>
+                    </xsl:choose>
+                    <xsl:variable name="cc" select="//AIR_SEG_INF/AIR_ITM" />
+
+                    <xsl:variable name="lCarr">
+                      <xsl:for-each select="$cc/ARL_COD[generate-id() = generate-id(key('conCarr',.)[1])]">
+                        <xsl:if test=". !=''">
+                          <xsl:value-of select="concat(., ',')"/>
+                        </xsl:if>
+                      </xsl:for-each>
+                    </xsl:variable>
+
+                    <xsl:variable name="elems">
+                      <xsl:call-template name="tokenizeString">
+                        <xsl:with-param name="list" select="$lCarr"/>
+                        <xsl:with-param name="delimiter" select="','"/>
+                      </xsl:call-template>
+                    </xsl:variable>
+
+                    <xsl:for-each select="msxsl:node-set($elems)/elem">
+
+                      <xsl:variable name="al">
+                        <xsl:value-of select="text()"/>
+                      </xsl:variable>
+
+                      <SpecialRemark>
+                        <xsl:attribute name="RPH">
+                          <xsl:call-template name="string-trim">
+                            <xsl:with-param name="string" select="$al" />
+                          </xsl:call-template>
+                        </xsl:attribute>
+                        <xsl:attribute name="RemarkType">Z</xsl:attribute>
+
+                        <FlightRefNumber>
+                          <xsl:attribute name="RPH">
+                            <xsl:for-each select="$cc[ARL_COD=$al]">
+                              <xsl:variable name="rph">
+                                <xsl:value-of select="SEG_NUM"/>
+                              </xsl:variable>
+
+                              <xsl:if test="position() > 1">
+                                <xsl:text> </xsl:text>
+                              </xsl:if>
+                              <xsl:value-of select="$rph"/>
+                            </xsl:for-each>
+                          </xsl:attribute>
+                        </FlightRefNumber>
+
+                        <xsl:variable name="fltPath">
+                          <xsl:for-each select="$cc[ARL_COD=$al]">
+                            <xsl:variable name="port">
+                              <xsl:value-of select="concat(DEP_ARP,ARR_ARP)"/>
+                            </xsl:variable>
+
+                            <xsl:if test="position() > 1">
+                              <xsl:text> </xsl:text>
+                            </xsl:if>
+                            <xsl:value-of select="$port"/>
+                          </xsl:for-each>
+                        </xsl:variable>
+
+                        <Text>
+                          <xsl:call-template name="string-trim">
+                            <xsl:with-param name="string" select="concat($fltPath,' -/', $al)" />
+                          </xsl:call-template>
+                        </Text>
+                      </SpecialRemark>
+                    </xsl:for-each>
+
+
+                  </SpecialRemarks>
                 </SpecialRequestDetails>
               </xsl:if>
               <xsl:if test="ETR_INF">
@@ -825,8 +900,8 @@ Date: 23 Feb 2015 - Rastko
               <xsl:value-of select="DOC_INS/DOC_INS_TXT"/>
             </xsl:variable>
             <xsl:variable name="tr_num">
-                <xsl:value-of select="TIC_REC_NUM"/>
-              </xsl:variable>
+              <xsl:value-of select="TIC_REC_NUM"/>
+            </xsl:variable>
             <xsl:apply-templates select="PTC_FAR_DTL" mode="single">
               <xsl:with-param name="tr_num" select="$tr_num" />
             </xsl:apply-templates>
@@ -1467,9 +1542,9 @@ Date: 23 Feb 2015 - Rastko
             <xsl:value-of select="$tr_num"/>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="position()"/>    
+            <xsl:value-of select="position()"/>
           </xsl:otherwise>
-        </xsl:choose>        
+        </xsl:choose>
       </xsl:attribute>
       <xsl:choose>
         <xsl:when test="FAR_SHE_ORI[contains(text(), ' SR')]">
