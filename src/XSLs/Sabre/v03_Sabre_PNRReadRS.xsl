@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
   Date: 13 Aug 2021 - Kobelev - Controling Carrier in Special Remarks Remark Type "Endorsements".
   Date: 08 Jul 2021 - Kobelev - Branded Fare Name different for different Segments.
   Date: 08 Jul 2021 - Kobelev - Branded Fare Name fix.
@@ -735,7 +736,7 @@
             <xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo]" mode="TourCode"/>
             <xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo]" mode="Endorsement"/>
             <xsl:if test="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE']">
-              <xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE'][contains(Text, 'P/')]" mode="Endorsement"/>
+              <xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE'][contains(Text, 'P/')]" mode="controllingCarrier"/>
             </xsl:if>
           </SpecialRemarks>
         </xsl:if>
@@ -5183,7 +5184,7 @@
     </SpecialRemark>
   </xsl:template>
 
-  <xsl:template match="Endorsement" mode="Endorsement">
+  <xsl:template match="Endorsement" mode="controllingCarrier">
     <xsl:variable select="substring-after(Text, '/')" name="airline" />
     <xsl:if test="string-length($airline) = 2">
 
@@ -5205,7 +5206,7 @@
         <xsl:attribute name="RPH">
           <xsl:value-of select="$airline"/>
         </xsl:attribute>
-        <xsl:attribute name="RemarkType">Endorsement</xsl:attribute>
+        <xsl:attribute name="RemarkType">Z</xsl:attribute>
         <FlightRefNumber>
           <xsl:attribute name="RPH">
             <xsl:for-each select="../../../../../../../ReservationItems/Item[FlightSegment]">
