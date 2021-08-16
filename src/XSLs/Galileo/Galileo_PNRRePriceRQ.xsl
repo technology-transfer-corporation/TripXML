@@ -297,6 +297,23 @@
 
       </xsl:if>
 
+
+      <xsl:variable name="ptc" select="."/>
+
+      <xsl:if test="../OTA_PNRRepriceRQ/StoredFare[@RPH=$fareNum and PassengerType/@Code=$ptc]/BrandedFares">
+        <xsl:variable name="ffs" select="../OTA_PNRRepriceRQ/StoredFare[@RPH=$fareNum and PassengerType/@Code=$ptc]/BrandedFares/FareFamily" />
+        <xsl:for-each select="$ffs">
+          <xsl:if test="generate-id() = generate-id($ffs[. = current()][1])">
+            <xsl:variable name="ffCode" select="./@Code" />
+            <PriceByBrand>
+              <PricebyBrandModifier>
+                <xsl:number value="$ffCode" format="0001"/>
+              </PricebyBrandModifier>
+            </PriceByBrand>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:if>
+
       <xsl:if test="../OTA_PNRRepriceRQ/StoredFare[@RPH=$fareNum]/BrandedFares">
         <GenQuoteInfo>
           <SuppressBrandedFares>N</SuppressBrandedFares>
@@ -661,14 +678,12 @@
         </xsl:for-each>
       </xsl:if>
 
-
       <PlatingAirVMod>
         <AirV>
           <xsl:value-of select="PlatingAirVMod/AirV"/>
         </AirV>
       </PlatingAirVMod>
     </StorePriceMods>
-
 
   </xsl:template>
 
