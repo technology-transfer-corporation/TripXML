@@ -602,6 +602,16 @@
                       <xsl:value-of select="$ccType"/>
                     </xsl:attribute>
                     <xsl:if test="$ccType='CC'">
+                      <xsl:variable name="ccCode">
+                        <xsl:choose>
+                          <xsl:when test="not(FOPInfo/PaymentCard/@Number='')">
+                            <xsl:value-of select="FOPInfo/PaymentCard/@Code"/>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <xsl:value-of select="/UpdateInsert/TravelItineraryReadRS/TravelItinerary/CustomerInfo/PaymentInfo/Payment/Form/Text"/>
+                          </xsl:otherwise>
+                        </xsl:choose>
+                      </xsl:variable>
                       <CCInfo>
                         <CreditCardVendor>
                           <xsl:attribute name="Code">
