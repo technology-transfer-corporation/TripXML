@@ -26,7 +26,7 @@ namespace AmadeusWS
             set
             {
                 mstrVersion = value;
-                if (!string.IsNullOrEmpty(mstrVersion)) mstrVersion =  $"{mstrVersion.TrimEnd('_')}_";
+                if (!string.IsNullOrEmpty(mstrVersion)) mstrVersion = $"{mstrVersion.TrimEnd('_')}_";
             }
         }
 
@@ -198,9 +198,9 @@ namespace AmadeusWS
                 var lRet = strDisp.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 foreach (string line in lRet.FindAll(l => !String.IsNullOrEmpty(l.Trim())))
                 {
-                    var index = lRet.IndexOf(line);
-                    if (index >= 1)
-                        sb.AppendLine($"<Line>{line.Trim()}</Line>");
+                    //var index = lRet.IndexOf(line);
+                    //if (index >= 1)
+                    sb.AppendLine($"<Line>{line.Trim()}</Line>");
                 }
                 string strDisp1 = sb.ToString();
                 sb.Clear();
@@ -429,7 +429,7 @@ namespace AmadeusWS
 
                 if (oNodeSPL != null)
                 {
-                    if(oNodeSPL.InnerText.Contains("|"))
+                    if (oNodeSPL.InnerText.Contains("|"))
                         ConversationID = oNodeSPL.InnerText;
 
                     if (!String.IsNullOrEmpty(ConversationID))
