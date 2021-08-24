@@ -1,0 +1,129 @@
+<BL RequestorID="cFares">
+	<Message Name="LowFare" Direction="In">
+		<ProviderBL Name="Amadeus" System="Production" PCC="NYC1S219Z">
+			<Preferences>
+				<Airline Code="AA" Level="E" StartDate="20070915" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="NW" Level="E" StartDate="20070915" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="UA" Level="E" StartDate="20070915" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+			</Preferences>
+		</ProviderBL>
+		<ProviderBL Name="Amadeus" System="Production" PCC="***1S2***">
+			<Preferences>
+				<Airline Code="B3" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="D3" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="A9" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="HX" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="IN" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="YM" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="S0" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="VR" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="VN" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="FB" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="B6" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="C9" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="9U" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="G3" Level="E" StartDate="20071026" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+			</Preferences>
+		</ProviderBL>
+		<ProviderBL Name="Amadeus" System="Production" PCC="NYCPI2SBT">
+			<Preferences>
+				<Airline Code="B3" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="D3" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="A9" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="HX" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="IN" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="YM" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="S0" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="VR" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="VN" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="FB" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="B6" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="C9" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="9U" Level="E" StartDate="20080101" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="G3" Level="E" StartDate="20071026" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+			</Preferences>
+		</ProviderBL>
+	</Message>
+	<Message Name="LowFare" Direction="Out">
+		<NoFareType Name="Amadeus" System="Production" PCC="SFO1S216B">
+			<Fare Type="Private">
+				<Airline Code="AF" StartDate="20071021" EndDate="20081231"/>
+			</Fare>
+		</NoFareType>
+		<ProviderBL Name="Amadeus" System="Production" PCC="ATL1S2157">
+			<Fees>
+				<Airline Code="**" ClassOfService="*" StartDate="20080414" EndDate="20991231">
+
+					<Fee Fare="Published" Type="Service Fees">
+						<Route Depart="***" Arrival="***">
+							<Value Type="A">5.00</Value>
+						</Route>
+					</Fee>
+				</Airline>
+			</Fees>
+		</ProviderBL>
+	</Message>
+</BL>
+

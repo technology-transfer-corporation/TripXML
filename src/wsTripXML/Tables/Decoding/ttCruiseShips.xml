@@ -1,0 +1,154 @@
+<ttCruiseShips>
+	<R cruise="CCL" code="CE" value="CELEBRATION"/>
+	<R cruise="CCL" code="CQ" value="CARNIVAL CONQUEST"/>
+	<R cruise="CCL" code="DE" value="CARNIVAL DESTINY"/>
+	<R cruise="CCL" code="EC" value="CARNIVAL ECSTASY SM"/>
+	<R cruise="CCL" code="EL" value="CARNIVAL ELATION SM"/>
+	<R cruise="CCL" code="FA" value="CARNIVAL FANTASY SM"/>
+	<R cruise="CCL" code="FD" value="CARNIVAL FREEDOM"/>
+	<R cruise="CCL" code="FS" value="CARNIVAL FASCINATION SM"/>
+	<R cruise="CCL" code="GL" value="CARNIVAL GLORY"/>
+	<R cruise="CCL" code="HO" value="HOLIDAY"/>
+	<R cruise="CCL" code="IM" value="CARNIVAL IMAGINATION SM"/>
+	<R cruise="CCL" code="IS" value="CARNIVAL INSPIRATION SM"/>
+	<R cruise="CCL" code="JU" value="JUBILEE"/>
+	<R cruise="CCL" code="LE" value="CARNIVAL LEGEND"/>
+	<R cruise="CCL" code="LI" value="CARNIVAL LIBERTY"/>
+	<R cruise="CCL" code="MI" value="CARNIVAL MIRACLE"/>
+	<R cruise="CCL" code="PA" value="CARNIVAL PARADISE SM"/>
+	<R cruise="CCL" code="PR" value="CARNIVAL PRIDE"/>
+	<R cruise="CCL" code="SE" value="CARNIVAL SENSATION SM"/>
+	<R cruise="CCL" code="SL" value="CARNIVAL SPLENDOR"/>
+	<R cruise="CCL" code="SP" value="CARNIVAL SPIRIT"/>
+	<R cruise="CCL" code="TI" value="CARNIVAL TRIUMPH"/>
+	<R cruise="CCL" code="VA" value="CARNIVAL VALOR"/>
+	<R cruise="CCL" code="VI" value="CARNIVAL VICTORY"/>
+	<R cruise="CEL" code="CN" value="CENTURY"/>
+	<R cruise="CEL" code="CS" value="CONSTELLATION"/>
+	<R cruise="CEL" code="GL" value="GALAXY"/>
+	<R cruise="CEL" code="IN" value="INFINITY"/>
+	<R cruise="CEL" code="JR" value="AZAMARA JOURNEY"/>
+	<R cruise="CEL" code="ML" value="MILLENNIUM"/>
+	<R cruise="CEL" code="MR" value="MERCURY"/>
+	<R cruise="CEL" code="QS" value="AZAMARA QUEST"/>
+	<R cruise="CEL" code="SL" value="CELEBRITY SOLSTICE"/>
+	<R cruise="CEL" code="SM" value="SUMMIT"/>
+	<R cruise="CEL" code="XP" value="CELEBRITY XPEDITION"/>
+	<R cruise="CEL" code="ZN" value="ZENITH"/>
+	<R cruise="CST" code="AL" value="COSTA ALLEGRA"/>
+	<R cruise="CST" code="AT" value="COSTA ATLANTICA"/>
+	<R cruise="CST" code="CL" value="COSTA CLASSICA"/>
+	<R cruise="CST" code="CO" value="COSTA CONCORDIA"/>
+	<R cruise="CST" code="EU" value="COSTA EUROPA"/>
+	<R cruise="CST" code="FO" value="COSTA FORTUNA"/>
+	<R cruise="CST" code="MA" value="COSTA MARINA"/>
+	<R cruise="CST" code="MD" value="COSTA MEDITERRANEA"/>
+	<R cruise="CST" code="MG" value="COSTA MAGICA"/>
+	<R cruise="CST" code="RO" value="COSTA ROMANTICA"/>
+	<R cruise="CST" code="SE" value="COSTA SERENA"/>
+	<R cruise="CST" code="VI" value="COSTA VICTORIA"/>
+	<R cruise="CUN" code="QE" value="QUEEN ELIZABETH 2"/>
+	<R cruise="CUN" code="QM" value="QUEEN MARY 2"/>
+	<R cruise="CUN" code="QV" value="QUEEN VICTORIA"/>
+	<R cruise="HAL" code="AA" value="ZAANDAM"/>
+	<R cruise="HAL" code="AM" value="AMSTERDAM"/>
+	<R cruise="HAL" code="ED" value="EURODAM"/>
+	<R cruise="HAL" code="MA" value="MAASDAM"/>
+	<R cruise="HAL" code="NO" value="NOORDAM"/>
+	<R cruise="HAL" code="OS" value="OOSTERDAM"/>
+	<R cruise="HAL" code="PR" value="PRINSENDAM"/>
+	<R cruise="HAL" code="RT" value="ROTTERDAM"/>
+	<R cruise="HAL" code="RY" value="RYNDAM"/>
+	<R cruise="HAL" code="SD" value="STATENDAM"/>
+	<R cruise="HAL" code="UU" value="ZUIDERDAM"/>
+	<R cruise="HAL" code="VE" value="VEENDAM"/>
+	<R cruise="HAL" code="VO" value="VOLENDAM"/>
+	<R cruise="HAL" code="WE" value="WESTERDAM"/>
+	<R cruise="MSC" code="AR" value="MSC ARMONIA"/>
+	<R cruise="MSC" code="LI" value="MSC LIRICA"/>
+	<R cruise="MSC" code="ME" value="MSC MELODY"/>
+	<R cruise="MSC" code="MO" value="MSC MONTEREY"/>
+	<R cruise="MSC" code="MU" value="MSC MUSICA"/>
+	<R cruise="MSC" code="OP" value="MSC OPERA"/>
+	<R cruise="MSC" code="OR" value="MSC ORCHESTRA"/>
+	<R cruise="MSC" code="PO" value="MSC POESIA"/>
+	<R cruise="MSC" code="RH" value="MSC RHAPSODY"/>
+	<R cruise="MSC" code="SI" value="MSC SINFONIA"/>
+	<R cruise="NCL" code="AL" value="PRIDE OF ALOHA"/>
+	<R cruise="NCL" code="AM" value="PRIDE OF AMERICA"/>
+	<R cruise="NCL" code="CR" value="NORWEGIAN CROWN"/>
+	<R cruise="NCL" code="DA" value="NORWEGIAN DAWN"/>
+	<R cruise="NCL" code="DR" value="NORWEGIAN DREAM"/>
+	<R cruise="NCL" code="GE" value="NORWEGIAN GEM"/>
+	<R cruise="NCL" code="HA" value="PRIDE OF HAWAII"/>
+	<R cruise="NCL" code="JA" value="NORWEGIAN JADE"/>
+	<R cruise="NCL" code="JE" value="NORWEGIAN JEWEL"/>
+	<R cruise="NCL" code="MA" value="NORWEGIAN MAJESTY"/>
+	<R cruise="NCL" code="PE" value="NORWEGIAN PEARL"/>
+	<R cruise="NCL" code="SP" value="NORWEGIAN SPIRIT"/>
+	<R cruise="NCL" code="ST" value="NORWEGIAN STAR"/>
+	<R cruise="NCL" code="SU" value="NORWEGIAN SUN"/>
+	<R cruise="NCL" code="WI" value="NORWEGIAN WIND"/>
+        <R cruise="NCL" code="EP" value="NORWEGIAN Epic"/>
+	<R cruise="OCL" code="IN" value="INSIGNIA"/>
+	<R cruise="OCL" code="NU" value="NAUTICA"/>
+	<R cruise="OCL" code="RE" value="REGATTA"/>
+	<R cruise="PCL" code="AP" value="GRAND PRINCESS"/>
+	<R cruise="PCL" code="CB" value="CARIBBEAN PRINCESS"/>
+	<R cruise="PCL" code="CO" value="CORAL PRINCESS"/>
+	<R cruise="PCL" code="CP" value="SEA PRINCESS"/>
+	<R cruise="PCL" code="DI" value="DIAMOND PRINCESS"/>
+	<R cruise="PCL" code="DP" value="DAWN PRINCESS"/>
+	<R cruise="PCL" code="EP" value="EMERALD PRINCESS"/>
+	<R cruise="PCL" code="GP" value="REGAL PRINCESS"/>
+	<R cruise="PCL" code="IP" value="ISLAND PRINCESS"/>
+	<R cruise="PCL" code="KP" value="CROWN PRINCESS"/>
+	<R cruise="PCL" code="NP" value="GOLDEN PRINCESS"/>
+	<R cruise="PCL" code="PA" value="PACIFIC PRINCESS"/>
+	<R cruise="PCL" code="RP" value="ROYAL PRINCESS"/>
+	<R cruise="PCL" code="RU" value="RUBY PRINCESS"/>
+	<R cruise="PCL" code="SA" value="SAPPHIRE PRINCESS"/>
+	<R cruise="PCL" code="SP" value="SUN PRINCESS"/>
+	<R cruise="PCL" code="TA" value="TAHITIAN PRINCESS"/>
+	<R cruise="PCL" code="TP" value="STAR PRINCESS"/>
+	<R cruise="PCL" code="ZP" value="PRACTICE PRINCESS"/>
+	<R cruise="RCC" code="AD" value="ADVENTURE OF THE SEAS"/>
+	<R cruise="RCC" code="AL" value="ALLIANCE OF THE SEAS"/>
+	<R cruise="RCC" code="BR" value="BRILLIANCE OF THE SEAS"/>
+	<R cruise="RCC" code="EN" value="ENCHANTMENT OF THE SEAS"/>
+	<R cruise="RCC" code="EX" value="EXPLORER OF THE SEAS"/>
+	<R cruise="RCC" code="FR" value="FREEDOM OF THE SEAS"/>
+	<R cruise="RCC" code="GR" value="GRANDEUR OF THE SEAS"/>
+	<R cruise="RCC" code="ID" value="INDEPENDENCE OF THE SEAS"/>
+	<R cruise="RCC" code="JW" value="JEWEL OF THE SEAS"/>
+	<R cruise="RCC" code="LB" value="LIBERTY OF THE SEAS"/>
+	<R cruise="RCC" code="LG" value="LEGEND OF THE SEAS"/>
+	<R cruise="RCC" code="MA" value="MARINER OF THE SEAS"/>
+	<R cruise="RCC" code="MJ" value="MAJESTY OF THE SEAS"/>
+	<R cruise="RCC" code="MN" value="MONARCH OF THE SEAS"/>
+	<R cruise="RCC" code="NE" value="EMPRESS OF THE SEAS"/>
+	<R cruise="RCC" code="NV" value="NAVIGATOR OF THE SEAS"/>
+	<R cruise="RCC" code="RD" value="RADIANCE OF THE SEAS"/>
+	<R cruise="RCC" code="RH" value="RHAPSODY OF THE SEAS"/>
+	<R cruise="RCC" code="SP" value="SPLENDOUR OF THE SEAS"/>
+	<R cruise="RCC" code="SR" value="SERENADE OF THE SEAS"/>
+	<R cruise="RCC" code="SS" value="SOVEREIGN OF THE SEAS"/>
+	<R cruise="RCC" code="VI" value="VISION OF THE SEAS"/>
+	<R cruise="RCC" code="VY" value="VOYAGER OF THE SEAS"/>
+	<R cruise="SBN" code="LG" value="SEABOURN LEGEND"/>
+	<R cruise="SBN" code="OD" value="SEABOURN ODYSSEY"/>
+	<R cruise="SBN" code="PR" value="SEABOURN PRIDE"/>
+	<R cruise="SBN" code="SP" value="SEABOURN SPIRIT"/>
+	<R cruise="FOL" code="BD" value="BOUDICCA"/>
+	<R cruise="FOL" code="BM" value="BRAEMAR"/>
+	<R cruise="FOL" code="BP" value="BLACK PRINCE"/>
+	<R cruise="FOL" code="BW" value="BLACK WATCH"/>
+	<R cruise="OVH" code="SS" value="OCEAN VILLAGE"/>
+	<R cruise="POC" code="AC" value="ARCADIA"/>
+	<R cruise="POC" code="AS" value="ARTEMIS"/>
+	<R cruise="POC" code="AU" value="AURORA"/>
+	<R cruise="POC" code="OC" value="OCEANA"/>
+	<R cruise="POC" code="OR" value="ORIANA"/>
+	<R cruise="SWH" code="MV" value="MINERVA II"/>
+	<R cruise="TCL" code="TC" value="THOMSON CELEBRATION"/>
+</ttCruiseShips>

@@ -1,0 +1,122 @@
+<AmadeusCars>
+	<CarCompany>
+		<Code>AC</Code>
+		<Name>ACE RENT A CAR</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AD</Code>
+		<Name>ADVANTAGE</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AE</Code>
+		<Name>INOVA</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AL</Code>
+		<Name>ALAMO</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AT</Code>
+		<Name>ATESA</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>EG</Code>
+		<Name>JUMBO CAR</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>EH</Code>
+		<Name>ALUGUE BRASIL</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>EP</Code>
+		<Name>EUROPCAR</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ET</Code>
+		<Name>ENTERPRISE</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>EY</Code>
+		<Name>ECONOMY</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>EZ</Code>
+		<Name>EZ RENT A CAR</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>FC</Code>
+		<Name>FIRST CAR RENTAL</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>FX</Code>
+		<Name>FOX RENT A CAR</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>HH</Code>
+		<Name>HELLE HOLLIS</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>HT</Code>
+		<Name>TERSTAPPEN</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>IM</Code>
+		<Name>EUROPCAR</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>LL</Code>
+		<Name>LOCALIZA</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>MO</Code>
+		<Name>MOVIDA</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>RF</Code>
+		<Name>REFERENCIA</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>SV</Code>
+		<Name>U-SAVE AUTO RENTAL</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>SX</Code>
+		<Name>SIXT</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>UN</Code>
+		<Name>UNIDAS</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZA</Code>
+		<Name>PAYLESS</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZD</Code>
+		<Name>BUDGET</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZE</Code>
+		<Name>HERTZ</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZI</Code>
+		<Name>AVIS</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZL</Code>
+		<Name>NATIONAL</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZR</Code>
+		<Name>DOLLAR</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZT</Code>
+		<Name>THRIFTY</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZU</Code>
+		<Name>AUTO EUROPE</Name>
+	</CarCompany>
+</AmadeusCars>

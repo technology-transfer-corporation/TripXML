@@ -1,0 +1,494 @@
+<TTWSHotelArea>
+	<Area>
+		<Code>1</Code>
+		<Name>Archery</Name>
+	</Area>
+	<Area>
+		<Code>2</Code>
+		<Name>Badminton court</Name>
+	</Area>
+	<Area>
+		<Code>3</Code>
+		<Name>Baseball diamond</Name>
+	</Area>
+	<Area>
+		<Code>4</Code>
+		<Name>Basketball court</Name>
+	</Area>
+	<Area>
+		<Code>5</Code>
+		<Name>Beach</Name>
+	</Area>
+	<Area>
+		<Code>6</Code>
+		<Name>Bike trail</Name>
+	</Area>
+	<Area>
+		<Code>7</Code>
+		<Name>Boating</Name>
+	</Area>
+	<Area>
+		<Code>8</Code>
+		<Name>Bocci court</Name>
+	</Area>
+	<Area>
+		<Code>9</Code>
+		<Name>Bowling alley</Name>
+	</Area>
+	<Area>
+		<Code>10</Code>
+		<Name>Children's program, onsite</Name>
+	</Area>
+	<Area>
+		<Code>12</Code>
+		<Name>Cricket pitch</Name>
+	</Area>
+	<Area>
+		<Code>13</Code>
+		<Name>Cross country skiing</Name>
+	</Area>
+	<Area>
+		<Code>14</Code>
+		<Name>Dart board</Name>
+	</Area>
+	<Area>
+		<Code>18</Code>
+		<Name>Downhill skiing</Name>
+	</Area>
+	<Area>
+		<Code>19</Code>
+		<Name>Equipment available in health club</Name>
+	</Area>
+	<Area>
+		<Code>20</Code>
+		<Name>Fishing</Name>
+	</Area>
+	<Area>
+		<Code>21</Code>
+		<Name>Fitness center off-site</Name>
+	</Area>
+	<Area>
+		<Code>23</Code>
+		<Name>Fitness center on-site</Name>
+	</Area>
+	<Area>
+		<Code>25</Code>
+		<Name>Fly fishing</Name>
+	</Area>
+	<Area>
+		<Code>26</Code>
+		<Name>Football field</Name>
+	</Area>
+	<Area>
+		<Code>27</Code>
+		<Name>Golf</Name>
+	</Area>
+	<Area>
+		<Code>34</Code>
+		<Name>Golf location (onsite/nearby)</Name>
+	</Area>
+	<Area>
+		<Code>35</Code>
+		<Name>Gym</Name>
+	</Area>
+	<Area>
+		<Code>36</Code>
+		<Name>Health club</Name>
+	</Area>
+	<Area>
+		<Code>60</Code>
+		<Name>Hiking trail</Name>
+	</Area>
+	<Area>
+		<Code>61</Code>
+		<Name>Horseback riding</Name>
+	</Area>
+	<Area>
+		<Code>62</Code>
+		<Name>Indoor tennis courts</Name>
+	</Area>
+	<Area>
+		<Code>63</Code>
+		<Name>Jet-ski</Name>
+	</Area>
+	<Area>
+		<Code>64</Code>
+		<Name>Jogging trail</Name>
+	</Area>
+	<Area>
+		<Code>65</Code>
+		<Name>Kayaking</Name>
+	</Area>
+	<Area>
+		<Code>66</Code>
+		<Name>Lake</Name>
+	</Area>
+	<Area>
+		<Code>67</Code>
+		<Name>Miniature golf</Name>
+	</Area>
+	<Area>
+		<Code>68</Code>
+		<Name>Mountain biking trail</Name>
+	</Area>
+	<Area>
+		<Code>70</Code>
+		<Name>Ocean</Name>
+	</Area>
+	<Area>
+		<Code>71</Code>
+		<Name>Outdoor tennis courts</Name>
+	</Area>
+	<Area>
+		<Code>73</Code>
+		<Name>Parasailing</Name>
+	</Area>
+	<Area>
+		<Code>74</Code>
+		<Name>Playground</Name>
+	</Area>
+	<Area>
+		<Code>75</Code>
+		<Name>Pool</Name>
+	</Area>
+	<Area>
+		<Code>76</Code>
+		<Name>Putt putt golf</Name>
+	</Area>
+	<Area>
+		<Code>77</Code>
+		<Name>Racquetball court</Name>
+	</Area>
+	<Area>
+		<Code>78</Code>
+		<Name>River</Name>
+	</Area>
+	<Area>
+		<Code>79</Code>
+		<Name>River rafting</Name>
+	</Area>
+	<Area>
+		<Code>80</Code>
+		<Name>Sailing</Name>
+	</Area>
+	<Area>
+		<Code>81</Code>
+		<Name>Sauna</Name>
+	</Area>
+	<Area>
+		<Code>82</Code>
+		<Name>Scuba diving</Name>
+	</Area>
+	<Area>
+		<Code>83</Code>
+		<Name>Shopping</Name>
+	</Area>
+	<Area>
+		<Code>84</Code>
+		<Name>Skating rink</Name>
+	</Area>
+	<Area>
+		<Code>85</Code>
+		<Name>Skeet shooting</Name>
+	</Area>
+	<Area>
+		<Code>86</Code>
+		<Name>Snorkeling</Name>
+	</Area>
+	<Area>
+		<Code>87</Code>
+		<Name>Snow boarding</Name>
+	</Area>
+	<Area>
+		<Code>88</Code>
+		<Name>Snow skiing</Name>
+	</Area>
+	<Area>
+		<Code>89</Code>
+		<Name>Soccer field</Name>
+	</Area>
+	<Area>
+		<Code>90</Code>
+		<Name>Solarium</Name>
+	</Area>
+	<Area>
+		<Code>91</Code>
+		<Name>Spa</Name>
+	</Area>
+	<Area>
+		<Code>92</Code>
+		<Name>Squash court</Name>
+	</Area>
+	<Area>
+		<Code>93</Code>
+		<Name>Steam bath</Name>
+	</Area>
+	<Area>
+		<Code>94</Code>
+		<Name>Tennis court</Name>
+	</Area>
+	<Area>
+		<Code>96</Code>
+		<Name>Tubing</Name>
+	</Area>
+	<Area>
+		<Code>97</Code>
+		<Name>Velodrome</Name>
+	</Area>
+	<Area>
+		<Code>98</Code>
+		<Name>Volleyball</Name>
+	</Area>
+	<Area>
+		<Code>99</Code>
+		<Name>Water-skiing</Name>
+	</Area>
+	<Area>
+		<Code>100</Code>
+		<Name>Whirlpool</Name>
+	</Area>
+	<Area>
+		<Code>101</Code>
+		<Name>Windsurfing</Name>
+	</Area>
+	<Area>
+		<Code>102</Code>
+		<Name>Driving range</Name>
+	</Area>
+	<Area>
+		<Code>103</Code>
+		<Name>Camping</Name>
+	</Area>
+	<Area>
+		<Code>104</Code>
+		<Name>Hot tub</Name>
+	</Area>
+	<Area>
+		<Code>105</Code>
+		<Name>Hunting</Name>
+	</Area>
+	<Area>
+		<Code>106</Code>
+		<Name>Indoor/outdoor connecting pool</Name>
+	</Area>
+	<Area>
+		<Code>107</Code>
+		<Name>Jacuzzi</Name>
+	</Area>
+	<Area>
+		<Code>108</Code>
+		<Name>Mountain climbing</Name>
+	</Area>
+	<Area>
+		<Code>109</Code>
+		<Name>Nature preserve trail</Name>
+	</Area>
+	<Area>
+		<Code>110</Code>
+		<Name>Water activities</Name>
+	</Area>
+	<Area>
+		<Code>111</Code>
+		<Name>Billiards</Name>
+	</Area>
+	<Area>
+		<Code>112</Code>
+		<Name>Rock climbing</Name>
+	</Area>
+	<Area>
+		<Code>113</Code>
+		<Name>Safari</Name>
+	</Area>
+	<Area>
+		<Code>114</Code>
+		<Name>Sports court onsite</Name>
+	</Area>
+	<Area>
+		<Code>115</Code>
+		<Name>Sun tanning bed</Name>
+	</Area>
+	<Area>
+		<Code>116</Code>
+		<Name>Surfing</Name>
+	</Area>
+	<Area>
+		<Code>117</Code>
+		<Name>Table tennis</Name>
+	</Area>
+	<Area>
+		<Code>118</Code>
+		<Name>Wine tasting</Name>
+	</Area>
+	<Area>
+		<Code>119</Code>
+		<Name>Winter sports</Name>
+	</Area>
+	<Area>
+		<Code>120</Code>
+		<Name>Snow mobiling</Name>
+	</Area>
+	<Area>
+		<Code>121</Code>
+		<Name>Teen programs</Name>
+	</Area>
+	<Area>
+		<Code>122</Code>
+		<Name>Indoor pool</Name>
+	</Area>
+	<Area>
+		<Code>123</Code>
+		<Name>Outdoor pool</Name>
+	</Area>
+	<Area>
+		<Code>124</Code>
+		<Name>Children's program, offsite</Name>
+	</Area>
+	<Area>
+		<Code>125</Code>
+		<Name>Children's program</Name>
+	</Area>
+	<Area>
+		<Code>126</Code>
+		<Name>Animal watching</Name>
+	</Area>
+	<Area>
+		<Code>127</Code>
+		<Name>Bird watching</Name>
+	</Area>
+	<Area>
+		<Code>128</Code>
+		<Name>Boxing</Name>
+	</Area>
+	<Area>
+		<Code>129</Code>
+		<Name>Children's pool</Name>
+	</Area>
+	<Area>
+		<Code>130</Code>
+		<Name>Dancing</Name>
+	</Area>
+	<Area>
+		<Code>131</Code>
+		<Name>Dog racing</Name>
+	</Area>
+	<Area>
+		<Code>132</Code>
+		<Name>Fine dining</Name>
+	</Area>
+	<Area>
+		<Code>133</Code>
+		<Name>Gambling</Name>
+	</Area>
+	<Area>
+		<Code>134</Code>
+		<Name>Garden</Name>
+	</Area>
+	<Area>
+		<Code>135</Code>
+		<Name>Helicopter/airplane sightseeing</Name>
+	</Area>
+	<Area>
+		<Code>136</Code>
+		<Name>Horse racing</Name>
+	</Area>
+	<Area>
+		<Code>137</Code>
+		<Name>Ice skating</Name>
+	</Area>
+	<Area>
+		<Code>138</Code>
+		<Name>Karaoke</Name>
+	</Area>
+	<Area>
+		<Code>139</Code>
+		<Name>Museum/gallery viewing</Name>
+	</Area>
+	<Area>
+		<Code>140</Code>
+		<Name>Nightclubs</Name>
+	</Area>
+	<Area>
+		<Code>141</Code>
+		<Name>Polo</Name>
+	</Area>
+	<Area>
+		<Code>142</Code>
+		<Name>Sightseeing tours</Name>
+	</Area>
+	<Area>
+		<Code>143</Code>
+		<Name>Sports events</Name>
+	</Area>
+	<Area>
+		<Code>144</Code>
+		<Name>Skydiving</Name>
+	</Area>
+	<Area>
+		<Code>145</Code>
+		<Name>Sunbathing</Name>
+	</Area>
+	<Area>
+		<Code>146</Code>
+		<Name>Theatre</Name>
+	</Area>
+	<Area>
+		<Code>147</Code>
+		<Name>Weightlifting</Name>
+	</Area>
+	<Area>
+		<Code>148</Code>
+		<Name>Wrestling</Name>
+	</Area>
+	<Area>
+		<Code>149</Code>
+		<Name>Canoeing</Name>
+	</Area>
+	<Area>
+		<Code>150</Code>
+		<Name>Upscale shopping</Name>
+	</Area>
+	<Area>
+		<Code>151</Code>
+		<Name>Outlet shopping</Name>
+	</Area>
+	<Area>
+		<Code>152</Code>
+		<Name>Antique shopping</Name>
+	</Area>
+	<Area>
+		<Code>153</Code>
+		<Name>Cardiovascular exercise</Name>
+	</Area>
+	<Area>
+		<Code>154</Code>
+		<Name>Bocce court</Name>
+	</Area>
+	<Area>
+		<Code>155</Code>
+		<Name>Direct access to a beach</Name>
+	</Area>
+	<Area>
+		<Code>156</Code>
+		<Name>Ski in/out facilities</Name>
+	</Area>
+	<Area>
+		<Code>157</Code>
+		<Name>Tennis professional</Name>
+	</Area>
+	<Area>
+		<Code>158</Code>
+		<Name>Extensive health club</Name>
+	</Area>
+	<Area>
+		<Code>159</Code>
+		<Name>Limited health club</Name>
+	</Area>
+	<Area>
+		<Code>160</Code>
+		<Name>Diving</Name>
+	</Area>
+	<Area>
+		<Code>161</Code>
+		<Name>Walking track</Name>
+	</Area>
+</TTWSHotelArea>

@@ -1,0 +1,450 @@
+<TTWSCruiseShips>
+	<Ship>
+		<Code>CE</Code>
+		<Name>CELEBRATION</Name>
+	</Ship>
+	<Ship>
+		<Code>CE</Code>
+		<Name>CELEBRATION</Name>
+	</Ship>
+	<Ship>
+		<Code>CQ</Code>
+		<Name>CARNIVAL CONQUEST</Name>
+	</Ship>
+	<Ship>
+		<Code>DE</Code>
+		<Name>CARNIVAL DESTINY</Name>
+	</Ship>
+	<Ship>
+		<Code>EC</Code>
+		<Name>ECSTASY</Name>
+	</Ship>
+	<Ship>
+		<Code>EL</Code>
+		<Name>ELATION</Name>
+	</Ship>
+	<Ship>
+		<Code>FA</Code>
+		<Name>FANTASY</Name>
+	</Ship>
+	<Ship>
+		<Code>FS</Code>
+		<Name>FASCINATION</Name>
+	</Ship>
+	<Ship>
+		<Code>GL</Code>
+		<Name>CARNIVAL GLORY</Name>
+	</Ship>
+	<Ship>
+		<Code>HO</Code>
+		<Name>HOLIDAY</Name>
+	</Ship>
+	<Ship>
+		<Code>IM</Code>
+		<Name>IMAGINATION</Name>
+	</Ship>
+	<Ship>
+		<Code>IS</Code>
+		<Name>INSPIRATION</Name>
+	</Ship>
+	<Ship>
+		<Code>JU</Code>
+		<Name>JUBILEE</Name>
+	</Ship>
+	<Ship>
+		<Code>LE</Code>
+		<Name>CARNIVAL LEGEND</Name>
+	</Ship>
+	<Ship>
+		<Code>LI</Code>
+		<Name>CARNIVAL LIBERTY</Name>
+	</Ship>
+	<Ship>
+		<Code>MI</Code>
+		<Name>CARNIVAL MIRACLE</Name>
+	</Ship>
+	<Ship>
+		<Code>PA</Code>
+		<Name>PARADISE</Name>
+	</Ship>
+	<Ship>
+		<Code>PR</Code>
+		<Name>CARNIVAL PRIDE</Name>
+	</Ship>
+	<Ship>
+		<Code>SE</Code>
+		<Name>SENSATION</Name>
+	</Ship>
+	<Ship>
+		<Code>SP</Code>
+		<Name>CARNIVAL SPIRIT</Name>
+	</Ship>
+	<Ship>
+		<Code>TI</Code>
+		<Name>CARNIVAL TRIUMPH</Name>
+	</Ship>
+	<Ship>
+		<Code>VA</Code>
+		<Name>CARNIVAL VALOR</Name>
+	</Ship>
+	<Ship>
+		<Code>VI</Code>
+		<Name>CARNIVAL VICTORY</Name>
+	</Ship>
+	<Ship>
+		<Code>CN</Code>
+		<Name>CENTURY</Name>
+	</Ship>
+	<Ship>
+		<Code>CS</Code>
+		<Name>CONSTELLATION</Name>
+	</Ship>
+	<Ship>
+		<Code>GL</Code>
+		<Name>GALAXY</Name>
+	</Ship>
+	<Ship>
+		<Code>HZ</Code>
+		<Name>HORIZON</Name>
+	</Ship>
+	<Ship>
+		<Code>IN</Code>
+		<Name>INFINITY</Name>
+	</Ship>
+	<Ship>
+		<Code>ML</Code>
+		<Name>MILLENNIUM</Name>
+	</Ship>
+	<Ship>
+		<Code>MR</Code>
+		<Name>MERCURY</Name>
+	</Ship>
+	<Ship>
+		<Code>SM</Code>
+		<Name>SUMMIT</Name>
+	</Ship>
+	<Ship>
+		<Code>XP</Code>
+		<Name>XPEDITION</Name>
+	</Ship>
+	<Ship>
+		<Code>ZN</Code>
+		<Name>ZENITH</Name>
+	</Ship>
+	<Ship>
+		<Code>AL</Code>
+		<Name>COSTA ALLEGRA</Name>
+	</Ship>
+	<Ship>
+		<Code>AT</Code>
+		<Name>COSTA ATLANTICA</Name>
+	</Ship>
+	<Ship>
+		<Code>CL</Code>
+		<Name>COSTA CLASSICA</Name>
+	</Ship>
+	<Ship>
+		<Code>EU</Code>
+		<Name>COSTA EUROPA</Name>
+	</Ship>
+	<Ship>
+		<Code>FO</Code>
+		<Name>COSTA FORTUNA</Name>
+	</Ship>
+	<Ship>
+		<Code>MA</Code>
+		<Name>COSTA MARINA</Name>
+	</Ship>
+	<Ship>
+		<Code>MD</Code>
+		<Name>COSTA MEDITERRANEA</Name>
+	</Ship>
+	<Ship>
+		<Code>MG</Code>
+		<Name>COSTA MAGICA</Name>
+	</Ship>
+	<Ship>
+		<Code>RO</Code>
+		<Name>COSTA ROMANTICA</Name>
+	</Ship>
+	<Ship>
+		<Code>TR</Code>
+		<Name>COSTA TROPICALE</Name>
+	</Ship>
+	<Ship>
+		<Code>VI</Code>
+		<Name>COSTA VICTORIA</Name>
+	</Ship>
+	<Ship>
+		<Code>AM</Code>
+		<Name>AMSTERDAM</Name>
+	</Ship>
+	<Ship>
+		<Code>MA</Code>
+		<Name>MAASDAM</Name>
+	</Ship>
+	<Ship>
+		<Code>NO</Code>
+		<Name>NOORDAM</Name>
+	</Ship>
+	<Ship>
+		<Code>OS</Code>
+		<Name>OOSTERDAM</Name>
+	</Ship>
+	<Ship>
+		<Code>PR</Code>
+		<Name>PRINSENDAM</Name>
+	</Ship>
+	<Ship>
+		<Code>RT</Code>
+		<Name>ROTTERDAM</Name>
+	</Ship>
+	<Ship>
+		<Code>RY</Code>
+		<Name>RYNDAM</Name>
+	</Ship>
+	<Ship>
+		<Code>SA</Code>
+		<Name>STATENDAM</Name>
+	</Ship>
+	<Ship>
+		<Code>VE</Code>
+		<Name>VEENDAM</Name>
+	</Ship>
+	<Ship>
+		<Code>VO</Code>
+		<Name>VOLENDAM</Name>
+	</Ship>
+	<Ship>
+		<Code>WE</Code>
+		<Name>WESTERDAM</Name>
+	</Ship>
+	<Ship>
+		<Code>ZA</Code>
+		<Name>ZAANDAM</Name>
+	</Ship>
+	<Ship>
+		<Code>ZU</Code>
+		<Name>ZUIDERDAM</Name>
+	</Ship>
+	<Ship>
+		<Code>AL</Code>
+		<Name>PRIDE OF ALOHA</Name>
+	</Ship>
+	<Ship>
+		<Code>AM</Code>
+		<Name>PRIDE OF AMERICA</Name>
+	</Ship>
+	<Ship>
+		<Code>CR</Code>
+		<Name>NORWEGIAN CROWN</Name>
+	</Ship>
+	<Ship>
+		<Code>DA</Code>
+		<Name>NORWEGIAN DAWN</Name>
+	</Ship>
+	<Ship>
+		<Code>DR</Code>
+		<Name>NORWEGIAN DREAM</Name>
+	</Ship>
+	<Ship>
+		<Code>HA</Code>
+		<Name>PRIDE OF HAWAII</Name>
+	</Ship>
+	<Ship>
+		<Code>JE</Code>
+		<Name>NORWEGIAN JEWEL</Name>
+	</Ship>
+	<Ship>
+		<Code>MA</Code>
+		<Name>NORWEGIAN MAJESTY</Name>
+	</Ship>
+	<Ship>
+		<Code>SP</Code>
+		<Name>NORWEGIAN SPIRIT</Name>
+	</Ship>
+	<Ship>
+		<Code>ST</Code>
+		<Name>NORWEGIAN STAR</Name>
+	</Ship>
+	<Ship>
+		<Code>SU</Code>
+		<Name>NORWEGIAN SUN</Name>
+	</Ship>
+	<Ship>
+		<Code>WI</Code>
+		<Name>NORWEGIAN WIND</Name>
+	</Ship>
+	<Ship>
+		<Code>AP</Code>
+		<Name>GRAND PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>CB</Code>
+		<Name>CARIBBEAN PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>CO</Code>
+		<Name>CORAL PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>CP</Code>
+		<Name>SEA PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>DI</Code>
+		<Name>DIAMOND PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>DP</Code>
+		<Name>DAWN PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>GP</Code>
+		<Name>REGAL PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>IP</Code>
+		<Name>ISLAND PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>KP</Code>
+		<Name>CROWN PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>NP</Code>
+		<Name>GOLDEN PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>PA</Code>
+		<Name>PACIFIC PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>RP</Code>
+		<Name>ROYAL PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>SA</Code>
+		<Name>SAPPHIRE PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>SP</Code>
+		<Name>SUN PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>TA</Code>
+		<Name>TAHITIAN PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>TP</Code>
+		<Name>STAR PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>ZP</Code>
+		<Name>PRACTICE PRINCESS</Name>
+	</Ship>
+	<Ship>
+		<Code>AD</Code>
+		<Name>ADVENTURE OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>BR</Code>
+		<Name>BRILLIANCE OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>EN</Code>
+		<Name>ENCHANTMENT OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>EX</Code>
+		<Name>EXPLORER OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>FR</Code>
+		<Name>FREEDOM OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>GR</Code>
+		<Name>GRANDEUR OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>JW</Code>
+		<Name>JEWEL OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>LG</Code>
+		<Name>LEGEND OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>MA</Code>
+		<Name>MARINER OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>MJ</Code>
+		<Name>MAJESTY OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>MN</Code>
+		<Name>MONARCH OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>NE</Code>
+		<Name>EMPRESS OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>NV</Code>
+		<Name>NAVIGATOR OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>RD</Code>
+		<Name>RADIANCE OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>RH</Code>
+		<Name>RHAPSODY OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>SP</Code>
+		<Name>SPLENDOUR OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>SR</Code>
+		<Name>SERENADE OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>SS</Code>
+		<Name>SOVEREIGN OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>VI</Code>
+		<Name>VISION OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>VY</Code>
+		<Name>VOYAGER OF THE SEAS</Name>
+	</Ship>
+	<Ship>
+		<Code>LG</Code>
+		<Name>SEABOURN LEGEND</Name>
+	</Ship>
+	<Ship>
+		<Code>PR</Code>
+		<Name>SEABOURN PRIDE</Name>
+	</Ship>
+	<Ship>
+		<Code>SP</Code>
+		<Name>SEABOURN SPIRIT</Name>
+	</Ship>
+	<Ship>
+		<Code>SP</Code>
+		<Name>WIND SPIRIT</Name>
+	</Ship>
+	<Ship>
+		<Code>ST</Code>
+		<Name>WIND STAR</Name>
+	</Ship>
+	<Ship>
+		<Code>SU</Code>
+		<Name>WIND SURF</Name>
+	</Ship>
+</TTWSCruiseShips>

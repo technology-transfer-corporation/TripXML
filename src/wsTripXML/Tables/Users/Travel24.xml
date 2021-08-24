@@ -1,0 +1,32 @@
+<Config>
+	<Domain>travel24.com</Domain>
+	<Trace>Y</Trace>
+	<TraceIP>localhost</TraceIP>
+	<Validate In="N" Out="N"/>
+	<Log>1</Log>
+	<WSSecurity>0</WSSecurity>
+	<WSReliability>0</WSReliability>
+	<Provider Name="Amadeus">
+		<System Name="Test">
+			<PCC Code="LUXXW38MT" AmadeusWS="true" SessionPool="false" SOAP4="true" HotelMedia="false" NoOfLowFareFlights="6" LogNative="True">
+				<Username>WSTTZTRV</Username>
+				<Password>AMADEUS</Password>
+				<Profile Origin="UL">1ASIWTRVTTZ</Profile>
+				<WSDLSchema>
+					<Message Name="Fare_MasterPricerCalendar" Version="FMPCAQ_14_1_1A"/>
+					<Message Name="Fare_MasterPricerCalendarReply" Version="FMPCAR_14_1_1A"/>
+					<Message Name="Fare_MasterPricerTravelBoardSearch" Version="FMPTBQ_14_1_1A"/>
+					<Message Name="Fare_MasterPricerTravelBoardSearchReply" Version="FMPTBR_14_1_1A"/>
+					<Message Name="Fare_MetaPricerCalendar" Version="FMTCAQ_12_4_1A"/>
+					<Message Name="Fare_MetaPricerCalendarReply" Version="FMTCAR_12_4_1A"/>
+					<Message Name="Fare_MetaPricerTravelBoardSearch" Version="FMTTBQ_12_4_1A"/>
+					<Message Name="Fare_MetaPricerTravelBoardSearchReply" Version="FMTTBR_12_4_1A"/>
+					<Message Name="Security_Authenticate" Version="VLSSLQ_06_1_1A"/>
+					<Message Name="Security_AuthenticateReply" Version="VLSSLR_06_1_1A"/>
+					<Message Name="Security_SignOut" Version="VLSSOQ_04_1_1A"/>
+					<Message Name="Security_SignOutReply" Version="VLSSOR_04_1_1A"/>
+				</WSDLSchema>
+			</PCC>
+		</System>
+	</Provider>
+</Config>

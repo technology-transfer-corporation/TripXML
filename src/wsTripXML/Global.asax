@@ -1,0 +1,1 @@
+<%@ Application Inherits="wsTripXML.wsTravelTalk.Global" Language="VB" %>

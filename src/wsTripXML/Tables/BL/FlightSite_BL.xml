@@ -1,0 +1,21 @@
+<BL RequestorID="Rezgateway">
+	<Message Name="LowFare" Direction="In">
+		<ProviderBL Name="Amadeus" System="Production" PCC="CPTZA2***">
+			<Preferences>
+				<Airline Code="G3" Level="E" StartDate="20080101" EndDate="20991231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="FL" Level="E" StartDate="20080101" EndDate="20991231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+			</Preferences>
+		</ProviderBL>
+	</Message>
+	<Message Name="LowFare" Direction="Out">
+		<NoMixAirline Name="Amadeus" System="Production" PCC="CPTZA2201">
+			<Airline Code="8U" StartDate="20090720" EndDate="20991231"/>
+			<Airline Code="VV" StartDate="20090720" EndDate="20991231"/>
+		</NoMixAirline>
+	</Message>
+</BL>
+

@@ -1,0 +1,406 @@
+<TTWSCarCompanies>
+	<CarCompany>
+		<Code>AB</Code>
+		<Name>All American</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AC</Code>
+		<Name>Ace</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AD</Code>
+		<Name>Advantage</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AF</Code>
+		<Name>Americar</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AI</Code>
+		<Name>Affinity</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AJ</Code>
+		<Name>Ajax</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AL</Code>
+		<Name>Alamo</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AM</Code>
+		<Name>Admiral</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AN</Code>
+		<Name>Ansa Intl</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AO</Code>
+		<Name>A1 Car Rental</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AP</Code>
+		<Name>Airport</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AS</Code>
+		<Name>Practical</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AU</Code>
+		<Name>Austrian Car Rental</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>AW</Code>
+		<Name>Airways</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>BC</Code>
+		<Name>ABC Auto</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>BL</Code>
+		<Name>Red and Blue</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>CC</Code>
+		<Name>Town and Country</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>CH</Code>
+		<Name>Charlie Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>CK</Code>
+		<Name>Caribcars Inc</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>CL</Code>
+		<Name>Costless</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>CO</Code>
+		<Name>Continental Rent a Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>CP</Code>
+		<Name>Compass Car Rentals</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>CT</Code>
+		<Name>TT Key</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>CY</Code>
+		<Name>City Rent a Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>DD</Code>
+		<Name>Dan Dooley</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>DR</Code>
+		<Name>Der Travel Srvcs</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>DS</Code>
+		<Name>Discount</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>EC</Code>
+		<Name>European Car Res.</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ED</Code>
+		<Name>Eurodollar</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>EE</Code>
+		<Name>Exoticar Express</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>EM</Code>
+		<Name>EnterNYC</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>EP</Code>
+		<Name>Europcar</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ER</Code>
+		<Name>Eurorent</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ET</Code>
+		<Name>Enterprise</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>EV</Code>
+		<Name>Executive Car Rental</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>EX</Code>
+		<Name>Usa Rent A Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>EY</Code>
+		<Name>National</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>EZ</Code>
+		<Name>EZ Rent a Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>FA</Code>
+		<Name>Able Rent</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>FC</Code>
+		<Name>Firts Car Rental</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>FD</Code>
+		<Name>Ford Dealer</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>FF</Code>
+		<Name>Firefly</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>FH</Code>
+		<Name>Falles Hire Cars</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>FL</Code>
+		<Name>Florida Auto</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>FX</Code>
+		<Name>FOX Rent A Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>GO</Code>
+		<Name>Value</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>GS</Code>
+		<Name>Guy Salmon Cars</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>HA</Code>
+		<Name>Holiday Autos</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>HH</Code>
+		<Name>Holiday House</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>HO</Code>
+		<Name>Holiday</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>HT</Code>
+		<Name>Hayat Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>IA</Code>
+		<Name>Interamerican</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>IC</Code>
+		<Name>Intercontinental</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>IM</Code>
+		<Name>Europcar</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>KG</Code>
+		<Name>Kemwell</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>KN</Code>
+		<Name>Kenning</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>LL</Code>
+		<Name>Localiza Rent a Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>LM</Code>
+		<Name>LM Car Rental</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>LV</Code>
+		<Name>Allstate</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>MJ</Code>
+		<Name>Major Rent A Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>MV</Code>
+		<Name>VIP Car Rental</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>MW</Code>
+		<Name>Midway</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>NE</Code>
+		<Name>Nationwide</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>NF</Code>
+		<Name>New Frontier</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>NQ</Code>
+		<Name>NQ Campers</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>PI</Code>
+		<Name>Preferred Rent a Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>PS</Code>
+		<Name>SavMor Rent A Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>RL</Code>
+		<Name>Ladki International</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>RP</Code>
+		<Name>RPM Rentals</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>RR</Code>
+		<Name>Rentrite</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>RS</Code>
+		<Name>Resort</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>RV</Code>
+		<Name>Go Vacations</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>RW</Code>
+		<Name>Rent-A-Wreck</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>RY</Code>
+		<Name>Royal Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>SL</Code>
+		<Name>I.T.S Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>SP</Code>
+		<Name>Specialty</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>SV</Code>
+		<Name>Usave Auto</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>SW</Code>
+		<Name>Southwest Car Rental</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>SX</Code>
+		<Name>SIXT</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>TL</Code>
+		<Name>National Tilden</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>TR</Code>
+		<Name>Triangle</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>TS</Code>
+		<Name>ITS Cars</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>UN</Code>
+		<Name>Unidas Rent a Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>VP</Code>
+		<Name>VIP International</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>VW</Code>
+		<Name>Vanwijk Rental</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>XL</Code>
+		<Name>LAX Express</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>XP</Code>
+		<Name>Onerez.com</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>XX</Code>
+		<Name>Rental Car</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>YY</Code>
+		<Name>Test</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZA</Code>
+		<Name>Payless</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZD</Code>
+		<Name>Budget</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZE</Code>
+		<Name>Hertz</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZH</Code>
+		<Name>Auto Host</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZI</Code>
+		<Name>Avis</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZL</Code>
+		<Name>National</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZN</Code>
+		<Name>General</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZR</Code>
+		<Name>Dollar</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZS</Code>
+		<Name>Sears</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZT</Code>
+		<Name>Thrifty</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZU</Code>
+		<Name>Auto Europe</Name>
+	</CarCompany>
+	<CarCompany>
+		<Code>ZW</Code>
+		<Name>Montgomery Wards</Name>
+	</CarCompany>
+</TTWSCarCompanies>

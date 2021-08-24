@@ -1,0 +1,26 @@
+<BL RequestorID="GlobalPass">
+	<Message Name="LowFare" Direction="Out">
+		<NoTktAirline Name="Amadeus" System="Test" PCC="LAS1S210O">
+			<Airline Code="JB" StartDate="20060421" EndDate="20071231"/>
+		</NoTktAirline >
+		<NoMixAirline Name="Amadeus" System="Training" PCC="LAS1S210O">
+			<Airline Code="US" StartDate="20061215" EndDate="20071231"/>
+		</NoMixAirline>
+		<ProviderBL Name="Amadeus" System="Training" PCC="LAS1S210D">
+			<Fees>
+				<Airline Code="AA" ClassOfService="*" StartDate="20061203" EndDate="20081231">
+					<Fee Fare="Private" Type="Markup">
+						<Route Depart="***" Arrival="***">
+							<Value Type="A">5.00</Value>
+						</Route>
+					</Fee>
+					<Fee Fare="Published" Type="Markup">
+						<Route Depart="***" Arrival="***">
+							<Value Type="A">5.00</Value>
+						</Route>
+					</Fee>
+				</Airline>
+			</Fees>
+		</ProviderBL>
+	</Message>
+</BL>

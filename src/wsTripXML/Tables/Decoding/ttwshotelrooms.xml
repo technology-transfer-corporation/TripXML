@@ -1,0 +1,2874 @@
+<TGWSHotelRooms>
+	<Room>
+		<Code>A</Code>
+		<Name>DELUXE</Name>
+	</Room>
+	<Room>
+		<Code>A1B</Code>
+		<Name>DELUXE 1 BEDROOM APT</Name>
+	</Room>
+	<Room>
+		<Code>A1D</Code>
+		<Name>DELUXE 1 DOUBLE BED</Name>
+	</Room>
+	<Room>
+		<Code>A1K</Code>
+		<Name>DELUXE 1 KING BED</Name>
+	</Room>
+	<Room>
+		<Code>A1Q</Code>
+		<Name>DELUXE 1 QUEEN BED</Name>
+	</Room>
+	<Room>
+		<Code>A1S</Code>
+		<Name>DELUXE SINGLE</Name>
+	</Room>
+	<Room>
+		<Code>A1T</Code>
+		<Name>DELUXE, 1 TWIN BED</Name>
+	</Room>
+	<Room>
+		<Code>A2B</Code>
+		<Name>DELUXE 2 BEDROOM APT</Name>
+	</Room>
+	<Room>
+		<Code>A2D</Code>
+		<Name>DELUXE 2 DOUBLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>A2K</Code>
+		<Name>DELUXE, 2 KING BEDS</Name>
+	</Room>
+	<Room>
+		<Code>A2Q</Code>
+		<Name>DELUXE, 2 QUEEN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>A2T</Code>
+		<Name>DELUXE, 2 TWIN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>A3B</Code>
+		<Name>DELUXE 3 BEDROOM APT</Name>
+	</Room>
+	<Room>
+		<Code>A3D</Code>
+		<Name>DELUXE 3 DOUBLE W/BATH</Name>
+	</Room>
+	<Room>
+		<Code>A3S</Code>
+		<Name>DELUXE TRIPLE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>A3T</Code>
+		<Name>DELUXE, 3 TWIN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>A4B</Code>
+		<Name>DELUXE 4 BEDROOM APT</Name>
+	</Room>
+	<Room>
+		<Code>A4T</Code>
+		<Name>DELUXE, 4 TWIN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>ABI</Code>
+		<Name>DELUXE SUITE W/BALCONY</Name>
+	</Room>
+	<Room>
+		<Code>ACK</Code>
+		<Name>DELUXE CORNER RM/KNG BD</Name>
+	</Room>
+	<Room>
+		<Code>AHS</Code>
+		<Name>DLX HOSPITALITY STE</Name>
+	</Room>
+	<Room>
+		<Code>AJS</Code>
+		<Name>DELUXE JUNIOR SUITE</Name>
+	</Room>
+	<Room>
+		<Code>AKV</Code>
+		<Name>SUPERIOR KING VILLA</Name>
+	</Room>
+	<Room>
+		<Code>ALA</Code>
+		<Name>ALII TOWER OCEAN FRONT</Name>
+	</Room>
+	<Room>
+		<Code>ALB</Code>
+		<Name>ALII TOWER OCEAN VIEW</Name>
+	</Room>
+	<Room>
+		<Code>ALC</Code>
+		<Name>ALII TOWER LIMITD VIEW</Name>
+	</Room>
+	<Room>
+		<Code>ALD</Code>
+		<Name>ALII TOWER GARDEN VIEW</Name>
+	</Room>
+	<Room>
+		<Code>AM2</Code>
+		<Name>AMBASSADOR CLB 2RM STE</Name>
+	</Room>
+	<Room>
+		<Code>AMB</Code>
+		<Name>AMBASSADOR CLUB</Name>
+	</Room>
+	<Room>
+		<Code>AP1</Code>
+		<Name>1 BEDROOM APARTMENT</Name>
+	</Room>
+	<Room>
+		<Code>AP2</Code>
+		<Name>2 BEDROOM APARTMENT</Name>
+	</Room>
+	<Room>
+		<Code>AP3</Code>
+		<Name>3 BEDROOM APARTMENT</Name>
+	</Room>
+	<Room>
+		<Code>AP4</Code>
+		<Name>4 BEDROOM APARTMENT</Name>
+	</Room>
+	<Room>
+		<Code>AP5</Code>
+		<Name>5 BEDROOM APARTMENT</Name>
+	</Room>
+	<Room>
+		<Code>AP6</Code>
+		<Name>6 BEDROOM APARTMENT</Name>
+	</Room>
+	<Room>
+		<Code>AP7</Code>
+		<Name>7 BEDROOM APARTMENT</Name>
+	</Room>
+	<Room>
+		<Code>AP8</Code>
+		<Name>8 BEDROOM APARTMENT</Name>
+	</Room>
+	<Room>
+		<Code>APL</Code>
+		<Name>DELUXE PARLOR ROOM</Name>
+	</Room>
+	<Room>
+		<Code>APMT</Code>
+		<Name>APARTMENT</Name>
+	</Room>
+	<Room>
+		<Code>APT</Code>
+		<Name>APARTMENT</Name>
+	</Room>
+	<Room>
+		<Code>ARO</Code>
+		<Name>DELUXE RUN OF HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>AS1</Code>
+		<Name>DELUXE 1 BEDROOM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>AS2</Code>
+		<Name>DELUXE 2 BEDROOM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>AS3</Code>
+		<Name>DELUXE 3 BEDROOM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>ASB</Code>
+		<Name>DLX PARLOR W/SOFABED</Name>
+	</Room>
+	<Room>
+		<Code>ASN</Code>
+		<Name>NS LRG KNG STE/KITCH</Name>
+	</Room>
+	<Room>
+		<Code>ASO</Code>
+		<Name>STUDIO BUNG-PVT POOL</Name>
+	</Room>
+	<Room>
+		<Code>AST</Code>
+		<Name>DELUXE STUDIO</Name>
+	</Room>
+	<Room>
+		<Code>AT1</Code>
+		<Name>DELUXE SUITE W/TERRACE</Name>
+	</Room>
+	<Room>
+		<Code>AT3</Code>
+		<Name>2 BEDROOM APT FOR 3</Name>
+	</Room>
+	<Room>
+		<Code>AT4</Code>
+		<Name>2 BEDROOM APT FOR 4</Name>
+	</Room>
+	<Room>
+		<Code>AT5</Code>
+		<Name>2 BEDROOM APT FOR 5</Name>
+	</Room>
+	<Room>
+		<Code>AT6</Code>
+		<Name>2 BEDROOM APT FOR 6</Name>
+	</Room>
+	<Room>
+		<Code>ATB</Code>
+		<Name>DELUXE ROOM W/2 BEDS</Name>
+	</Room>
+	<Room>
+		<Code>ATV</Code>
+		<Name>SUPERIOR TWIN VILLA</Name>
+	</Room>
+	<Room>
+		<Code>AVD</Code>
+		<Name>DELUXE VIEW DBL/DBL</Name>
+	</Room>
+	<Room>
+		<Code>AVK</Code>
+		<Name>DELUXE VIEW KING</Name>
+	</Room>
+	<Room>
+		<Code>AVQ</Code>
+		<Name>DELUXE VIEW QUEEN</Name>
+	</Room>
+	<Room>
+		<Code>B</Code>
+		<Name>SUPERIOR</Name>
+	</Room>
+	<Room>
+		<Code>B1B</Code>
+		<Name>SUPERIOR 1 BEDROOM APT</Name>
+	</Room>
+	<Room>
+		<Code>B1D</Code>
+		<Name>SUPERIOR 1 DOUBLE BED</Name>
+	</Room>
+	<Room>
+		<Code>B1K</Code>
+		<Name>SUPERIOR 1 KING BED</Name>
+	</Room>
+	<Room>
+		<Code>B1Q</Code>
+		<Name>SUPERIOR 1 QUEEN BED</Name>
+	</Room>
+	<Room>
+		<Code>B1S</Code>
+		<Name>SUPERIOR SINGLE</Name>
+	</Room>
+	<Room>
+		<Code>B1T</Code>
+		<Name>SUPERIOR, 1 TWIN BED</Name>
+	</Room>
+	<Room>
+		<Code>B2B</Code>
+		<Name>SUPERIOR 2 BEDROOM APT</Name>
+	</Room>
+	<Room>
+		<Code>B2D</Code>
+		<Name>SUPERIOR 2 DOUBLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>B2K</Code>
+		<Name>SUPERIOR 2 KING BEDS</Name>
+	</Room>
+	<Room>
+		<Code>B2Q</Code>
+		<Name>SUPERIOR 2 QUEEN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>B2S</Code>
+		<Name>SUPERIOR 3BEDRM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>B2T</Code>
+		<Name>SUPERIOR 2 TWIN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>B3B</Code>
+		<Name>SUPERIOR 3 BEDROOM APT</Name>
+	</Room>
+	<Room>
+		<Code>B3D</Code>
+		<Name>SUPERIOR 3 DBL 2/BATH</Name>
+	</Room>
+	<Room>
+		<Code>B3S</Code>
+		<Name>SUPERIOR TRIPLE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>B3T</Code>
+		<Name>DELUXE, 3 TWIN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>B4B</Code>
+		<Name>SUPERIOR 4 BEDROOM APT</Name>
+	</Room>
+	<Room>
+		<Code>B4D</Code>
+		<Name>SUPERIOR 4 DOUBLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>B4T</Code>
+		<Name>SUPERIOR 3 TWIN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>BAY</Code>
+		<Name>BAYVIEW ROOM</Name>
+	</Room>
+	<Room>
+		<Code>BCF</Code>
+		<Name>BEACHFRONT ACCOMM</Name>
+	</Room>
+	<Room>
+		<Code>BCS</Code>
+		<Name>BEACHSIDE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>BEQ</Code>
+		<Name>BACHELOR ENLISTED QUARTERS</Name>
+	</Room>
+	<Room>
+		<Code>BGA</Code>
+		<Name>BUNGALOW DELUXE</Name>
+	</Room>
+	<Room>
+		<Code>BGC</Code>
+		<Name>BUNGALOW STANDARD</Name>
+	</Room>
+	<Room>
+		<Code>BHS</Code>
+		<Name>SUP.HOSPITALITY STE</Name>
+	</Room>
+	<Room>
+		<Code>BJS</Code>
+		<Name>SUPERIOR JUNIOR SUITE</Name>
+	</Room>
+	<Room>
+		<Code>BKT</Code>
+		<Name>MODERATE KITCHEN ROOM</Name>
+	</Room>
+	<Room>
+		<Code>BKV</Code>
+		<Name>DLX KING VILLA</Name>
+	</Room>
+	<Room>
+		<Code>BLV</Code>
+		<Name>DELUXE KING VILLA</Name>
+	</Room>
+	<Room>
+		<Code>BNK</Code>
+		<Name>SUPERIOR ROOM W/BUNKBD</Name>
+	</Room>
+	<Room>
+		<Code>BOQ</Code>
+		<Name>BACHELOR OFFICER QUARTERS</Name>
+	</Room>
+	<Room>
+		<Code>BPL</Code>
+		<Name>MODERATE PARLOR ROOM</Name>
+	</Room>
+	<Room>
+		<Code>BRO</Code>
+		<Name>SUPERIOR RUN OF HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>BS1</Code>
+		<Name>SUPERIOR 1BEDRM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>BS2</Code>
+		<Name>SUPERIOR 2BEDRM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>BSB</Code>
+		<Name>SUP.PARLOR W/SOFABED</Name>
+	</Room>
+	<Room>
+		<Code>BSD</Code>
+		<Name>BUSINESS PLAN, 2DOUBLES</Name>
+	</Room>
+	<Room>
+		<Code>BSK</Code>
+		<Name>BUSINESS PLAN, KING</Name>
+	</Room>
+	<Room>
+		<Code>BSN</Code>
+		<Name>NS KNG STE W/KITCHEN</Name>
+	</Room>
+	<Room>
+		<Code>BSO</Code>
+		<Name>2 TWINS BUNGALOW-SUP</Name>
+	</Room>
+	<Room>
+		<Code>BSS</Code>
+		<Name>BUS PLAN SUITE</Name>
+	</Room>
+	<Room>
+		<Code>BST</Code>
+		<Name>SUPERIOR STUDIO</Name>
+	</Room>
+	<Room>
+		<Code>BSV</Code>
+		<Name>BUS PLAN VALUE RATE</Name>
+	</Room>
+	<Room>
+		<Code>BSW</Code>
+		<Name>BUS PLAN WKD VALUE</Name>
+	</Room>
+	<Room>
+		<Code>BTB</Code>
+		<Name>SUPERIOR ROOM 2 BEDS</Name>
+	</Room>
+	<Room>
+		<Code>BTV</Code>
+		<Name>DELUXE TWIN VILLA</Name>
+	</Room>
+	<Room>
+		<Code>BUS</Code>
+		<Name>BUSINESS CLASS</Name>
+	</Room>
+	<Room>
+		<Code>BVD</Code>
+		<Name>SUPERIOR VIEW 2DBLS</Name>
+	</Room>
+	<Room>
+		<Code>BVK</Code>
+		<Name>SUPERIOR VIEW KING</Name>
+	</Room>
+	<Room>
+		<Code>BVT</Code>
+		<Name>SUPERIOR VIEW/TWIN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>BVV</Code>
+		<Name>BUS PLAN VIEW VALUE</Name>
+	</Room>
+	<Room>
+		<Code>BVW</Code>
+		<Name>BUSINESS PLAN VIEW</Name>
+	</Room>
+	<Room>
+		<Code>BZN</Code>
+		<Name>BUSINESS ROOM NONSMKNG</Name>
+	</Room>
+	<Room>
+		<Code>BZS</Code>
+		<Name>BUSINESS ROOM SMOKING</Name>
+	</Room>
+	<Room>
+		<Code>C</Code>
+		<Name>STANDARD</Name>
+	</Room>
+	<Room>
+		<Code>C1C</Code>
+		<Name>STUDIO 2TWIN SOFA BEDS</Name>
+	</Room>
+	<Room>
+		<Code>C1D</Code>
+		<Name>STANDARD 1 DOUBLE BED</Name>
+	</Room>
+	<Room>
+		<Code>C1K</Code>
+		<Name>STANDARD 1 KING BED</Name>
+	</Room>
+	<Room>
+		<Code>C1Q</Code>
+		<Name>STANDARD 1 QUEEN BED</Name>
+	</Room>
+	<Room>
+		<Code>C1S</Code>
+		<Name>STANDARD SINGLE</Name>
+	</Room>
+	<Room>
+		<Code>C1T</Code>
+		<Name>STANDARD, 1 TWIN BED</Name>
+	</Room>
+	<Room>
+		<Code>C2D</Code>
+		<Name>STANDARD 2 DOUBLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>C2K</Code>
+		<Name>STANDARD 2 KING BEDS</Name>
+	</Room>
+	<Room>
+		<Code>C2Q</Code>
+		<Name>STANDARD 2 QUEEN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>C2T</Code>
+		<Name>STANDARD 2 TWIN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>C3D</Code>
+		<Name>STANDARD 3 DBL W/BATH</Name>
+	</Room>
+	<Room>
+		<Code>C3S</Code>
+		<Name>TRIPLE ROOM STANDARD</Name>
+	</Room>
+	<Room>
+		<Code>C3T</Code>
+		<Name>STANDARD 3 TWIN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>C4T</Code>
+		<Name>STANDARD ROOM W/4 BEDS</Name>
+	</Room>
+	<Room>
+		<Code>CA1</Code>
+		<Name>DELUXE 1 BEDROOM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CA2</Code>
+		<Name>DELUXE 2 BEDROOM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CA3</Code>
+		<Name>DELUXE 3 BEDROOM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CA4</Code>
+		<Name>DELUXE 4 BEDROOM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CA5</Code>
+		<Name>DELUXE 5 BEDROOM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CAS</Code>
+		<Name>1 BEDROOM CASITA</Name>
+	</Room>
+	<Room>
+		<Code>CB1</Code>
+		<Name>SUPERIOR 1 BEDRM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CB2</Code>
+		<Name>SUPERIOR 2 BEDRM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CB3</Code>
+		<Name>SUPERIOR 3 BEDRM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CB4</Code>
+		<Name>SUPERIOR 4 BEDRM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CBQ</Code>
+		<Name>COMBINED BACHELOR QUARTERS</Name>
+	</Room>
+	<Room>
+		<Code>CC1</Code>
+		<Name>STANDARD 1 BEDRM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CC2</Code>
+		<Name>STANDARD 2 BEDRM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CC3</Code>
+		<Name>STANDARD 3 BEDRM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CC4</Code>
+		<Name>STANDARD 4 BEDRM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CD1</Code>
+		<Name>MODERATE 1 BEDRM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CD2</Code>
+		<Name>MODERATE 2 BEDRM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CD3</Code>
+		<Name>MODERATE 3 BEDRM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CD4</Code>
+		<Name>MODERATE 4 BEDRM CONDO</Name>
+	</Room>
+	<Room>
+		<Code>CG1</Code>
+		<Name>1 BEDROOM COTTAGE</Name>
+	</Room>
+	<Room>
+		<Code>CG2</Code>
+		<Name>2 BEDROOM COTTAGE</Name>
+	</Room>
+	<Room>
+		<Code>CG3</Code>
+		<Name>3 BEDROOM COTTAGE</Name>
+	</Room>
+	<Room>
+		<Code>CG4</Code>
+		<Name>4 BEDROOM COTTAGE</Name>
+	</Room>
+	<Room>
+		<Code>CHL</Code>
+		<Name>CHALET</Name>
+	</Room>
+	<Room>
+		<Code>CHS</Code>
+		<Name>STD.HOSPITALITY STE</Name>
+	</Room>
+	<Room>
+		<Code>CHV</Code>
+		<Name>CLUB, HARBOR VIEW</Name>
+	</Room>
+	<Room>
+		<Code>CJS</Code>
+		<Name>STANDARD JUNIOR SUITE</Name>
+	</Room>
+	<Room>
+		<Code>CKT</Code>
+		<Name>STANDARD KITCHEN. RM</Name>
+	</Room>
+	<Room>
+		<Code>CL1</Code>
+		<Name>SUPERIOR CLASSIC ROOM</Name>
+	</Room>
+	<Room>
+		<Code>CLB</Code>
+		<Name>CLUB ROOM</Name>
+	</Room>
+	<Room>
+		<Code>CLN</Code>
+		<Name>CARLTON ROOM</Name>
+	</Room>
+	<Room>
+		<Code>CLS</Code>
+		<Name>DELUXE CLASSIC ROOM</Name>
+	</Room>
+	<Room>
+		<Code>CNA</Code>
+		<Name>CERTIFICATE NON AVAILABILITY</Name>
+	</Room>
+	<Room>
+		<Code>CNDO</Code>
+		<Name>CONDOMINIUM</Name>
+	</Room>
+	<Room>
+		<Code>CNS</Code>
+		<Name>NONSMOKING CLUB ROOM</Name>
+	</Room>
+	<Room>
+		<Code>CO1</Code>
+		<Name>1 BEDROOM CONDOMINIUM</Name>
+	</Room>
+	<Room>
+		<Code>CO2</Code>
+		<Name>2 BEDROOM CONDOMINIUM</Name>
+	</Room>
+	<Room>
+		<Code>CO3</Code>
+		<Name>3 BEDROOM CONDOMINIUM</Name>
+	</Room>
+	<Room>
+		<Code>CO4</Code>
+		<Name>4 BEDROOM CONDOMINIUM</Name>
+	</Room>
+	<Room>
+		<Code>COM</Code>
+		<Name>COMPLEMENTARY</Name>
+	</Room>
+	<Room>
+		<Code>CON</Code>
+		<Name>CONSERVATORY ROOM</Name>
+	</Room>
+	<Room>
+		<Code>COT</Code>
+		<Name>COTTAGE</Name>
+	</Room>
+	<Room>
+		<Code>CPL</Code>
+		<Name>STANDARD PARLOR ROOM</Name>
+	</Room>
+	<Room>
+		<Code>CRA</Code>
+		<Name>DELUXE CLUB ROOM</Name>
+	</Room>
+	<Room>
+		<Code>CRB</Code>
+		<Name>SUPERIOR CLUB ROOM</Name>
+	</Room>
+	<Room>
+		<Code>CRC</Code>
+		<Name>STANDARD CLUB ROOM</Name>
+	</Room>
+	<Room>
+		<Code>CRO</Code>
+		<Name>MODERATE RUN OF HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>CS1</Code>
+		<Name>MODERATE 1 BEDRM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>CS2</Code>
+		<Name>MODERATE 2 BEDRM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>CSB</Code>
+		<Name>STD.PARLOR W/SOFABED</Name>
+	</Room>
+	<Room>
+		<Code>CST</Code>
+		<Name>STANDARD STUDIO</Name>
+	</Room>
+	<Room>
+		<Code>CT1</Code>
+		<Name>STANDARD COTTAGE</Name>
+	</Room>
+	<Room>
+		<Code>CT2</Code>
+		<Name>SUPERIOR COTTAGE</Name>
+	</Room>
+	<Room>
+		<Code>CTB</Code>
+		<Name>STANDARD ROOM 2 BEDS</Name>
+	</Room>
+	<Room>
+		<Code>CTG</Code>
+		<Name>COTTAGE</Name>
+	</Room>
+	<Room>
+		<Code>CTV</Code>
+		<Name>COURTYARD VIEW</Name>
+	</Room>
+	<Room>
+		<Code>CV2</Code>
+		<Name>2 BEDROOM CONDO OCEANFRONT</Name>
+	</Room>
+	<Room>
+		<Code>CVD</Code>
+		<Name>STANDARD VIEW 2 DOUBLE</Name>
+	</Room>
+	<Room>
+		<Code>CVK</Code>
+		<Name>STANDARD VIEW KING BED</Name>
+	</Room>
+	<Room>
+		<Code>CVQ</Code>
+		<Name>STANDARD QUEEN W/VIEW</Name>
+	</Room>
+	<Room>
+		<Code>CVR</Code>
+		<Name>STANDARD ROOM W/VIEW</Name>
+	</Room>
+	<Room>
+		<Code>CVT</Code>
+		<Name>STANDARD TWIN W/VIEW</Name>
+	</Room>
+	<Room>
+		<Code>CVW</Code>
+		<Name>CITY VIEW</Name>
+	</Room>
+	<Room>
+		<Code>D</Code>
+		<Name>DOUBLE</Name>
+	</Room>
+	<Room>
+		<Code>D1D</Code>
+		<Name>MINIMUM 1 DOUBLE BED</Name>
+	</Room>
+	<Room>
+		<Code>D1K</Code>
+		<Name>MINIMUM 1 KING BED</Name>
+	</Room>
+	<Room>
+		<Code>D1Q</Code>
+		<Name>MINIMUM 1 QUEEN BED</Name>
+	</Room>
+	<Room>
+		<Code>D1S</Code>
+		<Name>MINIMUM,1 SINGLE BED</Name>
+	</Room>
+	<Room>
+		<Code>D1T</Code>
+		<Name>MINIMUM, 1 TWIN BED</Name>
+	</Room>
+	<Room>
+		<Code>D2D</Code>
+		<Name>MINIMUM 2 DOUBLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>D2K</Code>
+		<Name>MINIMUM 2 KING BEDS</Name>
+	</Room>
+	<Room>
+		<Code>D2Q</Code>
+		<Name>MINIMUM 2 QUEEN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>D2T</Code>
+		<Name>MINIMUM, 2 TWIN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>D3S</Code>
+		<Name>TRIPLE ROOM MINIMUM</Name>
+	</Room>
+	<Room>
+		<Code>DBL</Code>
+		<Name>DOUBLE</Name>
+	</Room>
+	<Room>
+		<Code>DBLB</Code>
+		<Name>DOUBLE WITH BATH</Name>
+	</Room>
+	<Room>
+		<Code>DBLN</Code>
+		<Name>DOUBLE W/O BATH</Name>
+	</Room>
+	<Room>
+		<Code>DCA</Code>
+		<Name>DELUXE, CLUB ACCESS</Name>
+	</Room>
+	<Room>
+		<Code>DCK</Code>
+		<Name>DELUXE CORNER KING</Name>
+	</Room>
+	<Room>
+		<Code>DD3</Code>
+		<Name>2 DOUBLE BD 1-3 GUESTS</Name>
+	</Room>
+	<Room>
+		<Code>DD4</Code>
+		<Name>2 DOUBLE BD 1-4 GUESTS</Name>
+	</Room>
+	<Room>
+		<Code>DDH</Code>
+		<Name>2 DOUBLES HIGH FLOOR</Name>
+	</Room>
+	<Room>
+		<Code>DDL</Code>
+		<Name>2 DOUBLES LOW FLOOR</Name>
+	</Room>
+	<Room>
+		<Code>DHB</Code>
+		<Name>PARLOR W/HIDE-A-BED</Name>
+	</Room>
+	<Room>
+		<Code>DHS</Code>
+		<Name>MIN.HOSPITALITY STE</Name>
+	</Room>
+	<Room>
+		<Code>DHV</Code>
+		<Name>DELUXE, HARBOR VIEW</Name>
+	</Room>
+	<Room>
+		<Code>DJS</Code>
+		<Name>JUNIOR SUITE</Name>
+	</Room>
+	<Room>
+		<Code>DLB</Code>
+		<Name>DOUBLE ROOM W/BATH</Name>
+	</Room>
+	<Room>
+		<Code>DLG</Code>
+		<Name>DELUXE GARDENVIEW</Name>
+	</Room>
+	<Room>
+		<Code>DLS</Code>
+		<Name>DELUXE SUITE</Name>
+	</Room>
+	<Room>
+		<Code>DLX</Code>
+		<Name>DELUXE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>DNET</Code>
+		<Name>DOUBLE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>DPK</Code>
+		<Name>DUPLEX, 1 KING</Name>
+	</Room>
+	<Room>
+		<Code>DPS</Code>
+		<Name>DUPLEX SUITE</Name>
+	</Room>
+	<Room>
+		<Code>DPT</Code>
+		<Name>DUPLEX SUITE, 2 TWIN</Name>
+	</Room>
+	<Room>
+		<Code>DRH</Code>
+		<Name>MINIMUM RUN OF HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>DRO</Code>
+		<Name>STANDARD RUN OF HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>DS1</Code>
+		<Name>STANDARD 1 BEDRM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>DS2</Code>
+		<Name>MINIMUM 2 BEDRM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>DSB</Code>
+		<Name>MINIMUM PARLOR, SOFABED</Name>
+	</Room>
+	<Room>
+		<Code>DST</Code>
+		<Name>MINIMUM STUDIO</Name>
+	</Room>
+	<Room>
+		<Code>DT0</Code>
+		<Name>RUN OF THE HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>DT1</Code>
+		<Name>RUN OF THE HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>DT2</Code>
+		<Name>RUN OF THE HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>DT3</Code>
+		<Name>RUN OF THE HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>DT4</Code>
+		<Name>RUN OF THE HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>DT5</Code>
+		<Name>RUN OF THE HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>DT6</Code>
+		<Name>RUN OF THE HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>DT7</Code>
+		<Name>RUN OF THE HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>DT8</Code>
+		<Name>RUN OF THE HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>DT9</Code>
+		<Name>RUN OF THE HOUSE</Name>
+	</Room>
+	<Room>
+		<Code>DVD</Code>
+		<Name>DOUBLE ROOM W/A VIEW</Name>
+	</Room>
+	<Room>
+		<Code>DX1</Code>
+		<Name>DELUXE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>E1D</Code>
+		<Name>1 DOUBLE BED</Name>
+	</Room>
+	<Room>
+		<Code>E1K</Code>
+		<Name>STANDARD KNG LMTD VIEW</Name>
+	</Room>
+	<Room>
+		<Code>E1Q</Code>
+		<Name>LIMITED VIEW QUEEN BED</Name>
+	</Room>
+	<Room>
+		<Code>E1S</Code>
+		<Name>EXEC DELUX 1 BDRM STE</Name>
+	</Room>
+	<Room>
+		<Code>E1T</Code>
+		<Name>1 TWIN BED</Name>
+	</Room>
+	<Room>
+		<Code>E2D</Code>
+		<Name>DOUBLE ROOM 2DOUBLE BD</Name>
+	</Room>
+	<Room>
+		<Code>E2K</Code>
+		<Name>2 KING BEDS</Name>
+	</Room>
+	<Room>
+		<Code>E2Q</Code>
+		<Name>LIMITED VIEW QUEEN BED</Name>
+	</Room>
+	<Room>
+		<Code>E2S</Code>
+		<Name>EXEC DELUX 2 BDRM STE</Name>
+	</Room>
+	<Room>
+		<Code>E2T</Code>
+		<Name>VALUE RATE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>EAD</Code>
+		<Name>EXECUTIVE DELUXE DBL</Name>
+	</Room>
+	<Room>
+		<Code>EAK</Code>
+		<Name>EXECUTIVE DELUXE KING</Name>
+	</Room>
+	<Room>
+		<Code>ECO</Code>
+		<Name>ECONOMY</Name>
+	</Room>
+	<Room>
+		<Code>EFF</Code>
+		<Name>EFFICIENCY</Name>
+	</Room>
+	<Room>
+		<Code>EXC</Code>
+		<Name>EXECUTIVE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>EXM</Code>
+		<Name>EXECUTIVE ROOM, MARINA VIEW</Name>
+	</Room>
+	<Room>
+		<Code>F</Code>
+		<Name>DLX OCEAN FRONT VILLA</Name>
+	</Room>
+	<Room>
+		<Code>F1D</Code>
+		<Name>1 DOUBLE BED</Name>
+	</Room>
+	<Room>
+		<Code>F1K</Code>
+		<Name>1 KING BED</Name>
+	</Room>
+	<Room>
+		<Code>F1Q</Code>
+		<Name>1 QUEEN BED</Name>
+	</Room>
+	<Room>
+		<Code>F1S</Code>
+		<Name>EXEC SUPERIOR 1 BDRM STE</Name>
+	</Room>
+	<Room>
+		<Code>F1T</Code>
+		<Name>1 TWIN BED</Name>
+	</Room>
+	<Room>
+		<Code>F2D</Code>
+		<Name>2 DOUBLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>F2K</Code>
+		<Name>2 KING BEDS</Name>
+	</Room>
+	<Room>
+		<Code>F2Q</Code>
+		<Name>2 QUEEN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>F2S</Code>
+		<Name>EXEC SUPERIOR 2 BDRM STE</Name>
+	</Room>
+	<Room>
+		<Code>F2T</Code>
+		<Name>2 TWIN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>FA3</Code>
+		<Name>FAMILY ROOM FOR 3</Name>
+	</Room>
+	<Room>
+		<Code>FA4</Code>
+		<Name>FAMILY ROOM FOR 4</Name>
+	</Room>
+	<Room>
+		<Code>FAM</Code>
+		<Name>FAMILY INTERCONNECTING ROOM</Name>
+	</Room>
+	<Room>
+		<Code>FAV</Code>
+		<Name>FAMILY INTERCONNECTING ROOM/VIEW</Name>
+	</Room>
+	<Room>
+		<Code>FCS</Code>
+		<Name>CAMPSITE STD FL HOOK-UP</Name>
+	</Room>
+	<Room>
+		<Code>FED</Code>
+		<Name>FED GOVERNMENT RATE</Name>
+	</Room>
+	<Room>
+		<Code>FPB</Code>
+		<Name>ROOM W/FOUR POSTER BED</Name>
+	</Room>
+	<Room>
+		<Code>FVR</Code>
+		<Name>FIELD VIEW ROOM</Name>
+	</Room>
+	<Room>
+		<Code>G1D</Code>
+		<Name>PROMOTIONAL 1 DOUBLE</Name>
+	</Room>
+	<Room>
+		<Code>G1K</Code>
+		<Name>PROMOTIONAL 1 KING BED</Name>
+	</Room>
+	<Room>
+		<Code>G1Q</Code>
+		<Name>PROMOTIONAL 1 QUEEN BD</Name>
+	</Room>
+	<Room>
+		<Code>G1S</Code>
+		<Name>EXEC STANDARD 1 BDRM STE</Name>
+	</Room>
+	<Room>
+		<Code>G2D</Code>
+		<Name>PROMOTIONAL DOUBLE DOUBLE</Name>
+	</Room>
+	<Room>
+		<Code>G2Q</Code>
+		<Name>PROMOTIONAL 2 QUEEN BD</Name>
+	</Room>
+	<Room>
+		<Code>G2S</Code>
+		<Name>EXEC STANDARD 2 BDRM STE</Name>
+	</Room>
+	<Room>
+		<Code>G2T</Code>
+		<Name>PROMOTIONAL 2 TWIN BED</Name>
+	</Room>
+	<Room>
+		<Code>GAL</Code>
+		<Name>PROMOTIONAL</Name>
+	</Room>
+	<Room>
+		<Code>GAP</Code>
+		<Name>PROMOTIONAL</Name>
+	</Room>
+	<Room>
+		<Code>GDH</Code>
+		<Name>GARDENVIEW HONEYMOON</Name>
+	</Room>
+	<Room>
+		<Code>GDN</Code>
+		<Name>GARDEN VIEW ROOM</Name>
+	</Room>
+	<Room>
+		<Code>GDS</Code>
+		<Name>GARDEN VIEW SUITE</Name>
+	</Room>
+	<Room>
+		<Code>GFV</Code>
+		<Name>GULFVIEW ACCOMM</Name>
+	</Room>
+	<Room>
+		<Code>GLF</Code>
+		<Name>DELUXE GOLF VIEW</Name>
+	</Room>
+	<Room>
+		<Code>GMV</Code>
+		<Name>GOLF/MOUNTAINVIEW</Name>
+	</Room>
+	<Room>
+		<Code>GOL</Code>
+		<Name>ENTREE GOLD</Name>
+	</Room>
+	<Room>
+		<Code>GST</Code>
+		<Name>GUEST ROOM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>GV2</Code>
+		<Name>GARDENVIEW 2 BEDROOM</Name>
+	</Room>
+	<Room>
+		<Code>H1K</Code>
+		<Name>HANDICAP, 1 KING</Name>
+	</Room>
+	<Room>
+		<Code>H1Q</Code>
+		<Name>HANDICAP 1 QUEEN</Name>
+	</Room>
+	<Room>
+		<Code>H1S</Code>
+		<Name>ECONOMY SUPER 1 BDRM STE</Name>
+	</Room>
+	<Room>
+		<Code>H2D</Code>
+		<Name>HANDICAP 2 DOUBLE BDS</Name>
+	</Room>
+	<Room>
+		<Code>H2Q</Code>
+		<Name>HANDICAP 2 QUEENS</Name>
+	</Room>
+	<Room>
+		<Code>H2S</Code>
+		<Name>ECONOMY SUPER 2 BDRM STE</Name>
+	</Room>
+	<Room>
+		<Code>H2T</Code>
+		<Name>HANDICAPPED, 2 TWIN</Name>
+	</Room>
+	<Room>
+		<Code>HBQ</Code>
+		<Name>HOST MARRIOTT HOTELS</Name>
+	</Room>
+	<Room>
+		<Code>HBR</Code>
+		<Name>HARBOR FRONT</Name>
+	</Room>
+	<Room>
+		<Code>HBV</Code>
+		<Name>HARBOR VIEW</Name>
+	</Room>
+	<Room>
+		<Code>HFR</Code>
+		<Name>HORIZON FLOOR</Name>
+	</Room>
+	<Room>
+		<Code>HLS</Code>
+		<Name>HILLSIDE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>HMB</Code>
+		<Name>VILLAS BY MARRIOTT</Name>
+	</Room>
+	<Room>
+		<Code>HND</Code>
+		<Name>HANDICAP ROOM</Name>
+	</Room>
+	<Room>
+		<Code>HNK</Code>
+		<Name>HANDICAP NON SMOKING KING</Name>
+	</Room>
+	<Room>
+		<Code>HNQ</Code>
+		<Name>HANDICAP NON SMOKING QUEEN</Name>
+	</Room>
+	<Room>
+		<Code>HSD</Code>
+		<Name>HOUSE DELUXE</Name>
+	</Room>
+	<Room>
+		<Code>HSS</Code>
+		<Name>HOUSE SUPERIOR</Name>
+	</Room>
+	<Room>
+		<Code>I1D</Code>
+		<Name>ONE DOUBLE BED</Name>
+	</Room>
+	<Room>
+		<Code>I1K</Code>
+		<Name>NSMKG TOWER, 1 KING</Name>
+	</Room>
+	<Room>
+		<Code>I1Q</Code>
+		<Name>ONE QUEEN BED</Name>
+	</Room>
+	<Room>
+		<Code>I1S</Code>
+		<Name>ECONOMY STANDARD 1 BDRM STE</Name>
+	</Room>
+	<Room>
+		<Code>I1T</Code>
+		<Name>ONE TWIN BED</Name>
+	</Room>
+	<Room>
+		<Code>I2D</Code>
+		<Name>2 DOUBLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>I2Q</Code>
+		<Name>TWO QUEEN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>I2S</Code>
+		<Name>ECONOMY STANDARD 2 BDRM STE</Name>
+	</Room>
+	<Room>
+		<Code>I2T</Code>
+		<Name>TWO SINGLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>ISL</Code>
+		<Name>ISLANDVIEW</Name>
+	</Room>
+	<Room>
+		<Code>J1D</Code>
+		<Name>1 DOUBLE BED</Name>
+	</Room>
+	<Room>
+		<Code>J1K</Code>
+		<Name>STANDARD ONE KING BED</Name>
+	</Room>
+	<Room>
+		<Code>J1Q</Code>
+		<Name>ONE QUEEN BED</Name>
+	</Room>
+	<Room>
+		<Code>J1T</Code>
+		<Name>ONE TWIN BED</Name>
+	</Room>
+	<Room>
+		<Code>J2D</Code>
+		<Name>NSMKG TOWER, 2DOUBLE</Name>
+	</Room>
+	<Room>
+		<Code>J2Q</Code>
+		<Name>TWO QUEEN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>J2T</Code>
+		<Name>TWO SINGLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>JA0</Code>
+		<Name>DLX JAPANESE W/O BATH</Name>
+	</Room>
+	<Room>
+		<Code>JA1</Code>
+		<Name>DELUXE JAPANESE W/BATH</Name>
+	</Room>
+	<Room>
+		<Code>JAZ</Code>
+		<Name>ROOM/SUITE W/JACUZZI</Name>
+	</Room>
+	<Room>
+		<Code>JB0</Code>
+		<Name>SUP JAPANESE W/O BATH</Name>
+	</Room>
+	<Room>
+		<Code>JB1</Code>
+		<Name>SUP JAPANESE W/BATH</Name>
+	</Room>
+	<Room>
+		<Code>JC0</Code>
+		<Name>STD JAPANESE W/O BATH</Name>
+	</Room>
+	<Room>
+		<Code>JC1</Code>
+		<Name>STD JAPANESE W/BATH</Name>
+	</Room>
+	<Room>
+		<Code>JCW</Code>
+		<Name>JAPANESE STAN W/BATH</Name>
+	</Room>
+	<Room>
+		<Code>K</Code>
+		<Name>KING</Name>
+	</Room>
+	<Room>
+		<Code>KIT</Code>
+		<Name>KITCHENETTE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>KKN</Code>
+		<Name>KING SUITE OTHER NSMKG</Name>
+	</Room>
+	<Room>
+		<Code>KKS</Code>
+		<Name>KING SUITE OTHER SMKG</Name>
+	</Room>
+	<Room>
+		<Code>KWG</Code>
+		<Name>KAIULANI WING</Name>
+	</Room>
+	<Room>
+		<Code>L1D</Code>
+		<Name>LUXURY 1 DOUBLE BED</Name>
+	</Room>
+	<Room>
+		<Code>L1G</Code>
+		<Name>1 BEDROOM LOG CABIN</Name>
+	</Room>
+	<Room>
+		<Code>L1K</Code>
+		<Name>LUXURY 1 KING BED</Name>
+	</Room>
+	<Room>
+		<Code>L1Q</Code>
+		<Name>LUXURY 1 QUEEN BED</Name>
+	</Room>
+	<Room>
+		<Code>L2D</Code>
+		<Name>LUXURY 2 DOUBLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>L2G</Code>
+		<Name>2 BEDROOM LOG CABIN</Name>
+	</Room>
+	<Room>
+		<Code>L2Q</Code>
+		<Name>LUXURY 2 QUEEN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>LD1</Code>
+		<Name>LANDSIDE SMALL ROOM</Name>
+	</Room>
+	<Room>
+		<Code>LD2</Code>
+		<Name>LANDSIDE LARGE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>LDG</Code>
+		<Name>DLX LG SUITE,LIV RM/FP</Name>
+	</Room>
+	<Room>
+		<Code>LDR</Code>
+		<Name>SUP LG SUITE,LIV RM/FP</Name>
+	</Room>
+	<Room>
+		<Code>LDS</Code>
+		<Name>LAND SIDE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>LF1</Code>
+		<Name>1 BEDROOM LOFT</Name>
+	</Room>
+	<Room>
+		<Code>LF2</Code>
+		<Name>2 BEDROOM LOFT</Name>
+	</Room>
+	<Room>
+		<Code>LF3</Code>
+		<Name>3 BEDROOM LOFT</Name>
+	</Room>
+	<Room>
+		<Code>LG1</Code>
+		<Name>LUXURY GARDENVIEW ROOM</Name>
+	</Room>
+	<Room>
+		<Code>LG2</Code>
+		<Name>DELUXE LODGE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>LG3</Code>
+		<Name>SUPERIOR LODGE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>LG4</Code>
+		<Name>STANDARD LODGE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>LGN</Code>
+		<Name>LAGOON VIEW</Name>
+	</Room>
+	<Room>
+		<Code>LGS</Code>
+		<Name>LODGE SUITE,LIV RM/FP</Name>
+	</Room>
+	<Room>
+		<Code>LN1</Code>
+		<Name>1 BEDROOM LANAI</Name>
+	</Room>
+	<Room>
+		<Code>LN2</Code>
+		<Name>2 BEDROOM LANAI</Name>
+	</Room>
+	<Room>
+		<Code>LN3</Code>
+		<Name>3 BEDROOM LANAI</Name>
+	</Room>
+	<Room>
+		<Code>LN4</Code>
+		<Name>4 BEDROOM LANAI</Name>
+	</Room>
+	<Room>
+		<Code>LND</Code>
+		<Name>LANDSIDE</Name>
+	</Room>
+	<Room>
+		<Code>LNV</Code>
+		<Name>LANDSIDE</Name>
+	</Room>
+	<Room>
+		<Code>LO1</Code>
+		<Name>LUXURY OCEANVIEW ROOM</Name>
+	</Room>
+	<Room>
+		<Code>M1D</Code>
+		<Name>STANDARD ONE DOUBLE BED</Name>
+	</Room>
+	<Room>
+		<Code>M2D</Code>
+		<Name>TWO DOUBLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>MAR</Code>
+		<Name>MARINA VIEW ROOM</Name>
+	</Room>
+	<Room>
+		<Code>MAXR</Code>
+		<Name>MAXIMUM</Name>
+	</Room>
+	<Room>
+		<Code>MCA</Code>
+		<Name>MINIMUM, CLUB ACCESS</Name>
+	</Room>
+	<Room>
+		<Code>MCT</Code>
+		<Name>MOLOKAI COURTYARD</Name>
+	</Room>
+	<Room>
+		<Code>MIN</Code>
+		<Name>MINIMUM ROOM</Name>
+	</Room>
+	<Room>
+		<Code>MINR</Code>
+		<Name>MINIMUM</Name>
+	</Room>
+	<Room>
+		<Code>MLH</Code>
+		<Name>MILLENIUM RM/HIGH FLR</Name>
+	</Room>
+	<Room>
+		<Code>MLL</Code>
+		<Name>MILLENIUM RM/LOW FLOOR</Name>
+	</Room>
+	<Room>
+		<Code>MOD</Code>
+		<Name>MODERATE</Name>
+	</Room>
+	<Room>
+		<Code>MODR</Code>
+		<Name>MODERATE</Name>
+	</Room>
+	<Room>
+		<Code>MOF</Code>
+		<Name>MOLOKAI OCEANFRONT</Name>
+	</Room>
+	<Room>
+		<Code>MOV</Code>
+		<Name>MOUNTAIN/OCEAN VIEW</Name>
+	</Room>
+	<Room>
+		<Code>MPV</Code>
+		<Name>MOLOKAI PART OCEANVIEW</Name>
+	</Room>
+	<Room>
+		<Code>MST</Code>
+		<Name>MOLOKAI STANDARD</Name>
+	</Room>
+	<Room>
+		<Code>MTN</Code>
+		<Name>MOUNTAINVIEW</Name>
+	</Room>
+	<Room>
+		<Code>MTV</Code>
+		<Name>MOUNTAINVIEW HONEYMOON</Name>
+	</Room>
+	<Room>
+		<Code>MV1</Code>
+		<Name>1 BEDROOM MOUNTAINVIEW</Name>
+	</Room>
+	<Room>
+		<Code>MVD</Code>
+		<Name>MOUNTAIN VIEW DELUXE</Name>
+	</Room>
+	<Room>
+		<Code>MVW</Code>
+		<Name>MOUNTAIN VIEW MINIMUM</Name>
+	</Room>
+	<Room>
+		<Code>N1B</Code>
+		<Name>NON SMOKING 1 BED</Name>
+	</Room>
+	<Room>
+		<Code>N1D</Code>
+		<Name>NONSMOKING 1DOUBLE BED</Name>
+	</Room>
+	<Room>
+		<Code>N1K</Code>
+		<Name>NONSMOKING 1 KING</Name>
+	</Room>
+	<Room>
+		<Code>N1Q</Code>
+		<Name>NON-SMKG 1 QUEEN BED</Name>
+	</Room>
+	<Room>
+		<Code>N1S</Code>
+		<Name>NONSMOK 1 SINGLE BED</Name>
+	</Room>
+	<Room>
+		<Code>N1T</Code>
+		<Name>NONSMOKE 1 TWIN BED</Name>
+	</Room>
+	<Room>
+		<Code>N2B</Code>
+		<Name>NON SMOKING 2 BEDS</Name>
+	</Room>
+	<Room>
+		<Code>N2D</Code>
+		<Name>NONSMOKING 2 DOUBLE</Name>
+	</Room>
+	<Room>
+		<Code>N2K</Code>
+		<Name>NONSMOKE 2 KING BEDS</Name>
+	</Room>
+	<Room>
+		<Code>N2Q</Code>
+		<Name>NONSMOKE 2QUEEN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>N2S</Code>
+		<Name>NONSMOKING 2 BEDROOM STE</Name>
+	</Room>
+	<Room>
+		<Code>N2T</Code>
+		<Name>NONSMOKE 2 TWIN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>NAK</Code>
+		<Name>NONSMOKING DELUXE KING</Name>
+	</Room>
+	<Room>
+		<Code>NBK</Code>
+		<Name>NONSMOKING SUPERIOR KING</Name>
+	</Room>
+	<Room>
+		<Code>ND2</Code>
+		<Name>NON SMOKING 2 DOUBLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>NEK</Code>
+		<Name>NSMKG KING EXECUTIVE STE</Name>
+	</Room>
+	<Room>
+		<Code>NHS</Code>
+		<Name>NSMKG HANDICAP SUITE</Name>
+	</Room>
+	<Room>
+		<Code>NK1</Code>
+		<Name>NON SMOKING 1 KING</Name>
+	</Room>
+	<Room>
+		<Code>NKB</Code>
+		<Name>NONSMOK KING BALCONY STE</Name>
+	</Room>
+	<Room>
+		<Code>NKS</Code>
+		<Name>NON SMOKING KING SUITE</Name>
+	</Room>
+	<Room>
+		<Code>NKW</Code>
+		<Name>KING SUITE W/POOL,NSMKG</Name>
+	</Room>
+	<Room>
+		<Code>NOD</Code>
+		<Name>NONSMOK OCEANVW SUITE DBL</Name>
+	</Room>
+	<Room>
+		<Code>NOK</Code>
+		<Name>NONSMOK OCEANVW SUITE KNG</Name>
+	</Room>
+	<Room>
+		<Code>NPD</Code>
+		<Name>NSMKG POOLVW SUITE DBL</Name>
+	</Room>
+	<Room>
+		<Code>NPK</Code>
+		<Name>NSMKG POOLVW SUITE KNG</Name>
+	</Room>
+	<Room>
+		<Code>NQ2</Code>
+		<Name>NON SMOKING 2 QUEENS</Name>
+	</Room>
+	<Room>
+		<Code>NQS</Code>
+		<Name>NONSMOKING QUEEN SUITE</Name>
+	</Room>
+	<Room>
+		<Code>NS1</Code>
+		<Name>NONSMOKE 1 BED SUITE</Name>
+	</Room>
+	<Room>
+		<Code>NS2</Code>
+		<Name>NONSMOKING SUITE,2ROOM</Name>
+	</Room>
+	<Room>
+		<Code>NSA</Code>
+		<Name>NONSMOKING DELUXE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>NSB</Code>
+		<Name>NONSMOKING SUPERIOR ROOM</Name>
+	</Room>
+	<Room>
+		<Code>NSC</Code>
+		<Name>NONSMOKING STANDARD ROOM</Name>
+	</Room>
+	<Room>
+		<Code>NSD</Code>
+		<Name>NON SMOKING 2 DOUBLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>NSK</Code>
+		<Name>NON SMOKING 1 KING</Name>
+	</Room>
+	<Room>
+		<Code>NSM</Code>
+		<Name>NON SMOKING ROOM</Name>
+	</Room>
+	<Room>
+		<Code>NSQ</Code>
+		<Name>NON SMOKING QUEEN BED</Name>
+	</Room>
+	<Room>
+		<Code>NVD</Code>
+		<Name>NONSMOKING VIEW SUITE DBL</Name>
+	</Room>
+	<Room>
+		<Code>NVK</Code>
+		<Name>NONSMOKING VIEW SUITE KNG</Name>
+	</Room>
+	<Room>
+		<Code>O</Code>
+		<Name>SUP. OCEANVIEW VILLA</Name>
+	</Room>
+	<Room>
+		<Code>O1K</Code>
+		<Name>OMNI CLUB 1 KING</Name>
+	</Room>
+	<Room>
+		<Code>O1Q</Code>
+		<Name>OMNI CLUB 1 QUEEN</Name>
+	</Room>
+	<Room>
+		<Code>O2D</Code>
+		<Name>OMNI CLUB 2 DOUBLES</Name>
+	</Room>
+	<Room>
+		<Code>O2T</Code>
+		<Name>OMNI CLUB 2 TWINS</Name>
+	</Room>
+	<Room>
+		<Code>OCD</Code>
+		<Name>DELUXE OMNI CLUB ROOM</Name>
+	</Room>
+	<Room>
+		<Code>OCF</Code>
+		<Name>OCEAN FRONT VIEW</Name>
+	</Room>
+	<Room>
+		<Code>OCH</Code>
+		<Name>OCEAN VIEW/HONEYMOON</Name>
+	</Room>
+	<Room>
+		<Code>OCK</Code>
+		<Name>OMNI CLUB KING</Name>
+	</Room>
+	<Room>
+		<Code>OCM</Code>
+		<Name>STANDARD OMNI CLUB RM</Name>
+	</Room>
+	<Room>
+		<Code>OCQ</Code>
+		<Name>OMNI CLUB QUEEN</Name>
+	</Room>
+	<Room>
+		<Code>OCR</Code>
+		<Name>OMNI CLUB ROOM</Name>
+	</Room>
+	<Room>
+		<Code>OCS</Code>
+		<Name>OCEANSIDE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>OCT</Code>
+		<Name>OMNI CLUB TWIN</Name>
+	</Room>
+	<Room>
+		<Code>OCV</Code>
+		<Name>OCEAN VIEW</Name>
+	</Room>
+	<Room>
+		<Code>OSS</Code>
+		<Name>1BEDROOM SUITE W/KITCH</Name>
+	</Room>
+	<Room>
+		<Code>OV1</Code>
+		<Name>OCEANVIEW 1 BEDROOM</Name>
+	</Room>
+	<Room>
+		<Code>OV2</Code>
+		<Name>OCEANVIEW 2 BEDROOM</Name>
+	</Room>
+	<Room>
+		<Code>OV3</Code>
+		<Name>3 ROOM OCEANVIEW VILLA</Name>
+	</Room>
+	<Room>
+		<Code>P10</Code>
+		<Name>PLAZA CLUB OCEAN VIEW</Name>
+	</Room>
+	<Room>
+		<Code>P1C</Code>
+		<Name>PLAZA CLUB CITY VIEW</Name>
+	</Room>
+	<Room>
+		<Code>P1D</Code>
+		<Name>APT DOUBLE OCCUPANCY</Name>
+	</Room>
+	<Room>
+		<Code>P1K</Code>
+		<Name>DELUXE KING EXEC ROOM</Name>
+	</Room>
+	<Room>
+		<Code>P1O</Code>
+		<Name>PLAZA CLUB OCEANVIEW</Name>
+	</Room>
+	<Room>
+		<Code>P1T</Code>
+		<Name>APT SINGLE OCCUPANCY</Name>
+	</Room>
+	<Room>
+		<Code>P2T</Code>
+		<Name>APT TWIN OCCUPANCY</Name>
+	</Room>
+	<Room>
+		<Code>P3T</Code>
+		<Name>APT TRIPLE OCCUPANCY</Name>
+	</Room>
+	<Room>
+		<Code>P4O</Code>
+		<Name>APARTMENT 1-4 PEOPLE</Name>
+	</Room>
+	<Room>
+		<Code>P4Q</Code>
+		<Name>4QUEENS,2BEDROOM APT</Name>
+	</Room>
+	<Room>
+		<Code>P6O</Code>
+		<Name>APARTMENT 1-6 PEOPLE</Name>
+	</Room>
+	<Room>
+		<Code>PAC</Code>
+		<Name>CANADIAN PACIFIC ROOM</Name>
+	</Room>
+	<Room>
+		<Code>PCS</Code>
+		<Name>CAMPSITE STD PT HOOK-UP</Name>
+	</Room>
+	<Room>
+		<Code>PDE</Code>
+		<Name>PREMIUM DELUXE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>PFS</Code>
+		<Name>CAMPSITE PRE FL HOOK-UP</Name>
+	</Room>
+	<Room>
+		<Code>PHR</Code>
+		<Name>PENTHOUSE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>PHV</Code>
+		<Name>DLX HBVW/CLUB ACCESS</Name>
+	</Room>
+	<Room>
+		<Code>PK1</Code>
+		<Name>PACKAGE 1</Name>
+	</Room>
+	<Room>
+		<Code>PK2</Code>
+		<Name>PACKAGE 2</Name>
+	</Room>
+	<Room>
+		<Code>PK3</Code>
+		<Name>PACKAGE 3</Name>
+	</Room>
+	<Room>
+		<Code>PK4</Code>
+		<Name>PACKAGE 4</Name>
+	</Room>
+	<Room>
+		<Code>PK5</Code>
+		<Name>PACKAGE 5</Name>
+	</Room>
+	<Room>
+		<Code>PK6</Code>
+		<Name>PACKAGE 6</Name>
+	</Room>
+	<Room>
+		<Code>PK7</Code>
+		<Name>PACKAGE 7</Name>
+	</Room>
+	<Room>
+		<Code>PK8</Code>
+		<Name>PACKAGE 8</Name>
+	</Room>
+	<Room>
+		<Code>PK9</Code>
+		<Name>PACKAGE 9</Name>
+	</Room>
+	<Room>
+		<Code>PKG</Code>
+		<Name>PACKAGE</Name>
+	</Room>
+	<Room>
+		<Code>PKN</Code>
+		<Name>KING PARKVIEW NORTH</Name>
+	</Room>
+	<Room>
+		<Code>PKS</Code>
+		<Name>KING PARKVIEW SOUTH</Name>
+	</Room>
+	<Room>
+		<Code>PLM</Code>
+		<Name>PULLMAN SEAT</Name>
+	</Room>
+	<Room>
+		<Code>PLR</Code>
+		<Name>PARLOR ROOM WITH BED</Name>
+	</Room>
+	<Room>
+		<Code>PLV</Code>
+		<Name>POOLVIEW</Name>
+	</Room>
+	<Room>
+		<Code>PLZ</Code>
+		<Name>PLAZA CLUB</Name>
+	</Room>
+	<Room>
+		<Code>PMR</Code>
+		<Name>PREMIER ROOM</Name>
+	</Room>
+	<Room>
+		<Code>POV</Code>
+		<Name>PARTIAL OCEANVIEW ROOM</Name>
+	</Room>
+	<Room>
+		<Code>PRE</Code>
+		<Name>PRESIDENTIAL SUITE</Name>
+	</Room>
+	<Room>
+		<Code>PRN</Code>
+		<Name>PRIVILEGE NSMKG ROOM</Name>
+	</Room>
+	<Room>
+		<Code>PRO</Code>
+		<Name>PROMO ACCOMODATIONS</Name>
+	</Room>
+	<Room>
+		<Code>PRS</Code>
+		<Name>PRIVILEGE SMKG ROOM</Name>
+	</Room>
+	<Room>
+		<Code>PRV</Code>
+		<Name>DLX PKVW/CLUB ACCESS</Name>
+	</Room>
+	<Room>
+		<Code>PSK</Code>
+		<Name>PARLOR SUITE, 1 KING</Name>
+	</Room>
+	<Room>
+		<Code>PST</Code>
+		<Name>PARLOR SUITE, 2 TWIN</Name>
+	</Room>
+	<Room>
+		<Code>PTO</Code>
+		<Name>DELUXE PATIO ROOM</Name>
+	</Room>
+	<Room>
+		<Code>PVW</Code>
+		<Name>PARKVIEW ROOM</Name>
+	</Room>
+	<Room>
+		<Code>Q</Code>
+		<Name>QUEEN</Name>
+	</Room>
+	<Room>
+		<Code>QAD</Code>
+		<Name>QUADRIPLE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>QADB</Code>
+		<Name>QUAD ROOM WITH BATH</Name>
+	</Room>
+	<Room>
+		<Code>QADN</Code>
+		<Name>QUAD. NO SHOWER/BATH</Name>
+	</Room>
+	<Room>
+		<Code>QADS</Code>
+		<Name>QUAD ROOM W/SHOWER</Name>
+	</Room>
+	<Room>
+		<Code>QINB</Code>
+		<Name>QUINTRIPLE RM W/BATH</Name>
+	</Room>
+	<Room>
+		<Code>QINN</Code>
+		<Name>QUIN. NO SHOWER/BATH</Name>
+	</Room>
+	<Room>
+		<Code>QINS</Code>
+		<Name>QUINTRIPLE W/SHOWER</Name>
+	</Room>
+	<Room>
+		<Code>QUAD</Code>
+		<Name>QUAD</Name>
+	</Room>
+	<Room>
+		<Code>R1D</Code>
+		<Name>RUN OF HOUSE 1 DOUBLE</Name>
+	</Room>
+	<Room>
+		<Code>R1K</Code>
+		<Name>RUN OF HOUSE 1 KING</Name>
+	</Room>
+	<Room>
+		<Code>R1Q</Code>
+		<Name>RUN OF HOUSE 1 QUEEN</Name>
+	</Room>
+	<Room>
+		<Code>R1T</Code>
+		<Name>RUN OF HOUSE 1 TWIN</Name>
+	</Room>
+	<Room>
+		<Code>R2D</Code>
+		<Name>RUN OF HOUSE 2 DOUBLE</Name>
+	</Room>
+	<Room>
+		<Code>R2Q</Code>
+		<Name>RUN OF HOUSE 2 QUEEN</Name>
+	</Room>
+	<Room>
+		<Code>R2T</Code>
+		<Name>RUN OF HOUSE 2 TWIN</Name>
+	</Room>
+	<Room>
+		<Code>RA1</Code>
+		<Name>ONE BDRM RESORT-1FULL BED</Name>
+	</Room>
+	<Room>
+		<Code>RA2</Code>
+		<Name>ONE BDRM RESORT-2DBLS</Name>
+	</Room>
+	<Room>
+		<Code>RA4</Code>
+		<Name>2BDRM RESORT-4DBLS</Name>
+	</Room>
+	<Room>
+		<Code>RCW</Code>
+		<Name>REEF CLUB WATERVIEW</Name>
+	</Room>
+	<Room>
+		<Code>RFC</Code>
+		<Name>REEF CLUB</Name>
+	</Room>
+	<Room>
+		<Code>RGC</Code>
+		<Name>REGENCY CLUB</Name>
+	</Room>
+	<Room>
+		<Code>RGD</Code>
+		<Name>REGENCY CLUB DOUBLE</Name>
+	</Room>
+	<Room>
+		<Code>RGG</Code>
+		<Name>REGENCY CLUB GRAND</Name>
+	</Room>
+	<Room>
+		<Code>RGH</Code>
+		<Name>REGENCY CLUB HARBOR</Name>
+	</Room>
+	<Room>
+		<Code>RGK</Code>
+		<Name>REGENCY CLUB KING</Name>
+	</Room>
+	<Room>
+		<Code>RGP</Code>
+		<Name>REGENCY CLUB PATIO</Name>
+	</Room>
+	<Room>
+		<Code>RGV</Code>
+		<Name>REGENCY CLUB VALUE</Name>
+	</Room>
+	<Room>
+		<Code>RGW</Code>
+		<Name>REGENCY CLUB WEEKEND</Name>
+	</Room>
+	<Room>
+		<Code>RH1</Code>
+		<Name>RUN OF HOUSE 1 BEDROOM</Name>
+	</Room>
+	<Room>
+		<Code>RH2</Code>
+		<Name>RUN OF HOUSE 2 BEDROOM</Name>
+	</Room>
+	<Room>
+		<Code>RH3</Code>
+		<Name>RUN OF HOUSE 3 BEDROOM</Name>
+	</Room>
+	<Room>
+		<Code>RHB</Code>
+		<Name>RUN OF HOUSE WITH BATH</Name>
+	</Room>
+	<Room>
+		<Code>RHG</Code>
+		<Name>RUN OF HOUSE GUEST RM</Name>
+	</Room>
+	<Room>
+		<Code>RHJ</Code>
+		<Name>RUN OF HOUSE JR SUITE</Name>
+	</Room>
+	<Room>
+		<Code>RHS</Code>
+		<Name>RUN OF HOUSE NO BATH</Name>
+	</Room>
+	<Room>
+		<Code>ROB</Code>
+		<Name>ACCOM W/BERMUDA PLAN</Name>
+	</Room>
+	<Room>
+		<Code>ROE</Code>
+		<Name>ACCOM W/EUROPEAN PLAN</Name>
+	</Room>
+	<Room>
+		<Code>ROH</Code>
+		<Name>ACCOMMODATIONS</Name>
+	</Room>
+	<Room>
+		<Code>ROM</Code>
+		<Name>ACCOM W/MOD.AMER.PLAN</Name>
+	</Room>
+	<Room>
+		<Code>ROO</Code>
+		<Name>ACCOM W/OCEANVIEW</Name>
+	</Room>
+	<Room>
+		<Code>ROS</Code>
+		<Name>RUN OF HOUSE SPACE AVAIL</Name>
+	</Room>
+	<Room>
+		<Code>RS1</Code>
+		<Name>1BEDROOM RESORT-2BATHS</Name>
+	</Room>
+	<Room>
+		<Code>RS2</Code>
+		<Name>1BEDROOM RESORT-2DOUBL</Name>
+	</Room>
+	<Room>
+		<Code>RS3</Code>
+		<Name>2BEDROOM RESORT-2BATHS</Name>
+	</Room>
+	<Room>
+		<Code>RS4</Code>
+		<Name>1BEDROOM RESORT-3DOUBL</Name>
+	</Room>
+	<Room>
+		<Code>RVD</Code>
+		<Name>REGENCY CLB D D VALU</Name>
+	</Room>
+	<Room>
+		<Code>RVK</Code>
+		<Name>REGENCY CLUB KING VAL</Name>
+	</Room>
+	<Room>
+		<Code>RZA</Code>
+		<Name>DELUXE SUITE</Name>
+	</Room>
+	<Room>
+		<Code>RZB</Code>
+		<Name>SUPERIOR SUITE</Name>
+	</Room>
+	<Room>
+		<Code>RZC</Code>
+		<Name>STANDARD SUITE</Name>
+	</Room>
+	<Room>
+		<Code>S1A</Code>
+		<Name>SUITE 1BEDRM DLX</Name>
+	</Room>
+	<Room>
+		<Code>S1B</Code>
+		<Name>SUITE 1BEDRM SUP</Name>
+	</Room>
+	<Room>
+		<Code>S1C</Code>
+		<Name>SUITE 1BEDRM STD</Name>
+	</Room>
+	<Room>
+		<Code>S1D</Code>
+		<Name>CONCIERGE DBL BED RM</Name>
+	</Room>
+	<Room>
+		<Code>S1K</Code>
+		<Name>CONCIERGE KING BDRM</Name>
+	</Room>
+	<Room>
+		<Code>S1Q</Code>
+		<Name>CONCIERGE QUEEN BDRM</Name>
+	</Room>
+	<Room>
+		<Code>S1S</Code>
+		<Name>CLUB FLOOR SINGLE</Name>
+	</Room>
+	<Room>
+		<Code>S1T</Code>
+		<Name>SUITE SGL OCCUPANCY</Name>
+	</Room>
+	<Room>
+		<Code>S1U</Code>
+		<Name>STUDIO FOR 1 PERSON</Name>
+	</Room>
+	<Room>
+		<Code>S1W</Code>
+		<Name>SUITE W/WATERBED</Name>
+	</Room>
+	<Room>
+		<Code>S2A</Code>
+		<Name>SUITE 2BEDRM DLX</Name>
+	</Room>
+	<Room>
+		<Code>S2B</Code>
+		<Name>SUITE 2BEDRM SUP</Name>
+	</Room>
+	<Room>
+		<Code>S2C</Code>
+		<Name>SUITE 2BEDRM STD</Name>
+	</Room>
+	<Room>
+		<Code>S2D</Code>
+		<Name>CONCIERGE 2 DBL BEDS</Name>
+	</Room>
+	<Room>
+		<Code>S2Q</Code>
+		<Name>CONCIERGE 2 QUEENS</Name>
+	</Room>
+	<Room>
+		<Code>S2S</Code>
+		<Name>SMOKING 2 BEDROOM STE</Name>
+	</Room>
+	<Room>
+		<Code>S2T</Code>
+		<Name>CONCIERGE 2 TWIN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>S2U</Code>
+		<Name>STUDIO FOR 2 PEOPLE</Name>
+	</Room>
+	<Room>
+		<Code>S3A</Code>
+		<Name>SUITE 3BEDRM DLX</Name>
+	</Room>
+	<Room>
+		<Code>S3B</Code>
+		<Name>SUITE 3BEDRM SUP</Name>
+	</Room>
+	<Room>
+		<Code>S3C</Code>
+		<Name>SUITE 3BEDRM STD</Name>
+	</Room>
+	<Room>
+		<Code>S3O</Code>
+		<Name>SUITE ACCOM 1-3 PAX</Name>
+	</Room>
+	<Room>
+		<Code>S4A</Code>
+		<Name>SUITE 4BEDRM DLX</Name>
+	</Room>
+	<Room>
+		<Code>S4B</Code>
+		<Name>SUITE 4BEDRM SUP</Name>
+	</Room>
+	<Room>
+		<Code>S4C</Code>
+		<Name>SUITE 4BEDRM STD</Name>
+	</Room>
+	<Room>
+		<Code>S4O</Code>
+		<Name>SUITE ACCOM 1-4 PAX</Name>
+	</Room>
+	<Room>
+		<Code>SB1</Code>
+		<Name>CLUB SUITE W/BALCONY</Name>
+	</Room>
+	<Room>
+		<Code>SBD</Code>
+		<Name>DBL BED SHARED BATH</Name>
+	</Room>
+	<Room>
+		<Code>SBK</Code>
+		<Name>KING BED SHARED BATH</Name>
+	</Room>
+	<Room>
+		<Code>SBQ</Code>
+		<Name>QUEEN BED SHARE BATH</Name>
+	</Room>
+	<Room>
+		<Code>SBS</Code>
+		<Name>SINGLE RM SHARE BATH</Name>
+	</Room>
+	<Room>
+		<Code>SBT</Code>
+		<Name>TWIN BED SHARED BATH</Name>
+	</Room>
+	<Room>
+		<Code>SC1</Code>
+		<Name>ONE BEDROOM CLUB SUITE</Name>
+	</Room>
+	<Room>
+		<Code>SCA</Code>
+		<Name>SUPERIOR, CLUB ACCESS</Name>
+	</Room>
+	<Room>
+		<Code>SCR</Code>
+		<Name>SENIOR CITIZEN RATE</Name>
+	</Room>
+	<Room>
+		<Code>SDB</Code>
+		<Name>DOUBLE BED SHARED BATH</Name>
+	</Room>
+	<Room>
+		<Code>SDN</Code>
+		<Name>DOUBLE SUITE NOSMOKE</Name>
+	</Room>
+	<Room>
+		<Code>SDO</Code>
+		<Name>SUITE DOUBLE OCCUPANCY</Name>
+	</Room>
+	<Room>
+		<Code>SDS</Code>
+		<Name>DOUBLE SUITE SMOKING</Name>
+	</Room>
+	<Room>
+		<Code>SEC</Code>
+		<Name>EXECUTIVE SUITE</Name>
+	</Room>
+	<Room>
+		<Code>SEK</Code>
+		<Name>EXECUTIVE SUITE-1 KING</Name>
+	</Room>
+	<Room>
+		<Code>SEQ</Code>
+		<Name>EXECUTIVE SUITE 1 QUEEN</Name>
+	</Room>
+	<Room>
+		<Code>SET</Code>
+		<Name>EXECUTIVE SUITE-2TWINS</Name>
+	</Room>
+	<Room>
+		<Code>SGB</Code>
+		<Name>SINGLE ROOM WITH BATH</Name>
+	</Room>
+	<Room>
+		<Code>SGL</Code>
+		<Name>SINGLE</Name>
+	</Room>
+	<Room>
+		<Code>SGLB</Code>
+		<Name>SINGLE WITH BATH</Name>
+	</Room>
+	<Room>
+		<Code>SGLN</Code>
+		<Name>SINGLE W/O BATH</Name>
+	</Room>
+	<Room>
+		<Code>SHS</Code>
+		<Name>SMKG HANDICAPPED SUITE</Name>
+	</Room>
+	<Room>
+		<Code>SHV</Code>
+		<Name>SUPERIOR, HARBOR VIEW</Name>
+	</Room>
+	<Room>
+		<Code>SIG</Code>
+		<Name>SIGNATURE SERVICE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>SK1</Code>
+		<Name>SUITE 1 KING</Name>
+	</Room>
+	<Room>
+		<Code>SKB</Code>
+		<Name>SMKG KING BALCNY SUITE</Name>
+	</Room>
+	<Room>
+		<Code>SKH</Code>
+		<Name>SUPERIOR KING-HIGH FLR</Name>
+	</Room>
+	<Room>
+		<Code>SKL</Code>
+		<Name>SUPERIOR KING-LOW FLR</Name>
+	</Room>
+	<Room>
+		<Code>SKS</Code>
+		<Name>KING SUITE SMOKING</Name>
+	</Room>
+	<Room>
+		<Code>SKW</Code>
+		<Name>KING SUITE W/POOL-SMKG</Name>
+	</Room>
+	<Room>
+		<Code>SLR</Code>
+		<Name>CLUB PARLOR ROOM</Name>
+	</Room>
+	<Room>
+		<Code>SNET</Code>
+		<Name>SINGLE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>SOC</Code>
+		<Name>SUP OMNI CLUB RM</Name>
+	</Room>
+	<Room>
+		<Code>SOD</Code>
+		<Name>SMOKING OCEANVW SUITE DBL</Name>
+	</Room>
+	<Room>
+		<Code>SOK</Code>
+		<Name>SMOKING OCEANVW SUITE KNG</Name>
+	</Room>
+	<Room>
+		<Code>SOL</Code>
+		<Name>SOLARIUM</Name>
+	</Room>
+	<Room>
+		<Code>SP1</Code>
+		<Name>1 BEDROOM SPECIAL</Name>
+	</Room>
+	<Room>
+		<Code>SP2</Code>
+		<Name>2 BEDROOM SPECIAL</Name>
+	</Room>
+	<Room>
+		<Code>SP3</Code>
+		<Name>3 BEDROOM SPECIAL</Name>
+	</Room>
+	<Room>
+		<Code>SP4</Code>
+		<Name>4 BEDROOM SPECIAL</Name>
+	</Room>
+	<Room>
+		<Code>SPA</Code>
+		<Name>SPACE</Name>
+	</Room>
+	<Room>
+		<Code>SPAC</Code>
+		<Name>1 SPACE</Name>
+	</Room>
+	<Room>
+		<Code>SPC</Code>
+		<Name>SPECIAL</Name>
+	</Room>
+	<Room>
+		<Code>SPD</Code>
+		<Name>SMKG POOLVW STE DBL</Name>
+	</Room>
+	<Room>
+		<Code>SPK</Code>
+		<Name>SMKG POOLVW STE KNG</Name>
+	</Room>
+	<Room>
+		<Code>SQ1</Code>
+		<Name>STD SUITE 1 QUEEN</Name>
+	</Room>
+	<Room>
+		<Code>SQ2</Code>
+		<Name>STD SUITE 2 QUEENS</Name>
+	</Room>
+	<Room>
+		<Code>SQH</Code>
+		<Name>SUP QUEEN/HIGH FLOOR</Name>
+	</Room>
+	<Room>
+		<Code>SQL</Code>
+		<Name>SUP QUEEN/LOW FLOOR</Name>
+	</Room>
+	<Room>
+		<Code>SQS</Code>
+		<Name>SMOKING QUEEN STE</Name>
+	</Room>
+	<Room>
+		<Code>SS2</Code>
+		<Name>SMOKING STE 2 RMS</Name>
+	</Room>
+	<Room>
+		<Code>SSR</Code>
+		<Name>SENIOR CITIZEN RATE</Name>
+	</Room>
+	<Room>
+		<Code>SST</Code>
+		<Name>SUPERIOR SUITE</Name>
+	</Room>
+	<Room>
+		<Code>ST1</Code>
+		<Name>CLUB STE W/TERRACE</Name>
+	</Room>
+	<Room>
+		<Code>ST2</Code>
+		<Name>STUDIO FOR 2 PERSONS</Name>
+	</Room>
+	<Room>
+		<Code>ST3</Code>
+		<Name>STUDIO FOR 3 PERSONS</Name>
+	</Room>
+	<Room>
+		<Code>ST4</Code>
+		<Name>STUDIO FOR 4 PERSONS</Name>
+	</Room>
+	<Room>
+		<Code>ST5</Code>
+		<Name>STUDIO FOR 5 PERSONS</Name>
+	</Room>
+	<Room>
+		<Code>ST6</Code>
+		<Name>STUDIO FOR 6 PERSONS</Name>
+	</Room>
+	<Room>
+		<Code>ST7</Code>
+		<Name>STUDIO FOR 7 PERSONS</Name>
+	</Room>
+	<Room>
+		<Code>ST8</Code>
+		<Name>STUDIO FOR 8 PERSONS</Name>
+	</Room>
+	<Room>
+		<Code>STA</Code>
+		<Name>STATE GOVERNMENT RTE</Name>
+	</Room>
+	<Room>
+		<Code>STD</Code>
+		<Name>STANDARD ROOM</Name>
+	</Room>
+	<Room>
+		<Code>STE</Code>
+		<Name>SUITE</Name>
+	</Room>
+	<Room>
+		<Code>STK</Code>
+		<Name>KING SUITE</Name>
+	</Room>
+	<Room>
+		<Code>STO</Code>
+		<Name>SUITE TWIN OCCUPANCY</Name>
+	</Room>
+	<Room>
+		<Code>STU</Code>
+		<Name>STUDIO</Name>
+	</Room>
+	<Room>
+		<Code>SU1</Code>
+		<Name>1 BEDROOM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>SU2</Code>
+		<Name>2 BEDROOM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>SU3</Code>
+		<Name>3 BEDROOM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>SU4</Code>
+		<Name>4 BEDROOM SUITE</Name>
+	</Room>
+	<Room>
+		<Code>SUP</Code>
+		<Name>SUPERIOR ROOM</Name>
+	</Room>
+	<Room>
+		<Code>SVD</Code>
+		<Name>SMOKING VIEW SUITE DOUBLE</Name>
+	</Room>
+	<Room>
+		<Code>SVK</Code>
+		<Name>SMOKING VIEW SUITE KING</Name>
+	</Room>
+	<Room>
+		<Code>T</Code>
+		<Name>TWIN</Name>
+	</Room>
+	<Room>
+		<Code>T1D</Code>
+		<Name>SHARE BATH 1 DOUBLE</Name>
+	</Room>
+	<Room>
+		<Code>T1K</Code>
+		<Name>SHARE BATH 1 KING</Name>
+	</Room>
+	<Room>
+		<Code>T1Q</Code>
+		<Name>SHARE BATH 1 QUEEN</Name>
+	</Room>
+	<Room>
+		<Code>T1T</Code>
+		<Name>SHARE BATH 1 TWIN</Name>
+	</Room>
+	<Room>
+		<Code>T2D</Code>
+		<Name>SHARE BATH 2 DOUBLE</Name>
+	</Room>
+	<Room>
+		<Code>T2T</Code>
+		<Name>SHARE BATH 2 TWINS</Name>
+	</Room>
+	<Room>
+		<Code>TAV</Code>
+		<Name>COLONIAL TAVERN ROOM</Name>
+	</Room>
+	<Room>
+		<Code>TH1</Code>
+		<Name>TOWNHOUSE 1 BEDROOM</Name>
+	</Room>
+	<Room>
+		<Code>TH2</Code>
+		<Name>TOWNHOUSE 2 BEDROOM</Name>
+	</Room>
+	<Room>
+		<Code>TH3</Code>
+		<Name>TOWNHOUSE 3 BEDROOM</Name>
+	</Room>
+	<Room>
+		<Code>THR</Code>
+		<Name>THEATRE ROOM</Name>
+	</Room>
+	<Room>
+		<Code>TN1</Code>
+		<Name>TENTLIKE CABIN</Name>
+	</Room>
+	<Room>
+		<Code>TN2</Code>
+		<Name>TENTLIKE FAMILY CABIN</Name>
+	</Room>
+	<Room>
+		<Code>TNC</Code>
+		<Name>TENNIS CABANA</Name>
+	</Room>
+	<Room>
+		<Code>TNET</Code>
+		<Name>TWIN ROOM</Name>
+	</Room>
+	<Room>
+		<Code>TPL</Code>
+		<Name>TRIPLE</Name>
+	</Room>
+	<Room>
+		<Code>TRPB</Code>
+		<Name>TRIPLE WITH BATH</Name>
+	</Room>
+	<Room>
+		<Code>TST</Code>
+		<Name>TOURIST</Name>
+	</Room>
+	<Room>
+		<Code>TTM</Code>
+		<Name>TRVL TOURISM MKTG RM</Name>
+	</Room>
+	<Room>
+		<Code>TVL</Code>
+		<Name>TRAVEL AGENT ROOM</Name>
+	</Room>
+	<Room>
+		<Code>TW1</Code>
+		<Name>TOWERS ROOM 1-2 BEDS</Name>
+	</Room>
+	<Room>
+		<Code>TW2</Code>
+		<Name>TOWERS ROOM 1-2 BEDS</Name>
+	</Room>
+	<Room>
+		<Code>TW3</Code>
+		<Name>TOWERS ROOM 1-2 BEDS</Name>
+	</Room>
+	<Room>
+		<Code>TW4</Code>
+		<Name>TOWERS ROOM 1-2 BEDS</Name>
+	</Room>
+	<Room>
+		<Code>TWI</Code>
+		<Name>TWIN</Name>
+	</Room>
+	<Room>
+		<Code>TWNB</Code>
+		<Name>TWIN WITH BATH</Name>
+	</Room>
+	<Room>
+		<Code>TWNN</Code>
+		<Name>TWIN W/O BATH</Name>
+	</Room>
+	<Room>
+		<Code>USA</Code>
+		<Name>USA PROMOTION</Name>
+	</Room>
+	<Room>
+		<Code>USD</Code>
+		<Name>GUARANTEED USD RATE</Name>
+	</Room>
+	<Room>
+		<Code>V1C</Code>
+		<Name>VICTORIAN COTTAGE</Name>
+	</Room>
+	<Room>
+		<Code>V1D</Code>
+		<Name>VILLA DBL OCCUPANCY</Name>
+	</Room>
+	<Room>
+		<Code>V1K</Code>
+		<Name>VILLA W/1 KING BED</Name>
+	</Room>
+	<Room>
+		<Code>V1T</Code>
+		<Name>VILLA SGL OCCUPANCY</Name>
+	</Room>
+	<Room>
+		<Code>V2C</Code>
+		<Name>VICTORIAN COTTAGE-QUEEN</Name>
+	</Room>
+	<Room>
+		<Code>V2D</Code>
+		<Name>VILLA W/2 DOUBLE BEDS</Name>
+	</Room>
+	<Room>
+		<Code>V2T</Code>
+		<Name>VILLA TWIN OCCUPANCY</Name>
+	</Room>
+	<Room>
+		<Code>V3C</Code>
+		<Name>2BDRM VICTORIAN CTGE</Name>
+	</Room>
+	<Room>
+		<Code>V3L</Code>
+		<Name>VILLA ACCOM 1-3 PAX</Name>
+	</Room>
+	<Room>
+		<Code>V4L</Code>
+		<Name>VILLA ACCOM 1-4 PAX</Name>
+	</Room>
+	<Room>
+		<Code>V6L</Code>
+		<Name>VILLA ACCOM 1-6 PAX</Name>
+	</Room>
+	<Room>
+		<Code>VA1</Code>
+		<Name>DLX 1 BEDROOM VILLA</Name>
+	</Room>
+	<Room>
+		<Code>VA2</Code>
+		<Name>DLX 2 BEDROOM VILLA</Name>
+	</Room>
+	<Room>
+		<Code>VA3</Code>
+		<Name>DLX 3 BEDROOM VILLA</Name>
+	</Room>
+	<Room>
+		<Code>VA4</Code>
+		<Name>DLX 4 BEDROOM VILLA</Name>
+	</Room>
+	<Room>
+		<Code>VAR</Code>
+		<Name>VARIED VIEWS</Name>
+	</Room>
+	<Room>
+		<Code>VB1</Code>
+		<Name>SUP.1 BEDROOM VILLA</Name>
+	</Room>
+	<Room>
+		<Code>VB2</Code>
+		<Name>SUP.2 BEDROOM VILLA</Name>
+	</Room>
+	<Room>
+		<Code>VB3</Code>
+		<Name>SUP.3 BEDROOM VILLA</Name>
+	</Room>
+	<Room>
+		<Code>VB4</Code>
+		<Name>SUP 4 BEDROOM VILLA</Name>
+	</Room>
+	<Room>
+		<Code>VC1</Code>
+		<Name>MOD 1 BEDROOM VILLA</Name>
+	</Room>
+	<Room>
+		<Code>VC2</Code>
+		<Name>MOD 2 BEDROOM VILLA</Name>
+	</Room>
+	<Room>
+		<Code>VC3</Code>
+		<Name>MOD 3 BEDROOM VILLA</Name>
+	</Room>
+	<Room>
+		<Code>VC4</Code>
+		<Name>2BDRM VICTORIAN CTGE-2DBLS</Name>
+	</Room>
+	<Room>
+		<Code>VC5</Code>
+		<Name>2BDRM VICTORIAN CTGE-4DBLS</Name>
+	</Room>
+	<Room>
+		<Code>VL1</Code>
+		<Name>ONE BEDROOM VILLA</Name>
+	</Room>
+	<Room>
+		<Code>VL2</Code>
+		<Name>TWO BEDROOM VILLA</Name>
+	</Room>
+	<Room>
+		<Code>VL3</Code>
+		<Name>VILLA/3 BDRM</Name>
+	</Room>
+	<Room>
+		<Code>VL4</Code>
+		<Name>VILLA/4 BDRM</Name>
+	</Room>
+	<Room>
+		<Code>VL5</Code>
+		<Name>VILLA/5 BDRM</Name>
+	</Room>
+	<Room>
+		<Code>VL6</Code>
+		<Name>VILLA/6 BDRM</Name>
+	</Room>
+	<Room>
+		<Code>VL7</Code>
+		<Name>VILLA/7 BDRM</Name>
+	</Room>
+	<Room>
+		<Code>VL8</Code>
+		<Name>VILLA/8 BDRM</Name>
+	</Room>
+	<Room>
+		<Code>VL9</Code>
+		<Name>VILLA/9 BDRM</Name>
+	</Room>
+	<Room>
+		<Code>VLO</Code>
+		<Name>VILLA OCEANVIEW</Name>
+	</Room>
+	<Room>
+		<Code>W1K</Code>
+		<Name>1 KING WATERBED</Name>
+	</Room>
+	<Room>
+		<Code>W1Q</Code>
+		<Name>1 QUEEN WATER BED</Name>
+	</Room>
+	<Room>
+		<Code>W2Q</Code>
+		<Name>WATERVIEW 2 QUEEN BEDS</Name>
+	</Room>
+	<Room>
+		<Code>WHP</Code>
+		<Name>DELUXE WHIRLPOOL ROOM</Name>
+	</Room>
+	<Room>
+		<Code>WV1</Code>
+		<Name>WATERVIEW NO BALCONY</Name>
+	</Room>
+	<Room>
+		<Code>WV2</Code>
+		<Name>WATERVIEW W/BALCONY</Name>
+	</Room>
+	<Room>
+		<Code>WVW</Code>
+		<Name>WATERVIEW</Name>
+	</Room>
+	<Room>
+		<Code>X2D</Code>
+		<Name>PROMOTIONAL DBL ROOM</Name>
+	</Room>
+</TGWSHotelRooms>

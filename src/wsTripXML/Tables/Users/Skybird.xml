@@ -1,0 +1,595 @@
+<Config>
+	<Domain>jrtechnologies.com</Domain>
+	<Trace>Y</Trace>
+	<TraceIP>localhost</TraceIP>
+	<Validate In="N" Out="N" />
+	<Log>1</Log>
+	<WSSecurity>0</WSSecurity>
+	<WSReliability>0</WSReliability>
+	<FeaturedProvider>Amadeus-NYC1S219Z</FeaturedProvider>
+	<Provider Name="Amadeus">
+		<System Name="Production">
+			<PCC Code="NYC1S219Z" AmadeusWS="true" SessionPool="false">
+				<Username>WSSBDBBT</Username>
+				<Password>08V1NKOUVUUjk=</Password>
+				<Profile>1ASIWBBTSBD</Profile>
+				<WSDLSchema>
+					<Message Name="Air_FlightInfo" Version="FLIREQ_07_1_1A" />
+					<Message Name="Air_FlightInfoReply" Version="FLIRES_07_1_1A" />
+					<Message Name="Air_MultiAvailability" Version="SATRQT_07_1_1A" />
+					<Message Name="Air_MultiAvailabilityReply" Version="SATRSP_07_1_1A" />
+					<Message Name="Air_RetrieveSeatMap" Version="SMPREQ_97_1_IA" />
+					<Message Name="Air_RetrieveSeatMapReply" Version="SMPRES_97_1_IA" />
+					<Message Name="Air_SellFromRecommendation" Version="ITAREQ_05_2_IA" />
+					<Message Name="Air_SellFromRecommendationReply" Version="ITARES_05_2_IA" />
+					<Message Name="Car_MultiAvailability" Version="RAVMRQ_06_4_1A" />
+					<Message Name="Car_MultiAvailabilityReply" Version="RAVMRR_06_4_1A" />
+					<Message Name="Car_Policy" Version="RCPORQ_02_1_1A" />
+					<Message Name="Car_PolicyReply" Version="RCPORR_02_1_1A" />
+					<Message Name="Car_RateInformationFromAvailability" Version="RCFARQ_05_2_1A" />
+					<Message Name="Car_RateInformationFromAvailabilityReply" Version="RCFARR_05_2_1A" />
+					<Message Name="Car_Sell" Version="RCSSCQ_06_3_1A" />
+					<Message Name="Car_SellReply" Version="RCSSCR_06_3_1A" />
+					<Message Name="Car_SingleAvailability" Version="RAVSRQ_06_4_1A" />
+					<Message Name="Car_SingleAvailabilityReply" Version="RAVSRR_06_4_1A" />
+					<Message Name="Command_Cryptic" Version="HSFREQ_07_3_1A" />
+					<Message Name="Command_CrypticReply" Version="HSFRES_07_3_1A" />
+					<Message Name="Fare_CheckRules" Version="FARQNQ_07_1_1A" />
+					<Message Name="Fare_CheckRulesReply" Version="FARQNR_07_1_1A" />
+					<Message Name="Fare_DisplayFaresForCityPair" Version="FQDREQ_07_2_1A" />
+					<Message Name="Fare_DisplayFaresForCityPairReply" Version="FQDRES_07_2_1A" />
+					<Message Name="Fare_InformativePricingWithoutPNR" Version="TIPNRQ_08_1_1A" />
+					<Message Name="Fare_InformativePricingWithoutPNRReply" Version="TIPNRR_08_1_1A" />
+					<Message Name="Fare_MasterPricerExpertSearch" Version="NFSSPQ_07_1_1A" />
+					<Message Name="Fare_MasterPricerExpertSearchReply" Version="NFSSPR_07_1_1A" />
+					<Message Name="Fare_MasterPricerTravelBoardSearch" Version="FMPTBQ_08_2_1A" />
+					<Message Name="Fare_MasterPricerTravelBoardSearchReply" Version="FMPTBR_08_2_1A" />
+					<Message Name="Fare_PricePNRWithBookingClass" Version="TPCBRQ_07_3_1A" />
+					<Message Name="Fare_PricePNRWithBookingClassReply" Version="TPCBRR_07_3_1A" />
+					<Message Name="Fare_PricePNRWithLowerFares" Version="TPLFRQ_07_3_1A" />
+					<Message Name="Fare_PricePNRWithLowerFaresReply" Version="TPLFRR_07_3_1A" />
+					<Message Name="Hotel_AvailabilityMultiProperties" Version="HMOREQ_06_1_1A" />
+					<Message Name="Hotel_AvailabilityMultiPropertiesReply" Version="HMORES_06_1_1A" />
+					<Message Name="Hotel_Features" Version="HFOREQ_99_1_1A" />
+					<Message Name="Hotel_FeaturesReply" Version="HFORES_99_1_1A" />
+					<Message Name="Hotel_List" Version="HLOREQ_04_2_1A" />
+					<Message Name="Hotel_ListReply" Version="HLORES_04_2_1A" />
+					<Message Name="Hotel_Sell" Version="HBKRCQ_05_1_1A" />
+					<Message Name="Hotel_SellReply" Version="HBKRCR_05_1_1A" />
+					<Message Name="Hotel_SingleAvailability" Version="HAVSRQ_03_1_1A" />
+					<Message Name="Hotel_SingleAvailabilityReply" Version="HAVSRR_03_1_1A" />
+					<Message Name="Hotel_StructuredPricing" Version="HPRSRQ_04_1_1A" />
+					<Message Name="Hotel_StructuredPricingReply" Version="HPRSRR_04_1_1A" />
+					<Message Name="PNR_AddMultiElements" Version="PNRADD_08_2_1A" />
+					<Message Name="PNR_Cancel" Version="PNRXCL_08_2_1A" />
+					<Message Name="PNR_Reply" Version="PNRACC_08_2_1A" />
+					<Message Name="PNR_Retrieve" Version="PNRRET_08_3_1A" />
+					<Message Name="PNR_RetrieveByRecLoc" Version="PRETRQ_08_2_1A" />
+					<Message Name="PNR_RetrieveByRecLocReply" Version="PRETRR_08_2_1A" />
+					<Message Name="Queue_CountTotal" Version="QCSDRQ_03_1_1A" />
+					<Message Name="Queue_CountTotalReply" Version="QCSDRR_03_1_1A" />
+					<Message Name="Queue_List" Version="QDQLRQ_03_1_1A" />
+					<Message Name="Queue_ListReply" Version="QDQLRR_03_1_1A" />
+					<Message Name="Queue_MoveItem" Version="QUQMUQ_03_1_1A" />
+					<Message Name="Queue_MoveItemReply" Version="QUQMUR_03_1_1A" />
+					<Message Name="Queue_PlacePNR" Version="QUQPCQ_03_1_1A" />
+					<Message Name="Queue_PlacePNRReply" Version="QUQPCR_03_1_1A" />
+					<Message Name="Queue_RemoveItem" Version="QUQMDQ_03_1_1A" />
+					<Message Name="Queue_RemoveItemReply" Version="QUQMDR_03_1_1A" />
+					<Message Name="Security_Authenticate" Version="VLSSLQ_06_1_1A" />
+					<Message Name="Security_AuthenticateReply" Version="VLSSLR_06_1_1A" />
+					<Message Name="Security_SignOut" Version="VLSSOQ_04_1_1A" />
+					<Message Name="Security_SignOutReply" Version="VLSSOR_04_1_1A" />
+					<Message Name="Ticket_CreateTSTFromPricing" Version="TAUTCQ_04_1_1A" />
+					<Message Name="Ticket_CreateTSTFromPricingReply" Version="TAUTCR_04_1_1A" />
+					<Message Name="Ticket_DisplayTST" Version="TTSTRQ_07_1_1A" />
+					<Message Name="Ticket_DisplayTSTReply" Version="TTSTRR_07_1_1A" />
+				</WSDLSchema>
+			</PCC>
+			<PCC Code="DTW1S2107" AmadeusWS="true" SessionPool="true">
+				<Username>WSSBDBBT</Username>
+				<Password>08V1NKOUVUUjk=</Password>
+				<Profile>1ASIWBBTSBD</Profile>
+				<WSDLSchema>
+					<Message Name="Air_FlightInfo" Version="FLIREQ_07_1_1A"/>
+					<Message Name="Air_FlightInfoReply" Version="FLIRES_07_1_1A"/>
+					<Message Name="Air_MultiAvailability" Version="SATRQT_07_1_1A"/>
+					<Message Name="Air_MultiAvailabilityReply" Version="SATRSP_07_1_1A"/>
+					<Message Name="Air_RetrieveSeatMap" Version="SMPREQ_97_1_IA"/>
+					<Message Name="Air_RetrieveSeatMapReply" Version="SMPRES_97_1_IA"/>
+					<Message Name="Air_SellFromRecommendation" Version="ITAREQ_05_2_IA"/>
+					<Message Name="Air_SellFromRecommendationReply" Version="ITARES_05_2_IA"/>
+					<Message Name="Car_MultiAvailability" Version="RAVMRQ_06_4_1A"/>
+					<Message Name="Car_MultiAvailabilityReply" Version="RAVMRR_06_4_1A"/>
+					<Message Name="Car_Policy" Version="RCPORQ_02_1_1A"/>
+					<Message Name="Car_PolicyReply" Version="RCPORR_02_1_1A"/>
+					<Message Name="Car_RateInformationFromAvailability" Version="RCFARQ_05_2_1A"/>
+					<Message Name="Car_RateInformationFromAvailabilityReply" Version="RCFARR_05_2_1A"/>
+					<Message Name="Car_Sell" Version="RCSSCQ_06_3_1A"/>
+					<Message Name="Car_SellReply" Version="RCSSCR_06_3_1A"/>
+					<Message Name="Car_SingleAvailability" Version="RAVSRQ_06_4_1A"/>
+					<Message Name="Car_SingleAvailabilityReply" Version="RAVSRR_06_4_1A"/>
+					<Message Name="Command_Cryptic" Version="HSFREQ_07_3_1A"/>
+					<Message Name="Command_CrypticReply" Version="HSFRES_07_3_1A"/>
+					<Message Name="Fare_CheckRules" Version="FARQNQ_07_1_1A"/>
+					<Message Name="Fare_CheckRulesReply" Version="FARQNR_07_1_1A"/>
+					<Message Name="Fare_DisplayFaresForCityPair" Version="FQDREQ_07_2_1A"/>
+					<Message Name="Fare_DisplayFaresForCityPairReply" Version="FQDRES_07_2_1A"/>
+					<Message Name="Fare_InformativePricingWithoutPNR" Version="TIPNRQ_08_1_1A"/>
+					<Message Name="Fare_InformativePricingWithoutPNRReply" Version="TIPNRR_08_1_1A"/>
+					<Message Name="Fare_MasterPricerExpertSearch" Version="NFSSPQ_07_1_1A"/>
+					<Message Name="Fare_MasterPricerExpertSearchReply" Version="NFSSPR_07_1_1A"/>
+					<Message Name="Fare_MasterPricerTravelBoardSearch" Version="FMPTBQ_08_2_1A"/>
+					<Message Name="Fare_MasterPricerTravelBoardSearchReply" Version="FMPTBR_08_2_1A"/>
+					<Message Name="Fare_PricePNRWithBookingClass" Version="TPCBRQ_07_3_1A"/>
+					<Message Name="Fare_PricePNRWithBookingClassReply" Version="TPCBRR_07_3_1A"/>
+					<Message Name="Fare_PricePNRWithLowerFares" Version="TPLFRQ_07_3_1A"/>
+					<Message Name="Fare_PricePNRWithLowerFaresReply" Version="TPLFRR_07_3_1A"/>
+					<Message Name="Hotel_AvailabilityMultiProperties" Version="HMOREQ_06_1_1A"/>
+					<Message Name="Hotel_AvailabilityMultiPropertiesReply" Version="HMORES_06_1_1A"/>
+					<Message Name="Hotel_Features" Version="HFOREQ_99_1_1A"/>
+					<Message Name="Hotel_FeaturesReply" Version="HFORES_99_1_1A"/>
+					<Message Name="Hotel_List" Version="HLOREQ_04_2_1A"/>
+					<Message Name="Hotel_ListReply" Version="HLORES_04_2_1A"/>
+					<Message Name="Hotel_Sell" Version="HBKRCQ_05_1_1A"/>
+					<Message Name="Hotel_SellReply" Version="HBKRCR_05_1_1A"/>
+					<Message Name="Hotel_SingleAvailability" Version="HAVSRQ_03_1_1A"/>
+					<Message Name="Hotel_SingleAvailabilityReply" Version="HAVSRR_03_1_1A"/>
+					<Message Name="Hotel_StructuredPricing" Version="HPRSRQ_04_1_1A"/>
+					<Message Name="Hotel_StructuredPricingReply" Version="HPRSRR_04_1_1A"/>
+					<Message Name="PNR_AddMultiElements" Version="PNRADD_08_2_1A"/>
+					<Message Name="PNR_Cancel" Version="PNRXCL_08_2_1A"/>
+					<Message Name="PNR_Reply" Version="PNRACC_08_2_1A"/>
+					<Message Name="PNR_Retrieve" Version="PNRRET_08_3_1A"/>
+					<Message Name="PNR_RetrieveByRecLoc" Version="PRETRQ_08_2_1A"/>
+					<Message Name="PNR_RetrieveByRecLocReply" Version="PRETRR_08_2_1A"/>
+					<Message Name="Queue_CountTotal" Version="QCSDRQ_03_1_1A"/>
+					<Message Name="Queue_CountTotalReply" Version="QCSDRR_03_1_1A"/>
+					<Message Name="Queue_List" Version="QDQLRQ_03_1_1A"/>
+					<Message Name="Queue_ListReply" Version="QDQLRR_03_1_1A"/>
+					<Message Name="Queue_MoveItem" Version="QUQMUQ_03_1_1A"/>
+					<Message Name="Queue_MoveItemReply" Version="QUQMUR_03_1_1A"/>
+					<Message Name="Queue_PlacePNR" Version="QUQPCQ_03_1_1A"/>
+					<Message Name="Queue_PlacePNRReply" Version="QUQPCR_03_1_1A"/>
+					<Message Name="Queue_RemoveItem" Version="QUQMDQ_03_1_1A"/>
+					<Message Name="Queue_RemoveItemReply" Version="QUQMDR_03_1_1A"/>
+					<Message Name="Security_Authenticate" Version="VLSSLQ_06_1_1A"/>
+					<Message Name="Security_AuthenticateReply" Version="VLSSLR_06_1_1A"/>
+					<Message Name="Security_SignOut" Version="VLSSOQ_04_1_1A"/>
+					<Message Name="Security_SignOutReply" Version="VLSSOR_04_1_1A"/>
+					<Message Name="Ticket_CreateTSTFromPricing" Version="TAUTCQ_04_1_1A"/>
+					<Message Name="Ticket_CreateTSTFromPricingReply" Version="TAUTCR_04_1_1A"/>
+					<Message Name="Ticket_DisplayTST" Version="TTSTRQ_07_1_1A"/>
+					<Message Name="Ticket_DisplayTSTReply" Version="TTSTRR_07_1_1A"/>
+				</WSDLSchema>
+			</PCC>
+			<PCC Code="DTW1S214M" AmadeusWS="true" SessionPool="false">
+				<Username>WSSBDBBT</Username>
+				<Password>08V1NKOUVUUjk=</Password>
+				<Profile>1ASIWBBTSBD</Profile>
+				<WSDLSchema>
+					<Message Name="Air_FlightInfo" Version="FLIREQ_07_1_1A"/>
+					<Message Name="Air_FlightInfoReply" Version="FLIRES_07_1_1A"/>
+					<Message Name="Air_MultiAvailability" Version="SATRQT_07_1_1A"/>
+					<Message Name="Air_MultiAvailabilityReply" Version="SATRSP_07_1_1A"/>
+					<Message Name="Air_RetrieveSeatMap" Version="SMPREQ_97_1_IA"/>
+					<Message Name="Air_RetrieveSeatMapReply" Version="SMPRES_97_1_IA"/>
+					<Message Name="Air_SellFromRecommendation" Version="ITAREQ_05_2_IA"/>
+					<Message Name="Air_SellFromRecommendationReply" Version="ITARES_05_2_IA"/>
+					<Message Name="Car_MultiAvailability" Version="RAVMRQ_06_4_1A"/>
+					<Message Name="Car_MultiAvailabilityReply" Version="RAVMRR_06_4_1A"/>
+					<Message Name="Car_Policy" Version="RCPORQ_02_1_1A"/>
+					<Message Name="Car_PolicyReply" Version="RCPORR_02_1_1A"/>
+					<Message Name="Car_RateInformationFromAvailability" Version="RCFARQ_05_2_1A"/>
+					<Message Name="Car_RateInformationFromAvailabilityReply" Version="RCFARR_05_2_1A"/>
+					<Message Name="Car_Sell" Version="RCSSCQ_06_3_1A"/>
+					<Message Name="Car_SellReply" Version="RCSSCR_06_3_1A"/>
+					<Message Name="Car_SingleAvailability" Version="RAVSRQ_06_4_1A"/>
+					<Message Name="Car_SingleAvailabilityReply" Version="RAVSRR_06_4_1A"/>
+					<Message Name="Command_Cryptic" Version="HSFREQ_07_3_1A"/>
+					<Message Name="Command_CrypticReply" Version="HSFRES_07_3_1A"/>
+					<Message Name="Fare_CheckRules" Version="FARQNQ_07_1_1A"/>
+					<Message Name="Fare_CheckRulesReply" Version="FARQNR_07_1_1A"/>
+					<Message Name="Fare_DisplayFaresForCityPair" Version="FQDREQ_07_2_1A"/>
+					<Message Name="Fare_DisplayFaresForCityPairReply" Version="FQDRES_07_2_1A"/>
+					<Message Name="Fare_InformativePricingWithoutPNR" Version="TIPNRQ_08_1_1A"/>
+					<Message Name="Fare_InformativePricingWithoutPNRReply" Version="TIPNRR_08_1_1A"/>
+					<Message Name="Fare_MasterPricerExpertSearch" Version="NFSSPQ_07_1_1A"/>
+					<Message Name="Fare_MasterPricerExpertSearchReply" Version="NFSSPR_07_1_1A"/>
+					<Message Name="Fare_MasterPricerTravelBoardSearch" Version="FMPTBQ_08_2_1A"/>
+					<Message Name="Fare_MasterPricerTravelBoardSearchReply" Version="FMPTBR_08_2_1A"/>
+					<Message Name="Fare_PricePNRWithBookingClass" Version="TPCBRQ_07_3_1A"/>
+					<Message Name="Fare_PricePNRWithBookingClassReply" Version="TPCBRR_07_3_1A"/>
+					<Message Name="Fare_PricePNRWithLowerFares" Version="TPLFRQ_07_3_1A"/>
+					<Message Name="Fare_PricePNRWithLowerFaresReply" Version="TPLFRR_07_3_1A"/>
+					<Message Name="Hotel_AvailabilityMultiProperties" Version="HMOREQ_06_1_1A"/>
+					<Message Name="Hotel_AvailabilityMultiPropertiesReply" Version="HMORES_06_1_1A"/>
+					<Message Name="Hotel_Features" Version="HFOREQ_99_1_1A"/>
+					<Message Name="Hotel_FeaturesReply" Version="HFORES_99_1_1A"/>
+					<Message Name="Hotel_List" Version="HLOREQ_04_2_1A"/>
+					<Message Name="Hotel_ListReply" Version="HLORES_04_2_1A"/>
+					<Message Name="Hotel_Sell" Version="HBKRCQ_05_1_1A"/>
+					<Message Name="Hotel_SellReply" Version="HBKRCR_05_1_1A"/>
+					<Message Name="Hotel_SingleAvailability" Version="HAVSRQ_03_1_1A"/>
+					<Message Name="Hotel_SingleAvailabilityReply" Version="HAVSRR_03_1_1A"/>
+					<Message Name="Hotel_StructuredPricing" Version="HPRSRQ_04_1_1A"/>
+					<Message Name="Hotel_StructuredPricingReply" Version="HPRSRR_04_1_1A"/>
+					<Message Name="PNR_AddMultiElements" Version="PNRADD_08_2_1A"/>
+					<Message Name="PNR_Cancel" Version="PNRXCL_08_2_1A"/>
+					<Message Name="PNR_Reply" Version="PNRACC_08_2_1A"/>
+					<Message Name="PNR_Retrieve" Version="PNRRET_08_3_1A"/>
+					<Message Name="PNR_RetrieveByRecLoc" Version="PRETRQ_08_2_1A"/>
+					<Message Name="PNR_RetrieveByRecLocReply" Version="PRETRR_08_2_1A"/>
+					<Message Name="Queue_CountTotal" Version="QCSDRQ_03_1_1A"/>
+					<Message Name="Queue_CountTotalReply" Version="QCSDRR_03_1_1A"/>
+					<Message Name="Queue_List" Version="QDQLRQ_03_1_1A"/>
+					<Message Name="Queue_ListReply" Version="QDQLRR_03_1_1A"/>
+					<Message Name="Queue_MoveItem" Version="QUQMUQ_03_1_1A"/>
+					<Message Name="Queue_MoveItemReply" Version="QUQMUR_03_1_1A"/>
+					<Message Name="Queue_PlacePNR" Version="QUQPCQ_03_1_1A"/>
+					<Message Name="Queue_PlacePNRReply" Version="QUQPCR_03_1_1A"/>
+					<Message Name="Queue_RemoveItem" Version="QUQMDQ_03_1_1A"/>
+					<Message Name="Queue_RemoveItemReply" Version="QUQMDR_03_1_1A"/>
+					<Message Name="Security_Authenticate" Version="VLSSLQ_06_1_1A"/>
+					<Message Name="Security_AuthenticateReply" Version="VLSSLR_06_1_1A"/>
+					<Message Name="Security_SignOut" Version="VLSSOQ_04_1_1A"/>
+					<Message Name="Security_SignOutReply" Version="VLSSOR_04_1_1A"/>
+					<Message Name="Ticket_CreateTSTFromPricing" Version="TAUTCQ_04_1_1A"/>
+					<Message Name="Ticket_CreateTSTFromPricingReply" Version="TAUTCR_04_1_1A"/>
+					<Message Name="Ticket_DisplayTST" Version="TTSTRQ_07_1_1A"/>
+					<Message Name="Ticket_DisplayTSTReply" Version="TTSTRR_07_1_1A"/>
+				</WSDLSchema>
+			</PCC>
+			<!--PCC Code="DTW1S2107" Name="DTW1S2107">
+				<Username>Skybird-FlyAnyWhere</Username>
+				<Password>RV26A4SF</Password>
+				<Profile/>
+			</PCC-->
+			<PCC Code="DTW1S210H" Name="DTW1S210H">
+				<Username>Skybird-FlyAnyWhere</Username>
+				<Password>3MTPD6WE</Password>
+				<Profile/>
+			</PCC>
+			<PCC Code="DTT1S210J" Name="DTT1S210J">
+				<Username>Skybird-FlyAnyWhere</Username>
+				<Password>89C3WTK9</Password>
+				<Profile/>
+			</PCC>
+			<PCC Code="DTT1S210H" Name="DTT1S210H">
+				<Username>Skybird-FlyAnyWhere</Username>
+				<Password>999XLZNU</Password>
+				<Profile/>
+			</PCC>
+			<PCC Code="BOMWI2115" Name="BOMWI2115">
+				<Username>Skybird-FlyAnyWhere</Username>
+				<Password>9L6MX6KN</Password>
+				<Profile/>
+			</PCC>
+			<PCC Code="YTOC4218D" Name="YTOC4218D">
+				<Username>Skybird-FlyAnyWhere</Username>
+				<Password>PXLQE9J9</Password>
+				<Profile/>
+			</PCC>
+		</System>
+		<!--System Name="Training">
+			<PCC Code="DTW1S2107" Name="DTW1S2107">
+				<Username>Skybird-MPTESTPT</Username>
+				<Password>R9DB7Y9C</Password>
+				<Profile/>
+			</PCC>
+		</System-->
+		<System Name="Test">
+			<PCC Code="MIA1S21AV" AmadeusWS="true" SessionPool="false" CheckBookedFare="true" SOAP2="true" HotelMedia="true" AddLog="true" HotelVersion="2" CarVersion="1">
+				<Username>WSTHXBBT</Username>
+				<Password>07QU1BREVVUw==</Password>
+				<Profile>1ASIWBBTTHX</Profile>
+				<WSDLSchema>
+					<Message Name="Air_FlightInfo" Version="FLIREQ_07_1_1A"/>
+					<Message Name="Air_FlightInfoReply" Version="FLIRES_07_1_1A"/>
+					<Message Name="Air_MultiAvailability" Version="SATRQT_07_1_1A"/>
+					<Message Name="Air_MultiAvailabilityReply" Version="SATRSP_07_1_1A"/>
+					<Message Name="Air_RebookAirSegment" Version="ARBKUQ_03_2_1A"/>
+					<Message Name="Air_RebookAirSegmentReply" Version="ARBKUR_03_2_1A"/>
+					<Message Name="Air_RetrieveSeatMap" Version="SMPREQ_97_1_IA"/>
+					<Message Name="Air_RetrieveSeatMapReply" Version="SMPRES_97_1_IA"/>
+					<Message Name="Air_SellFromRecommendation" Version="ITAREQ_05_2_IA"/>
+					<Message Name="Air_SellFromRecommendationReply" Version="ITARES_05_2_IA"/>
+					<Message Name="Car_Availability" Version="RCARRQ_14_3_1A"/>
+					<Message Name="Car_AvailabilityReply" Version="RCARRR_14_3_1A"/>
+					<Message Name="Car_LocationList" Version="RCLLRQ_07_1_1A"/>
+					<Message Name="Car_LocationListReply" Version="RCLLRR_07_1_1A"/>
+					<Message Name="Car_MultiAvailability" Version="RAVMRQ_06_4_1A"/>
+					<Message Name="Car_MultiAvailabilityReply" Version="RAVMRR_06_4_1A"/>
+					<Message Name="Car_Policy" Version="RCPORQ_02_1_1A"/>
+					<Message Name="Car_PolicyReply" Version="RCPORR_02_1_1A"/>
+					<Message Name="Car_RateInformationFromAvailability" Version="RCFARQ_05_2_1A"/>
+					<Message Name="Car_RateInformationFromAvailabilityReply" Version="RCFARR_05_2_1A"/>
+					<Message Name="Car_RateInformationFromCarSegment" Version="RCFSRQ_05_2_1A"/>
+					<Message Name="Car_RateInformationFromCarSegmentReply" Version="RCFSRR_05_2_1A"/>
+					<Message Name="Car_Sell" Version="RCSSCQ_06_3_1A"/>
+					<Message Name="Car_SellReply" Version="RCSSCR_06_3_1A"/>
+					<Message Name="Car_SingleAvailability" Version="RAVSRQ_06_4_1A"/>
+					<Message Name="Car_SingleAvailabilityReply" Version="RAVSRR_06_4_1A"/>
+					<Message Name="Command_Cryptic" Version="HSFREQ_07_3_1A"/>
+					<Message Name="Command_CrypticReply" Version="HSFRES_07_3_1A"/>
+					<Message Name="Cruise_CancelBooking" Version="UBAIDQ_05_1_1A"/>
+					<Message Name="Cruise_CancelBookingReply" Version="UBAIDR_05_1_1A"/>
+					<Message Name="Cruise_ClaimBooking" Version="USYNGQ_05_1_1A"/>
+					<Message Name="Cruise_ClaimBookingReply" Version="USYNGR_05_1_1A"/>
+					<Message Name="Cruise_CreateBooking" Version="UBAICQ_08_1_1A"/>
+					<Message Name="Cruise_CreateBookingReply" Version="UBAICR_08_1_1A"/>
+					<Message Name="Cruise_DisplayBusDescription" Version="BUDREQ_05_1_1A"/>
+					<Message Name="Cruise_DisplayBusDescriptionReply" Version="BUDRES_05_1_1A"/>
+					<Message Name="Cruise_DisplayCabinDescription" Version="CBDREQ_05_1_1A"/>
+					<Message Name="Cruise_DisplayCabinDescriptionReply" Version="CBDRES_05_1_1A"/>
+					<Message Name="Cruise_DisplayCategoryDescription" Version="CTDREQ_05_1_1A"/>
+					<Message Name="Cruise_DisplayCategoryDescriptionReply" Version="CTDRES_05_1_1A"/>
+					<Message Name="Cruise_DisplayFareDescription" Version="FRDREQ_08_1_1A"/>
+					<Message Name="Cruise_DisplayFareDescriptionReply" Version="FRDRES_08_1_1A"/>
+					<Message Name="Cruise_DisplayInclusivePackageDescription" Version="ICDREQ_05_1_1A"/>
+					<Message Name="Cruise_DisplayInclusivePackageDescriptionReply" Version="ICDRES_05_1_1A"/>
+					<Message Name="Cruise_DisplayItineraryDescription" Version="ITDREQ_04_2_1A"/>
+					<Message Name="Cruise_DisplayItineraryDescriptionReply" Version="ITDRES_04_2_1A"/>
+					<Message Name="Cruise_DisplayPrePostPackageDescription" Version="PGDREQ_05_1_1A"/>
+					<Message Name="Cruise_DisplayPrePostPackageDescriptionReply" Version="PGDRES_05_1_1A"/>
+					<Message Name="Cruise_DisplayProductInformation" Version="PIDREQ_05_1_1A"/>
+					<Message Name="Cruise_DisplayProductInformationReply" Version="PIDRES_05_1_1A"/>
+					<Message Name="Cruise_EnterPassengerInformation" Version="PAXREQ_06_1_1A"/>
+					<Message Name="Cruise_EnterPassengerInformationReply" Version="PAXRES_06_1_1A"/>
+					<Message Name="Cruise_GetBookingDetails" Version="UBAIRQ_06_1_1A"/>
+					<Message Name="Cruise_GetBookingDetailsReply" Version="UBAIRR_06_1_1A"/>
+					<Message Name="Cruise_HoldCabin" Version="UCBHGQ_06_1_1A"/>
+					<Message Name="Cruise_HoldCabinReply" Version="UCBHGR_06_1_1A"/>
+					<Message Name="Cruise_ModifyBooking" Version="UBAIUQ_08_1_1A"/>
+					<Message Name="Cruise_ModifyBookingReply" Version="UBAIUR_08_1_1A"/>
+					<Message Name="Cruise_PriceBooking" Version="UPRBGQ_08_1_1A"/>
+					<Message Name="Cruise_PriceBookingReply" Version="UPRBGR_08_1_1A"/>
+					<Message Name="Cruise_PriceBookingCancellation" Version="PRXREQ_04_2_1A"/>
+					<Message Name="Cruise_PriceBookingCancellationReply" Version="PRXRES_04_2_1A"/>
+					<Message Name="Cruise_RequestBusAvailability" Version="BUSREQ_06_1_1A"/>
+					<Message Name="Cruise_RequestBusAvailabilityReply" Version="BUSRES_06_1_1A"/>
+					<Message Name="Cruise_RequestCabinAvailability" Version="CABREQ_06_1_1A"/>
+					<Message Name="Cruise_RequestCabinAvailabilityReply" Version="CABRES_06_1_1A"/>
+					<Message Name="Cruise_RequestCategoryAvailability" Version="CATREQ_06_1_1A"/>
+					<Message Name="Cruise_RequestCategoryAvailabilityReply" Version="CATRES_06_1_1A"/>
+					<Message Name="Cruise_RequestFareAvailability" Version="FAVREQ_06_1_1A"/>
+					<Message Name="Cruise_RequestFareAvailabilityReply" Version="FAVRES_06_1_1A"/>
+					<Message Name="Cruise_RequestInclusivePackageAvailability" Version="ICAREQ_04_2_1A"/>
+					<Message Name="Cruise_RequestInclusivePackageAvailabilityReply" Version="ICARES_04_2_1A"/>
+					<Message Name="Cruise_RequestPrePostPackageAvailability" Version="PGAREQ_06_1_1A"/>
+					<Message Name="Cruise_RequestPrePostPackageAvailabilityReply" Version="PGARES_06_1_1A"/>
+					<Message Name="Cruise_RequestSailingAvailability" Version="SAIREQ_04_2_1A"/>
+					<Message Name="Cruise_RequestSailingAvailabilityReply" Version="SAIRES_04_2_1A"/>
+					<Message Name="Cruise_RequestShoreExcursionAvailability" Version="SXAREQ_05_1_1A"/>
+					<Message Name="Cruise_RequestShoreExcursionAvailabilityReply" Version="SXARES_05_1_1A"/>
+					<Message Name="Cruise_RequestSpecialServicesAvailability" Version="SSAREQ_05_1_1A"/>
+					<Message Name="Cruise_RequestSpecialServicesAvailabilityReply" Version="SSARES_05_1_1A"/>
+					<Message Name="Cruise_RequestTransferAvailability" Version="TSAREQ_06_1_1A"/>
+					<Message Name="Cruise_RequestTransferAvailabilityReply" Version="TSARES_06_1_1A"/>
+					<Message Name="Cruise_SearchBooking" Version="USEAGQ_05_1_1A"/>
+					<Message Name="Cruise_SearchBookingReply" Version="USEAGR_05_1_1A"/>
+					<Message Name="Cruise_UnholdCabin" Version="UHLREQ_04_2_1A"/>
+					<Message Name="Cruise_UnholdCabinReply" Version="UHLRES_04_2_1A"/>
+					<Message Name="Doc_DisplayItinerary" Version="ITIRQT_01_2_1A"/>
+					<Message Name="Doc_DisplayItineraryReply" Version="ITIRSP_01_2_1A"/>
+					<Message Name="DocIssuance_IssueTicket" Version="TTKTIQ_09_1_1A"/>
+					<Message Name="DocIssuance_IssueTicketReply" Version="TTKTIR_09_1_1A"/>
+					<Message Name="DocRefund_CalculateRefund" Version="TARFRQ_09_1_IA"/>
+					<Message Name="DocRefund_CalculateRefundReply" Version="TARFRR_09_1_1A"/>
+					<Message Name="DocRefund_IgnoreRefund" Version="TRFIDQ_09_2_IA"/>
+					<Message Name="DocRefund_IgnoreRefundReply" Version="TRFIDR_09_2_1A"/>
+					<Message Name="DocRefund_InitRefund" Version="TRFSRQ_09_2_1A"/>
+					<Message Name="DocRefund_InitRefundReply" Version="TRFSRR_09_2_1A"/>
+					<Message Name="DocRefund_ProcessRefund" Version="TRFPCQ_09_2_IA"/>
+					<Message Name="DocRefund_ProcessRefundReply" Version="TRFPCR_09_2_1A"/>
+					<Message Name="DocRefund_SearchRefundRule" Version="CRULSQ_05_1_IA"/>
+					<Message Name="DocRefund_SearchRefundRuleReply" Version="CRULSR_05_1_1A"/>
+					<Message Name="DocRefund_UpdateRefund" Version="TRFUUQ_09_2_IA"/>
+					<Message Name="DocRefund_UpdateRefundReply" Version="TRFUUR_09_2_1A"/>
+					<Message Name="Fare_CheckRules" Version="FARQNQ_07_1_1A"/>
+					<Message Name="Fare_CheckRulesReply" Version="FARQNR_07_1_1A"/>
+					<Message Name="Fare_DisplayFaresForCityPair" Version="FQDREQ_07_2_1A"/>
+					<Message Name="Fare_DisplayFaresForCityPairReply" Version="FQDRES_07_2_1A"/>
+					<Message Name="Fare_InformativeBestPricingWithoutPNR" Version="TIBNRQ_08_1_1A"/>
+					<Message Name="Fare_InformativeBestPricingWithoutPNRReply" Version="TIBNRR_08_1_1A"/>
+					<Message Name="Fare_InformativePricingWithoutPNR" Version="TIPNRQ_07_2_1A"/>
+					<Message Name="Fare_InformativePricingWithoutPNRReply" Version="TIPNRR_07_2_1A"/>
+					<Message Name="Fare_MasterPricerCalendar" Version="FMPCAQ_08_2_1A"/>
+					<Message Name="Fare_MasterPricerCalendarReply" Version="FMPCAR_08_2_1A"/>
+					<Message Name="Fare_MasterPricerExpertSearch" Version="NFSSPQ_07_1_1A"/>
+					<Message Name="Fare_MasterPricerExpertSearchReply" Version="NFSSPR_07_1_1A"/>
+					<Message Name="Fare_MasterPricerTravelBoardSearch" Version="FMPTBQ_08_2_1A"/>
+					<Message Name="Fare_MasterPricerTravelBoardSearchReply" Version="FMPTBR_08_2_1A"/>
+					<Message Name="Fare_PricePNRWithBookingClass" Version="TPCBRQ_07_3_1A"/>
+					<Message Name="Fare_PricePNRWithBookingClassReply" Version="TPCBRR_07_3_1A"/>
+					<Message Name="Fare_PricePNRWithLowerFares" Version="TPLFRQ_07_3_1A"/>
+					<Message Name="Fare_PricePNRWithLowerFaresReply" Version="TPLFRR_07_3_1A"/>
+					<Message Name="Fare_SellByFareCalendar" Version="FSOCAQ_10_2_1A"/>
+					<Message Name="Fare_SellByFareCalendarReply" Version="FSOCAR_10_2_1A"/>
+					<Message Name="Fare_SellByFareSearch" Version="FSOTBQ_10_2_1A"/>
+					<Message Name="Fare_SellByFareSearchReply" Version="FSOTBR_10_2_1A"/>
+					<Message Name="Hotel_MultiSingleAvailability" Version="Hotel_MultiSingleAvailability_10.0"/>
+					<Message Name="Hotel_MultiSingleAvailabilityReply" Version="Hotel_MultiSingleAvailability_10.0"/>
+					<Message Name="Hotel_DescriptiveInfo" Version="OTA_HotelDescriptiveInfoRQ_07.1_1A2007A"/>
+					<Message Name="Hotel_DescriptiveInfoReply" Version="Hotel_DescriptiveInfo_7.1"/>
+					<Message Name="Hotel_EnhancedPricing" Version="Hotel_EnhancedPricing_2.0"/>
+					<Message Name="Hotel_EnhancedPricingReply" Version="Hotel_EnhancedPricing_2.0"/>
+					<Message Name="Hotel_Sell" Version="HBKRCQ_13_7_1A"/>
+					<Message Name="Hotel_SellReply" Version="HBKRCR_13_7_1A"/>
+					<Message Name="Hotel_AvailabilityMultiProperties" Version="HMOREQ_06_1_1A"/>
+					<Message Name="Hotel_AvailabilityMultiPropertiesReply" Version="HMORES_06_1_1A"/>
+					<Message Name="Hotel_Features" Version="HFOREQ_99_1_1A"/>
+					<Message Name="Hotel_FeaturesReply" Version="HFORES_99_1_1A"/>
+					<Message Name="Hotel_List" Version="HLOREQ_13_7_1A"/>
+					<Message Name="Hotel_ListReply" Version="HLORES_04_2_1A"/>
+					<Message Name="Hotel_RateChange" Version="HROREQ_99_1_1A"/>
+					<Message Name="Hotel_RateChangeReply" Version="HRORES_99_1_1A"/>
+					<Message Name="Hotel_Sell" Version="HBKRCQ_13_7_1A"/>
+					<Message Name="Hotel_SellReply" Version="HBKRCR_13_7_1A"/>
+					<Message Name="Hotel_SingleAvailability" Version="HAVSRQ_03_1_1A"/>
+					<Message Name="Hotel_SingleAvailabilityReply" Version="HAVSRR_03_1_1A"/>
+					<Message Name="Hotel_StructuredPricing" Version="HPRSRQ_04_1_1A"/>
+					<Message Name="Hotel_StructuredPricingReply" Version="HPRSRR_04_1_1A"/>
+					<Message Name="Hotel_Terms" Version="HTOREQ_99_1_1A"/>
+					<Message Name="Hotel_TermsReply" Version="HTORES_99_1_1A"/>
+					<Message Name="MiniRule_GetFromPricing" Version="TMRCRQ_11_1_1A"/>
+					<Message Name="MiniRule_GetFromPricingReply" Version="TMRCRR_11_1_1A"/>
+					<Message Name="MiniRule_GetFromPricingRec" Version="TMRQRQ_11_1_1A"/>
+					<Message Name="MiniRule_GetFromPricingRecReply" Version="TMRQRR_11_1_1A"/>
+					<Message Name="PNR_AddMultiElements" Version="PNRADD_07_3_1A"/>
+					<Message Name="PNR_Cancel" Version="PNRXCL_07_3_1A"/>
+					<Message Name="PNR_Ignore" Version="CLTREQ_04_1_IA"/>
+					<Message Name="PNR_IgnoreReply" Version="CLTRES_04_1_IA"/>
+					<Message Name="PNR_Reply" Version="PNRACC_07_3_1A"/>
+					<Message Name="PNR_Retrieve" Version="PNRRET_07_3_1A"/>
+					<Message Name="PNR_RetrieveByRecLoc" Version="PRETRQ_08_2_1A"/>
+					<Message Name="PNR_RetrieveByRecLocReply" Version="PRETRR_08_2_1A"/>
+					<Message Name="PNR_Split" Version="PNRSPL_11_3_1A"/>
+					<Message Name="Queue_CountTotal" Version="QCSDRQ_03_1_1A"/>
+					<Message Name="Queue_CountTotalReply" Version="QCSDRR_03_1_1A"/>
+					<Message Name="Queue_List" Version="QDQLRQ_03_1_1A"/>
+					<Message Name="Queue_ListReply" Version="QDQLRR_03_1_1A"/>
+					<Message Name="Queue_MoveItem" Version="QUQMUQ_03_1_1A"/>
+					<Message Name="Queue_MoveItemReply" Version="QUQMUR_03_1_1A"/>
+					<Message Name="Queue_PlacePNR" Version="QUQPCQ_03_1_1A"/>
+					<Message Name="Queue_PlacePNRReply" Version="QUQPCR_03_1_1A"/>
+					<Message Name="Queue_RemoveItem" Version="QUQMDQ_03_1_1A"/>
+					<Message Name="Queue_RemoveItemReply" Version="QUQMDR_03_1_1A"/>
+					<Message Name="Security_Authenticate" Version="VLSSLQ_06_1_1A"/>
+					<Message Name="Security_AuthenticateReply" Version="VLSSLR_06_1_1A"/>
+					<Message Name="Security_SignOut" Version="VLSSOQ_04_1_1A"/>
+					<Message Name="Security_SignOutReply" Version="VLSSOR_04_1_1A"/>
+					<Message Name="Ticket_CreateTSTFromPricing" Version="TAUTCQ_04_1_1A"/>
+					<Message Name="Ticket_CreateTSTFromPricingReply" Version="TAUTCR_04_1_1A"/>
+					<Message Name="Ticket_CreditCardCheck" Version="CCVRQT_06_1_1A"/>
+					<Message Name="Ticket_CreditCardCheckReply" Version="CCVRSP_06_1_1A"/>
+					<Message Name="Ticket_DeleteTST" Version="TTSTDQ_04_1_1A"/>
+					<Message Name="Ticket_DeleteTSTReply" Version="TTSTDR_04_1_1A"/>
+					<Message Name="Ticket_DisplayTST" Version="TTSTRQ_05_1_1A"/>
+					<Message Name="Ticket_DisplayTSTReply" Version="TTSTRR_05_1_1A"/>
+					<Message Name="Ticket_ProcessETicket" Version="TKTREQ_04_1_IA"/>
+					<Message Name="Ticket_ProcessETicketReply" Version="TKTRES_04_1_IA"/>
+					<Message Name="Ticket_UpdateTST" Version="TTSTUQ_05_1_1A"/>
+					<Message Name="Ticket_UpdateTSTReply" Version="TTSTUR_05_1_1A"/>
+				</WSDLSchema>
+			</PCC>
+		</System>
+		<NativeIn>0</NativeIn>
+		<NativeOut>0</NativeOut>
+		<Log>1</Log>
+	</Provider>
+	<Provider Name="Sabre">
+		<System Name="Production">
+			<PCC Code="I4TG">
+				<Username>7971</Username>
+				<Password>WS061011</Password>
+				<Profile/>
+				<OpenType OfficeID="9N60" Name="9N60">
+					<Agent></Agent>
+					<SignIn></SignIn>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID></TravelAgentID>
+				</OpenType>
+			</PCC>
+			<PCC Code="P1ZG">
+				<Username>7971</Username>
+				<Password>WS090211</Password>
+				<Profile/>
+			</PCC>
+			<PCC Code="H2ZF">
+				<Username>7971</Username>
+				<Password>WS040809</Password>
+				<Profile/>
+				<!--OpenType OfficeID="F1E2" Name="F1E2">
+					<Agent></Agent>
+					<SignIn></SignIn>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID></TravelAgentID>
+				</OpenType-->
+				
+			</PCC>
+			<PCC Code="F1E2" AddLog="true">
+				<Username>101508</Username>
+				<Password>WS470397</Password>
+				<Profile/>
+				<OpenType OfficeID="T247" Name="T247">
+					<Agent></Agent>
+					<SignIn></SignIn>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID></TravelAgentID>
+				</OpenType>	
+				<OpenType OfficeID="X02C" Name="X02C">
+					<Agent></Agent>
+					<SignIn></SignIn>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID></TravelAgentID>
+				</OpenType>	
+				<OpenType OfficeID="P3X3" Name="P3X3">
+					<Agent></Agent>
+					<SignIn></SignIn>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID></TravelAgentID>
+				</OpenType>	
+				<!-- Added on 3/21/2019 -->
+				<OpenType OfficeID="H9S9" Name="H9S9">
+					<Agent></Agent>
+					<SignIn></SignIn>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID></TravelAgentID>
+				</OpenType>	
+				<OpenType OfficeID="67B1" Name="67B1">
+					<Agent></Agent>
+					<SignIn></SignIn>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID></TravelAgentID>
+				</OpenType>	
+				<OpenType OfficeID="YR8A" Name="YR8A">
+					<Agent></Agent>
+					<SignIn></SignIn>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID></TravelAgentID>
+				</OpenType>	
+				<OpenType OfficeID="Z6MI" Name="Z6MI">
+					<Agent></Agent>
+					<SignIn></SignIn>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID></TravelAgentID>
+				</OpenType>	
+				<OpenType OfficeID="RP69" Name="RP69">
+					<Agent></Agent>
+					<SignIn></SignIn>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID></TravelAgentID>
+				</OpenType>
+				<OpenType OfficeID="7ECG" Name="7ECG">
+					<Agent></Agent>
+					<SignIn></SignIn>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID></TravelAgentID>
+				</OpenType>
+			</PCC>
+		</System>
+	</Provider>
+</Config>

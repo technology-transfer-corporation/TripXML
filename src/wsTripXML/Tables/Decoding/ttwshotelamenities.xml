@@ -1,0 +1,3674 @@
+<TTWSHotelAmenity>
+	<Amenity>
+		<Code>RMA1</Code>
+		<Name>Adjoining rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA2</Code>
+		<Name>Air conditioning</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA3</Code>
+		<Name>Alarm clock</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA4</Code>
+		<Name>All news channel</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA5</Code>
+		<Name>AM/FM radio</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA6</Code>
+		<Name>Baby listening device</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA7</Code>
+		<Name>Balcony/Lanai/Terrace</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA8</Code>
+		<Name>Barbeque grills</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA9</Code>
+		<Name>Bath tub with spray jets</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA10</Code>
+		<Name>Bathrobe</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA11</Code>
+		<Name>Bathroom amenities</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA12</Code>
+		<Name>Bathroom telephone</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA13</Code>
+		<Name>Bathtub</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA14</Code>
+		<Name>Bathtub only</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA15</Code>
+		<Name>Bathtub/shower combination</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA16</Code>
+		<Name>Bidet</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA17</Code>
+		<Name>Bottled water</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA18</Code>
+		<Name>Cable television</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA19</Code>
+		<Name>Coffee/Tea maker</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA20</Code>
+		<Name>Color television</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA21</Code>
+		<Name>Computer</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA22</Code>
+		<Name>Connecting rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA23</Code>
+		<Name>Converters/ Voltage adaptors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA24</Code>
+		<Name>Copier</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA25</Code>
+		<Name>Cordless phone</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA26</Code>
+		<Name>Cribs</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA27</Code>
+		<Name>Data port</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA28</Code>
+		<Name>Desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA29</Code>
+		<Name>Desk with lamp</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA30</Code>
+		<Name>Dining guide</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA31</Code>
+		<Name>Direct dial phone number</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA32</Code>
+		<Name>Dishwasher</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA33</Code>
+		<Name>Double beds</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA34</Code>
+		<Name>Dual voltage outlet</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA35</Code>
+		<Name>Electrical current voltage</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA36</Code>
+		<Name>Ergonomic chair</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA37</Code>
+		<Name>Extended phone cord</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA38</Code>
+		<Name>Fax machine</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA39</Code>
+		<Name>Fire alarm</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA40</Code>
+		<Name>Fire alarm with light</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA41</Code>
+		<Name>Fireplace</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA42</Code>
+		<Name>Free toll free calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA43</Code>
+		<Name>Free calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA44</Code>
+		<Name>Free credit card access calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA45</Code>
+		<Name>Free local calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA46</Code>
+		<Name>Free movies/video</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA47</Code>
+		<Name>Full kitchen</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA48</Code>
+		<Name>Grab bars in bathroom</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA49</Code>
+		<Name>Grecian tub</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA50</Code>
+		<Name>Hairdryer</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA51</Code>
+		<Name>High speed internet connection</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA52</Code>
+		<Name>Interactive web TV</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA53</Code>
+		<Name>International direct dialing</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA54</Code>
+		<Name>Internet access</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA55</Code>
+		<Name>Iron</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA56</Code>
+		<Name>Ironing board</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA57</Code>
+		<Name>Jacuzzi</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA58</Code>
+		<Name>King bed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA59</Code>
+		<Name>Kitchen</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA60</Code>
+		<Name>Kitchen supplies</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA61</Code>
+		<Name>Kitchenette</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA62</Code>
+		<Name>Knock light</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA63</Code>
+		<Name>Laptop</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA64</Code>
+		<Name>Large desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA65</Code>
+		<Name>Large work area</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA66</Code>
+		<Name>Laundry basket/clothes hamper</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA67</Code>
+		<Name>Loft</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA68</Code>
+		<Name>Microwave</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA69</Code>
+		<Name>Minibar</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA70</Code>
+		<Name>Modem</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA71</Code>
+		<Name>Modem jack</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA72</Code>
+		<Name>Multi-line phone</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA73</Code>
+		<Name>Newspaper</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA74</Code>
+		<Name>Non-smoking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA75</Code>
+		<Name>Notepads</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA76</Code>
+		<Name>Office supplies</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA77</Code>
+		<Name>Oven</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA78</Code>
+		<Name>Pay per view movies on TV</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA79</Code>
+		<Name>Pens</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA80</Code>
+		<Name>Phone in bathroom</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA81</Code>
+		<Name>Plates and bowls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA82</Code>
+		<Name>Pots and pans</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA83</Code>
+		<Name>Prayer mats</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA84</Code>
+		<Name>Printer</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA85</Code>
+		<Name>Private bathroom</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA86</Code>
+		<Name>Queen bed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA87</Code>
+		<Name>Recliner</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA88</Code>
+		<Name>Refrigerator</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA89</Code>
+		<Name>Refrigerator with ice maker</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA90</Code>
+		<Name>Remote control television</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA91</Code>
+		<Name>Rollaway bed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA92</Code>
+		<Name>Safe</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA93</Code>
+		<Name>Scanner</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA94</Code>
+		<Name>Separate closet</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA95</Code>
+		<Name>Separate modem line available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA96</Code>
+		<Name>Shoe polisher</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA97</Code>
+		<Name>Shower only</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA98</Code>
+		<Name>Silverware/utensils</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA99</Code>
+		<Name>Sitting area</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA100</Code>
+		<Name>Smoke detectors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA101</Code>
+		<Name>Smoking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA102</Code>
+		<Name>Sofa bed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA103</Code>
+		<Name>Speaker phone</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA104</Code>
+		<Name>Stereo</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA105</Code>
+		<Name>Stove</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA106</Code>
+		<Name>Tape recorder</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA107</Code>
+		<Name>Telephone</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA108</Code>
+		<Name>Telephone for hearing impaired</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA109</Code>
+		<Name>Telephones with message light</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA110</Code>
+		<Name>Toaster oven</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA111</Code>
+		<Name>Trouser/Pant press</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA112</Code>
+		<Name>Turn down service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA113</Code>
+		<Name>Twin bed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA114</Code>
+		<Name>Vaulted ceilings</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA115</Code>
+		<Name>VCR movies</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA116</Code>
+		<Name>VCR player</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA117</Code>
+		<Name>Video games</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA118</Code>
+		<Name>Voice mail</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA119</Code>
+		<Name>Wake-up calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA120</Code>
+		<Name>Water closet</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA121</Code>
+		<Name>Water purification system</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA122</Code>
+		<Name>Wet bar</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA123</Code>
+		<Name>Wireless internet connection</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA124</Code>
+		<Name>Wireless keyboard</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA125</Code>
+		<Name>Adaptor available for telephone PC use</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA126</Code>
+		<Name>Air conditioning individually controlled in room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA127</Code>
+		<Name>Bathtub and jacuzzi separate</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA128</Code>
+		<Name>Telephone with data ports</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA129</Code>
+		<Name>CD  player</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA130</Code>
+		<Name>Complimentary local calls time limit</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA131</Code>
+		<Name>Extra person charge for rollaway use</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA132</Code>
+		<Name>Down/feather pillows</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA133</Code>
+		<Name>Desk with electrical outlet</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA134</Code>
+		<Name>ESPN available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA135</Code>
+		<Name>Foam pillows</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA136</Code>
+		<Name>HBO available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA137</Code>
+		<Name>High ceilings</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA138</Code>
+		<Name>Marble bathroom</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA139</Code>
+		<Name>List of movie channels available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA140</Code>
+		<Name>Pets allowed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA141</Code>
+		<Name>Oversized bathtub</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA142</Code>
+		<Name>Shower</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA143</Code>
+		<Name>Sink in-room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA144</Code>
+		<Name>Soundproofed room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA145</Code>
+		<Name>Storage space</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA146</Code>
+		<Name>Tables and chairs</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA147</Code>
+		<Name>Two-line phone</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA148</Code>
+		<Name>Walk-in closet</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA149</Code>
+		<Name>Washer/dryer</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA150</Code>
+		<Name>Weight scale</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA151</Code>
+		<Name>Welcome gift</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA152</Code>
+		<Name>Spare electrical outlet available at desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA153</Code>
+		<Name>Non-refundable charge for pets</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA154</Code>
+		<Name>Refundable deposit for pets</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA155</Code>
+		<Name>Separate tub and shower</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA156</Code>
+		<Name>Entrance type to guest room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA157</Code>
+		<Name>Ceiling fan</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA158</Code>
+		<Name>CNN available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA159</Code>
+		<Name>Electrical adaptors available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA160</Code>
+		<Name>Buffet breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA161</Code>
+		<Name>Accessible room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA162</Code>
+		<Name>Closets in room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA163</Code>
+		<Name>DVD player</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA164</Code>
+		<Name>Mini-refrigerator</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA165</Code>
+		<Name>Separate line billing for multi-line phone</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA166</Code>
+		<Name>Self-controlled heating/cooling system</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA167</Code>
+		<Name>Toaster</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA168</Code>
+		<Name>Analog data port</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA169</Code>
+		<Name>Collect calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA170</Code>
+		<Name>International calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA171</Code>
+		<Name>Carrier access</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA172</Code>
+		<Name>Interstate calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA173</Code>
+		<Name>Intrastate calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA174</Code>
+		<Name>Local calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA175</Code>
+		<Name>Long distance calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA176</Code>
+		<Name>Operator-assisted calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA177</Code>
+		<Name>Credit card access calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA178</Code>
+		<Name>Calling card calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA179</Code>
+		<Name>Toll free calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA180</Code>
+		<Name>Universal AC/DC adaptors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA181</Code>
+		<Name>Bathtub seat</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA182</Code>
+		<Name>Canopy/poster bed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA183</Code>
+		<Name>Cups/glassware</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA184</Code>
+		<Name>Entertainment center</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA185</Code>
+		<Name>Family/oversized room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA186</Code>
+		<Name>Hypoallergenic bed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA187</Code>
+		<Name>Hypoallergenic pillows</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA188</Code>
+		<Name>Lamp</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA189</Code>
+		<Name>Meal included - breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA190</Code>
+		<Name>Meal included - continental breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA191</Code>
+		<Name>Meal included - dinner</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA192</Code>
+		<Name>Meal included - lunch</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA193</Code>
+		<Name>Shared bathroom</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA194</Code>
+		<Name>Telephone TDD</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA195</Code>
+		<Name>Water bed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA196</Code>
+		<Name>Extra adult charge</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA197</Code>
+		<Name>Extra child charge</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA198</Code>
+		<Name>Extra child charge for rollaway use</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA199</Code>
+		<Name>Meal included:  full American breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA200</Code>
+		<Name>Futon</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA201</Code>
+		<Name>Murphy bed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA202</Code>
+		<Name>Tatami mats</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA203</Code>
+		<Name>Single bed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA204</Code>
+		<Name>Annex room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA205</Code>
+		<Name>Free newspaper</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA206</Code>
+		<Name>Honeymoon suites</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA207</Code>
+		<Name>Complimentary high speed internet in room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA208</Code>
+		<Name>Maid service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA209</Code>
+		<Name>PC hook-up in room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA210</Code>
+		<Name>Satellite television</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA211</Code>
+		<Name>VIP rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA212</Code>
+		<Name>Cell phone recharger</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA213</Code>
+		<Name>DVR player</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA214</Code>
+		<Name>iPod docking station</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA215</Code>
+		<Name>Media center</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA216</Code>
+		<Name>Plug and play panel</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA217</Code>
+		<Name>Satellite radio</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA218</Code>
+		<Name>Video on demand</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA219</Code>
+		<Name>Exterior corridors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA220</Code>
+		<Name>Gulf view</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA221</Code>
+		<Name>Handicap room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA222</Code>
+		<Name>Interior corridors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA223</Code>
+		<Name>Mountain view</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA224</Code>
+		<Name>Ocean view</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA225</Code>
+		<Name>High speed internet access fee</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA226</Code>
+		<Name>High speed wireless</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA227</Code>
+		<Name>Premium movie channels</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA228</Code>
+		<Name>Slippers</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA229</Code>
+		<Name>First nighters' kit</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA230</Code>
+		<Name>Chair provided with desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA231</Code>
+		<Name>Pillow top mattress</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA232</Code>
+		<Name>Feather bed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA233</Code>
+		<Name>Duvet</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA234</Code>
+		<Name>Luxury linen type</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA235</Code>
+		<Name>International channels</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA236</Code>
+		<Name>Pantry</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA237</Code>
+		<Name>Dish-cleaning supplies</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA238</Code>
+		<Name>Double vanity</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA239</Code>
+		<Name>Lighted makeup mirror</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA240</Code>
+		<Name>Upgraded bathroom amenities</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA241</Code>
+		<Name>VCR player available at front desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA242</Code>
+		<Name>Instant hot water</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA243</Code>
+		<Name>Outdoor space</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA244</Code>
+		<Name>Hinoki tub</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA245</Code>
+		<Name>Private pool</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA246</Code>
+		<Name>High Definition (HD) Flat Panel Television  - 32 inches or greater </Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA247</Code>
+		<Name>Room windows open</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA248</Code>
+		<Name>Bedding type unknown or unspecified</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA249</Code>
+		<Name>Full bed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA250</Code>
+		<Name>Round bed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA251</Code>
+		<Name>TV</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA252</Code>
+		<Name>Child rollaway</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA253</Code>
+		<Name>DVD player available at front desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA254</Code>
+		<Name>Video game player:                                      </Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA255</Code>
+		<Name>Video game player available at front desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA256</Code>
+		<Name>Dining room seats</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA257</Code>
+		<Name>Full size mirror</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA258</Code>
+		<Name>Mobile/cellular phones</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA259</Code>
+		<Name>Movies</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA260</Code>
+		<Name>Multiple closets</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA261</Code>
+		<Name>Plates/glassware</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA262</Code>
+		<Name>Safe large enough to accommodate a laptop</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA263</Code>
+		<Name>Bed linen thread count</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA264</Code>
+		<Name>Blackout curtain</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA265</Code>
+		<Name>Bluray player</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA266</Code>
+		<Name>Device with mp3</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA267</Code>
+		<Name>No adult channels or adult channel lock</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA268</Code>
+		<Name>Non-allergenic room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA269</Code>
+		<Name>Pillow type</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA270</Code>
+		<Name>Seating area with sofa/chair</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA271</Code>
+		<Name>Separate toilet area</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA272</Code>
+		<Name>Web enabled</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA273</Code>
+		<Name>Widescreen TV</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA274</Code>
+		<Name>Other data connection</Name>
+	</Amenity>
+	<Amenity>
+		<Code>RMA275</Code>
+		<Name>Phoneline billed separately</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY1</Code>
+		<Name>Americans with Disabilities Act (ADA) compliance</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY2</Code>
+		<Name>Audible emergency alarm for sight impaired guest</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY3</Code>
+		<Name>Bathroom vanity in guest rooms for disabled person height</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY4</Code>
+		<Name>Bed types of wheelchair accessible rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY5</Code>
+		<Name>Closet rods in guest rooms for disabled person height</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY6</Code>
+		<Name>Complies with Local/State/Federal laws for disabled</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY7</Code>
+		<Name>Describe in detail how your kitchen is accessible. Include special appliances, lowered cabinets, where dishes are kept, are upper cabinets usable.</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY8</Code>
+		<Name>Does hotel have accessible parking?</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY9</Code>
+		<Name>Door width in inches</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY10</Code>
+		<Name>Elevators have Braille Instructions</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY11</Code>
+		<Name>Emergency exit signs in Braille</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY12</Code>
+		<Name>Emergency info in Braille</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY13</Code>
+		<Name>Flashing door knocker available for disabled person</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY14</Code>
+		<Name>Impairment aids available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY15</Code>
+		<Name>Light switches in guest rooms for disabled persons height</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY16</Code>
+		<Name>List available room types for disabled persons- 8 fields</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY17</Code>
+		<Name>Lowered deadbolt in guest room for disabled persons height (in feet)</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY18</Code>
+		<Name>Lowered deadbolt in guest room for disabled persons height (in inches)</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY19</Code>
+		<Name>Number of each room type equipped for disabled persons- 8 fields</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY20</Code>
+		<Name>Number of roll-in showers available for disabled person</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY21</Code>
+		<Name>Number of rooms for disabled persons equipped with standard tub</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY22</Code>
+		<Name>Number of rooms with Braille</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY23</Code>
+		<Name>Number of rooms with wheelchair accessible showers</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY24</Code>
+		<Name>Number of wheelchair accessible rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY25</Code>
+		<Name>Other services for persons with disabilities</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY26</Code>
+		<Name>Peephole in guest room for disabled person height (in ft)</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY27</Code>
+		<Name>Peephole in guest room for disabled person height (in inches)</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY28</Code>
+		<Name>Public areas wheelchair accessible for disabled</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY29</Code>
+		<Name>Service animals allowed on property for people with disabilities</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY30</Code>
+		<Name>Thermostat in guest for disabled persons height (in feet)</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY31</Code>
+		<Name>Thermostat in guest for disabled persons height (in inches)</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY32</Code>
+		<Name>Toilet seat in guest rooms for disabled person</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY33</Code>
+		<Name>Vibrating alarm available for disabled persons</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY34</Code>
+		<Name>Visual emergency alarm for hearing impaired guest</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY35</Code>
+		<Name>What room types have wheel-in showers? (free form stringbox)</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY36</Code>
+		<Name>Wheelchairs available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY37</Code>
+		<Name>Which floors have handicapped rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY38</Code>
+		<Name>Grab bars in bathroom</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY39</Code>
+		<Name>Telephone for hearing impaired</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY40</Code>
+		<Name>Light switches in guest rooms for disabled persons height (feet)</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY41</Code>
+		<Name>Light switches in guest rooms for disabled persons height (inches)</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY42</Code>
+		<Name>Wheelchair accessible elevators</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY43</Code>
+		<Name>Hearing impaired services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY44</Code>
+		<Name>Bathtub seat</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY45</Code>
+		<Name>Closed caption TV</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY46</Code>
+		<Name>Safety bars in shower</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY47</Code>
+		<Name>Television amplifier</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY48</Code>
+		<Name>Walk-in shower</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY49</Code>
+		<Name>Ramp access</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY50</Code>
+		<Name>Handicapped parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY51</Code>
+		<Name>Handicapped van parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY52</Code>
+		<Name>Raised toilet seat with grab bars</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY53</Code>
+		<Name>Bathroom doors open outwards</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY54</Code>
+		<Name>Accommodations have bath in bedroom</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY55</Code>
+		<Name>Elevator access to all levels</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY56</Code>
+		<Name>Elevator near disability accessible rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY57</Code>
+		<Name>Emergency cord/button system in bathroom</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY58</Code>
+		<Name>Emergency cord/button system in bedroom</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY59</Code>
+		<Name>Emergency instructions in pictorial form</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY60</Code>
+		<Name>Emergency procedures for disabled guests</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY61</Code>
+		<Name>Facilities for blind people only</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY62</Code>
+		<Name>Facilities for deaf people only</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY63</Code>
+		<Name>Feather free bedding/pillows available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY64</Code>
+		<Name>Flat terrain between parking and entrance</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY65</Code>
+		<Name>Hearing induction loop system installed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY66</Code>
+		<Name>Restaurant/bar menus available in Braille</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY67</Code>
+		<Name>Restaurant/bar menus available in 14pt print</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY68</Code>
+		<Name>Roll-in shower area with bathroom seat</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY69</Code>
+		<Name>Service dogs allowed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY70</Code>
+		<Name>Staff proficient in sign language</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY71</Code>
+		<Name>Staff trained in service to disabled guests</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY72</Code>
+		<Name>Steps/staircases have handrails</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY73</Code>
+		<Name>Steps/staircases have color markings</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY74</Code>
+		<Name>Subtitles/closed captions available on TV</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY75</Code>
+		<Name>Tactile/14pt print signage throughout hotel</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY76</Code>
+		<Name>Vibrating pillows available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY77</Code>
+		<Name>Height of bathroom basin</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY78</Code>
+		<Name>Height of bathroom toilet seat</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY79</Code>
+		<Name>Height of controls at highest operable part for bath</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY80</Code>
+		<Name>Height of controls at highest operable part for roll-in shower</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY81</Code>
+		<Name>Height of disable guest bed including mattress</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY82</Code>
+		<Name>Height of elevator external buttons</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY83</Code>
+		<Name>Height of elevator internal buttons</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY84</Code>
+		<Name>Height from ground to light switches in bathroom</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY85</Code>
+		<Name>Height of non-slip handrails adjacent to bathroom toilet</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY86</Code>
+		<Name>Height of non-slip handrails adjacent to bath</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY87</Code>
+		<Name>Height of non-slip handrails in shower area</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY88</Code>
+		<Name>Width/diameter of clear floor space in front of bath</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY89</Code>
+		<Name>Length/depth of clear floor space in front of bath</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY90</Code>
+		<Name>Width/diameter of clear floor space in front of guest bathroom toilet</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY91</Code>
+		<Name>Length/depth of clear floor space in front of guest bathroom toilet</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY92</Code>
+		<Name>Width/diameter of clear floor space at main hotel entrance</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY93</Code>
+		<Name>Width/diameter of clear floor space at main restaurant entrance</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY94</Code>
+		<Name>Width/diameter of elevator clear door opening space</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY95</Code>
+		<Name>Width/diameter of maincorridors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY96</Code>
+		<Name>Width/diameter of wheelchair turning space in bathroom</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY97</Code>
+		<Name>Width/diameter of wheelchair turning space in bedroom</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY98</Code>
+		<Name>Width/diameter of wheelchair turning space in lobby/reception area</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY99</Code>
+		<Name>Width/diameter of clear opening space at bathroom door</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY100</Code>
+		<Name>Width/diameter of clear opening space at bedroom door</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY101</Code>
+		<Name>Height of elevator internal handrails</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY102</Code>
+		<Name>Accessible baths</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY103</Code>
+		<Name>Braille/large print literature</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY104</Code>
+		<Name>Adapted room doors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY105</Code>
+		<Name>Bedroom wheelchair access</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY106</Code>
+		<Name>Special needs menus</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY107</Code>
+		<Name>Wide entrance</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY108</Code>
+		<Name>Wide corridors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY109</Code>
+		<Name>Wide restaurant entrance</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY110</Code>
+		<Name>Roll-in shower available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY111</Code>
+		<Name>Lever handles on guest room doors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY112</Code>
+		<Name>Lowered night guards on guest room doors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY113</Code>
+		<Name>Lowered electrical outlets</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY114</Code>
+		<Name>Bathtub grab bars</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY115</Code>
+		<Name>Adjustable height hand-held shower wand</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY116</Code>
+		<Name>TTY/TTD compatible</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY117</Code>
+		<Name>Bathroom doors in inches</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY118</Code>
+		<Name>Wheelchair, passenger has own chair, trains</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY119</Code>
+		<Name>Wheelchair, passenger has own chair, buses</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY120</Code>
+		<Name>Wheelchair, passenger requires station wheelchair</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY121</Code>
+		<Name>Wheelchair lift required</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY122</Code>
+		<Name>Lower level seating required</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY123</Code>
+		<Name>Passenger has oxygen equipment</Name>
+	</Amenity>
+	<Amenity>
+		<Code>PHY124</Code>
+		<Name>Passenger has meet and assist requirement</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC1</Code>
+		<Name>2nd lock on guest doors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC2</Code>
+		<Name>Address of nearest police station</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC3</Code>
+		<Name>Alarms continuously monitored</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC4</Code>
+		<Name>Audible alarm smoke detectors in guest rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC5</Code>
+		<Name>Auto link to fire station</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC6</Code>
+		<Name>Automatic fire doors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC7</Code>
+		<Name>Building meets all current local, state and country building codes</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC8</Code>
+		<Name>Complies with Hotel/Motel Safety Act</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC9</Code>
+		<Name>Complies with Local/State/Federal fire laws</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC10</Code>
+		<Name>Dead bolts on guest room doors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC11</Code>
+		<Name>Distance to nearest police station</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC12</Code>
+		<Name>Doctor on call</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC13</Code>
+		<Name>Electronic room key</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC14</Code>
+		<Name>Elevator auto recall</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC15</Code>
+		<Name>Emergency back-up generators</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC16</Code>
+		<Name>Emergency evacuation plan</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC17</Code>
+		<Name>Emergency exit maps</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC18</Code>
+		<Name>Emergency info in room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC19</Code>
+		<Name>Emergency lighting</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC20</Code>
+		<Name>Fire detectors in guest rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC21</Code>
+		<Name>Fire detectors in hallways</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC22</Code>
+		<Name>Fire detectors in public areas</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC23</Code>
+		<Name>Fire extinguishers</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC24</Code>
+		<Name>Fire resistant guest room doors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC25</Code>
+		<Name>Fire resistant hall room doors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC26</Code>
+		<Name>Frequency of evacuation drills</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC27</Code>
+		<Name>Guest room doors self-closing</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC28</Code>
+		<Name>Hard wired smoke detectors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC29</Code>
+		<Name>If no 24 hour security, what are the hours?</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC30</Code>
+		<Name>Lighted parking area</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC31</Code>
+		<Name>Lighted walkways</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC32</Code>
+		<Name>Multiple exits on each floor</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC33</Code>
+		<Name>Parking area attendants</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC34</Code>
+		<Name>Patrolled parking area</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC35</Code>
+		<Name>Phone number of nearest police station</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC36</Code>
+		<Name>Property has elevators</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC37</Code>
+		<Name>Public address system</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC38</Code>
+		<Name>Response time (minutes) from fire/police department</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC39</Code>
+		<Name>Restricted public access</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC40</Code>
+		<Name>Room access through exterior corridor</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC41</Code>
+		<Name>Room access through interior corridor</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC42</Code>
+		<Name>Room accessible through balcony sliding glass doors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC43</Code>
+		<Name>Room windows open</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC44</Code>
+		<Name>Safety chains on guest doors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC45</Code>
+		<Name>Secondary locks on room windows</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC46</Code>
+		<Name>Secondary locks on sliding glass doors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC47</Code>
+		<Name>Security 24 hours/day</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC48</Code>
+		<Name>Smoke detector in guest rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC49</Code>
+		<Name>Smoke detector in hallways</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC50</Code>
+		<Name>Smoke detector in public areas</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC51</Code>
+		<Name>Some guest rooms have a balcony</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC52</Code>
+		<Name>Sprinklers in guest rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC53</Code>
+		<Name>Sprinklers in hallways</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC54</Code>
+		<Name>Sprinklers in public areas</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC55</Code>
+		<Name>Staff trained in CPR</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC56</Code>
+		<Name>Staff trained in duplicate key issue</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC57</Code>
+		<Name>Staff trained in first aid</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC58</Code>
+		<Name>Uniformed security</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC59</Code>
+		<Name>Ventilated stair wells</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC60</Code>
+		<Name>Video cameras at entrance</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC61</Code>
+		<Name>Video cameras in hallways</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC62</Code>
+		<Name>Video cameras in public areas</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC63</Code>
+		<Name>Viewports in guest room doors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC64</Code>
+		<Name>Visual alarm smoke detectors in guest rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC65</Code>
+		<Name>Well lighted exit signs</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC66</Code>
+		<Name>Which floors have exterior entrances</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC67</Code>
+		<Name>Which floors have interior entrances</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC68</Code>
+		<Name>Balcony accessibly by adjoining rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC69</Code>
+		<Name>Double glazed windows</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC70</Code>
+		<Name>Fire extinguishers in hallways</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC71</Code>
+		<Name>Security </Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC72</Code>
+		<Name>Audible alarms in hallways</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC73</Code>
+		<Name>Audible alarms in public areas</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC74</Code>
+		<Name>Automated External Defibrillator (AED) on-site</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC75</Code>
+		<Name>Basic medical equipment on-site</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC76</Code>
+		<Name>Camera monitoring parking area 24 hrs</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC77</Code>
+		<Name>Camera recording parking area 24 hrs</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC78</Code>
+		<Name>Controlled access to parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC79</Code>
+		<Name>Exterior doors (except lobby entrance) require key access at night</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC80</Code>
+		<Name>Staff Red Cross certified in CPR</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC81</Code>
+		<Name>Staff trained in Automated External Defibrillator (AED) usage</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC82</Code>
+		<Name>Video surveillance of parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC83</Code>
+		<Name>Visual alarms in hallways</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC84</Code>
+		<Name>Visual alarms in public areas</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC85</Code>
+		<Name>Emergency exits on each floor</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC86</Code>
+		<Name>Video surveillance recorded 24 hrs a day</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC87</Code>
+		<Name>Video surveillance monitored 24 hrs a day</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC88</Code>
+		<Name>Carbon monoxide detector</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC89</Code>
+		<Name>Fire extinguishers in public areas</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC90</Code>
+		<Name>First aid available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC91</Code>
+		<Name>Private security available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC92</Code>
+		<Name>Secured floors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC93</Code>
+		<Name>U.S. Fire Safety compliant</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC94</Code>
+		<Name>Evacuation drills</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC95</Code>
+		<Name>Hotel has fire safety measures in place but does not meet a national fire safety standard</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC96</Code>
+		<Name>FEMA approved</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC97</Code>
+		<Name>Hours security</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC98</Code>
+		<Name>Emergency svc response time (minutes)</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC99</Code>
+		<Name>Security escorts available on request</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC100</Code>
+		<Name>Swingbolt lock</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC101</Code>
+		<Name>AAA security standards</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC102</Code>
+		<Name>Connecting doors have deadbolts</Name>
+	</Amenity>
+	<Amenity>
+		<Code>SEC103</Code>
+		<Name>Emergency call button on phone</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS1</Code>
+		<Name>Computer</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS2</Code>
+		<Name>Copier</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS3</Code>
+		<Name>Cordless phone</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS4</Code>
+		<Name>Data port</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS5</Code>
+		<Name>Desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS6</Code>
+		<Name>Direct dial phone number</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS7</Code>
+		<Name>Ergonomic chair</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS8</Code>
+		<Name>Extended phone cord</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS9</Code>
+		<Name>Fax machine</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS10</Code>
+		<Name>Free toll free calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS11</Code>
+		<Name>Free calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS12</Code>
+		<Name>Free CC access calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS13</Code>
+		<Name>Free local calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS14</Code>
+		<Name>High speed internet connection</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS15</Code>
+		<Name>Interactive Web TV</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS16</Code>
+		<Name>International direct dialing</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS17</Code>
+		<Name>Internet access</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS18</Code>
+		<Name>Laptop</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS19</Code>
+		<Name>Large desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS20</Code>
+		<Name>Large work area</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS21</Code>
+		<Name>Modem</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS22</Code>
+		<Name>Modem jack</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS23</Code>
+		<Name>Multi-line phone</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS24</Code>
+		<Name>Newspaper</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS25</Code>
+		<Name>Notepads</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS26</Code>
+		<Name>Office supplies</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS27</Code>
+		<Name>Pens</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS28</Code>
+		<Name>Printer</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS29</Code>
+		<Name>Scanner</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS30</Code>
+		<Name>Shoe polisher</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS31</Code>
+		<Name>Speaker phone</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS32</Code>
+		<Name>Tape recorder</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS33</Code>
+		<Name>Telephone</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS34</Code>
+		<Name>Voicemail</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS35</Code>
+		<Name>Wireless internet connection</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS36</Code>
+		<Name>Wireless keyboard</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS37</Code>
+		<Name>Audio visual equipment</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS38</Code>
+		<Name>Blackboard</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS39</Code>
+		<Name>Business center</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS40</Code>
+		<Name>Cellular phone rental</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS41</Code>
+		<Name>Computer rental</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS42</Code>
+		<Name>Executive desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS43</Code>
+		<Name>Flip charts</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS44</Code>
+		<Name>Laptop rental</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS45</Code>
+		<Name>LCD/Projector</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS46</Code>
+		<Name>Meeting/board rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS47</Code>
+		<Name>News stand</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS48</Code>
+		<Name>Overhead projector</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS49</Code>
+		<Name>Secretarial services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS50</Code>
+		<Name>Whiteboard</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS51</Code>
+		<Name>Fax machine can print from laptop</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS52</Code>
+		<Name>Incoming fax complimentary</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS53</Code>
+		<Name>Free fax receipt page limit</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS54</Code>
+		<Name>Fee per additional page of incoming fax</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS55</Code>
+		<Name>Fee charged for first page</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS56</Code>
+		<Name>ISDN</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS57</Code>
+		<Name>Network/internet printing available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS58</Code>
+		<Name>Notary public</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS59</Code>
+		<Name>Fee per additional page of outgoing fax</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS60</Code>
+		<Name>Outgoing fax complimentary</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS61</Code>
+		<Name>Fee charged for first page of outgoing fax</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS62</Code>
+		<Name>Overnight delivery/pickup</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS63</Code>
+		<Name>Pager rental</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS64</Code>
+		<Name>Post/parcel service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS65</Code>
+		<Name>Private offices and business services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS66</Code>
+		<Name>Analog - dialup connectivity</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS67</Code>
+		<Name>Ethernet connectivity</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS68</Code>
+		<Name>Kiosk connectivity</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS69</Code>
+		<Name>Wireless connectivity</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS70</Code>
+		<Name>Mobile/cellular phone available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS71</Code>
+		<Name>Full business center</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS72</Code>
+		<Name>On-site business center</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS73</Code>
+		<Name>On-site business center is staffed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS74</Code>
+		<Name>In-room internet appliance</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS75</Code>
+		<Name>Analog data port</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS76</Code>
+		<Name>Calling card calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS77</Code>
+		<Name>Carrier access</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS78</Code>
+		<Name>Interstate calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS79</Code>
+		<Name>Intrastate calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS80</Code>
+		<Name>Local calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS81</Code>
+		<Name>Long distance calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS82</Code>
+		<Name>Operator-assisted calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS83</Code>
+		<Name>VCR/DVD machine rental</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS84</Code>
+		<Name>Free operator assisted calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS85</Code>
+		<Name>Free intrastate calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS86</Code>
+		<Name>Free interstate calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS87</Code>
+		<Name>Free international calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS88</Code>
+		<Name>Free carrier access calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS89</Code>
+		<Name>Business services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS90</Code>
+		<Name>Toll free calls</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS91</Code>
+		<Name>Slide projector</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS92</Code>
+		<Name>Ethernet RJ-45 jack</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS93</Code>
+		<Name>Free fax transmission page limit</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS94</Code>
+		<Name>Conference suite</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS95</Code>
+		<Name>Convention centre</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS96</Code>
+		<Name>Meeting facilities</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS97</Code>
+		<Name>E-mail service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS98</Code>
+		<Name>Other data connections</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS99</Code>
+		<Name>Hotel folio breakdown available to credit card company</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS100</Code>
+		<Name>Individual folios available via e-mail or web</Name>
+	</Amenity>
+	<Amenity>
+		<Code>BUS101</Code>
+		<Name>Local faxes</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC1</Code>
+		<Name>24-hour front desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC2</Code>
+		<Name>24-hour room service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC3</Code>
+		<Name>24-hour security</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC4</Code>
+		<Name>Adjoining rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC5</Code>
+		<Name>Air conditioning</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC6</Code>
+		<Name>Airline desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC7</Code>
+		<Name>ATM/Cash machine</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC8</Code>
+		<Name>Baby sitting</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC9</Code>
+		<Name>BBQ/Picnic area</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC10</Code>
+		<Name>Bilingual staff</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC11</Code>
+		<Name>Bookstore</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC12</Code>
+		<Name>Boutiques/stores</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC13</Code>
+		<Name>Brailed elevators</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC14</Code>
+		<Name>Business library</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC15</Code>
+		<Name>Car rental desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC16</Code>
+		<Name>Casino</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC17</Code>
+		<Name>Check cashing policy</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC18</Code>
+		<Name>Check-in kiosk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC19</Code>
+		<Name>Cocktail lounge</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC20</Code>
+		<Name>Coffee shop</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC21</Code>
+		<Name>Coin operated laundry</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC22</Code>
+		<Name>Concierge desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC23</Code>
+		<Name>Concierge floor</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC24</Code>
+		<Name>Conference facilities</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC25</Code>
+		<Name>Courtyard</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC26</Code>
+		<Name>Currency exchange</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC27</Code>
+		<Name>Desk with electrical outlet</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC28</Code>
+		<Name>Doctor on call</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC29</Code>
+		<Name>Door man</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC30</Code>
+		<Name>Driving range</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC31</Code>
+		<Name>Drugstore/pharmacy</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC32</Code>
+		<Name>Duty free shop</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC33</Code>
+		<Name>Elevators</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC34</Code>
+		<Name>Executive floor</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC35</Code>
+		<Name>Exercise gym</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC36</Code>
+		<Name>Express check-in</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC37</Code>
+		<Name>Express check-out</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC38</Code>
+		<Name>Family plan</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC39</Code>
+		<Name>Florist</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC40</Code>
+		<Name>Folios</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC41</Code>
+		<Name>Free airport shuttle</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC42</Code>
+		<Name>Free parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC43</Code>
+		<Name>Free transportation</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC44</Code>
+		<Name>Game room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC45</Code>
+		<Name>Gift/News stand</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC46</Code>
+		<Name>Hairdresser/barber</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC47</Code>
+		<Name>Accessible facilities</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC48</Code>
+		<Name>Health club</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC49</Code>
+		<Name>Heated pool</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC50</Code>
+		<Name>Housekeeping - daily</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC51</Code>
+		<Name>Housekeeping - weekly</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC52</Code>
+		<Name>Ice machine</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC53</Code>
+		<Name>Indoor parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC54</Code>
+		<Name>Indoor pool</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC55</Code>
+		<Name>Jacuzzi</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC56</Code>
+		<Name>Jogging track</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC57</Code>
+		<Name>Kennels</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC58</Code>
+		<Name>Laundry/Valet service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC59</Code>
+		<Name>Liquor store</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC60</Code>
+		<Name>Live entertainment</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC61</Code>
+		<Name>Massage services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC62</Code>
+		<Name>Nightclub</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC63</Code>
+		<Name>Off-Site parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC64</Code>
+		<Name>On-Site parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC65</Code>
+		<Name>Outdoor parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC66</Code>
+		<Name>Outdoor pool</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC67</Code>
+		<Name>Package/Parcel services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC68</Code>
+		<Name>Parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC69</Code>
+		<Name>Photocopy center</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC70</Code>
+		<Name>Playground</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC71</Code>
+		<Name>Pool</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC72</Code>
+		<Name>Poolside snack bar</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC73</Code>
+		<Name>Public address system</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC74</Code>
+		<Name>Ramp access</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC75</Code>
+		<Name>Recreational vehicle parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC76</Code>
+		<Name>Restaurant</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC77</Code>
+		<Name>Room service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC78</Code>
+		<Name>Safe deposit box</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC79</Code>
+		<Name>Sauna</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC80</Code>
+		<Name>Security</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC81</Code>
+		<Name>Shoe shine stand</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC82</Code>
+		<Name>Shopping mall</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC83</Code>
+		<Name>Solarium</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC84</Code>
+		<Name>Spa</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC85</Code>
+		<Name>Sports bar</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC86</Code>
+		<Name>Steam bath</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC87</Code>
+		<Name>Storage space</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC88</Code>
+		<Name>Sundry/Convenience store</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC89</Code>
+		<Name>Technical concierge</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC90</Code>
+		<Name>Theatre desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC91</Code>
+		<Name>Tour/sightseeing desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC92</Code>
+		<Name>Translation services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC93</Code>
+		<Name>Travel agency</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC94</Code>
+		<Name>Truck parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC95</Code>
+		<Name>Valet cleaning</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC96</Code>
+		<Name>Dry cleaning</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC97</Code>
+		<Name>Valet parking </Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC98</Code>
+		<Name>Vending machines</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC99</Code>
+		<Name>Video tapes</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC100</Code>
+		<Name>Wakeup service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC101</Code>
+		<Name>Wheel chair access</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC102</Code>
+		<Name>Whirlpool</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC103</Code>
+		<Name>Multilingual staff</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC104</Code>
+		<Name>Wedding services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC105</Code>
+		<Name>Banquet facilities</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC106</Code>
+		<Name>Bell staff/porter</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC107</Code>
+		<Name>Beauty shop/salon</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC108</Code>
+		<Name>Complimentary self service laundry</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC109</Code>
+		<Name>Direct dial telephone</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC110</Code>
+		<Name>Female traveler room/floor</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC111</Code>
+		<Name>Pharmacy</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC112</Code>
+		<Name>Stables</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC113</Code>
+		<Name>120 AC</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC114</Code>
+		<Name>120 DC</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC115</Code>
+		<Name>220 AC</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC116</Code>
+		<Name>Accessible parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC117</Code>
+		<Name>220 DC</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC118</Code>
+		<Name>Barbeque grills</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC119</Code>
+		<Name>Women's clothing</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC120</Code>
+		<Name>Men's clothing</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC121</Code>
+		<Name>Children's clothing</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC122</Code>
+		<Name>Shops and commercial services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC123</Code>
+		<Name>Video games</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC124</Code>
+		<Name>Sports bar open for lunch</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC125</Code>
+		<Name>Sports bar open for dinner</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC126</Code>
+		<Name>Room service - full menu</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC127</Code>
+		<Name>Room service - limited menu</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC128</Code>
+		<Name>Room service - limited hours</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC129</Code>
+		<Name>Valet same day dry cleaning</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC130</Code>
+		<Name>Body scrub</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC131</Code>
+		<Name>Body wrap</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC132</Code>
+		<Name>Public area air conditioned</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC133</Code>
+		<Name>Efolio available to company</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC134</Code>
+		<Name>Individual Efolio available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC135</Code>
+		<Name>Video review billing</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC136</Code>
+		<Name>Butler service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC137</Code>
+		<Name>Complimentary in-room coffee or tea</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC138</Code>
+		<Name>Complimentary buffet breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC139</Code>
+		<Name>Complimentary cocktails</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC140</Code>
+		<Name>Complimentary coffee in lobby</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC141</Code>
+		<Name>Complimentary continental breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC142</Code>
+		<Name>Complimentary full american breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC143</Code>
+		<Name>Dinner delivery service from local restaurant</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC144</Code>
+		<Name>Complimentary newspaper delivered to room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC145</Code>
+		<Name>Complimentary newspaper in lobby</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC146</Code>
+		<Name>Complimentary shoeshine</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC147</Code>
+		<Name>Evening reception</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC148</Code>
+		<Name>Front desk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC149</Code>
+		<Name>Grocery shopping service available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC150</Code>
+		<Name>Halal food available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC151</Code>
+		<Name>Kosher food available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC152</Code>
+		<Name>Limousine service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC153</Code>
+		<Name>Managers reception</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC154</Code>
+		<Name>Medical Facilities Service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC155</Code>
+		<Name>Telephone jack adaptor available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC156</Code>
+		<Name>All-inclusive meal plan </Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC157</Code>
+		<Name>Buffet breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC158</Code>
+		<Name>Communal bar area</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC159</Code>
+		<Name>Continental breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC160</Code>
+		<Name>Full meal plan</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC161</Code>
+		<Name>Full american breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC162</Code>
+		<Name>Meal plan available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC163</Code>
+		<Name>Modified american meal plan</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC164</Code>
+		<Name>Food and beverage outlets</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC165</Code>
+		<Name>Lounges/bars</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC166</Code>
+		<Name>Barber shop</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC167</Code>
+		<Name>Video checkout</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC168</Code>
+		<Name>Onsite laundry</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC169</Code>
+		<Name>24-hour food and beverage kiosk</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC170</Code>
+		<Name>Concierge lounge</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC171</Code>
+		<Name>Parking fee managed by hotel</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC172</Code>
+		<Name>Transportation</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC173</Code>
+		<Name>Breakfast served in restaurant</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC174</Code>
+		<Name>Lunch served in restaurant</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC175</Code>
+		<Name>Dinner served in restaurant</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC176</Code>
+		<Name>Full service housekeeping</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC177</Code>
+		<Name>Limited service housekeeping</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC178</Code>
+		<Name>High speed internet access for laptop in public areas</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC179</Code>
+		<Name>Wireless internet connection in public areas</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC180</Code>
+		<Name>Additional services/amenities/facilities on property</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC181</Code>
+		<Name>Transportation services - local area</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC182</Code>
+		<Name>Transportation services - local office</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC183</Code>
+		<Name>DVD/video rental</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC184</Code>
+		<Name>Parking lot</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC185</Code>
+		<Name>Parking deck</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC186</Code>
+		<Name>Street side parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC187</Code>
+		<Name>Cocktail lounge with entertainment</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC188</Code>
+		<Name>Cocktail lounge with light fare</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC189</Code>
+		<Name>Motorcycle parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC190</Code>
+		<Name>Phone services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC191</Code>
+		<Name>Ballroom</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC192</Code>
+		<Name>Bus parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC193</Code>
+		<Name>Children's play area</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC194</Code>
+		<Name>Children's nursery</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC195</Code>
+		<Name>Disco</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC196</Code>
+		<Name>Early check-in</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC197</Code>
+		<Name>Locker room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC198</Code>
+		<Name>Non-smoking rooms (generic)</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC199</Code>
+		<Name>Train access</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC200</Code>
+		<Name>Aerobics instruction</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC201</Code>
+		<Name>Baggage hold</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC202</Code>
+		<Name>Bicycle rentals</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC203</Code>
+		<Name>Dietician</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC204</Code>
+		<Name>Late check-out available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC205</Code>
+		<Name>Pet-sitting services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC206</Code>
+		<Name>Prayer mats</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC207</Code>
+		<Name>Sports trainer</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC208</Code>
+		<Name>Turndown service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC209</Code>
+		<Name>DVDs/videos - children</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC210</Code>
+		<Name>Bank</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC211</Code>
+		<Name>Lobby coffee service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC212</Code>
+		<Name>Banking services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC213</Code>
+		<Name>Stairwells</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC214</Code>
+		<Name>Pet amenities available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC215</Code>
+		<Name>Exhibition/convention floor</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC216</Code>
+		<Name>Long term parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC217</Code>
+		<Name>Children not allowed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC218</Code>
+		<Name>Children welcome</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC219</Code>
+		<Name>Courtesy car</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC220</Code>
+		<Name>Hotel does not provide pornographic films/TV</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC221</Code>
+		<Name>Hotspots</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC222</Code>
+		<Name>Free high speed internet connection</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC223</Code>
+		<Name>Internet services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC224</Code>
+		<Name>Pets allowed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC225</Code>
+		<Name>Gourmet highlights</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC226</Code>
+		<Name>Catering services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC227</Code>
+		<Name>Complimentary breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC228</Code>
+		<Name>Business center</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC229</Code>
+		<Name>Business services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC230</Code>
+		<Name>Secured parking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC231</Code>
+		<Name>Racquetball</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC232</Code>
+		<Name>Snow sports</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC233</Code>
+		<Name>Tennis court</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC234</Code>
+		<Name>Water sports</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC235</Code>
+		<Name>Child programs</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC236</Code>
+		<Name>Golf</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC237</Code>
+		<Name>Horseback riding</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC238</Code>
+		<Name>Oceanfront</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC239</Code>
+		<Name>Beachfront</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC240</Code>
+		<Name>Hair dryer</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC241</Code>
+		<Name>Ironing board</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC242</Code>
+		<Name>Heated guest rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC243</Code>
+		<Name>Toilet</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC244</Code>
+		<Name>Parlor</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC245</Code>
+		<Name>Video game player</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC246</Code>
+		<Name>Thalassotherapy</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC247</Code>
+		<Name>Private dining for groups</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC248</Code>
+		<Name>Hearing impaired services</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC249</Code>
+		<Name>Carryout breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC250</Code>
+		<Name>Deluxe continental breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC251</Code>
+		<Name>Hot continental breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC252</Code>
+		<Name>Hot breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC253</Code>
+		<Name>Private pool</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC254</Code>
+		<Name>Connecting rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC255</Code>
+		<Name>Data port</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC256</Code>
+		<Name>Exterior corridors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC257</Code>
+		<Name>Gulf view</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC258</Code>
+		<Name>Handicap rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC259</Code>
+		<Name>High speed internet access</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC260</Code>
+		<Name>Interior corridors</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC261</Code>
+		<Name>High speed wireless</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC262</Code>
+		<Name>Kitchenette</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC263</Code>
+		<Name>Private bath or shower</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC264</Code>
+		<Name>Fire safety compliant</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC265</Code>
+		<Name>Welcome drink</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC266</Code>
+		<Name>Boarding pass print-out available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC267</Code>
+		<Name>Printing services available</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC268</Code>
+		<Name>All public areas non-smoking</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC269</Code>
+		<Name>Meeting rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC270</Code>
+		<Name>Movies in room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC271</Code>
+		<Name>Secretarial service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC272</Code>
+		<Name>Snow skiing</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC273</Code>
+		<Name>Water skiing</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC274</Code>
+		<Name>Fax service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC275</Code>
+		<Name>Great room</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC276</Code>
+		<Name>Lobby</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC277</Code>
+		<Name>Multiple phone lines billed separately</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC278</Code>
+		<Name>Umbrellas</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC279</Code>
+		<Name>Gas station</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC280</Code>
+		<Name>Grocery store</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC281</Code>
+		<Name>24-hour coffee shop</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC282</Code>
+		<Name>Airport shuttle service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC283</Code>
+		<Name>Luggage service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC284</Code>
+		<Name>Piano Bar</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC285</Code>
+		<Name>VIP security</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC286</Code>
+		<Name>Complimentary wireless internet</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC287</Code>
+		<Name>Concierge breakfast</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC288</Code>
+		<Name>Same gender floor</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC289</Code>
+		<Name>Children programs</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC290</Code>
+		<Name>Building meets local, state and country building codes</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC291</Code>
+		<Name>Internet browser On TV</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC292</Code>
+		<Name>Newspaper</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC293</Code>
+		<Name>Parking - controlled access gates to enter parking area</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC294</Code>
+		<Name>Hotel safe deposit box (not room safe box)</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC295</Code>
+		<Name>Storage space available – fee</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC296</Code>
+		<Name>Type of entrances to guest rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC297</Code>
+		<Name>Beverage/cocktail</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC298</Code>
+		<Name>Cell phone rental</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC299</Code>
+		<Name>Coffee/tea</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC300</Code>
+		<Name>Early check in guarantee</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC301</Code>
+		<Name>Food and beverage discount</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC302</Code>
+		<Name>Late check out guarantee</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC303</Code>
+		<Name>Room upgrade confirmed</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC304</Code>
+		<Name>Room upgrade on availability</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC305</Code>
+		<Name>Shuttle to local businesses</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC306</Code>
+		<Name>Shuttle to local attractions</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC307</Code>
+		<Name>Social hour</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC308</Code>
+		<Name>Video billing</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC309</Code>
+		<Name>Welcome gift</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC310</Code>
+		<Name>Hypoallergenic rooms</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC311</Code>
+		<Name>Room air filtration</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC312</Code>
+		<Name>Smoke-free property</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC313</Code>
+		<Name>Water purification system in use</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC314</Code>
+		<Name>Poolside service</Name>
+	</Amenity>
+	<Amenity>
+		<Code>HAC315</Code>
+		<Name>Clothing store</Name>
+	</Amenity>
+</TTWSHotelAmenity>

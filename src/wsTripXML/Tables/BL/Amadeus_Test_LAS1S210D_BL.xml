@@ -1,0 +1,27 @@
+<BL>
+	<Provider Name="Amadeus" Systrem="Test" PCC="LAS1S210D"/>
+	<Message Name="LowFare" Direction="Out">
+		<Fees>
+			<Fee Fare="Private" Type="Markup">
+				<Route Depart="***" Arrival="***">
+					<Value Type="A">40.00</Value>
+				</Route>
+			</Fee>
+			<Fee Fare="Private" Type="Markup">
+				<Route Depart="MIA" Arrival="CDG">
+					<Value Type="A">50.00</Value>
+				</Route>
+			</Fee>
+			<Fee Fare="Published" Type="Service Fee">
+				<Route Depart="***" Arrival="***">
+					<Value Type="A">5.00</Value>
+				</Route>
+			</Fee>
+			<Fee Fare="Published" Type="Service Fee">
+				<Route Depart="MIA" Arrival="CDG">
+					<Value Type="A">7.00</Value>
+				</Route>
+			</Fee>
+		</Fees>
+	</Message>
+</BL>

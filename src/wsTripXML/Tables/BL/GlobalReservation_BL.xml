@@ -1,0 +1,47 @@
+<BL RequestorID="GlobalReservation">
+	<Message Name="LowFare" Direction="In">
+		<ProviderBL Name="Amadeus" System="Production" PCC="***1S****">
+			<Preferences>
+				<Airline Code="G3" Level="E" StartDate="20071026" EndDate="20991231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="JK" Level="E" StartDate="20071026" EndDate="20991231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+				<Airline Code="FI" Level="E" StartDate="20071026" EndDate="20991231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+			</Preferences>
+		</ProviderBL>
+	</Message>
+	<Message Name="LowFare" Direction="Out">
+		<NoTktAirline Name="Amadeus" System="Production" PCC="ATL1S2157">
+			<Airline Code="SU" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="B6" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="F9" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="FL" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="NK" StartDate="20080101" EndDate="20991231"/>
+		</NoTktAirline>
+		<NoTktAirline Name="Amadeus" System="Production" PCC="CHI1S211S">
+			<Airline Code="SU" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="B6" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="F9" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="FL" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="NK" StartDate="20080101" EndDate="20991231"/>
+		</NoTktAirline>
+		<NoTktAirline Name="Amadeus" System="Production" PCC="ATL1S211D">
+			<Airline Code="SU" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="B6" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="F9" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="FL" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="NK" StartDate="20080101" EndDate="20991231"/>
+		</NoTktAirline>
+		<NoTktAirline Name="Amadeus" System="Production" PCC="ATL1S2144">
+			<Airline Code="SU" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="B6" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="F9" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="FL" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="NK" StartDate="20080101" EndDate="20991231"/>
+		</NoTktAirline>
+	</Message>
+</BL>

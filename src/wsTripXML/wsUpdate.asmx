@@ -1,0 +1,1 @@
+<%@ WebService Language="VB" Codebehind="~/Code/wsUpdate.asmx.vb" Class="wsTripXML.wsTravelTalk.wsUpdate" %>

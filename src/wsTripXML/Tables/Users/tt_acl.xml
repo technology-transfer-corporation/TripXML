@@ -1,0 +1,99 @@
+<ACL Name="TripXMLTest">
+  <SendMail Format="HTML">
+    <From>tripxmltest@downtowntravel.com</From>
+    <To>alex.kobelev@technologytransferusa.com</To>
+    <SmtpServer>maillist.anaxanet.com</SmtpServer>
+    <Username/>
+    <Password/>
+  </SendMail>
+  <Customer Active="true" RequestorID="DTT">
+    <User Active="true">
+      <Username>Downtown</Username>
+      <Password>tr@v3l</Password>
+      <IP_Address/>
+      <Services>
+        <Start>2013-09-23</Start>
+        <End>2099-12-31</End>
+      </Services>
+      <Config>dtt.xml</Config>
+      <BL>DTT_BL.xml</BL>
+    </User>
+    <User Active="true">
+      <Username>Autoticket</Username>
+      <Password>tr@v3l</Password>
+      <IP_Address/>
+      <Services>
+        <Start>2013-09-23</Start>
+        <End>2099-12-31</End>
+      </Services>
+      <Config>dtt.xml</Config>
+      <BL></BL>
+    </User>
+    <User Active="true">
+      <Username>Amadeus</Username>
+      <Password>tr@v3l</Password>
+      <IP_Address/>
+      <Services>
+        <Start>2013-09-23</Start>
+        <End>2099-12-31</End>
+      </Services>
+      <Config>dtt.xml</Config>
+      <BL></BL>
+    </User>
+    <User Active="true">
+      <Username>Sabre</Username>
+      <Password>tr@v3l</Password>
+      <IP_Address/>
+      <Services>
+        <Start>2013-09-23</Start>
+        <End>2099-12-31</End>
+      </Services>
+      <Config>dtt.xml</Config>
+      <BL></BL>
+    </User>
+    <User Active="true">
+      <Username>Worldspan</Username>
+      <Password>tr@v3l</Password>
+      <IP_Address/>
+      <Services>
+        <Start>2013-09-23</Start>
+        <End>2099-12-31</End>
+      </Services>
+      <Config>dtt.xml</Config>
+      <BL></BL>
+    </User>
+    <User Active="true">
+      <Username>DowntownTicket</Username>
+      <Password>tr@v3l</Password>
+      <IP_Address />
+      <Services>
+        <Start>2013-09-23</Start>
+        <End>2099-12-31</End>
+      </Services>
+      <Config>dttticket.xml</Config>
+      <BL></BL>
+    </User>
+    <User Active="true">
+      <Username>Galileo</Username>
+      <Password>tr@v3l</Password>
+      <IP_Address/>
+      <Services>
+        <Start>2013-09-23</Start>
+        <End>2099-12-31</End>
+      </Services>
+      <Config>dtt.xml</Config>
+      <BL></BL>
+    </User>
+    <User Active="true">
+      <Username>Travelport</Username>
+      <Password>tr@v3l</Password>
+      <IP_Address/>
+      <Services>
+        <Start>2013-09-23</Start>
+        <End>2099-12-31</End>
+      </Services>
+      <Config>dtt.xml</Config>
+      <BL></BL>
+    </User>
+  </Customer>
+</ACL>

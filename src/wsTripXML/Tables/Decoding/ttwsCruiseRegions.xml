@@ -1,0 +1,150 @@
+<TTWSCruiseRegions>
+	<CruiseRegion>
+		<Code>AFR</Code>
+		<Name>AFRICA</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>ATL</Code>
+		<Name>ATLANTIC</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>BAH</Code>
+		<Name>BAHAMAS</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>BER</Code>
+		<Name>BERMUDA</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>TRA</Code>
+		<Name>TRANS ATLANTIC</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>CAM</Code>
+		<Name>CENTRAL AMERICA</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>MEX</Code>
+		<Name>MEXICO</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>TPA</Code>
+		<Name>PANAMA CANAL</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>CAR</Code>
+		<Name>CARIBBEAN</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>CAE</Code>
+		<Name>EASTERN CARIBBEAN</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>CAS</Code>
+		<Name>SOUTHERN CARIBBEAN</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>CAW</Code>
+		<Name>WESTERN CARIBBEAN</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>EUR</Code>
+		<Name>EUROPE</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>EEU</Code>
+		<Name>EASTERN EUROPE</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>MCE</Code>
+		<Name>CENTRAL MEDITERRANEAN</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>MEA</Code>
+		<Name>EASTERN MEDITERRANEAN</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>MEW</Code>
+		<Name>WESTERN MEDITERRANEAN</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>NEU</Code>
+		<Name>NORTHERN EUROPE</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>SEU</Code>
+		<Name>SOUTHERN EUROPE</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>WEU</Code>
+		<Name>WESTERN EUROPE</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>FAX</Code>
+		<Name>AUSTRALASIA</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>ANS</Code>
+		<Name>ANDAMAN SEA</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>AUS</Code>
+		<Name>AUSTRALIA NEW ZEALAND</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>FAE</Code>
+		<Name>ORIENT FAR EAST</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>GRE</Code>
+		<Name>GREENLAND</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>MIE</Code>
+		<Name>MIDDLE EAST</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>NAM</Code>
+		<Name>NORTH AMERICA</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>ALC</Code>
+		<Name>ALASKA</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>CNE</Code>
+		<Name>CANADA NEW ENGLAND</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>PAC</Code>
+		<Name>PACIFIC COAST</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>NOW</Code>
+		<Name>CRUISE TO NO WHERE</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>PAX</Code>
+		<Name>PACIFIC</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>HAW</Code>
+		<Name>HAWAII TAHITI</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>NPA</Code>
+		<Name>NORTH PACIFIC</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>SPA</Code>
+		<Name>SOUTH PACIFIC</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>SAM</Code>
+		<Name>SOUTH AMERICA</Name>
+	</CruiseRegion>
+	<CruiseRegion>
+		<Code>WWC</Code>
+		<Name>WORLD CRUISE</Name>
+	</CruiseRegion>
+</TTWSCruiseRegions>

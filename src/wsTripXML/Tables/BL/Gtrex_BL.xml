@@ -1,0 +1,11 @@
+<BL RequestorID="Costamar">
+	<Message Name="LowFare" Direction="In">
+		<ProviderBL Name="Amadeus" System="Production" PCC="FLL6C2112">
+			<Preferences>
+				<Airline Code="CO" Level="E" StartDate="20071126" EndDate="20081231">
+					<Route Depart="***" Arrival="***"/>
+				</Airline>
+			</Preferences>
+		</ProviderBL>
+	</Message>
+</BL>

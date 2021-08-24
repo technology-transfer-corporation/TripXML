@@ -1,0 +1,7 @@
+<BL RequestorID="DTT">
+ <Security>
+  <ProviderBL Name="Amadeus" System="Production">
+   <PCC Code="NYC1S21FU" AuthorizeCode="2127665705" Cryptic="true"/>
+  </ProviderBL>
+ </Security>
+</BL>

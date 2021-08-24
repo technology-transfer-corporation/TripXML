@@ -1,0 +1,1 @@
+﻿<%@ WebService Language="VB" Codebehind="~/Code/wsPNRRead_v05.asmx.vb" Class="wsTripXML.wsTravelTalk.wsPNRRead_v05" %>

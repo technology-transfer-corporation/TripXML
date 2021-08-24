@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Providers>
+	<Provider Name="AmadeusWS">
+		<System Name="Test">
+			<URL>https://test.webservices.amadeus.com</URL>
+			<SOAP4URL>https://nodeD1.test.webservices.amadeus.com</SOAP4URL>
+			<Port></Port>
+		</System>
+		<System Name="Production">
+			<URL>https://production.webservices.amadeus.com</URL>
+			<SOAP4URL>https://nodeD1.test.webservices.amadeus.com</SOAP4URL>
+			<Port></Port>
+		</System>
+		<SOAPAction/>
+	</Provider>
+	<Provider Name="Apollo">
+		<System Name="Test">
+			<URL>https://americas.copy-webservices.travelport.com/B2BGateway/service/XmlSelect</URL>
+			<Port/>
+		</System>
+		<System Name="Production">
+			<URL>https://americas.webservices.travelport.com/B2BGateway/service/XmlSelect</URL>
+			<Port/>
+		</System>
+		<SOAPAction>http://webservices.cendant.com/SubmitXml</SOAPAction>
+	</Provider>
+	<Provider Name="Galileo">
+	  <System Name="Test">
+	    <URL>https://americas.copy-webservices.travelport.com/B2BGateway/service/XMLSelect</URL>
+	    <Port/>
+	  </System>
+    <System Name="Production">
+      <URL>https://americas.webservices.travelport.com/B2BGateway/service/XmlSelect</URL>
+      <Port/>
+    </System>  
+		<!--
+		<System Name="Test">
+			<URL>https://emea.copy-webservices.travelport.com/B2BGateway/service/XMLSelect</URL>
+			<Port/>
+		</System>    
+    <System Name="Test">
+			<URL>https://americas.copy-webservices.travelport.com/B2BGateway/service/XMLSelect</URL>
+			<Port/>
+		</System>
+		<System Name="Test">
+			<URL>http://gwsprofiler.galileo.com/Service/Default.ashx</URL>
+			<Port/>
+		</System>
+		<System Name="Production">
+			<URL>https://emea.webservices.travelport.com/B2BGateway/service/XmlSelect</URL>
+			<Port/>
+		</System>
+		<System Name="Production">
+			<URL>https://americas.webservices.travelport.com/B2BGateway/service/XmlSelect</URL>
+			<Port/>
+		</System>
+    -->
+		<SOAPAction>http://webservices.cendant.com/SubmitXml</SOAPAction>
+	</Provider>
+	<Provider Name="Travelport">
+		<System Name="Test">
+			<URL>https://americas.universal-api.pp.travelport.com/B2BGateway/connect/uAPI/</URL>
+			<Port/>
+		</System>
+		<System Name="Production">
+			<URL>https://americas.universal-api.travelport.com/B2BGateway/connect/uAPI/</URL>
+			<Port/>
+		</System>
+		<SOAPAction></SOAPAction>
+	</Provider>
+	<Provider Name="Sabre">
+		<System Name="Production">
+			<URL>https://webservices.sabre.com/websvc</URL>
+			<Port/>
+		</System>
+		<System Name="Cert">
+			<URL>https://sws-sts.cert.sabre.com</URL>
+			<Port/>
+		</System>
+		<System Name="Test">
+			<URL>https://sws-crt.cert.sabre.com</URL>
+			<Port/>
+		</System>
+		<System Name="Dev">
+			<URL>https://sws-res.cert.sabre.com</URL>
+			<Port/>
+		</System>
+		<SOAPAction>OTA</SOAPAction>
+	</Provider>
+	<Provider Name="Worldspan">
+		<System Name="Test">
+			<URL>http://xmlpropp.wspan.com:8800/xmlts</URL>
+			<Port/>
+		</System>
+		<System Name="Production">
+      <URL>https://xmlpro.worldspan.com:443/xmlts</URL>
+			<Port/>
+		</System>
+		<SOAPAction/>
+	</Provider>
+</Providers>

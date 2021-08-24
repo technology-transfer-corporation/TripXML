@@ -1,0 +1,19 @@
+<TTWSHiddenAirlines>
+	<!-- ================================================================== -->
+	<!-- TTWSHiddenAirlines.xml 															-->
+	<!-- ================================================================== -->
+	<!-- Date: 28 Mar 2008 - Rastko														-->
+	<!-- ================================================================== -->
+	<Airline>
+		<Code>AF</Code>
+		<Name>MAJOR EUROPEAN AIRLINE</Name>
+	</Airline>
+	<Airline>
+		<Code>DL</Code>
+		<Name>MAJOR US AIRLINE</Name>
+	</Airline>
+	<Airline>
+		<Code>KL</Code>
+		<Name>MAJOR EUROPEAN AIRLINE</Name>
+	</Airline>
+</TTWSHiddenAirlines>

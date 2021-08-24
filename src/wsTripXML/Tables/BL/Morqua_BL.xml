@@ -1,0 +1,32 @@
+<BL RequestorID="RussiaHouse">
+	<Message Name="LowFare" Direction="Out">
+		<NoTktAirline Name="Amadeus" System="Production" PCC="ATL1S2157">
+			<Airline Code="B6" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="F9" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="FL" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="NK" StartDate="20080101" EndDate="20991231"/>
+		</NoTktAirline>
+		<NoTktAirline Name="Amadeus" System="Production" PCC="CHI1S211S">
+			<Airline Code="B6" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="F9" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="FL" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="NK" StartDate="20080101" EndDate="20991231"/>
+		</NoTktAirline>
+		<NoTktAirline Name="Amadeus" System="Production" PCC="ATL1S211D">
+			<Airline Code="B6" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="F9" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="FL" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="NK" StartDate="20080101" EndDate="20991231"/>
+		</NoTktAirline>
+		<NoTktAirline Name="Amadeus" System="Production" PCC="ATL1S2144">
+			<Airline Code="B6" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="F9" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="FL" StartDate="20080101" EndDate="20991231"/>
+			<Airline Code="NK" StartDate="20080101" EndDate="20991231"/>
+		</NoTktAirline>
+		<NoMixAirline Name="Amadeus" System="Production" PCC="ATL1S2157">
+			<Airline Code="UN" StartDate="20091028" EndDate="20991231"/>
+		</NoMixAirline>
+	</Message>
+</BL>
+

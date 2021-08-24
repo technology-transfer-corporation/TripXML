@@ -1,0 +1,1525 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4DEF104C-48CF-45F9-8112-7045E77E22F0}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>wsTripXML</RootNamespace>
+    <AssemblyName>wsTripXML</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MyType>Custom</MyType>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <GenerateResourceNeverLockTypeAssemblies>true</GenerateResourceNeverLockTypeAssemblies>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <IncludeIisSettings>false</IncludeIisSettings>
+    <IncludeAppPool>true</IncludeAppPool>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator, Version=2.0.6.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.6\lib\net47\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="TravelPort">
+      <HintPath>..\TravelPort\bin\Debug\TravelPort.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Collections.Specialized" />
+    <Import Include="System.Configuration" />
+    <Import Include="System.Text" />
+    <Import Include="System.Text.RegularExpressions" />
+    <Import Include="System.Web" />
+    <Import Include="System.Web.Caching" />
+    <Import Include="System.Web.SessionState" />
+    <Import Include="System.Web.Security" />
+    <Import Include="System.Web.Profile" />
+    <Import Include="System.Web.UI" />
+    <Import Include="System.Web.UI.WebControls" />
+    <Import Include="System.Web.UI.WebControls.WebParts" />
+    <Import Include="System.Web.UI.HtmlControls" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Admin\wsimportlog.asmx" />
+    <Content Include="App_Data\Admin\wsrefreshmem.asmx" />
+    <Content Include="bin\Aggregation_AirAvailRS.dll" />
+    <Content Include="bin\Aggregation_CarAvailRS.dll" />
+    <Content Include="bin\Aggregation_HotelAvailRS.dll" />
+    <Content Include="bin\Aggregation_LowFareRS.dll" />
+    <Content Include="bin\AmadeusWS_AirPrice1RS.dll" />
+    <Content Include="bin\AmadeusWS_CarListRQ.dll" />
+    <Content Include="bin\AmadeusWS_CarListRS.dll" />
+    <Content Include="bin\AmadeusWS_DisplayTicketRQ.dll" />
+    <Content Include="bin\AmadeusWS_HotelInfo1RQ.dll" />
+    <Content Include="bin\AmadeusWS_LowOfferMatrix1RS.dll" />
+    <Content Include="bin\AmadeusWS_LowOfferMatrix2RS.dll" />
+    <Content Include="bin\AmadeusWS_LowOfferMatrixRQ.dll" />
+    <Content Include="bin\AmadeusWS_LowOfferMatrixRQ.script.dll" />
+    <Content Include="bin\AmadeusWS_LowOfferSearch1RS.dll" />
+    <Content Include="bin\AmadeusWS_LowOfferSearch2RS.dll" />
+    <Content Include="bin\AmadeusWS_LowOfferSearchRQ.dll" />
+    <Content Include="bin\AmadeusWS_LowOfferSearchRQ.script.dll" />
+    <Content Include="bin\AmadeusWS_PNREndRQ.dll" />
+    <Content Include="bin\AmadeusWS_PNRReadRS_FlightInfo.dll" />
+    <Content Include="bin\AmadeusWS_PNRReadRS_Rules.dll" />
+    <Content Include="bin\AmadeusWS_PNRSplitRQ.dll" />
+    <Content Include="bin\AmadeusWS_RefundTicketRQ.dll" />
+    <Content Include="bin\AmadeusWS_RefundTicketRS.dll" />
+    <Content Include="bin\AmadeusWS_ReIssueTicketRQ.dll" />
+    <Content Include="bin\AmadeusWS_SalesReportRQ.dll" />
+    <Content Include="bin\AmadeusWS_SalesReportRS.dll" />
+    <Content Include="bin\AmadeusWS_SearchNameRQ.dll" />
+    <Content Include="bin\AmadeusWS_SearchNameRS.dll" />
+    <Content Include="bin\BL_LowFareNoCountryRS.dll" />
+    <Content Include="bin\BL_LowFareNoFareTypeRS.dll" />
+    <Content Include="bin\BL_LowFareNoMixRS.dll" />
+    <Content Include="bin\BL_LowFareNoTktRS.dll" />
+    <Content Include="bin\BL_LowFareRQ.dll" />
+    <Content Include="bin\BL_LowFareRS.dll" />
+    <Content Include="bin\Galileo_LowFareScheduleRQ.dll" />
+    <Content Include="bin\Galileo_PNRRePriceRQ.dll" />
+    <Content Include="bin\Galileo_PNRRepriceRS.dll" />
+    <Content Include="bin\Galileo_VoidTicketRQ.dll" />
+    <Content Include="bin\Markups_LowFareRS.dll" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Logging.dll" />
+    <Content Include="bin\Microsoft.Practices.ServiceLocation.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Sabre_IssueTicketSessionedRQ.dll" />
+    <Content Include="bin\Sabre_LowFarePlusRQ_Air.dll" />
+    <Content Include="bin\Sabre_LowFarePlusRQ_FS.dll" />
+    <Content Include="bin\Sabre_LowFarePlusRS_FS.dll" />
+    <Content Include="bin\Sabre_PNRRepriceRQ.dll" />
+    <Content Include="bin\Sabre_PNRRepriceRS.dll" />
+    <Content Include="bin\Sabre_QueueReadRQ.dll" />
+    <Content Include="bin\Sabre_QueueRQ.dll" />
+    <Content Include="bin\Sabre_QueueRS.dll" />
+    <Content Include="bin\Sabre_SalesReportRQ.dll" />
+    <Content Include="bin\Sabre_SalesReportRS.dll" />
+    <Content Include="bin\Sabre_TicketCouponRQ.dll" />
+    <Content Include="bin\SellIssuesRQ.dll" />
+    <Content Include="bin\Travelport_CrypticRQ.dll" />
+    <Content Include="bin\Travelport_CrypticRS.dll" />
+    <Content Include="bin\Travelport_PNRRepriceRQ.dll" />
+    <Content Include="bin\Travelport_PNRRepriceRS.dll" />
+    <Content Include="bin\Travelport_QueueRQ.dll" />
+    <Content Include="bin\Travelport_QueueRS.dll" />
+    <Content Include="bin\Travelport_UpdateInsertRQ.dll" />
+    <Content Include="bin\TripXMLTools.dll" />
+    <Content Include="bin\v02_AmadeusWS_HotelAvailRQ.dll" />
+    <Content Include="bin\v02_AmadeusWS_HotelAvailRS.dll" />
+    <Content Include="bin\v02_AmadeusWS_HotelAvailRS.script.dll" />
+    <Content Include="bin\v02_AmadeusWS_HotelInfo1RQ.dll" />
+    <Content Include="bin\V03_AmadeusWS_DisplayTicketRQ.dll" />
+    <Content Include="bin\v03_AmadeusWS_LowFarePlus2RS.dll" />
+    <Content Include="bin\v03_AmadeusWS_SalesReportRQ.dll" />
+    <Content Include="bin\v03_AmadeusWS_SalesReportRS.dll" />
+    <Content Include="bin\v03_Amadeus_PNRReadRQ.dll" />
+    <Content Include="bin\v03_Amadeus_PNRReadRS.dll" />
+    <Content Include="bin\v03_Amadeus_TB_Errors.dll" />
+    <Content Include="bin\v03_Amadeus_TravelBuildRQ.dll" />
+    <Content Include="bin\v03_Amadeus_TravelBuildRQ_TST.dll" />
+    <Content Include="bin\v03_Galileo_PNRRePriceRQ.dll" />
+    <Content Include="bin\v03_TravelFusion_PNRReadRQ.dll" />
+    <Content Include="bin\v03_TravelFusion_PNRReadRS.dll" />
+    <Content Include="bin\v03_TravelFusion_TB_Errors.dll" />
+    <Content Include="bin\v03_TravelFusion_TravelBuildRQ.dll" />
+    <Content Include="bin\v03_Travelport_PNRReadRQ.dll" />
+    <Content Include="bin\v03_Travelport_PNRReadRS.dll" />
+    <Content Include="bin\v03_Worldspan_LowFarePlusRQ.dll" />
+    <Content Include="bin\v03_Worldspan_LowFarePlusRS.dll" />
+    <Content Include="bin\v03_Worldspan_PNRReadRQ.dll" />
+    <Content Include="bin\v03_Worldspan_PNRReadRS.dll" />
+    <Content Include="bin\v04_Amadeus_PNRReadRQ.dll" />
+    <Content Include="bin\v04_Amadeus_PNRReadRS.dll" />
+    <Content Include="bin\v04_Amadeus_TB_Errors.dll" />
+    <Content Include="bin\v04_Amadeus_TravelBuildRQ.dll" />
+    <Content Include="bin\v04_Galileo_QueueReadRQ.dll" />
+    <Content Include="bin\v04_Sabre_TravelBuildRQ.dll" />
+    <Content Include="bin\Worldspan_AuthorizationRQ.dll" />
+    <Content Include="bin\Worldspan_AuthorizationRS.dll" />
+    <Content Include="bin\Worldspan_CrypticRQ.dll" />
+    <Content Include="bin\Worldspan_CrypticRS.dll" />
+    <Content Include="bin\Worldspan_IssueTicketSessionedRQ.dll" />
+    <Content Include="bin\Worldspan_IssueTicketSessionedRS.dll" />
+    <Content Include="bin\Worldspan_PNRRepriceRQ.dll" />
+    <Content Include="bin\Worldspan_PNRRepriceRS.dll" />
+    <Content Include="bin\Worldspan_QueueRQ.dll" />
+    <Content Include="bin\Worldspan_QueueRS.dll" />
+    <Content Include="bin\Worldspan_UpdateDeleteRQ.dll" />
+    <Content Include="Tables\BL\alliancetravel_BL.xml" />
+    <Content Include="Tables\BL\Alostora_BL.xml" />
+    <Content Include="Tables\BL\Amadeus_Test_LAS1S210D_BL.xml" />
+    <Content Include="Tables\BL\Attisys_BL.xml" />
+    <Content Include="Tables\BL\BusinessJet_BL.xml" />
+    <Content Include="Tables\BL\cFares_BL.xml" />
+    <Content Include="Tables\BL\Costamar_BL.xml" />
+    <Content Include="Tables\BL\DTT_BL.xml" />
+    <Content Include="Tables\BL\Elleipsis_BL.xml" />
+    <Content Include="Tables\BL\Euroavia_BL.xml" />
+    <Content Include="Tables\BL\FlightSite_BL.xml" />
+    <Content Include="Tables\BL\GlobalPass_BL.xml" />
+    <Content Include="Tables\BL\GlobalReservation_BL.xml" />
+    <Content Include="Tables\BL\Gtrex_BL.xml" />
+    <Content Include="Tables\BL\ifares_BL.xml" />
+    <Content Include="Tables\BL\KekasTravel_BL.xml" />
+    <Content Include="Tables\BL\M2BWorldTravel_BL.xml" />
+    <Content Include="Tables\BL\Morqua_BL.xml" />
+    <Content Include="Tables\BL\PacificIslands_BL.xml" />
+    <Content Include="Tables\BL\qatar_BL.xml" />
+    <Content Include="Tables\BL\rezgateway_BL.xml" />
+    <Content Include="Tables\BL\RussiaHouse_BL.xml" />
+    <Content Include="Tables\BL\Thomalex_BL.xml" />
+    <Content Include="Tables\BL\tripjane_BL.xml" />
+    <Content Include="Tables\Decoding\AddCountryNameToAirports.xsl" />
+    <Content Include="Tables\Decoding\airports.xml" />
+    <Content Include="Tables\Decoding\AllCities.xsl" />
+    <Content Include="Tables\Decoding\AmadeusAirports.xml" />
+    <Content Include="Tables\Decoding\AmadeusCarProviders.xml" />
+    <Content Include="Tables\Decoding\AOGAirlines.xml" />
+    <Content Include="Tables\Decoding\AOGAirports.xml" />
+    <Content Include="Tables\Decoding\AOGEquipment.xml" />
+    <Content Include="Tables\Decoding\AwadBookingStats.xsl" />
+    <Content Include="Tables\Decoding\Cities.xsl" />
+    <Content Include="Tables\Decoding\CreateAirlinessFromOAG.xsl" />
+    <Content Include="Tables\Decoding\CreateAirports.xsl" />
+    <Content Include="Tables\Decoding\CreateAirportsAndCitiesFromAmadeusDecode.xsl" />
+    <Content Include="Tables\Decoding\CreateAirportsDBTables.xsl" />
+    <Content Include="Tables\Decoding\CreateAirportsFromAmadeusDecode.xsl" />
+    <Content Include="Tables\Decoding\CreateAirportsFromDecode.xsl" />
+    <Content Include="Tables\Decoding\CreateAirportsFromOAG.xsl" />
+    <Content Include="Tables\Decoding\CreateAirportsNames.xsl" />
+    <Content Include="Tables\Decoding\CreateBookingStats.xsl" />
+    <Content Include="Tables\Decoding\CreateDBRowFromXML.xsl" />
+    <Content Include="Tables\Decoding\CreateEquipmentFromOAG.xsl" />
+    <Content Include="Tables\Decoding\CruiseDB.xml" />
+    <Content Include="Tables\Decoding\ExtractFlightErrors.xsl" />
+    <Content Include="Tables\Decoding\HotelCities.xml" />
+    <Content Include="Tables\Decoding\HotelCities.xsl" />
+    <Content Include="Tables\Decoding\HotelCitiesLowerCase.xsl" />
+    <Content Include="Tables\Decoding\HotelsDotComAirports.xml" />
+    <Content Include="Tables\Decoding\HotelsDotComCities.xml" />
+    <Content Include="Tables\Decoding\HotelsDotComNonAirports.xml" />
+    <Content Include="Tables\Decoding\LocationTable.xml" />
+    <Content Include="Tables\Decoding\LowerCaseAirports.xsl" />
+    <Content Include="Tables\Decoding\NoAirport.xml" />
+    <Content Include="Tables\Decoding\NoAirport1.xml" />
+    <Content Include="Tables\Decoding\NoAirport2.xml" />
+    <Content Include="Tables\Decoding\NoGeoInfo.xml" />
+    <Content Include="Tables\Decoding\SortAirports.xsl" />
+    <Content Include="Tables\Decoding\tmp0000.xml" />
+    <Content Include="Tables\Decoding\tmp0000.xsl" />
+    <Content Include="Tables\Decoding\ttAirlines.xml" />
+    <Content Include="Tables\Decoding\ttCruiseCabinFilter.xml" />
+    <Content Include="Tables\Decoding\ttCruiseCities.xml" />
+    <Content Include="Tables\Decoding\ttCruiseCurrency.xml" />
+    <Content Include="Tables\Decoding\ttCruiseDB.xml" />
+    <Content Include="Tables\Decoding\ttCruiseMot.xml" />
+    <Content Include="Tables\Decoding\ttCruiseOccupation.xml" />
+    <Content Include="Tables\Decoding\ttCruisePaxTitle.xml" />
+    <Content Include="Tables\Decoding\ttCruiseProfiles.xml" />
+    <Content Include="Tables\Decoding\ttCruiseShips.xml" />
+    <Content Include="Tables\Decoding\ttwsairlines.xml" />
+    <Content Include="Tables\Decoding\ttwsairports - Old Backup.xml" />
+    <Content Include="Tables\Decoding\ttwsairports.xml" />
+    <Content Include="Tables\Decoding\ttwscars.xml" />
+    <Content Include="Tables\Decoding\ttwscartypes.xml" />
+    <Content Include="Tables\Decoding\ttwscities.xml" />
+    <Content Include="Tables\Decoding\ttwscities1.xml" />
+    <Content Include="Tables\Decoding\ttwscities2.xml" />
+    <Content Include="Tables\Decoding\ttwsconfig.xml" />
+    <Content Include="Tables\Decoding\ttwscountries.xml" />
+    <Content Include="Tables\Decoding\ttwsCreditCards.xml" />
+    <Content Include="Tables\Decoding\ttwsCruiseAdvisory.xml" />
+    <Content Include="Tables\Decoding\ttwsCruiseBedConfiguration.xml" />
+    <Content Include="Tables\Decoding\ttwsCruiseCities.xml" />
+    <Content Include="Tables\Decoding\ttwsCruiseInsurance.xml" />
+    <Content Include="Tables\Decoding\ttwsCruiseLines.xml" />
+    <Content Include="Tables\Decoding\ttwsCruisePaxTitle.xml" />
+    <Content Include="Tables\Decoding\ttwsCruisePricedItems.xml" />
+    <Content Include="Tables\Decoding\ttwsCruiseRegions.xml" />
+    <Content Include="Tables\Decoding\ttwsequipments.xml" />
+    <Content Include="Tables\Decoding\ttwshiddenairlines.xml" />
+    <Content Include="Tables\Decoding\ttwshotelamenities.xml" />
+    <Content Include="Tables\Decoding\ttwshotelareas.xml" />
+    <Content Include="Tables\Decoding\ttwshotelrooms.xml" />
+    <Content Include="Tables\Decoding\ttwshotels.xml" />
+    <Content Include="Tables\Decoding\ttwshotelsubtitles.xml" />
+    <Content Include="Tables\Decoding\ttwsships.xml" />
+    <Content Include="Tables\Users\AdamTravel.xml" />
+    <Content Include="Tables\Users\CubaMax.xml" />
+    <Content Include="Tables\Users\DTT.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Tables\Users\dttticket.xml" />
+    <Content Include="Tables\Users\ErosTravel.xml" />
+    <Content Include="Tables\Users\FinalPrice.xml" />
+    <Content Include="Tables\Users\latam.xml" />
+    <Content Include="Tables\Users\mTrip.xml" />
+    <Content Include="Tables\Users\Skybird.xml" />
+    <Content Include="Tables\Users\techtrans.xml" />
+    <Content Include="Tables\Users\thomalex.xml" />
+    <Content Include="Tables\Users\Travel24.xml" />
+    <Content Include="Tables\Users\ttProviders.xml" />
+    <Content Include="Tables\Users\tt_acl.xml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Code\NDCClasses\AirShoppingRQ.vb" />
+    <Compile Include="Code\NDCClasses\AirShoppingRS.vb" />
+    <Compile Include="Code\NDCClasses\edist_commontypes.vb" />
+    <Compile Include="Code\NDCClasses\NdcAuthenticate.vb" />
+    <Compile Include="Code\NDCClasses\OfferPriceRQ.vb" />
+    <Compile Include="Code\NDCClasses\OfferPriceRS.vb" />
+    <Compile Include="Code\NDCClasses\OrderCancelRQ.vb" />
+    <Compile Include="Code\NDCClasses\OrderCancelRS.vb" />
+    <Compile Include="Code\NDCClasses\OrderChangeRQ.vb" />
+    <Compile Include="Code\NDCClasses\OrderCreateRQ.vb" />
+    <Compile Include="Code\NDCClasses\OrderRetrieveRQ.vb" />
+    <Compile Include="Code\NDCClasses\OrderViewRS.vb" />
+    <Compile Include="Code\NDCClasses\SeatAvailabilityRQ.vb" />
+    <Compile Include="Code\NDCClasses\SeatAvailabilityRS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_DeleteVirtualCardRQ.vb" />
+    <Compile Include="Code\OTAClasses\PAY_DeleteVirtualCardRS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_GenerateVirtualCardRS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_GenerateVirtualCardRQ.vb" />
+    <Compile Include="Code\OTAClasses\PAY_CancelVirtualCardLoadRQ.vb" />
+    <Compile Include="Code\OTAClasses\PAY_CancelVirtualCardLoadRS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_General_Types.vb" />
+    <Compile Include="Code\OTAClasses\PAY_GetVirtualCardDetailsRQ.vb" />
+    <Compile Include="Code\OTAClasses\PAY_GetVirtualCardDetailsRS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_ListVCC_RS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_ListVirtualCardsRQ.vb" />
+    <Compile Include="Code\OTAClasses\PAY_ListVirtualCardsRS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_ScheduleVirtualCardLoadRQ.vb" />
+    <Compile Include="Code\OTAClasses\PAY_ScheduleVirtualCardLoadRS.vb" />
+    <Compile Include="Code\OTAClasses\Ticket_AutomaticUpdateRQ.vb" />
+    <Compile Include="Code\OTAClasses\Ticket_AutomaticUpdateRS.vb" />
+    <Compile Include="Code\wsReIssueTicketSessioned.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsVirtualCreditCard.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="wsAuthorization.asmx.vb">
+      <DependentUpon>wsAuthorization.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="wsVirtualCreditCard.asmx.vb">
+      <DependentUpon>wsVirtualCreditCard.asmx</DependentUpon>
+    </Compile>
+    <Content Include="bin\AmadeusWS.dll" />
+    <Content Include="bin\AmadeusWS_AirAvailRQ.dll" />
+    <Content Include="bin\AmadeusWS_AirAvailRQ1.dll" />
+    <Content Include="bin\AmadeusWS_AirAvailRS.dll" />
+    <Content Include="bin\AmadeusWS_AirAvailRS.script.dll" />
+    <Content Include="bin\AmadeusWS_AirFlifoRQ.dll" />
+    <Content Include="bin\AmadeusWS_AirFlifoRS.dll" />
+    <Content Include="bin\AmadeusWS_AirPriceRQ.dll" />
+    <Content Include="bin\AmadeusWS_AirPriceRS.dll" />
+    <Content Include="bin\AmadeusWS_AirRulesRQ.dll" />
+    <Content Include="bin\AmadeusWS_AirRulesRS.dll" />
+    <Content Include="bin\AmadeusWS_AirScheduleRQ.dll" />
+    <Content Include="bin\AmadeusWS_AirScheduleRS.dll" />
+    <Content Include="bin\AmadeusWS_AirScheduleRS.script.dll" />
+    <Content Include="bin\AmadeusWS_AirSeatMapRQ.dll" />
+    <Content Include="bin\AmadeusWS_AirSeatMapRS.dll" />
+    <Content Include="bin\AmadeusWS_CarAvailRQ.dll" />
+    <Content Include="bin\AmadeusWS_CarAvailRS.dll" />
+    <Content Include="bin\AmadeusWS_CarAvailRS.script.dll" />
+    <Content Include="bin\AmadeusWS_CarInfoRQ.dll" />
+    <Content Include="bin\AmadeusWS_CarInfoRS.dll" />
+    <Content Include="bin\AmadeusWS_CarRulesRQ.dll" />
+    <Content Include="bin\AmadeusWS_CarRulesRS.dll" />
+    <Content Include="bin\AmadeusWS_CCValidRQ.dll" />
+    <Content Include="bin\AmadeusWS_CCValidRS.dll" />
+    <Content Include="bin\AmadeusWS_CruiseCabinAvailRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruiseCabinAvailRS.dll" />
+    <Content Include="bin\AmadeusWS_CruiseCabinHoldRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruiseCabinHoldRS.dll" />
+    <Content Include="bin\AmadeusWS_CruiseCabinUnHoldRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruiseCabinUnHoldRS.dll" />
+    <Content Include="bin\AmadeusWS_CruiseCancelRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruiseCancelRS.dll" />
+    <Content Include="bin\AmadeusWS_CruiseCategoryAvailRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruiseCategoryAvailRS.dll" />
+    <Content Include="bin\AmadeusWS_CruiseCreateBookingRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruiseCreateBookingRS.dll" />
+    <Content Include="bin\AmadeusWS_CruiseFareAvailRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruiseFareAvailRS.dll" />
+    <Content Include="bin\AmadeusWS_CruiseItineraryDescRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruiseItineraryDescRS.dll" />
+    <Content Include="bin\AmadeusWS_CruiseModifyBookingRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruisePackageAvailRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruisePackageAvailRS.dll" />
+    <Content Include="bin\AmadeusWS_CruisePackageDescRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruisePackageDescRS.dll" />
+    <Content Include="bin\AmadeusWS_CruisePriceBookingRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruisePriceBookingRQ1.dll" />
+    <Content Include="bin\AmadeusWS_CruisePriceBookingRS.dll" />
+    <Content Include="bin\AmadeusWS_CruiseReadRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruiseReadRS.dll" />
+    <Content Include="bin\AmadeusWS_CruiseSailAvailRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruiseSailAvailRS.dll" />
+    <Content Include="bin\AmadeusWS_CruiseTransferAvailRQ.dll" />
+    <Content Include="bin\AmadeusWS_CruiseTransferAvailRS.dll" />
+    <Content Include="bin\AmadeusWS_CrypticRQ.dll" />
+    <Content Include="bin\AmadeusWS_CrypticRS.dll" />
+    <Content Include="bin\AmadeusWS_CurConvRQ.dll" />
+    <Content Include="bin\AmadeusWS_CurConvRS.dll" />
+    <Content Include="bin\AmadeusWS_FareDisplayRQ.dll" />
+    <Content Include="bin\AmadeusWS_FareDisplayRS.dll" />
+    <Content Include="bin\AmadeusWS_FareInfoRQ.dll" />
+    <Content Include="bin\AmadeusWS_FareInfoRS.dll" />
+    <Content Include="bin\AmadeusWS_HotelAvailRQ.dll" />
+    <Content Include="bin\AmadeusWS_HotelAvailRS.dll" />
+    <Content Include="bin\AmadeusWS_HotelAvailRS.script.dll" />
+    <Content Include="bin\AmadeusWS_HotelAvail_FeaturesRS.dll" />
+    <Content Include="bin\AmadeusWS_HotelInfoRQ.dll" />
+    <Content Include="bin\AmadeusWS_HotelInfoRS.dll" />
+    <Content Include="bin\AmadeusWS_HotelSearchRQ.dll" />
+    <Content Include="bin\AmadeusWS_HotelSearchRS.dll" />
+    <Content Include="bin\AmadeusWS_IssueTicketRQ.dll" />
+    <Content Include="bin\AmadeusWS_IssueTicketRS.dll" />
+    <Content Include="bin\AmadeusWS_IssueTicketSessionedRQ.dll" />
+    <Content Include="bin\AmadeusWS_IssueTicketSessionedRS.dll" />
+    <Content Include="bin\AmadeusWS_LowFare1RS.dll" />
+    <Content Include="bin\AmadeusWS_LowFare2RS.dll" />
+    <Content Include="bin\AmadeusWS_LowFareFlights1RQ.dll" />
+    <Content Include="bin\AmadeusWS_LowFareFlights1RS.dll" />
+    <Content Include="bin\AmadeusWS_LowFareFlights2RQ.dll" />
+    <Content Include="bin\AmadeusWS_LowFareFlights3RS.dll" />
+    <Content Include="bin\AmadeusWS_LowFareFlightsRQ.dll" />
+    <Content Include="bin\AmadeusWS_LowFareFlightsRS.dll" />
+    <Content Include="bin\AmadeusWS_LowFareMatrix1RS.dll" />
+    <Content Include="bin\AmadeusWS_LowFareMatrix2RS.dll" />
+    <Content Include="bin\AmadeusWS_LowFareMatrixRQ.dll" />
+    <Content Include="bin\AmadeusWS_LowFareMatrixRQ.script.dll" />
+    <Content Include="bin\AmadeusWS_LowFarePlus1RS.dll" />
+    <Content Include="bin\AmadeusWS_LowFarePlus2RS.dll" />
+    <Content Include="bin\AmadeusWS_LowFarePlusRQ.dll" />
+    <Content Include="bin\AmadeusWS_LowFarePlusRQ.script.dll" />
+    <Content Include="bin\AmadeusWS_LowFareRQ.dll" />
+    <Content Include="bin\AmadeusWS_LowFareRQ.script.dll" />
+    <Content Include="bin\AmadeusWS_LowFareScheduleRQ.dll" />
+    <Content Include="bin\AmadeusWS_LowFareScheduleRQ.script.dll" />
+    <Content Include="bin\AmadeusWS_LowFareScheduleRS.dll" />
+    <Content Include="bin\AmadeusWS_PNRCancelRQ.dll" />
+    <Content Include="bin\AmadeusWS_PNRCancelRS.dll" />
+    <Content Include="bin\AmadeusWS_PNRReadRQ.dll" />
+    <Content Include="bin\AmadeusWS_PNRReadRS.dll" />
+    <Content Include="bin\AmadeusWS_PNRRepriceRQ.dll" />
+    <Content Include="bin\AmadeusWS_PNRRepriceRS.dll" />
+    <Content Include="bin\AmadeusWS_QueueReadRQ.dll" />
+    <Content Include="bin\AmadeusWS_QueueReadRS.dll" />
+    <Content Include="bin\AmadeusWS_QueueRQ.dll" />
+    <Content Include="bin\AmadeusWS_QueueRS.dll" />
+    <Content Include="bin\AmadeusWS_ShowMileageRQ.dll" />
+    <Content Include="bin\AmadeusWS_ShowMileageRS.dll" />
+    <Content Include="bin\AmadeusWS_StoredFareBuildRQ.dll" />
+    <Content Include="bin\AmadeusWS_StoredFareBuildRS.dll" />
+    <Content Include="bin\AmadeusWS_StoredFareUpdateRQ.dll" />
+    <Content Include="bin\AmadeusWS_StoredFareUpdateRS.dll" />
+    <Content Include="bin\AmadeusWS_TB_Errors.dll" />
+    <Content Include="bin\AmadeusWS_TimeDiffRQ.dll" />
+    <Content Include="bin\AmadeusWS_TimeDiffRS.dll" />
+    <Content Include="bin\AmadeusWS_TransferOwnershipRQ.dll" />
+    <Content Include="bin\AmadeusWS_TransferOwnershipRS.dll" />
+    <Content Include="bin\AmadeusWS_TravelBuildRQ.dll" />
+    <Content Include="bin\AmadeusWS_UpdateDeleteRQ.dll" />
+    <Content Include="bin\AmadeusWS_UpdateInsertRQ.dll" />
+    <Content Include="bin\AmadeusWS_UpdateModifyRQ.dll" />
+    <Content Include="bin\AmadeusWS_VoidTicketRQ.dll" />
+    <Content Include="bin\Galileo.dll" />
+    <Content Include="bin\GalileoHttpUtil.dll" />
+    <Content Include="bin\Galileo_AirAvailRQ.dll" />
+    <Content Include="bin\Galileo_AirAvailRS.dll" />
+    <Content Include="bin\Galileo_AirFlifoRQ.dll" />
+    <Content Include="bin\Galileo_AirFlifoRS.dll" />
+    <Content Include="bin\Galileo_AirPriceRQ.dll" />
+    <Content Include="bin\Galileo_AirPriceRQ.script.dll" />
+    <Content Include="bin\Galileo_AirPriceRS.dll" />
+    <Content Include="bin\Galileo_AirRulesRQ.dll" />
+    <Content Include="bin\Galileo_AirRulesRS.dll" />
+    <Content Include="bin\Galileo_AirSeatMapRQ.dll" />
+    <Content Include="bin\Galileo_AirSeatMapRS.dll" />
+    <Content Include="bin\Galileo_CarAvailRQ.dll" />
+    <Content Include="bin\Galileo_CarAvailRS.dll" />
+    <Content Include="bin\Galileo_CarInfoRQ.dll" />
+    <Content Include="bin\Galileo_CarInfoRS.dll" />
+    <Content Include="bin\Galileo_CCValidRQ.dll" />
+    <Content Include="bin\Galileo_CCValidRS.dll" />
+    <Content Include="bin\Galileo_CrypticRQ.dll" />
+    <Content Include="bin\Galileo_CrypticRS.dll" />
+    <Content Include="bin\Galileo_CurConvRQ.dll" />
+    <Content Include="bin\Galileo_CurConvRS.dll" />
+    <Content Include="bin\Galileo_ETicketVerifyRQ.dll" />
+    <Content Include="bin\Galileo_ETicketVerifyRS.dll" />
+    <Content Include="bin\Galileo_FareDisplayRQ.dll" />
+    <Content Include="bin\Galileo_FareDisplayRS.dll" />
+    <Content Include="bin\Galileo_HotelAvailRQ.dll" />
+    <Content Include="bin\Galileo_HotelAvailRS.dll" />
+    <Content Include="bin\Galileo_HotelAvail_ImagesRS.dll" />
+    <Content Include="bin\Galileo_HotelInfoRQ.dll" />
+    <Content Include="bin\Galileo_HotelInfoRS.dll" />
+    <Content Include="bin\Galileo_HotelSearchRQ.dll" />
+    <Content Include="bin\Galileo_HotelSearchRS.dll" />
+    <Content Include="bin\Galileo_IssueTicketRQ.dll" />
+    <Content Include="bin\Galileo_IssueTicketRS.dll" />
+    <Content Include="bin\Galileo_LowFarePlusRQ.dll" />
+    <Content Include="bin\Galileo_LowFarePlusRQ1.dll" />
+    <Content Include="bin\Galileo_LowFarePlusRS.dll" />
+    <Content Include="bin\Galileo_LowFarePlusRS1.dll" />
+    <Content Include="bin\Galileo_LowFarePlusRS2.dll" />
+    <Content Include="bin\Galileo_LowFarePlusRS3.dll" />
+    <Content Include="bin\Galileo_LowFareRQ.dll" />
+    <Content Include="bin\Galileo_LowFareRS.dll" />
+    <Content Include="bin\Galileo_PNRCancelRQ.dll" />
+    <Content Include="bin\Galileo_PNRCancelRS.dll" />
+    <Content Include="bin\Galileo_PNRReadRQ.dll" />
+    <Content Include="bin\Galileo_PNRReadRS.dll" />
+    <Content Include="bin\Galileo_PNRReadRS.script.dll" />
+    <Content Include="bin\Galileo_ProfileCreateRQ.dll" />
+    <Content Include="bin\Galileo_ProfileReadRQ.dll" />
+    <Content Include="bin\Galileo_ProfileReadRS.dll" />
+    <Content Include="bin\Galileo_QueueReadRQ.dll" />
+    <Content Include="bin\Galileo_QueueRQ.dll" />
+    <Content Include="bin\Galileo_QueueRS.dll" />
+    <Content Include="bin\Galileo_ShowMileageRQ.dll" />
+    <Content Include="bin\Galileo_ShowMileageRS.dll" />
+    <Content Include="bin\Galileo_TBErrors.dll" />
+    <Content Include="bin\Galileo_TB_Errors.dll" />
+    <Content Include="bin\Galileo_TimeDiffRQ.dll" />
+    <Content Include="bin\Galileo_TimeDiffRS.dll" />
+    <Content Include="bin\Galileo_TravelBuild1RQ.dll" />
+    <Content Include="bin\Galileo_TravelBuild2RQ.dll" />
+    <Content Include="bin\Galileo_TravelBuildRQ.dll" />
+    <Content Include="bin\Galileo_TravelBuild_Reorder.dll" />
+    <Content Include="bin\Galileo_TravelItineraryRS.dll" />
+    <Content Include="bin\Galileo_TravelModifyRQ.dll" />
+    <Content Include="bin\Galileo_UpdateInsertRQ.dll" />
+    <Content Include="bin\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="bin\Interop.MSXML.dll" />
+    <Content Include="bin\Sabre_AirAvailRQ.dll" />
+    <Content Include="bin\Sabre_AirAvailRS.dll" />
+    <Content Include="bin\Sabre_AirFlifoRQ.dll" />
+    <Content Include="bin\Sabre_AirFlifoRS.dll" />
+    <Content Include="bin\Sabre_AirPriceRQ.dll" />
+    <Content Include="bin\Sabre_AirPriceRS.dll" />
+    <Content Include="bin\Sabre_AirRulesRQ.dll" />
+    <Content Include="bin\Sabre_AirRulesRS.dll" />
+    <Content Include="bin\Sabre_CarAvailRQ.dll" />
+    <Content Include="bin\Sabre_CarAvailRS.dll" />
+    <Content Include="bin\Sabre_CarInfoRQ.dll" />
+    <Content Include="bin\Sabre_CarInfoRS.dll" />
+    <Content Include="bin\Sabre_CCValidRQ.dll" />
+    <Content Include="bin\Sabre_CCValidRS.dll" />
+    <Content Include="bin\Sabre_CrypticRQ.dll" />
+    <Content Include="bin\Sabre_CrypticRS.dll" />
+    <Content Include="bin\Sabre_CurConvRQ.dll" />
+    <Content Include="bin\Sabre_CurConvRS.dll" />
+    <Content Include="bin\Sabre_FareDisplayRQ.dll" />
+    <Content Include="bin\Sabre_FareDisplayRS.dll" />
+    <Content Include="bin\Sabre_HotelAvailRQ.dll" />
+    <Content Include="bin\Sabre_HotelAvailRS.dll" />
+    <Content Include="bin\Sabre_HotelInfoRQ.dll" />
+    <Content Include="bin\Sabre_HotelInfoRS.dll" />
+    <Content Include="bin\Sabre_HotelSearchRQ.dll" />
+    <Content Include="bin\Sabre_HotelSearchRS.dll" />
+    <Content Include="bin\Sabre_IssueTicketRQ.dll" />
+    <Content Include="bin\Sabre_IssueTicketRS.dll" />
+    <Content Include="bin\Sabre_LowFarePlusRQ.dll" />
+    <Content Include="bin\Sabre_LowFarePlusRS.dll" />
+    <Content Include="bin\Sabre_LowFareRQ.dll" />
+    <Content Include="bin\Sabre_LowFareRS.dll" />
+    <Content Include="bin\Sabre_LowFareSchedule2RS.dll" />
+    <Content Include="bin\Sabre_LowFareScheduleRQ.dll" />
+    <Content Include="bin\Sabre_LowFareScheduleRS.dll" />
+    <Content Include="bin\Sabre_PNRCancelRQ.dll" />
+    <Content Include="bin\Sabre_PNRCancelRS.dll" />
+    <Content Include="bin\Sabre_PNRReadRQ.dll" />
+    <Content Include="bin\Sabre_PNRReadRS.dll" />
+    <Content Include="bin\Sabre_ShowMileageRQ.dll" />
+    <Content Include="bin\Sabre_ShowMileageRS.dll" />
+    <Content Include="bin\Sabre_TB_Errors.dll" />
+    <Content Include="bin\Sabre_TimeDiffRQ.dll" />
+    <Content Include="bin\Sabre_TimeDiffRS.dll" />
+    <Content Include="bin\Sabre_TravelBuildRQ.dll" />
+    <Content Include="bin\Sabre_UpdateInsertRQ.dll" />
+    <Content Include="bin\SharpZipLib.dll" />
+    <Content Include="bin\TripXMLMain.dll" />
+    <Content Include="bin\ttCore.dll" />
+    <Content Include="bin\TXML_GetDealsRS.dll" />
+    <Content Include="bin\v03_AmadeusWS_AirAvailRPHRS.dll" />
+    <Content Include="bin\v03_AmadeusWS_AirAvailRQ.dll" />
+    <Content Include="bin\v03_AmadeusWS_AirAvailRQ1.dll" />
+    <Content Include="bin\v03_AmadeusWS_AirAvailRS.dll" />
+    <Content Include="bin\v03_AmadeusWS_AirAvailRS.script.dll" />
+    <Content Include="bin\v03_AmadeusWS_AirPriceRQ.dll" />
+    <Content Include="bin\v03_AmadeusWS_AirPriceRS.dll" />
+    <Content Include="bin\v03_AmadeusWS_AirRulesRQ.dll" />
+    <Content Include="bin\v03_AmadeusWS_AirRulesRS.dll" />
+    <Content Include="bin\v03_AmadeusWS_PNRReadRQ.dll" />
+    <Content Include="bin\v03_AmadeusWS_PNRReadRS.dll" />
+    <Content Include="bin\v03_AmadeusWS_StoredFareBuildRQ.dll" />
+    <Content Include="bin\v03_AmadeusWS_StoredFareBuildRS.dll" />
+    <Content Include="bin\v03_AmadeusWS_TB_Errors.dll" />
+    <Content Include="bin\v03_AmadeusWS_TravelBuildRQ.dll" />
+    <Content Include="bin\v03_Galileo_IssueTicketRQ.dll" />
+    <Content Include="bin\v03_Galileo_IssueTicketRS.dll" />
+    <Content Include="bin\v03_Galileo_PNRReadRQ.dll" />
+    <Content Include="bin\v03_Galileo_PNRReadRS.dll" />
+    <Content Include="bin\v03_Galileo_PNRReadRS.script.dll" />
+    <Content Include="bin\v03_Galileo_TB_Errors.dll" />
+    <Content Include="bin\v03_Galileo_TravelBuildRQ.dll" />
+    <Content Include="bin\v03_Sabre_AirPriceRQ.dll" />
+    <Content Include="bin\v03_Sabre_AirPriceRS.dll" />
+    <Content Include="bin\v03_Sabre_LowFarePlusRQ.dll" />
+    <Content Include="bin\v03_Sabre_LowFarePlusRS.dll" />
+    <Content Include="bin\v03_Sabre_PNRReadRQ.dll" />
+    <Content Include="bin\v03_Sabre_PNRReadRS.dll" />
+    <Content Include="bin\v03_Sabre_TB_Errors.dll" />
+    <Content Include="bin\v03_Sabre_TravelBuildRQ.dll" />
+    <Content Include="bin\v04_AmadeusWS_PNRReadRQ.dll" />
+    <Content Include="bin\v04_AmadeusWS_PNRReadRS.dll" />
+    <Content Include="bin\v04_AmadeusWS_QueueReadRQ.dll" />
+    <Content Include="bin\v04_AmadeusWS_TB_Errors.dll" />
+    <Content Include="bin\v04_AmadeusWS_TravelBuildRQ.dll" />
+    <Content Include="bin\v04_Galileo_PNRReadRQ.dll" />
+    <Content Include="bin\v04_Galileo_PNRReadRS.dll" />
+    <Content Include="bin\v04_Galileo_PNRReadRS.script.dll" />
+    <Content Include="bin\v04_Galileo_TB_Errors.dll" />
+    <Content Include="bin\v04_Galileo_TravelBuildRQ.dll" />
+    <Content Include="bin\v05_AmadeusWS_PNRReadRQ.dll" />
+    <Content Include="bin\v05_AmadeusWS_PNRReadRS.dll" />
+    <Content Include="bin\Worldspan.dll" />
+    <Content Include="bin\Worldspan_AirPriceRQ.dll" />
+    <Content Include="bin\Worldspan_AirPriceRS.dll" />
+    <Content Include="bin\Worldspan_AirRulesRQ.dll" />
+    <Content Include="bin\Worldspan_AirRulesRS.dll" />
+    <Content Include="bin\Worldspan_AirSeatMapRQ.dll" />
+    <Content Include="bin\Worldspan_AirSeatMapRS.dll" />
+    <Content Include="bin\Worldspan_FareDisplayRQ.dll" />
+    <Content Include="bin\Worldspan_FareDisplayRS.dll" />
+    <Content Include="bin\Worldspan_LowFarePlusRQ.dll" />
+    <Content Include="bin\Worldspan_LowFarePlusRS.dll" />
+    <Content Include="bin\Worldspan_LowFareRQ.dll" />
+    <Content Include="bin\Worldspan_LowFareRS.dll" />
+    <Content Include="bin\Worldspan_PNRCancelRQ.dll" />
+    <Content Include="bin\Worldspan_PNRCancelRS.dll" />
+    <Content Include="bin\Worldspan_PNRReadRQ.dll" />
+    <Content Include="bin\Worldspan_PNRReadRS.dll" />
+    <Content Include="bin\Worldspan_TravelBuildRQ.dll" />
+    <Content Include="bin\Worldspan_UpdateInsertRQ.dll" />
+    <Content Include="bin\wsTripXML.dll" />
+    <Content Include="Code\bin\CarDelMar.dll" />
+    <Content Include="Code\bin\Interop.MSXML.dll" />
+    <Content Include="Code\bin\ttAmadeusAdapter.dll" />
+    <Content Include="Code\bin\ttAmadeusAdapter.pdb" />
+    <Content Include="Code\bin\ttAmadeusAdapter.xml" />
+    <Content Include="Code\bin\ttAmadeusAPI.dll" />
+    <Content Include="Code\bin\ttAmadeusAPI.pdb" />
+    <Content Include="Code\bin\ttAmadeusAPI.xml" />
+    <Content Include="Code\bin\ttAmadeusService.dll" />
+    <Content Include="Code\bin\ttAmadeusService.pdb" />
+    <Content Include="Code\bin\ttCore.dll" />
+    <Content Include="Code\bin\ttCore.pdb" />
+    <Content Include="Code\bin\ttCore.xml" />
+    <Content Include="Code\bin\ttDB.dll" />
+    <Content Include="Code\bin\ttDB.pdb" />
+    <Content Include="Code\bin\ttDB.xml" />
+    <Content Include="Code\bin\ttGalileoAdapter.dll" />
+    <Content Include="Code\bin\ttGalileoAdapter.pdb" />
+    <Content Include="Code\bin\ttGalileoAdapter.xml" />
+    <Content Include="Code\bin\ttGalileoAdapter.XmlSerializers.dll" />
+    <Content Include="Code\bin\ttGalileoService.dll" />
+    <Content Include="Code\bin\ttGalileoService.pdb" />
+    <Content Include="Code\bin\ttGalileoService.xml" />
+    <Content Include="Code\bin\ttSabreAdapter.dll" />
+    <Content Include="Code\bin\ttSabreAdapter.pdb" />
+    <Content Include="Code\bin\ttSabreAdapter.xml" />
+    <Content Include="Code\bin\ttSabreService.dll" />
+    <Content Include="Code\bin\ttSabreService.pdb" />
+    <Content Include="Code\bin\ttSabreService.xml" />
+    <Content Include="Code\bin\ttWorldspanAdapter.dll" />
+    <Content Include="Code\bin\ttWorldspanAdapter.pdb" />
+    <Content Include="Code\bin\ttWorldspanAdapter.xml" />
+    <Content Include="Code\bin\ttWorldspanService.dll" />
+    <Content Include="Code\bin\ttWorldspanService.pdb" />
+    <Content Include="Code\bin\ttWorldspanService.xml" />
+    <Content Include="wsAuthorization.asmx" />
+    <Content Include="wsCarList.asmx" />
+    <Content Include="wsCryptic.asmx" />
+    <Content Include="wsDisplayTicket.asmx" />
+    <Content Include="wsDisplayTicket_v03.asmx" />
+    <Content Include="wsReIssueTicketSessioned.asmx" />
+    <Content Include="wsVirtualCreditCard.asmx" />
+    <Content Include="wsInventoryManagement.asmx" />
+    <Content Include="wsLowOfferMatrix.asmx" />
+    <Content Include="wsLowOfferSearch.asmx" />
+    <Content Include="wsPing.asmx" />
+    <Content Include="wsPNRSplit.asmx" />
+    <Content Include="wsRefundTicket.asmx" />
+    <Content Include="wsSalesReport.asmx" />
+    <Content Include="wsVoidTicket.asmx" />
+    <Content Include="GetFareRules.aspx" />
+    <Content Include="RulesResult.aspx" />
+    <Content Include="wsCreateTicketInvoice.asmx" />
+    <Content Include="wsIssueTicketSessioned.asmx" />
+    <Content Include="wsLowFarePlus_vJR.asmx" />
+    <Content Include="wsPNRRead_v05.asmx" />
+    <Content Include="wsStoredFareBuild_v03.asmx" />
+    <Content Include="Global.asax" />
+    <Content Include="bin\wsTripXML.dll.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="wsAdmin.asmx" />
+    <Content Include="wsAirAvail.asmx" />
+    <Content Include="wsAirAvail_v03.asmx" />
+    <Content Include="wsAirAvail_v2003.asmx" />
+    <Content Include="wsAirFlifo.asmx" />
+    <Content Include="wsAirPrice.asmx" />
+    <Content Include="wsAirPrice_v03.asmx" />
+    <Content Include="wsAirRules.asmx" />
+    <Content Include="wsAirRules_v03.asmx" />
+    <Content Include="wsAirSchedule.asmx" />
+    <Content Include="wsAirSeatMap.asmx" />
+    <Content Include="wsCarAvail.asmx" />
+    <Content Include="wsCarAvail_v03.asmx" />
+    <Content Include="wsCarInfo.asmx" />
+    <Content Include="wsCarRules.asmx" />
+    <Content Include="wsCCValid.asmx" />
+    <Content Include="wsCruiseCabinAvail.asmx" />
+    <Content Include="wsCruiseCabinHold.asmx" />
+    <Content Include="wsCruiseCabinUnhold.asmx" />
+    <Content Include="wsCruiseCancel.asmx" />
+    <Content Include="wsCruiseCategoryAvail.asmx" />
+    <Content Include="wsCruiseCreateBooking.asmx" />
+    <Content Include="wsCruiseFareAvail.asmx" />
+    <Content Include="wsCruiseItineraryDesc.asmx" />
+    <Content Include="wsCruiseModifyBooking.asmx" />
+    <Content Include="wsCruisePackageAvail.asmx" />
+    <Content Include="wsCruisePackageDesc.asmx" />
+    <Content Include="wsCruisePriceBooking.asmx" />
+    <Content Include="wsCruiseRead.asmx" />
+    <Content Include="wsCruiseSailAvail.asmx" />
+    <Content Include="wsCruiseTransferAvail.asmx" />
+    <Content Include="wsCrypticEntries.asmx" />
+    <Content Include="wsCurConv.asmx" />
+    <Content Include="wsETicketVerify.asmx" />
+    <Content Include="wsFareDisplay.asmx" />
+    <Content Include="wsFareInfo.asmx" />
+    <Content Include="wsHotelAvail.asmx" />
+    <Content Include="wsHotelAvail_v03.asmx" />
+    <Content Include="wsHotelInfo.asmx" />
+    <Content Include="wsHotelModify.asmx" />
+    <Content Include="wsHotelSearch.asmx" />
+    <Content Include="wsInsuranceBook.asmx" />
+    <Content Include="wsInsuranceQuote.asmx" />
+    <Content Include="wsIssueTicket.asmx" />
+    <Content Include="wsIssueTicket_v03.asmx" />
+    <Content Include="wsLowFare.asmx" />
+    <Content Include="wsLowFareFlights.asmx" />
+    <Content Include="wsLowFareMatrix.asmx" />
+    <Content Include="wsLowFarePlus.asmx" />
+    <Content Include="wsLowFarePlus_v03.asmx" />
+    <Content Include="wsLowFareSchedule.asmx" />
+    <Content Include="wsLowFareSchedule_v03.asmx" />
+    <Content Include="wsLowFare_v03.asmx" />
+    <Content Include="wsMultiMessage.asmx" />
+    <Content Include="wsNative.asmx" />
+    <Content Include="wsPNRCancel.asmx" />
+    <Content Include="wsPNREnd.asmx" />
+    <Content Include="wsPNRRead.asmx" />
+    <Content Include="wsPNRRead_v03.asmx" />
+    <Content Include="wsPNRRead_v04.asmx" />
+    <Content Include="wsPNRReprice.asmx" />
+    <Content Include="wsProfileCreate.asmx" />
+    <Content Include="wsProfileRead.asmx" />
+    <Content Include="wsQueue.asmx" />
+    <Content Include="wsQueueRead.asmx" />
+    <Content Include="wsQueueRead_v04.asmx" />
+    <Content Include="wsSessionClose.asmx" />
+    <Content Include="wsSessionCreate.asmx" />
+    <Content Include="wsShowMileage.asmx" />
+    <Content Include="wsStoredFareBuild.asmx" />
+    <Content Include="wsStoredFareUpdate.asmx" />
+    <Content Include="wsTimeDiff.asmx" />
+    <Content Include="wsTransferOwnership.asmx" />
+    <Content Include="wsTravelBuild.asmx" />
+    <Content Include="wsTravelBuild_v03.asmx" />
+    <Content Include="wsTravelBuild_v04.asmx" />
+    <Content Include="wsTravelModify.asmx" />
+    <Content Include="wsGetDeals.asmx" />
+    <Content Include="wsUpdate.asmx" />
+    <Content Include="wsUpdateMarkups.asmx" />
+    <Content Include="wsUpdateSessioned.asmx" />
+    <Compile Include="Code\Admin\wsImportLog.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\Admin\wsRefreshMem.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\Classes\cAggregation.vb" />
+    <Compile Include="Code\Classes\cLog.vb" />
+    <Compile Include="Code\Classes\cLogData.vb" />
+    <Compile Include="Code\Classes\cServiceAmadeusWS.vb" />
+    <Compile Include="Code\Classes\cServiceGalileo.vb" />
+    <Compile Include="Code\Classes\cServiceSabre.vb" />
+    <Compile Include="Code\Classes\cServiceWorldspan.vb" />
+    <Compile Include="Code\Classes\cSoapRQ.vb" />
+    <Compile Include="Code\OTAClasses\ContractManagerRQ.vb" />
+    <Compile Include="Code\OTAClasses\ContractManagerRS.vb" />
+    <Compile Include="Code\OTAClasses\DisplayTicketRQ.vb" />
+    <Compile Include="Code\OTAClasses\DisplayTicketRS.vb" />
+    <Compile Include="Code\OTAClasses\DisplayTicketRS_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAAuthorizationRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAuthorizationRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACarListRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACarListRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACryptic.vb" />
+    <Compile Include="Code\OTAClasses\OTACrypticRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACrypticRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowOfferMatrixRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowOfferMatrixRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowOfferSearchRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowOfferSearchRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRSplitRQ.vb" />
+    <Compile Include="Code\OTAClasses\PingRQ.vb" />
+    <Compile Include="Code\OTAClasses\PingRS.vb" />
+    <Compile Include="Code\OTAClasses\RefundTicketRQ.vb" />
+    <Compile Include="Code\OTAClasses\RefundTicketRS.vb" />
+    <Compile Include="Code\OTAClasses\SalesReport.vb" />
+    <Compile Include="Code\OTAClasses\SalesReportRQ.vb" />
+    <Compile Include="Code\OTAClasses\SalesReportRS.vb" />
+    <Compile Include="Code\OTAClasses\TXMLInventoryManagementRQ.vb" />
+    <Compile Include="Code\OTAClasses\TXMLInventoryManagementRS.vb" />
+    <Compile Include="Code\OTAClasses\VoidTicketRS.vb" />
+    <Compile Include="Code\OTAClasses\VoidTicketRQ.vb" />
+    <Compile Include="Code\wsAuthorization.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCarList.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsDisplayTicket.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsDisplayTicket_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsInventoryManagement.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowOfferMatrix.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowOfferSearch.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPing.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRSplit.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsSalesReport.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsVoidTicket.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsRefundTicket.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\Global.asax.vb" />
+    <Compile Include="Code\modMain.vb" />
+    <Compile Include="Code\OTAClasses\2005A_OTAAirAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\2005A_OTAAirAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\IssueTicketRQ.vb" />
+    <Compile Include="Code\OTAClasses\IssueTicketRQ_v03.vb" />
+    <Compile Include="Code\OTAClasses\IssueTicketRS.vb" />
+    <Compile Include="Code\OTAClasses\IssueTicketSessionedRQ.vb" />
+    <Compile Include="Code\OTAClasses\IssueTicketSessionedRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirAvailRQ_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirFlifoRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirFlifoRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirPrice.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirPriceRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirPriceRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirRules.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirRulesRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirRulesRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirRulesRS_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirRules_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirScheduleRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirScheduleRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirSeatMap.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirSeatMapRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirSeatMapRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACarAvail.vb" />
+    <Compile Include="Code\OTAClasses\OTACarAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACarAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACarInfo.vb" />
+    <Compile Include="Code\OTAClasses\OTACarInfoRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACarInfoRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACarRulesRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACarRulesRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACCValidRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACCValidRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseBooking.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinAvail.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinHoldRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinHoldRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinUnhold.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinUnholdRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinUnholdRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCancel.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCancelRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCancelRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCategoryAvail.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCategoryAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCategoryAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCreateBooking.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCreateBookingRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCreateBookingRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseFareAvail.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseFareAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseFareAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseItineraryDescRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseItineraryDescRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePackageAvail.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePackageAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePackageAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePackageDescRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePackageDescRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePriceBookingRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePriceBookingRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseReadRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseReadRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseSailAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseSailAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseTransferAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseTransferAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACrypticEntriesRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACrypticEntriesRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACurConvRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACurConvRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAETicketVerifyRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAETicketVerifyRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAFareDisplay.vb" />
+    <Compile Include="Code\OTAClasses\OTAFareDisplayRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAFareDisplayRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAFareInfo.vb" />
+    <Compile Include="Code\OTAClasses\OTAFareInfoRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAFareInfoRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelAvail.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelAvailRQ_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelAvailRS_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelAvail_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelInfo.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelInfoRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelInfoRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelModifyRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelSearch.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelSearchRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelSearchRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAInsuranceBook.vb" />
+    <Compile Include="Code\OTAClasses\OTAInsuranceBookRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAInsuranceBookRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAInsuranceQuote.vb" />
+    <Compile Include="Code\OTAClasses\OTAInsuranceQuoteRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAInsuranceQuoteRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareFlightsRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareFlightsRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareMatrixRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareMatrixRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFarePlusRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFarePlusRQ_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFarePlusRQ_vJR.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFarePlusRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFarePlusRS_vJR.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareRQ_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareScheduleRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareScheduleRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAMultiMessageRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAMultiMessageRS.vb" />
+    <Compile Include="Code\OTAClasses\OTANativeRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTANativeRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRCancel.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRCancelRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRCancelRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNREndRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRReadRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRRepriceRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRRepriceRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAProfileCommon.vb" />
+    <Compile Include="Code\OTAClasses\OTAProfileCreateRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAProfileReadRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAProfileReadRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAQueue.vb" />
+    <Compile Include="Code\OTAClasses\OTAQueueReadRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAQueueRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAQueueRS.vb" />
+    <Compile Include="Code\OTAClasses\OTASessionCloseRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTASessionCloseRS.vb" />
+    <Compile Include="Code\OTAClasses\OTASessionCreateRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTASessionCreateRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAShowMileageRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAShowMileageRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAStoredFareBuildRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAStoredFareBuildRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAStoredFareBuildRS_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAStoredFareUpdateRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAStoredFareUpdateRS.vb" />
+    <Compile Include="Code\OTAClasses\OTATimeDiffRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTATimeDiffRS.vb" />
+    <Compile Include="Code\OTAClasses\OTATransferOwnershipRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTATransferOwnershipRS.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItinerary.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItineraryRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItineraryRQ_v04.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItineraryRS.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItineraryRS_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItineraryRS_v04.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItineraryRS_v05.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelModifyRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAUpdateRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAUpdateRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareScheduleRQ_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAUpdateSessionedRQ.vb" />
+    <Compile Include="Code\OTAClasses\TXMLGetDealsRQ.vb" />
+    <Compile Include="Code\OTAClasses\TXMLGetDealsRS.vb" />
+    <Compile Include="Code\wsAdmin.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirAvail_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirAvail_v2003.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirFlifo.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirPrice.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirPrice_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirRules.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirRules_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirSchedule.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirSeatMap.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCarAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCarAvail_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCarInfo.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCarRules.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCCValid.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCreateTicketInvoice.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseCabinAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseCabinHold.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseCabinUnhold.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseCancel.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseCategoryAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseCreateBooking.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseFareAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseItineraryDesc.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseModifyBooking.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruisePackageAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruisePackageDesc.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruisePriceBooking.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseRead.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseSailAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseTransferAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCryptic.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCrypticEntries.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCurConv.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsETicketVerify.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsFareDisplay.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsFareInfo.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsHotelAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsHotelAvail_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsHotelInfo.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsHotelModify.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsHotelSearch.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsInsuranceBook.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsInsuranceQuote.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsIssueTicket.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsIssueTicketSessioned.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsIssueTicket_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFare.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFareFlights.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFareMatrix.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFarePlus.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFarePlus_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFarePlus_vJR.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFareSchedule.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFareSchedule_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFare_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsMultiMessage.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsNative.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRCancel.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNREnd.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRRead.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRRead_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRRead_v04.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRRead_v05.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRReprice.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsProfileCreate.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsProfileRead.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsQueue.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsQueueRead.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsQueueRead_v04.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsSessionClose.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsSessionCreate.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsShowMileage.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsStoredFareBuild.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsStoredFareBuild_v03.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsStoredFareUpdate.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsTimeDiff.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsTransferOwnership.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsTravelBuild.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsTravelBuild_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsTravelBuild_v04.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsTravelModify.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsGetDeals.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsUpdate.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsUpdateMarkups.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsUpdateSessioned.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GetFareRules.aspx.designer.vb">
+      <DependentUpon>GetFareRules.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GetFareRules.aspx.vb">
+      <DependentUpon>GetFareRules.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="RulesResult.aspx.designer.vb">
+      <DependentUpon>RulesResult.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RulesResult.aspx.vb">
+      <DependentUpon>RulesResult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <None Include="My Project\PublishProfiles\DTT.pubxml" />
+    <None Include="My Project\PublishProfiles\LocalDeployment.pubxml" />
+    <None Include="My Project\PublishProfiles\LocalIIS.pubxml" />
+    <None Include="My Project\PublishProfiles\LocalPlatform.pubxml" />
+    <None Include="My Project\PublishProfiles\RegularTripXML.pubxml" />
+    <None Include="My Project\PublishProfiles\UKRAINE.pubxml" />
+    <Content Include="Tables\BL\WS_FTP.LOG" />
+    <Content Include="Tables\Decoding\airports.zip" />
+    <Content Include="Tables\Decoding\airports.zi_" />
+    <Content Include="Tables\Decoding\airportsbycountry.zi_" />
+    <Content Include="Tables\Decoding\AmadeusAirports.zip" />
+    <Content Include="Tables\Decoding\Cruise Data.xls" />
+    <Content Include="Tables\Decoding\LocationTable.zip" />
+    <Content Include="Tables\Decoding\ttCruiseCities.zip" />
+    <Content Include="Tables\Decoding\ttCruiseTables.zip" />
+    <Content Include="Tables\Decoding\ttwsAirports.zip" />
+    <Content Include="Tables\Decoding\ttwsairports.zi_" />
+    <Content Include="Tables\Decoding\ttwsCruiseTables.zip" />
+    <Content Include="Tables\Decoding\WS_FTP.LOG" />
+    <Content Include="Tables\Users\WS_FTP.LOG" />
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App_Data\Admin\wsImportLog.asmx.resx" />
+    <EmbeddedResource Include="App_Data\Admin\wsRefreshMem.asmx.resx" />
+    <EmbeddedResource Include="Code\wsCruiseTransferAvail.asmx.resx">
+      <DependentUpon>wsCruiseTransferAvail.asmx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global.asax.resx" />
+    <EmbeddedResource Include="wsAirAvail.asmx.resx" />
+    <EmbeddedResource Include="wsAirAvail_v2003.asmx.resx" />
+    <EmbeddedResource Include="wsAirFlifo.asmx.resx" />
+    <EmbeddedResource Include="wsAirPrice.asmx.resx" />
+    <EmbeddedResource Include="wsAirRules.asmx.resx" />
+    <EmbeddedResource Include="wsAirSeatMap.asmx.resx" />
+    <EmbeddedResource Include="wsCarAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCarInfo.asmx.resx" />
+    <EmbeddedResource Include="wsCCValid.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseCabinAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseCabinHold.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseCabinUnhold.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseCancel.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseCategoryAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseCreateBooking.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseFareAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseItineraryDesc.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseModifyBooking.asmx.resx" />
+    <EmbeddedResource Include="wsCruisePackageAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCruisePackageDesc.asmx.resx" />
+    <EmbeddedResource Include="wsCruisePriceBooking.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseRead.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseSailAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseTransferAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCryptic.asmx.resx" />
+    <EmbeddedResource Include="wsCurConv.asmx.resx" />
+    <EmbeddedResource Include="wsETicketVerify.asmx.resx" />
+    <EmbeddedResource Include="wsFareDisplay.asmx.resx" />
+    <EmbeddedResource Include="wsHotelAvail.asmx.resx" />
+    <EmbeddedResource Include="wsHotelInfo.asmx.resx" />
+    <EmbeddedResource Include="wsHotelModify.asmx.resx" />
+    <EmbeddedResource Include="wsHotelSearch.asmx.resx" />
+    <EmbeddedResource Include="wsInsuranceBook.asmx.resx" />
+    <EmbeddedResource Include="wsInsuranceQuote.asmx.resx" />
+    <EmbeddedResource Include="wsIssueTicket.asmx.resx" />
+    <EmbeddedResource Include="wsLowFare.asmx.resx" />
+    <EmbeddedResource Include="wsLowFarePlus.asmx.resx" />
+    <EmbeddedResource Include="wsMultiMessage.asmx.resx" />
+    <EmbeddedResource Include="wsNative.asmx.resx" />
+    <EmbeddedResource Include="wsPNRCancel.asmx.resx" />
+    <EmbeddedResource Include="wsPNRRead.asmx.resx" />
+    <EmbeddedResource Include="wsQueue.asmx.resx" />
+    <EmbeddedResource Include="wsQueueRead.asmx.resx" />
+    <EmbeddedResource Include="wsSessionClose.asmx.resx" />
+    <EmbeddedResource Include="wsSessionCreate.asmx.resx" />
+    <EmbeddedResource Include="wsShowMileage.asmx.resx" />
+    <EmbeddedResource Include="wsTimeDiff.asmx.resx" />
+    <EmbeddedResource Include="wsTravelBuild.asmx.resx" />
+    <EmbeddedResource Include="wsTravelModify.asmx.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AdminTools\AdminTools.csproj">
+      <Project>{3D03930C-DFD6-4F1C-88AB-B151A70D98DD}</Project>
+      <Name>AdminTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AmadeusWS\AmadeusWS.csproj">
+      <Project>{deb7aa8c-6eff-4085-af1c-55dfc4a13083}</Project>
+      <Name>AmadeusWS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompressionExtension\CompressionExtension.csproj">
+      <Project>{68166A57-F20D-4620-A7EF-E65F2326ED7F}</Project>
+      <Name>CompressionExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galileo\Galileo.csproj">
+      <Project>{e7d7bbb7-e6f5-04bf-3e34-f99a5351e8e1}</Project>
+      <Name>Galileo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sabre-CS\Sabre.csproj">
+      <Project>{e7280d0f-fdef-0eca-020a-4183f59428c1}</Project>
+      <Name>Sabre</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TripXMLMain\TripXMLMain.vbproj">
+      <Project>{7bfd1163-a751-4042-ab19-6665d0af115a}</Project>
+      <Name>TripXMLMain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TripXMLTools\TripXMLTools.csproj">
+      <Project>{b362f5bf-5f86-4997-9ef4-067c8e3db74e}</Project>
+      <Name>TripXMLTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Worldspan\Worldspan.vbproj">
+      <Project>{ba90dfe8-4579-4798-bde9-9993e3814c22}</Project>
+      <Name>Worldspan</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\MyExtensions\" />
+    <Folder Include="obj\Debug\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>9730</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/TripXMLSource</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="CustomCollectFiles">
+    <ItemGroup>
+      <_CustomFiles Include="..\ExtraFiles\**\*" />
+      <FilesForPackagingFromProject Include="%(_CustomFiles.Identity)">
+        <DestinationRelativePath>%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <CopyAllFilesToSingleFolderForPackageDependsOn>
+      CustomCollectFiles;
+      $(CopyAllFilesToSingleFolderForPackageDependsOn);
+    </CopyAllFilesToSingleFolderForPackageDependsOn>
+    <CopyAllFilesToSingleFolderForMsdeployDependsOn>
+      CustomCollectFiles;
+      $(CopyAllFilesToSingleFolderForPackageDependsOn);
+    </CopyAllFilesToSingleFolderForMsdeployDependsOn>
+  </PropertyGroup>
+</Project>

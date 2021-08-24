@@ -1,0 +1,318 @@
+<ttWSCruiseBedConfiguration>
+	<BedConfiguration>
+		<Code>1L</Code>
+		<Name>1 LOWER BED</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>LU</Code>
+		<Name>1 LOWER WITH 1 UPPER</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>UB</Code>
+		<Name>1 UPPER BERTH</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>12</Code>
+		<Name>1DOUBLE 2LOWER TWIN BEDS</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>2L</Code>
+		<Name>2 LOWER BEDS</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>2R</Code>
+		<Name>2 LOWER BEDS ROLLAWAY</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>21</Code>
+		<Name>2 LOWER BEDS 1 UPPER BED</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>22</Code>
+		<Name>2 LOWER BEDS 2 UPPER BEDS</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>2D</Code>
+		<Name>2 LOWER TWIN CONV TO DBLE</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>LH</Code>
+		<Name>2 LWER BEDS 1 UPPER BERTH</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>2C</Code>
+		<Name>2 LWER TWIN CONV TO QUEEN</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>US</Code>
+		<Name>2 UPPER BERTHS</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>BB</Code>
+		<Name>BED BOARDS</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>BE</Code>
+		<Name>BED EXTENSIONS</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>BR</Code>
+		<Name>BED RAILS</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>CN</Code>
+		<Name>CONVERTIBLE</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>CO</Code>
+		<Name>COT</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>CR</Code>
+		<Name>CRIB</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>DB</Code>
+		<Name>DOUBLE BED</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>DT</Code>
+		<Name>DOUBLE CONVERTS TO TWIN</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>DM</Code>
+		<Name>DOUBLE MURPHY BED</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>DU</Code>
+		<Name>DOUBLE S SOFA 1 UPPER</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>DS</Code>
+		<Name>DOUBLE SOFA</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>DC</Code>
+		<Name>DOUBLE WITH CRIB</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>DR</Code>
+		<Name>DOUBLE WITH ROLLAWAY</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>DW</Code>
+		<Name>DOUBLE WITH SOFA</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>DP</Code>
+		<Name>DOUBLE WITH UPPER PULLMAN</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>LT</Code>
+		<Name>FIRST LOWER TWIN BERTH</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>UP</Code>
+		<Name>FIRST UPPER PULLMAN</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>4L</Code>
+		<Name>FOUR CONVERTIBLE TWINS</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>IB</Code>
+		<Name>INTERCH BERTH USE SPAR</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>1K</Code>
+		<Name>KING BED</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>KU</Code>
+		<Name>KING WITH 1 UPPER</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>KC</Code>
+		<Name>KING WITH CRIB</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>KD</Code>
+		<Name>KING WITH DOUBLE SOFA</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>KR</Code>
+		<Name>KING WITH ROLLAWAY</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>KP</Code>
+		<Name>KING WITH S SOFA 1 UPPER</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>KS</Code>
+		<Name>KING WITH SOFA</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>MT</Code>
+		<Name>MULTIPLE</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>NO</Code>
+		<Name>NO SELECTION</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>NK</Code>
+		<Name>NON CONVERTING TWINS</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>NI</Code>
+		<Name>NON INTERC BERTH USE SPAR</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>PU</Code>
+		<Name>PULLMAN</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>PB</Code>
+		<Name>PULLOUT BED</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>4T</Code>
+		<Name>QUAD TWIN BEDS</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>1Q</Code>
+		<Name>QUEEN BED</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>QU</Code>
+		<Name>QUEEN BED S SOFA 1 UPPER</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>1R</Code>
+		<Name>QUEEN BED WITH SOFA</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>QP</Code>
+		<Name>QUEEN BED WITH UPPER PUL</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>QH</Code>
+		<Name>QUEEN BEDDED HANDI CABIN</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>QC</Code>
+		<Name>QUEEN WITH CRIB</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>QR</Code>
+		<Name>QUEEN WITH ROLLAWAY</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>RB</Code>
+		<Name>ROLLAWAY BED</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>SL</Code>
+		<Name>SECOND LOWER TWIN BERTH</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>SU</Code>
+		<Name>SECOND UPPER PULLMAN</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>SS</Code>
+		<Name>SINGLE SOFA</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>SC</Code>
+		<Name>SINGLE WITH CRIB</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>SO</Code>
+		<Name>SOFA BED</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>SB</Code>
+		<Name>SOFA MADE IN LOWER BERTH</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>ST</Code>
+		<Name>STATIONARY LOWER BED</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>TW</Code>
+		<Name>TK CONV S SOFA 1 UPPER</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>2T</Code>
+		<Name>TWIN BEDS</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>TS</Code>
+		<Name>TWIN BEDS WITH SOFA</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>TL</Code>
+		<Name>TWIN DOUBLE SOFA</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>TU</Code>
+		<Name>TWIN KING CONV 1 UPPER</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>T2</Code>
+		<Name>TWIN KING CONV 2 UPPERS</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>TD</Code>
+		<Name>TWIN KING CONV D SOFA</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>TK</Code>
+		<Name>TWIN KING CONV SING SOFA</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>TC</Code>
+		<Name>TWIN KING CONVERTING</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>TA</Code>
+		<Name>TWIN KING SINGLE SOFA</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>TO</Code>
+		<Name>TWIN S SOFA 1 UPP</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>T1</Code>
+		<Name>TWIN WITH 1 UPPER</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>TB</Code>
+		<Name>TWIN WITH CHILD BED</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>TR</Code>
+		<Name>TWIN WITH CRIB</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>TF</Code>
+		<Name>TWIN WITH FOLDOUT</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>TP</Code>
+		<Name>TWIN WITH PULLMAN</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>WS</Code>
+		<Name>WCHR SHIP AND TOUR</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>XS</Code>
+		<Name>WCHR SHIP AND TOUR DIS</Name>
+	</BedConfiguration>
+	<BedConfiguration>
+		<Code>WT</Code>
+		<Name>WCHR TOUR USE ONLY</Name>
+	</BedConfiguration>
+</ttWSCruiseBedConfiguration>

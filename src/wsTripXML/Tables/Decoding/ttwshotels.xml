@@ -1,0 +1,1370 @@
+<TTWSHotels>
+	<Hotel>
+		<Code>AB</Code>
+		<Name>Abotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AC</Code>
+		<Name>Central Reservations</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AE</Code>
+		<Name>Amerihost</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AG</Code>
+		<Name>Hotel Des Gouveneurs</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AH</Code>
+		<Name>Aston Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AI</Code>
+		<Name>HotelConnect</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AJ</Code>
+		<Name>Amerisuites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AM</Code>
+		<Name>Adams Mark</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AN</Code>
+		<Name>Ana International</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AO</Code>
+		<Name>Arcotel Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AP</Code>
+		<Name>Astron Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AQ</Code>
+		<Name>Aramis Worldwide Reservations</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AR</Code>
+		<Name>Alliance Resorts</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AS</Code>
+		<Name>All Suites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AT</Code>
+		<Name>Atlas</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AV</Code>
+		<Name>Ambassador Services</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AW</Code>
+		<Name>Astra Worldwide</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AX</Code>
+		<Name>Anasazi</Name>
+	</Hotel>
+	<Hotel>
+		<Code>AZ</Code>
+		<Name>Axcess Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BB</Code>
+		<Name>Bartell Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BC</Code>
+		<Name>Copthorne</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BD</Code>
+		<Name>Bed Brkfst Direct</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BE</Code>
+		<Name>Homestead Village</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BF</Code>
+		<Name>Beaufort Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BH</Code>
+		<Name>Hawthorne Suites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BI</Code>
+		<Name>The Copley House</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BM</Code>
+		<Name>Biltmore Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BP</Code>
+		<Name>Shilo Inns</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BQ</Code>
+		<Name>Bachelor Quarters</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BR</Code>
+		<Name>Renaissance</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BS</Code>
+		<Name>Stakis Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BT</Code>
+		<Name>BTH Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BU</Code>
+		<Name>Budgetel Inns</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BV</Code>
+		<Name>Bluetree Resorts</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BW</Code>
+		<Name>Best Western</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BX</Code>
+		<Name>Colombus Reservation Svc</Name>
+	</Hotel>
+	<Hotel>
+		<Code>BZ</Code>
+		<Name>CMNET Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CA</Code>
+		<Name>Saturno Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CB</Code>
+		<Name>Caribbean Information Ofc</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CC</Code>
+		<Name>Clarion</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CD</Code>
+		<Name>Concorde Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CE</Code>
+		<Name>Susse Chalet</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CG</Code>
+		<Name>City Lodge Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CH</Code>
+		<Name>Carlyle Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CI</Code>
+		<Name>Comfort Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CJ</Code>
+		<Name>Caesar Park Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CL</Code>
+		<Name>Creative Leasure</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CM</Code>
+		<Name>Camino Real</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CN</Code>
+		<Name>Consort Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CO</Code>
+		<Name>Camino Real</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CP</Code>
+		<Name>Crown Plaza</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CQ</Code>
+		<Name>Compass Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CR</Code>
+		<Name>Clarion Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CS</Code>
+		<Name>Colony Resorts</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CT</Code>
+		<Name>Camelot Intl Ltd</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CU</Code>
+		<Name>My Favorite Sunset</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CV</Code>
+		<Name>Cavanaughs</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CW</Code>
+		<Name>Colonial Williamsburg</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CX</Code>
+		<Name>Country Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CY</Code>
+		<Name>Courtyard by Marriott</Name>
+	</Hotel>
+	<Hotel>
+		<Code>CZ</Code>
+		<Name>Comfort Suites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DA</Code>
+		<Name>Doral Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DC</Code>
+		<Name>Datalead Communications</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DE</Code>
+		<Name>Delta Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DI</Code>
+		<Name>Days Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DN</Code>
+		<Name>Destination Hotels and Resorts</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DO</Code>
+		<Name>Dorint Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DP</Code>
+		<Name>Destination Paris</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DR</Code>
+		<Name>Drury Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DS</Code>
+		<Name>Design Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DT</Code>
+		<Name>Doubletree</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DV</Code>
+		<Name>Divi Resorts</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DW</Code>
+		<Name>Walt Disney Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DX</Code>
+		<Name>Dillon Inns</Name>
+	</Hotel>
+	<Hotel>
+		<Code>DY</Code>
+		<Name>Doyle</Name>
+	</Hotel>
+	<Hotel>
+		<Code>EA</Code>
+		<Name>Extended Stay</Name>
+	</Hotel>
+	<Hotel>
+		<Code>ED</Code>
+		<Name>Eurodisney</Name>
+	</Hotel>
+	<Hotel>
+		<Code>EE</Code>
+		<Name>Eazires</Name>
+	</Hotel>
+	<Hotel>
+		<Code>EJ</Code>
+		<Name>El San Juan Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>EK</Code>
+		<Name>Sercotel Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>EM</Code>
+		<Name>Empire International</Name>
+	</Hotel>
+	<Hotel>
+		<Code>EO</Code>
+		<Name>Econolodge</Name>
+	</Hotel>
+	<Hotel>
+		<Code>ER</Code>
+		<Name>Electronic Representation Services</Name>
+	</Hotel>
+	<Hotel>
+		<Code>ES</Code>
+		<Name>Embassy Suites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>ET</Code>
+		<Name>Marriott Conf Center</Name>
+	</Hotel>
+	<Hotel>
+		<Code>EU</Code>
+		<Name>Europa Spectrum</Name>
+	</Hotel>
+	<Hotel>
+		<Code>EW</Code>
+		<Name>B and V Assoc</Name>
+	</Hotel>
+	<Hotel>
+		<Code>EX</Code>
+		<Name>Extended Stay Inc</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FA</Code>
+		<Name>Fairmont</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FC</Code>
+		<Name>Fultonex Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FD</Code>
+		<Name>Amfac</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FE</Code>
+		<Name>Forte Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FH</Code>
+		<Name>Fiesta Americana</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FK</Code>
+		<Name>Forte Resorts</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FL</Code>
+		<Name>Fimotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FM</Code>
+		<Name>Fiesta Americana</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FN</Code>
+		<Name>Fairfield Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FQ</Code>
+		<Name>Fauriel Informatique</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FS</Code>
+		<Name>Four Seasons</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FT</Code>
+		<Name>Devere</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FW</Code>
+		<Name>Flag Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FX</Code>
+		<Name>Motel 6</Name>
+	</Hotel>
+	<Hotel>
+		<Code>FZ</Code>
+		<Name>Friendship Inns</Name>
+	</Hotel>
+	<Hotel>
+		<Code>GA</Code>
+		<Name>Guesthouse Intl</Name>
+	</Hotel>
+	<Hotel>
+		<Code>GC</Code>
+		<Name>Grande Collection</Name>
+	</Hotel>
+	<Hotel>
+		<Code>GD</Code>
+		<Name>Stoneleigh</Name>
+	</Hotel>
+	<Hotel>
+		<Code>GH</Code>
+		<Name>Grand Heritage</Name>
+	</Hotel>
+	<Hotel>
+		<Code>GI</Code>
+		<Name>Gemini Representation Svc.</Name>
+	</Hotel>
+	<Hotel>
+		<Code>GN</Code>
+		<Name>Grand Bay Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>GP</Code>
+		<Name>Garden Plaza Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>GQ</Code>
+		<Name>Guest Quaters</Name>
+	</Hotel>
+	<Hotel>
+		<Code>GR</Code>
+		<Name>Great Inns Of America</Name>
+	</Hotel>
+	<Hotel>
+		<Code>GS</Code>
+		<Name>Galileo Canada</Name>
+	</Hotel>
+	<Hotel>
+		<Code>GT</Code>
+		<Name>Golden Tulip</Name>
+	</Hotel>
+	<Hotel>
+		<Code>GX</Code>
+		<Name>Global Connections</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HA</Code>
+		<Name>HOTUSA</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HB</Code>
+		<Name>Thomas Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HD</Code>
+		<Name>Dunfrey/Omni</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HE</Code>
+		<Name>Helmsley/Harley Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HF</Code>
+		<Name>Host Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HG</Code>
+		<Name>Homewood Suites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HH</Code>
+		<Name>Hilton</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HI</Code>
+		<Name>Holiday Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HJ</Code>
+		<Name>Howard Johnsons</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HK</Code>
+		<Name>Hot Key Intl</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HL</Code>
+		<Name>Hilton Intl</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HN</Code>
+		<Name>Global Home Network</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HO</Code>
+		<Name>Hotelrez</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HP</Code>
+		<Name>Hawaiian Pacific Resort</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HQ</Code>
+		<Name>Hotel Des Gouverneurs</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HR</Code>
+		<Name>Harrahs Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HS</Code>
+		<Name>Hsi Reservations</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HT</Code>
+		<Name>Hot Key International</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HU</Code>
+		<Name>Hotelink</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HV</Code>
+		<Name>Harvey Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HW</Code>
+		<Name>Hotel World</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HX</Code>
+		<Name>Hampton Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>HY</Code>
+		<Name>Hyatt</Name>
+	</Hotel>
+	<Hotel>
+		<Code>IA</Code>
+		<Name>Allegro Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>IC</Code>
+		<Name>Intercontinental</Name>
+	</Hotel>
+	<Hotel>
+		<Code>ID</Code>
+		<Name>Resnet</Name>
+	</Hotel>
+	<Hotel>
+		<Code>IE</Code>
+		<Name>Inter Hotel Europe</Name>
+	</Hotel>
+	<Hotel>
+		<Code>IG</Code>
+		<Name>Insignia Resorts</Name>
+	</Hotel>
+	<Hotel>
+		<Code>IH</Code>
+		<Name>Classic Intl Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>IK</Code>
+		<Name>Interlink Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>IL</Code>
+		<Name>Innlink</Name>
+	</Hotel>
+	<Hotel>
+		<Code>IN</Code>
+		<Name>Intourtrans</Name>
+	</Hotel>
+	<Hotel>
+		<Code>IP</Code>
+		<Name>Inn Points Worldwide</Name>
+	</Hotel>
+	<Hotel>
+		<Code>IR</Code>
+		<Name>Independent</Name>
+	</Hotel>
+	<Hotel>
+		<Code>IS</Code>
+		<Name>Intourist Travel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>IT</Code>
+		<Name>Intl Travel Resorts</Name>
+	</Hotel>
+	<Hotel>
+		<Code>IU</Code>
+		<Name>Intourist Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>JA</Code>
+		<Name>Javinen</Name>
+	</Hotel>
+	<Hotel>
+		<Code>JH</Code>
+		<Name>Jolly Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>JS</Code>
+		<Name>Jack Stovall</Name>
+	</Hotel>
+	<Hotel>
+		<Code>JU</Code>
+		<Name>Jumer Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>JV</Code>
+		<Name>JOIE DE VIVRE</Name>
+	</Hotel>
+	<Hotel>
+		<Code>JY</Code>
+		<Name>Jolly Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>KC</Code>
+		<Name>Kimpton Properties</Name>
+	</Hotel>
+	<Hotel>
+		<Code>KE</Code>
+		<Name>KeySystems</Name>
+	</Hotel>
+	<Hotel>
+		<Code>KH</Code>
+		<Name>Krystal Hotels Mexico</Name>
+	</Hotel>
+	<Hotel>
+		<Code>KI</Code>
+		<Name>Kempinski Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>KK</Code>
+		<Name>Key System</Name>
+	</Hotel>
+	<Hotel>
+		<Code>KL</Code>
+		<Name>Clubhouse Inns</Name>
+	</Hotel>
+	<Hotel>
+		<Code>KN</Code>
+		<Name>Kintetsu Orient Tours</Name>
+	</Hotel>
+	<Hotel>
+		<Code>KR</Code>
+		<Name>Regal Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>KS</Code>
+		<Name>Kissimee</Name>
+	</Hotel>
+	<Hotel>
+		<Code>KY</Code>
+		<Name>Keytel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LA</Code>
+		<Name>Little America Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LE</Code>
+		<Name>Luxe Hospitality</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LH</Code>
+		<Name>Loews Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LI</Code>
+		<Name>Lincoln Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LL</Code>
+		<Name>Lanyon Limited</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LM</Code>
+		<Name>Lexington Services</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LQ</Code>
+		<Name>La Quinta</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LR</Code>
+		<Name>Lri Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LT</Code>
+		<Name>Leisuretime Destinations</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LU</Code>
+		<Name>Luxor Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LV</Code>
+		<Name>Station Casinos</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LW</Code>
+		<Name>Leading Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LX</Code>
+		<Name>Small Luxury Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>LZ</Code>
+		<Name>Loews Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MB</Code>
+		<Name>Villas by Marriott</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MC</Code>
+		<Name>Marriott</Name>
+	</Hotel>
+	<Hotel>
+		<Code>ME</Code>
+		<Name>Melia Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MF</Code>
+		<Name>Micros Fidelio</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MG</Code>
+		<Name>MGM Grand Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MH</Code>
+		<Name>Meridien</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MK</Code>
+		<Name>Movinpick Hotels Intl</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MM</Code>
+		<Name>Maritim Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MN</Code>
+		<Name>Monte Carlo Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MO</Code>
+		<Name>Mandarin Oriental Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MP</Code>
+		<Name>Minto Place Suite</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MR</Code>
+		<Name>Morgans Hotel Group</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MS</Code>
+		<Name>Minto Place Suite Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MT</Code>
+		<Name>Microtel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MU</Code>
+		<Name>Millenium Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MV</Code>
+		<Name>Mirvac Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MW</Code>
+		<Name>Tvl Res Incentive</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MX</Code>
+		<Name>Motel 6</Name>
+	</Hotel>
+	<Hotel>
+		<Code>MZ</Code>
+		<Name>Mainstay Suites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>NA</Code>
+		<Name>Certificate of Non Availability</Name>
+	</Hotel>
+	<Hotel>
+		<Code>NC</Code>
+		<Name>Noble House Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>ND</Code>
+		<Name>National Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>NE</Code>
+		<Name>Nendels Corp</Name>
+	</Hotel>
+	<Hotel>
+		<Code>NH</Code>
+		<Name>Japan/Okans Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>NI</Code>
+		<Name>Nassau Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>NK</Code>
+		<Name>Nikko Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>NL</Code>
+		<Name>Navy Lodging</Name>
+	</Hotel>
+	<Hotel>
+		<Code>NO</Code>
+		<Name>New Otani International</Name>
+	</Hotel>
+	<Hotel>
+		<Code>NR</Code>
+		<Name>Ramada Intl/RSTS</Name>
+	</Hotel>
+	<Hotel>
+		<Code>NS</Code>
+		<Name>NH Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>NT</Code>
+		<Name>Nordic Team</Name>
+	</Hotel>
+	<Hotel>
+		<Code>NV</Code>
+		<Name>Las Vegas Travel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>NY</Code>
+		<Name>Manhattan Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>OA</Code>
+		<Name>Oakwood Corp House</Name>
+	</Hotel>
+	<Hotel>
+		<Code>OB</Code>
+		<Name>Oberoi Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>OC</Code>
+		<Name>Hotel Okura</Name>
+	</Hotel>
+	<Hotel>
+		<Code>OH</Code>
+		<Name>Oslo Hotel Booking</Name>
+	</Hotel>
+	<Hotel>
+		<Code>OM</Code>
+		<Name>Omni</Name>
+	</Hotel>
+	<Hotel>
+		<Code>ON</Code>
+		<Name>Reconline</Name>
+	</Hotel>
+	<Hotel>
+		<Code>OO</Code>
+		<Name>Crown Sterling Suites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>OR</Code>
+		<Name>Outrigger Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>OZ</Code>
+		<Name>Super 8</Name>
+	</Hotel>
+	<Hotel>
+		<Code>PD</Code>
+		<Name>Park Inns</Name>
+	</Hotel>
+	<Hotel>
+		<Code>PE</Code>
+		<Name>Premier World Mktg</Name>
+	</Hotel>
+	<Hotel>
+		<Code>PF</Code>
+		<Name>Pacific Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>PG</Code>
+		<Name>Philips Hotel Group</Name>
+	</Hotel>
+	<Hotel>
+		<Code>PH</Code>
+		<Name>Preferred Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>PI</Code>
+		<Name>Princess Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>PK</Code>
+		<Name>Park Intl</Name>
+	</Hotel>
+	<Hotel>
+		<Code>PL</Code>
+		<Name>Park Lane</Name>
+	</Hotel>
+	<Hotel>
+		<Code>PN</Code>
+		<Name>Princess International</Name>
+	</Hotel>
+	<Hotel>
+		<Code>PR</Code>
+		<Name>Protea</Name>
+	</Hotel>
+	<Hotel>
+		<Code>PS</Code>
+		<Name>Park Suite Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>PW</Code>
+		<Name>Prima Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>QC</Code>
+		<Name>Camberley Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>QI</Code>
+		<Name>Quality Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>QL</Code>
+		<Name>Queens Moat Houses</Name>
+	</Hotel>
+	<Hotel>
+		<Code>QM</Code>
+		<Name>Queens Moat House</Name>
+	</Hotel>
+	<Hotel>
+		<Code>QR</Code>
+		<Name>Quality Reservations</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RA</Code>
+		<Name>Ramada Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RB</Code>
+		<Name>Resorts Intl Bahamas</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RC</Code>
+		<Name>Residence Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RD</Code>
+		<Name>Radisson Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RE</Code>
+		<Name>Regent Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RF</Code>
+		<Name>Red Roof Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RG</Code>
+		<Name>Rydges Hotel Group</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RH</Code>
+		<Name>Registry Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RI</Code>
+		<Name>Rodeway Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RK</Code>
+		<Name>Rank Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RL</Code>
+		<Name>Red Lion</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RM</Code>
+		<Name>Romantik Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RN</Code>
+		<Name>Room Centre</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RO</Code>
+		<Name>Romantik</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RQ</Code>
+		<Name>Regal Hotels Intl</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RR</Code>
+		<Name>Rihga Royal</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RS</Code>
+		<Name>Reservation Center Inc</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RT</Code>
+		<Name>Accor Res Services</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RV</Code>
+		<Name>Red Roof Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RW</Code>
+		<Name>Robert Wagner Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>RZ</Code>
+		<Name>Ritz Carlton</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SB</Code>
+		<Name>Small Hotel Company</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SC</Code>
+		<Name>Sceptre Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SF</Code>
+		<Name>Sofitel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SG</Code>
+		<Name>Shangri La</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SH</Code>
+		<Name>Sheffield</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SI</Code>
+		<Name>Sheraton</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SJ</Code>
+		<Name>Signature Inns</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SK</Code>
+		<Name>SAS Intl Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SL</Code>
+		<Name>Swissotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SM</Code>
+		<Name>Shoneys</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SN</Code>
+		<Name>Sonesta Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SO</Code>
+		<Name>Sonesta International</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SP</Code>
+		<Name>Southern Pacific</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SQ</Code>
+		<Name>Select Marketing Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SR</Code>
+		<Name>Srs Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SS</Code>
+		<Name>Summerfield Suites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>ST</Code>
+		<Name>Stouffers</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SU</Code>
+		<Name>Southern Sun Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SV</Code>
+		<Name>Sarova Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SW</Code>
+		<Name>Starwood Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SX</Code>
+		<Name>Supranational Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>SZ</Code>
+		<Name>Sleep Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>TA</Code>
+		<Name>Travamerica</Name>
+	</Hotel>
+	<Hotel>
+		<Code>TE</Code>
+		<Name>Treadway Inns</Name>
+	</Hotel>
+	<Hotel>
+		<Code>TH</Code>
+		<Name>Trust House Forte</Name>
+	</Hotel>
+	<Hotel>
+		<Code>TI</Code>
+		<Name>Thistle Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>TJ</Code>
+		<Name>Taj Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>TL</Code>
+		<Name>Travel Lodge</Name>
+	</Hotel>
+	<Hotel>
+		<Code>TO</Code>
+		<Name>Towneplace Suites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>TP</Code>
+		<Name>Top International Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>TR</Code>
+		<Name>Trust Intl Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>TS</Code>
+		<Name>I.T.S. Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>TX</Code>
+		<Name>Treff Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>TY</Code>
+		<Name>Turkey Dir Intl Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>UE</Code>
+		<Name>Universal Studios Escape</Name>
+	</Hotel>
+	<Hotel>
+		<Code>UI</Code>
+		<Name>Utell</Name>
+	</Hotel>
+	<Hotel>
+		<Code>UK</Code>
+		<Name>Swallow Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>UR</Code>
+		<Name>Ultimate Resort</Name>
+	</Hotel>
+	<Hotel>
+		<Code>US</Code>
+		<Name>Sierra Suites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>UZ</Code>
+		<Name>Unirez</Name>
+	</Hotel>
+	<Hotel>
+		<Code>VA</Code>
+		<Name>Vagabond Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>VB</Code>
+		<Name>Vacation Break</Name>
+	</Hotel>
+	<Hotel>
+		<Code>VE</Code>
+		<Name>E Rez</Name>
+	</Hotel>
+	<Hotel>
+		<Code>VG</Code>
+		<Name>Villager Inn</Name>
+	</Hotel>
+	<Hotel>
+		<Code>VH</Code>
+		<Name>Vacation Hotline</Name>
+	</Hotel>
+	<Hotel>
+		<Code>VI</Code>
+		<Name>Venture Inns</Name>
+	</Hotel>
+	<Hotel>
+		<Code>VN</Code>
+		<Name>Vacation Network</Name>
+	</Hotel>
+	<Hotel>
+		<Code>VP</Code>
+		<Name>V I P Reservations</Name>
+	</Hotel>
+	<Hotel>
+		<Code>VR</Code>
+		<Name>Village Resorts</Name>
+	</Hotel>
+	<Hotel>
+		<Code>VT</Code>
+		<Name>Vacation Styles Condos</Name>
+	</Hotel>
+	<Hotel>
+		<Code>VV</Code>
+		<Name>Vidafel Resorts</Name>
+	</Hotel>
+	<Hotel>
+		<Code>VX</Code>
+		<Name>Hotel System Support Svc.</Name>
+	</Hotel>
+	<Hotel>
+		<Code>VY</Code>
+		<Name>Savoy Group</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WB</Code>
+		<Name>Relais And Chateau</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WC</Code>
+		<Name>World Class Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WG</Code>
+		<Name>Wingate Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WH</Code>
+		<Name>W Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WI</Code>
+		<Name>Westin Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WK</Code>
+		<Name>Warwick Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WL</Code>
+		<Name>Wellesley Inns</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WM</Code>
+		<Name>Westmark Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WO</Code>
+		<Name>Worldres Inc</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WR</Code>
+		<Name>Sterling International</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WS</Code>
+		<Name>Wichita Inns</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WW</Code>
+		<Name>World Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WX</Code>
+		<Name>Westcoast Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>WY</Code>
+		<Name>Wyndham</Name>
+	</Hotel>
+	<Hotel>
+		<Code>XC</Code>
+		<Name>Excalibur Hotel</Name>
+	</Hotel>
+	<Hotel>
+		<Code>XH</Code>
+		<Name>Extra Holidays</Name>
+	</Hotel>
+	<Hotel>
+		<Code>XL</Code>
+		<Name>Summit Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>XP</Code>
+		<Name>America Off Road</Name>
+	</Hotel>
+	<Hotel>
+		<Code>XS</Code>
+		<Name>Courtyard</Name>
+	</Hotel>
+	<Hotel>
+		<Code>XT</Code>
+		<Name>Hotel Res Network</Name>
+	</Hotel>
+	<Hotel>
+		<Code>XV</Code>
+		<Name>Springhill Suites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>YO</Code>
+		<Name>Candlewood Suites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>YS</Code>
+		<Name>Stamford Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>YX</Code>
+		<Name>Synxis Corporation</Name>
+	</Hotel>
+	<Hotel>
+		<Code>YZ</Code>
+		<Name>Staybridge Suites</Name>
+	</Hotel>
+	<Hotel>
+		<Code>ZB</Code>
+		<Name>CMNET Hotels</Name>
+	</Hotel>
+	<Hotel>
+		<Code>ZH</Code>
+		<Name>Zhivago Hotel Group</Name>
+	</Hotel>
+</TTWSHotels>
