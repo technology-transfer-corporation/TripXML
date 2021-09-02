@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 02 Sep 2021 - Kobelev - Multi FlightSegment in Item for Controling Carrier process.
   Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
   Date: 13 Aug 2021 - Kobelev - Controling Carrier in Special Remarks Remark Type "Endorsements".
   Date: 08 Jul 2021 - Kobelev - Branded Fare Name different for different Segments.
@@ -736,7 +737,7 @@
             <xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo]" mode="TourCode"/>
             <xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo]" mode="Endorsement"/>
             <xsl:if test="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE']">
-              <xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE'][contains(Text, 'P/')]" mode="controllingCarrier"/>
+              <xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE'][contains(Text, 'P/') or contains(Text, 'KG/') or contains(Text, 'LB/')]" mode="controllingCarrier"/>
             </xsl:if>
           </SpecialRemarks>
         </xsl:if>
@@ -5201,7 +5202,7 @@
           <xsl:with-param name="delem" select="','" />
         </xsl:call-template>
       </xsl:variable>
-      
+
       <SpecialRemark>
         <xsl:attribute name="RPH">
           <xsl:value-of select="$airline"/>
@@ -5210,7 +5211,17 @@
         <FlightRefNumber>
           <xsl:attribute name="RPH">
             <xsl:for-each select="../../../../../../../ReservationItems/Item[FlightSegment]">
-              <xsl:variable name="flt" select="concat(FlightSegment/OriginLocation/@LocationCode,FlightSegment/DestinationLocation/@LocationCode)" />
+              <xsl:variable name="flt">
+                <xsl:choose>
+                  <xsl:when test="count(FlightSegment) > 1">
+                    <xsl:value-of select="concat(FlightSegment[1]/OriginLocation/@LocationCode,FlightSegment[last()]/DestinationLocation/@LocationCode)" />
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="concat(FlightSegment/OriginLocation/@LocationCode,FlightSegment/DestinationLocation/@LocationCode)" />
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:variable>
+              
               <xsl:if test="contains($flts, $flt)">
                 <xsl:variable name="rph">
                   <xsl:if test="@RPH">
