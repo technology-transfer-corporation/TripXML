@@ -2719,6 +2719,12 @@ namespace AmadeusWS
                 //******************************************************************************* 
                 strResponse = SendAddMultiElements(ttAA, strRequest);
 
+                if (strResponse.Contains("SIMULTANEOUS CHANGES TO PNR"))
+                {
+                    SendCommandCryptically(ttAA, "IR");
+                    strResponse = SendAddMultiElements(ttAA, strRequest);
+                }
+
                 string strResponseTST = string.Empty;
                 if (strResponse.Contains("<longFreetext>--- TST "))
                     strResponseTST = SendDisplayTST(ttAA);
