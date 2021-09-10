@@ -26428,10 +26428,7 @@ Namespace wsTravelTalk.VirtualCreditCard
 
     End Class
 
-
-
-
-    #Region "Errors and Warnings"
+#Region "Errors and Warnings"
     '<remarks/>
     <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)> _
     Public Class Success
@@ -26523,7 +26520,7 @@ Namespace wsTravelTalk.VirtualCreditCard
         Public Property Value As String
     End Class
 
-    #End Region
+#End Region
 
 
 
