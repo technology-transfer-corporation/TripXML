@@ -785,12 +785,14 @@ Namespace wsTravelTalk
                     strName = strName.Replace("OPERATED BY ", "")
                 End If
 
-                'Dim i As Integer
+                'Search all for exact name
                 For Each row As DataRow In oDV.Table.Rows
                     If row("Name").ToString().Trim().ToUpper().Equals(strName.Trim().ToUpper()) Then
                         Return row("Code").ToString()
                     End If
-
+                Next
+                'Search all for similar name
+                For Each row As DataRow In oDV.Table.Rows
                     If row("Name").ToString().Trim().ToUpper().Contains(strName.Trim().ToUpper()) Then
                         Return row("Code").ToString()
                     End If
