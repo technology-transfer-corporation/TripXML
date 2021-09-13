@@ -60,6 +60,11 @@
           <xsl:value-of select="PNRBFManagement_53/ConversationID"/>
         </ConversationID>
       </xsl:if>
+      <xsl:if test="QueueProcessing_16/ConversationID!=''">
+        <ConversationID>
+          <xsl:value-of select="QueueProcessing_16/ConversationID"/>
+        </ConversationID>
+      </xsl:if>
     </OTA_TravelItineraryRS>
   </xsl:template>
 
@@ -2284,7 +2289,7 @@
     <xsl:variable name="bd">
       <xsl:choose>
         <xsl:when test="string-length($bdt) > 7">
-          <xsl:value-of select="substring($bdt,1,7)"/>
+          <xsl:value-of select="substring($bdt,string-length($bdt) - 6,7)"/>
         </xsl:when>
         <xsl:otherwise>
           <xsl:value-of select="$bdt"/>
