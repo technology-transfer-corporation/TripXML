@@ -424,7 +424,9 @@ namespace Galileo
                 // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
                 // ******************************************************************************* 
                 var ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
+                bool inSession = true; /* This service will always return Session. Will either create one or return existing */
+                SetConversationID(ttGA);
+
                 try
                 {
                     if (strRequest.Contains("<Action>Q</Action>"))
@@ -444,7 +446,6 @@ namespace Galileo
                         
                     }
 
-
                     // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
                     strResponse = queueKeep
                         ? ttGA.SendCrypticMessage("I", ConversationID)
@@ -453,27 +454,30 @@ namespace Galileo
                     // Check PNR or Errors in Native Response
                     if (queueAccess & strResponse.Contains("<PNRBFRetrieve>") | queueKeep | queueRemove & strResponse.Contains("<PNRBFRetrieve>"))
                     {
-
+                        
                         // Send PNR Redisplay
                         strRequest = "<PNRBFManagement_53><PNRBFRetrieveMods><CurrentPNR/></PNRBFRetrieveMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
                         strResponse = ttGA.SendMessage(strRequest, ConversationID);
-
-                        // TEMP fix
-                        // strResponse = strResponse.Replace("PNRBFManagement_17", "PNRBFManagement_53")
 
                         #region Read History of PNR throught *HI
                         string strDisplayHI = GetHistory(ConversationID, ttGA);
                         strResponse = strResponse.Replace("</PNRBFManagement_53>", $"{strDisplayHI}</PNRBFManagement_53>");
                         #endregion
 
-
                         // Transform PNR Read
-                        var tagToReplace = strResponse.Contains("</PNRBFManagement_17>")
-                        ? "</PNRBFManagement_17>"
-                        : "</PNRBFManagement_53>";
+                        var tagToReplace = strResponse.Contains("</PNRBFManagement_53>")
+                        ? strResponse.Contains("</PNRBFManagement_17>") 
+                            ? "</PNRBFManagement_17>" 
+                            : "</PNRBFManagement_53>"                            
+                        : "</QueueProcessing_16>";
 
                         if (inSession)
                             strResponse = strResponse.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
+
+                        CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response", strResponse, ProviderSystems.LogUUID);
+                        
+                        if (string.IsNullOrEmpty(Version))
+                            Version = "v03_";
 
                         strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
                     }
