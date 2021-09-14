@@ -4,6 +4,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 14 Sep 2021 - Kobelev - Security SSR CTCR,CTCE,CTCM with passanger association.
   Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
   Date: 01 Mar 2021 - Kobelev - ARNK Segments added Segment Number.
   Date: 18 Feb 2021 - Kobelev - Ticketing Date Time.
@@ -1965,6 +1966,18 @@
       <xsl:attribute name="SSRCode">
         <xsl:value-of select="SSRCode" />
       </xsl:attribute>
+      
+      <xsl:choose>
+        <xsl:when test="SSRCode = 'CTCR' or SSRCode = 'CTCE' or SSRCode = 'CTCM'">
+          <xsl:variable name="paxFull" select="substring-after(SSRText,'-')" />
+          <xsl:variable name="pax" select="substring-after($paxFull,'/')" />
+          <xsl:variable name="paxNum" select="/PNRBFManagement_53/PNRBFRetrieve/FNameInfo[FName = $pax]/AbsNameNum" />
+          <xsl:attribute name="TravelerRefNumberRPHList">
+            <xsl:value-of select="$paxNum" />
+          </xsl:attribute>
+        </xsl:when>
+      </xsl:choose>
+      
       <xsl:if test="Vnd!=''">
         <Airline>
           <xsl:attribute name="Code">
@@ -1975,6 +1988,9 @@
           </xsl:attribute>
         </Airline>
       </xsl:if>
+      
+      
+      
       <Text>
         <xsl:value-of select="SSRText" />
       </Text>
