@@ -4,6 +4,7 @@
   ================================================================== 
    Galileo_PNRRepriceRS.xsl 														
   ==================================================================
+  Date: 14 Sep 2021 - Kobelev - Intermidean Errors during Price Search.
   Date: 25 Nov 2020 - Kobelev - RePriced and stored multiple FQ.
   Date: 12 Nov 2020 - Kobelev - FQ index for RePriced and stored RPH.
   Date: 03 Nov 2020 - Kobelev - Multy FQ vs. Single FQ with multy Quotes.
@@ -113,6 +114,13 @@
           <xsl:when test="OTA_AirPriceRS/PNRBFManagement_53/TransactionErrorCode">
             <Errors>
               <xsl:apply-templates select="OTA_AirPriceRS/PNRBFManagement_53/TransactionErrorCode" mode="error"/>
+            </Errors>
+          </xsl:when>
+          <xsl:when test="OTA_AirPriceRS/Errors">
+            <Errors>
+              <Error Type="Galileo">
+                  <xsl:value-of select="OTA_AirPriceRS/Errors/Error"/>
+              </Error>
             </Errors>
           </xsl:when>
           <xsl:otherwise>

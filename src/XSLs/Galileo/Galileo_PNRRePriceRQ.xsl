@@ -4,6 +4,7 @@
   ================================================================== 
 	Galileo_PNRReadRQ.xsl 															
 	================================================================== 
+  Date: 14 Sep 2021 - Kobelev - Intermidean Errors during Price Search.
   Date: 01 Mar 2021 - Kobelev - ARNK Segment handling.
   Date: 22 Feb 2021 - Kobelev - In case of Check include CheckFOP element
   Date: 05 Jan 2021 - Kobelev - PFQual included only if FareType is not set to "N" (Case Number: CS0653990)
@@ -68,9 +69,21 @@
   ===================================================================
   -->
   <xsl:template match="PNRBFManagement_53">
-    <FareQuoteClassSpecific_35>
-      <xsl:apply-templates select="DocProdDisplayStoredQuote[not(ErrText)]" mode="compare" />
-    </FareQuoteClassSpecific_35>
+    <xsl:if test="count(DocProdDisplayStoredQuote[ErrText]) > 0">
+      <Errors>
+        <xsl:for-each select="DocProdDisplayStoredQuote[ErrText]">
+          <Error>
+            <xsl:attribute name="Type">Galileo</xsl:attribute>
+            <xsl:value-of select="ErrText/Text" />
+          </Error>
+        </xsl:for-each>
+      </Errors>
+    </xsl:if>
+    <xsl:if test="count(DocProdDisplayStoredQuote[ErrText]) = 0">
+      <FareQuoteClassSpecific_35>
+        <xsl:apply-templates select="DocProdDisplayStoredQuote[not(ErrText)]" mode="compare" />
+      </FareQuoteClassSpecific_35>
+    </xsl:if>
   </xsl:template>
 
   <!--
