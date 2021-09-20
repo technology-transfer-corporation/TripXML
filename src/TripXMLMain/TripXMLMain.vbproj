@@ -1,0 +1,1273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{7BFD1163-A751-4042-AB19-6665D0AF115A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TripXMLMain</RootNamespace>
+    <AssemblyName>TripXMLMain</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <GenerateResourceNeverLockTypeAssemblies>true</GenerateResourceNeverLockTypeAssemblies>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>TripXMLMain.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>TripXMLMain.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aggregation_AirAvailRS">
+      <HintPath>..\XSLs\Aggregation\Aggregation_AirAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Aggregation_CarAvailRS">
+      <HintPath>..\XSLs\Aggregation\Aggregation_CarAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Aggregation_HotelAvailRS">
+      <HintPath>..\XSLs\Aggregation\Aggregation_HotelAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Aggregation_LowFareRS">
+      <HintPath>..\XSLs\Aggregation\Aggregation_LowFareRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirAvailRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirAvailRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirAvailRS.script">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirAvailRS.script.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirFlifoRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirFlifoRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirFlifoRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirFlifoRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirPrice1RS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirPrice1RS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirPriceRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirPriceRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirPriceRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirPriceRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirRulesRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirRulesRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirRulesRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirRulesRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirScheduleRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirScheduleRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirScheduleRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirScheduleRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirScheduleRS.script">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirScheduleRS.script.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirSeatMapRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirSeatMapRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_AirSeatMapRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_AirSeatMapRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CarAvailRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CarAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CarAvailRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CarAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CarAvailRS.script">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CarAvailRS.script.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CarInfoRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CarInfoRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CarInfoRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CarInfoRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CarListRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CarListRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CarListRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CarListRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CarRulesRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CarRulesRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CarRulesRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CarRulesRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CCValidRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CCValidRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CCValidRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CCValidRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseCabinAvailRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseCabinAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseCabinAvailRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseCabinAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseCabinHoldRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseCabinHoldRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseCabinHoldRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseCabinHoldRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseCabinUnHoldRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseCabinUnHoldRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseCabinUnHoldRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseCabinUnHoldRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseCancelRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseCancelRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseCancelRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseCancelRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseCategoryAvailRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseCategoryAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseCategoryAvailRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseCategoryAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseCreateBookingRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseCreateBookingRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseCreateBookingRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseCreateBookingRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseFareAvailRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseFareAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseFareAvailRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseFareAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseItineraryDescRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseItineraryDescRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseItineraryDescRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseItineraryDescRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseModifyBookingRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseModifyBookingRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruisePackageAvailRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruisePackageAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruisePackageAvailRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruisePackageAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruisePackageDescRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruisePackageDescRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruisePackageDescRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruisePackageDescRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruisePriceBookingRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruisePriceBookingRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruisePriceBookingRQ1">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruisePriceBookingRQ1.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruisePriceBookingRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruisePriceBookingRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseReadRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseReadRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseSailAvailRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseSailAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseSailAvailRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseSailAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseTransferAvailRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseTransferAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CruiseTransferAvailRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CruiseTransferAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CrypticRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CrypticRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CrypticRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CrypticRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CurConvRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CurConvRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_CurConvRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_CurConvRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_DeleteVirtualCardRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_DeleteVirtualCardRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_DeleteVirtualCardRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_DeleteVirtualCardRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_DisplayTicketRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_DisplayTicketRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_FareDisplayRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_FareDisplayRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_FareDisplayRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_FareDisplayRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_FareInfoRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_FareInfoRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_FareInfoRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_FareInfoRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_GetVirtualCardDetailsRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_GetVirtualCardDetailsRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_GetVirtualCardDetailsRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_GetVirtualCardDetailsRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_HotelAvailRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_HotelAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_HotelAvailRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_HotelAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_HotelAvailRS.script">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_HotelAvailRS.script.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_HotelAvail_FeaturesRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_HotelAvail_FeaturesRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_HotelInfo1RQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_HotelInfo1RQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_HotelInfoRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_HotelInfoRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_HotelInfoRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_HotelInfoRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_HotelSearchRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_HotelSearchRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_HotelSearchRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_HotelSearchRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_IssueTicketRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_IssueTicketRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_IssueTicketRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_IssueTicketRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_IssueTicketSessionedRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_IssueTicketSessionedRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_IssueTicketSessionedRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_IssueTicketSessionedRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_ListVirtualCardsRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_ListVirtualCardsRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_ListVirtualCardsRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_ListVirtualCardsRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFare1RS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFare1RS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFare2RS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFare2RS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareFlights1RQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareFlights1RQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareFlights1RS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareFlights1RS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareFlights2RQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareFlights2RQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareFlights3RS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareFlights3RS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareFlightsRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareFlightsRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareFlightsRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareFlightsRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareMatrix1RS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareMatrix1RS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareMatrix2RS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareMatrix2RS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareMatrixRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareMatrixRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareMatrixRQ.script">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareMatrixRQ.script.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFarePlus1RS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFarePlus1RS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFarePlus2RS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFarePlus2RS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFarePlusRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFarePlusRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFarePlusRQ.script">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFarePlusRQ.script.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareRQ.script">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareRQ.script.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareScheduleRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareScheduleRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareScheduleRQ.script">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareScheduleRQ.script.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowFareScheduleRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowFareScheduleRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowOfferMatrix1RS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowOfferMatrix1RS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowOfferMatrix2RS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowOfferMatrix2RS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowOfferMatrixRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowOfferMatrixRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowOfferMatrixRQ.script">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowOfferMatrixRQ.script.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowOfferSearch1RS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowOfferSearch1RS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowOfferSearch2RS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowOfferSearch2RS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowOfferSearchRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowOfferSearchRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_LowOfferSearchRQ.script">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_LowOfferSearchRQ.script.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_PNRCancelRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_PNRCancelRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_PNRCancelRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_PNRCancelRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_PNREndRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_PNREndRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_PNRReadRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_PNRReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_PNRReadRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_PNRReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_PNRReadRS_FlightInfo">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_PNRReadRS_FlightInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_PNRReadRS_Rules">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_PNRReadRS_Rules.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_PNRRepriceRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_PNRRepriceRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_PNRRepriceRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_PNRRepriceRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_PNRSplitRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_PNRSplitRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_QueueReadRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_QueueReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_QueueReadRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_QueueReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_QueueRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_QueueRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_QueueRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_QueueRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_RefundTicketRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_RefundTicketRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_RefundTicketRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_RefundTicketRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_ReIssueTicketRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_ReIssueTicketRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_SalesReportRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_SalesReportRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_SalesReportRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_SalesReportRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_SearchNameRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_SearchNameRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_SearchNameRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_SearchNameRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_ShowMileageRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_ShowMileageRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_ShowMileageRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_ShowMileageRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_StoredFareBuildRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_StoredFareBuildRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_StoredFareBuildRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_StoredFareBuildRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_StoredFareUpdateRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_StoredFareUpdateRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_StoredFareUpdateRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_StoredFareUpdateRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_TB_Errors">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_TB_Errors.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_TimeDiffRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_TimeDiffRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_TimeDiffRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_TimeDiffRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_TransferOwnershipRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_TransferOwnershipRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_TransferOwnershipRS">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_TransferOwnershipRS.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_TravelBuildRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_TravelBuildRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_UpdateDeleteRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_UpdateDeleteRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_UpdateInsertRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_UpdateInsertRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_UpdateModifyRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_UpdateModifyRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="AmadeusWS_VoidTicketRQ">
+      <HintPath>..\XSLs\AmadeusWS\AmadeusWS_VoidTicketRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="BL_LowFareNoCountryRS">
+      <HintPath>..\XSLs\BL\BL_LowFareNoCountryRS.dll</HintPath>
+    </Reference>
+    <Reference Include="BL_LowFareNoFareTypeRS">
+      <HintPath>..\XSLs\BL\BL_LowFareNoFareTypeRS.dll</HintPath>
+    </Reference>
+    <Reference Include="BL_LowFareNoMixRS">
+      <HintPath>..\XSLs\BL\BL_LowFareNoMixRS.dll</HintPath>
+    </Reference>
+    <Reference Include="BL_LowFareNoTktRS">
+      <HintPath>..\XSLs\BL\BL_LowFareNoTktRS.dll</HintPath>
+    </Reference>
+    <Reference Include="BL_LowFareRQ">
+      <HintPath>..\XSLs\BL\BL_LowFareRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="BL_LowFareRS">
+      <HintPath>..\XSLs\BL\BL_LowFareRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_AirAvailRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_AirAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_AirAvailRS">
+      <HintPath>..\XSLs\Galileo\Galileo_AirAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_AirFlifoRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_AirFlifoRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_AirFlifoRS">
+      <HintPath>..\XSLs\Galileo\Galileo_AirFlifoRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_AirPriceRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_AirPriceRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_AirPriceRQ.script">
+      <HintPath>..\XSLs\Galileo\Galileo_AirPriceRQ.script.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_AirPriceRS">
+      <HintPath>..\XSLs\Galileo\Galileo_AirPriceRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_AirRulesRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_AirRulesRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_AirRulesRS">
+      <HintPath>..\XSLs\Galileo\Galileo_AirRulesRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_AirSeatMapRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_AirSeatMapRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_AirSeatMapRS">
+      <HintPath>..\XSLs\Galileo\Galileo_AirSeatMapRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_CarAvailRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_CarAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_CarAvailRS">
+      <HintPath>..\XSLs\Galileo\Galileo_CarAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_CarInfoRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_CarInfoRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_CarInfoRS">
+      <HintPath>..\XSLs\Galileo\Galileo_CarInfoRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_CCValidRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_CCValidRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_CCValidRS">
+      <HintPath>..\XSLs\Galileo\Galileo_CCValidRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_CrypticRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_CrypticRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_CrypticRS">
+      <HintPath>..\XSLs\Galileo\Galileo_CrypticRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_CurConvRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_CurConvRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_CurConvRS">
+      <HintPath>..\XSLs\Galileo\Galileo_CurConvRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_ETicketVerifyRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_ETicketVerifyRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_ETicketVerifyRS">
+      <HintPath>..\XSLs\Galileo\Galileo_ETicketVerifyRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_FareDisplayRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_FareDisplayRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_FareDisplayRS">
+      <HintPath>..\XSLs\Galileo\Galileo_FareDisplayRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_HotelAvailRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_HotelAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_HotelAvailRS">
+      <HintPath>..\XSLs\Galileo\Galileo_HotelAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_HotelAvail_ImagesRS">
+      <HintPath>..\XSLs\Galileo\Galileo_HotelAvail_ImagesRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_HotelInfoRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_HotelInfoRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_HotelInfoRS">
+      <HintPath>..\XSLs\Galileo\Galileo_HotelInfoRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_HotelSearchRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_HotelSearchRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_HotelSearchRS">
+      <HintPath>..\XSLs\Galileo\Galileo_HotelSearchRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_IssueTicketRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_IssueTicketRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_IssueTicketRS">
+      <HintPath>..\XSLs\Galileo\Galileo_IssueTicketRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_LowFarePlusRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_LowFarePlusRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_LowFarePlusRQ1">
+      <HintPath>..\XSLs\Galileo\Galileo_LowFarePlusRQ1.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_LowFarePlusRS">
+      <HintPath>..\XSLs\Galileo\Galileo_LowFarePlusRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_LowFarePlusRS1">
+      <HintPath>..\XSLs\Galileo\Galileo_LowFarePlusRS1.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_LowFarePlusRS2">
+      <HintPath>..\XSLs\Galileo\Galileo_LowFarePlusRS2.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_LowFarePlusRS3">
+      <HintPath>..\XSLs\Galileo\Galileo_LowFarePlusRS3.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_LowFareRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_LowFareRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_LowFareRS">
+      <HintPath>..\XSLs\Galileo\Galileo_LowFareRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_LowFareScheduleRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_LowFareScheduleRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_PNRCancelRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_PNRCancelRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_PNRCancelRS">
+      <HintPath>..\XSLs\Galileo\Galileo_PNRCancelRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_PNRReadRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_PNRReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_PNRReadRS">
+      <HintPath>..\XSLs\Galileo\Galileo_PNRReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_PNRReadRS.script">
+      <HintPath>..\XSLs\Galileo\Galileo_PNRReadRS.script.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_PNRRePriceRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_PNRRePriceRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_PNRRepriceRS">
+      <HintPath>..\XSLs\Galileo\Galileo_PNRRepriceRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_ProfileCreateRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_ProfileCreateRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_ProfileReadRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_ProfileReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_ProfileReadRS">
+      <HintPath>..\XSLs\Galileo\Galileo_ProfileReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_QueueReadRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_QueueReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_QueueRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_QueueRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_QueueRS">
+      <HintPath>..\XSLs\Galileo\Galileo_QueueRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_ShowMileageRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_ShowMileageRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_ShowMileageRS">
+      <HintPath>..\XSLs\Galileo\Galileo_ShowMileageRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_TBErrors">
+      <HintPath>..\XSLs\Galileo\Galileo_TBErrors.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_TB_Errors">
+      <HintPath>..\XSLs\Galileo\Galileo_TB_Errors.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_TimeDiffRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_TimeDiffRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_TimeDiffRS">
+      <HintPath>..\XSLs\Galileo\Galileo_TimeDiffRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_TravelBuild1RQ">
+      <HintPath>..\XSLs\Galileo\Galileo_TravelBuild1RQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_TravelBuild2RQ">
+      <HintPath>..\XSLs\Galileo\Galileo_TravelBuild2RQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_TravelBuildRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_TravelBuildRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_TravelBuild_Reorder">
+      <HintPath>..\XSLs\Galileo\Galileo_TravelBuild_Reorder.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_TravelItineraryRS">
+      <HintPath>..\XSLs\Galileo\Galileo_TravelItineraryRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_TravelModifyRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_TravelModifyRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_UpdateInsertRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_UpdateInsertRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Galileo_VoidTicketRQ">
+      <HintPath>..\XSLs\Galileo\Galileo_VoidTicketRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Markups_LowFareRS">
+      <HintPath>..\XSLs\Aggregation\Markups_LowFareRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_AirAvailRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_AirAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_AirAvailRS">
+      <HintPath>..\XSLs\Sabre\Sabre_AirAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_AirFlifoRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_AirFlifoRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_AirFlifoRS">
+      <HintPath>..\XSLs\Sabre\Sabre_AirFlifoRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_AirPriceRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_AirPriceRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_AirPriceRS">
+      <HintPath>..\XSLs\Sabre\Sabre_AirPriceRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_AirRulesRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_AirRulesRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_AirRulesRS">
+      <HintPath>..\XSLs\Sabre\Sabre_AirRulesRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_CarAvailRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_CarAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_CarAvailRS">
+      <HintPath>..\XSLs\Sabre\Sabre_CarAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_CarInfoRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_CarInfoRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_CarInfoRS">
+      <HintPath>..\XSLs\Sabre\Sabre_CarInfoRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_CCValidRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_CCValidRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_CCValidRS">
+      <HintPath>..\XSLs\Sabre\Sabre_CCValidRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_CrypticRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_CrypticRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_CrypticRS">
+      <HintPath>..\XSLs\Sabre\Sabre_CrypticRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_CurConvRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_CurConvRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_CurConvRS">
+      <HintPath>..\XSLs\Sabre\Sabre_CurConvRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_FareDisplayRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_FareDisplayRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_FareDisplayRS">
+      <HintPath>..\XSLs\Sabre\Sabre_FareDisplayRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_HotelAvailRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_HotelAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_HotelAvailRS">
+      <HintPath>..\XSLs\Sabre\Sabre_HotelAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_HotelInfoRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_HotelInfoRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_HotelInfoRS">
+      <HintPath>..\XSLs\Sabre\Sabre_HotelInfoRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_HotelSearchRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_HotelSearchRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_HotelSearchRS">
+      <HintPath>..\XSLs\Sabre\Sabre_HotelSearchRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_IssueTicketRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_IssueTicketRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_IssueTicketRS">
+      <HintPath>..\XSLs\Sabre\Sabre_IssueTicketRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_IssueTicketSessionedRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_IssueTicketSessionedRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_LowFarePlusRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_LowFarePlusRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_LowFarePlusRQ_Air">
+      <HintPath>..\XSLs\Sabre\Sabre_LowFarePlusRQ_Air.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_LowFarePlusRQ_FS">
+      <HintPath>..\XSLs\Sabre\Sabre_LowFarePlusRQ_FS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_LowFarePlusRS">
+      <HintPath>..\XSLs\Sabre\Sabre_LowFarePlusRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_LowFarePlusRS_FS">
+      <HintPath>..\XSLs\Sabre\Sabre_LowFarePlusRS_FS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_LowFareRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_LowFareRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_LowFareRS">
+      <HintPath>..\XSLs\Sabre\Sabre_LowFareRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_LowFareSchedule2RS">
+      <HintPath>..\XSLs\Sabre\Sabre_LowFareSchedule2RS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_LowFareScheduleRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_LowFareScheduleRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_LowFareScheduleRS">
+      <HintPath>..\XSLs\Sabre\Sabre_LowFareScheduleRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_PNRCancelRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_PNRCancelRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_PNRCancelRS">
+      <HintPath>..\XSLs\Sabre\Sabre_PNRCancelRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_PNRReadRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_PNRReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_PNRReadRS">
+      <HintPath>..\XSLs\Sabre\Sabre_PNRReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_PNRRepriceRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_PNRRepriceRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_PNRRepriceRS">
+      <HintPath>..\XSLs\Sabre\Sabre_PNRRepriceRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_QueueReadRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_QueueReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_QueueRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_QueueRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_QueueRS">
+      <HintPath>..\XSLs\Sabre\Sabre_QueueRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_SalesReportRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_SalesReportRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_SalesReportRS">
+      <HintPath>..\XSLs\Sabre\Sabre_SalesReportRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_ShowMileageRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_ShowMileageRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_ShowMileageRS">
+      <HintPath>..\XSLs\Sabre\Sabre_ShowMileageRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_TB_Errors">
+      <HintPath>..\XSLs\Sabre\Sabre_TB_Errors.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_TicketCouponRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_TicketCouponRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_TimeDiffRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_TimeDiffRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_TimeDiffRS">
+      <HintPath>..\XSLs\Sabre\Sabre_TimeDiffRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_TravelBuildRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_TravelBuildRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_UpdateInsertRQ">
+      <HintPath>..\XSLs\Sabre\Sabre_UpdateInsertRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="SellIssuesRQ">
+      <HintPath>..\XSLs\AmadeusWS\SellIssuesRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Travelport_CrypticRQ">
+      <HintPath>..\wsTripXML\Xsl\Travelport\Travelport_CrypticRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Travelport_CrypticRS">
+      <HintPath>..\wsTripXML\Xsl\Travelport\Travelport_CrypticRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Travelport_PNRRepriceRQ">
+      <HintPath>..\wsTripXML\Xsl\Travelport\Travelport_PNRRepriceRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Travelport_PNRRepriceRS">
+      <HintPath>..\wsTripXML\Xsl\Travelport\Travelport_PNRRepriceRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Travelport_QueueRQ">
+      <HintPath>..\wsTripXML\Xsl\Travelport\Travelport_QueueRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Travelport_QueueRS">
+      <HintPath>..\wsTripXML\Xsl\Travelport\Travelport_QueueRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Travelport_UpdateInsertRQ">
+      <HintPath>..\wsTripXML\Xsl\Travelport\Travelport_UpdateInsertRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="ttCore">
+      <HintPath>..\wsTripXML\Bin\ttCore.dll</HintPath>
+    </Reference>
+    <Reference Include="TXML_GetDealsRS">
+      <HintPath>..\XSLs\TXML\TXML_GetDealsRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v02_AmadeusWS_HotelAvailRQ">
+      <HintPath>..\XSLs\AmadeusWS\v02_AmadeusWS_HotelAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v02_AmadeusWS_HotelAvailRS">
+      <HintPath>..\XSLs\AmadeusWS\v02_AmadeusWS_HotelAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v02_AmadeusWS_HotelAvailRS.script">
+      <HintPath>..\XSLs\AmadeusWS\v02_AmadeusWS_HotelAvailRS.script.dll</HintPath>
+    </Reference>
+    <Reference Include="v02_AmadeusWS_HotelInfo1RQ">
+      <HintPath>..\XSLs\AmadeusWS\v02_AmadeusWS_HotelInfo1RQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_AirAvailRPHRS">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_AirAvailRPHRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_AirAvailRQ">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_AirAvailRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_AirAvailRQ1">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_AirAvailRQ1.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_AirAvailRS">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_AirAvailRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_AirAvailRS.script">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_AirAvailRS.script.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_AirPriceRQ">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_AirPriceRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_AirPriceRS">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_AirPriceRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_AirRulesRQ">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_AirRulesRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_AirRulesRS">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_AirRulesRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_DisplayTicketRQ">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_DisplayTicketRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_PNRReadRQ">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_PNRReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_PNRReadRS">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_PNRReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_SalesReportRQ">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_SalesReportRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_SalesReportRS">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_SalesReportRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_StoredFareBuildRQ">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_StoredFareBuildRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_StoredFareBuildRS">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_StoredFareBuildRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_TB_Errors">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_TB_Errors.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_AmadeusWS_TravelBuildRQ">
+      <HintPath>..\XSLs\AmadeusWS\v03_AmadeusWS_TravelBuildRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Galileo_IssueTicketRQ">
+      <HintPath>..\XSLs\Galileo\v03_Galileo_IssueTicketRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Galileo_IssueTicketRS">
+      <HintPath>..\XSLs\Galileo\v03_Galileo_IssueTicketRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Galileo_PNRReadRQ">
+      <HintPath>..\XSLs\Galileo\v03_Galileo_PNRReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Galileo_PNRReadRS">
+      <HintPath>..\XSLs\Galileo\v03_Galileo_PNRReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Galileo_PNRReadRS.script">
+      <HintPath>..\XSLs\Galileo\v03_Galileo_PNRReadRS.script.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Galileo_TB_Errors">
+      <HintPath>..\XSLs\Galileo\v03_Galileo_TB_Errors.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Galileo_TravelBuildRQ">
+      <HintPath>..\XSLs\Galileo\v03_Galileo_TravelBuildRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Sabre_AirPriceRQ">
+      <HintPath>..\XSLs\Sabre\v03_Sabre_AirPriceRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Sabre_AirPriceRS">
+      <HintPath>..\XSLs\Sabre\v03_Sabre_AirPriceRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Sabre_LowFarePlusRQ">
+      <HintPath>..\XSLs\Sabre\v03_Sabre_LowFarePlusRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Sabre_LowFarePlusRS">
+      <HintPath>..\XSLs\Sabre\v03_Sabre_LowFarePlusRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Sabre_PNRReadRQ">
+      <HintPath>..\XSLs\Sabre\v03_Sabre_PNRReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Sabre_PNRReadRS">
+      <HintPath>..\XSLs\Sabre\v03_Sabre_PNRReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Sabre_TB_Errors">
+      <HintPath>..\XSLs\Sabre\v03_Sabre_TB_Errors.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Sabre_TravelBuildRQ">
+      <HintPath>..\XSLs\Sabre\v03_Sabre_TravelBuildRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Travelport_PNRReadRQ">
+      <HintPath>..\wsTripXML\Xsl\Travelport\v03_Travelport_PNRReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Travelport_PNRReadRS">
+      <HintPath>..\wsTripXML\Xsl\Travelport\v03_Travelport_PNRReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Worldspan_LowFarePlusRQ">
+      <HintPath>..\XSLs\Worldspan\v03_Worldspan_LowFarePlusRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Worldspan_LowFarePlusRS">
+      <HintPath>..\XSLs\Worldspan\v03_Worldspan_LowFarePlusRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Worldspan_PNRReadRQ">
+      <HintPath>..\XSLs\Worldspan\v03_Worldspan_PNRReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v03_Worldspan_PNRReadRS">
+      <HintPath>..\XSLs\Worldspan\v03_Worldspan_PNRReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v04_AmadeusWS_PNRReadRQ">
+      <HintPath>..\XSLs\AmadeusWS\v04_AmadeusWS_PNRReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v04_AmadeusWS_PNRReadRS">
+      <HintPath>..\XSLs\AmadeusWS\v04_AmadeusWS_PNRReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v04_AmadeusWS_QueueReadRQ">
+      <HintPath>..\XSLs\AmadeusWS\v04_AmadeusWS_QueueReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v04_AmadeusWS_TB_Errors">
+      <HintPath>..\XSLs\AmadeusWS\v04_AmadeusWS_TB_Errors.dll</HintPath>
+    </Reference>
+    <Reference Include="v04_AmadeusWS_TravelBuildRQ">
+      <HintPath>..\XSLs\AmadeusWS\v04_AmadeusWS_TravelBuildRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v04_Galileo_PNRReadRQ">
+      <HintPath>..\XSLs\Galileo\v04_Galileo_PNRReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v04_Galileo_PNRReadRS">
+      <HintPath>..\XSLs\Galileo\v04_Galileo_PNRReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v04_Galileo_TB_Errors">
+      <HintPath>..\XSLs\Galileo\v04_Galileo_TB_Errors.dll</HintPath>
+    </Reference>
+    <Reference Include="v04_Galileo_TravelBuildRQ">
+      <HintPath>..\XSLs\Galileo\v04_Galileo_TravelBuildRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v04_Sabre_PNRReadRQ">
+      <HintPath>..\XSLs\Sabre\v04_Sabre_PNRReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v04_Sabre_PNRReadRS">
+      <HintPath>..\XSLs\Sabre\v04_Sabre_PNRReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="v04_Sabre_TravelBuildRQ">
+      <HintPath>..\XSLs\Sabre\v04_Sabre_TravelBuildRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v05_AmadeusWS_PNRReadRQ">
+      <HintPath>..\XSLs\AmadeusWS\v05_AmadeusWS_PNRReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="v05_AmadeusWS_PNRReadRS">
+      <HintPath>..\XSLs\AmadeusWS\v05_AmadeusWS_PNRReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_AirPriceRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_AirPriceRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_AirPriceRS">
+      <HintPath>..\XSLs\Worldspan\Worldspan_AirPriceRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_AirRulesRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_AirRulesRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_AirRulesRS">
+      <HintPath>..\XSLs\Worldspan\Worldspan_AirRulesRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_AirSeatMapRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_AirSeatMapRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_AirSeatMapRS">
+      <HintPath>..\XSLs\Worldspan\Worldspan_AirSeatMapRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_AuthorizationRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_AuthorizationRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_CrypticRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_CrypticRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_CrypticRS">
+      <HintPath>..\XSLs\Worldspan\Worldspan_CrypticRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_FareDisplayRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_FareDisplayRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_FareDisplayRS">
+      <HintPath>..\XSLs\Worldspan\Worldspan_FareDisplayRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_LowFarePlusRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_LowFarePlusRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_LowFarePlusRS">
+      <HintPath>..\XSLs\Worldspan\Worldspan_LowFarePlusRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_LowFareRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_LowFareRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_LowFareRS">
+      <HintPath>..\XSLs\Worldspan\Worldspan_LowFareRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_PNRCancelRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_PNRCancelRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_PNRCancelRS">
+      <HintPath>..\XSLs\Worldspan\Worldspan_PNRCancelRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_PNRReadRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_PNRReadRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_PNRReadRS">
+      <HintPath>..\XSLs\Worldspan\Worldspan_PNRReadRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_PNRRepriceRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_PNRRepriceRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_PNRRepriceRS">
+      <HintPath>..\XSLs\Worldspan\Worldspan_PNRRepriceRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_QueueRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_QueueRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_QueueRS">
+      <HintPath>..\XSLs\Worldspan\Worldspan_QueueRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_TravelBuildRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_TravelBuildRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_UpdateDeleteRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_UpdateDeleteRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_UpdateInsertRQ">
+      <HintPath>..\XSLs\Worldspan\Worldspan_UpdateInsertRQ.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="cDA.vb" />
+    <Compile Include="CoreLib.vb" />
+    <Compile Include="modCore.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
