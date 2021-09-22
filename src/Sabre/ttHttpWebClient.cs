@@ -8,17 +8,22 @@ namespace Sabre
 {
     public class ttHttpWebClient
     {
+        #region Constants
         private const string SOAP_NS = "http://schemas.xmlsoap.org/soap/envelope/";
         private const string XSD_NS = "http://www.w3.org/2001/XMLSchema";
         private const string XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
-        private HttpWebRequest mHttpRequest;
+        #endregion
 
+        #region Declaration
+        private HttpWebRequest mHttpRequest;
         public string ServiceURL { get; set; } = "";
         public string SoapAction { get; set; } = "";
         public string HttpMethod { get; set; } = "";
         public string Header { get; set; } = "";
         public string Body { get; set; } = "";
+        #endregion
 
+        #region Methods
         private string ComposeMessage()
         {
             string message = $"<soap:Envelope xmlns:soap='{SOAP_NS}' xmlns:xsi='{XSI_NS}' xmlns:xsd='{XSD_NS}'><soap:Header>{Header}</soap:Header><soap:Body>{Body}</soap:Body></soap:Envelope>";
@@ -35,15 +40,15 @@ namespace Sabre
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
-        public string SendHttpRequest(string UserID, string strMessage = "",  string strUUID = "")
+        public string SendHttpRequest(string UserID, string strMessage = "", string strUUID = "")
         {
             DateTime StartTime = DateTime.Now;
             try
             {
-                string Message = !string.IsNullOrEmpty(strMessage) 
+                string Message = !string.IsNullOrEmpty(strMessage)
                     ? strMessage
                     : ComposeMessage();
-                
+
                 CoreLib.SendTrace(UserID, "ttSabreAdapter", "Sent to Sabre", Message.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), strUUID);
                 HttpConnect();
                 var oWriter = new StreamWriter(mHttpRequest.GetRequestStream());
@@ -72,7 +77,7 @@ namespace Sabre
                 if (fi != null)
                 {
                     var oHttpResponse = (HttpWebResponse)fi.GetValue(mHttpRequest);
-                    var stream = oHttpResponse.GetResponseStream();                    
+                    var stream = oHttpResponse.GetResponseStream();
                     var oReader = new StreamReader(stream);
                     string strResponse = oReader.ReadToEnd();
                     oReader.Close();
@@ -86,12 +91,13 @@ namespace Sabre
             finally
             {
                 CoreLib.SendTrace(UserID, "ttSabreAdapter", $"Sabre Response Time = {DateTime.Now.Subtract(StartTime).TotalSeconds} seconds.", "", strUUID);
-                
+
                 if (mHttpRequest != null)
                     mHttpRequest = null;
             }
 
-        }
+        } 
+        #endregion
 
     }
 }

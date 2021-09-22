@@ -141,7 +141,12 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\TripXMLMain\TripXMLMain.vbproj">
+      <Project>{7bfd1163-a751-4042-ab19-6665d0af115a}</Project>
+      <Name>TripXMLMain</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
@@ -158,12 +163,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TripXMLMain\TripXMLMain.vbproj">
-      <Project>{7BFD1163-A751-4042-AB19-6665D0AF115A}</Project>
-      <Name>TripXMLMain</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
