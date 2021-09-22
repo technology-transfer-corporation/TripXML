@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 using TripXMLMain;
+using System.Collections.Generic;
 
 namespace Galileo
 {
@@ -66,15 +67,70 @@ namespace Galileo
         protected static string FormatGalileo(string strDisplay)
         {
             string display = "";
+            int bucket = 64;
+            var count = (int)Math.Ceiling((double)strDisplay.Length / bucket);
+
             strDisplay = strDisplay.Replace(" & ", " and ");
 
-            var lstLines = strDisplay.Contains(Environment.NewLine)
-                ? strDisplay.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList()
-                : Regex.Split(strDisplay, "(?<=^(.{64})+)").ToList();
+            var Lines = strDisplay.Contains("\n")
+                ? strDisplay.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList()
+                : Enumerable.Range(0, count)
+                                    .Select(_ => _ * bucket)
+                                    .Select(_ => strDisplay.Substring(_, Math.Min(bucket, strDisplay.Length - _)))
+                                    .ToList();
+            if (Lines.Any(l => l.Length > 64))
+                Lines = DeepFormating(Lines);
+            //Regex.Split(strDisplay, "(?<=^(.{64})+)").ToList();
 
-            lstLines.ForEach(l => display += $"<Line>{l.Replace("<", "&lt;").Replace(">", "&gt;")}</Line>");
+            Lines.ForEach(l => display += $"<Line>{l.Replace("<", "&lt;").Replace(">", "&gt;")}</Line>");
 
             return $"<Screen>{display}</Screen>";
+        }
+
+        private static List<string> DeepFormating(List<string> display)
+        {
+            var Lines = new List<string>();
+            foreach (var line in display)
+            {
+                if (line.Contains("\n"))
+                {
+                    var subLines = line.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    foreach (var sl in subLines)
+                    {
+                        if (sl.Contains("\n"))
+                        {
+                            Lines.AddRange(sl.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList());
+                        }
+                        else
+                        {
+                            if (sl.Trim().Length < 64)
+                            {
+                                Lines.Add(sl);
+                            }
+                            else
+                            {
+                                int bucket = 64;
+                                var count = (int)Math.Ceiling((double)sl.Length / bucket);
+
+                                Lines.AddRange(Enumerable.Range(0, count)
+                                    .Select(_ => _ * bucket)
+                                    .Select(_ => sl.Substring(_, Math.Min(bucket, sl.Length - _)))
+                                    .ToList());
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    int bucket = 64;
+                    var count = (int)Math.Ceiling((double)line.Length / bucket);
+                    Lines.AddRange(Enumerable.Range(0, count)
+                                    .Select(_ => _ * bucket)
+                                    .Select(_ => line.Substring(_, Math.Min(bucket, line.Length - _)))
+                                    .ToList());
+                }
+            }
+            return Lines;
         }
 
         protected GalileoAdapter SetAdapter(string version = "")

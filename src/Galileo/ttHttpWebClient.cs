@@ -8,22 +8,27 @@ namespace Galileo
 {
     public class ttHttpWebClient
     {
+        #region Constants
         private const string SOAP_NS = "http://schemas.xmlsoap.org/soap/envelope/";
         private const string XSD_NS = "http://www.w3.org/2001/XMLSchema";
         private const string XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
-        private HttpWebRequest mHttpRequest;
+        #endregion
 
+        #region Declaration
+        private HttpWebRequest mHttpRequest;
         public string ServiceURL { get; set; } = "";
         public string SoapAction { get; set; } = "";
         public string HttpMethod { get; set; } = "";
         public string Header { get; set; } = "";
         public string Body { get; set; } = "";
         public string TracerID { get; set; } = "";
+        #endregion
 
+        #region Methods
         private string ComposeMessage()
         {
             string Message = $"<soapenv:Envelope xmlns:soapenv='{SOAP_NS}'><soapenv:Header>{Header}</soapenv:Header><soapenv:Body>{Body}</soapenv:Body></soapenv:Envelope>";
-            return Message;            
+            return Message;
         }
 
         private void HttpConnect()
@@ -47,10 +52,10 @@ namespace Galileo
             DateTime StartTime = DateTime.Now;
             try
             {
-                Message = string.IsNullOrEmpty(strMessage) 
+                Message = string.IsNullOrEmpty(strMessage)
                     ? strMessage
                     : ComposeMessage();
-                
+
                 CoreLib.SendTrace(UserID, "ttGalileoAdapter", "Sent to Galileo", Message.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), string.Empty);
                 HttpConnect();
                 StreamWriter oWriter = new StreamWriter(mHttpRequest.GetRequestStream());
@@ -87,7 +92,7 @@ namespace Galileo
             finally
             {
                 CoreLib.SendTrace(UserID, "ttGalileoAdapter", $"Galileo Response Time = {Convert.ToInt32(DateTime.Now.Subtract(StartTime).TotalSeconds)} seconds.", "", string.Empty);
-                
+
                 if (oHttpResponse != null)
                     oHttpResponse.Close();
 
@@ -96,7 +101,8 @@ namespace Galileo
             }
 
             return strResponse;
-        }
+        } 
+        #endregion
 
     }
 }

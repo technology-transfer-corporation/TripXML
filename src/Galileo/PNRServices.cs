@@ -208,16 +208,12 @@ namespace Galileo
                 oDoc.LoadXml(Request);
                 var oRoot = oDoc.DocumentElement;
 
-
                 string strRead = ""; // oRoot.SelectSingleNode("PNRRead").InnerXml;
                 string strPriceCombined = ""; //oRoot.SelectSingleNode("PriceCombined").InnerXml;
                 string strRedisplay = strRequest; // oRootT.SelectSingleNode("PNRRedisplay").InnerXml
 
-
                 if (oRoot.SelectSingleNode("@StoreFare") != null)
-                {
                     bStoreFare = Convert.ToBoolean(oRoot.SelectSingleNode("@StoreFare")?.InnerText);
-                }
 
                 var ttGA = SetAdapter();
                 bool inSession = SetConversationID(ttGA);
@@ -233,17 +229,29 @@ namespace Galileo
 
                     if (!bStoreFare)
                     {
-                        string strRepriceReq = CoreLib.TransformXML(strReadResp, XslPath, $"{Version}Galileo_PNRRePriceRQ.xsl");
-                        string strRepriceResp = ttGA.SendMessage(strRepriceReq, ConversationID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", strRepriceResp, ProviderSystems.LogUUID);
-                        if (strRepriceResp.Contains("NO COMBINABLE FARES FOR CLASS USED"))
+                        
+                        string strRepriceReq = CoreLib.TransformXML(strReadResp.Replace("</PNRBFManagement_53>", $"{Request}</PNRBFManagement_53>"), XslPath, $"{Version}Galileo_PNRRePriceRQ.xsl");
+                        
+                        string strRepriceResp;
+                        if (strRepriceReq.Contains("Error Type=\"Galileo\""))
                         {
-                            strPriceCombined = strPriceCombined.Replace("<NameSelect>NS</NameSelect>", ""); //strPaxCombined
-                            strRepriceResp = ttGA.SendMessage(strPriceCombined, ConversationID);
-                            strRepriceResp = strRepriceResp.Replace("<OTA_AirPriceRS Version=\"2.4.0\">", "").Replace("</OTA_AirPriceRS>", "");
+                            strRepriceResp = strRepriceReq;
+                        }
+                        else
+                        {
+                            strRepriceResp = ttGA.SendMessage(strRepriceReq, ConversationID);
+                            if (strRepriceResp.Contains("NO COMBINABLE FARES FOR CLASS USED"))
+                            {
+                                strPriceCombined = strPriceCombined.Replace("<NameSelect>NS</NameSelect>", ""); //strPaxCombined
+                                strRepriceResp = ttGA.SendMessage(strPriceCombined, ConversationID);
+                                strRepriceResp = strRepriceResp.Replace("<OTA_AirPriceRS Version=\"2.4.0\">", "").Replace("</OTA_AirPriceRS>", "");
+                            }
                         }
 
+                        
+
                         strResponse = strReadResp.Replace("</PNRBFManagement_53>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS><ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
+                        CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", strResponse, ProviderSystems.LogUUID);
                     }
                     else
                     {
