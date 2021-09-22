@@ -122,7 +122,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TripXMLMain\TripXMLMain.vbproj">
-      <Project>{7BFD1163-A751-4042-AB19-6665D0AF115A}</Project>
+      <Project>{7bfd1163-a751-4042-ab19-6665d0af115a}</Project>
       <Name>TripXMLMain</Name>
     </ProjectReference>
     <ProjectReference Include="..\TripXMLTools\TripXMLTools.csproj">

@@ -2722,7 +2722,7 @@ namespace AmadeusWS
                 if (strResponse.Contains("SIMULTANEOUS CHANGES TO PNR"))
                 {
                     SendCommandCryptically(ttAA, "IR");
-                    strResponse = SendAddMultiElements(ttAA, strRequest);
+                    throw new Exception("PNR IGNORED AND REDISPLAYED DUE TO SIMULTANEOUS CHANGE");
                 }
 
                 string strResponseTST = string.Empty;

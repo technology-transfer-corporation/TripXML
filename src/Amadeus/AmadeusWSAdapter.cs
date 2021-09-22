@@ -716,7 +716,7 @@ public class AmadeusWSAdapter
                  */
                 body = "<Command_Cryptic><messageAction><messageFunctionDetails><messageFunction>M</messageFunction></messageFunctionDetails></messageAction><longTextString><textStringDetails>DDNYC</textStringDetails></longTextString></Command_Cryptic>";
                 Soap4Session session = new Soap4Session(TransactionStatusCode.Start);
-                var resp = SendMessagesoap4(body, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema.Command_Cryptic}", ref session);
+                var resp = SendMessagesoap4(body, "", $"http://webservices.amadeus.com/ {ttProviderSystems.Profile} /{ttProviderSystems.AmadeusWSSchema.Command_Cryptic}", ref session);
                 session.StatusCode = TransactionStatusCode.InSeries;
                 return string.IsNullOrEmpty(session.SecurityToken) ? session.SecurityToken : session.ToString();
             }

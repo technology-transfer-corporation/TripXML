@@ -10,6 +10,7 @@ using System.Reflection;
 public class ttHttpWebClient
 {
 
+    #region Constants
     private const string SOAP_NS = "http://schemas.xmlsoap.org/soap/envelope/";
     private const string XSD_NS = "http://www.w3.org/2001/XMLSchema";
     private const string XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
@@ -20,7 +21,10 @@ public class ttHttpWebClient
     private const string XSI_APP = "http://xml.amadeus.com/2010/06/AppMdw_CommonTypes_v3";
     private const string XSI_LINK = "http://wsdl.amadeus.com/2010/06/ws/Link_v1";
     private const string XSI_SES = "http://xml.amadeus.com/2010/06/Session_v3";
-    private const string XSI_FLIR = "http://xml.amadeus.com/";
+    private const string XSI_FLIR = "http://xml.amadeus.com/"; 
+    #endregion
+
+    #region Declaration
 
     private HttpWebRequest mHttpRequest;
     public string ServiceURL { get; set; } = "";
@@ -35,6 +39,9 @@ public class ttHttpWebClient
 
     public string TracerID { get; set; } = "";
 
+    #endregion
+
+    #region Methods
     private String Convert(byte[] input, Decoder decoder)
     {
         char[] char_array = new char[decoder.GetCharCount(input, 0, input.Length, true)];
@@ -322,10 +329,11 @@ public class ttHttpWebClient
     {
         try
         {
-           TripXMLTools.TripXMLLog.LogErrorMessage(msg, username, TracerID);            
+            TripXMLTools.TripXMLLog.LogErrorMessage(msg, username, TracerID);
         }
         catch (Exception)
         {
         }
-    }
+    } 
+    #endregion
 }
