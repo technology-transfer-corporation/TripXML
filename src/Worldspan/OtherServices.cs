@@ -66,7 +66,7 @@ namespace Worldspan
                 var strResponse = ttWA.CloseSession();
                 if (!strResponse.Contains("ERROR"))
                 {
-                    strResponse = "<SessionCloseRS Version='1.001'><Success/></SessionCloseRS>";
+                    strResponse = "<SessionCloseRS Version=\"1.001\"><Success/></SessionCloseRS>";
                 }
                 else
                 {

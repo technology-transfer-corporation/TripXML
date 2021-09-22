@@ -8,14 +8,16 @@ namespace Worldspan
 {
     public class ttHttpWebClient
     {
+        #region Declaration
         private HttpWebRequest mHttpRequest;
-
         public string ServiceURL { get; set; } = "";
         public string SoapAction { get; set; } = "";
         public string HttpMethod { get; set; } = "";
         public string Header { get; set; } = "";
         public string Body { get; set; } = "";
+        #endregion
 
+        #region Methods
         private string GetEnvelop(string conversationID)
         {
             string strEnvelop = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
@@ -25,7 +27,7 @@ namespace Worldspan
                 strEnvelop += $"<CONTEXT>{conversationID}</CONTEXT>";
 
             strEnvelop += $"<REQ>{Body}</REQ></ns1:ProviderTransaction></SOAP-ENV:Body></SOAP-ENV:Envelope>";
-           
+
             return strEnvelop;
         }
 
@@ -98,6 +100,7 @@ namespace Worldspan
             {
                 CoreLib.SendTrace(userID, "ttWorldspanAdapter", $"Worldspan Response Time = {Convert.ToInt32(DateTime.Now.Subtract(startTime).TotalSeconds)} seconds.", "", uuid);
             }
-        }
+        } 
+        #endregion
     }
 }
