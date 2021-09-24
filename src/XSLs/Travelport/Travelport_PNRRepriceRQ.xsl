@@ -1,9 +1,11 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:air="http://www.travelport.com/schema/air_v28_0" xmlns:universal="http://www.travelport.com/schema/universal_v28_0" xmlns:common_v28_0="http://www.travelport.com/schema/common_v28_0" version="1.0">
-	<!-- ================================================================== -->
-	<!-- Travelport_PNRRepriceRQ.xsl															-->
-	<!-- ================================================================== -->
-	<!-- Date: 10 Nov 2014 - Rastko - New file											-->
-	<!-- ================================================================== -->
+	<!-- 
+  ================================================================== 
+	Travelport_PNRRepriceRQ.xsl															
+	================================================================== 
+	Date: 10 Nov 2014 - Rastko - New file											
+	================================================================== 
+  -->
 	<xsl:output method="xml" omit-xml-declaration="yes"/>
 	<xsl:template match="/">
 		<xsl:apply-templates select="OTA_PNRRepriceRQ"/>
@@ -11,7 +13,14 @@
 	<xsl:template match="OTA_PNRRepriceRQ">
 		<xsl:choose>
 			<xsl:when test="not(Response) and not(NewPrice)">
-				<UniversalRecordRetrieveReq xmlns="http://www.travelport.com/schema/universal_v28_0" xmlns:air_v28_0="http://www.travelport.com/schema/air_v28_0" xmlns:common_v28_0="http://www.travelport.com/schema/common_v28_0" xmlns:hotel="http://www.travelport.com/schema/hotel_v28_0" xmlns:passive="http://www.travelport.com/schema/passive_v28_0" xmlns:rail="http://www.travelport.com/schema/rail_v28_0" xmlns:vehicle="http://www.travelport.com/schema/vehicle_v28_0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/@PseudoCityCode}">
+				<UniversalRecordRetrieveReq xmlns="http://www.travelport.com/schema/universal_v28_0" 
+                                    xmlns:air_v28_0="http://www.travelport.com/schema/air_v28_0" 
+																		xmlns:common_v28_0="http://www.travelport.com/schema/common_v28_0" 
+                                    xmlns:hotel="http://www.travelport.com/schema/hotel_v28_0" 
+                                    xmlns:passive="http://www.travelport.com/schema/passive_v28_0" 
+                                    xmlns:rail="http://www.travelport.com/schema/rail_v28_0" 
+                                    xmlns:vehicle="http://www.travelport.com/schema/vehicle_v28_0" 
+                                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/@PseudoCityCode}">
 					<common_v28_0:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 					<UniversalRecordLocatorCode>
 						<xsl:value-of select="UniqueID/@ID"/>
@@ -44,7 +53,15 @@
 	<xsl:template match="NewPrice">
 		<xsl:variable name="PNR" select="../Response/universal:UniversalRecordRetrieveRsp/universal:UniversalRecord"/>
 		<xsl:variable name="Price" select="air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution"/>
-		<universal:UniversalRecordModifyReq xmlns="http://www.travelport.com/schema/universal_v28_0" xmlns:air_v28_0="http://www.travelport.com/schema/air_v28_0" xmlns:common_v28_0="http://www.travelport.com/schema/common_v28_0" xmlns:hotel="http://www.travelport.com/schema/hotel_v28_0" xmlns:passive="http://www.travelport.com/schema/passive_v28_0" xmlns:rail="http://www.travelport.com/schema/rail_v28_0" xmlns:vehicle="http://www.travelport.com/schema/vehicle_v28_0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/@PseudoCityCode}" ReturnRecord="true">
+		<universal:UniversalRecordModifyReq 
+      xmlns="http://www.travelport.com/schema/universal_v28_0" 
+      xmlns:air_v28_0="http://www.travelport.com/schema/air_v28_0" 
+      xmlns:common_v28_0="http://www.travelport.com/schema/common_v28_0" 
+      xmlns:hotel="http://www.travelport.com/schema/hotel_v28_0" 
+      xmlns:passive="http://www.travelport.com/schema/passive_v28_0" 
+      xmlns:rail="http://www.travelport.com/schema/rail_v28_0" 
+      xmlns:vehicle="http://www.travelport.com/schema/vehicle_v28_0" 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/@PseudoCityCode}" ReturnRecord="true">
 			<common_v28_0:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 			<universal:RecordIdentifier UniversalLocatorCode="{$PNR/@LocatorCode}" ProviderCode="{$PNR/universal:ProviderReservationInfo/@ProviderCode}" ProviderLocatorCode="{$PNR/universal:ProviderReservationInfo//@LocatorCode}"/>
 			<universal:UniversalModifyCmd Key="1">
