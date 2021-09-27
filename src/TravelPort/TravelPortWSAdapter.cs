@@ -1,6 +1,10 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 using TripXMLMain;
 
 namespace TravelPort
@@ -98,45 +102,35 @@ namespace TravelPort
         {   
             try
             {
+                if (string.IsNullOrEmpty(strResponse))
+                    throw new Exception("No response from Travelport");
+
+                // ********************************
+                //  Check for Errors in Response  *
+                // ********************************
+                if (strResponse.Contains("<SOAP-ENV:Fault") || strResponse.Contains("<SOAP:Fault"))
+                {
+                    var xmlReader = XmlReader.Create(new StringReader(strResponse));
+                    XDocument doc = XDocument.Load(xmlReader);                    
+                    var xRoot = RemoveAllNamespaces(doc.Root);
+                    var err = xRoot.XPathSelectElement("//detail/ErrorInfo/Description");
+                    throw new Exception(err.Value);
+                }
+
+                // *************************
+                //  Get Response From Soap *
+                // *************************
                 XmlDocument oDoc = new XmlDocument();
                 oDoc.LoadXml(strResponse);
                 XmlElement oRoot = oDoc.DocumentElement;
                 //  Get The Body
                 XmlNode oNode = oRoot.LastChild;
-                // ********************************
-                //  Check for Errors in Response  *
-                // ********************************
-                if (oDoc.InnerXml.StartsWith("<SOAP-ENV:Fault") || oDoc.InnerXml.StartsWith("<SOAP:Fault"))
-                {
-                    oNode = oNode.FirstChild;
-                    //oNode = oNode.SelectSingleNode("faultstring");
-                    var errXml = oNode.OuterXml
-                        .Replace(" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"", "")
-                        .Replace(" xmlns:SOAP=\"http://schemas.xmlsoap.org/soap/envelope/\"", "")
-                        .Replace("soap:", "")
-                        .Replace(" xmlns:common_v12_0=\"http://www.travelport.com/schema/common_v12_0\"","")
-                        .Replace("common_v12_0:", "");
-                    XmlDocument eDoc = new XmlDocument();
-                    eDoc.LoadXml(errXml);
-                    XmlElement eRoot = eDoc.DocumentElement;
-                    oNode = eRoot.SelectSingleNode("/ErrorInfo/Description");
-                    throw new Exception(oNode.InnerText);
-                }
-                else if (strResponse == "")
-                {
-                    throw new Exception("No response from Travelport");
-                }
-                // *************************
-                //  Get Response From Soap *
-                // *************************
+
                 if (requestType == enRequestType.CreateSession)
                 {
                     //  Get The Header
-
-                    if (strResponse.IndexOf("<statusCode>P</statusCode>") == -1)
-                    {
+                    if (!strResponse.Contains("<statusCode>P</statusCode>"))
                         throw new Exception("Cannot open session with Travelport");
-                    }
 
                     oNode = oRoot.FirstChild;
                     oNode = oNode.LastChild;
@@ -144,11 +138,10 @@ namespace TravelPort
                 }
                 else
                 {
-                    //  Get The Body
+                    //Get The Body
                     oNode = oRoot.LastChild;
                     strResponse = oNode.InnerXml;
                     strResponse = strResponse.Replace(" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"", "").Replace("soap:", "");
-
                     CoreLib.SendTrace(ttProviderSystems.UserID, "TravelportWSAdapter", "Soap body response", strResponse, ttProviderSystems.LogUUID);
                 }
 
@@ -156,7 +149,7 @@ namespace TravelPort
             }
             catch (Exception ex)
             {
-                strResponse = "<Errors><Error>" + ex.Message + "</Error></Errors>";
+                strResponse = $"<Errors><Error>{ex.Message}</Error></Errors>";
                 return strResponse;
             }
         }
@@ -271,6 +264,23 @@ namespace TravelPort
             {
                 throw new Exception($"Session was not Created.\r\n{ex.Message}");
             }
+        }
+
+        public static XElement RemoveAllNamespaces(XElement element)
+        {
+            /*
+             var nsmngr = new XmlNamespaceManager(doc.CreateReader().NameTable);
+
+                    foreach (var attribute in doc.Descendants().Attributes().Where(a => a.IsNamespaceDeclaration))
+                    {
+                        nsmngr.AddNamespace(attribute.Name.LocalName, attribute.Value);
+                    }
+             */
+
+            return new XElement(element.Name.LocalName,
+                                element.HasAttributes ? element.Attributes().Select(a => new XAttribute(a.Name.LocalName, a.Value)) : null,
+                                element.HasElements ? element.Elements().Select(e => RemoveAllNamespaces(e)) : null,
+                                element.Value);
         }
         #endregion
 

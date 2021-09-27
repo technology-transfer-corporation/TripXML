@@ -84,7 +84,7 @@ namespace TravelPort
             }
 
             //mHttpRequest = this.CreateRequestObject();
-            mHttpRequest = this.HttpConnect(ttProviderSystems);
+            mHttpRequest = HttpConnect(ttProviderSystems);
             byte[] requestBytes = ComposeMessage();
 
             //Send request to the server

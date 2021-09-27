@@ -89,7 +89,8 @@ namespace TravelPort
             string strRequest;
             string ConversationID;
             string strBranch;
-            string strHost;
+            string strHost = "1G";
+
             //*********************
             // Get ConversationID *
             //*********************
@@ -121,9 +122,6 @@ namespace TravelPort
                             break;
                     }
                 }
-                else
-                    strHost = "1G";
-
             }
             catch (Exception ex)
             {
