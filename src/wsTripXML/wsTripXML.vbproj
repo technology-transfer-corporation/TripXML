@@ -35,6 +35,8 @@
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <Use64BitIISExpress />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -151,9 +153,9 @@
     <Content Include="bin\Galileo_PNRRepriceRS.dll" />
     <Content Include="bin\Galileo_VoidTicketRQ.dll" />
     <Content Include="bin\Markups_LowFareRS.dll" />
-    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
+    <!-- <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
     <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Logging.dll" />
-    <Content Include="bin\Microsoft.Practices.ServiceLocation.dll" />
+    <Content Include="bin\Microsoft.Practices.ServiceLocation.dll" /> -->
     <Content Include="bin\Newtonsoft.Json.dll" />
     <Content Include="bin\Sabre_IssueTicketSessionedRQ.dll" />
     <Content Include="bin\Sabre_LowFarePlusRQ_Air.dll" />
@@ -189,22 +191,12 @@
     <Content Include="bin\v03_Amadeus_TB_Errors.dll" />
     <Content Include="bin\v03_Amadeus_TravelBuildRQ.dll" />
     <Content Include="bin\v03_Amadeus_TravelBuildRQ_TST.dll" />
-    <Content Include="bin\v03_Galileo_PNRRePriceRQ.dll" />
-    <Content Include="bin\v03_TravelFusion_PNRReadRQ.dll" />
-    <Content Include="bin\v03_TravelFusion_PNRReadRS.dll" />
-    <Content Include="bin\v03_TravelFusion_TB_Errors.dll" />
-    <Content Include="bin\v03_TravelFusion_TravelBuildRQ.dll" />
     <Content Include="bin\v03_Travelport_PNRReadRQ.dll" />
     <Content Include="bin\v03_Travelport_PNRReadRS.dll" />
     <Content Include="bin\v03_Worldspan_LowFarePlusRQ.dll" />
     <Content Include="bin\v03_Worldspan_LowFarePlusRS.dll" />
     <Content Include="bin\v03_Worldspan_PNRReadRQ.dll" />
     <Content Include="bin\v03_Worldspan_PNRReadRS.dll" />
-    <Content Include="bin\v04_Amadeus_PNRReadRQ.dll" />
-    <Content Include="bin\v04_Amadeus_PNRReadRS.dll" />
-    <Content Include="bin\v04_Amadeus_TB_Errors.dll" />
-    <Content Include="bin\v04_Amadeus_TravelBuildRQ.dll" />
-    <Content Include="bin\v04_Galileo_QueueReadRQ.dll" />
     <Content Include="bin\v04_Sabre_TravelBuildRQ.dll" />
     <Content Include="bin\Worldspan_AuthorizationRQ.dll" />
     <Content Include="bin\Worldspan_AuthorizationRS.dll" />
@@ -381,7 +373,6 @@
     </Compile>
     <Content Include="bin\AmadeusWS.dll" />
     <Content Include="bin\AmadeusWS_AirAvailRQ.dll" />
-    <Content Include="bin\AmadeusWS_AirAvailRQ1.dll" />
     <Content Include="bin\AmadeusWS_AirAvailRS.dll" />
     <Content Include="bin\AmadeusWS_AirAvailRS.script.dll" />
     <Content Include="bin\AmadeusWS_AirFlifoRQ.dll" />
@@ -570,7 +561,6 @@
     <Content Include="bin\Galileo_TravelModifyRQ.dll" />
     <Content Include="bin\Galileo_UpdateInsertRQ.dll" />
     <Content Include="bin\ICSharpCode.SharpZipLib.dll" />
-    <Content Include="bin\Interop.MSXML.dll" />
     <Content Include="bin\Sabre_AirAvailRQ.dll" />
     <Content Include="bin\Sabre_AirAvailRS.dll" />
     <Content Include="bin\Sabre_AirFlifoRQ.dll" />
@@ -617,7 +607,6 @@
     <Content Include="bin\Sabre_TimeDiffRS.dll" />
     <Content Include="bin\Sabre_TravelBuildRQ.dll" />
     <Content Include="bin\Sabre_UpdateInsertRQ.dll" />
-    <Content Include="bin\SharpZipLib.dll" />
     <Content Include="bin\TripXMLMain.dll" />
     <Content Include="bin\ttCore.dll" />
     <Content Include="bin\TXML_GetDealsRS.dll" />
@@ -1373,6 +1362,12 @@
     <Content Include="Tables\Decoding\WS_FTP.LOG" />
     <Content Include="Tables\Users\WS_FTP.LOG" />
     <Content Include="packages.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_Data\Admin\wsImportLog.asmx.resx" />
@@ -1444,7 +1439,7 @@
       <Project>{68166A57-F20D-4620-A7EF-E65F2326ED7F}</Project>
       <Name>CompressionExtension</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Galileo\Galileo.csproj">
+    <ProjectReference Include="..\Galileo-CS\Galileo.csproj">
       <Project>{e7d7bbb7-e6f5-04bf-3e34-f99a5351e8e1}</Project>
       <Name>Galileo</Name>
     </ProjectReference>
@@ -1460,8 +1455,8 @@
       <Project>{b362f5bf-5f86-4997-9ef4-067c8e3db74e}</Project>
       <Name>TripXMLTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Worldspan\Worldspan.vbproj">
-      <Project>{ba90dfe8-4579-4798-bde9-9993e3814c22}</Project>
+    <ProjectReference Include="..\Worldspan-CS\Worldspan.csproj">
+      <Project>{08b45e83-8921-0869-3fb1-53ed81167882}</Project>
       <Name>Worldspan</Name>
     </ProjectReference>
   </ItemGroup>
@@ -1522,4 +1517,15 @@
       $(CopyAllFilesToSingleFolderForPackageDependsOn);
     </CopyAllFilesToSingleFolderForMsdeployDependsOn>
   </PropertyGroup>
+  <Import Project="..\packages\OctoPack.3.6.5\build\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.6.5\build\OctoPack.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\OctoPack.3.6.5\build\OctoPack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OctoPack.3.6.5\build\OctoPack.targets'))" />
+  </Target>
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="Web_config_AfterBuild" AfterTargets="AfterBuild" Condition="Exists('Web.$(Configuration).config')">
+    <TransformXml Source="Web.config" Destination="$(OutputPath)Web.config" Transform="Web.$(Configuration).config" />
+  </Target>
 </Project>

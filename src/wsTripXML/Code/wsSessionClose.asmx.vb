@@ -1,6 +1,5 @@
 Imports System.Web.Services
 Imports System.Xml
-Imports Amadeus
 Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports System.Text
@@ -108,9 +107,12 @@ Namespace wsTravelTalk
                             CoreLib.SendTrace("", "wsSessionClose", "NO SessionID Passed", strRequest, String.Empty)
                             AddLog(LogType.Info, "NO SessionID Passed", New TripXMLProviderSystems(), strRequest)
                             Throw New Exception(sb.Append("Provider ").Append(ttCredential.Providers(0).Name).Append("No Session ID Provided.").ToString())
-                        End IF
+                        End If
 
                         strResponse = SendOtherRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                    Case "Travelport"
+
+                        strResponse = SendOtherRequestTravelport(ttServiceID, ttCredential, ttProviderSystems, strRequest)
                     Case Else
                         Throw New Exception(sb.Append("Provider ").Append(ttCredential.Providers(0).Name).Append(" Not Currently Supported.").ToString())
                 End Select

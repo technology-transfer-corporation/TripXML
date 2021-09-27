@@ -33,6 +33,9 @@ Namespace wsTravelTalk
         Public RequestorID As RequestorID
 
         '<remarks/>
+        Public Profile As String
+
+        '<remarks/>
         <System.Xml.Serialization.XmlAttributeAttribute()>
         Public PseudoCityCode As String
 
