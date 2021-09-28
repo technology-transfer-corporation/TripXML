@@ -742,6 +742,17 @@ Namespace wsTravelTalk
                     End If
                 Next
 
+                'AK: This has to be perform if nothing were found. 
+                Dim elems As List(Of String) = strCode.Split(" ").ToList()
+
+                For Each word As String In elems
+                    For Each row As DataRow In oDV.Table.Rows
+                        If row("Code").ToString().Trim().ToUpper().Contains(strCode.Trim().ToUpper()) Then
+                            Return row("Name").ToString()
+                        End If
+                    Next
+                Next
+
                 Return String.Empty
 
                 'Dim i As Integer
@@ -813,16 +824,39 @@ Namespace wsTravelTalk
                 '- AD is an airline code
                 'AEROLITORAL DBA AEROMEXIC AM
                 '- AM is an airline code
+                'SKYWEST AS AMERICAN EAGLE
+                'SKYWEST should be used
 
-                Dim lastIndex = lstAirName.Count() - 1
+                If strName.ToUpper().Contains(" AS ") Then
+                    lstAirName = strName.Split(" AS ")
+                    For Each word As String In lstAirName
+                        If word.Equals("AS") Then
+                            Exit For
+                        End If
 
-                If IsNumeric(lstAirName.Last()) AndAlso lstAirName(lastIndex - 1).Length.Equals(2) Then
-                    Return lstAirName(lastIndex - 1)
+                        For Each row As DataRow In oDV.Table.Rows
+                            If row("Name").ToString().Trim().ToUpper().Equals(word.Trim().ToUpper()) Then
+                                Return row("Code").ToString()
+                            End If
+
+                            If row("Name").ToString().Trim().ToUpper().Contains(word.Trim().ToUpper()) Then
+                                Return row("Code").ToString()
+                            End If
+                        Next
+                    Next
+                Else
+                    Dim lastIndex = lstAirName.Count() - 1
+
+                    If IsNumeric(lstAirName.Last()) AndAlso lstAirName(lastIndex - 1).Length.Equals(2) Then
+                        Return lstAirName(lastIndex - 1)
+                    End If
+
+                    If Not IsNumeric(lstAirName(lastIndex)) AndAlso lstAirName(lastIndex).Length.Equals(2) Then
+                        Return lstAirName.Last()
+                    End If
                 End If
 
-                If Not IsNumeric(lstAirName(lastIndex)) AndAlso lstAirName(lastIndex).Length.Equals(2) Then
-                    Return lstAirName(lastIndex)
-                End If
+
 
                 For Each word As String In lstAirName
                     If IsNumeric(word) Then
