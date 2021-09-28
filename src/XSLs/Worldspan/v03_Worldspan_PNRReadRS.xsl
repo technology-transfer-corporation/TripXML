@@ -4,10 +4,11 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 28 Sep 2021 - Kobelev - Passanger Date of Birth fix.
 Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
-Date: 27 Jul 2021 - Kobelev - Price Qoutes for each PTC will have in RPH reference TR it belong.
-Date: 26 Jul 2021 - Kobelev - Multiple Price Qoutes with different Markups for different PTC. 
-Date: 23 Jul 2021 - kobelev - Multiple Price Qoutes with different PTC. 
+Date: 27 Jul 2021 - Kobelev - Price Qoutes for each PTC will have in RPH reference  PTC. 
+Date: 23 Jul 2021 - kobelev - Multiple Price Qoutes with different PTC. TR it belong.
+Date: 26 Jul 2021 - Kobelev - Multiple Price Qoutes with different Markups for different
 Date: 30 Apr 2021 - Samokhvalov - Tour Code remark fixes. Bug 1432
 Date: 13 Apr 2021 - Samokhvalov - Tour Code remark fixes.
 Date: 23 Mar 2021 - Kobelev - Main ItemPricing Price Quote type.
@@ -1755,57 +1756,63 @@ Date: 23 Feb 2015 - Rastko
         <xsl:value-of select="NME_POS"/>
       </xsl:attribute>
       <Customer>
-        <xsl:variable name="paxName" select="translate(CST_NME_INF, 'DOB', '@')"/>
-        <xsl:if test="$paxName != '' and not(contains($paxName,'CNN')) and not(contains($paxName,'@'))">
-          <!-- <CST_NME_INF>120327</CST_NME_INF> -->
-          <xsl:attribute name="BirthDate">
-            <xsl:text>20</xsl:text>
-            <xsl:value-of select="substring(CST_NME_INF,1,2)"/>
-            <xsl:text>-</xsl:text>
-            <xsl:value-of select="substring(CST_NME_INF,3,2)"/>
-            <xsl:text>-</xsl:text>
-            <xsl:value-of select="substring(CST_NME_INF,5,2)"/>
-          </xsl:attribute>
-        </xsl:if>
-        <xsl:if test="$paxName != '' and contains($paxName,'@')">
-          <!-- <CST_NME_INF>@10NOV90</CST_NME_INF> 
-          <xsl:attribute name="BirthDate">
-            <xsl:value-of select="substring-after(CST_NME_INF, '@')"/>
-          </xsl:attribute>
-        -->
-          <xsl:variable name="mo" select="substring(substring-after($paxName,'@'),3,3)"/>
-          <xsl:variable name="yr" select="substring(substring-after($paxName,'@'),6,2)"/>
+        <xsl:variable name="paxName" select="translate(translate(translate(CST_NME_INF, 'DOB', ''), 'CNN', ''), '@','')" />
 
-          <xsl:attribute name="BirthDate">
-            <xsl:choose>
-              <xsl:when test="$yr>17">
-                <xsl:text>19</xsl:text>
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:text>20</xsl:text>
-              </xsl:otherwise>
-            </xsl:choose>
+        <xsl:variable name="paxBD">
+          <xsl:choose>
+            <xsl:when test="not(string(number($paxName))='NaN')">
+              <xsl:text>20</xsl:text>
+              <xsl:value-of select="substring($paxName,1,2)"/>
+              <xsl:text>-</xsl:text>
+              <xsl:value-of select="substring($paxName,3,2)"/>
+              <xsl:text>-</xsl:text>
+              <xsl:value-of select="substring($paxName,5,2)"/>
+            </xsl:when>
+            <xsl:when test="string(number($paxName))='NaN' and (string-length($paxName) = 7 or string-length($paxName) = 9)">
+              <xsl:variable name="mo" select="substring($paxName,3,3)"/>
+              <xsl:variable name="yr" select="substring($paxName,6)"/>
+              
+              <xsl:if test="string-length($yr) = 2">
+                <xsl:choose>
+                  <xsl:when test="$yr>17">
+                    <xsl:text>19</xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:text>20</xsl:text>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:if>
+              
+              <xsl:value-of select="$yr"/>
+              
+              <xsl:text>-</xsl:text>
+              <xsl:choose>
+                <xsl:when test="$mo = 'JAN'">01</xsl:when>
+                <xsl:when test="$mo = 'FEB'">02</xsl:when>
+                <xsl:when test="$mo = 'MAR'">03</xsl:when>
+                <xsl:when test="$mo = 'APR'">04</xsl:when>
+                <xsl:when test="$mo = 'MAY'">05</xsl:when>
+                <xsl:when test="$mo = 'JUN'">06</xsl:when>
+                <xsl:when test="$mo = 'JUL'">07</xsl:when>
+                <xsl:when test="$mo = 'AUG'">08</xsl:when>
+                <xsl:when test="$mo = 'SEP'">09</xsl:when>
+                <xsl:when test="$mo = 'OCT'">10</xsl:when>
+                <xsl:when test="$mo = 'NOV'">11</xsl:when>
+                <xsl:when test="$mo = 'DEC'">12</xsl:when>
+              </xsl:choose>
+              <xsl:text>-</xsl:text>
+              <xsl:value-of select="substring($paxName,1,2)"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text></xsl:text>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
 
-            <xsl:value-of select="substring($paxName,7,2)"/>
-            <xsl:text>-</xsl:text>
-            <xsl:choose>
-              <xsl:when test="$mo = 'JAN'">01</xsl:when>
-              <xsl:when test="$mo = 'FEB'">02</xsl:when>
-              <xsl:when test="$mo = 'MAR'">03</xsl:when>
-              <xsl:when test="$mo = 'APR'">04</xsl:when>
-              <xsl:when test="$mo = 'MAY'">05</xsl:when>
-              <xsl:when test="$mo = 'JUN'">06</xsl:when>
-              <xsl:when test="$mo = 'JUL'">07</xsl:when>
-              <xsl:when test="$mo = 'AUG'">08</xsl:when>
-              <xsl:when test="$mo = 'SEP'">09</xsl:when>
-              <xsl:when test="$mo = 'OCT'">10</xsl:when>
-              <xsl:when test="$mo = 'NOV'">11</xsl:when>
-              <xsl:when test="$mo = 'DEC'">12</xsl:when>
-            </xsl:choose>
-            <xsl:text>-</xsl:text>
-            <xsl:value-of select="substring(substring-after($paxName,'@'),1,2)"/>
-          </xsl:attribute>
-        </xsl:if>
+        <xsl:attribute name="BirthDate">
+          <xsl:value-of select="$paxBD" />
+        </xsl:attribute>
+
         <PersonName>
           <xsl:attribute name="NameType">
             <xsl:value-of select="PTC"/>
