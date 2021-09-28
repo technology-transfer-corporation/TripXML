@@ -828,7 +828,7 @@ Namespace wsTravelTalk
                 'SKYWEST should be used
 
                 If strName.ToUpper().Contains(" AS ") Then
-                    lstAirName = strName.Split(" AS ")
+
                     For Each word As String In lstAirName
                         If word.Equals("AS") Then
                             Exit For
