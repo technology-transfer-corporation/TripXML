@@ -1755,7 +1755,8 @@ Date: 23 Feb 2015 - Rastko
         <xsl:value-of select="NME_POS"/>
       </xsl:attribute>
       <Customer>
-        <xsl:if test="CST_NME_INF != '' and not(contains(CST_NME_INF,'CNN')) and not(contains(CST_NME_INF,'@'))">
+        <xsl:variable name="paxName" select="translate(CST_NME_INF, 'DOB', '@')"/>
+        <xsl:if test="$paxName != '' and not(contains($paxName,'CNN')) and not(contains($paxName,'@'))">
           <!-- <CST_NME_INF>120327</CST_NME_INF> -->
           <xsl:attribute name="BirthDate">
             <xsl:text>20</xsl:text>
@@ -1766,14 +1767,14 @@ Date: 23 Feb 2015 - Rastko
             <xsl:value-of select="substring(CST_NME_INF,5,2)"/>
           </xsl:attribute>
         </xsl:if>
-        <xsl:if test="CST_NME_INF != '' and contains(CST_NME_INF,'@')">
+        <xsl:if test="$paxName != '' and contains($paxName,'@')">
           <!-- <CST_NME_INF>@10NOV90</CST_NME_INF> 
           <xsl:attribute name="BirthDate">
             <xsl:value-of select="substring-after(CST_NME_INF, '@')"/>
           </xsl:attribute>
         -->
-          <xsl:variable name="mo" select="substring(substring-after(CST_NME_INF,'@'),3,3)"/>
-          <xsl:variable name="yr" select="substring(substring-after(CST_NME_INF,'@'),6,2)"/>
+          <xsl:variable name="mo" select="substring(substring-after($paxName,'@'),3,3)"/>
+          <xsl:variable name="yr" select="substring(substring-after($paxName,'@'),6,2)"/>
 
           <xsl:attribute name="BirthDate">
             <xsl:choose>
@@ -1785,7 +1786,7 @@ Date: 23 Feb 2015 - Rastko
               </xsl:otherwise>
             </xsl:choose>
 
-            <xsl:value-of select="substring(CST_NME_INF,7,2)"/>
+            <xsl:value-of select="substring($paxName,7,2)"/>
             <xsl:text>-</xsl:text>
             <xsl:choose>
               <xsl:when test="$mo = 'JAN'">01</xsl:when>
@@ -1802,7 +1803,7 @@ Date: 23 Feb 2015 - Rastko
               <xsl:when test="$mo = 'DEC'">12</xsl:when>
             </xsl:choose>
             <xsl:text>-</xsl:text>
-            <xsl:value-of select="substring(substring-after(CST_NME_INF,'@'),1,2)"/>
+            <xsl:value-of select="substring(substring-after($paxName,'@'),1,2)"/>
           </xsl:attribute>
         </xsl:if>
         <PersonName>
