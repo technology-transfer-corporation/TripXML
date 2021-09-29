@@ -298,7 +298,7 @@ public class AmadeusWSAdapter
 
             string log = oHttpWebClient.ComposeMessage();
             DateTime requesttime = DateTime.Now;
-            string strResponse = oHttpWebClient.SendHttpRequest(ttProviderSystems, "");
+            string strResponse = oHttpWebClient.SendHttpRequest(ttProviderSystems);
             DateTime responsetime = DateTime.Now;
 
             if (ttProviderSystems.AddLog)
@@ -340,7 +340,7 @@ public class AmadeusWSAdapter
             string log = oHttpWebClient.ComposeMessage();
 
             DateTime requesttime = DateTime.Now;
-            strResponse = oHttpWebClient.SendHttpRequest(ttProviderSystems, message);
+            strResponse = oHttpWebClient.SendHttpRequest(ttProviderSystems);
             DateTime responsetime = DateTime.Now;
 
             if (ttProviderSystems.AddLog)
@@ -381,7 +381,7 @@ public class AmadeusWSAdapter
             string log = oHttpWebClient.ComposeMessage();
 
             DateTime requesttime = DateTime.Now;
-            strResponse = oHttpWebClient.SendHttpRequest(ttProviderSystems, Message);
+            strResponse = oHttpWebClient.SendHttpRequest(ttProviderSystems);
             DateTime responsetime = DateTime.Now;
             if (ttProviderSystems.AddLog)
                 addSoapLog($"{log}{Environment.NewLine}{strResponse}", requesttime, responsetime, ttProviderSystems.PCC, ttProviderSystems.UserID);
