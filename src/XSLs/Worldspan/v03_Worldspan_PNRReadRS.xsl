@@ -1771,7 +1771,7 @@ Date: 23 Feb 2015 - Rastko
             <xsl:when test="string(number($paxName))='NaN' and (string-length($paxName) = 7 or string-length($paxName) = 9)">
               <xsl:variable name="mo" select="substring($paxName,3,3)"/>
               <xsl:variable name="yr" select="substring($paxName,6)"/>
-              
+
               <xsl:if test="string-length($yr) = 2">
                 <xsl:choose>
                   <xsl:when test="$yr>17">
@@ -1782,9 +1782,9 @@ Date: 23 Feb 2015 - Rastko
                   </xsl:otherwise>
                 </xsl:choose>
               </xsl:if>
-              
+
               <xsl:value-of select="$yr"/>
-              
+
               <xsl:text>-</xsl:text>
               <xsl:choose>
                 <xsl:when test="$mo = 'JAN'">01</xsl:when>
@@ -1809,10 +1809,11 @@ Date: 23 Feb 2015 - Rastko
           </xsl:choose>
         </xsl:variable>
 
-        <xsl:attribute name="BirthDate">
-          <xsl:value-of select="$paxBD" />
-        </xsl:attribute>
-
+        <xsl:if test="string-length($paxBD) > 0">
+          <xsl:attribute name="BirthDate">
+            <xsl:value-of select="$paxBD" />
+          </xsl:attribute>
+        </xsl:if>
         <PersonName>
           <xsl:attribute name="NameType">
             <xsl:value-of select="PTC"/>
