@@ -6,6 +6,7 @@ Imports System.Xml.Serialization
 Imports System.Data
 Imports System.Text
 Imports System.Globalization
+Imports System.Linq
 
 Namespace wsTravelTalk
 
@@ -114,7 +115,7 @@ Namespace wsTravelTalk
 
                                         oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
                                     End If
-                                Else 
+                                Else
                                     If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
                                         Dim attCode As XmlAttribute
                                         attCode = oDoc.CreateAttribute("Code")
@@ -262,28 +263,38 @@ Namespace wsTravelTalk
         <WebMethod(Description:="Process PNR Read Messages Request.")>
         <Protocols.SoapHeader("tXML")>
         Public Function wmPNRRead(ByVal OTA_ReadRQ As wmPNRReadIn.OTA_ReadRQ) As <XmlElementAttribute("OTA_TravelItineraryRS")> wmTravelItineraryOut_v03.OTA_TravelItineraryRS
-            Dim xmlMessage As String
+
             Dim oPNRReadRS As wmTravelItineraryOut_v03.OTA_TravelItineraryRS
-            Dim oSerializer As XmlSerializer
-            Dim oWriter As StringWriter
-            Dim oReader As StringReader
+            Dim xmlMessage As String = String.Empty
+            Try
+                Dim oSerializer As New XmlSerializer(GetType(wmPNRReadIn.OTA_ReadRQ))
+                Dim oWriter As New StringWriter(New StringBuilder)
+                oSerializer.Serialize(oWriter, OTA_ReadRQ)
 
-            oSerializer = New XmlSerializer(GetType(wmPNRReadIn.OTA_ReadRQ))
-            oWriter = New StringWriter(New StringBuilder)
-            oSerializer.Serialize(oWriter, OTA_ReadRQ)
-            xmlMessage = oWriter.ToString
-            xmlMessage = xmlMessage.Replace(" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""", "")
+                xmlMessage = oWriter.ToString
+                xmlMessage = xmlMessage.Replace(" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""", "")
 
-            xmlMessage = ServiceRequest(xmlMessage, ttServices.PNRRead)
+                xmlMessage = ServiceRequest(xmlMessage, ttServices.PNRRead)
+
+                oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut_v03.OTA_TravelItineraryRS))
+                Dim oReader As New StringReader(xmlMessage)
+                oPNRReadRS = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut_v03.OTA_TravelItineraryRS)
+            Catch ex As Exception
+                oPNRReadRS = GetErrorPNRObject(ex, xmlMessage)
+            End Try
+
+            Return oPNRReadRS
+
+        End Function
+
+        Private Function GetErrorPNRObject(ex As Exception, xmlMessage As String) As wmTravelItineraryOut_v03.OTA_TravelItineraryRS
+            Dim oPNRReadRS As wmTravelItineraryOut_v03.OTA_TravelItineraryRS
+            Dim errList As New List(Of Exception)
 
             Try
-                oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut_v03.OTA_TravelItineraryRS))
-                oReader = New StringReader(xmlMessage)
-                oPNRReadRS = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut_v03.OTA_TravelItineraryRS)
-                'oPNRReadRS = CType(JsonConvert.DeserializeObject(xmlMessage), wmTravelItineraryOut_v03.OTA_TravelItineraryRS)
-
-            Catch ex As Exception
-
+                errList.Add(ex)
+                Dim oReader As StringReader
+                Dim oSerializer As XmlSerializer
                 Dim oDoc As XmlDocument
                 Dim oRoot As XmlElement
                 oDoc = New XmlDocument()
@@ -292,41 +303,87 @@ Namespace wsTravelTalk
                 Dim sessionID As String = ""
 
                 If Not oRoot.SelectSingleNode("ConversationID") Is Nothing Then
-                    sessionID = oRoot.SelectSingleNode("ConversationID").OuterXml.Replace("&amp;", "&")
+                    sessionID = oRoot.SelectSingleNode("ConversationID").InnerText
                 End If
 
                 Dim itinRefXmlList As String
+                Dim oItinRef As wmTravelItineraryOut_v03.ItineraryRef
+
+                Dim oCustInfos As New wmTravelItineraryOut_v03.CustomerInfosRS
+                Dim oTPA As wmTravelItineraryOut_v03.TPA_ExtensionsRS
+
                 Try
                     itinRefXmlList = oRoot.SelectSingleNode("TravelItinerary/ItineraryRef")?.OuterXml
-                Catch
-                    itinRefXmlList = ""
+                    oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut_v03.ItineraryRef))
+                    oReader = New StringReader(itinRefXmlList)
+                    oItinRef = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut_v03.ItineraryRef)
+                Catch eref As Exception
+                    oItinRef = New wmTravelItineraryOut_v03.ItineraryRef
+                    errList.Add(eref)
                 End Try
 
                 Dim custInfoXmlList As String
                 Try
                     custInfoXmlList = oRoot.SelectSingleNode("TravelItinerary/CustomerInfos")?.OuterXml
-                Catch
-                    custInfoXmlList = ""
+                    oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut_v03.CustomerInfosRS), New XmlRootAttribute("CustomerInfos"))
+                    oReader = New StringReader(custInfoXmlList)
+                    oCustInfos = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut_v03.CustomerInfosRS)
+
+                Catch ecust As Exception
+                    oCustInfos = New wmTravelItineraryOut_v03.CustomerInfosRS
+                    errList.Add(ecust)
                 End Try
 
                 Dim tpaInfoXmlList As String
                 Try
                     tpaInfoXmlList = oRoot.SelectSingleNode("TravelItinerary/TPA_Extensions")?.OuterXml
-                Catch
-                    tpaInfoXmlList = ""
+                    oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut_v03.TPA_ExtensionsRS), New XmlRootAttribute("TPA_Extensions"))
+                    oReader = New StringReader(tpaInfoXmlList)
+                    oTPA = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut_v03.TPA_ExtensionsRS)
+                Catch etpa As Exception
+                    oTPA = New wmTravelItineraryOut_v03.TPA_ExtensionsRS
+                    errList.Add(etpa)
                 End Try
 
-                Dim errMessage = String.Format("<Errors><Error>{0}</Error><Error>{1}</Error></Errors>", ex.InnerException.Message.ToString(), ex.Message.ToString())
+                Dim travelItin As New wmTravelItineraryOut_v03.TravelItinerary With {
+                    .ItineraryRef = oItinRef,
+                    .CustomerInfos = oCustInfos,
+                    .TPA_Extensions = oTPA
+                }
 
-                xmlMessage = String.Format("<OTA_TravelItineraryRS Version=""v03"" xmlns:stl=""http://services.sabre.com/STL/v01"">{0}<TravelItinerary>{1}{2}{3}{4}</TravelItinerary>{5}</OTA_TravelItineraryRS>", errMessage, itinRefXmlList, custInfoXmlList, "<ItineraryInfo></ItineraryInfo>", tpaInfoXmlList, sessionID)
+                oPNRReadRS = New wmTravelItineraryOut_v03.OTA_TravelItineraryRS With {
+                    .Errors = GetErrorObject(errList),
+                    .ConversationID = sessionID,
+                    .TravelItinerary = travelItin,
+                    .Success = Nothing
+                }
 
-                oReader = New StringReader(xmlMessage)
-                oPNRReadRS = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut_v03.OTA_TravelItineraryRS)
+            Catch exX As Exception
+                errList.Add(exX)
 
+                oPNRReadRS = New wmTravelItineraryOut_v03.OTA_TravelItineraryRS With {
+                    .Errors = GetErrorObject(errList)
+                }
             End Try
 
             Return oPNRReadRS
+        End Function
 
+        Private Function GetErrorObject(exs As List(Of Exception)) As wmTravelItineraryOut_v03.Error()
+            Dim errMessage As New List(Of wmTravelItineraryOut_v03.Error)
+            Try
+                For Each ex As Exception In exs
+                    errMessage.Add(New wmTravelItineraryOut_v03.Error With {.Value = ex.Message})
+                    If Not ex.InnerException Is Nothing Then
+                        errMessage.Add(New wmTravelItineraryOut_v03.Error With {.Value = ex.InnerException.Message})
+                    End If
+                Next
+            Catch exp As Exception
+                errMessage.Add(New wmTravelItineraryOut_v03.Error With {.Value = exp.Message})
+                errMessage.Add(New wmTravelItineraryOut_v03.Error With {.Value = exs.FirstOrDefault().Message})
+            End Try
+
+            Return errMessage.ToArray
         End Function
 
         <WebMethod(Description:="Process PNR Read Xml Messages Request.")>
