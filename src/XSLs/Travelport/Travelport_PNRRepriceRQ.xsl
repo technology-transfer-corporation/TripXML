@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:air="http://www.travelport.com/schema/air_v28_0" xmlns:universal="http://www.travelport.com/schema/universal_v28_0" xmlns:common_v28_0="http://www.travelport.com/schema/common_v28_0" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:air="http://www.travelport.com/schema/air_v41_0" xmlns:universal="http://www.travelport.com/schema/universal_v41_0" xmlns:common_v41_0="http://www.travelport.com/schema/common_v41_0" version="1.0">
 	<!-- 
   ================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
@@ -13,15 +13,15 @@
 	<xsl:template match="OTA_PNRRepriceRQ">
 		<xsl:choose>
 			<xsl:when test="not(Response) and not(NewPrice)">
-				<UniversalRecordRetrieveReq xmlns="http://www.travelport.com/schema/universal_v28_0" 
-                                    xmlns:air_v28_0="http://www.travelport.com/schema/air_v28_0" 
-																		xmlns:common_v28_0="http://www.travelport.com/schema/common_v28_0" 
-                                    xmlns:hotel="http://www.travelport.com/schema/hotel_v28_0" 
-                                    xmlns:passive="http://www.travelport.com/schema/passive_v28_0" 
-                                    xmlns:rail="http://www.travelport.com/schema/rail_v28_0" 
-                                    xmlns:vehicle="http://www.travelport.com/schema/vehicle_v28_0" 
+				<UniversalRecordRetrieveReq xmlns="http://www.travelport.com/schema/universal_v41_0" 
+                                    xmlns:air_v41_0="http://www.travelport.com/schema/air_v41_0" 
+																		xmlns:common_v41_0="http://www.travelport.com/schema/common_v41_0" 
+                                    xmlns:hotel="http://www.travelport.com/schema/hotel_v41_0" 
+                                    xmlns:passive="http://www.travelport.com/schema/passive_v41_0" 
+                                    xmlns:rail="http://www.travelport.com/schema/rail_v41_0" 
+                                    xmlns:vehicle="http://www.travelport.com/schema/vehicle_v41_0" 
                                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/@PseudoCityCode}">
-					<common_v28_0:BillingPointOfSaleInfo OriginApplication="UAPI"/>
+					<common_v41_0:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 					<UniversalRecordLocatorCode>
 						<xsl:value-of select="UniqueID/@ID"/>
 					</UniversalRecordLocatorCode>
@@ -41,11 +41,11 @@
 			<xsl:attribute name="TargetBranch">
 				<xsl:value-of select="../POS/Source/@PseudoCityCode"/>
 			</xsl:attribute>
-			<common_v28_0:BillingPointOfSaleInfo xmlns:com="http://www.travelport.com/schema/common_v28_0" OriginApplication="UAPI"/>
+			<common_v41_0:BillingPointOfSaleInfo xmlns:com="http://www.travelport.com/schema/common_v41_0" OriginApplication="UAPI"/>
 			<air:AirItinerary>
 				<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirSegment"/>
 			</air:AirItinerary>
-			<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/common_v28_0:BookingTraveler"/>
+			<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/common_v41_0:BookingTraveler"/>
 			<air:AirPricingCommand/>
 		</air:AirPriceReq>
 	</xsl:template>
@@ -54,15 +54,15 @@
 		<xsl:variable name="PNR" select="../Response/universal:UniversalRecordRetrieveRsp/universal:UniversalRecord"/>
 		<xsl:variable name="Price" select="air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution"/>
 		<universal:UniversalRecordModifyReq 
-      xmlns="http://www.travelport.com/schema/universal_v28_0" 
-      xmlns:air_v28_0="http://www.travelport.com/schema/air_v28_0" 
-      xmlns:common_v28_0="http://www.travelport.com/schema/common_v28_0" 
-      xmlns:hotel="http://www.travelport.com/schema/hotel_v28_0" 
-      xmlns:passive="http://www.travelport.com/schema/passive_v28_0" 
-      xmlns:rail="http://www.travelport.com/schema/rail_v28_0" 
-      xmlns:vehicle="http://www.travelport.com/schema/vehicle_v28_0" 
+      xmlns="http://www.travelport.com/schema/universal_v41_0" 
+      xmlns:air_v41_0="http://www.travelport.com/schema/air_v41_0" 
+      xmlns:common_v41_0="http://www.travelport.com/schema/common_v41_0" 
+      xmlns:hotel="http://www.travelport.com/schema/hotel_v41_0" 
+      xmlns:passive="http://www.travelport.com/schema/passive_v41_0" 
+      xmlns:rail="http://www.travelport.com/schema/rail_v41_0" 
+      xmlns:vehicle="http://www.travelport.com/schema/vehicle_v41_0" 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/@PseudoCityCode}" ReturnRecord="true">
-			<common_v28_0:BillingPointOfSaleInfo OriginApplication="UAPI"/>
+			<common_v41_0:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 			<universal:RecordIdentifier UniversalLocatorCode="{$PNR/@LocatorCode}" ProviderCode="{$PNR/universal:ProviderReservationInfo/@ProviderCode}" ProviderLocatorCode="{$PNR/universal:ProviderReservationInfo//@LocatorCode}"/>
 			<universal:UniversalModifyCmd Key="1">
 				<universal:AirDelete ReservationLocatorCode="{$PNR/air:AirReservation/@LocatorCode}" Element="AirPricingInfo" Key="{$PNR/air:AirReservation/air:AirPricingInfo/@Key}"/>
@@ -95,7 +95,7 @@
 					</xsl:for-each>
 				</universal:AirAdd>
 			</universal:UniversalModifyCmd>
-			<common_v28_0:FileFinishingInfo/>
+			<common_v41_0:FileFinishingInfo/>
 		</universal:UniversalRecordModifyReq>
 	</xsl:template>
 	
@@ -119,10 +119,10 @@
 		</air:AirSegment>
 	</xsl:template>
 		
-	<xsl:template match="common_v28_0:BookingTraveler">
-		<common_v28_0:SearchPassenger xmlns:com="http://www.travelport.com/schema/common_v28_0">
+	<xsl:template match="common_v41_0:BookingTraveler">
+		<common_v41_0:SearchPassenger xmlns:com="http://www.travelport.com/schema/common_v41_0">
 			<xsl:attribute name="BookingTravelerRef"><xsl:value-of select="@Key"/></xsl:attribute>
 			<xsl:attribute name="Code"><xsl:value-of select="@TravelerType"/></xsl:attribute>
-		</common_v28_0:SearchPassenger>
+		</common_v41_0:SearchPassenger>
 	</xsl:template>
 </xsl:stylesheet>

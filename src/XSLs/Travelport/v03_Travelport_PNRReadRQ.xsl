@@ -13,13 +13,13 @@
 			<xsl:when test="OTA_ReadRQ/UniqueID/@ID != ''">
 				<Request>
 					<RetrieveReq>
-						<UniversalRecordRetrieveReq xmlns="http://www.travelport.com/schema/universal_v28_0" 
-                                        xmlns:air_v28_0="http://www.travelport.com/schema/air_v28_0" 
-                                        xmlns:common="http://www.travelport.com/schema/common_v28_0" 
-                                        xmlns:hotel="http://www.travelport.com/schema/hotel_v28_0" 
-                                        xmlns:passive="http://www.travelport.com/schema/passive_v28_0" 
-                                        xmlns:rail="http://www.travelport.com/schema/rail_v28_0" 
-                                        xmlns:vehicle="http://www.travelport.com/schema/vehicle_v28_0" 
+						<UniversalRecordRetrieveReq xmlns="http://www.travelport.com/schema/universal_v41_0" 
+                                        xmlns:air_v41_0="http://www.travelport.com/schema/air_v41_0" 
+                                        xmlns:common="http://www.travelport.com/schema/common_v41_0" 
+                                        xmlns:hotel="http://www.travelport.com/schema/hotel_v41_0" 
+                                        xmlns:passive="http://www.travelport.com/schema/passive_v41_0" 
+                                        xmlns:rail="http://www.travelport.com/schema/rail_v41_0" 
+                                        xmlns:vehicle="http://www.travelport.com/schema/vehicle_v41_0" 
                                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_ReadRQ/POS/Source/@PseudoCityCode}">
 							<common:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 							<UniversalRecordLocatorCode>
@@ -28,13 +28,13 @@
 						</UniversalRecordRetrieveReq>
 					</RetrieveReq>
 					<SearchReq>
-						<UniversalRecordSearchReq xmlns="http://www.travelport.com/schema/universal_v28_0" 
-                                      xmlns:air_v28_0="http://www.travelport.com/schema/air_v28_0" 
-                                      xmlns:common="http://www.travelport.com/schema/common_v28_0" 
-																			xmlns:hotel="http://www.travelport.com/schema/hotel_v28_0" 
-                                      xmlns:passive="http://www.travelport.com/schema/passive_v28_0" 
-                                      xmlns:rail="http://www.travelport.com/schema/rail_v28_0" 
-                                      xmlns:vehicle="http://www.travelport.com/schema/vehicle_v28_0" 
+						<UniversalRecordSearchReq xmlns="http://www.travelport.com/schema/universal_v41_0" 
+                                      xmlns:air_v41_0="http://www.travelport.com/schema/air_v41_0" 
+                                      xmlns:common="http://www.travelport.com/schema/common_v41_0" 
+																			xmlns:hotel="http://www.travelport.com/schema/hotel_v41_0" 
+                                      xmlns:passive="http://www.travelport.com/schema/passive_v41_0" 
+                                      xmlns:rail="http://www.travelport.com/schema/rail_v41_0" 
+                                      xmlns:vehicle="http://www.travelport.com/schema/vehicle_v41_0" 
                                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_ReadRQ/POS/Source/@PseudoCityCode}" ProviderLocatorCode="{OTA_ReadRQ/UniqueID/@ID}">
 							<xsl:attribute name="ProviderCode">
 								<xsl:choose>
@@ -48,13 +48,13 @@
 						</UniversalRecordSearchReq>
 					</SearchReq>
 					<ImportReq>
-						<UniversalRecordImportReq xmlns="http://www.travelport.com/schema/universal_v28_0" 
-                                      xmlns:air_v28_0="http://www.travelport.com/schema/air_v28_0" 
-                                      xmlns:common="http://www.travelport.com/schema/common_v28_0" 
-                                      xmlns:hotel="http://www.travelport.com/schema/hotel_v28_0" 
-                                      xmlns:passive="http://www.travelport.com/schema/passive_v28_0" 
-                                      xmlns:rail="http://www.travelport.com/schema/rail_v28_0" 
-                                      xmlns:vehicle="http://www.travelport.com/schema/vehicle_v28_0" 
+						<UniversalRecordImportReq xmlns="http://www.travelport.com/schema/universal_v41_0" 
+                                      xmlns:air_v41_0="http://www.travelport.com/schema/air_v41_0" 
+                                      xmlns:common="http://www.travelport.com/schema/common_v41_0" 
+                                      xmlns:hotel="http://www.travelport.com/schema/hotel_v41_0" 
+                                      xmlns:passive="http://www.travelport.com/schema/passive_v41_0" 
+                                      xmlns:rail="http://www.travelport.com/schema/rail_v41_0" 
+                                      xmlns:vehicle="http://www.travelport.com/schema/vehicle_v41_0" 
                                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_ReadRQ/POS/Source/@PseudoCityCode}" ProviderLocatorCode="{OTA_ReadRQ/UniqueID/@ID}">
 							<xsl:attribute name="ProviderCode">
 								<xsl:choose>
@@ -70,13 +70,13 @@
 				</Request>
 			</xsl:when>
 			<xsl:when test="OTA_UpdateRQ/UniqueID/@ID != ''">
-				<UniversalRecordRetrieveReq xmlns="http://www.travelport.com/schema/universal_v28_0" 
-                                    xmlns:air_v28_0="http://www.travelport.com/schema/air_v28_0" 
-                                    xmlns:common="http://www.travelport.com/schema/common_v28_0" 
-                                    xmlns:hotel="http://www.travelport.com/schema/hotel_v28_0" 
-																		xmlns:passive="http://www.travelport.com/schema/passive_v28_0" 
-                                    xmlns:rail="http://www.travelport.com/schema/rail_v28_0" 
-                                    xmlns:vehicle="http://www.travelport.com/schema/vehicle_v28_0" 
+				<UniversalRecordRetrieveReq xmlns="http://www.travelport.com/schema/universal_v41_0" 
+                                    xmlns:air_v41_0="http://www.travelport.com/schema/air_v41_0" 
+                                    xmlns:common="http://www.travelport.com/schema/common_v41_0" 
+                                    xmlns:hotel="http://www.travelport.com/schema/hotel_v41_0" 
+																		xmlns:passive="http://www.travelport.com/schema/passive_v41_0" 
+                                    xmlns:rail="http://www.travelport.com/schema/rail_v41_0" 
+                                    xmlns:vehicle="http://www.travelport.com/schema/vehicle_v41_0" 
                                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_UpdateRQ/POS/Source/@PseudoCityCode}">
 					<common:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 					<UniversalRecordLocatorCode>
@@ -85,13 +85,13 @@
 				</UniversalRecordRetrieveReq>
 			</xsl:when>
 			<xsl:when test="OTA_TravelModifyRQ/UniqueId/@ID != ''">
-				<UniversalRecordRetrieveReq xmlns="http://www.travelport.com/schema/universal_v28_0" 
-                                    xmlns:air_v28_0="http://www.travelport.com/schema/air_v28_0" 
-                                    xmlns:common="http://www.travelport.com/schema/common_v28_0" 
-																		xmlns:hotel="http://www.travelport.com/schema/hotel_v28_0" 
-                                    xmlns:passive="http://www.travelport.com/schema/passive_v28_0" 
-                                    xmlns:rail="http://www.travelport.com/schema/rail_v28_0" 
-                                    xmlns:vehicle="http://www.travelport.com/schema/vehicle_v28_0" 
+				<UniversalRecordRetrieveReq xmlns="http://www.travelport.com/schema/universal_v41_0" 
+                                    xmlns:air_v41_0="http://www.travelport.com/schema/air_v41_0" 
+                                    xmlns:common="http://www.travelport.com/schema/common_v41_0" 
+																		xmlns:hotel="http://www.travelport.com/schema/hotel_v41_0" 
+                                    xmlns:passive="http://www.travelport.com/schema/passive_v41_0" 
+                                    xmlns:rail="http://www.travelport.com/schema/rail_v41_0" 
+                                    xmlns:vehicle="http://www.travelport.com/schema/vehicle_v41_0" 
                                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_TravelModifyRQ/POS/Source/@PseudoCityCode}">
 					<common:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 					<UniversalRecordLocatorCode>

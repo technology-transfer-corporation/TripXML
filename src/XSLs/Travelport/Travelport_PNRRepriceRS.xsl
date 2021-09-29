@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:air="http://www.travelport.com/schema/air_v28_0" xmlns:common_v28_0="http://www.travelport.com/schema/common_v28_0" xmlns:universal="http://www.travelport.com/schema/universal_v28_0" xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:air="http://www.travelport.com/schema/air_v41_0" xmlns:common_v41_0="http://www.travelport.com/schema/common_v41_0" xmlns:universal="http://www.travelport.com/schema/universal_v41_0" xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" version="1.0">
 	<!-- ================================================================== -->
 	<!-- Travelport_PNRRepriceRS.xsl 															-->
 	<!-- ================================================================== -->
@@ -18,7 +18,7 @@
 		<Errors>
 			<Error>
 				<xsl:value-of select="../faultstring"/>
-				<xsl:value-of select="common_v28_0:ErrorInfo/common_v28_0:Description"/>
+				<xsl:value-of select="common_v41_0:ErrorInfo/common_v41_0:Description"/>
 			</Error>
 		</Errors>
 	</xsl:template>
@@ -28,7 +28,7 @@
 				<Errors>
 					<Error>
 						<xsl:value-of select="SOAP:Fault/faultstring"/>
-						<xsl:value-of select="SOAP:Fault/detail/common_v28_0:ErrorInfo/common_v28_0:Description"/>
+						<xsl:value-of select="SOAP:Fault/detail/common_v41_0:ErrorInfo/common_v41_0:Description"/>
 					</Error>
 				</Errors>
 			</xsl:when>
@@ -191,7 +191,7 @@
 					<xsl:if test="position() > 1">
 						<xsl:text> </xsl:text>
 					</xsl:if>
-					<xsl:value-of select="../../../common_v28_0:BookingTraveler[@Key=$paxref]/@Key"/>
+					<xsl:value-of select="../../../common_v41_0:BookingTraveler[@Key=$paxref]/@Key"/>
 				</xsl:for-each>
 			</xsl:attribute>
 			<xsl:attribute name="FlightRefNumberRPHList">
