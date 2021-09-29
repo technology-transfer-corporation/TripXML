@@ -102,39 +102,32 @@ public class ttHttpWebClient
         mHttpRequest.Timeout = 90000;
     }
 
-    public string SendHttpRequest(modCore.TripXMLProviderSystems ttProviderSystems, string strMessage)
+    public string SendHttpRequest(modCore.TripXMLProviderSystems ttProviderSystems)
     {
-        StreamWriter oWriter = null;
+        
         StreamReader oReader = null;
-        string message = "";
         DateTime StartTime;
 
         try
         {
-            message = ComposeMessage();
+            var message = ComposeMessage();
 
             StartTime = System.DateTime.Now;
             CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Sent to AmadeusWS", message.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), ttProviderSystems.LogUUID);
             HttpConnect(ttProviderSystems);
 
-            oWriter = !string.IsNullOrEmpty(ttProviderSystems.ProxyURL)
+            StreamWriter oWriter = !string.IsNullOrEmpty(ttProviderSystems.ProxyURL)
                 ? new StreamWriter(mHttpRequest.GetRequestStream())
                 : new StreamWriter(new GZipStream(mHttpRequest.GetRequestStream(), CompressionMode.Compress, false));
 
             oWriter.Write(message);
+            oWriter.Close();
         }
         catch (Exception ex)
         {
-            addLog($"<M>{message}</M><SendHttpRequest/>", ttProviderSystems.UserID);
             throw new Exception(ex.Message);
         }
-        finally
-        {
-            if (oWriter != null)
-            {
-                oWriter.Close();
-            }
-        }
+        
         string strResponse;
         try
         {
@@ -168,9 +161,6 @@ public class ttHttpWebClient
         {
             if (!ex.Message.Contains("SSL/TLS"))
             {
-
-                addLog($"<M>{message}</M><SendHttpRequest/>", ttProviderSystems.UserID);
-
                 if (ex.Message == "The operation has timed out")
                 {
                     strResponse = "<Error>Time out received from Amadeus</Error>";
@@ -194,7 +184,6 @@ public class ttHttpWebClient
 
                     strResponse = oReader.ReadToEnd();
 
-                    addLog($"<EXSHR/><M>{message}</M><R>{strResponse}</R>", ttProviderSystems.UserID);
                     return strResponse;
                 }
             }
