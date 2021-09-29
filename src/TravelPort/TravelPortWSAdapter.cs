@@ -114,6 +114,8 @@ namespace TravelPort
                     XDocument doc = XDocument.Load(xmlReader);                    
                     var xRoot = RemoveAllNamespaces(doc.Root);
                     var err = xRoot.XPathSelectElement("//detail/ErrorInfo/Description");
+                    if(err == null)
+                        err = xRoot.XPathSelectElement("//faultstring");
                     throw new Exception(err.Value);
                 }
 
@@ -255,7 +257,7 @@ namespace TravelPort
                 //TODO: Some values are hard coded for now. later we have to configure and take it from files or use constants.
                 var request = $"<ter:TerminalReq  xmlns:ter='http://www.travelport.com/schema/terminal_v8_0' xmlns:com='http://www.travelport.com/schema/common_v12_0' TargetBranch=\"{branch}\"><com:HostToken Host=\"{host}\">{sessionTokenID}</com:HostToken><ter:TerminalCommand>{message}</ter:TerminalCommand></ter:TerminalReq>";
                 var ttTP = new TravelPortWSAdapter(ttProviderSystems);
-                var strResponse = ttTP.SendMessage(request, TravelPortWSAdapter.enRequestType.TerminalService);
+                var strResponse = ttTP.SendMessage(request, enRequestType.TerminalService);
 
                 //TODO: We have to extract the reply and send it back.
                 return strResponse;
