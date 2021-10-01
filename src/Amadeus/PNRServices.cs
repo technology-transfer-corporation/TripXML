@@ -1452,8 +1452,7 @@ namespace AmadeusWS
                                                 ? "0.00"
                                                 : oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{ff.Item1}']/fareDataInformation/fareDataSupInformation[(fareDataQualifier='E' and fareCurrency='USD') or (fareDataQualifier='B' and fareCurrency='USD')]/fareAmount").InnerText;
                                             if (sAmount != tAmount)
-                                                throw new Exception(
-                                                    "ADULTS AND KIDS - DIFFERENT FARE FAMILIES. ISSUE MANUALLY");
+                                                throw new Exception("ADULTS AND KIDS - DIFFERENT FARE FAMILIES. ISSUE MANUALLY");
                                         }
                                         else if (fxxResp.FindIndex(x => x.Trim().StartsWith("PASSENGER")) > 0)//several pax
                                         {
@@ -2355,7 +2354,7 @@ namespace AmadeusWS
             //}
 
             if (paxFareSegsGrouped.SelectMany(x => x.Item2).ToList().FindAll(x => x.Item2 == "S").TrueForAll(s => s.Item1 == paxFareSegsGrouped.First().Item2.First(x => x.Item2 == "S").Item1) &&
-                paxFareSegsGrouped.SelectMany(x => x.Item2).ToList().FindAll(x => x.Item2 == "S").Count.Equals(segCount) &&
+                paxFareSegsGrouped.SelectMany(x => x.Item2).ToList().FindAll(x => x.Item2 == "S").Distinct().Count().Equals(segCount) &&
                 paxFareSegsGrouped.SelectMany(x => x.Item3).ToList().TrueForAll(x => x.Equals(paxFareSegsGrouped.First().Item3)))
             {
                 res.Add(new Tuple<string, string>("", $"/FF-{paxFareSegsGrouped.First().Item2.First(x => x.Item2 == "S").Item1}"));
