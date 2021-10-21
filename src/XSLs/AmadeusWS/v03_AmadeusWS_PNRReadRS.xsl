@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 21 Oct 2021 - Kobelev - Change Controlling Carrier RemarkType from "Z" to "CC".
    Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
    Date: 15 Jul 2021 - Samokhvalov - Fix Branded Fares display
    Date: 21 Apr 2021 - Kobelev - Added Quantity to SSR HK flag.
@@ -4243,7 +4244,7 @@
             <xsl:with-param name="string" select="fareFamilyOwner" />
           </xsl:call-template>
         </xsl:attribute>
-        <xsl:attribute name="RemarkType">Z</xsl:attribute>
+        <xsl:attribute name="RemarkType">CC</xsl:attribute>
 
         <FlightRefNumber>
           <xsl:attribute name="RPH">
