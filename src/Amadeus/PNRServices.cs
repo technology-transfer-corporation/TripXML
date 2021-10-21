@@ -296,7 +296,7 @@ namespace AmadeusWS
                 }
 
                 // check if flight info requested to be returned
-                if (isReturnFlightInfo)
+                if (isReturnFlightInfo && !strResponse.Contains("<Errors><Error>"))
                 {
                     string strFlifoRQ = CoreLib.TransformXML(strResponse, XslPath, "AmadeusWS_PNRReadRS_FlightInfo.xsl");
                     string strFlifoRS = "";
@@ -1458,7 +1458,7 @@ namespace AmadeusWS
                                         {
                                             sIdx = fxxResp.FindIndex(x => x.Trim().StartsWith("PASSENGER"));
                                             fxxResp = fxxResp.GetRange(sIdx + 1, fxxResp.Count - (sIdx + 1));
-                                            sIdx = fxxResp.FindIndex(x => string.IsNullOrEmpty(x));
+                                            sIdx = fxxResp.FindIndex(string.IsNullOrEmpty);
                                             fxxResp = fxxResp.GetRange(0, sIdx);
                                             var bfList = fxxResp.Select(s => s.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Reverse().Skip(2).First()).Select(x => new { FXXAmount = x, IsPresent = false }).ToList();
                                             foreach (var iTst in ff.Item1.Split(','))
