@@ -4,6 +4,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 21 Oct 2021 - Kobelev - Change Controlling Carrier RemarkType from "Z" to "CC".
   Date: 14 Sep 2021 - Kobelev - Security SSR CTCR,CTCE,CTCM with passanger association.
   Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
   Date: 01 Mar 2021 - Kobelev - ARNK Segments added Segment Number.
@@ -2629,7 +2630,7 @@
         <xsl:attribute name="RPH">
           <xsl:value-of select="$al"/>
         </xsl:attribute>
-        <xsl:attribute name="RemarkType">Z</xsl:attribute>
+        <xsl:attribute name="RemarkType">CC</xsl:attribute>
         
         <FlightRefNumber>
           <xsl:attribute name="RPH">
