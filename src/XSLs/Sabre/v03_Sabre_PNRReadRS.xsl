@@ -1236,7 +1236,7 @@
         <xsl:choose>
           <xsl:when test="../../AccountingInfo/DocumentInfo/Document[@Number=substring($tkn,4)] and ../../AccountingInfo/TicketingInfo/OriginalTicketNumber=$tkn">MCO</xsl:when>
           <xsl:when test="substring($tkn, 1,3) = 890">MCO</xsl:when>
-          <!--<xsl:when test="contains(@eTicketNumber, 'TK')">MCO</xsl:when>-->
+          <xsl:when test="contains(@eTicketNumber, 'TK ')">MCO</xsl:when>
           <xsl:otherwise>EX</xsl:otherwise>
         </xsl:choose>
       </xsl:variable>
