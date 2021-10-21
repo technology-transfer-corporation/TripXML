@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 21 Oct 2021 - Kobelev - Change Controlling Carrier RemarkType from "Z" to "CC".
   Date: 02 Sep 2021 - Kobelev - Multi FlightSegment in Item for Controling Carrier process.
   Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
   Date: 13 Aug 2021 - Kobelev - Controling Carrier in Special Remarks Remark Type "Endorsements".
@@ -5207,7 +5208,7 @@
         <xsl:attribute name="RPH">
           <xsl:value-of select="$airline"/>
         </xsl:attribute>
-        <xsl:attribute name="RemarkType">Z</xsl:attribute>
+        <xsl:attribute name="RemarkType">CC</xsl:attribute>
         <FlightRefNumber>
           <xsl:attribute name="RPH">
             <xsl:for-each select="../../../../../../../ReservationItems/Item[FlightSegment]">
