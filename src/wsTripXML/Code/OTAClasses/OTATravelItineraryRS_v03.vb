@@ -3286,6 +3286,9 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
 
         '<remarks/>
         Z
+
+        '<remarks>Controlling Carrier</remarks>
+        CC
     End Enum
 
     '<remarks/>
