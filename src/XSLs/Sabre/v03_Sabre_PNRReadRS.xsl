@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 21 Oct 2021 - Kobelev - MCO identification fix.
   Date: 21 Oct 2021 - Kobelev - Change Controlling Carrier RemarkType from "Z" to "CC".
   Date: 02 Sep 2021 - Kobelev - Multi FlightSegment in Item for Controling Carrier process.
   Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
@@ -742,6 +743,13 @@
             </xsl:if>
           </SpecialRemarks>
         </xsl:if>
+        <xsl:if test="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/TourCode/Text or ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE']">
+          <SpecialRemarks>
+            <xsl:if test="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE']">
+              <xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE'][contains(Text, 'P/') or contains(Text, 'KG/') or contains(Text, 'LB/')]" mode="controllingCarrier"/>
+            </xsl:if>
+          </SpecialRemarks>
+        </xsl:if>
         <xsl:if test="RemarkInfo/Remark[@Type!='Itinerary']">
           <Remarks>
             <xsl:for-each select="RemarkInfo/Remark[@Type!='Itinerary']">
@@ -1228,7 +1236,7 @@
         <xsl:choose>
           <xsl:when test="../../AccountingInfo/DocumentInfo/Document[@Number=substring($tkn,4)] and ../../AccountingInfo/TicketingInfo/OriginalTicketNumber=$tkn">MCO</xsl:when>
           <xsl:when test="substring($tkn, 1,3) = 890">MCO</xsl:when>
-          <xsl:when test="contains(@eTicketNumber, 'TK')">MCO</xsl:when>
+          <!--<xsl:when test="contains(@eTicketNumber, 'TK')">MCO</xsl:when>-->
           <xsl:otherwise>EX</xsl:otherwise>
         </xsl:choose>
       </xsl:variable>
