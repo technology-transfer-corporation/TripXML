@@ -46,7 +46,7 @@
       </OTA_CancelRQ>
     </Cancel>
     <ET>
-      <EndTransactionRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.01">
+      <EndTransactionRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.0.2">
         <POS>
           <Source>
             <xsl:attribute name="PseudoCityCode">
