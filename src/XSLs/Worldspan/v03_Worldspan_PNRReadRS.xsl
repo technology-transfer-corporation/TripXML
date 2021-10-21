@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 21 Oct 2021 - Kobelev - Change Controlling Carrier RemarkType from "Z" to "CC".
 Date: 28 Sep 2021 - Kobelev - Passanger Date of Birth fix.
 Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
 Date: 27 Jul 2021 - Kobelev - Price Qoutes for each PTC will have in RPH reference  PTC. 
@@ -402,7 +403,7 @@ Date: 23 Feb 2015 - Rastko
                             <xsl:with-param name="string" select="$al" />
                           </xsl:call-template>
                         </xsl:attribute>
-                        <xsl:attribute name="RemarkType">Z</xsl:attribute>
+                        <xsl:attribute name="RemarkType">CC</xsl:attribute>
 
                         <FlightRefNumber>
                           <xsl:attribute name="RPH">
