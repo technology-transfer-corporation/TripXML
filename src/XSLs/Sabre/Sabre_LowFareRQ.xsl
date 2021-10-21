@@ -15,7 +15,7 @@
 	</xsl:template>
 	<!--************************************************************************************************************ -->
 	<xsl:template match="OTA_AirLowFareSearchRQ">
-		<OTA_AirLowFareSearchRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="2003A.TsabreXML1.10.1">
+		<OTA_AirLowFareSearchRQ xmlns="http://www.opentravel.org/OTA/2003/05" AvailableFlightsOnly="true" Version="6.2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 			<POS>
 				<Source>
 					<xsl:attribute name="PseudoCityCode">
