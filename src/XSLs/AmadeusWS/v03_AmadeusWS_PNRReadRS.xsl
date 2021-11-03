@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 21 Oct 2021 - Kobelev - Added handling of Corporate special remarks RX.
    Date: 21 Oct 2021 - Kobelev - Change Controlling Carrier RemarkType from "Z" to "CC".
    Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
    Date: 15 Jul 2021 - Samokhvalov - Fix Branded Fares display
@@ -316,16 +317,20 @@
                     <xsl:if test="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='RM']">
                       <Remarks>
                         <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='RM']" mode="GenRemark"/>
+                        <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='RX']" mode="Corporate"/>
                       </Remarks>
                     </xsl:if>
-                    <xsl:if test="dataElementsMaster/dataElementsIndiv[contains(elementManagementData/segmentName,'RI')] or dataElementsMaster/dataElementsIndiv[contains(elementManagementData/segmentName,'RC')] 	or 	dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FE'] or dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FT']">
+                    <xsl:if test="dataElementsMaster/dataElementsIndiv[contains(elementManagementData/segmentName,'RI')] or dataElementsMaster/dataElementsIndiv[contains(elementManagementData/segmentName,'RC')] 	or 	dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FE'] or dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FT'] or  dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='RX']">
                       <SpecialRemarks>
                         <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[contains(elementManagementData/segmentName,'RI')]" mode="InvoiceItinRemark"/>
-                        <!--xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='RIF']" mode="InvoiceRemark"/>
-											<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='RIT']" mode="InvoiceRemark"/>
-											<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='RIR']" mode="ItinRemark"/-->
+                        <!--
+                        <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='RIF']" mode="InvoiceRemark"/>
+											  <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='RIT']" mode="InvoiceRemark"/>
+											  <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='RIR']" mode="ItinRemark"/>
+                        -->
                         <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[contains(elementManagementData/segmentName,'RC')]" mode="ConfRemark"/>
                         <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FE']" mode="Endorsement"/>
+                        
                         <xsl:choose>
                           <xsl:when test="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FT']">
                             <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FT']" mode="TourCode"/>
@@ -4091,6 +4096,19 @@
     </Remark>
   </xsl:template>
   <!-- ************************************************************** -->
+  <!-- Miscellaneous Remarks	   	                              -->
+  <!-- ************************************************************** -->
+  <xsl:template match="dataElementsIndiv" mode="Corporate">
+    <Remark>
+      <xsl:attribute name="RPH">
+        <xsl:value-of select="elementManagementData/lineNumber"/>
+      </xsl:attribute>
+      <xsl:attribute name="Category">Hidden Remark</xsl:attribute>
+      
+      <xsl:value-of select="miscellaneousRemarks/remarks/freetext"/>      
+    </Remark>
+  </xsl:template>
+  <!-- ************************************************************** -->
   <!--Itinerary Remarks	   	                                    -->
   <!-- ************************************************************** -->
   <xsl:template match="dataElementsIndiv" mode="ItinRemark">
@@ -4182,6 +4200,7 @@
       </Text>
     </SpecialRemark>
   </xsl:template>
+  
   <!-- ************************************************************** -->
   <!-- Endorsement Remarks	   	                              -->
   <!-- ************************************************************** -->
