@@ -7,7 +7,7 @@ Partial Public Class SessionCreateRS
     Public Property Success As Object
 
     '''<remarks/>
-    Public Property ConversationID As SessionCreateRSConversationID
+    Public Property ConversationID As ConversationID
 
     '''<remarks/>
     <System.Xml.Serialization.XmlAttributeAttribute()>
@@ -16,14 +16,14 @@ End Class
 
 '''<remarks/>
 <System.Xml.Serialization.XmlTypeAttribute(AnonymousType:=True)>
-Partial Public Class SessionCreateRSConversationID
+Partial Public Class ConversationID
     '''<remarks/>
-    Public Property Errors As SessionCreateRSConversationIDErrors
+    Public Property Errors As Errors
 End Class
 
 '''<remarks/>
 <System.Xml.Serialization.XmlTypeAttribute(AnonymousType:=True)>
-Partial Public Class SessionCreateRSConversationIDErrors
+Partial Public Class Errors
     '''<remarks/>
     Public Property [Error] As String
 End Class
