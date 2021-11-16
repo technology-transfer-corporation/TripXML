@@ -814,6 +814,8 @@ Namespace wsTravelTalk
                 'Example: Trans American Airlines F Ta
                 'But we need to look only at: Trans American Airlines
                 '******************************
+                strName = strName.ToUpper().Replace("AIR LINES", "AIRLINES")
+
                 Dim lstAirName = strName.Split(CType(" ", Char()), StringSplitOptions.RemoveEmptyEntries)
                 Dim shortName As String = String.Empty
 
@@ -854,6 +856,7 @@ Namespace wsTravelTalk
                     If Not IsNumeric(lstAirName(lastIndex)) AndAlso lstAirName(lastIndex).Length.Equals(2) Then
                         Return lstAirName.Last()
                     End If
+
                 End If
 
 
