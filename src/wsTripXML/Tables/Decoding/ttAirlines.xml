@@ -3067,6 +3067,12 @@
     <ICAO>544</ICAO>
   </Airline>
   <Airline>
+    <ID>544</ID>
+    <Code>LP</Code>
+    <Name>LATAM AIRLINES PERU</Name>
+    <ICAO>LPE</ICAO>
+  </Airline>	
+  <Airline>
     <ID>961</ID>
     <Code>LQ</Code>
     <Name>LANMEI AIRLINES</Name>
