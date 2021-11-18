@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-<!-- ================================================================== -->
-<!-- AmadeusWS_QueueRS.xsl 														-->
-<!-- ================================================================== -->
-<!-- Date: 23 Jun 2009 - Rastko														-->
-<!-- ================================================================== -->
+<!-- 
+================================================================== 
+	AmadeusWS_QueueRS.xsl 												
+================================================================== 
+Date: 23 Jun 2009 - Rastko											
+Date: 18 Nov 2021 - Kobelev : Added Error Handler.
+================================================================== 
+-->
 	<xsl:output method="xml" omit-xml-declaration="yes" />
 <xsl:template match="/">
 	<OTA_QueueRS Version="1.000">
@@ -19,6 +22,7 @@
 		<xsl:apply-templates select="Queue_RemoveItemReply/goodResponse" mode="remove"/>
 		<xsl:apply-templates select="Queue_RemoveItemReply/errorReturn"/>
 		<xsl:apply-templates select="MessagesOnly_Reply"/>
+		<xsl:apply-templates select="Errors"/>
 	</OTA_QueueRS>
 </xsl:template>
 		
@@ -260,6 +264,15 @@
 		</Error>
 	</Errors>
 </xsl:template>
+
+<!-- General Error -->
+<xsl:template match="Errors">
+		<Errors>
+			<Error Type="Amadeus">
+				<xsl:value-of select="Error"/>
+			</Error>
+		</Errors>
+	</xsl:template>
 	
 <!-- Queue Clean -->
 <!--xsl:template match="">
