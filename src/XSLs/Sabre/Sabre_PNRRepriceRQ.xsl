@@ -3,7 +3,7 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
-   Date: 30 Nov 2021 - Kobelev - Smart Pricing Capobilities.
+   Date: 30 Nov 2021 - Kobelev - Smart Pricing Capabilities.
    Date: 08 Jul 2021 - Kobelev - BrandedFares with Markup Fix.
    Date: 08 Jul 2021 - Kobelev - Group by Branded Fahttps://www.facebook.com/gaming/?ref=games_tabre fix.
    Date: 25 Jun 2021 - Babin - Added Branded Fares Joined price between different PCCs
