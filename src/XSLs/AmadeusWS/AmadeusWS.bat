@@ -1,5 +1,6 @@
 setlocal
-set path=C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools;%path%
+set path=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.2 Tools;%path%
+
 xsltc /settings:document+,script+ AmadeusWS_AirAvailRQ.xsl
 xsltc /settings:document+,script+ AmadeusWS_AirAvailRS.xsl
 xsltc /settings:document+,script+ AmadeusWS_AirFlifoRQ.xsl
@@ -170,3 +171,14 @@ xsltc /settings:document+,script+ AmadeusWS_DeleteVirtualCardRS.xsl
 xsltc /settings:document+,script+ AmadeusWS_ReIssueTicketRQ.xsl
 xsltc /settings:document+,script+ v03_AmadeusWS_SalesReportRQ.xsl
 xsltc /settings:document+,script+ v03_AmadeusWS_SalesReportRS.xsl
+
+xsltc /settings:document+,script+ v03_AmadeusWS_LowFarePlus2RQ.xsl
+xsltc /settings:document+,script+ v03_AmadeusWS_LowFarePlus2RS.xsl
+
+xcopy "*.dll"  "..\..\wsTripXML\bin"  /c /d /i /y
+xcopy "*.dll"  "..\..\TripXMLMain\bin\Debug"  /c /d /i /y
+xcopy "*.dll"  "..\..\TripXMLMain\bin\Release"  /c /d /i /y
+xcopy "*.dll"  "C:\TripXML\Xsl\AmadeusWS"  /c /d /i /y
+
+del "*.dll" 
+pause
