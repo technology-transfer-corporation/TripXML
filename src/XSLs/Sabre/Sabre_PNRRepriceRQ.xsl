@@ -3,6 +3,7 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
+   Date: 01 Dec 2021 - Kobelev - Smart Pricing Capabilities with Passanger Associations.
    Date: 30 Nov 2021 - Kobelev - Smart Pricing Capabilities.
    Date: 08 Jul 2021 - Kobelev - BrandedFares with Markup Fix.
    Date: 08 Jul 2021 - Kobelev - Group by Branded Fahttps://www.facebook.com/gaming/?ref=games_tabre fix.
@@ -70,7 +71,7 @@
 		</Cryptic>
 		<Price>
 			<xsl:choose>
-				<xsl:when test="count(StoredFare/TicketDesignator)=count(StoredFare)">
+				<xsl:when test="count(StoredFare/TicketDesignator)=count(StoredFare) and count(StoredFare/FareSegments) = 0">
 					<OTA_AirPriceRQ Version="2.17.0" xmlns="http://webservices.sabre.com/sabreXML/2011/10">
 						<PriceRequestInformation>
 							<xsl:variable name="sf" select="@StoreFare"/>
@@ -186,36 +187,7 @@
 
 				</xsl:when>
 				<xsl:when test="StoredFare/FareSegments">
-					<xsl:for-each select="StoredFare">
-						<OTA_AirPriceRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.17.0">
-							<PriceRequestInformation>
-								<xsl:variable name="sf" select="../@StoreFare"/>
-								<xsl:attribute name="Retain">
-									<xsl:value-of select="$sf"/>
-								</xsl:attribute>
-								<OptionalQualifiers>
-									<PricingQualifiers>
-										<xsl:if test="FareSegments">
-											<ItineraryOptions>
-												<xsl:for-each select="FareSegments/AirSegments">
-													<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
-												</xsl:for-each>
-											</ItineraryOptions>
-
-											<xsl:for-each select="FareSegments/AirSegments">
-												<SpecificFare RPH="{@RPH}">
-													<FareBasis>
-														<xsl:value-of select="."/>
-													</FareBasis>
-												</SpecificFare>
-											</xsl:for-each>
-
-										</xsl:if>
-									</PricingQualifiers>
-								</OptionalQualifiers>
-							</PriceRequestInformation>
-						</OTA_AirPriceRQ>
-					</xsl:for-each>
+					<xsl:apply-templates select="StoredFare" mode="SmartPricingAll" />
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:for-each select="StoredFare">
@@ -276,6 +248,9 @@
 							<!--<xsl:choose>-->
 							<xsl:if test="StoredFare[1]/BrandedFares">
 								<xsl:apply-templates select="StoredFare[1]/BrandedFares" mode="FareFamily" />
+							</xsl:if>
+							<xsl:if test="StoredFare/FareSegments">
+								<xsl:apply-templates select="StoredFare/FareSegments" mode="SmartPricing" />
 							</xsl:if>
 							<!--<xsl:otherwise>-->
 							<NameSelect>NS</NameSelect>
@@ -549,6 +524,61 @@
 			</xsl:for-each>
 		</ItineraryOptions>
 
+	</xsl:template>
+
+	<xsl:template match="StoredFare" mode="SmartPricingAll">
+		<xsl:variable name="ptc" select="PassengerType/@Code" />
+
+		<OTA_AirPriceRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.17.0">
+			<PriceRequestInformation>
+				<xsl:variable name="sf" select="../@StoreFare"/>
+				<xsl:attribute name="Retain">
+					<xsl:value-of select="$sf"/>
+				</xsl:attribute>
+				<OptionalQualifiers>
+					<PricingQualifiers>
+						<xsl:if test="FareSegments">
+							<xsl:apply-templates select="FareSegments" mode="SmartPricing" />
+						</xsl:if>
+					</PricingQualifiers>
+				</OptionalQualifiers>
+			</PriceRequestInformation>
+		</OTA_AirPriceRQ>
+
+	</xsl:template>
+
+	<xsl:template match="FareSegments" mode="SmartPricing">
+		<ItineraryOptions>
+			<xsl:for-each select="AirSegments">
+				<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
+			</xsl:for-each>
+		</ItineraryOptions>
+		<NameSelect>NS</NameSelect>
+		<xsl:if test="../PassengerType">
+			<xsl:variable name="ptc" select="../PassengerType" />
+
+			<PassengerType>
+				<xsl:attribute name="Quantity">
+					<xsl:value-of select="$ptc/@Quantity"/>
+				</xsl:attribute>
+				<xsl:attribute name="Code">
+					<xsl:choose>
+						<xsl:when test="$ptc/@Code='CHD'">C09</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$ptc/@Code"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+			</PassengerType>
+		</xsl:if>
+		<xsl:for-each select="AirSegments">
+			<SpecificFare RPH="{@RPH}">
+				<FareBasis>
+					<xsl:variable name="fbc" select="substring(.,1,8)" />
+					<xsl:value-of select="$fbc"/>
+				</FareBasis>
+			</SpecificFare>
+		</xsl:for-each>
 	</xsl:template>
 
 	<xsl:template name="StoredFareGroup">
