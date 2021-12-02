@@ -581,6 +581,11 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
         Public Items() As Object
 
         '<remarks/>
+        <System.Xml.Serialization.XmlElementAttribute("ItemsElementName"),
+            System.Xml.Serialization.XmlIgnoreAttribute>
+        Public ItemsElementName() As AirItemsType
+
+        '<remarks/>
         <System.Xml.Serialization.XmlTextAttribute>
         Public [Text]() As String
 
@@ -966,7 +971,7 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
         Public AccountID As String
     End Class
 
-        '<remarks/>
+    '<remarks/>
     Public Class FareFamily
 
         '<remarks/>
@@ -995,7 +1000,7 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
 
     End Class
 
-        '<remarks/>
+    '<remarks/>
     <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
     Public Class Discounts
 
@@ -1043,7 +1048,7 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
 
     End Class
 
-    
+
     '<remarks/>
     <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
     Public Class Discount_Fare
@@ -1189,79 +1194,79 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
     End Class
 
     '<remarks/>
-    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)> _
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
     Public Class CustLoyaltyRS
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public ShareSynchInd As CustLoyaltyShareSynchInd
 
         '<remarks/>
-        <System.Xml.Serialization.XmlIgnoreAttribute()> _
+        <System.Xml.Serialization.XmlIgnoreAttribute()>
         Public ShareSynchIndSpecified As Boolean
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public ShareMarketInd As CustLoyaltyShareMarketInd
 
         '<remarks/>
-        <System.Xml.Serialization.XmlIgnoreAttribute()> _
+        <System.Xml.Serialization.XmlIgnoreAttribute()>
         Public ShareMarketIndSpecified As Boolean
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public ProgramID As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public MembershipID As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public TravelSector As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public LoyalLevel As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public SingleVendorInd As CustLoyaltySingleVendorInd
 
         '<remarks/>
-        <System.Xml.Serialization.XmlIgnoreAttribute()> _
+        <System.Xml.Serialization.XmlIgnoreAttribute()>
         Public SingleVendorIndSpecified As Boolean
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute(DataType:="date")> _
+        <System.Xml.Serialization.XmlAttributeAttribute(DataType:="date")>
         Public SignupDate As Date
 
         '<remarks/>
-        <System.Xml.Serialization.XmlIgnoreAttribute()> _
+        <System.Xml.Serialization.XmlIgnoreAttribute()>
         Public SignupDateSpecified As Boolean
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute(DataType:="date")> _
+        <System.Xml.Serialization.XmlAttributeAttribute(DataType:="date")>
         Public EffectiveDate As Date
 
         '<remarks/>
-        <System.Xml.Serialization.XmlIgnoreAttribute()> _
+        <System.Xml.Serialization.XmlIgnoreAttribute()>
         Public EffectiveDateSpecified As Boolean
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute(DataType:="date")> _
+        <System.Xml.Serialization.XmlAttributeAttribute(DataType:="date")>
         Public ExpireDate As Date
 
         '<remarks/>
-        <System.Xml.Serialization.XmlIgnoreAttribute()> _
+        <System.Xml.Serialization.XmlIgnoreAttribute()>
         Public ExpireDateSpecified As Boolean
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public RPH As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlTextAttribute()> _
+        <System.Xml.Serialization.XmlTextAttribute()>
         Public Value As String
     End Class
 
@@ -1691,7 +1696,7 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
         Public TravelerRefNumberRPHList As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute> _
+        <System.Xml.Serialization.XmlAttributeAttribute>
         Public FlightRefNumberRPHList As String
 
     End Class
@@ -1707,6 +1712,21 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
         <System.Xml.Serialization.XmlAttributeAttribute>
         Public [Option] As String
     End Class
+
+
+    '<remarks/>
+    <System.Xml.Serialization.XmlTypeAttribute(IncludeInSchema:=False)>
+    Public Enum AirItemsType
+        MarriageGrp
+        ArrivalAirport
+        MarketingAirline
+        TPA_Extensions
+        Equipment
+        Seats
+        OperatingAirline
+        DepartureAirport
+        StopInfo
+    End Enum
 
     '<remarks/>
     <System.Xml.Serialization.XmlTypeAttribute(IncludeInSchema:=False)>
@@ -3911,7 +3931,7 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
         '<remarks/>
         Public TPA_Extensions As TPA_ExtensionsRS
     End Class
-    
+
     '<remarks/>
     <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
     Public Class CustomerRS
