@@ -576,7 +576,8 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
          System.Xml.Serialization.XmlElementAttribute("Seats", GetType(Seat())),
          System.Xml.Serialization.XmlElementAttribute("OperatingAirline", GetType(OperatingAirline)),
          System.Xml.Serialization.XmlElementAttribute("DepartureAirport", GetType(DepartureAirport)),
-         System.Xml.Serialization.XmlElementAttribute("StopInfo", GetType(StopInfo))>
+         System.Xml.Serialization.XmlElementAttribute("StopInfo", GetType(StopInfo)),
+         System.Xml.Serialization.XmlChoiceIdentifierAttribute("ItemsElementName")>
         Public Items() As Object
 
         '<remarks/>
