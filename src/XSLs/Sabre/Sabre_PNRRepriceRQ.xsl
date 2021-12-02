@@ -3,6 +3,7 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
+   Date: 02 Dec 2021 - Kobelev - Smart Pricing Capabilities moved in priority of execution.
    Date: 01 Dec 2021 - Kobelev - Smart Pricing Capabilities with Passanger Associations.
    Date: 30 Nov 2021 - Kobelev - Smart Pricing Capabilities.
    Date: 08 Jul 2021 - Kobelev - BrandedFares with Markup Fix.
@@ -145,6 +146,9 @@
 						</PriceRequestInformation>
 					</OTA_AirPriceRQ>
 				</xsl:when>
+				<xsl:when test="StoredFare/FareSegments">
+					<xsl:apply-templates select="StoredFare" mode="SmartPricingAll" />
+				</xsl:when>
 				<xsl:when test="count(StoredFare/TicketDesignator) > 0 and count(StoredFare/TicketDesignator)!=count(StoredFare)">
 
 					<OTA_AirPriceRQ Version="2.17.0" xmlns="http://webservices.sabre.com/sabreXML/2011/10">
@@ -185,9 +189,6 @@
 						</xsl:call-template>
 					</xsl:for-each>
 
-				</xsl:when>
-				<xsl:when test="StoredFare/FareSegments">
-					<xsl:apply-templates select="StoredFare" mode="SmartPricingAll" />
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:for-each select="StoredFare">
