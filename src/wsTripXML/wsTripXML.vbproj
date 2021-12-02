@@ -170,6 +170,7 @@
     <Content Include="bin\Sabre_SalesReportRS.dll" />
     <Content Include="bin\Sabre_TicketCouponRQ.dll" />
     <Content Include="bin\SellIssuesRQ.dll" />
+    <Content Include="bin\TravelPort.dll" />
     <Content Include="bin\Travelport_CrypticRQ.dll" />
     <Content Include="bin\Travelport_CrypticRS.dll" />
     <Content Include="bin\Travelport_PNRRepriceRQ.dll" />
