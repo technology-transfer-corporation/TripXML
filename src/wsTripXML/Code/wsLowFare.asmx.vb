@@ -345,85 +345,79 @@ Namespace wsTravelTalk
                     For i = 0 To .Providers.Length - 1
                         Select Case .Providers(i).Name.ToLower
                             Case "amadeus"
-                                'Try
-                                '    Dim ttAA As AmadeusAPIAdapter
+                                Try
+                                    'Dim ttAA As AmadeusAPIAdapter
 
-                                '    sb.Append("API").Append(.UserID).Append(.System).Append(.Providers(i).PCC)
-                                '    ttAA = Application.Get(sb.ToString())
-                                '    sb.Remove(0, sb.Length)
+                                    sb.Append("API").Append(.UserID).Append(.System).Append(.Providers(i).PCC)
+                                    'ttAA = Application.Get(sb.ToString())
+                                    sb.Remove(0, sb.Length)
 
-                                '    If ttAA Is Nothing Then
-                                '        Dim ekbpPCC As String = .Providers(i).PCC.Replace("*", "")
-                                '        ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ekbpPCC).ToString())
-                                '        sb.Remove(0, sb.Length())
+                                    'If ttAA Is Nothing Then
+                                    Dim ekbpPCC As String = .Providers(i).PCC.Replace("*", "")
+                                        ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ekbpPCC).ToString())
+                                        sb.Remove(0, sb.Length())
 
-                                '        If ttProviderSystems.AmadeusWS = False Then
-                                '            sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
-                                '            GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), .Providers(i).Name))
-                                '            sb.Remove(0, sb.Length)
-                                '            Exit Select
-                                '        End If
-                                '    End If
+                                        If ttProviderSystems.AmadeusWS = False Then
+                                            sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
+                                            GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), .Providers(i).Name))
+                                            sb.Remove(0, sb.Length)
+                                            Exit Select
+                                        End If
+                                    'End If
 
-                                '    If ttProviderSystems.AmadeusWS = True Then
-                                '        If ttCredential.Providers(i).PCC.Trim.Length > 0 Then
-                                '            ttProviderSystems.PCC = ttCredential.Providers(i).PCC
-                                '        End If
+                                    If ttProviderSystems.AmadeusWS = True Then
+                                        If ttCredential.Providers(i).PCC.Trim.Length > 0 Then
+                                            ttProviderSystems.PCC = ttCredential.Providers(i).PCC
+                                        End If
 
-                                '        ttCredential.Providers(0).Name = "AmadeusWS"
+                                        ttCredential.Providers(0).Name = "AmadeusWS"
 
-                                '        If ttCredential.System = "Test" Then
-                                '            ttProviderSystems.URL = "https://test.webservices.amadeus.com"
-                                '        ElseIf ttCredential.System = "Training" Then
-                                '            ttProviderSystems.URL = "https://production.webservices.amadeus.com"
-                                '        Else
-                                '            ttProviderSystems.URL = "https://production.webservices.amadeus.com"
-                                '        End If
+                                        If ttCredential.System = "Test" Then
+                                            ttProviderSystems.URL = "https://test.webservices.amadeus.com"
+                                        ElseIf ttCredential.System = "Training" Then
+                                            ttProviderSystems.URL = "https://production.webservices.amadeus.com"
+                                        Else
+                                            ttProviderSystems.URL = "https://production.webservices.amadeus.com"
+                                        End If
 
-                                '        Dim oAmadeusWS As New cServiceAmadeusWS
-                                '        Dim oThreadAmadeusWS As New Thread(New ThreadStart(AddressOf oAmadeusWS.SendAirRequest))
-                                '        AddHandler oAmadeusWS.GotResponse, AddressOf GotResponse
+                                        Dim oAmadeusWS As New cServiceAmadeusWS
+                                        Dim oThreadAmadeusWS As New Thread(New ThreadStart(AddressOf oAmadeusWS.SendAirRequest))
+                                        AddHandler oAmadeusWS.GotResponse, AddressOf GotResponse
 
-                                '        With oAmadeusWS
-                                '            .ServiceID = ttServiceID
-                                '            .Request = strRequest
-                                '            .ttProviderSystems = ttProviderSystems
-                                '            .Version = ""
-                                '        End With
-                                '        '19-4-2013
-                                '        oThreadAmadeusWS.Start()
-                                '        'ttProviderSystems = Nothing
+                                        With oAmadeusWS
+                                            .ServiceID = ttServiceID
+                                            .Request = strRequest
+                                            .ttProviderSystems = ttProviderSystems
+                                            .Version = ""
+                                        End With
+                                        '19-4-2013
+                                        oThreadAmadeusWS.Start()
+                                        'ttProviderSystems = Nothing
 
-                                '    Else
-                                '        ttProviderSystems = ttAA.ttProviderSystems
-
-                                '        If ttCredential.Providers(i).PCC.Trim.Length > 0 Then
-                                '            ttAA.SourcePCC = ttCredential.Providers(i).PCC
-                                '        Else
-                                '            ttAA.SourcePCC = ttAA.ttProviderSystems.PCC
-                                '        End If
-
-                                '        Dim oAmadeus As New cServiceAmadeus
-                                '        AddHandler oAmadeus.GotResponse, AddressOf GotResponse
-
-                                '        Dim oThreadAmadeus As New Thread(New ThreadStart(AddressOf oAmadeus.SendAirRequest))
-
-                                '        With oAmadeus
-                                '            .ServiceID = ttServiceID
-                                '            .Request = strRequest
-                                '            .ttAA = ttAA
-                                '            .Version = ""
-                                '        End With
-
-                                '        oThreadAmadeus.Start()
-
-                                '        sb.Append("API").Append(.UserID).Append(.System)
-                                '        Application.Set(sb.ToString(), ttAA)
-                                '        sb.Remove(0, sb.Length)
-                                '    End If
-                                'Catch e As Exception
-                                '    GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))
-                                'End Try
+                                        'Else
+                                        '    ttProviderSystems = ttAA.ttProviderSystems
+                                        '    If ttCredential.Providers(i).PCC.Trim.Length > 0 Then
+                                        '        ttAA.SourcePCC = ttCredential.Providers(i).PCC
+                                        '    Else
+                                        '        ttAA.SourcePCC = ttAA.ttProviderSystems.PCC
+                                        '    End If
+                                        '    Dim oAmadeus As New cServiceAmadeus
+                                        '    AddHandler oAmadeus.GotResponse, AddressOf GotResponse
+                                        '    Dim oThreadAmadeus As New Thread(New ThreadStart(AddressOf oAmadeus.SendAirRequest))
+                                        '    With oAmadeus
+                                        '        .ServiceID = ttServiceID
+                                        '        .Request = strRequest
+                                        '        .ttAA = ttAA
+                                        '        .Version = ""
+                                        '    End With
+                                        '    oThreadAmadeus.Start()
+                                        '    sb.Append("API").Append(.UserID).Append(.System)
+                                        '    Application.Set(sb.ToString(), ttAA)
+                                        '    sb.Remove(0, sb.Length)
+                                    End If
+                                Catch e As Exception
+                                    GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))
+                                End Try
                             Case "apollo", "galileo"
                                 Try
                                     ttProviderSystems = Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString())
