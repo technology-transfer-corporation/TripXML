@@ -9,9 +9,14 @@ using System.Collections.Generic;
 
 namespace Sabre
 {
+    /// <summary>
+    /// PNR Services Methods
+    /// </summary>
     public class PNRServices : SabreBase
     {
-
+        /// <summary>
+        /// Read PNR Method
+        /// </summary>
         public string PNRRead()
         {
 
@@ -349,6 +354,9 @@ namespace Sabre
             return sabreReply;
         }
 
+        /// <summary>
+        /// Cancel PNR Method
+        /// </summary>
         public string PNRCancel()
         {
             string strResponse;
@@ -466,17 +474,18 @@ namespace Sabre
             return strResponse;
         }
 
+        /// <summary>
+        /// Read PNR Method
+        /// </summary>
         public string PNRReprice()
         {
-            string strResponse;
-         
+            string strResponse;         
             // *****************************************************************
-            // Transform OTA PNRRead Request into Native Sabre Request     *
+            // Transform OTA PNRRead Request into Native Sabre Request         *
             // ***************************************************************** 
-
             try
             {
-                bool bCloseSession = true;
+                //var bCloseSession = true;
                 bool bStoreFare = true;
                 string strRepriceResp = "";
                 string strPaxCombined = "";
@@ -502,6 +511,7 @@ namespace Sabre
                 var strPriceCombined = oRootT.SelectSingleNode("PriceCombined").InnerXml;
 
                 var strPrice = Request.Contains("TicketDesignator") ? oRootT.SelectSingleNode("Price").InnerXml : oRootT.SelectSingleNode("Price").OuterXml;
+
                 // Bug 1310
                 // strPrice = strPrice.Replace("RPH=""/""", "").Replace("<FareBasis Code=""/"" />", "")
 
@@ -575,8 +585,7 @@ namespace Sabre
                         else 
                         {
                             strRepriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
-                        }
-                        
+                        }                        
                         strRepriceResp = strRepriceResp.Replace("<OTA_AirPriceRS Version=\"2.17.0\">", "").Replace("</OTA_AirPriceRS>", "");
                     }
                     else
@@ -704,8 +713,7 @@ namespace Sabre
                             {
                                 strPrice = strPrice.Replace("<NameSelect>NS</NameSelect>", "").Replace("<Price>", "").Replace("</Price>", "");
                                 strRepriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
-                            }
-                            
+                            }                            
                         }
                     }
 
@@ -1306,15 +1314,25 @@ namespace Sabre
                 foreach (string line in strPQS.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "line.Substring(9,1)", line.Substring(9, 1), ProviderSystems.LogUUID);
-                    //if (strPQ.Exists(l => l.Contains(line.Substring(9, 1) ?? "")))
+
                     if (strPQ.Exists(l => line.Contains(l)))
                     {
                         strPassengers += $"<NameSelect NameNumber=\"{line.Substring(1, 3)}\"/>";
                         CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "{line.Substring(2, 3)}", line.Substring(1, 3), ProviderSystems.LogUUID);
                     }
+                    else 
+                    {
+                        //It happandes when PQS has CNN but Stylesheet has C09
+                        if (strPQ.First().Equals("C09") && line.Contains("CNN"))
+                        {
+                            CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "line.Substring(9,1)", line.Substring(9, 1), ProviderSystems.LogUUID);
+                            strPassengers += $"<NameSelect NameNumber=\"{line.Substring(1, 3)}\"/>";
+                            CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "{line.Substring(2, 3)}", line.Substring(1, 3), ProviderSystems.LogUUID);
+                        }
+                    }
                     
                 }
-
+                
                 CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "strPassengers", strPassengers, ProviderSystems.LogUUID);
             }
             catch (Exception ex)
