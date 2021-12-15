@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:air="http://www.travelport.com/schema/air_v41_0" xmlns:common_v41_0="http://www.travelport.com/schema/common_v41_0" xmlns:universal="http://www.travelport.com/schema/universal_v41_0" xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+				xmlns:air="http://www.travelport.com/schema/air_v50_0" 
+				xmlns:common_v50_0="http://www.travelport.com/schema/common_v50_0" 
+				xmlns:universal="http://www.travelport.com/schema/universal_v50_0" 
+				xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" version="1.0">
 	<!-- ================================================================== -->
 	<!-- v03_Travelport_PNRReadRS.xsl 												       -->
 	<!-- ================================================================== -->
@@ -17,7 +21,7 @@
 			<Errors>
 				<Error>
 					<xsl:value-of select="../faultstring"/>
-					<xsl:value-of select="common_v41_0:ErrorInfo/common_v41_0:Description"/>
+					<xsl:value-of select="common_v50_0:ErrorInfo/common_v50_0:Description"/>
 				</Error>
 			</Errors>
 		</OTA_TravelItineraryRS>
@@ -63,7 +67,7 @@
 							</CompanyName>
 						</ItineraryRef>
 						<CustomerInfos>
-							<xsl:apply-templates select="common_v41_0:BookingTraveler"/>
+							<xsl:apply-templates select="common_v50_0:BookingTraveler"/>
 						</CustomerInfos>
 						<ItineraryInfo>
 							<xsl:if test="air:AirReservation/air:AirSegment | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CCR'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='HHL'] | originDestinationDetails/itineraryInf[elementManagementItinerary/segmentName='HU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='RU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AU'] | 	originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='SUR'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TRN'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CRU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TU']">
@@ -88,7 +92,7 @@
 									</xsl:if>
 								</ReservationItems>
 							</xsl:if>
-							<xsl:apply-templates select="common_v41_0:ActionStatus[@TicketDate!='']" mode="ticketing"/>
+							<xsl:apply-templates select="common_v50_0:ActionStatus[@TicketDate!='']" mode="ticketing"/>
 							<SpecialRequestDetails>
 								<xsl:if test="dataElementsMaster/dataElementsIndiv[serviceRequest/ssrb]">
 									<SeatRequests>
@@ -105,14 +109,14 @@
 										<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='OS']" mode="OSI"/>
 									</OtherServiceInformations>
 								</xsl:if>
-								<xsl:if test="common_v41_0:GeneralRemark">
+								<xsl:if test="common_v50_0:GeneralRemark">
 									<Remarks>
-										<xsl:apply-templates select="common_v41_0:GeneralRemark[@TypeInGds!='Historical']" mode="GenRemark"/>
+										<xsl:apply-templates select="common_v50_0:GeneralRemark[@TypeInGds!='Historical']" mode="GenRemark"/>
 									</Remarks>
 								</xsl:if>
-								<xsl:if test="common_v41_0:GeneralRemark[@TypeInGds='Historical']">
+								<xsl:if test="common_v50_0:GeneralRemark[@TypeInGds='Historical']">
 									<SpecialRemarks>
-										<xsl:apply-templates select="common_v41_0:GeneralRemark[@TypeInGds='Historical']" mode="HistoricalRemark"/>
+										<xsl:apply-templates select="common_v50_0:GeneralRemark[@TypeInGds='Historical']" mode="HistoricalRemark"/>
 										<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[contains(elementManagementData/segmentName,'RC')]" mode="ConfRemark"/>
 										<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FE']" mode="Endorsement"/>
 										<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FT']" mode="TourCode"/>
@@ -133,19 +137,19 @@
 								</TPA_Extensions>
 							</xsl:if>
 						</ItineraryInfo>
-						<xsl:if test="air:AirReservation/common_v41_0:FormOfPayment or dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='MCO']">
+						<xsl:if test="air:AirReservation/common_v50_0:FormOfPayment or dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='MCO']">
 							<TravelCost>
-								<xsl:apply-templates select="air:AirReservation/common_v41_0:FormOfPayment" mode="Payment"/>
+								<xsl:apply-templates select="air:AirReservation/common_v50_0:FormOfPayment" mode="Payment"/>
 								<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='MCO' ]" mode="MCO"/>
 							</TravelCost>
 						</xsl:if>
 						<UpdatedBy>
 							<xsl:attribute name="CreateDateTime"><xsl:value-of select="universal:ProviderReservationInfo/@CreateDate"/></xsl:attribute>
 						</UpdatedBy>
-						<xsl:if test="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FM'] or common_v41_0:AccountingRemark">
+						<xsl:if test="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FM'] or common_v50_0:AccountingRemark">
 							<TPA_Extensions>
 								<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FM']" mode="commission"/>
-								<xsl:apply-templates select="common_v41_0:AccountingRemark" mode="accounting"/>
+								<xsl:apply-templates select="common_v50_0:AccountingRemark" mode="accounting"/>
 							</TPA_Extensions>
 						</xsl:if>
 					</TravelItinerary>
@@ -267,7 +271,7 @@
 					<xsl:if test="position() > 1">
 						<xsl:text> </xsl:text>
 					</xsl:if>
-					<xsl:value-of select="../../../common_v41_0:BookingTraveler[@Key=$paxref]/@Key"/>
+					<xsl:value-of select="../../../common_v50_0:BookingTraveler[@Key=$paxref]/@Key"/>
 				</xsl:for-each>
 			</xsl:attribute>
 			<xsl:attribute name="FlightRefNumberRPHList">
@@ -433,7 +437,7 @@
 	<!-- ************************************************************** -->
 	<!-- Process Names			                            -->
 	<!-- ************************************************************** -->
-	<xsl:template match="common_v41_0:BookingTraveler">
+	<xsl:template match="common_v50_0:BookingTraveler">
 		<CustomerInfo>
 			<xsl:attribute name="RPH"><xsl:value-of select="position()"/></xsl:attribute>
 			<Customer>
@@ -445,16 +449,16 @@
 						<xsl:value-of select="@TravelerType"/>
 					</xsl:attribute>
 					<GivenName>
-						<xsl:value-of select="common_v41_0:BookingTravelerName/@First"/>
+						<xsl:value-of select="common_v50_0:BookingTravelerName/@First"/>
 					</GivenName>
 					<Surname>
-						<xsl:value-of select="common_v41_0:BookingTravelerName/@Last"/>
+						<xsl:value-of select="common_v50_0:BookingTravelerName/@Last"/>
 					</Surname>
 				</PersonName>
 				<xsl:variable name="paxref">
 					<xsl:value-of select="../elementManagementPassenger/reference/number"/>
 				</xsl:variable>
-				<xsl:apply-templates select="common_v41_0:PhoneNumber" mode="phone"/>
+				<xsl:apply-templates select="common_v50_0:PhoneNumber" mode="phone"/>
 				<xsl:apply-templates select="../../dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='AP']" mode="email"/>
 				<xsl:apply-templates select="../../dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='AB/']" mode="Address"/>
 				<xsl:apply-templates select="../../dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='AB']" mode="Address"/>
@@ -563,8 +567,8 @@
 							<xsl:attribute name="ConfirmationNumber">
 								<xsl:variable name="airline"><xsl:value-of select="@Carrier"/></xsl:variable>
 								<xsl:choose>
-									<xsl:when test="../common_v41_0:SupplierLocator[@SupplierCode=$airline]">
-										<xsl:value-of select="../common_v41_0:SupplierLocator[@SupplierCode=$airline]/@SupplierLocatorCode"/>
+									<xsl:when test="../common_v50_0:SupplierLocator[@SupplierCode=$airline]">
+										<xsl:value-of select="../common_v50_0:SupplierLocator[@SupplierCode=$airline]/@SupplierLocatorCode"/>
 									</xsl:when>
 									<xsl:otherwise><xsl:value-of select="../@LocatorCode"/></xsl:otherwise>
 								</xsl:choose>
@@ -1348,7 +1352,7 @@
 	<!-- ****************************************************************************************************************** -->
 	<!-- Phone Fields	   	                                    -->
 	<!-- ************************************************************** -->
-	<xsl:template match="common_v41_0:PhoneNumber" mode="phone">
+	<xsl:template match="common_v50_0:PhoneNumber" mode="phone">
 		<Telephone>
 			<xsl:attribute name="PhoneUseType">
 				<xsl:choose>
@@ -1366,7 +1370,7 @@
 	<!-- ************************************************************** -->
 	<!-- Ticketing Element	   	                                    -->
 	<!-- ************************************************************** -->
-	<xsl:template match="common_v41_0:ActionStatus" mode="ticketing">
+	<xsl:template match="common_v50_0:ActionStatus" mode="ticketing">
 		<Ticketing>
 			<xsl:attribute name="TicketTimeLimit"><xsl:value-of select="@TicketDate"/></xsl:attribute>
 			<xsl:attribute name="TicketType">eTicket</xsl:attribute>
@@ -1413,21 +1417,21 @@
 	<!-- ************************************************************** -->
 	<!-- Form of Payment	   		                                    -->
 	<!-- ************************************************************** -->
-	<xsl:template match="common_v41_0:FormOfPayment" mode="Payment">
+	<xsl:template match="common_v50_0:FormOfPayment" mode="Payment">
 			<xsl:choose>
-				<xsl:when test="common_v41_0:CreditCard">
+				<xsl:when test="common_v50_0:CreditCard">
 					<FormOfPayment>
 						<xsl:attribute name="RPH">1</xsl:attribute>
 						<PaymentCard>
 							<xsl:attribute name="CardCode">
 								<xsl:choose>
-									<xsl:when test="common_v41_0:CreditCard/@Type = 'CA'">MC</xsl:when>
-									<xsl:when test="common_v41_0:CreditCard/@Type = 'DC'">DN</xsl:when>
-									<xsl:otherwise><xsl:value-of select="common_v41_0:CreditCard/@Type"/></xsl:otherwise>
+									<xsl:when test="common_v50_0:CreditCard/@Type = 'CA'">MC</xsl:when>
+									<xsl:when test="common_v50_0:CreditCard/@Type = 'DC'">DN</xsl:when>
+									<xsl:otherwise><xsl:value-of select="common_v50_0:CreditCard/@Type"/></xsl:otherwise>
 								</xsl:choose>
 							</xsl:attribute>
-							<xsl:attribute name="CardNumber"><xsl:value-of select="common_v41_0:CreditCard/@Number"/></xsl:attribute>
-							<xsl:attribute name="ExpireDate"><xsl:value-of select="concat(substring(common_v41_0:CreditCard/@ExpDate,6),substring(common_v41_0:CreditCard/@ExpDate,3,2))"/></xsl:attribute>
+							<xsl:attribute name="CardNumber"><xsl:value-of select="common_v50_0:CreditCard/@Number"/></xsl:attribute>
+							<xsl:attribute name="ExpireDate"><xsl:value-of select="concat(substring(common_v50_0:CreditCard/@ExpDate,6),substring(common_v50_0:CreditCard/@ExpDate,3,2))"/></xsl:attribute>
 						</PaymentCard>
 					</FormOfPayment>
 				</xsl:when>
@@ -1685,13 +1689,13 @@
 	<!-- ************************************************************** -->
 	<!-- General Remarks	   	                                    -->
 	<!-- ************************************************************** -->
-	<xsl:template match="common_v41_0:GeneralRemark" mode="GenRemark">
+	<xsl:template match="common_v50_0:GeneralRemark" mode="GenRemark">
 		<Remark>
 			<xsl:attribute name="RPH"><xsl:value-of select="position()"/></xsl:attribute>
 			<xsl:if test="miscellaneousRemarks/remarks/category != ''">
 				<xsl:attribute name="Category"><xsl:value-of select="miscellaneousRemarks/remarks/category"/></xsl:attribute>
 			</xsl:if>
-			<xsl:value-of select="common_v41_0:RemarkData"/>
+			<xsl:value-of select="common_v50_0:RemarkData"/>
 		</Remark>
 	</xsl:template>
 	<!-- ************************************************************** -->
@@ -1749,22 +1753,22 @@
 	<!-- ************************************************************** -->
 	<!-- Historical Remarks	   	                              -->
 	<!-- ************************************************************** -->
-	<xsl:template match="common_v41_0:GeneralRemark" mode="HistoricalRemark">
+	<xsl:template match="common_v50_0:GeneralRemark" mode="HistoricalRemark">
 		<SpecialRemark>
 			<xsl:attribute name="RPH"><xsl:value-of select="position()"/></xsl:attribute>
 			<xsl:attribute name="RemarkType">H</xsl:attribute>
 			<Text>
-				<xsl:value-of select="common_v41_0:RemarkData"/>
+				<xsl:value-of select="common_v50_0:RemarkData"/>
 			</Text>
 		</SpecialRemark>
 	</xsl:template>
-	<xsl:template match="common_v41_0:GeneralRemark" mode="GenRemark">
+	<xsl:template match="common_v50_0:GeneralRemark" mode="GenRemark">
 		<Remark>
 			<xsl:attribute name="RPH"><xsl:value-of select="position()"/></xsl:attribute>
 			<xsl:if test="miscellaneousRemarks/remarks/category != ''">
 				<xsl:attribute name="Category"><xsl:value-of select="miscellaneousRemarks/remarks/category"/></xsl:attribute>
 			</xsl:if>
-			<xsl:value-of select="common_v41_0:RemarkData"/>
+			<xsl:value-of select="common_v50_0:RemarkData"/>
 		</Remark>
 	</xsl:template>
 	<!-- ************************************************************** -->
@@ -2177,9 +2181,9 @@
 			</xsl:choose>
 		</AgencyCommission>
 	</xsl:template>
-	<xsl:template match="common_v41_0:AccountingRemark" mode="accounting">
+	<xsl:template match="common_v50_0:AccountingRemark" mode="accounting">
 		<AccountingLine>
-			<xsl:value-of select="common_v41_0:RemarkData"/>
+			<xsl:value-of select="common_v50_0:RemarkData"/>
 		</AccountingLine>
 	</xsl:template>
 	<!-- ********************************************************************************	-->
