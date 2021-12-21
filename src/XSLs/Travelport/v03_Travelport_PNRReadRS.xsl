@@ -21,7 +21,9 @@
 			<Errors>
 				<Error>
 					<xsl:value-of select="../faultstring"/>
+					<!-- Allot of time Description containes XML that will break Transformation logic 
 					<xsl:value-of select="common_v50_0:ErrorInfo/common_v50_0:Description"/>
+					-->
 				</Error>
 			</Errors>
 		</OTA_TravelItineraryRS>
