@@ -86,7 +86,7 @@ namespace Worldspan
                 if (fi != null)
                 {
                     HttpWebResponse oHttpResponse = (HttpWebResponse)fi.GetValue(mHttpRequest);
-                    var stream = oHttpResponse.GetResponseStream();
+                    var stream = oHttpResponse?.GetResponseStream();
                     var oReader = new StreamReader(stream ?? throw new InvalidOperationException());
                     strResponse = oReader.ReadToEnd();
                     oReader.Close();
