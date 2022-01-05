@@ -558,6 +558,7 @@ namespace Sabre
                         var oRootPrice = oDocPrice.DocumentElement;
                         var nsmgr = new XmlNamespaceManager(oDocPrice.NameTable);
                         nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2011/10");
+
                         if (bMulty)
                         {
                             strPrice = "";
@@ -578,14 +579,31 @@ namespace Sabre
                                 }
                                 string strPassengers = GetPassangerInfo(strPQS, strPQ);
 
-                                strRepriceReq = strRepriceReq.Replace("<NameSelect>NS</NameSelect>", strPassengers);                                
+                                strRepriceReq = strRepriceReq.Replace("<NameSelect>NS</NameSelect>", strPassengers);
                                 strRepriceResp += ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                             }
                         }
-                        else 
+                        else
                         {
+
+                            string strRepriceReq = oRootPrice.OuterXml;
+                            var pDoc = new XmlDocument();
+                            pDoc.LoadXml(strRepriceReq);
+                            XmlNodeList pRoot = pDoc.GetElementsByTagName("PassengerType");
+                            List<string> strPQ = new List<string>();
+
+                            foreach (XmlNode pr in pRoot)
+                            {
+                                string vAl = pr.Attributes["Code"].Value;
+                                if (!strPQ.Exists(v => v.Equals(vAl)))
+                                    strPQ.Add(pr.Attributes["Code"].Value);
+                            }
+
+                            string strPassengers = GetPassangerInfo(strPQS, strPQ);
+                            strPrice = strPrice.Replace("<NameSelect>NS</NameSelect>", strPassengers);
                             strRepriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
-                        }                        
+                        }
+
                         strRepriceResp = strRepriceResp.Replace("<OTA_AirPriceRS Version=\"2.17.0\">", "").Replace("</OTA_AirPriceRS>", "");
                     }
                     else
