@@ -119,22 +119,25 @@ namespace TravelPort
                             // GDS locator does not exist as UR, so import it
                             strResponse = ttTP.SendMessage(strImport, TravelPortWSAdapter.enRequestType.UniversalRecordService);
                         }
-                        else
-                        {
-                            // get UR locator and retrieve it
-                            XmlDocument otaDoc = new XmlDocument();
-                            otaDoc.LoadXml(strResponse);
-                            var otaElement = otaDoc.DocumentElement;
+                        //------------------------------------------------------------
+                        // It appears that no need for any prior manipulations with message
+                        //------------------------------------------------------------
+                        //else
+                        //{
+                        //    // get UR locator and retrieve it
+                        //    XmlDocument otaDoc = new XmlDocument();
+                        //    otaDoc.LoadXml(strResponse);
+                        //    var otaElement = otaDoc.DocumentElement;
 
-                            var nsmgr = new XmlNamespaceManager(otaDoc.NameTable);
-                            nsmgr.AddNamespace("un", "http://www.travelport.com/schema/universal_v27_0");
+                        //    var nsmgr = new XmlNamespaceManager(otaDoc.NameTable);
+                        //    nsmgr.AddNamespace("un", "http://www.travelport.com/schema/universal_v27_0");
 
-                            var strURRecLoc = otaElement.SelectSingleNode("un:UniversalRecordSearchResult/@UniversalRecordLocatorCode", nsmgr).InnerText;
+                        //    var strURRecLoc = otaElement.SelectSingleNode("un:UniversalRecordSearchResult/@UniversalRecordLocatorCode", nsmgr).InnerText;
 
-                            strRetrieve = strRetrieve.Replace(strProviderRecLoc, strURRecLoc);
+                        //    strRetrieve = strRetrieve.Replace(strProviderRecLoc, strURRecLoc);
 
-                            strResponse = ttTP.SendMessage(strRetrieve, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-                        }
+                        //    strResponse = ttTP.SendMessage(strRetrieve, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                        //}
                     }
 
                         //strResponse = strResponse.Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.TravelportSchema.PNR_RetrieveByRecLocReply + "\"", "");

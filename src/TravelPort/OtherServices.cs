@@ -180,7 +180,7 @@ namespace TravelPort
         public string CreateSession()
         {
             string branchID = "";
-            string strHost = "1G"; //WSP
+            string strHost = "1P"; 
           
             try
             {
@@ -195,14 +195,14 @@ namespace TravelPort
                 {
                     switch (oRoot.Attributes["Target"].Value)
                     {
-                        case "WSP":
-                            strHost = "1P";
+                        case "APL":
+                            strHost = "1V";
                             break;
                         case "GAL":
                             strHost = "1G";
                             break;
                         default:
-                            strHost = "1V";
+                            strHost = "1P"; //WSP
                             break;
                     }
                 }                

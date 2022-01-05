@@ -138,14 +138,14 @@ namespace TravelPort
                     oNode = oNode.LastChild;
                     strResponse = oNode.InnerText;
                 }
-                else
-                {
-                    //Get The Body
-                    oNode = oRoot.LastChild;
-                    strResponse = oNode.InnerXml;
-                    strResponse = strResponse.Replace(" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"", "").Replace("soap:", "");
-                    CoreLib.SendTrace(ttProviderSystems.UserID, "TravelportWSAdapter", "Soap body response", strResponse, ttProviderSystems.LogUUID);
-                }
+                //else
+                //{
+                //    //Get The Body
+                //    oNode = oRoot.LastChild;
+                //    strResponse = oNode.InnerXml;
+                //    strResponse = strResponse.Replace(" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"", "").Replace("soap:", "");
+                //    CoreLib.SendTrace(ttProviderSystems.UserID, "TravelportWSAdapter", "Soap body response", strResponse, ttProviderSystems.LogUUID);
+                //}
 
                 return strResponse;
             }
