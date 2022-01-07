@@ -114,7 +114,10 @@ Namespace wsTravelTalk
                 End Try
 
                 AuthenticateUser(oDoc, ttCredential)
-                ttProviderSystems = oApp.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
+                'ttProviderSystems = oApp.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
+
+                ttProviderSystems = oApp.Get($"PS{ttCredential.Providers(0).Name}{ttCredential.UserID}{ttCredential.System}{ttCredential.Providers.First().PCC}")
+
                 sb.Remove(0, sb.Length())
                 ttProviderSystems.LogUUID = UUID
 
@@ -2836,7 +2839,7 @@ Namespace wsTravelTalk
             Dim oDocPrv As XmlDocument
             Dim oRootPrv As XmlElement
             Dim oNodePrv As XmlNode
-            Dim provider As String
+            Dim provider As String = ""
             Dim reqID() As String = Nothing
             Dim arUsers() As String = Nothing
             Dim arFiles() As String = Nothing
@@ -5520,7 +5523,7 @@ Namespace wsTravelTalk
                                 End Try
                             Next    ' oNodePCC in oNode.SelectNodes("PCC")
                         Next    ' oNode In oRoot.SelectNodes("Provider/System")
-                        CoreLib.SendTrace("", "modMain", "All Users PCC loaded successfully", "", String.Empty)
+                        CoreLib.SendTrace("", "modMain", "All Users PCC loaded successfully.", $"Key = {key}", String.Empty)
                     Catch exx As Exception
                         ' Config File Not Valid.
                         CoreLib.SendTrace("", "modMain", sb.Append("TripXMLStartUp: Error Loading File ").Append(arFiles(i)).ToString(), exx.Message, String.Empty)
