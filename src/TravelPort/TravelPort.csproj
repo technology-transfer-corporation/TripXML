@@ -17,6 +17,7 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <TargetFrameworkProfile />
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,6 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -50,6 +52,7 @@
     <Compile Include="OtherServices.cs" />
     <Compile Include="PNRServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TravelportBase.cs" />
     <Compile Include="TravelPortWSAdapter.cs" />
     <Compile Include="TravelServices.cs" />
     <Compile Include="ttHttpWebClient.cs" />

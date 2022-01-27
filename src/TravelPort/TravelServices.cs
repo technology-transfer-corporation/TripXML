@@ -5,7 +5,7 @@ using System;
 
 namespace TravelPort
 {
-    public class TravelServices
+    public class TravelServices : TravelportBase
     {
         public modCore.TripXMLProviderSystems ttProviderSystems;
         private StringBuilder sb = new StringBuilder();
@@ -43,7 +43,150 @@ namespace TravelPort
             }
         }
 
-         public string UpdateSessioned()
+        public string TravelBuild()
+        {
+            string strResponse;
+
+            // *******************************************************************
+            // Transform OTA Travel Build Request into Native Worldspan Request *
+            // ******************************************************************* 
+
+            try
+            {
+                XmlNode oNode;
+                Version = "";
+                var strRequest = SetRequest("Travelport_TravelBuildRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
+                    throw new Exception("Transformation produced empty xml.");
+
+                CoreLib.SendTrace(ProviderSystems.UserID, "ttWorldspanService", "OTA Transformed Request", strRequest,
+                    ProviderSystems.LogUUID);
+
+
+                // *************************
+                // Get Multiple Requests  *
+                // *************************
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(strRequest);
+                var oRoot = oDoc.DocumentElement;
+                var strBPC = oRoot.SelectSingleNode("TTBPC").InnerXml;
+                var strRMC = oRoot.SelectSingleNode("TTRMC") != null ? oRoot.SelectSingleNode("TTRMC").InnerXml : "";
+                var strUPC = oRoot.SelectSingleNode("TTUPC") != null ? oRoot.SelectSingleNode("TTUPC").InnerXml : "";
+
+
+                // *******************************************************************************
+                // Send Transformed Request to the Worldspan Adapter and Getting Native Response*
+                // ******************************************************************************* 
+                var ttWA = SetAdapter(ProviderSystems);
+                strResponse = ttWA.SendMessage(strBPC, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                var strNative = $"{strBPC}{strResponse}";
+
+                // **************************************************
+                // Get record locator                              *
+                // ************************************************** 
+                var oDocResp = new XmlDocument();
+                oDocResp.LoadXml(strResponse);
+                var oRootResp = oDocResp.DocumentElement;
+                var oNodeResp = oRootResp.SelectSingleNode("PNR_RLOC");
+                if (oNodeResp != null)
+                {
+                    // **************************************
+                    // check if any SSR and send if yes *
+                    // **************************************
+                    if (!string.IsNullOrEmpty(strUPC))
+                    {
+                        oNode = oRoot.SelectSingleNode("TTUPC/UPC7/PNR_RLOC");
+                        oNode.InnerText = oNodeResp.InnerText;
+                        strRequest = oRoot.SelectSingleNode("TTUPC").InnerXml;
+
+                        strResponse = ttWA.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.Message);
+                        strNative += $"{strRequest}{strResponse}";
+                    }
+
+                    // **************************************
+                    // check if any Remark and send if yes *
+                    // **************************************
+                    if (!string.IsNullOrEmpty(strRMC))
+                    {
+                        oNode = oRoot.SelectSingleNode("TTRMC/RMC2/PNR_RLOC");
+                        oNode.InnerText = oNodeResp.InnerText;
+                        strRequest = oRoot.SelectSingleNode("TTRMC").InnerXml;
+
+                        strResponse = ttWA.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.Message);
+                        strNative += $"{strRequest}{strResponse}";
+                    }
+
+                    // ********************
+                    // Send retrieve PNR *
+                    // ******************** 
+                    oNode = oRoot.SelectSingleNode("TTDPC/DPC8/REC_LOC");
+                    oNode.InnerText = oNodeResp.InnerText;
+                    strRequest = oRoot.SelectSingleNode("TTDPC").InnerXml;
+
+                    strResponse = ttWA.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.Message);
+                    strNative += $"{strRequest}{strResponse}";
+                }
+
+                // ************************************************
+                // calculate year in all dates and arrival date  *
+                // ************************************************
+
+                try
+                {
+                    oDoc.LoadXml(strResponse);
+                    oRoot = oDoc.DocumentElement;
+                    if (oRoot.SelectNodes("AIR_SEGMENT_INFO") != null)
+                    {
+                        foreach (XmlNode currentONode in oRoot.SelectNodes("AIR_SEGMENT_INFO/AIR_ITEM"))
+                        {
+                            oNode = currentONode;
+                            DateTime dtDepartureDate =
+                                Convert.ToDateTime(
+                                    $"{oNode.SelectSingleNode("DEP_DATE/DEP_DAY").InnerText}{oNode.SelectSingleNode("DEP_DATE/DEP_MONTH").InnerText}{DateTime.Now.Year}");
+
+                            DateTime dtArrivalDate =
+                                Convert.ToDateTime(
+                                    $"{oNode.SelectSingleNode("ARR_DATE/ARR_DAY").InnerText}{oNode.SelectSingleNode("ARR_DATE/ARR_MONTH").InnerText}{DateTime.Now.Year}");
+
+                            if (DateTime.Now.DayOfYear > dtDepartureDate.DayOfYear)
+                            {
+                                dtDepartureDate = dtDepartureDate.AddYears(1);
+                            }
+
+                            oNode.SelectSingleNode("DEP_DATE").InnerText =
+                                dtDepartureDate.ToString("yyyy-MM-dd");
+                            if (DateTime.Now.DayOfYear > dtArrivalDate.DayOfYear)
+                            {
+                                dtArrivalDate = dtArrivalDate.AddYears(1);
+                            }
+
+                            oNode.SelectSingleNode("ARR_DATE").InnerText = dtArrivalDate.ToString("yyyy-MM-dd");
+                        }
+
+                        strResponse = oRoot.OuterXml;
+                    }
+
+                    // *****************************************************************
+                    // Transform Native Worldspan PNRRead Response into OTA Response  *
+                    // ***************************************************************** 
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Worldspan_PNRReadRS.xsl");
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.TravelBuild, ex.Message, ProviderSystems);
+            }
+
+            return strResponse;
+        }
+
+        public string UpdateSessioned()
         {
             string strResponse = "";
             StringBuilder sbu = null;
