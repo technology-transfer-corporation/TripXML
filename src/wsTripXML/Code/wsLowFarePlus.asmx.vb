@@ -620,41 +620,41 @@ Namespace wsTravelTalk
                                     GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))
                                 End Try
 
-                            Case "portal"
-                                'Try
-                                '    sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
-                                '    ttProviderSystems = Application.Get(sb.ToString())
-                                '    sb.Remove(0, sb.Length)
+                            Case "travelport"
+                                Try
+                                    sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
+                                    ttProviderSystems = Application.Get(sb.ToString())
+                                    sb.Remove(0, sb.Length)
 
-                                '    If ttProviderSystems.System Is Nothing Then
-                                '        sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
-                                '        GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), .Providers(i).Name))
-                                '        sb.Remove(0, sb.Length)
-                                '        Exit Select
-                                '    End If
+                                    If ttProviderSystems.System Is Nothing Then
+                                        sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
+                                        GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), .Providers(i).Name))
+                                        sb.Remove(0, sb.Length)
+                                        Exit Select
+                                    End If
 
-                                '    If ttCredential.Providers(i).PCC.Trim.Length > 0 Then
-                                '        ttProviderSystems.PCC = ttCredential.Providers(i).PCC
-                                '    End If
+                                    If ttCredential.Providers(i).PCC.Trim.Length > 0 Then
+                                        ttProviderSystems.PCC = ttCredential.Providers(i).PCC
+                                    End If
 
-                                '    Dim oPortal As New cServicePortal
-                                '    AddHandler oPortal.GotResponse, AddressOf GotResponse
+                                    Dim oTravelport As New cServiceTravelport
+                                    AddHandler oTravelport.GotResponse, AddressOf GotResponse
 
-                                '    With oPortal
-                                '        .ServiceID = ttServiceID
-                                '        .Request = strRequest
-                                '        .ProviderSystems = ttProviderSystems
-                                '        .Version = ""
-                                '    End With
+                                    With oTravelport
+                                        .ServiceID = ttServiceID
+                                        .Request = strRequest
+                                        .ProviderSystems = ttProviderSystems
+                                        .Version = ""
+                                    End With
 
-                                '    DoPortalSearches(i) = New SearchPortal(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oPortal)
-                                '    DoPortalSearches(i).Request = strRequest
-                                '    DoPortalSearches(i).ServiceID = ttServiceID
-                                '    DoPortalSearches(i).BeginSearch()
+                                    'DoTravelportSearches(i) = New SearchPortal(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oPortal)
+                                    'DoTravelportSearches(i).Request = strRequest
+                                    'DoTravelportSearches(i).ServiceID = ttServiceID
+                                    'DoTravelportSearches(i).BeginSearch()
 
-                                'Catch e As Exception
-                                '    GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))
-                                'End Try
+                                Catch e As Exception
+                                    GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))
+                                End Try
 
                             Case "portalxml"
                                 'Try

@@ -330,6 +330,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Classes\cServiceTravelport.vb" />
     <Compile Include="Code\NDCClasses\AirShoppingRQ.vb" />
     <Compile Include="Code\NDCClasses\AirShoppingRS.vb" />
     <Compile Include="Code\NDCClasses\edist_commontypes.vb" />
@@ -732,6 +733,7 @@
     <Content Include="wsStoredFareBuild_v03.asmx" />
     <Content Include="Global.asax" />
     <Content Include="bin\wsTripXML.dll.config" />
+    <Content Include="build.cake" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
