@@ -2700,7 +2700,8 @@ namespace AmadeusWS
 
         public string PNREnd()
         {
-            string strResponse;
+            string response;
+            
             try
             {
                 AmadeusWSAdapter ttAA = SetAdapter();
@@ -2716,30 +2717,25 @@ namespace AmadeusWS
                 //*******************************************************************************
                 // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                 //******************************************************************************* 
-                strResponse = SendAddMultiElements(ttAA, strRequest);
+                response = SendAddMultiElements(ttAA, strRequest);
+                var warning = string.Empty;
 
-                if (strResponse.Contains("SIMULTANEOUS CHANGES TO PNR"))
+                if (response.Contains("SIMULTANEOUS CHANGES TO PNR"))
                 {
                     SendCommandCryptically(ttAA, "IR");
-                    throw new Exception("PNR IGNORED AND REDISPLAYED DUE TO SIMULTANEOUS CHANGE");
+                    response = SendAddMultiElements(ttAA, strRequest);                    
+                    warning = $"<Warnings><Warning Type=\"TRPXML\">PNR IGNORED AND REDISPLAYED DUE TO SIMULTANEOUS CHANGE</Warning></Warnings>";
                 }
 
                 string strResponseTST = string.Empty;
-                if (strResponse.Contains("<longFreetext>--- TST "))
+                if (response.Contains("<longFreetext>--- TST "))
                     strResponseTST = SendDisplayTST(ttAA);
 
-                //*****************************************************************
-                // Transform Native Amadeus PNRRead Response into OTA Response   *
-                //***************************************************************** 
                 try
                 {
-                    var tagToReplace = strRequest.Contains("PNR_RetrieveByRecLoc") ? "</PNR_RetrieveByRecLoc>" : "</PNR_Reply>";
-                    strResponse = strResponse.Replace(tagToReplace, $"{strResponseTST}{Request}{tagToReplace}");
-                    if (inSession)
-                        strResponse = strResponse.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
-
-                    Version = "v03_";
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
+                    response = ConvertToTripXMLMessage(strRequest, inSession, response, strResponseTST);
+                    if(!string.IsNullOrEmpty(warning))
+                        response = response.Replace("<Success />", $"<Success />{warning}");
                 }
                 catch (Exception ex)
                 {
@@ -2753,12 +2749,37 @@ namespace AmadeusWS
                         ConversationID = "";
                     }
                 }
-            }
+            }   
             catch (Exception exx)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNREnd, exx.Message, ttProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.PNREnd, exx.Message, ttProviderSystems);
             }
-            return strResponse;
+            return response;
+        }
+
+        private string ConvertToTripXMLMessage(string request, bool inSession, string gdsMessage, string responseTST = "")
+        {
+            string response;
+            //*****************************************************************
+            // Transform Native Amadeus PNRRead Response into OTA Response   *
+            //***************************************************************** 
+            try
+            {
+                var tagToReplace = request.Contains("PNR_RetrieveByRecLoc") ? "</PNR_RetrieveByRecLoc>" : "</PNR_Reply>";
+                gdsMessage = gdsMessage.Replace(tagToReplace, $"{responseTST}{Request}{tagToReplace}");
+                if (inSession)
+                    gdsMessage = gdsMessage.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
+
+                Version = "v03_";
+                response = CoreLib.TransformXML(gdsMessage, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+            }
+            
+            return response;
         }
 
         public string SearchName()
