@@ -1430,11 +1430,7 @@
     <EmbeddedResource Include="wsTravelModify.asmx.resx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AdminTools\AdminTools.csproj">
-      <Project>{3D03930C-DFD6-4F1C-88AB-B151A70D98DD}</Project>
-      <Name>AdminTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AmadeusWS\AmadeusWS.csproj">
+    <ProjectReference Include="..\Amadeus\AmadeusWS.csproj">
       <Project>{deb7aa8c-6eff-4085-af1c-55dfc4a13083}</Project>
       <Name>AmadeusWS</Name>
     </ProjectReference>
@@ -1442,11 +1438,11 @@
       <Project>{68166A57-F20D-4620-A7EF-E65F2326ED7F}</Project>
       <Name>CompressionExtension</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Galileo-CS\Galileo.csproj">
+    <ProjectReference Include="..\Galileo\Galileo.csproj">
       <Project>{e7d7bbb7-e6f5-04bf-3e34-f99a5351e8e1}</Project>
       <Name>Galileo</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sabre-CS\Sabre.csproj">
+    <ProjectReference Include="..\Sabre\Sabre.csproj">
       <Project>{e7280d0f-fdef-0eca-020a-4183f59428c1}</Project>
       <Name>Sabre</Name>
     </ProjectReference>
