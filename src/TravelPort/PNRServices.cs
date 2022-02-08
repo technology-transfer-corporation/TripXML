@@ -9,12 +9,12 @@ namespace TravelPort
 {
     public class PNRServices
     {
-
         public modCore.TripXMLProviderSystems ttProviderSystems;
         private StringBuilder sb = new StringBuilder();
         private string mstrVersion = "";
         private string mstrXslPath = "";
         private string _tracerID = "";
+
         public string Request { get; set; } = "";
 
         public string Version
@@ -39,14 +39,12 @@ namespace TravelPort
 
         public string PNRRead()
         {
-            TravelPortWSAdapter ttTP = null;
             string strResponse;
-            DateTime RequestTime;
-            DateTime ResponseTime;
+            DateTime RequestTime = DateTime.Now;
             //*****************************************************************
             // Transform OTA PNRRead Request into Native Amadeus Request     *
             //***************************************************************** 
-            RequestTime = DateTime.Now;
+
             try
             {
                 string strRequest ;
@@ -99,13 +97,14 @@ namespace TravelPort
                     throw new Exception("Transformation produced empty xml.");
                 }
 
+                TravelPortWSAdapter ttTP;
                 //*******************************************************************************
                 // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                 //******************************************************************************* 
 
                 try
                 {
-                    ttTP = new TravelPortWSAdapter(ttProviderSystems) {TracerID = _tracerID};
+                    ttTP = new TravelPortWSAdapter(ttProviderSystems) { TracerID = _tracerID };
                     // send retrieve universal record (UR)
                     strResponse = ttTP.SendMessage(strRetrieve, TravelPortWSAdapter.enRequestType.UniversalRecordService);
 
@@ -140,7 +139,7 @@ namespace TravelPort
                         //}
                     }
 
-                        //strResponse = strResponse.Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.TravelportSchema.PNR_RetrieveByRecLocReply + "\"", "");
+                    //strResponse = strResponse.Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.TravelportSchema.PNR_RetrieveByRecLocReply + "\"", "");
                 }
                 catch (Exception ex)
                 {
@@ -183,15 +182,7 @@ namespace TravelPort
         public string PNRReprice()
         {
             string strResponse;
-            string strSearch = "";
-            string strImport = "";
-            XmlDocument natDoc = null;
-            XmlElement natElement = null;
-            string strProviderRecLoc = "";
-            string strURRecLoc = "";
             DateTime RequestTime;
-            DateTime ResponseTime;
-            XmlNamespaceManager nsmgr = null;
             //*****************************************************************
             // Transform OTA PNRReprice Request into Native Travelport Request     *
             //***************************************************************** 
