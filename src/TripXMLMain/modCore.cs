@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Web.Configuration;
-using Microsoft.VisualBasic;
-using Microsoft.VisualBasic.CompilerServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -21,6 +20,7 @@ namespace TripXMLMain
         public static bool IsCreating = false;
         public static bool NonDirectFlights = false;
         public static int LFSchRequestCount = 0;
+        public static Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
 
         #region  Structures 
 
@@ -937,16 +937,16 @@ namespace TripXMLMain
             if (!string.IsNullOrEmpty(OTA_Version))
                 version = OTA_Version;
             var lstError = new List<string>();
-            if (!message.Contains(Constants.vbNewLine))
+            if (!message.Contains(Environment.NewLine))
             {
                 lstError.Add(message);
             }
             else
             {
-                lstError.AddRange(message.Split(Conversions.ToChar(Constants.vbNewLine)).ToList());
+                lstError.AddRange(message.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList());
             }
 
-            var trace = new JObject(new JProperty("@Status", Interaction.IIf(Strings.StrComp(tag, "OTA_CancelRS") == 0, "Unsuccessful", "")), new JProperty("@Version", version), new JProperty("@TransactionIdentifier", providerSystems.Provider), new JProperty("@UniqueID", Interaction.IIf(!string.IsNullOrEmpty(recordLocator), recordLocator, "")), new JProperty("@TimeStamp", DateAndTime.Now), new JProperty("Errors", GetListToJSON(lstError)));
+            var trace = new JObject(new JProperty("@Status", tag.Contains("OTA_CancelRS") ? "" : "Unsuccessful"), new JProperty("@Version", version), new JProperty("@TransactionIdentifier", providerSystems.Provider), new JProperty("@UniqueID", !string.IsNullOrEmpty(recordLocator) ? recordLocator : ""), new JProperty("@TimeStamp", DateTime.Now), new JProperty("Errors", GetListToJSON(lstError)));
             AddLog(LogType.Error, ref tag, providerSystems, trace);
             string jsonTrace = JsonConvert.SerializeObject(trace);
             var doc = JsonConvert.DeserializeXmlNode(jsonTrace, tag); // strResponse
@@ -1371,14 +1371,14 @@ namespace TripXMLMain
             }
             else
             {
-                lstError.AddRange(Message.Split(Conversions.ToChar(Constants.vbNewLine)).ToList());
+                lstError.AddRange(Message.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList());
             }
 
             var ps = new TripXMLProviderSystems();
             ps.UserName = "";
             ps.UserID = "";
             ps.Provider = Provider;
-            var trace = new JObject(new JProperty("Status", Interaction.IIf(Strings.StrComp(tag, "OTA_CancelRS") == 0, "Unsuccessful", "")), new JProperty("@Version", version), new JProperty("@AltLangID", Interaction.IIf(!string.IsNullOrEmpty(Provider), Provider, string.Empty)), new JProperty("@UniqueID", Interaction.IIf(!string.IsNullOrEmpty(RecordLocator), RecordLocator, "")), new JProperty("@TimeStamp", DateAndTime.Now), new JProperty("Errors", GetListToJSON(lstError)));
+            var trace = new JObject(new JProperty("Status", tag.Contains("OTA_CancelRS") ? "" : "Unsuccessful"), new JProperty("@Version", version), new JProperty("@AltLangID", !string.IsNullOrEmpty(Provider) ? Provider : string.Empty), new JProperty("@UniqueID", !string.IsNullOrEmpty(RecordLocator) ? RecordLocator : ""), new JProperty("@TimeStamp", DateTime.Now), new JProperty("Errors", GetListToJSON(lstError)));
             AddLog(LogType.Error, ref tag, ps, trace);
             string jsonTrace = JsonConvert.SerializeObject(trace);
             var doc = JsonConvert.DeserializeXmlNode(jsonTrace, tag); // strResponse
@@ -1405,237 +1405,6 @@ namespace TripXMLMain
             }
         }
 
-        // Public Function FormatErrorMessage(ByVal service As ttServices, ByVal message As String, ByVal providerSystems As TripXMLProviderSystems, Optional ByVal recordLocator As String = "", Optional ByVal OTA_Version As String = "") As String
-        // Dim strResponse As String
-        // Dim version As String = ""
-        // Dim tag As String = ""
-        // Dim status As String
-        // Dim arError() As String
-        // Dim i As Integer
-        // Dim sb As StringBuilder = New StringBuilder()
-
-        // Select Case service
-        // Case ttServices.AirAvail
-        // tag = "OTA_AirAvailRS"
-        // version = "1.001"
-        // Case ttServices.AirFlifo
-        // tag = "OTA_AirFlifoRS"
-        // version = "1.001"
-        // Case ttServices.AirPrice
-        // tag = "OTA_AirPriceRS"
-        // version = "2.000"
-        // Case ttServices.AirRules
-        // tag = "OTA_AirRulesRS"
-        // version = "2.000"
-        // Case ttServices.AirSeatMap
-        // tag = "OTA_AirSeatMapRS"
-        // version = "1.000"
-        // Case ttServices.LowFare
-        // tag = "OTA_AirLowFareSearchRS"
-        // version = "2.000"
-        // Case ttServices.LowFarePlus
-        // tag = "OTA_AirLowFareSearchPlusRS"
-        // version = "2.000"
-        // Case ttServices.LowFareMatrix
-        // tag = "OTA_AirLowFareSearchMatrixRS"
-        // version = "2.000"
-        // Case ttServices.LowFareFlights
-        // tag = "OTA_AirLowFareSearchFlightsRS"
-        // version = "2.000"
-        // Case ttServices.LowFareSchedule
-        // tag = "OTA_AirLowFareSearchScheduleRS"
-        // version = "2.000"
-        // Case ttServices.CarAvail
-        // tag = "OTA_VehAvailRateRS"
-        // version = "2.000"
-        // Case ttServices.CarInfo
-        // tag = "OTA_VehLocDetailRS"
-        // version = "2.000"
-        // Case ttServices.HotelAvail
-        // tag = "OTA_HotelAvailRS"
-        // version = "1.001"
-        // Case ttServices.HotelInfo
-        // tag = "OTA_HotelDescriptiveInfoRS"
-        // version = "1.001"
-        // Case ttServices.HotelSearch
-        // tag = "OTA_HotelSearchRS"
-        // version = "1.001"
-        // Case ttServices.PNRRead
-        // tag = "OTA_TravelItineraryRS"
-        // version = "v03"
-        // Case ttServices.PNRCancel
-        // tag = "OTA_CancelRS"
-        // version = "1.001"
-        // Case ttServices.TravelBuild
-        // tag = "OTA_TravelItineraryRS"
-        // version = "v03"
-        // Case ttServices.ShowMileage
-        // tag = "OTA_ShowMileageRS"
-        // version = "1.001"
-        // Case ttServices.CreateSession
-        // tag = "SessionCreateRS"
-        // version = "1.001"
-        // Case ttServices.CloseSession
-        // tag = "SessionCloseRS"
-        // version = "1.001"
-        // Case ttServices.Cryptic
-        // tag = "CrypticRS"
-        // version = ""
-        // Case ttServices.CCValid
-        // tag = "OTA_CCValidRS"
-        // version = ""
-        // Case ttServices.CurConv
-        // tag = "OTA_CurConvRS"
-        // version = ""
-        // Case ttServices.TimeDiff
-        // tag = "OTA_TimeDiffRS"
-        // version = ""
-        // Case ttServices.CruiseCabinAvail
-        // tag = "OTA_CruiseCabinAvailRS"
-        // version = "1.000"
-        // Case ttServices.CruiseCategoryAvail
-        // tag = "OTA_CruiseCategoryAvailRS"
-        // version = "1.000"
-        // Case ttServices.CruiseFareAvail
-        // tag = "OTA_CruiseFareAvailRS"
-        // version = "1.000"
-        // Case ttServices.CruiseSailAvail
-        // tag = "OTA_CruiseSailAvailRS"
-        // version = "1.000"
-        // Case ttServices.CruiseCabinAvail
-        // tag = "OTA_CruiseCabinAvailRS"
-        // version = "1.000"
-        // Case ttServices.CruiseCabinHold
-        // tag = "OTA_CruiseCabinHoldRS"
-        // version = "1.000"
-        // Case ttServices.CruiseCabinUnhold
-        // tag = "OTA_CruiseCabinUnholdRS"
-        // version = "1.000"
-        // Case ttServices.CruisePriceBooking
-        // tag = "OTA_CruisePriceBookingRS"
-        // version = "1.000"
-        // Case ttServices.CruiseCreateBooking
-        // tag = "OTA_CruiseCreateBookingRS"
-        // version = "1.000"
-        // Case ttServices.CruiseRead
-        // tag = "OTA_CruiseReadRS"
-        // version = "1.000"
-        // Case ttServices.CruiseCancelBooking
-        // tag = "OTA_CruiseCancelRS"
-        // version = "1.000"
-        // Case ttServices.CruiseModifyBooking
-        // tag = "OTA_CruiseCreateBookingRS"
-        // version = "1.000"
-        // Case ttServices.CruisePackageAvail
-        // tag = "OTA_CruisePackageAvailRS"
-        // version = "1.000"
-        // Case ttServices.Native
-        // tag = "NativeRS"
-        // version = "1.000"
-        // Case ttServices.HotelModify
-        // tag = "OTA_TravelItineraryRS"
-        // version = "v03"
-        // Case ttServices.IssueTicket
-        // tag = "TT_IssueTicketRS"
-        // version = "1.000"
-        // Case ttServices.GeoList
-        // tag = "TT_GeoListRS"
-        // version = "1.000"
-        // Case ttServices.FareDisplay
-        // tag = "OTA_AirFareDisplayRS"
-        // version = "1.000"
-        // Case ttServices.Queue
-        // tag = "OTA_QueueRS"
-        // version = "1.000"
-        // Case ttServices.QueueRead
-        // tag = "OTA_TravelItineraryRS"
-        // If Not String.IsNullOrEmpty(OTA_Version) Then
-        // version = OTA_Version
-        // Else
-        // version = "v03"
-        // End If
-        // Case ttServices.ETicketVerify
-        // tag = "OTA_ETicketVerifyRS"
-        // version = "1.000"
-        // Case ttServices.InsuranceBook
-        // tag = "OTA_InsuranceBookRS"
-        // version = "1.001"
-        // Case ttServices.InsuranceQuote
-        // tag = "OTA_InsuranceQuoteRS"
-        // version = "1.001"
-        // Case ttServices.CruiseItineraryDesc
-        // tag = "OTA_CruiseItineraryAvailRS"
-        // version = "1.000"
-        // Case ttServices.AddonAvail
-        // tag = "OTA_AddonAvailRS"
-        // version = "1.000"
-        // Case ttServices.TravelModify
-        // tag = "OTA_TravelItineraryRS"
-        // version = "v03"
-        // Case ttServices.Update
-        // tag = "OTA_TravelItineraryRS"
-        // version = "v03"
-        // Case ttServices.UpdateSessioned
-        // tag = "OTA_TravelItineraryRS"
-        // version = "v03"
-        // Case ttServices.PNRSplit
-        // tag = "OTA_TravelItineraryRS"
-        // version = "v03"
-        // Case ttServices.IssueTicketSessioned
-        // tag = "TT_IssueTicketRS"
-        // version = "1.001"
-        // End Select
-        // If Not String.IsNullOrEmpty(OTA_Version) Then version = OTA_Version
-        // If StrComp(tag, "OTA_CancelRS") = 0 Then
-        // status = " Status = ""Unsuccessful"""
-        // Else
-        // status = ""
-        // End If
-        // sb.Append(" Version=""").Append(version).Append("""")
-        // version = sb.ToString()
-        // sb.Remove(0, sb.Length())
-        // If Not String.IsNullOrEmpty(providerSystems.Provider) Then
-        // sb.Append(" TransactionIdentifier=""").Append(providerSystems.Provider).Append("""")
-        // providerSystems.Provider = sb.ToString()
-        // sb.Remove(0, sb.Length())
-        // End If
-        // sb.Append("<").Append(tag).Append(version).Append(providerSystems.Provider).Append(status).Append(">")
-        // If Not String.IsNullOrEmpty(recordLocator) Then
-        // sb.Append("<UniqueID ID='").Append(recordLocator).Append("'></UniqueID>")
-        // End If
-        // sb.Append("<Errors>")
-        // arError = message.Split(vbNewLine)
-        // For i = 0 To arError.GetLength(0) - 1
-        // sb.Append("<Error Type=""E"">").Append(arError(i)).Append("</Error>")
-        // Next
-        // '=============================================================================
-        // 'Try
-        // '    Dim strPath As String = WebConfigurationManager.AppSettings("TripXMLFolder")
-        // '    strPath &= "\Tables\Users\"
-        // '    Dim oDoc As New XmlDocument
-        // '    ' Load Access Control List into memory'Try
-        // '    oDoc.Load(sb1.Append(strPath).Append("tt_acl.xml").ToString())
-        // '    sb1.Remove(0, sb1.Length())
-        // '    Dim oRoot As XmlElement = oDoc.DocumentElement
-        // '    If Not oRoot.SelectSingleNode("@Name") Is Nothing Then
-        // '        ThisMachine = oRoot.SelectSingleNode("@Name").InnerText
-        // '    End If
-        // '    sb.Append("<Error>").Append(ThisMachine).Append("</Error>")
-        // '    Dim myDTFI As DateTimeFormatInfo = New CultureInfo("en-US", True).DateTimeFormat
-        // '    sb.Append("<Error>").Append(DateTime.UtcNow.ToString(myDTFI).Substring(11) + " GMT").Append("</Error>")
-        // 'Catch exr As Exception
-        // '    CoreLib.SendTrace("", "modeCore", "FormatErrorMessage: Error Loading tt_acl.xml", exr.Message)
-        // '    Throw exr
-        // 'End Try
-        // '===========================================================================
-        // sb.Append("</Errors></").Append(tag).Append(">")
-        // strResponse = sb.ToString()
-        // 'sb1 = Nothing
-        // AddLog(String.Format("<EXOR><M>{0}</M><EXOR/>", strResponse), providerSystems.UserName)
-        // 'ttProviderSystems.UserName
-        // Return strResponse
-        // End Function
-
         #endregion
 
         #region Logging
@@ -1657,11 +1426,16 @@ namespace TripXMLMain
             // Dim DirPath As String = "C:\\TripXML\\log"
             try
             {
-                string filePath = string.Format(@"{0}\\{1}_{2}.log", WebConfigurationManager.AppSettings["TripXMLLogFolder"], log.UserName, DateTime.Today.ToString("dd-MM-yyyy"));
-                fileNumber = FileSystem.FreeFile();
-                FileSystem.FileOpen(fileNumber, filePath, OpenMode.Append);
-                FileSystem.PrintLine(fileNumber, log.ToString());
-                FileSystem.FileClose(fileNumber);
+                string filePath = string.Format(@"{0}\\{1}_{2}.log", config.GetSection("TripXMLLogFolder"), log.UserName, DateTime.Today.ToString("dd-MM-yyyy"));
+                //fileNumber = FileSystem.FreeFile();
+                //FileSystem.FileOpen(fileNumber, filePath, OpenMode.Append);
+                //FileSystem.PrintLine(fileNumber, log.ToString());
+                //FileSystem.FileClose(fileNumber);
+
+                using (StreamWriter sw = new StreamWriter(filePath))
+                {
+                    sw.Write(log.ToString());
+                }
             }
             catch (Exception ex)
             {
@@ -1672,16 +1446,20 @@ namespace TripXMLMain
         public static void AddLog(ref string message, string username)
         {
             int fileNumber;
-            string strPath = WebConfigurationManager.AppSettings["TripXMLLogFolder"];
+            string strPath = config.GetSection("TripXMLLogFolder").ToString();
             try
             {
-                string filePath = string.Format(@"\\{0}_{1}", username, DateTime.Today.ToString("dd-MM-yyyy"));
-                // Dim DirPath As String = "C:\\TripXML\\log"
-                filePath = strPath + filePath + ".log";
-                fileNumber = FileSystem.FreeFile();
-                FileSystem.FileOpen(fileNumber, filePath, OpenMode.Append);
-                FileSystem.PrintLine(fileNumber, message);
-                FileSystem.FileClose(fileNumber);
+                string filePath = $@"\\{username}_{DateTime.Today.ToString("dd - MM - yyyy")}";
+                filePath = $"{strPath}{filePath}.log";
+
+                //fileNumber = FileSystem.FreeFile();
+                //FileSystem.FileOpen(fileNumber, filePath, OpenMode.Append);
+                //FileSystem.PrintLine(fileNumber, message);
+                //FileSystem.FileClose(fileNumber);
+                using (StreamWriter sw = new StreamWriter(filePath))
+                {
+                    sw.Write(message);
+                }
             }
             catch (Exception ex)
             {
@@ -1689,18 +1467,22 @@ namespace TripXMLMain
             }
         }
 
-        public static void AddLog_old(ref string Message, string Username)
+        public static void AddLog_old(ref string message, string Username)
         {
             int fileNumber;
             try
             {
-                string filePath = @"log\\" + Username + "_" + DateTime.Today.ToString("dd-MM-yyyy");
-                // Dim DirPath As String = "C:\\TripXML\\log"
-                filePath = @"C:\\TripXML\\" + filePath + ".txt";
-                fileNumber = FileSystem.FreeFile();
-                FileSystem.FileOpen(fileNumber, filePath, OpenMode.Append);
-                FileSystem.PrintLine(fileNumber, Message);
-                FileSystem.FileClose(fileNumber);
+                string filePath = $@"log\\{Username}_{DateTime.Today.ToString("dd-MM-yyyy")}";
+                filePath = $@"C:\\TripXML\\{filePath}.txt";
+
+                //fileNumber = FileSystem.FreeFile();
+                //FileSystem.FileOpen(fileNumber, filePath, OpenMode.Append);
+                //FileSystem.PrintLine(fileNumber, message);
+                //FileSystem.FileClose(fileNumber);
+                using (StreamWriter sw = new StreamWriter(filePath))
+                {
+                    sw.Write(message);
+                }
             }
             catch (Exception ex)
             {
@@ -1731,11 +1513,11 @@ namespace TripXMLMain
         public class Log
         {
             /// <summary>
-        /// TransactionIdentifier
-        /// </summary>
-        /// <value></value>
-        /// <returns></returns>
-        /// <remarks>Amadeus, Sabre</remarks>
+            /// TransactionIdentifier
+            /// </summary>
+            /// <value></value>
+            /// <returns></returns>
+            /// <remarks>Amadeus, Sabre</remarks>
             public string Provider { get; set; }
             public string RecordLocator { get; set; }
             public string UserName { get; set; }
@@ -2555,6 +2337,5 @@ namespace TripXMLMain
         }
 
         #endregion
-
     }
 }

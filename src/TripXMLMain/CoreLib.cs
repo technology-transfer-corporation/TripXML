@@ -3,10 +3,7 @@ using System.IO;
 using System.Net.Mail;
 using System.Net.Sockets;
 using System.Text;
-using System.Web.Configuration;
 using System.Xml;
-using Microsoft.VisualBasic;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace TripXMLMain
 {
@@ -15,72 +12,6 @@ namespace TripXMLMain
 
         #region  Transform XML with XSLs 
 
-        // Public Shared Function TransformXML1(ByVal inputXml As String, ByVal xslPath As String, ByVal xslName As String, Optional ByVal FromFile As Boolean = False) As String
-        // Dim xslt As Xsl.XslTransform = Nothing
-        // Dim oDoc As XmlDocument = Nothing
-        // Dim oxNav As XPathNavigator = Nothing
-        // Dim oResolver As XmlUrlResolver = Nothing
-        // Dim oWriter As System.IO.StringWriter = Nothing
-        // Dim oReader As XmlTextReader = Nothing
-
-        // #Const xslTInline = False
-
-        // Try
-        // oDoc = New XmlDocument
-        // If FromFile Then
-        // oDoc.Load(inputXml)
-        // Else
-        // oDoc.LoadXml(inputXml)
-        // End If
-        // oxNav = oDoc.CreateNavigator()
-
-        // oResolver = New XmlUrlResolver
-        // oResolver.Credentials = System.Net.CredentialCache.DefaultCredentials
-
-        // oWriter = New System.IO.StringWriter(New System.Text.StringBuilder)
-
-        // xslt = New Xsl.XslTransform
-
-        // #If xslTInline = True Then
-        // Dim asmRf As System.Reflection.Assembly = System.Reflection.Assembly.GetCallingAssembly
-        // Dim AssemblyName As String = ""
-
-        // AssemblyName = asmRf.FullName.Substring(0, asmRf.FullName.IndexOf(",")) & "."
-        // oReader = New XmlTextReader(asmRf.GetManifestResourceStream(AssemblyName & xslName))
-        // xslt.Load(oReader, New XmlUrlResolver, asmRf.GetExecutingAssembly.Evidence)
-        // #Else
-        // If xslPath.LastIndexOf("\") <> xslPath.Length - 1 Then
-        // xslPath &= "\"
-        // End If
-        // xslt.Load(xslPath & xslName)
-        // ' AC Test to catch the XSLs files Dim ValidateXSDOut = Web.HttpContext.Current.Application.Get("XSDElleipsisOut")
-
-        // #End If
-
-        // xslt.Transform(oxNav, Nothing, oWriter, oResolver)
-
-        // Return oWriter.ToString()
-
-        // Catch ex As Exception
-        // Throw ex
-        // Finally
-        // If Not oReader Is Nothing Then
-        // oReader.Close()
-        // oReader = Nothing
-        // End If
-        // If Not oWriter Is Nothing Then
-        // oWriter.Close()
-        // oWriter = Nothing
-        // End If
-        // If Not oResolver Is Nothing Then oResolver = Nothing
-        // If Not oxNav Is Nothing Then oxNav = Nothing
-        // If Not oDoc Is Nothing Then oDoc = Nothing
-        // If Not xslt Is Nothing Then xslt = Nothing
-
-        // End Try
-
-        // End Function
-
         public static string TransformXML(string inputXml, string xslPath, string xslName, bool fromFile = false)
         {
             System.Xml.Xsl.XslCompiledTransform xslt;
@@ -88,9 +19,6 @@ namespace TripXMLMain
             StringWriter oWriter = null;
             System.Xml.Xsl.XsltSettings settings = null;
 
-            /* TODO ERROR: Skipped DefineDirectiveTrivia
-            #Const xslTInline = True
-            */
             try
             {
                 oDoc = new XmlDocument();
@@ -107,34 +35,8 @@ namespace TripXMLMain
                 xslt = new System.Xml.Xsl.XslCompiledTransform();
                 settings = new System.Xml.Xsl.XsltSettings(true, true);
 
-
-                /* TODO ERROR: Skipped IfDirectiveTrivia
-                #If xslTInline = True Then
-                */            // Dim oReader As XmlTextReader = Nothing
-                              // oResolver = New XmlUrlResolver
-                              // oResolver.Credentials = System.Net.CredentialCache.DefaultCredentials
-                              // Dim asmRf As System.Reflection.Assembly = System.Reflection.Assembly.GetCallingAssembly
-
-                // sbT.Append(asmRf.FullName.Substring(0, asmRf.FullName.IndexOf(",")))
-                // sbT.Append(".").Append(xslName)
-                // oReader = New XmlTextReader(asmRf.GetManifestResourceStream(sbT.ToString()))
-                // sbT = Nothing
-                // xslt.Load(oReader, New XmlUrlResolver, asmRf.GetExecutingAssembly.Evidence)
                 string xxslt = xslName.Replace(".xsl", "");
-                // xslt.Load(GetType(AmadeusWS_AirAvailRQ))
                 xslt.Load(System.Reflection.Assembly.Load(xxslt).GetType(xxslt));
-                /* TODO ERROR: Skipped ElseDirectiveTrivia
-                #Else
-                *//* TODO ERROR: Skipped DisabledTextTrivia
-                            If xslPath.LastIndexOf("\") <> xslPath.Length - 1 Then
-                                xslPath = sbT.Append(xslPath).Append("\").ToString()
-                            End If
-                            sbT.Append(xslPath).Append(xslName)
-                            xslt.Load(sbT.ToString(), settings, New XmlUrlResolver)
-                            sbT = Nothing
-                *//* TODO ERROR: Skipped EndIfDirectiveTrivia
-                #End If
-                */
                 xslt.Transform(oDoc.DocumentElement.ParentNode, null, oWriter);
                 return oWriter.ToString();
             }
@@ -183,7 +85,7 @@ namespace TripXMLMain
                 udpClient.Send(sendBytes, sendBytes.Length);
                 udpClient.Close();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 if (udpClient is object)
                 {
@@ -199,25 +101,16 @@ namespace TripXMLMain
         public static bool ValidateXML(string xmlData, int Service, int SchemaType, string UserID, string Version)
         {
             string schemaFile;
-            try
-            {
-                schemaFile = modCore.GetSchemaFile((modCore.ttServices)Service, (modCore.enSchemaType)SchemaType, Version);
-                return ValidateXML(xmlData, schemaFile, UserID);
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            finally
-            {
-            }
+
+            schemaFile = modCore.GetSchemaFile((modCore.ttServices)Service, (modCore.enSchemaType)SchemaType, Version);
+            return ValidateXML(xmlData, schemaFile, UserID);
         }
 
         public static bool ValidateXML(string xmlData, string otaMessage, string SchemaFolder, string UserID, string version)
         {
-            var sb = new StringBuilder();
             try
             {
+                var sb = new StringBuilder();
                 if (!SchemaFolder.EndsWith(@"\"))
                 {
                     sb.Append(SchemaFolder).Append(@"\");
@@ -226,7 +119,7 @@ namespace TripXMLMain
                 sb.Append(SchemaFolder).Append(modCore.GetSchemaFile(otaMessage, version));
                 return ValidateXML(xmlData, sb.ToString(), UserID);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -261,7 +154,7 @@ namespace TripXMLMain
                     // Just Read the XML Document
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -304,10 +197,10 @@ namespace TripXMLMain
                     throw new Exception(sb.ToString());
                 }
 
-                minDelay = Conversions.ToInteger(oNode.Attributes["MinDelay"].Value);
-                maxDelay = Conversions.ToInteger(oNode.Attributes["MaxDelay"].Value);
+                minDelay = Convert.ToInt32(oNode.Attributes["MinDelay"].Value);
+                maxDelay = Convert.ToInt32(oNode.Attributes["MaxDelay"].Value);
                 response = oNode.SelectSingleNode(requestTag).InnerXml;
-                delay = (int)Math.Round(Conversion.Int((maxDelay - minDelay + 1) * VBMath.Rnd() + minDelay));
+                delay = (int)Math.Round(Convert.ToDecimal((maxDelay - minDelay + 1) * new Random().Next() + minDelay));
                 sb.Append("Delaying ").Append(delay).Append(" miliseconds");
                 SendTrace(UserID, "CoreLib", sb.ToString(), response, string.Empty);
                 sb.Remove(0, sb.Length);
@@ -349,14 +242,12 @@ namespace TripXMLMain
             sb.Remove(0, sb.Length);
             sb.Append("</").Append(sNode).Append(">");
             intLength = xmlData.IndexOf(sb.ToString(), StringComparison.Ordinal) - intStart;
-            return xmlData.Substring(intStart, intLength).Replace(Constants.vbCr, "").Replace(Constants.vbLf, "").Trim();
+            return xmlData.Substring(intStart, intLength).Replace("\r", "").Replace("\n", "").Trim();
         }
 
         #endregion
 
         #region  Mask Credit Card, Passport Number 
-        // CardNumber, BankAcctNumber
-
         public static void MaskPrivateData(ref string Message, string[] Attributes)
         {
             int index;
@@ -385,11 +276,9 @@ namespace TripXMLMain
                 }
             }
         }
-
         #endregion
 
         #region  Send emails out 
-
         public static void SendEmail(string Subject, string Body, string User = "")
         {
             MailMessage mail;
@@ -402,7 +291,7 @@ namespace TripXMLMain
             int i = 0;
             SendEmailAsynch doSendEmail;
             var sb = new StringBuilder();
-            sb.Append(WebConfigurationManager.AppSettings["TripXMLFolder"]).Append(@"\Tables\Users\");
+            sb.Append(modCore.config.GetSection("TripXMLFolder")).Append(@"\Tables\Users\");
             strPath = sb.ToString();
             sb.Remove(0, sb.Length);
             oDoc = new XmlDocument();
@@ -425,11 +314,10 @@ namespace TripXMLMain
                 {
                     oNode = currentONode;
                     sb.Append(oNode.InnerText);
-                    i = i + 1;
+                    i++;
+
                     if (i < oRoot.SelectNodes("SendMail/To").Count)
-                    {
                         sb.Append(";");
-                    }
                 }
 
                 sendTo = sb.ToString();
@@ -450,11 +338,9 @@ namespace TripXMLMain
                     {
                         oNode = currentONode1;
                         sb.Append(oNode.InnerText);
-                        i = i + 1;
+                        i++;
                         if (i < oRoot.SelectNodes("SendMail/To").Count)
-                        {
                             sb.Append(";");
-                        }
                     }
 
                     sendTo = sb.ToString();
@@ -463,14 +349,7 @@ namespace TripXMLMain
             }
 
             mail = new MailMessage(oRoot.SelectSingleNode("SendMail/From").InnerText, sendTo, Subject, Body);
-            if (oRoot.SelectSingleNode("SendMail/@Format").InnerText == "Text")
-            {
-                mail.IsBodyHtml = false;
-            }
-            else
-            {
-                mail.IsBodyHtml = true;
-            }
+            mail.IsBodyHtml = oRoot.SelectSingleNode("SendMail/@Format").InnerText == "Text";
 
             smtp = new SmtpClient(oRoot.SelectSingleNode("SendMail/SmtpServer").InnerText, 25);
             smtp.UseDefaultCredentials = false;
@@ -479,7 +358,6 @@ namespace TripXMLMain
             doSendEmail = new SendEmailAsynch(mail, ref smtp);
             doSendEmail.BeginSearch();
         }
-
         #endregion
 
     }
@@ -523,8 +401,12 @@ namespace TripXMLMain
                 CoreLib.SendTrace("", "CoreLib", "TripXMLSendMail: Error sending email", exr.Message, string.Empty);
                 throw;
             }
+            finally
+            {
+                smtp = null;
+            }
 
-            smtp = null;
+
         }
     }
 }

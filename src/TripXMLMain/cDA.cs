@@ -2,10 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
-using System.Web.Configuration;
 using System.Xml;
-using Microsoft.VisualBasic;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace TripXMLMain
 {
@@ -41,21 +38,55 @@ namespace TripXMLMain
             {
                 if (CnxString == "BEConnectionString")
                 {
-                    cnnString = WebConfigurationManager.AppSettings["BEConnectionString"].Trim();
+
+                    /* Unmerged change from project 'TripXML.Library (net6.0)'
+                    Before:
+                                        cnnString = Core.modCore.config.GetSection("BEConnectionString").ToString().Trim();
+                    After:
+                                        cnnString = modCore.config.GetSection("BEConnectionString").ToString().Trim();
+                    */
+                    cnnString = modCore.config.GetSection("BEConnectionString").ToString().Trim();
                 }
                 else if (CnxString == "DataDatabase")
                 {
-                    cnnString = WebConfigurationManager.AppSettings["DataDatabase"].Trim();
+
+                    /* Unmerged change from project 'TripXML.Library (net6.0)'
+                    Before:
+                                        cnnString = Core.modCore.config.GetSection("DataDatabase").ToString().Trim();
+                    After:
+                                        cnnString = modCore.config.GetSection("DataDatabase").ToString().Trim();
+                    */
+                    cnnString = modCore.config.GetSection("DataDatabase").ToString().Trim();
                 }
                 else
                 {
-                    cnnString = WebConfigurationManager.AppSettings["ConnectionString"].Trim();
+
+                    /* Unmerged change from project 'TripXML.Library (net6.0)'
+                    Before:
+                                        cnnString = Core.modCore.config.GetSection("ConnectionString").ToString().Trim();
+                    After:
+                                        cnnString = modCore.config.GetSection("ConnectionString").ToString().Trim();
+                    */
+                    cnnString = modCore.config.GetSection("ConnectionString").ToString().Trim();
                     if (cnnString.Length == 0)
                     {
-                        server = WebConfigurationManager.AppSettings["Server"];
-                        database = WebConfigurationManager.AppSettings["Database"];
-                        user = WebConfigurationManager.AppSettings["User"];
-                        password = WebConfigurationManager.AppSettings["Password"];
+
+                        /* Unmerged change from project 'TripXML.Library (net6.0)'
+                        Before:
+                                                server = Core.modCore.config.GetSection("Server").ToString().Trim(); ;
+                                                database = Core.modCore.config.GetSection("Database").ToString().Trim(); ;
+                                                user = Core.modCore.config.GetSection("User").ToString().Trim(); ;
+                                                password = Core.modCore.config.GetSection("Password").ToString().Trim(); ;
+                        After:
+                                                server = modCore.config.GetSection("Server").ToString().Trim(); ;
+                                                database = modCore.config.GetSection("Database").ToString().Trim(); ;
+                                                user = modCore.config.GetSection("User").ToString().Trim(); ;
+                                                password = modCore.config.GetSection("Password").ToString().Trim(); ;
+                        */
+                        server = modCore.config.GetSection("Server").ToString().Trim(); ;
+                        database = modCore.config.GetSection("Database").ToString().Trim(); ;
+                        user = modCore.config.GetSection("User").ToString().Trim(); ;
+                        password = modCore.config.GetSection("Password").ToString().Trim(); ;
                         sb = new StringBuilder();
                         sb.Append("data source=").Append(server).Append(";initial Catalog=").Append(database).Append(";User ID=").Append(user).Append(";Password=").Append(password);
                         cnnString = sb.ToString();
@@ -101,7 +132,7 @@ namespace TripXMLMain
 
                 oCommand.ExecuteNonQuery();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -121,7 +152,6 @@ namespace TripXMLMain
             string logMessage;
             XmlDocument oDoc;
             XmlElement oRoot;
-            XmlNode oNode = null;
             XmlNodeList oNodes;
             string departureCity;
             string arrivalCity;
@@ -163,13 +193,13 @@ namespace TripXMLMain
                             returnDate = oRoot.SelectSingleNode("OTA_AirLowFareSearchRQ/OriginDestinationInformation[position()=2]/DepartureDateTime").InnerText.Substring(0, 10);
                         }
 
-                        fareAmount = Conversions.ToDecimal(oRoot.SelectSingleNode("OTA_AirLowFareSearchRS/PricedItineraries/PricedItinerary[1]/AirItineraryPricingInfo/PTC_FareBreakdowns/PTC_FareBreakdown[1]/PassengerFare/TotalFare/@Amount").InnerText);
-                        int nip = Conversions.ToInteger(oRoot.SelectSingleNode("OTA_AirLowFareSearchRS/PricedItineraries/PricedItinerary[1]/AirItineraryPricingInfo/PTC_FareBreakdowns/PTC_FareBreakdown[1]/PassengerTypeQuantity/@Quantity").InnerText);
+                        fareAmount = Convert.ToDecimal(oRoot.SelectSingleNode("OTA_AirLowFareSearchRS/PricedItineraries/PricedItinerary[1]/AirItineraryPricingInfo/PTC_FareBreakdowns/PTC_FareBreakdown[1]/PassengerFare/TotalFare/@Amount").InnerText);
+                        int nip = Convert.ToInt32(oRoot.SelectSingleNode("OTA_AirLowFareSearchRS/PricedItineraries/PricedItinerary[1]/AirItineraryPricingInfo/PTC_FareBreakdowns/PTC_FareBreakdown[1]/PassengerTypeQuantity/@Quantity").InnerText);
                         fareAmount = fareAmount / nip / 100m;
                         var oFeeNode = oRoot.SelectSingleNode("OTA_AirLowFareSearchRS/PricedItineraries/PricedItinerary[1]/AirItineraryPricingInfo/PTC_FareBreakdowns/PTC_FareBreakdown[1]/PassengerFare/Fees/Fee/@Amount");
                         if (oFeeNode is object)
                         {
-                            markup = Conversions.ToDecimal(oFeeNode.InnerText);
+                            markup = Convert.ToDecimal(oFeeNode.InnerText);
                             markup = markup / nip / 100m;
                         }
 
@@ -196,8 +226,7 @@ namespace TripXMLMain
                             airline = "";
                         }
 
-                        insertDate = DateAndTime.Now;
-                        oNode = null;
+                        insertDate = DateTime.Now;
                         oCommand = new SqlCommand("uspAddDeals", moConn);
                         oCommand.CommandType = CommandType.StoredProcedure;
                         oCommand.CommandTimeout = 60;
@@ -220,7 +249,7 @@ namespace TripXMLMain
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -395,12 +424,19 @@ namespace TripXMLMain
 
                 dr.Close();
                 strResponse = strResponse + "</TXML_GetDealsRS>";
+
+                /* Unmerged change from project 'TripXML.Library (net6.0)'
+                Before:
+                                strResponse = Core.CoreLib.TransformXML(strResponse, @"C:\\TRIPXML\\XSL\\TXML\\", "TXML_GetDealsRS.xsl");
+                After:
+                                strResponse = CoreLib.TransformXML(strResponse, @"C:\\TRIPXML\\XSL\\TXML\\", "TXML_GetDealsRS.xsl");
+                */
                 strResponse = CoreLib.TransformXML(strResponse, @"C:\\TRIPXML\\XSL\\TXML\\", "TXML_GetDealsRS.xsl");
                 return strResponse;
             }
             catch (Exception ex)
             {
-                strResponse = "<TXML_GetDealsRS><Errors><Error>" + ex.Message + "</Error></Errors></TXML_GetDealsRS>";
+                strResponse = $"<TXML_GetDealsRS><Errors><Error>{ex.Message}</Error></Errors></TXML_GetDealsRS>";
                 return strResponse;
             }
             finally
@@ -419,31 +455,10 @@ namespace TripXMLMain
             SqlDataAdapter oAdapter = null;
             var dtTest1 = new DataTable();
             var dtTest2 = new DataTable();
-            // Dim Server As String = ""
-            // Dim Database As String = ""
-            // Dim User As String = ""
-            // Dim Password As String = ""
-            // Dim CnnString As String = ""
-            // Dim sb As StringBuilder = Nothing
             int cnt = 0;
-
-            // Dim oCon As SqlConnection = New SqlConnection()
-
 
             try
             {
-
-                // Server = WebConfigurationManager.AppSettings("Server")
-                // Database = WebConfigurationManager.AppSettings("Database")
-                // User = WebConfigurationManager.AppSettings("User")
-                // Password = WebConfigurationManager.AppSettings("Password")
-
-                // sb = New StringBuilder()
-                // sb.Append("data source=").Append(Server).Append(";initial Catalog=").Append(Database).Append(";User ID=").Append(User).Append(";Password=").Append(Password)
-
-                // CnnString = sb.ToString()
-                // oCon.ConnectionString = CnnString
-
                 string tSession = "";
                 try
                 {
@@ -495,19 +510,6 @@ namespace TripXMLMain
                     moConn.Open();
                 }
 
-
-                // strSQL = "update tblSessionPool set LastMessageTime=getdate(),IsUse='N',sessionid='" + tSession + "|" + seq.ToString() + "',SequenceNo=" + seq.ToString() + " where sessionid like '" & tSession & "%'"
-
-
-                // Dim seq As Integer = 0
-                // Try
-                // seq = Integer.Parse(SessionID.Substring(SessionID.IndexOf("|") + 1, SessionID.Length - SessionID.IndexOf("|") - 1))
-                // 'seq = seq + 1
-                // Catch ex As Exception
-
-                // End Try
-                // strSQL = "update tblSessionPool set LastMessageTime=getdate(),IsUse='N',sessionid='" + tSession + "|" + seq.ToString() + "',SequenceNo=" + seq.ToString() + " where sessionid like '" & tSession & "%'"
-
                 strSQL = "update tblSessionPool set LastMessageTime=getdate(),IsUse='N' where sessionid like '" + tSession + "%'";
                 oCommand.CommandText = strSQL;
                 cnt = oCommand.ExecuteNonQuery();
@@ -533,31 +535,12 @@ namespace TripXMLMain
             SqlDataAdapter oAdapter = null;
             var dtTest1 = new DataTable();
             var dtTest2 = new DataTable();
-            // Dim Server As String = ""
-            // Dim Database As String = ""
-            // Dim User As String = ""
-            // Dim Password As String = ""
-            // Dim CnnString As String = ""
-            // Dim sb As StringBuilder = Nothing
             int cnt = 0;
             DataTable strRet;
-
-            // Dim oCon As SqlConnection = New SqlConnection()
-
 
             try
             {
 
-                // Server = WebConfigurationManager.AppSettings("Server")
-                // Database = WebConfigurationManager.AppSettings("Database")
-                // User = WebConfigurationManager.AppSettings("User")
-                // Password = WebConfigurationManager.AppSettings("Password")
-
-                // sb = New StringBuilder()
-                // sb.Append("data source=").Append(Server).Append(";initial Catalog=").Append(Database).Append(";User ID=").Append(User).Append(";Password=").Append(Password)
-
-                // CnnString = sb.ToString()
-                // oCon.ConnectionString = CnnString
                 string tSession = "";
                 try
                 {
@@ -594,7 +577,7 @@ namespace TripXMLMain
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
             finally
             {
@@ -608,31 +591,36 @@ namespace TripXMLMain
         public bool CheckSessionWithOutSequence(string SessionID) // Check conditions when closing - by Shashin - 23-02-2010
         {
             var oCommand = new SqlCommand();
-            string strSQL = "";
             SqlDataAdapter oAdapter = null;
             var dtTest1 = new DataTable();
             var dtTest2 = new DataTable();
-            string Server = "";
-            string Database = "";
-            string User = "";
-            string Password = "";
-            string CnnString = "";
-            StringBuilder sb = null;
-            int cnt = 0;
             var oCon = new SqlConnection();
             try
             {
-                Server = WebConfigurationManager.AppSettings["Server"];
-                Database = WebConfigurationManager.AppSettings["Database"];
-                User = WebConfigurationManager.AppSettings["User"];
-                Password = WebConfigurationManager.AppSettings["Password"];
-                sb = new StringBuilder();
+
+                /* Unmerged change from project 'TripXML.Library (net6.0)'
+                Before:
+                                string Server = Core.modCore.config.GetSection("Server").ToString();
+                                string Database = Core.modCore.config.GetSection("Database").ToString();
+                                string User = Core.modCore.config.GetSection("User").ToString();
+                                string Password = Core.modCore.config.GetSection("Password").ToString();
+                After:
+                                string Server = modCore.config.GetSection("Server").ToString();
+                                string Database = modCore.config.GetSection("Database").ToString();
+                                string User = modCore.config.GetSection("User").ToString();
+                                string Password = modCore.config.GetSection("Password").ToString();
+                */
+                string Server = modCore.config.GetSection("Server").ToString();
+                string Database = modCore.config.GetSection("Database").ToString();
+                string User = modCore.config.GetSection("User").ToString();
+                string Password = modCore.config.GetSection("Password").ToString();
+                StringBuilder sb = new StringBuilder();
                 sb.Append("data source=").Append(Server).Append(";initial Catalog=").Append(Database).Append(";User ID=").Append(User).Append(";Password=").Append(Password);
-                CnnString = sb.ToString();
+                string CnnString = sb.ToString();
                 oCon.ConnectionString = CnnString;
                 string tSession = "";
                 tSession = SessionID;
-                strSQL = "select sessionid from tblSessionPool where sessionid = '" + tSession + "'";
+                string strSQL = "select sessionid from tblSessionPool where sessionid = '" + tSession + "'";
                 oCommand.CommandText = strSQL;
                 oCommand.Connection = oCon;
                 oAdapter = new SqlDataAdapter(oCommand);
@@ -645,6 +633,7 @@ namespace TripXMLMain
                 strSQL = "select sessionID from tblSessionPool where sessionid = '" + tSession + "' and ToBeDeleted='Y'";
                 oCommand.CommandText = strSQL;
                 oAdapter.Fill(dtTest2);
+                int cnt;
                 if (dtTest2.Rows.Count > 0)
                 {
                     if (!(oCon.State == ConnectionState.Open))
@@ -695,7 +684,6 @@ namespace TripXMLMain
         public void AddSoapException(ref string SoapException, ref string SoapEnvelope)
         {
             SqlCommand oCommand = null;
-            string strSQL = "";
             try
             {
                 oCommand = new SqlCommand("uspAddSoapException", moConn);
@@ -721,7 +709,6 @@ namespace TripXMLMain
                 if (oCommand is object)
                 {
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
@@ -729,7 +716,6 @@ namespace TripXMLMain
         public void ImportBooking(string Customer, string UserName, string RecLoc, DateTime FlightDate)
         {
             SqlCommand oCommand = null;
-            string strSQL = "";
             try
             {
                 oCommand = new SqlCommand("uspImportBookings", moConn);
@@ -757,7 +743,6 @@ namespace TripXMLMain
                 if (oCommand is object)
                 {
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
@@ -765,7 +750,6 @@ namespace TripXMLMain
         public void UpdateBookingStatus(string RecLoc, char Status)
         {
             SqlCommand oCommand = null;
-            string strSQL = "";
             try
             {
                 oCommand = new SqlCommand("uspUpdateBookingStatus", moConn);
@@ -791,23 +775,13 @@ namespace TripXMLMain
                 if (oCommand is object)
                 {
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
 
         public string GetMarkups(int siteItemID, string databaseName, int languageId, string currencyId, string supplierId, string externalId, string destinationId, string brandId, string departureCity, DateTime departureStartDate, DateTime departureEndDate, string countryId, string stateId, int promotionTypeId, int classTypeId, int seniorCount, int adultCount, int childCount, DateTime BookingDate, int PackageID, int FareCodeSiteItemID, int ProductTypeId, string fromCity, string toCity, string fromCountry, string toCountry, string FareType, int Affiliate, int JourneyType, string OfficeID, string ApplicationTypeId, string RoutingCity, string BookingClass, string FlightNumber)
-
-
-
-
-
-
-
-
         {
             SqlCommand oCommand = null;
-            string strSQL = "";
             var dr = default(SqlDataReader);
             var sb = new StringBuilder();
             try
@@ -896,7 +870,6 @@ namespace TripXMLMain
                 if (oCommand is object)
                 {
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
@@ -940,7 +913,6 @@ namespace TripXMLMain
                 {
                     reader.Close();
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
@@ -949,11 +921,9 @@ namespace TripXMLMain
         public string SessionUpdate1()
         {
             SqlCommand oCommand = null;
-            string strSQL = "";
             var LastMessageTime = DateTime.Now;
             // Dim dr As SqlDataReader
             string SessionID = "";
-            SqlParameterCollection SessionIDParam1 = null;
             try
             {
                 oCommand = new SqlCommand("uspSessionPoolUpdate", moConn);
@@ -971,15 +941,6 @@ namespace TripXMLMain
 
                     withBlock.ExecuteNonQuery();
                 }
-
-                // dr = oCommand.ExecuteReader(CommandBehavior.CloseConnection)
-
-                // dr.Read()
-                // Dim SessionID As String = dr.GetString(dr.GetOrdinal("SessionID"))
-                // dr.Close()
-
-                // SessionIDParam1 = oCommand.Parameters["@SessionID"]
-
                 return SessionID;
             }
             catch (Exception ex)
@@ -999,17 +960,7 @@ namespace TripXMLMain
         public string SessionUpdate(string PCC, string System, string UserId, bool isSOAP2)
         {
             var oCommand = new SqlCommand();
-            string strSQL = "";
-            // Dim uLastMessageTime As DateTime = DateTime.Now
-            // Dim dr As SqlDataReader
             string uSessionID = "";
-            // Dim uSequenceNo As Integer
-            string tSession = "";
-            string NewSessionID = "";
-            SqlParameterCollection SessionIDParam1 = null;
-            StringBuilder sb = null;
-            SqlDataReader reader = null;
-            SqlTransaction oTran = null;
             try
             {
                 oCommand = new SqlCommand("SessionUpdate", moConn);
@@ -1058,130 +1009,15 @@ namespace TripXMLMain
                 if (oCommand is object)
                 {
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
 
-
-            // 'oCommand = New SqlCommand("uspCheckAvailableSessions", moConn)
-            // 'oCommand = New SqlCommand(strSQL, moConn)
-            // 'strSQL = "select sessionid from tblSessionPool where sessionid like '" & tSession & "%'"
-            // Dim waitTime As Double
-            // Dim rand As Random = New Random()
-            // waitTime = rand.NextDouble() * 1000 'waits random millisecond (max 1 second), so we can delay requests
-            // Threading.Thread.Sleep(waitTime)
-
-
-            // oTran = moConn.BeginTransaction()
-
-            // oCommand.CommandText = strSQL
-            // oCommand.Connection = moConn
-            // oCommand.Transaction = oTran
-            // reader = oCommand.ExecuteReader()
-
-
-            // .ExecuteNonQuery()
-
-            // Do While reader.Read()
-            // uSessionID = reader("SessionID").ToString
-            // uSequenceNo = reader("SequenceNo").ToString
-            // Loop
-
-            // reader.Close()
-
-            // uSequenceNo = uSequenceNo + 1
-            // tSession = uSessionID.Substring(0, uSessionID.IndexOf("|"))
-            // sb = New StringBuilder()
-            // NewSessionID = sb.Append(tSession).Append("|").Append(uSequenceNo).ToString
-
-
-
-            // Return uSessionID
-
-            // End With
-
-            // strSQL = "UPDATE tblSessionPool SET SessionID='" & NewSessionID & "',SequenceNo='" & uSequenceNo & "', LastMessageTime=getdate(), IsUse='Y' WHERE  UserID like '" & UserId & "'AND SessionID like '" & uSessionID & "%'"
-            // oCommand.CommandText = strSQL
-            // oCommand.Connection = moConn
-            // oCommand.ExecuteNonQuery()
-
-            // oTran.Commit()
-
-            // Return NewSessionID
-
-
-            // Catch ex As Exception
-            // Throw ex
-            // Finally
-            // If Not oCommand Is Nothing Then
-            // oCommand.Dispose()
-            // oCommand = Nothing
-            // End If
-            // End Try
-
-
-
-            // Try
-
-            // strSQL = "SELECT TOP 1 SessionID,SequenceNo FROM tblSessionPool where PCC like '" & PCC & "' AND system like '" & System & "' AND UserID like '" & UserId & "' AND ToBeDeleted='N' AND IsUse='N' ORDER by LastMessageTime;"
-
-            // 'oCommand = New SqlCommand("uspCheckAvailableSessions", moConn)
-            // 'oCommand = New SqlCommand(strSQL, moConn)
-            // 'strSQL = "select sessionid from tblSessionPool where sessionid like '" & tSession & "%'"
-            // oTran = moConn.BeginTransaction()
-            // oCommand.CommandText = strSQL
-            // oCommand.Connection = moConn
-            // oCommand.Transaction = oTran
-            // reader = oCommand.ExecuteReader()
-
-            // Do While reader.Read()
-            // uSessionID = reader("SessionID").ToString
-            // uSequenceNo = reader("SequenceNo").ToString
-            // Loop
-            // reader.Close()
-
-            // uSequenceNo = uSequenceNo + 1
-            // tSession = uSessionID.Substring(0, uSessionID.IndexOf("|"))
-            // sb = New StringBuilder()
-            // NewSessionID = sb.Append(tSession).Append("|").Append(uSequenceNo).ToString
-
-
-
-            // strSQL = "UPDATE tblSessionPool SET SessionID='" & NewSessionID & "',SequenceNo='" & uSequenceNo & "', LastMessageTime=getdate(), IsUse='Y' WHERE  UserID like '" & UserId & "'AND SessionID like '" & uSessionID & "%'"
-            // oCommand.CommandText = strSQL
-            // oCommand.Connection = moConn
-            // oCommand.ExecuteNonQuery()
-
-            // oTran.Commit()
-
-            // Return NewSessionID
-
-            // Catch ex As Exception
-            // oTran.Rollback()
-            // Throw ex
-            // Finally
-            // If Not oCommand Is Nothing Then
-            // reader.Close()
-            // oCommand.Dispose()
-            // oCommand = Nothing
-            // End If
-            // End Try
         }
 
         public string SessionUpdate(string PCC, string System, string UserId, string GDS)
         {
             var oCommand = new SqlCommand();
-            string strSQL = "";
-            // Dim uLastMessageTime As DateTime = DateTime.Now
-            // Dim dr As SqlDataReader
             string uSessionID = "";
-            // Dim uSequenceNo As Integer
-            string tSession = "";
-            string NewSessionID = "";
-            SqlParameterCollection SessionIDParam1 = null;
-            StringBuilder sb = null;
-            SqlDataReader reader = null;
-            SqlTransaction oTran = null;
             try
             {
                 oCommand = new SqlCommand("SessionUpdate", moConn);
@@ -1216,69 +1052,35 @@ namespace TripXMLMain
                 if (oCommand is object)
                 {
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
 
-            // Try
-
-            // strSQL = "SELECT TOP 1 SessionID,SequenceNo FROM tblSessionPool where PCC like '" & PCC & "' AND system like '" & System & "' AND UserID like '" & UserId & "' AND ToBeDeleted='N' AND IsUse='N' ORDER by LastMessageTime;"
-
-            // oTran = moConn.BeginTransaction()
-            // oCommand.CommandText = strSQL
-            // oCommand.Connection = moConn
-            // oCommand.Transaction = oTran
-            // reader = oCommand.ExecuteReader()
-
-            // Do While reader.Read()
-            // uSessionID = reader("SessionID").ToString
-            // uSequenceNo = reader("SequenceNo").ToString
-            // Loop
-            // reader.Close()
-
-            // uSequenceNo = uSequenceNo + 1
-
-
-            // strSQL = "UPDATE tblSessionPool SET SequenceNo='" & uSequenceNo & "', LastMessageTime=getdate(), IsUse='Y' WHERE UserID like '" & UserId & "' AND SessionID like '" & uSessionID & "%'"
-            // oCommand.CommandText = strSQL
-            // oCommand.Connection = moConn
-            // oCommand.ExecuteNonQuery()
-            // oTran.Commit()
-            // Return uSessionID
-
-            // Catch ex As Exception
-            // oTran.Rollback()
-            // Throw ex
-            // Finally
-            // If Not oCommand Is Nothing Then
-            // reader.Close()
-            // oCommand.Dispose()
-            // oCommand = Nothing
-            // End If
-            // End Try
         }
 
+
+        /* Unmerged change from project 'TripXML.Library (net6.0)'
+        Before:
+                public Core.modCore.TripXMLProviderSystems SetPCCBlock(Core.modCore.TripXMLProviderSystems Provider)
+        After:
+                public modCore.TripXMLProviderSystems SetPCCBlock(modCore.TripXMLProviderSystems Provider)
+        */
         public modCore.TripXMLProviderSystems SetPCCBlock(modCore.TripXMLProviderSystems Provider)
         {
             var oCommand = new SqlCommand();
-            string strSQL = "";
-            // Dim uLastMessageTime As DateTime = DateTime.Now
-            // Dim dr As SqlDataReader
-            string PCC = "";
             SqlDataReader reader = null;
-            PCC = Provider.PCC;
+            string PCC = Provider.PCC;
             try
             {
-                strSQL = "SELECT * FROM tblPCCBlocks where PCC like '" + PCC + "%' and UserID='" + Provider.UserID + "'";
+                string strSQL = "SELECT * FROM tblPCCBlocks where PCC like '" + PCC + "%' and UserID='" + Provider.UserID + "'";
                 oCommand.CommandText = strSQL;
                 oCommand.Connection = moConn;
                 reader = oCommand.ExecuteReader();
                 while (reader.Read())
                 {
-                    Provider.ProviderSession.InitialBlockSize = Conversions.ToInteger(reader["InitialBlock"]);
-                    Provider.ProviderSession.MaximumCount = Conversions.ToInteger(reader["MaxSessions"]);
-                    Provider.ProviderSession.NextBlockSize = Conversions.ToInteger(reader["NextBlock"]);
-                    Provider.ProviderSession.SessionsUsed = Conversions.ToInteger(reader["SessionsUsed"]);
+                    Provider.ProviderSession.InitialBlockSize = Convert.ToInt32(reader["InitialBlock"]);
+                    Provider.ProviderSession.MaximumCount = Convert.ToInt32(reader["MaxSessions"]);
+                    Provider.ProviderSession.NextBlockSize = Convert.ToInt32(reader["NextBlock"]);
+                    Provider.ProviderSession.SessionsUsed = Convert.ToInt32(reader["SessionsUsed"]);
                 }
 
                 reader.Close();
@@ -1294,17 +1096,21 @@ namespace TripXMLMain
                 {
                     reader.Close();
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
 
+
+        /* Unmerged change from project 'TripXML.Library (net6.0)'
+        Before:
+                public Core.modCore.TripXMLProviderSystems SetPCCBlock(Core.modCore.TripXMLProviderSystems Provider, string version)
+        After:
+                public modCore.TripXMLProviderSystems SetPCCBlock(modCore.TripXMLProviderSystems Provider, string version)
+        */
         public modCore.TripXMLProviderSystems SetPCCBlock(modCore.TripXMLProviderSystems Provider, string version)
         {
             var oCommand = new SqlCommand();
             string strSQL;
-            // Dim uLastMessageTime As DateTime = DateTime.Now
-            // Dim dr As SqlDataReader
             string pcc;
             SqlDataReader reader = null;
             pcc = Provider.PCC;
@@ -1316,10 +1122,10 @@ namespace TripXMLMain
                 reader = oCommand.ExecuteReader();
                 while (reader.Read())
                 {
-                    Provider.ProviderSession.InitialBlockSize = Conversions.ToInteger(reader["InitialBlock"]);
-                    Provider.ProviderSession.MaximumCount = Conversions.ToInteger(reader["MaxSessions"]);
-                    Provider.ProviderSession.NextBlockSize = Conversions.ToInteger(reader["NextBlock"]);
-                    Provider.ProviderSession.SessionsUsed = Conversions.ToInteger(reader["SessionsUsed"]);
+                    Provider.ProviderSession.InitialBlockSize = Convert.ToInt32(reader["InitialBlock"]);
+                    Provider.ProviderSession.MaximumCount = Convert.ToInt32(reader["MaxSessions"]);
+                    Provider.ProviderSession.NextBlockSize = Convert.ToInt32(reader["NextBlock"]);
+                    Provider.ProviderSession.SessionsUsed = Convert.ToInt32(reader["SessionsUsed"]);
                 }
 
                 reader.Close();
@@ -1335,7 +1141,6 @@ namespace TripXMLMain
                 {
                     reader.Close();
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
@@ -1358,8 +1163,8 @@ namespace TripXMLMain
                 reader = oCommand.ExecuteReader();
                 while (reader.Read())
                 {
-                    SessionsUsed = Conversions.ToInteger(reader["SessionsUsed"].ToString());
-                    Creating = Conversions.ToInteger(reader["CreatingInit"].ToString());
+                    SessionsUsed = Convert.ToInt32(reader["SessionsUsed"].ToString());
+                    Creating = Convert.ToInt32(reader["CreatingInit"].ToString());
                 }
 
                 reader.Close();
@@ -1387,7 +1192,6 @@ namespace TripXMLMain
                 if (oCommand is object)
                 {
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
@@ -1412,8 +1216,8 @@ namespace TripXMLMain
                 reader = oCommand.ExecuteReader();
                 while (reader.Read())
                 {
-                    SessionsUsed = Conversions.ToInteger(reader["SessionsUsed"].ToString());
-                    Creating = Conversions.ToInteger(reader["CreatingInit"].ToString());
+                    SessionsUsed = Convert.ToInt32(reader["SessionsUsed"].ToString());
+                    Creating = Convert.ToInt32(reader["CreatingInit"].ToString());
                 }
 
                 reader.Close();
@@ -1425,14 +1229,8 @@ namespace TripXMLMain
                 oCommand.Connection = moConn;
                 oCommand.ExecuteNonQuery();
                 tran.Commit();
-                if (SessionsUsed == 0 & Creating == 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+
+                return SessionsUsed == 0 & Creating == 0;
             }
             catch (Exception ex)
             {
@@ -1444,7 +1242,6 @@ namespace TripXMLMain
                 if (oCommand is object)
                 {
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
@@ -1453,20 +1250,18 @@ namespace TripXMLMain
         public void UpdatePCCSessions(string PCC, int NewSessions)
         {
             var oCommand = new SqlCommand();
-            string strSQL = "";
-            SqlDataReader reader = null;
             var SessionsUsed = default(int);
             try
             {
                 // strSQL = "UPDATE tblPCCBlocks SET SessionsUsed='" & SessionCount & "' WHERE  PCC like '" & PCC & "%'"
 
                 // strSQL = "SELECT SessionsUsed FROM tblPCCBlocks where PCC like '" & PCC & "%'"
-                strSQL = "SELECT SessionsUsed FROM tblPCCBlocks where PCC like '" + PCC + "%'";
+                string strSQL = "SELECT SessionsUsed FROM tblPCCBlocks where PCC like '" + PCC + "%'";
                 oCommand.CommandText = strSQL;
                 oCommand.Connection = moConn;
-                reader = oCommand.ExecuteReader();
+                SqlDataReader reader = oCommand.ExecuteReader();
                 while (reader.Read())
-                    SessionsUsed = Conversions.ToInteger(reader["SessionsUsed"].ToString());
+                    SessionsUsed = Convert.ToInt32(reader["SessionsUsed"].ToString());
                 reader.Close();
                 NewSessions = NewSessions + SessionsUsed;
                 strSQL = "UPDATE tblPCCBlocks SET SessionsUsed='" + NewSessions + "' WHERE  PCC like '" + PCC + "%'";
@@ -1483,7 +1278,6 @@ namespace TripXMLMain
                 if (oCommand is object)
                 {
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
@@ -1491,27 +1285,13 @@ namespace TripXMLMain
         public void UpdatePCCSessions(string PCC, int NewSessions, string userID)
         {
             var oCommand = new SqlCommand();
-            string strSQL = "";
-            SqlDataReader reader = null;
-            // Dim SessionsUsed As Integer
-
 
             try
             {
                 // strSQL = "UPDATE tblPCCBlocks SET SessionsUsed='" & SessionCount & "' WHERE  PCC like '" & PCC & "%'"
-                strSQL = "SELECT SessionsUsed FROM tblPCCBlocks where PCC like '" + PCC + "%' and UserID='" + userID + "'";
+                string strSQL = "SELECT SessionsUsed FROM tblPCCBlocks where PCC like '" + PCC + "%' and UserID='" + userID + "'";
                 oCommand.CommandText = strSQL;
                 oCommand.Connection = moConn;
-
-                // reader = oCommand.ExecuteReader()
-
-                // Do While reader.Read()
-                // SessionsUsed = reader("SessionsUsed").ToString
-                // Loop
-                // reader.Close()
-
-
-                // NewSessions = NewSessions + SessionsUsed
 
                 strSQL = "UPDATE tblPCCBlocks SET SessionsUsed=SessionsUsed+" + NewSessions + " WHERE  PCC like '" + PCC + "%' and UserID='" + userID + "'";
                 oCommand.CommandText = strSQL;
@@ -1527,7 +1307,6 @@ namespace TripXMLMain
                 if (oCommand is object)
                 {
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
@@ -1535,29 +1314,15 @@ namespace TripXMLMain
         public void UpdatePCCSessions(string PCC, int NewSessions, string userID, string system)
         {
             var oCommand = new SqlCommand();
-            string strSQL = "";
-            SqlDataReader reader = null;
-            // Dim SessionsUsed As Integer
-
 
             try
             {
                 // strSQL = "UPDATE tblPCCBlocks SET SessionsUsed='" & SessionCount & "' WHERE  PCC like '" & PCC & "%'"
 
                 // strSQL = "SELECT SessionsUsed FROM tblPCCBlocks where PCC like '" & PCC & "%'"
-                strSQL = "SELECT SessionsUsed FROM tblPCCBlocks where PCC like '" + PCC + "%'AND UserID='" + userID + "' AND system='" + system + "'";
+                string strSQL = "SELECT SessionsUsed FROM tblPCCBlocks where PCC like '" + PCC + "%'AND UserID='" + userID + "' AND system='" + system + "'";
                 oCommand.CommandText = strSQL;
                 oCommand.Connection = moConn;
-
-                // reader = oCommand.ExecuteReader()
-
-                // Do While reader.Read()
-                // SessionsUsed = reader("SessionsUsed").ToString
-                // Loop
-                // reader.Close()
-
-
-                // NewSessions = NewSessions + SessionsUsed
 
                 strSQL = "UPDATE tblPCCBlocks SET SessionsUsed=SessionsUsed+" + NewSessions + " WHERE  PCC like '" + PCC + "%' and UserID='" + userID + "'AND system='" + system + "'";
                 oCommand.CommandText = strSQL;
@@ -1573,7 +1338,6 @@ namespace TripXMLMain
                 if (oCommand is object)
                 {
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
@@ -1583,7 +1347,6 @@ namespace TripXMLMain
         public void InsertNewSession(string SessionID, int SequenceNo, string GDS, DateTime CreatedTime, DateTime LastMessageTime, string UserName, string UserID, string Status, char IsUse, char TobeDeleted, string URL, string BlockId, char IsInitialBlock, string PCC, string Profile, string System, string Password)
         {
             SqlCommand oCommand = null;
-            string strSQL = "";
             try
             {
                 oCommand = new SqlCommand("uspInsertNewSession", moConn);
@@ -1625,7 +1388,6 @@ namespace TripXMLMain
                 if (oCommand is object)
                 {
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
@@ -1633,7 +1395,6 @@ namespace TripXMLMain
         public void InsertNewSession(string SessionID, int SequenceNo, string GDS, DateTime CreatedTime, DateTime LastMessageTime, string UserName, string Status, char IsUse, char TobeDeleted, string URL, string BlockId, char IsInitialBlock, string PCC, string Profile, string System, string Password)
         {
             SqlCommand oCommand = null;
-            string strSQL = "";
             try
             {
                 oCommand = new SqlCommand("uspInsertNewSession", moConn);
@@ -1673,7 +1434,6 @@ namespace TripXMLMain
                 if (oCommand is object)
                 {
                     oCommand.Dispose();
-                    oCommand = null;
                 }
             }
         }
@@ -1708,23 +1468,36 @@ namespace TripXMLMain
 
         private void TACount_Method()
         {
-            string Server = "";
-            string Database = "";
-            string User = "";
-            string Password = "";
-            string CnnString = "";
-            StringBuilder sb = null;
-            CnnString = WebConfigurationManager.AppSettings["ConnectionString"].Trim();
+
+            /* Unmerged change from project 'TripXML.Library (net6.0)'
+            Before:
+                        string CnnString = Core.modCore.config.GetSection("ConnectionString").ToString().Trim();
+            After:
+                        string CnnString = modCore.config.GetSection("ConnectionString").ToString().Trim();
+            */
+            string CnnString = modCore.config.GetSection("ConnectionString").ToString().Trim();
             if (CnnString.Length == 0)
             {
-                Server = WebConfigurationManager.AppSettings["Server"];
-                Database = WebConfigurationManager.AppSettings["Database"];
-                User = WebConfigurationManager.AppSettings["User"];
-                Password = WebConfigurationManager.AppSettings["Password"];
-                sb = new StringBuilder();
+
+                /* Unmerged change from project 'TripXML.Library (net6.0)'
+                Before:
+                                string Server = Core.modCore.config.GetSection("Server").ToString();
+                                string Database = Core.modCore.config.GetSection("Database").ToString();
+                                string User = Core.modCore.config.GetSection("User").ToString();
+                                string Password = Core.modCore.config.GetSection("Password").ToString();
+                After:
+                                string Server = modCore.config.GetSection("Server").ToString();
+                                string Database = modCore.config.GetSection("Database").ToString();
+                                string User = modCore.config.GetSection("User").ToString();
+                                string Password = modCore.config.GetSection("Password").ToString();
+                */
+                string Server = modCore.config.GetSection("Server").ToString();
+                string Database = modCore.config.GetSection("Database").ToString();
+                string User = modCore.config.GetSection("User").ToString();
+                string Password = modCore.config.GetSection("Password").ToString();
+                StringBuilder sb = new StringBuilder();
                 sb.Append("data source=").Append(Server).Append(";initial Catalog=").Append(Database).Append(";User ID=").Append(User).Append(";Password=").Append(Password);
                 CnnString = sb.ToString();
-                sb = null;
                 // CnnString = "data source=***REMOVED***\DEDICATED8-VM6,1433;initial Catalog=Traveltalk;User ID=***REMOVED***;Password=***REMOVED***"
             }
 
