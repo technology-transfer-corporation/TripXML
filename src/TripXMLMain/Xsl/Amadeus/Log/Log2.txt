@@ -1,3 +1,0 @@
-<Message Type='SaveInDB' RequestTime='03 Apr 2009 10:00:05' ResponseTime='03 Apr 2009 10:00:05' Duration='0'><AmadeusMessage><PortalBeforeSession></PortalBeforeSession></AmadeusMessage></Message>
-<Message Type='SaveInDB' RequestTime='03 Apr 2009 10:00:05' ResponseTime='03 Apr 2009 10:00:05' Duration='0'><AmadeusMessage><PortalSessionOpened><Session>PZLH4065K</Session></PortalSessionOpened></AmadeusMessage></Message>
-<Message Type='SaveInDB' RequestTime='03 Apr 2009 10:07:38' ResponseTime='03 Apr 2009 10:07:38' Duration='0'><AmadeusMessage><PortalSessionOpened><Session>AFBE6438U</Session></PortalSessionOpened></AmadeusMessage></Message>
