@@ -3,7 +3,7 @@ using TripXMLMain;
 using System.Text;
 using System;
 
-namespace TravelPort
+namespace Travelport
 {
     public class TravelServices : TravelportBase
     {

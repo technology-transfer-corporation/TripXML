@@ -8,8 +8,8 @@
     <ProjectGuid>{0C66B5E2-1E92-471A-A5FB-C83C241E4CE4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TravelPort</RootNamespace>
-    <AssemblyName>TravelPort</AssemblyName>
+    <RootNamespace>Travelport</RootNamespace>
+    <AssemblyName>Travelport</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -58,14 +58,17 @@
     <Compile Include="ttHttpWebClient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TripXMLMain\TripXMLMain.vbproj">
-      <Project>{7bfd1163-a751-4042-ab19-6665d0af115a}</Project>
+    <ProjectReference Include="..\TripXMLMain\TripXMLMain.csproj">
+      <Project>{c9d99008-6b09-0fb3-2941-ac1bb23825fa}</Project>
       <Name>TripXMLMain</Name>
     </ProjectReference>
     <ProjectReference Include="..\TripXMLTools\TripXMLTools.csproj">
       <Project>{B362F5BF-5F86-4997-9EF4-067C8E3DB74E}</Project>
       <Name>TripXMLTools</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".gitignore" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

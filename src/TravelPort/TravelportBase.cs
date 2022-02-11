@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using TripXMLMain;
 
-namespace TravelPort
+namespace Travelport
 {
     public abstract class TravelportBase
     {

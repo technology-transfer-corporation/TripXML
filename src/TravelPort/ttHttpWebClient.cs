@@ -5,7 +5,7 @@ using TripXMLMain;
 using System.IO;
 using System.Xml;
 
-namespace TravelPort
+namespace Travelport
 {
     public class ttHttpWebClient
     {

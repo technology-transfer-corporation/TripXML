@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using TripXMLMain;
 
-namespace TravelPort
+namespace Travelport
 {
     public class TravelPortWSAdapter
     {
@@ -234,7 +234,10 @@ namespace TravelPort
         {
             try
             {
-                var request = $"<ter:EndTerminalSessionReq xmlns:ter=\"http://www.travelport.com/schema/terminal_v8_0\" xmlns:com=\"http://www.travelport.com/schema/common_v12_0\" TargetBranch=\"{branch}\"><com:HostToken Host=\"{host}\" xmlns:common_v12_0=\"http://www.travelport.com/schema/common_v12_0\">{strTokenid}</com:HostToken></ter:EndTerminalSessionReq>";
+                var request = $"<ter:EndTerminalSessionReq xmlns:ter=\"http://www.travelport.com/schema/terminal_v33_0\" xmlns:com=\"http://www.travelport.com/schema/common_v33_0\" TargetBranch=\"{branch}\">" +
+                                 "<com:BillingPointOfSaleInfo OriginApplication=\"UAPI\"/>" + 
+                                $"<com:HostToken Host=\"{host}\">{strTokenid}</com:HostToken>" +
+                              "</ter:EndTerminalSessionReq>";
                                 
                 var ttTP = new TravelPortWSAdapter(ttProviderSystems);
                 var response = ttTP.SendMessage(request, TravelPortWSAdapter.enRequestType.TerminalService);
@@ -255,7 +258,7 @@ namespace TravelPort
             try
             {
                 //TODO: Some values are hard coded for now. later we have to configure and take it from files or use constants.
-                var request = $"<ter:TerminalReq  xmlns:ter='http://www.travelport.com/schema/terminal_v8_0' xmlns:com='http://www.travelport.com/schema/common_v12_0' TargetBranch=\"{branch}\"><com:HostToken Host=\"{host}\">{sessionTokenID}</com:HostToken><ter:TerminalCommand>{message}</ter:TerminalCommand></ter:TerminalReq>";
+                var request = $"<ter:TerminalReq  xmlns:ter='http://www.travelport.com/schema/terminal_v33_0' xmlns:com='http://www.travelport.com/schema/common_v33_0' TargetBranch=\"{branch}\"><com:HostToken Host=\"{host}\">{sessionTokenID}</com:HostToken><ter:TerminalCommand>{message}</ter:TerminalCommand></ter:TerminalReq>";
                 var ttTP = new TravelPortWSAdapter(ttProviderSystems);
                 var strResponse = ttTP.SendMessage(request, enRequestType.TerminalService);
 

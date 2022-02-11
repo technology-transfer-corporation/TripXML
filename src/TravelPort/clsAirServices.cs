@@ -3,12 +3,9 @@ using TripXMLMain;
 using System.Text;
 using System;
 using System.Collections;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Collections.Generic;
 using System.IO;
 using System.Globalization;
-using TravelPort;
 
 namespace Travelport
 {
