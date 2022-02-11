@@ -4,13 +4,14 @@ Imports System.Xml.Serialization
 Imports System.Text
 Imports wsTripXML.wsTravelTalk.wmAuthorizationIn
 Imports wsTripXML.wsTravelTalk.wmAuthorizationOut
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAuthorization", _
-                                       Name:="wsAuthorization", _
-                                       Description:="A TripXML Web Service to Process Authorization command.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAuthorization",
+                                       Name:="wsAuthorization",
+                                       Description:="A TripXML Web Service to Process Authorization command.")>
     Public Class wsAuthorization
         Inherits System.Web.Services.WebService
         Public tXML As TripXML
@@ -98,9 +99,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension> _
-        <WebMethod(Description:="Process Authorization Messages Request.")> _
-        <Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension>
+        <WebMethod(Description:="Process Authorization Messages Request.")>
+        <Protocols.SoapHeader("tXML")>
         Public Function wmAuthorization(ByVal OTA_AuthorizationRQ As OTA_AuthorizationRQ) As <XmlElementAttribute("OTA_AuthorizationRS")> OTA_AuthorizationRS
             Dim xmlMessage
             Dim oAuthorizationRS As OTA_AuthorizationRS = Nothing
@@ -118,7 +119,7 @@ Namespace wsTravelTalk
             xmlMessage = ServiceRequest(xmlMessage, ttServices.Authorization)
 
             Try
-                oSerializer = New XmlSerializer(Type:=GetType(OTA_AuthorizationRS))
+                oSerializer = New XmlSerializer(type:=GetType(OTA_AuthorizationRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oAuthorizationRS = CType(oSerializer.Deserialize(oReader), OTA_AuthorizationRS)
                 oAuthorizationRS.Authorization.AuthorizationDetail.BookingReferenceID = New BookingReferenceID
@@ -128,7 +129,7 @@ Namespace wsTravelTalk
                 If Not String.IsNullOrEmpty(oAuthorizationRS.Authorization.AuthorizationResult.AuthorizationCode) Then
                     oAuthorizationRS.Authorization.AuthorizationResult.Result = Detail.Approved
                 End If
-                
+
             Catch ex As Exception
                 CoreLib.SendTrace("", "wsAuthorization", "Error Deserialing OTA Response", ex.Message, String.Empty)
             End Try

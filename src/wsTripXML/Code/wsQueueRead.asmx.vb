@@ -3,15 +3,14 @@ Imports System.Globalization
 Imports TripXMLMain
 Imports System.Xml
 Imports System.Xml.Serialization
-Imports System.Data
-Imports System.Text
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <Protocols.SoapDocumentService(RoutingStyle:=Protocols.SoapServiceRoutingStyle.RequestElement), _
-        WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsQueueRead", _
-        Name:="wsQueueRead", _
-        Description:="A TripXML Web Service to Process QueueRead Messages Request.")> _
+    <Protocols.SoapDocumentService(RoutingStyle:=Protocols.SoapServiceRoutingStyle.RequestElement),
+        WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsQueueRead",
+        Name:="wsQueueRead",
+        Description:="A TripXML Web Service to Process QueueRead Messages Request.")>
     Public Class wsQueueRead
         Inherits WebService
         Public tXML As TripXML
@@ -107,7 +106,7 @@ Namespace wsTravelTalk
 
                             oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
                         End If
-                        
+
                         If Not oNode.SelectSingleNode("MarketingAirline") Is Nothing Then
                             oNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                         End If
@@ -211,9 +210,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process QueueRead Messages Request.")> _
-        <Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process QueueRead Messages Request.")>
+        <Protocols.SoapHeader("tXML")>
         Public Function wmQueueRead(ByVal OTA_QueueReadRQ As wmQueueReadIn.OTA_QueueReadRQ) As <XmlElementAttribute("OTA_TravelItineraryRS")> wmTravelItineraryOut_v03.OTA_TravelItineraryRS
             Dim xmlMessage As String
             Dim oQueueReadRS As wmTravelItineraryOut_v03.OTA_TravelItineraryRS
@@ -234,7 +233,7 @@ Namespace wsTravelTalk
             End If
 
             Try
-                oSerializer = New XmlSerializer(Type:=GetType(wmTravelItineraryOut_v03.OTA_TravelItineraryRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut_v03.OTA_TravelItineraryRS))
                 oReader = New IO.StringReader(xmlMessage)
                 oQueueReadRS = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut_v03.OTA_TravelItineraryRS)
             Catch ex As Exception

@@ -1,17 +1,15 @@
-Imports System
 Imports System.Web.Services
 Imports System.Xml
 Imports TripXMLMain
 Imports System.Xml.Serialization
-Imports System.Data
-Imports System.Text
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
 
-    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsHotelModify", _
-        Name:="wsHotelModify", _
-        Description:="A TripXML Web Service to Process Hotel Modify Messages Request.")> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsHotelModify",
+        Name:="wsHotelModify",
+        Description:="A TripXML Web Service to Process Hotel Modify Messages Request.")>
     Public Class wsHotelModify
         Inherits System.Web.Services.WebService
 
@@ -153,7 +151,7 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <WebMethod(Description:="Process Hotel Modify Messages Request.")> _
+        <WebMethod(Description:="Process Hotel Modify Messages Request.")>
         Public Function wmHotelModify(ByVal OTA_HotelResModifyRQ As wmHotelModifyIn.OTA_HotelResModifyRQ) As <XmlElementAttribute("OTA_TravelItineraryRS")> wmTravelItineraryOut.OTA_TravelItineraryRS
             Dim xmlMessage As String = ""
             Dim oTravelBuildRS As wmTravelItineraryOut.OTA_TravelItineraryRS = Nothing
@@ -171,7 +169,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmTravelItineraryOut.OTA_TravelItineraryRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut.OTA_TravelItineraryRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oTravelBuildRS = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut.OTA_TravelItineraryRS)
             Catch ex As Exception

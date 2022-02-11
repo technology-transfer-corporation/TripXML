@@ -3,7 +3,7 @@ Imports TripXMLMain
 Imports System.Xml
 Imports System.Xml.Serialization
 Imports System.Web.Services.Protocols
-Imports Amadeus
+Imports TripXMLMain.modCore
 Imports System.Text
 Imports CompressionExtension
 

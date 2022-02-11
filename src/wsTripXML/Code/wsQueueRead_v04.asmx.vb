@@ -1,5 +1,5 @@
 ﻿Imports System.Web.Services
-Imports Amadeus
+Imports TripXMLMain.modCore
 Imports TripXMLMain
 Imports System.Xml
 Imports System.Xml.Serialization

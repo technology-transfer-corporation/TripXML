@@ -1,15 +1,13 @@
-Imports System
 Imports System.Web.Services
 Imports TripXMLMain
-Imports System.Xml
 Imports System.Xml.Serialization
-Imports CompressionExtension
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsInsuranceQuote", _
-        Name:="wsInsuranceQuote", _
-        Description:="A TravelTalk Web Service to Process Insurance Booking Messages Request.")> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsInsuranceQuote",
+        Name:="wsInsuranceQuote",
+        Description:="A TravelTalk Web Service to Process Insurance Booking Messages Request.")>
     Public Class wsInsuranceQuote
         Inherits System.Web.Services.WebService
 
@@ -105,14 +103,14 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Insurance Booking Xml Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Insurance Booking Xml Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmInsuranceQuoteXml(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.InsuranceQuote)
         End Function
 
-        <WebMethod(Description:="Process Insurance Booking Messages Request.")> _
+        <WebMethod(Description:="Process Insurance Booking Messages Request.")>
         Public Function wmInsuranceQuote(ByVal OTA_InsuranceQuoteRQ As wmInsuranceQuoteIn.OTA_InsuranceQuoteRQ) As <XmlElementAttribute("OTA_InsuranceQuoteRS")> wmInsuranceQuoteOut.OTA_InsuranceQuoteRS
             Dim xmlMessage As String = ""
             Dim oInsuranceQuoteRS As wmInsuranceQuoteOut.OTA_InsuranceQuoteRS = Nothing
@@ -130,7 +128,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmInsuranceQuoteOut.OTA_InsuranceQuoteRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmInsuranceQuoteOut.OTA_InsuranceQuoteRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oInsuranceQuoteRS = CType(oSerializer.Deserialize(oReader), wmInsuranceQuoteOut.OTA_InsuranceQuoteRS)
             Catch ex As Exception

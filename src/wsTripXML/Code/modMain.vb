@@ -4,6 +4,7 @@ Imports TripXMLMain
 Imports System.Web.Configuration
 Imports System.Threading
 Imports System.Net
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
@@ -1184,10 +1185,10 @@ Namespace wsTravelTalk
 
         Public Function SendAirRequestTravelport(ByVal Service As ttServices, ByRef ttCredential As TravelTalkCredential, ByRef ttProviderSystems As TripXMLProviderSystems, ByRef strRequest As String, Optional ByVal Version As String = "") As String
             Dim strResponse As String = ""
-            Dim ttService As TravelPort.AirServices
+            Dim ttService As Travelport.AirServices
 
             Try
-                ttService = New TravelPort.AirServices
+                ttService = New Travelport.AirServices
 
                 With ttService
                     .Version = Version
@@ -1593,10 +1594,10 @@ Namespace wsTravelTalk
 
         Public Function SendPNRRequestTravelPort(ByVal Service As ttServices, ByRef ttCredential As TravelTalkCredential, ByRef ttProviderSystems As TripXMLProviderSystems, ByRef strRequest As String, Optional ByVal Version As String = "") As String
             Dim strResponse As String = ""
-            Dim ttService As TravelPort.PNRServices
+            Dim ttService As Travelport.PNRServices
 
             Try
-                ttService = New TravelPort.PNRServices
+                ttService = New Travelport.PNRServices
 
                 With ttService
                     .Version = Version
@@ -1817,10 +1818,10 @@ Namespace wsTravelTalk
 
         Public Function SendTravelRequestTravelport(ByVal Service As ttServices, ByRef ttCredential As TravelTalkCredential, ByRef ttProviderSystems As TripXMLProviderSystems, ByRef strRequest As String, Optional ByVal Version As String = "") As String
             Dim strResponse As String = ""
-            Dim ttService As TravelPort.TravelServices
+            Dim ttService As Travelport.TravelServices
 
             Try
-                ttService = New TravelPort.TravelServices
+                ttService = New Travelport.TravelServices
 
                 With ttService
                     .Version = Version
@@ -2054,10 +2055,10 @@ Namespace wsTravelTalk
 
         Public Function SendOtherRequestTravelport(ByVal Service As ttServices, ByRef ttCredential As TravelTalkCredential, ByRef ttProviderSystems As TripXMLProviderSystems, ByRef strRequest As String, Optional ByVal Version As String = "") As String
             Dim strResponse As String = ""
-            Dim ttService As TravelPort.OtherServices
+            Dim ttService As Travelport.OtherServices
 
             Try
-                ttService = New TravelPort.OtherServices
+                ttService = New Travelport.OtherServices
 
                 With ttService
                     '.Version = Version
@@ -2438,10 +2439,10 @@ Namespace wsTravelTalk
 
         Public Function SendPaymentRequestTravelport(ByVal Service As ttServices, ByRef ttCredential As TravelTalkCredential, ByRef ttProviderSystems As TripXMLProviderSystems, ByRef strRequest As String, Optional ByVal Version As String = "") As String
             Dim strResponse As String = ""
-            Dim ttService As TravelPort.OtherServices
+            Dim ttService As Travelport.OtherServices
 
             Try
-                ttService = New TravelPort.OtherServices
+                ttService = New Travelport.OtherServices
 
                 With ttService
                     '.Version = Version

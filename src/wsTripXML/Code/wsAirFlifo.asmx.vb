@@ -5,13 +5,14 @@ Imports System.Xml
 Imports System.Xml.Serialization
 Imports System.Data
 Imports System.Text
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirFlifo", _
-        Name:="wsAirFlifo", _
-        Description:="A TripXML Web Service to Process Air Flight Info Messages Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirFlifo",
+        Name:="wsAirFlifo",
+        Description:="A TripXML Web Service to Process Air Flight Info Messages Request.")>
     Public Class wsAirFlifo
         Inherits System.Web.Services.WebService
         Private sb As StringBuilder = New StringBuilder()
@@ -198,9 +199,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Air Flight Info Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Air Flight Info Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmAirFlifo(ByVal OTA_AirFlifoRQ As wmAirFlifoIn.OTA_AirFlifoRQ) As <XmlElementAttribute("OTA_AirFlifoRS")> wmAirFlifoOut.OTA_AirFlifoRS
             Dim xmlMessage As String = ""
             Dim oAirFlifoRS As wmAirFlifoOut.OTA_AirFlifoRS = Nothing
@@ -218,7 +219,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmAirFlifoOut.OTA_AirFlifoRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmAirFlifoOut.OTA_AirFlifoRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oAirFlifoRS = CType(oSerializer.Deserialize(oReader), wmAirFlifoOut.OTA_AirFlifoRS)
             Catch ex As Exception

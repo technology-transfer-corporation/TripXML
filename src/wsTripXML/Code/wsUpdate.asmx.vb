@@ -4,13 +4,14 @@ Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports System.Text
 Imports System.Xml
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsUpdate", _
-        Name:="wsUpdate", _
-        Description:="A TripXML Web Service to Process Update Messages Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsUpdate",
+        Name:="wsUpdate",
+        Description:="A TripXML Web Service to Process Update Messages Request.")>
     Public Class wsUpdate
         Inherits System.Web.Services.WebService
 
@@ -164,9 +165,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Update Info Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Update Info Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmUpdate(ByVal OTA_UpdateRQ As wmUpdateIn.OTA_UpdateRQ) As <XmlElementAttribute("OTA_TravelItineraryRS")> wmTravelItineraryOut_v03.OTA_TravelItineraryRS
             Dim xmlMessage As String = ""
             Dim OTA_UpdateRS As wmTravelItineraryOut_v03.OTA_TravelItineraryRS = Nothing
@@ -190,7 +191,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmTravelItineraryOut_v03.OTA_TravelItineraryRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut_v03.OTA_TravelItineraryRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 OTA_UpdateRS = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut_v03.OTA_TravelItineraryRS)
             Catch ex As Exception

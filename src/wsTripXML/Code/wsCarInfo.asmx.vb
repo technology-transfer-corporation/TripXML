@@ -1,18 +1,14 @@
-Imports System
 Imports System.Web.Services
-Imports System.Xml
-Imports Amadeus
 Imports TripXMLMain
 Imports System.Xml.Serialization
-Imports System.Text
-
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
 
-    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCarInfo", _
-        Name:="wsCarInfo", _
-        Description:="A TripXML Web Service to Process Car Info Messages Request.")> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCarInfo",
+        Name:="wsCarInfo",
+        Description:="A TripXML Web Service to Process Car Info Messages Request.")>
     Public Class wsCarInfo
         Inherits System.Web.Services.WebService
         Private sb As StringBuilder = New StringBuilder()
@@ -140,7 +136,7 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <WebMethod(Description:="Process Car Info Messages Request.")> _
+        <WebMethod(Description:="Process Car Info Messages Request.")>
         Public Function wmCarInfo(ByVal OTA_VehLocDetailRQ As wmCarInfoIn.OTA_VehLocDetailRQ) As <XmlElementAttribute("OTA_VehLocDetailRS")> wmCarInfoOut.OTA_VehLocDetailRS
             Dim xmlMessage As String = ""
             Dim oCarInfoRS As wmCarInfoOut.OTA_VehLocDetailRS = Nothing
@@ -158,7 +154,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmCarInfoOut.OTA_VehLocDetailRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmCarInfoOut.OTA_VehLocDetailRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oCarInfoRS = CType(oSerializer.Deserialize(oReader), wmCarInfoOut.OTA_VehLocDetailRS)
             Catch ex As Exception

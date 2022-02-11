@@ -7,17 +7,17 @@ Imports System.Threading
 Imports System.Data
 Imports System.Text
 Imports System.Web.Script.Services
-
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirAvail", _
-        Name:="wsAirAvail", _
-        Description:="A TripXML Web Service to Process Air Availability Messages Request."), _
-    System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-    WebServiceBinding(ConformsTo:=WsiProfiles.BasicProfile1_1), _
-     System.Web.Script.Services.ScriptService(), _
-     System.ComponentModel.ToolboxItem(False)> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirAvail",
+        Name:="wsAirAvail",
+        Description:="A TripXML Web Service to Process Air Availability Messages Request."),
+    System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+    WebServiceBinding(ConformsTo:=WsiProfiles.BasicProfile1_1),
+     System.Web.Script.Services.ScriptService(),
+     System.ComponentModel.ToolboxItem(False)>
     Public Class wsAirAvail
         Inherits System.Web.Services.WebService
 
@@ -312,9 +312,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Air Availability Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Air Availability Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmAirAvail(ByVal OTA_AirAvailRQ As wmAirAvailIn.OTA_AirAvailRQ) As <XmlElementAttribute("OTA_AirAvailRS")> wmAirAvailOut.OTA_AirAvailRS
             Dim xmlMessage As String = ""
             Dim oAirAvailRS As wmAirAvailOut.OTA_AirAvailRS = Nothing
@@ -332,7 +332,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmAirAvailOut.OTA_AirAvailRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmAirAvailOut.OTA_AirAvailRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oAirAvailRS = CType(oSerializer.Deserialize(oReader), wmAirAvailOut.OTA_AirAvailRS)
             Catch ex As Exception

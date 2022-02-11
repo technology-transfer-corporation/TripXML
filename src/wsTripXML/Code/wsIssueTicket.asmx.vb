@@ -3,13 +3,14 @@ Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports System.Web.Services.Protocols
 Imports CompressionExtension
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsIssueTicket", _
-        Name:="wsIssueTicket", _
-        Description:="A TripXML Web Service to Process Issue Ticket Messages Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsIssueTicket",
+        Name:="wsIssueTicket",
+        Description:="A TripXML Web Service to Process Issue Ticket Messages Request.")>
     Public Class wsIssueTicket
         Inherits System.Web.Services.WebService
         Public tXML As TripXML
@@ -119,9 +120,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension()> _
-        <WebMethod(Description:="Process Issue Ticket Messages Request.")> _
-        <SoapHeader("tXML")> _
+        <CompressionExtension()>
+        <WebMethod(Description:="Process Issue Ticket Messages Request.")>
+        <SoapHeader("tXML")>
         Public Function wmIssueTicket(ByVal TT_IssueTicketRQ As wmIssueTicketIn.TT_IssueTicketRQ) As <XmlElementAttribute("TT_IssueTicketRS")> wmIssueTicketOut.TT_IssueTicketRS
             Dim xmlMessage As String
             Dim oIssueTicketRS As wmIssueTicketOut.TT_IssueTicketRS = Nothing
@@ -138,7 +139,7 @@ Namespace wsTravelTalk
             xmlMessage = ServiceRequest(xmlMessage, ttServices.IssueTicket)
 
             Try
-                oSerializer = New XmlSerializer(Type:=GetType(wmIssueTicketOut.TT_IssueTicketRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmIssueTicketOut.TT_IssueTicketRS))
                 oReader = New IO.StringReader(xmlMessage)
                 oIssueTicketRS = CType(oSerializer.Deserialize(oReader), wmIssueTicketOut.TT_IssueTicketRS)
             Catch ex As Exception

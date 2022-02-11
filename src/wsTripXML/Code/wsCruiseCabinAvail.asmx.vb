@@ -1,18 +1,15 @@
-Imports System
 Imports System.Web.Services
 Imports System.Xml
-Imports Amadeus
+Imports TripXMLMain.modCore
 Imports TripXMLMain
 Imports System.Xml.Serialization
-Imports System.Data
-Imports System.Text
 
 Namespace wsTravelTalk
 
 
-    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCruiseCabinAvail", _
-        Name:="wsCruiseCabinAvail", _
-        Description:="A TripXML Web Service to Process Cruise Cabin Availibility Messages Request.")> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCruiseCabinAvail",
+        Name:="wsCruiseCabinAvail",
+        Description:="A TripXML Web Service to Process Cruise Cabin Availibility Messages Request.")>
     Public Class wsCruiseCabinAvail
         Inherits System.Web.Services.WebService
 
@@ -319,7 +316,7 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <WebMethod(Description:="Process Cruise Cabin Availability Messages Request.")> _
+        <WebMethod(Description:="Process Cruise Cabin Availability Messages Request.")>
         Public Function wmCruiseCabinAvail(ByVal OTA_CruiseCabinAvailRQ As wmCruiseCabinAvailIn.OTA_CruiseCabinAvailRQ) As <XmlElementAttribute("OTA_CruiseCabinAvailRS")> wmCruiseCabinAvailOut.OTA_CruiseCabinAvailRS
             Dim xmlMessage As String = ""
             Dim oCruiseCabinAvailRS As wmCruiseCabinAvailOut.OTA_CruiseCabinAvailRS = Nothing
@@ -337,7 +334,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmCruiseCabinAvailOut.OTA_CruiseCabinAvailRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmCruiseCabinAvailOut.OTA_CruiseCabinAvailRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oCruiseCabinAvailRS = CType(oSerializer.Deserialize(oReader), wmCruiseCabinAvailOut.OTA_CruiseCabinAvailRS)
             Catch ex As Exception

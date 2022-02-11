@@ -1,19 +1,14 @@
-Imports System
 Imports System.Web.Services
-Imports System.Xml
-Imports Amadeus
+Imports TripXMLMain.modCore
 Imports TripXMLMain
 Imports System.Xml.Serialization
-Imports System.Text
-Imports CompressionExtension
-
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-     System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCarRules", _
-        Name:="wsCarRules", _
-        Description:="A TripXML Web Service to Process Car Rules Messages Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+     System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCarRules",
+        Name:="wsCarRules",
+        Description:="A TripXML Web Service to Process Car Rules Messages Request.")>
     Public Class wsCarRules
         Inherits System.Web.Services.WebService
         Private sb As StringBuilder = New StringBuilder()
@@ -141,9 +136,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Car Info Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Car Info Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmCarRules(ByVal OTA_VehRateRuleRQ As wmCarRulesIn.OTA_VehRateRuleRQ) As <XmlElementAttribute("OTA_VehRateRuleRS")> wmCarRulesOut.OTA_VehRateRuleRS
             Dim xmlMessage As String = ""
             Dim oCarRulesRS As wmCarRulesOut.OTA_VehRateRuleRS = Nothing
@@ -161,7 +156,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmCarRulesOut.OTA_VehRateRuleRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmCarRulesOut.OTA_VehRateRuleRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oCarRulesRS = CType(oSerializer.Deserialize(oReader), wmCarRulesOut.OTA_VehRateRuleRS)
             Catch ex As Exception

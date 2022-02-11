@@ -2,14 +2,14 @@
 Imports System.IO
 Imports TripXMLMain
 Imports System.Xml.Serialization
-Imports System.Text
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <Protocols.SoapDocumentService(RoutingStyle:=Protocols.SoapServiceRoutingStyle.RequestElement), _
-        WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsPNRReprice", _
-        Name:="wsPNRReprice", _
-        Description:="A TripXML Web Service to Process PNR Reprice Request.")> _
+    <Protocols.SoapDocumentService(RoutingStyle:=Protocols.SoapServiceRoutingStyle.RequestElement),
+        WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsPNRReprice",
+        Name:="wsPNRReprice",
+        Description:="A TripXML Web Service to Process PNR Reprice Request.")>
     Public Class wsPNRReprice
         Inherits WebService
         Public TXML As TripXML
@@ -111,9 +111,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process PNR Reprice Messages Request.")> _
-        <Protocols.SoapHeader("TXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process PNR Reprice Messages Request.")>
+        <Protocols.SoapHeader("TXML")>
         Public Function wmPNRReprice(ByVal OTA_PNRRepriceRQ As wmPNRRepriceIn.OTA_PNRRepriceRQ) As <XmlElementAttribute("OTA_PNRRepriceRS")> wmPNRRepriceOut.OTA_PNRRepriceRS
             Dim oPNRRepriceRS As wmPNRRepriceOut.OTA_PNRRepriceRS = Nothing
 
@@ -126,7 +126,7 @@ Namespace wsTravelTalk
             xmlMessage = ServiceRequest(xmlMessage, ttServices.PNRReprice)
 
             Try
-                oSerializer = New XmlSerializer(Type:=GetType(wmPNRRepriceOut.OTA_PNRRepriceRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmPNRRepriceOut.OTA_PNRRepriceRS))
                 Dim oReader As StringReader = New StringReader(xmlMessage)
                 oPNRRepriceRS = CType(oSerializer.Deserialize(oReader), wmPNRRepriceOut.OTA_PNRRepriceRS)
             Catch ex As Exception

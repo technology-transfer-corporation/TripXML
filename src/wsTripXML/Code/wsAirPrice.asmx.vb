@@ -3,13 +3,14 @@ Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports System.Text
 Imports System
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirPrice", _
-        Name:="wsAirPrice", _
-        Description:="A TripXML Web Service to Process Air Price Messages Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirPrice",
+        Name:="wsAirPrice",
+        Description:="A TripXML Web Service to Process Air Price Messages Request.")>
     Public Class wsAirPrice
         Inherits System.Web.Services.WebService
         Private sb As StringBuilder = New StringBuilder()
@@ -137,9 +138,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Air Price Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Air Price Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmAirPrice(ByVal OTA_AirPriceRQ As wmAirPriceIn.OTA_AirPriceRQ) As <XmlElementAttribute("OTA_AirPriceRS")> wmAirPriceOut.OTA_AirPriceRS
             Dim xmlMessage As String = ""
             Dim oAirPriceRS As wmAirPriceOut.OTA_AirPriceRS = Nothing
@@ -157,7 +158,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmAirPriceOut.OTA_AirPriceRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmAirPriceOut.OTA_AirPriceRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oAirPriceRS = CType(oSerializer.Deserialize(oReader), wmAirPriceOut.OTA_AirPriceRS)
             Catch ex As Exception

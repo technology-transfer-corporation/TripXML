@@ -2,7 +2,7 @@
 Imports System.Web.Services.Protocols
 Imports System.ComponentModel
 Imports TripXMLMain
-Imports Amadeus
+Imports TripXMLMain.modCore
 Imports System.Xml
 Imports System.IO
 Imports System.Configuration

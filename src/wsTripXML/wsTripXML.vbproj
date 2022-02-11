@@ -70,6 +70,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -86,9 +87,6 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TravelPort">
-      <HintPath>..\TravelPort\bin\Debug\TravelPort.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -112,6 +110,7 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".gitignore" />
     <Content Include="App_Data\Admin\wsimportlog.asmx" />
     <Content Include="App_Data\Admin\wsrefreshmem.asmx" />
     <Content Include="bin\Aggregation_AirAvailRS.dll" />
@@ -1365,6 +1364,7 @@
     <Content Include="Tables\Decoding\WS_FTP.LOG" />
     <Content Include="Tables\Users\WS_FTP.LOG" />
     <Content Include="packages.config" />
+    <Content Include="nuget.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1446,15 +1446,19 @@
       <Project>{e7280d0f-fdef-0eca-020a-4183f59428c1}</Project>
       <Name>Sabre</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TripXMLMain\TripXMLMain.vbproj">
-      <Project>{7bfd1163-a751-4042-ab19-6665d0af115a}</Project>
+    <ProjectReference Include="..\TravelPort\TravelPort.csproj">
+      <Project>{0c66b5e2-1e92-471a-a5fb-c83c241e4ce4}</Project>
+      <Name>TravelPort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TripXMLMain\TripXMLMain.csproj">
+      <Project>{c9d99008-6b09-0fb3-2941-ac1bb23825fa}</Project>
       <Name>TripXMLMain</Name>
     </ProjectReference>
     <ProjectReference Include="..\TripXMLTools\TripXMLTools.csproj">
       <Project>{b362f5bf-5f86-4997-9ef4-067c8e3db74e}</Project>
       <Name>TripXMLTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Worldspan-CS\Worldspan.csproj">
+    <ProjectReference Include="..\Worldspan\Worldspan.csproj">
       <Project>{08b45e83-8921-0869-3fb1-53ed81167882}</Project>
       <Name>Worldspan</Name>
     </ProjectReference>

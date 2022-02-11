@@ -1,5 +1,6 @@
 ﻿Imports TripXMLMain
 Imports System.Xml
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
@@ -32,14 +33,14 @@ Namespace wsTravelTalk
 
         Public Sub SendAirRequest()
             Dim strResponse As String = ""
-            Dim ttService As TravelPort.AirServices = Nothing
+            Dim ttService As Travelport.AirServices = Nothing
             Dim oDoc As XmlDocument = Nothing
             Dim oRoot As XmlElement = Nothing
             Dim oNode As XmlNode = Nothing
             Dim strMsg As String = ""
 
             Try
-                ttService = New TravelPort.AirServices
+                ttService = New Travelport.AirServices
 
                 With ttService
                     .Version = Version
@@ -97,10 +98,10 @@ Namespace wsTravelTalk
 
         Public Sub SendPNRRequest()
             Dim strResponse As String = ""
-            Dim ttService As TravelPort.PNRServices = Nothing
+            Dim ttService As Travelport.PNRServices = Nothing
 
             Try
-                ttService = New TravelPort.PNRServices
+                ttService = New Travelport.PNRServices
 
                 With ttService
                     .Version = Version
@@ -130,10 +131,10 @@ Namespace wsTravelTalk
 
         Public Sub SendTravelRequest()
             Dim strResponse As String = ""
-            Dim ttService As TravelPort.TravelServices = Nothing
+            Dim ttService As Travelport.TravelServices = Nothing
 
             Try
-                ttService = New TravelPort.TravelServices
+                ttService = New Travelport.TravelServices
 
                 With ttService
                     .Version = Version

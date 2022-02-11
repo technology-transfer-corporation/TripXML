@@ -1,18 +1,14 @@
-Imports System
 Imports System.Web.Services
-Imports System.Xml
-Imports Amadeus
+Imports TripXMLMain.modCore
 Imports TripXMLMain
 Imports System.Xml.Serialization
-Imports System.Text
-
 
 Namespace wsTravelTalk
 
 
-    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCruiseCancel", _
-        Name:="wsCruiseCancel", _
-        Description:="A TripXML Web Service to Process Cruise PNR Read Messages Request.")> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCruiseCancel",
+        Name:="wsCruiseCancel",
+        Description:="A TripXML Web Service to Process Cruise PNR Read Messages Request.")>
     Public Class wsCruiseCancel
         Inherits System.Web.Services.WebService
 
@@ -129,7 +125,7 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <WebMethod(Description:="Process Cruise PNR Read Messages Request.")> _
+        <WebMethod(Description:="Process Cruise PNR Read Messages Request.")>
         Public Function wmCruiseCancel(ByVal OTA_CruiseCancelRQ As wmCruiseCancelIn.OTA_CruiseCancelRQ) As <XmlElementAttribute("OTA_CruiseCancelRS")> wmCruiseCancelOut.OTA_CruiseCancelRS
             Dim xmlMessage As String = ""
             Dim oCruiseCancelRS As wmCruiseCancelOut.OTA_CruiseCancelRS = Nothing
@@ -147,7 +143,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmCruiseCancelOut.OTA_CruiseCancelRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmCruiseCancelOut.OTA_CruiseCancelRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oCruiseCancelRS = CType(oSerializer.Deserialize(oReader), wmCruiseCancelOut.OTA_CruiseCancelRS)
             Catch ex As Exception

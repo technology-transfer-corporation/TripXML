@@ -105,27 +105,27 @@ Namespace wsTravelTalk
             Dim i As Integer
             Dim sb2 As StringBuilder = New StringBuilder()
             Try
-                CoreLib.SendTrace("", "wsImportLog", sb.Append("Reading Log File ").Append(LogPath).Append(String.Format("{0}_Log.txt", DateTime.Now.ToShortDateString())).ToString(), "", String.Empty)
+                CoreLib.SendTrace("", "wsImportLog", sb.Append("Reading Log File ").Append(modCore.LogPath).Append(String.Format("{0}_Log.txt", DateTime.Now.ToShortDateString())).ToString(), "", String.Empty)
                 sb.Remove(0, sb.Length())
 
-                If Exists(sb.Append(LogPath).Append(String.Format("{0}_Log.txt", DateTime.Now.ToShortDateString())).ToString()) Then
+                If Exists(sb.Append(modCore.LogPath).Append(String.Format("{0}_Log.txt", DateTime.Now.ToShortDateString())).ToString()) Then
                     sb.Remove(0, sb.Length())
                     If DeleteLog Then
-                        Move(sb.Append(LogPath).Append(String.Format("{0}_Log.txt", DateTime.Now.ToShortDateString())).ToString(), sb2.Append(LogPath).Append("LogImport.txt").ToString())
+                        Move(sb.Append(modCore.LogPath).Append(String.Format("{0}_Log.txt", DateTime.Now.ToShortDateString())).ToString(), sb2.Append(modCore.LogPath).Append("LogImport.txt").ToString())
                         sb.Remove(0, sb.Length())
                         sb2.Remove(0, sb2.Length())
                     Else
-                        Copy(sb.Append(LogPath).Append(String.Format("{0}_Log.txt", DateTime.Now.ToShortDateString())).ToString(), sb2.Append(LogPath).Append("LogImport.txt").ToString(), True)
+                        Copy(sb.Append(modCore.LogPath).Append(String.Format("{0}_Log.txt", DateTime.Now.ToShortDateString())).ToString(), sb2.Append(modCore.LogPath).Append("LogImport.txt").ToString(), True)
                         sb.Remove(0, sb.Length())
                         sb2.Remove(0, sb2.Length())
                     End If
                 Else
-                    Throw New Exception(sb.Append("Log File ").Append(LogPath).Append("Log.txt Not found.").ToString())
+                    Throw New Exception(sb.Append("Log File ").Append(modCore.LogPath).Append("Log.txt Not found.").ToString())
                 End If
 
                 FileNumber = FreeFile()
 
-                FileOpen(FileNumber, sb.Append(LogPath).Append("LogImport.txt").ToString(), OpenMode.Input, OpenAccess.Read, OpenShare.LockWrite)
+                FileOpen(FileNumber, sb.Append(modCore.LogPath).Append("LogImport.txt").ToString(), OpenMode.Input, OpenAccess.Read, OpenShare.LockWrite)
                 sb.Remove(0, sb.Length())
 
                 Do While Not EOF(FileNumber)
@@ -141,9 +141,9 @@ Namespace wsTravelTalk
             Finally
                 FileClose(FileNumber)
                 sb.Remove(0, sb.Length())
-                If Exists(sb.Append(LogPath).Append("LogImport.txt").ToString()) Then
+                If Exists(sb.Append(modCore.LogPath).Append("LogImport.txt").ToString()) Then
                     sb.Remove(0, sb.Length())
-                    Delete(sb.Append(LogPath).Append("LogImport.txt").ToString())
+                    Delete(sb.Append(modCore.LogPath).Append("LogImport.txt").ToString())
                     sb.Remove(0, sb.Length())
                 End If
             End Try

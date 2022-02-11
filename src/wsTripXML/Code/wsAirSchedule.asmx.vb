@@ -1,20 +1,17 @@
-﻿Imports System
-Imports System.Web.Services
-Imports Amadeus
+﻿Imports System.Web.Services
+Imports TripXMLMain.modCore
 Imports TripXMLMain
 Imports System.Xml
 Imports System.Xml.Serialization
-Imports System.Text
-Imports CompressionExtension
-Imports System.Threading
+
 Namespace wsTravelTalk
     ' To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line.
     ' <System.Web.Script.Services.ScriptService()> _
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-    System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirSchedule", _
-    Name:="wsAirSchedule", _
-    Description:="A TripXML Web Service to Process Air Schedule Messages Request.")> _
-Public Class wsAirSchedule
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+    System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirSchedule",
+    Name:="wsAirSchedule",
+    Description:="A TripXML Web Service to Process Air Schedule Messages Request.")>
+    Public Class wsAirSchedule
         Inherits System.Web.Services.WebService
         Private sb As StringBuilder = New StringBuilder()
         Public tXML As TripXML
@@ -159,10 +156,10 @@ Public Class wsAirSchedule
 #End Region
 
 #Region "Web Methods"
-        <CompressionExtension.CompressionExtension()> _
-   <WebMethod(Description:="Process Air Schedule Messages Request.")> _
-   <System.Web.Services.Protocols.SoapHeader("tXML")> _
-   Public Function wmAirSchedule(ByVal OTA_AirScheduleRQ As wmAirScheduleIn.OTA_AirScheduleRQ) As <XmlElementAttribute("OTA_AirScheduleRS")> wmAirScheduleOut.OTA_AirScheduleRS
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Air Schedule Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
+        Public Function wmAirSchedule(ByVal OTA_AirScheduleRQ As wmAirScheduleIn.OTA_AirScheduleRQ) As <XmlElementAttribute("OTA_AirScheduleRS")> wmAirScheduleOut.OTA_AirScheduleRS
             Dim xmlMessage As String = ""
             Dim oAirScheduleRS As wmAirScheduleOut.OTA_AirScheduleRS = Nothing
             Dim oSerializer As XmlSerializer = Nothing
@@ -179,7 +176,7 @@ Public Class wsAirSchedule
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmAirScheduleOut.OTA_AirScheduleRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmAirScheduleOut.OTA_AirScheduleRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oAirScheduleRS = CType(oSerializer.Deserialize(oReader), wmAirScheduleOut.OTA_AirScheduleRS)
             Catch ex As Exception

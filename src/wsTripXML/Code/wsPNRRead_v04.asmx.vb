@@ -2,15 +2,14 @@
 Imports System.Xml
 Imports TripXMLMain
 Imports System.Xml.Serialization
-Imports System.Data
-Imports System.Text
 Imports System.Globalization
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <Protocols.SoapDocumentService(RoutingStyle:=Protocols.SoapServiceRoutingStyle.RequestElement), WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsPNRRead", _
-        Name:="wsPNRRead", _
-        Description:="A TripXML Web Service to Process PNR Read Request - version 04.")> _
+    <Protocols.SoapDocumentService(RoutingStyle:=Protocols.SoapServiceRoutingStyle.RequestElement), WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsPNRRead",
+        Name:="wsPNRRead",
+        Description:="A TripXML Web Service to Process PNR Read Request - version 04.")>
     Public Class wsPNRRead_v04
         Inherits WebService
         Public tXML As TripXML
@@ -194,9 +193,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process PNR Read Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process PNR Read Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmPNRRead(ByVal OTA_ReadRQ As wmPNRReadIn.OTA_ReadRQ) As <XmlElementAttribute("OTA_TravelItineraryRS")> wmTravelItineraryOut_v04.OTA_TravelItineraryRS
             Dim xmlMessage As String = ""
             Dim oPNRReadRS As wmTravelItineraryOut_v04.OTA_TravelItineraryRS = Nothing
@@ -214,7 +213,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmTravelItineraryOut_v04.OTA_TravelItineraryRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut_v04.OTA_TravelItineraryRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oPNRReadRS = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut_v04.OTA_TravelItineraryRS)
             Catch ex As Exception

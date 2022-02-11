@@ -1,20 +1,16 @@
-Imports System
 Imports System.Web.Services
 Imports System.Xml
-Imports Amadeus
+Imports TripXMLMain.modCore
 Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports System.Threading
-Imports System.Data
-Imports System.Text
-Imports CompressionExtension
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-    System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCarAvail", _
-        Name:="wsCarAvail", _
-        Description:="A TripXML Web Service to Process Car Availability Messages Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+    System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCarAvail",
+        Name:="wsCarAvail",
+        Description:="A TripXML Web Service to Process Car Availability Messages Request.")>
     Public Class wsCarAvail
         Inherits System.Web.Services.WebService
         Private sb As StringBuilder = New StringBuilder()
@@ -313,9 +309,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Car Availability Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Car Availability Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmCarAvail(ByVal OTA_VehAvailRateRQ As wmCarAvailIn.OTA_VehAvailRateRQ) As <XmlElementAttribute("OTA_VehAvailRateRS")> wmCarAvailOut.OTA_VehAvailRateRS
             Dim xmlMessage As String = ""
             Dim oCarAvailRS As wmCarAvailOut.OTA_VehAvailRateRS = Nothing
@@ -333,7 +329,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmCarAvailOut.OTA_VehAvailRateRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmCarAvailOut.OTA_VehAvailRateRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oCarAvailRS = CType(oSerializer.Deserialize(oReader), wmCarAvailOut.OTA_VehAvailRateRS)
             Catch ex As Exception

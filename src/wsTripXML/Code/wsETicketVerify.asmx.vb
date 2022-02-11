@@ -1,17 +1,14 @@
-Imports System
 Imports System.Web.Services
 Imports TripXMLMain
-Imports System.Xml
 Imports System.Xml.Serialization
-Imports System.Text
-
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
 
-    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsETicketVerify", _
-        Name:="wsETicketVerify", _
-        Description:="A TripXML Web Service to Process eTicket Verify Messages Request.")> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsETicketVerify",
+        Name:="wsETicketVerify",
+        Description:="A TripXML Web Service to Process eTicket Verify Messages Request.")>
     Public Class wsETicketVerify
         Inherits System.Web.Services.WebService
 
@@ -103,7 +100,7 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <WebMethod(Description:="Process eTicket Verify Messages Request.")> _
+        <WebMethod(Description:="Process eTicket Verify Messages Request.")>
         Public Function wmETicketVerify(ByVal OTA_ETicketVerifyRQ As wmETicketVerifyIn.OTA_ETicketVerifyRQ) As <XmlElementAttribute("OTA_ETicketVerifyRS")> wmETicketVerifyOut.OTA_ETicketVerifyRS
             Dim xmlMessage As String = ""
             Dim oETicketVerifyRS As wmETicketVerifyOut.OTA_ETicketVerifyRS = Nothing
@@ -121,7 +118,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmETicketVerifyOut.OTA_ETicketVerifyRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmETicketVerifyOut.OTA_ETicketVerifyRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oETicketVerifyRS = CType(oSerializer.Deserialize(oReader), wmETicketVerifyOut.OTA_ETicketVerifyRS)
             Catch ex As Exception

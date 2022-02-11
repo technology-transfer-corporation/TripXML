@@ -5,13 +5,14 @@ Imports System.Xml
 Imports System.Xml.Serialization
 Imports System.Data
 Imports System.Text
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirRules", _
-        Name:="wsAirRules_v03", _
-        Description:="A TripXML Web Service to Process Air Rules Messages Request - version 03.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirRules",
+        Name:="wsAirRules_v03",
+        Description:="A TripXML Web Service to Process Air Rules Messages Request - version 03.")>
     Public Class wsAirRules_v03
         Inherits System.Web.Services.WebService
         Private sb As StringBuilder = New StringBuilder()
@@ -151,9 +152,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Air Rules Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Air Rules Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmAirRules(ByVal OTA_AirRulesRQ As wmAirRulesIn_v03.OTA_AirRulesRQ) As <XmlElementAttribute("OTA_AirRulesRS")> wmAirRulesOut_v03.OTA_AirRulesRS
             Dim xmlMessage As String = ""
             Dim oAirRulesRS As wmAirRulesOut_v03.OTA_AirRulesRS = Nothing
@@ -171,7 +172,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmAirRulesOut_v03.OTA_AirRulesRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmAirRulesOut_v03.OTA_AirRulesRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oAirRulesRS = CType(oSerializer.Deserialize(oReader), wmAirRulesOut_v03.OTA_AirRulesRS)
             Catch ex As Exception

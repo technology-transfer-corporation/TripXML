@@ -7,13 +7,14 @@ Imports wsTripXML.wsTravelTalk.wmDeleteVirtualCard
 Imports wsTripXML.wsTravelTalk.wmGenerateVirtualCard
 Imports wsTripXML.wsTravelTalk.wmGetVirtualCardDetails
 Imports wsTripXML.wsTravelTalk.wmListVirtualCards
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/wsVirtualCreditCard", _
-                                       Name:="wsVirtualCreditCard", _
-                                       Description:="A TripXML Web Service to Process Virtual Card Requests.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/wsVirtualCreditCard",
+                                       Name:="wsVirtualCreditCard",
+                                       Description:="A TripXML Web Service to Process Virtual Card Requests.")>
     Public Class wsVirtualCreditCard
         Inherits System.Web.Services.WebService
         Public tXML As TripXML
@@ -99,9 +100,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension> _
-        <WebMethod(Description:="Process Generate Virtual Card Messages Request.")> _
-        <Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension>
+        <WebMethod(Description:="Process Generate Virtual Card Messages Request.")>
+        <Protocols.SoapHeader("tXML")>
         Public Function GenerateVirtualCard(ByVal PAY_GenerateVirtualCardRQ As PAY_GenerateVirtualCardRQ) As <XmlElementAttribute("PAY_GenerateVirtualCardRS")> PAY_GenerateVirtualCardRS
             Dim xmlMessage
             Dim oVCCRS As PAY_GenerateVirtualCardRS = Nothing
@@ -120,10 +121,10 @@ Namespace wsTravelTalk
             xmlMessage = ServiceRequest(xmlMessage, ttServices.GenerateVirtualCard)
 
             Try
-                oSerializer = New XmlSerializer(Type:=GetType(PAY_GenerateVirtualCardRS))
+                oSerializer = New XmlSerializer(type:=GetType(PAY_GenerateVirtualCardRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oVCCRS = CType(oSerializer.Deserialize(oReader), PAY_GenerateVirtualCardRS)
-                
+
             Catch ex As Exception
                 CoreLib.SendTrace("", "GenerateVirtualCard", "Error Deserialing OTA Response", ex.Message, String.Empty)
             End Try
@@ -132,14 +133,14 @@ Namespace wsTravelTalk
 
         End Function
 
-        <WebMethod(Description:="Process Generate Virtual Card Xml Messages Request.")> _
+        <WebMethod(Description:="Process Generate Virtual Card Xml Messages Request.")>
         Public Function GenerateVirtualCardXml(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.GenerateVirtualCard)
         End Function
 
-        <CompressionExtension.CompressionExtension> _
-        <WebMethod(Description:="Process Cancel Virtual Card Load Messages Request.")> _
-        <Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension>
+        <WebMethod(Description:="Process Cancel Virtual Card Load Messages Request.")>
+        <Protocols.SoapHeader("tXML")>
         Public Function CancelVirtualCardLoad(ByVal PAY_CancelVirtualCardLoadRQ As PAY_CancelVirtualCardLoadRQ) As <XmlElementAttribute("PAY_CancelVirtualCardLoadRS")> PAY_CancelVirtualCardLoadRS
             Dim xmlMessage
             Dim oVCCRS As PAY_CancelVirtualCardLoadRS = Nothing
@@ -158,10 +159,10 @@ Namespace wsTravelTalk
             xmlMessage = ServiceRequest(xmlMessage, ttServices.CancelVirtualCardLoad)
 
             Try
-                oSerializer = New XmlSerializer(Type:=GetType(PAY_CancelVirtualCardLoadRS))
+                oSerializer = New XmlSerializer(type:=GetType(PAY_CancelVirtualCardLoadRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oVCCRS = CType(oSerializer.Deserialize(oReader), PAY_CancelVirtualCardLoadRS)
-                
+
             Catch ex As Exception
                 CoreLib.SendTrace("", "CancelVirtualCardLoad", "Error Deserialing OTA Response", ex.Message, String.Empty)
             End Try
@@ -170,14 +171,14 @@ Namespace wsTravelTalk
 
         End Function
 
-        <WebMethod(Description:="Process Cancel Virtual Card Load Xml Messages Request.")> _
+        <WebMethod(Description:="Process Cancel Virtual Card Load Xml Messages Request.")>
         Public Function CancelVirtualCardLoadXML(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.CancelVirtualCardLoad)
         End Function
 
-        <CompressionExtension.CompressionExtension> _
-        <WebMethod(Description:="Process Delete Virtual Card Messages Request.")> _
-        <Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension>
+        <WebMethod(Description:="Process Delete Virtual Card Messages Request.")>
+        <Protocols.SoapHeader("tXML")>
         Public Function DeleteVirtualCard(ByVal PAY_DeleteVirtualCardRQ As PAY_DeleteVirtualCardRQ) As <XmlElementAttribute("PAY_DeleteVirtualCardRS")> PAY_DeleteVirtualCardRS
             Dim xmlMessage
             Dim oVCCRS As PAY_DeleteVirtualCardRS = Nothing
@@ -196,10 +197,10 @@ Namespace wsTravelTalk
             xmlMessage = ServiceRequest(xmlMessage, ttServices.DeleteVirtualCard)
 
             Try
-                oSerializer = New XmlSerializer(Type:=GetType(PAY_DeleteVirtualCardRS))
+                oSerializer = New XmlSerializer(type:=GetType(PAY_DeleteVirtualCardRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oVCCRS = CType(oSerializer.Deserialize(oReader), PAY_DeleteVirtualCardRS)
-                
+
             Catch ex As Exception
                 CoreLib.SendTrace("", "DeleteVirtualCard", "Error Deserialing OTA Response", ex.Message, String.Empty)
             End Try
@@ -208,14 +209,14 @@ Namespace wsTravelTalk
 
         End Function
 
-        <WebMethod(Description:="Process Delete Virtual Card Xml Messages Request.")> _
+        <WebMethod(Description:="Process Delete Virtual Card Xml Messages Request.")>
         Public Function DeleteVirtualCardXML(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.DeleteVirtualCard)
         End Function
 
-        <CompressionExtension.CompressionExtension> _
-        <WebMethod(Description:="Process Delete Virtual Card Messages Request.")> _
-        <Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension>
+        <WebMethod(Description:="Process Delete Virtual Card Messages Request.")>
+        <Protocols.SoapHeader("tXML")>
         Public Function GetVirtualCardDetails(ByVal PAY_GetVirtualCardDetailsRQ As PAY_GetVirtualCardDetailsRQ) As <XmlElementAttribute("PAY_GetVirtualCardDetailsRS")> PAY_GetVirtualCardDetailsRS
             Dim xmlMessage
             Dim oVCCRS As PAY_GetVirtualCardDetailsRS = Nothing
@@ -234,10 +235,10 @@ Namespace wsTravelTalk
             xmlMessage = ServiceRequest(xmlMessage, ttServices.GetVirtualCardDetails)
 
             Try
-                oSerializer = New XmlSerializer(Type:=GetType(PAY_GetVirtualCardDetailsRS))
+                oSerializer = New XmlSerializer(type:=GetType(PAY_GetVirtualCardDetailsRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oVCCRS = CType(oSerializer.Deserialize(oReader), PAY_GetVirtualCardDetailsRS)
-                
+
             Catch ex As Exception
                 CoreLib.SendTrace("", "GetVirtualCardDetails", "Error Deserialing OTA Response", ex.Message, String.Empty)
             End Try
@@ -246,14 +247,14 @@ Namespace wsTravelTalk
 
         End Function
 
-        <WebMethod(Description:="Process Delete Virtual Card Xml Messages Request.")> _
+        <WebMethod(Description:="Process Delete Virtual Card Xml Messages Request.")>
         Public Function GetVirtualCardDetailsXML(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.GetVirtualCardDetails)
         End Function
 
-        <CompressionExtension.CompressionExtension> _
-        <WebMethod(Description:="Process List Virtual Credit Cards Request.")> _
-        <Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension>
+        <WebMethod(Description:="Process List Virtual Credit Cards Request.")>
+        <Protocols.SoapHeader("tXML")>
         Public Function ListVirtualCards(ByVal PAY_ListVirtualCardsRQ As PAY_ListVirtualCardsRQ) As <XmlElementAttribute("PAY_ListVirtualCardsRS")> PAY_ListVirtualCardsRS
             Dim xmlMessage
             Dim oVCCRS As PAY_ListVirtualCardsRS = Nothing
@@ -272,10 +273,10 @@ Namespace wsTravelTalk
             xmlMessage = ServiceRequest(xmlMessage, ttServices.ListVirtualCards)
 
             Try
-                oSerializer = New XmlSerializer(Type:=GetType(PAY_ListVirtualCardsRS))
+                oSerializer = New XmlSerializer(type:=GetType(PAY_ListVirtualCardsRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oVCCRS = CType(oSerializer.Deserialize(oReader), PAY_ListVirtualCardsRS)
-                
+
             Catch ex As Exception
                 CoreLib.SendTrace("", "ListVirtualCards", "Error Deserialing OTA Response", ex.Message, String.Empty)
             End Try

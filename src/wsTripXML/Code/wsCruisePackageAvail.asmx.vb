@@ -1,18 +1,15 @@
-Imports System
 Imports System.Web.Services
 Imports System.Xml
-Imports Amadeus
+Imports TripXMLMain.modCore
 Imports TripXMLMain
 Imports System.Xml.Serialization
-Imports System.Data
-Imports System.Text
 
 Namespace wsTravelTalk
 
 
-    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCruisePackageAvail", _
-        Name:="wsCruisePackageAvail", _
-        Description:="A TripXML Web Service to Process Cruise Package Availibility Messages Request.")> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCruisePackageAvail",
+        Name:="wsCruisePackageAvail",
+        Description:="A TripXML Web Service to Process Cruise Package Availibility Messages Request.")>
     Public Class wsCruisePackageAvail
         Inherits System.Web.Services.WebService
 
@@ -241,7 +238,7 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <WebMethod(Description:="Process Cruise Package Availability Messages Request.")> _
+        <WebMethod(Description:="Process Cruise Package Availability Messages Request.")>
         Public Function wmCruisePackageAvail(ByVal OTA_CruisePackageAvailRQ As wmCruisePackageAvailIn.OTA_CruisePackageAvailRQ) As <XmlElementAttribute("OTA_CruisePackageAvailRS")> wmCruisePackageAvailOut.OTA_CruisePackageAvailRS
             Dim xmlMessage As String = ""
             Dim oCruisePackageAvailRS As wmCruisePackageAvailOut.OTA_CruisePackageAvailRS = Nothing
@@ -259,7 +256,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmCruisePackageAvailOut.OTA_CruisePackageAvailRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmCruisePackageAvailOut.OTA_CruisePackageAvailRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oCruisePackageAvailRS = CType(oSerializer.Deserialize(oReader), wmCruisePackageAvailOut.OTA_CruisePackageAvailRS)
             Catch ex As Exception

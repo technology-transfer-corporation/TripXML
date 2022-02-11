@@ -1,17 +1,14 @@
 Imports System.Web.Services
-Imports System.Xml
 Imports TripXMLMain
 Imports System.Xml.Serialization
-Imports System.Text
-Imports CompressionExtension
-Imports Newtonsoft.Json
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsSessionClose", _
-        Name:="wsSessionClose", _
-        Description:="A TripXML Web Service to Process Session Close Messages Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsSessionClose",
+        Name:="wsSessionClose",
+        Description:="A TripXML Web Service to Process Session Close Messages Request.")>
     Public Class wsSessionClose
         Inherits System.Web.Services.WebService
         Public tXML As TripXML
@@ -103,7 +100,7 @@ Namespace wsTravelTalk
 
                     Case "Worldspan"
 
-                        If (strRequest.Contains("<ConversationID></ConversationID>") OrElse strRequest.Contains("<ConversationID>NONE</ConversationID>") )Then
+                        If (strRequest.Contains("<ConversationID></ConversationID>") OrElse strRequest.Contains("<ConversationID>NONE</ConversationID>")) Then
                             CoreLib.SendTrace("", "wsSessionClose", "NO SessionID Passed", strRequest, String.Empty)
                             AddLog(LogType.Info, "NO SessionID Passed", New TripXMLProviderSystems(), strRequest)
                             Throw New Exception(sb.Append("Provider ").Append(ttCredential.Providers(0).Name).Append("No Session ID Provided.").ToString())
@@ -136,9 +133,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Session Close Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Session Close Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmSessionClose(ByVal SessionCloseRQ As wmSessionCloseIn.SessionCloseRQ) As <XmlElementAttribute("SessionCloseRS")> wmSessionCloseOut.SessionCloseRS
             Dim xmlMessage As String
             Dim oSessionCloseRS As wmSessionCloseOut.SessionCloseRS = Nothing
@@ -155,7 +152,7 @@ Namespace wsTravelTalk
             xmlMessage = ServiceRequest(xmlMessage, ttServices.CloseSession)
 
             Try
-                oSerializer = New XmlSerializer(Type:=GetType(wmSessionCloseOut.SessionCloseRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmSessionCloseOut.SessionCloseRS))
                 oReader = New IO.StringReader(xmlMessage)
                 oSessionCloseRS = CType(oSerializer.Deserialize(oReader), wmSessionCloseOut.SessionCloseRS)
             Catch ex As Exception

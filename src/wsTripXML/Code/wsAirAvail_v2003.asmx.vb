@@ -6,14 +6,14 @@ Imports System.Xml.Serialization
 Imports System.Threading
 Imports System.Data
 Imports System.Text
-
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
 
-    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirAvail", _
-        Name:="wsAirAvail_v2003", _
-        Description:="A TripXML Web Service to Process Air Availability Messages Request. OTA version 2.003.")> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirAvail",
+        Name:="wsAirAvail_v2003",
+        Description:="A TripXML Web Service to Process Air Availability Messages Request. OTA version 2.003.")>
     Public Class wsAirAvail_v2003
         Inherits System.Web.Services.WebService
 
@@ -271,7 +271,7 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <WebMethod(Description:="Process Air Availability Messages Request. OTA version 2.003.")> _
+        <WebMethod(Description:="Process Air Availability Messages Request. OTA version 2.003.")>
         Public Function wmAirAvail(ByVal OTA_AirAvailRQ As wmAirAvail2005AIn.OTA_AirAvailRQ) As <XmlElementAttribute("OTA_AirAvailRS")> wmAirAvail2005AOut.OTA_AirAvailRS
             Dim xmlMessage As String = ""
             Dim oAirAvailRS As wmAirAvail2005AOut.OTA_AirAvailRS = Nothing
@@ -296,7 +296,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmAirAvail2005AOut.OTA_AirAvailRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmAirAvail2005AOut.OTA_AirAvailRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oAirAvailRS = CType(oSerializer.Deserialize(oReader), wmAirAvail2005AOut.OTA_AirAvailRS)
             Catch ex As Exception

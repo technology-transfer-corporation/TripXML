@@ -1,18 +1,15 @@
-Imports System
 Imports System.Web.Services
 Imports System.Xml
-Imports Amadeus
 Imports TripXMLMain
 Imports System.Xml.Serialization
-Imports System.Data
-Imports System.Text
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
 
-    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCruiseCabinUnhold", _
-        Name:="wsCruiseCabinUnhold", _
-        Description:="A TripXML Web Service to Process Cruise Cabin Unhold Messages Request.")> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCruiseCabinUnhold",
+        Name:="wsCruiseCabinUnhold",
+        Description:="A TripXML Web Service to Process Cruise Cabin Unhold Messages Request.")>
     Public Class wsCruiseCabinUnUnhold
         Inherits System.Web.Services.WebService
 
@@ -220,19 +217,17 @@ Namespace wsTravelTalk
 
                 Select Case ttCredential.Providers(0).Name.ToLower
                     Case "amadeus"
-                        'Dim ttAA As AmadeusAPIAdapter
 
+                        'Dim ttAA As AmadeusAPIAdapter
                         'ttAA = Application.Get(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
                         'sb.Remove(0, sb.Length())
                         'If ttAA Is Nothing Then
                         '    Throw New Exception(sb.Append("Access denied to Amadeus - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString())
                         '    sb.Remove(0, sb.Length())
                         'End If
-
                         'If ttCredential.Providers(0).PCC.Trim.Length > 0 Then
                         '    ttAA.SourcePCC = ttCredential.Providers(0).PCC
                         'End If
-
                         ''Send Reuest
                         'strResponse = SendCruiseRequestAmadeus(ttServiceID, ttCredential, ttAA, strRequest)
                         'Application.Set(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).ToString(), ttAA)
@@ -270,7 +265,7 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <WebMethod(Description:="Process Cruise Cabin Unhold Messages Request.")> _
+        <WebMethod(Description:="Process Cruise Cabin Unhold Messages Request.")>
         Public Function wmCruiseCabinUnhold(ByVal OTA_CruiseCabinUnholdRQ As wmCruiseCabinUnholdIn.OTA_CruiseCabinUnholdRQ) As <XmlElementAttribute("OTA_CruiseCabinUnholdRS")> wmCruiseCabinUnholdOut.OTA_CruiseCabinUnholdRS
             Dim xmlMessage As String = ""
             Dim oCruiseCabinUnholdRS As wmCruiseCabinUnholdOut.OTA_CruiseCabinUnholdRS = Nothing
@@ -288,7 +283,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmCruiseCabinUnholdOut.OTA_CruiseCabinUnholdRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmCruiseCabinUnholdOut.OTA_CruiseCabinUnholdRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oCruiseCabinUnholdRS = CType(oSerializer.Deserialize(oReader), wmCruiseCabinUnholdOut.OTA_CruiseCabinUnholdRS)
             Catch ex As Exception

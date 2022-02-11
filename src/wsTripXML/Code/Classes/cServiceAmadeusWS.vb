@@ -1,6 +1,6 @@
 ﻿Imports TripXMLMain
 Imports System.Xml
-
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 

@@ -4,6 +4,7 @@ Imports System.Xml
 Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports System.Text
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 

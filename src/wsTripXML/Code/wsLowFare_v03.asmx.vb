@@ -2,13 +2,14 @@
 Imports TripXMLMain
 Imports System.Xml
 Imports System.Xml.Serialization
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsLowFare", _
-        Name:="wsLowFare_v03", _
-        Description:="A TripXML Web Service to Process Low Fare Plus Messages Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsLowFare",
+        Name:="wsLowFare_v03",
+        Description:="A TripXML Web Service to Process Low Fare Plus Messages Request.")>
     Public Class wsLowFare_v03
         Inherits System.Web.Services.WebService
 
@@ -235,11 +236,11 @@ Namespace wsTravelTalk
                                 For Each oNodeOnd In oNode.SelectNodes("AirItinerary/OriginDestinationOptions/OriginDestinationOption")
                                     For Each oNodeFlight In oNodeOnd.SelectNodes("FlightSegment")
                                         With FlightSegments(j)
-                                            If Not (.DepartureDate = oNodeFlight.Attributes("DepartureDateTime").Value And _
-                                                .ArrivalDate = oNodeFlight.Attributes("ArrivalDateTime").Value And _
-                                                .FlightNo = RemoveLeadingZeros(oNodeFlight.Attributes("FlightNumber").Value) And _
-                                                .DepartureAirport = oNodeFlight.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value And _
-                                                .ArrivalAirport = oNodeFlight.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value And _
+                                            If Not (.DepartureDate = oNodeFlight.Attributes("DepartureDateTime").Value And
+                                                .ArrivalDate = oNodeFlight.Attributes("ArrivalDateTime").Value And
+                                                .FlightNo = RemoveLeadingZeros(oNodeFlight.Attributes("FlightNumber").Value) And
+                                                .DepartureAirport = oNodeFlight.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value And
+                                                .ArrivalAirport = oNodeFlight.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value And
                                                 .AirlineCode = oNodeFlight.SelectSingleNode("MarketingAirline").Attributes("Code").Value) Then
                                                 SameFlight = False
                                                 Exit For
@@ -768,10 +769,10 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-         <WebMethod(Description:="Process Low Fare Messages Request.")> _
-         <System.Web.Services.Protocols.SoapHeader("tXML")> _
-             Public Function wmLowFare(ByVal OTA_AirLowFareSearchRQ As wmLowFareIn_v03.OTA_AirLowFareSearchRQ) As <XmlElementAttribute("OTA_AirLowFareSearchRS")> wmLowFareOut.OTA_AirLowFareSearchRS
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Low Fare Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
+        Public Function wmLowFare(ByVal OTA_AirLowFareSearchRQ As wmLowFareIn_v03.OTA_AirLowFareSearchRQ) As <XmlElementAttribute("OTA_AirLowFareSearchRS")> wmLowFareOut.OTA_AirLowFareSearchRS
 
             Dim xmlMessage As String = ""
             Dim oLowFareRS As wmLowFareOut.OTA_AirLowFareSearchRS = Nothing
@@ -790,7 +791,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmLowFareOut.OTA_AirLowFareSearchRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmLowFareOut.OTA_AirLowFareSearchRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oLowFareRS = CType(oSerializer.Deserialize(oReader), wmLowFareOut.OTA_AirLowFareSearchRS)
             Catch ex As Exception

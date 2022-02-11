@@ -3,7 +3,7 @@ Imports TripXMLMain
 Imports System.Threading
 Imports System.IO.File
 Imports System.Text
-
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 

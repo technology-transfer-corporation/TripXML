@@ -2,6 +2,7 @@
 Imports System.Web.Services
 Imports System.ComponentModel
 Imports TripXMLMain
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 

@@ -1,18 +1,15 @@
-Imports System
 Imports System.Web.Services
 Imports System.Xml
-Imports Amadeus
+Imports TripXMLMain.modCore
 Imports TripXMLMain
 Imports System.Xml.Serialization
-Imports System.Data
-Imports System.Text
 
 Namespace wsTravelTalk
 
 
-    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCruiseModifyBooking", _
-        Name:="wsCruiseModifyBooking", _
-        Description:="A TripXML Web Service to Process Cruise Modify Booking Messages Request.")> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCruiseModifyBooking",
+        Name:="wsCruiseModifyBooking",
+        Description:="A TripXML Web Service to Process Cruise Modify Booking Messages Request.")>
     Public Class wsCruiseModifyBooking
         Inherits System.Web.Services.WebService
 
@@ -704,7 +701,7 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <WebMethod(Description:="Process Cruise Modify Booking Messages Request.")> _
+        <WebMethod(Description:="Process Cruise Modify Booking Messages Request.")>
         Public Function wmCruiseModifyBooking(ByVal OTA_CruiseCreateBookingRQ As wmCruiseCreateBookingIn.OTA_CruiseCreateBookingRQ) As <XmlElementAttribute("OTA_CruiseCreateBookingRS")> wmCruiseCreateBookingOut.OTA_CruiseCreateBookingRS
             Dim xmlMessage As String = ""
             Dim oCruiseCreateBookingRS As wmCruiseCreateBookingOut.OTA_CruiseCreateBookingRS = Nothing
@@ -723,7 +720,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmCruiseCreateBookingOut.OTA_CruiseCreateBookingRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmCruiseCreateBookingOut.OTA_CruiseCreateBookingRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oCruiseCreateBookingRS = CType(oSerializer.Deserialize(oReader), wmCruiseCreateBookingOut.OTA_CruiseCreateBookingRS)
             Catch ex As Exception

@@ -5,13 +5,14 @@ Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports System.Data
 Imports System.Text
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsTravelModify", _
-        Name:="wsTravelModify", _
-        Description:="A TripXML Web Service to Process Travel Build Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsTravelModify",
+        Name:="wsTravelModify",
+        Description:="A TripXML Web Service to Process Travel Build Request.")>
     Public Class wsTravelModify
         Inherits System.Web.Services.WebService
         Public tXML As TripXML
@@ -200,9 +201,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Travel Modify Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Travel Modify Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmTravelModify(ByVal OTA_TravelModifyRQ As wmTravelModifyIn.OTA_TravelModifyRQ) As <XmlElementAttribute("OTA_TravelItineraryRS")> wmTravelItineraryOut.OTA_TravelItineraryRS
             Dim xmlMessage As String = ""
             Dim oTravelModifyRS As wmTravelItineraryOut.OTA_TravelItineraryRS = Nothing
@@ -220,7 +221,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmTravelItineraryOut.OTA_TravelItineraryRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut.OTA_TravelItineraryRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oTravelModifyRS = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut.OTA_TravelItineraryRS)
             Catch ex As Exception
@@ -231,15 +232,15 @@ Namespace wsTravelTalk
 
         End Function
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Travel Modify MCO Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Travel Modify MCO Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmIssueMCO(ByVal OTA_TravelModifyRQ As wmTravelModifyIn.OTA_TravelModifyRQ) As <XmlElementAttribute("OTA_TravelItineraryRS")> wmTravelItineraryOut.OTA_TravelItineraryRS
             Dim xmlMessage As String = ""
             Dim oTravelModifyRS As wmTravelItineraryOut.OTA_TravelItineraryRS = Nothing
-            Dim oSerializer As XmlSerializer 
-            Dim oWriter As IO.StringWriter 
-            Dim oReader As IO.StringReader 
+            Dim oSerializer As XmlSerializer
+            Dim oWriter As IO.StringWriter
+            Dim oReader As IO.StringReader
 
             oSerializer = New XmlSerializer(GetType(wmTravelModifyIn.OTA_TravelModifyRQ))
             oWriter = New IO.StringWriter(New StringBuilder)
@@ -250,7 +251,7 @@ Namespace wsTravelTalk
             xmlMessage = ServiceRequest(xmlMessage, ttServices.PNRSplit)
 
             Try
-                oSerializer = New XmlSerializer(Type:=GetType(wmTravelItineraryOut.OTA_TravelItineraryRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut.OTA_TravelItineraryRS))
                 oReader = New IO.StringReader(xmlMessage)
                 oTravelModifyRS = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut.OTA_TravelItineraryRS)
             Catch ex As Exception

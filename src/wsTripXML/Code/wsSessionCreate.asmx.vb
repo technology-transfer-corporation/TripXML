@@ -1,13 +1,14 @@
 Imports System.Web.Services
 Imports TripXMLMain
 Imports System.Xml.Serialization
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsSessionCreate", _
-        Name:="wsSessionCreate", _
-        Description:="A TripXML Web Service to Process Session Create Messages Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsSessionCreate",
+        Name:="wsSessionCreate",
+        Description:="A TripXML Web Service to Process Session Create Messages Request.")>
     Public Class wsSessionCreate
         Inherits System.Web.Services.WebService
         Public tXML As TripXML
@@ -62,7 +63,7 @@ Namespace wsTravelTalk
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
             Dim validateXSDOut As Boolean
             Dim startTime As Date
-            Dim uuid As String 
+            Dim uuid As String
 
             Try
                 startTime = Now
@@ -70,7 +71,7 @@ Namespace wsTravelTalk
                 PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, startTime, ttServiceID, Server.MachineName, uuid)
                 validateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
                 sb.Remove(0, sb.Length())
-                ttProviderSystems.LogUUID = UUID
+                ttProviderSystems.LogUUID = uuid
 
                 Select Case ttCredential.Providers(0).Name
                     Case "AmadeusWS"
@@ -114,7 +115,7 @@ Namespace wsTravelTalk
             Catch ex As Exception
                 strResponse = FormatErrorMessage(ttServiceID, ex.Message, ttProviderSystems)
             Finally
-                LogResponse(strResponse, ttCredential, StartTime, ttServiceID, Server.MachineName, UUID)
+                LogResponse(strResponse, ttCredential, startTime, ttServiceID, Server.MachineName, uuid)
                 If Trace Then CoreLib.SendTrace(ttCredential.UserID, "wsSessionCreate", "============= OTA Response ============= ", strResponse, ttProviderSystems.LogUUID)
             End Try
             sb = Nothing
@@ -126,15 +127,15 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Session Create Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Session Create Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmSessionCreate(ByVal SessionCreateRQ As wmSessionCreateIn.SessionCreateRQ) As <XmlElementAttribute("SessionCreateRS")> wmSessionCreateOut.SessionCreateRS
-            Dim xmlMessage As String 
+            Dim xmlMessage As String
             Dim oSessionCreateRS As wmSessionCreateOut.SessionCreateRS = Nothing
-            Dim oSerializer As XmlSerializer 
-            Dim oWriter As IO.StringWriter 
-            Dim oReader As IO.StringReader 
+            Dim oSerializer As XmlSerializer
+            Dim oWriter As IO.StringWriter
+            Dim oReader As IO.StringReader
 
             oSerializer = New XmlSerializer(GetType(wmSessionCreateIn.SessionCreateRQ))
             oWriter = New IO.StringWriter(New StringBuilder)
@@ -145,7 +146,7 @@ Namespace wsTravelTalk
             xmlMessage = ServiceRequest(xmlMessage, ttServices.CreateSession)
 
             Try
-                oSerializer = New XmlSerializer(Type:=GetType(wmSessionCreateOut.SessionCreateRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmSessionCreateOut.SessionCreateRS))
                 oReader = New IO.StringReader(xmlMessage)
                 oSessionCreateRS = CType(oSerializer.Deserialize(oReader), wmSessionCreateOut.SessionCreateRS)
             Catch ex As Exception

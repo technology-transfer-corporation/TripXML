@@ -1,399 +1,596 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <doc>
-<assembly>
-<name>
-Galileo
-</name>
-</assembly>
-<members>
-<member name="M:Galileo.wsGalileoCopy.XmlSelect.#ctor">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoCopy.XmlSelect.MultiSubmitXmlCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoCopy.XmlSelect.BeginSessionCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoCopy.XmlSelect.EndSessionCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlOnSessionCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoCopy.XmlSelect.SubmitTerminalTransactionCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoCopy.XmlSelect.GetIdentityInfoCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoCopy.XmlSelect.SubmitCruiseTransactionCompleted">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitXml(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSubmitXml(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSubmitXml(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.MultiSubmitXml(System.String,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginMultiSubmitXml(System.String,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.EndMultiSubmitXml(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.MultiSubmitXmlAsync(System.String,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.MultiSubmitXmlAsync(System.String,System.Xml.XmlElement,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSession(System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginBeginSession(System.String,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.EndBeginSession(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSessionAsync(System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSessionAsync(System.String,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSession(System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginEndSession(System.String,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.EndEndSession(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSessionAsync(System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSessionAsync(System.String,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlOnSession(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSubmitXmlOnSession(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSubmitXmlOnSession(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlOnSessionAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlOnSessionAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitTerminalTransaction(System.String,System.String,System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSubmitTerminalTransaction(System.String,System.String,System.String,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSubmitTerminalTransaction(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitTerminalTransactionAsync(System.String,System.String,System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitTerminalTransactionAsync(System.String,System.String,System.String,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.GetIdentityInfo(System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginGetIdentityInfo(System.String,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.EndGetIdentityInfo(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.GetIdentityInfoAsync(System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.GetIdentityInfoAsync(System.String,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitCruiseTransaction(System.String,System.String@,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSubmitCruiseTransaction(System.String,System.String,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSubmitCruiseTransaction(System.IAsyncResult,System.String@)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitCruiseTransactionAsync(System.String,System.String,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitCruiseTransactionAsync(System.String,System.String,System.Xml.XmlElement,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopy.XmlSelect.CancelAsync(System.Object)">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.XmlSelect">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.SubmitXmlCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopy.SubmitXmlCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.SubmitXmlCompletedEventArgs">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.MultiSubmitXmlCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopy.MultiSubmitXmlCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.MultiSubmitXmlCompletedEventArgs">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.BeginSessionCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopy.BeginSessionCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.BeginSessionCompletedEventArgs">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.EndSessionCompletedEventHandler">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.SubmitXmlOnSessionCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopy.SubmitXmlOnSessionCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.SubmitXmlOnSessionCompletedEventArgs">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.SubmitTerminalTransactionCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopy.SubmitTerminalTransactionCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.SubmitTerminalTransactionCompletedEventArgs">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.GetIdentityInfoCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopy.GetIdentityInfoCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.GetIdentityInfoCompletedEventArgs">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.SubmitCruiseTransactionCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopy.SubmitCruiseTransactionCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopy.SubmitCruiseTransactionCompletedEventArgs.CorrelationToken">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopy.SubmitCruiseTransactionCompletedEventArgs">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.#ctor">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoProd.XmlSelect.SubmitXmlCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoProd.XmlSelect.MultiSubmitXmlCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoProd.XmlSelect.BeginSessionCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoProd.XmlSelect.EndSessionCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoProd.XmlSelect.SubmitXmlOnSessionCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoProd.XmlSelect.SubmitTerminalTransactionCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoProd.XmlSelect.GetIdentityInfoCompleted">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoProd.XmlSelect.SubmitCruiseTransactionCompleted">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitXml(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSubmitXml(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.EndSubmitXml(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitXmlAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitXmlAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.MultiSubmitXml(System.String,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.BeginMultiSubmitXml(System.String,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.EndMultiSubmitXml(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.MultiSubmitXmlAsync(System.String,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.MultiSubmitXmlAsync(System.String,System.Xml.XmlElement,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSession(System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.BeginBeginSession(System.String,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.EndBeginSession(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSessionAsync(System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSessionAsync(System.String,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.EndSession(System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.BeginEndSession(System.String,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.EndEndSession(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.EndSessionAsync(System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.EndSessionAsync(System.String,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitXmlOnSession(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSubmitXmlOnSession(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.EndSubmitXmlOnSession(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitXmlOnSessionAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitXmlOnSessionAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitTerminalTransaction(System.String,System.String,System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSubmitTerminalTransaction(System.String,System.String,System.String,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.EndSubmitTerminalTransaction(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitTerminalTransactionAsync(System.String,System.String,System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitTerminalTransactionAsync(System.String,System.String,System.String,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.GetIdentityInfo(System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.BeginGetIdentityInfo(System.String,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.EndGetIdentityInfo(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.GetIdentityInfoAsync(System.String)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.GetIdentityInfoAsync(System.String,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitCruiseTransaction(System.String,System.String@,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSubmitCruiseTransaction(System.String,System.String,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.EndSubmitCruiseTransaction(System.IAsyncResult,System.String@)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitCruiseTransactionAsync(System.String,System.String,System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitCruiseTransactionAsync(System.String,System.String,System.Xml.XmlElement,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProd.XmlSelect.CancelAsync(System.Object)">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.XmlSelect">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.SubmitXmlCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProd.SubmitXmlCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.SubmitXmlCompletedEventArgs">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.MultiSubmitXmlCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProd.MultiSubmitXmlCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.MultiSubmitXmlCompletedEventArgs">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.BeginSessionCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProd.BeginSessionCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.BeginSessionCompletedEventArgs">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.EndSessionCompletedEventHandler">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.SubmitXmlOnSessionCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProd.SubmitXmlOnSessionCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.SubmitXmlOnSessionCompletedEventArgs">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.SubmitTerminalTransactionCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProd.SubmitTerminalTransactionCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.SubmitTerminalTransactionCompletedEventArgs">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.GetIdentityInfoCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProd.GetIdentityInfoCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.GetIdentityInfoCompletedEventArgs">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.SubmitCruiseTransactionCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProd.SubmitCruiseTransactionCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProd.SubmitCruiseTransactionCompletedEventArgs.CorrelationToken">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProd.SubmitCruiseTransactionCompletedEventArgs">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProdIV.ImageViewer.#ctor">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoProdIV.ImageViewer.RetrievePhotoInformationCompleted">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProdIV.ImageViewer.RetrievePhotoInformation(System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProdIV.ImageViewer.BeginRetrievePhotoInformation(System.Xml.XmlElement,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProdIV.ImageViewer.EndRetrievePhotoInformation(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProdIV.ImageViewer.RetrievePhotoInformationAsync(System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProdIV.ImageViewer.RetrievePhotoInformationAsync(System.Xml.XmlElement,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoProdIV.ImageViewer.CancelAsync(System.Object)">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProdIV.ImageViewer">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProdIV.CallContext.SecurityContext">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProdIV.CallContext.TransactionContext">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProdIV.CallContext.DebugContext">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProdIV.CallContext">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProdIV.SecurityCxt.userID">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProdIV.SecurityCxt">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProdIV.DebugCxt.enabled">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProdIV.DebugCxt">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProdIV.TransactionCxt.startDateTime">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProdIV.TransactionCxt.tranNbr">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProdIV.TransactionCxt">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProdIV.RetrievePhotoInformationCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoProdIV.RetrievePhotoInformationCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoProdIV.RetrievePhotoInformationCompletedEventArgs">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopyIV.ImageViewer.#ctor">
-	<remarks/>
-</member><member name="E:Galileo.wsGalileoCopyIV.ImageViewer.RetrievePhotoInformationCompleted">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopyIV.ImageViewer.RetrievePhotoInformation(System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopyIV.ImageViewer.BeginRetrievePhotoInformation(System.Xml.XmlElement,System.AsyncCallback,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopyIV.ImageViewer.EndRetrievePhotoInformation(System.IAsyncResult)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopyIV.ImageViewer.RetrievePhotoInformationAsync(System.Xml.XmlElement)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopyIV.ImageViewer.RetrievePhotoInformationAsync(System.Xml.XmlElement,System.Object)">
-	<remarks/>
-</member><member name="M:Galileo.wsGalileoCopyIV.ImageViewer.CancelAsync(System.Object)">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopyIV.ImageViewer">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopyIV.CallContext.SecurityContext">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopyIV.CallContext.TransactionContext">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopyIV.CallContext.DebugContext">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopyIV.CallContext">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopyIV.SecurityCxt.userID">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopyIV.SecurityCxt">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopyIV.DebugCxt.enabled">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopyIV.DebugCxt">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopyIV.TransactionCxt.startDateTime">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopyIV.TransactionCxt.tranNbr">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopyIV.TransactionCxt">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopyIV.RetrievePhotoInformationCompletedEventHandler">
-	<remarks/>
-</member><member name="P:Galileo.wsGalileoCopyIV.RetrievePhotoInformationCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:Galileo.wsGalileoCopyIV.RetrievePhotoInformationCompletedEventArgs">
-	<remarks/>
-</member>
-</members>
+    <assembly>
+        <name>Galileo</name>
+    </assembly>
+    <members>
+        <member name="M:Galileo.GalileoAdapter.#ctor(TripXMLMain.modCore.TripXMLProviderSystems,System.String)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="provider">TripXML provider object</param>
+        </member>
+        <member name="T:Galileo.wsGalileoCopyIV.ImageViewer">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopyIV.ImageViewer.#ctor">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoCopyIV.ImageViewer.RetrievePhotoInformationCompleted">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopyIV.ImageViewer.RetrievePhotoInformation(System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopyIV.ImageViewer.BeginRetrievePhotoInformation(System.Xml.XmlElement,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopyIV.ImageViewer.EndRetrievePhotoInformation(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopyIV.ImageViewer.RetrievePhotoInformationAsync(System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopyIV.ImageViewer.RetrievePhotoInformationAsync(System.Xml.XmlElement,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopyIV.ImageViewer.CancelAsync(System.Object)">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopyIV.CallContext">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopyIV.CallContext.SecurityContext">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopyIV.CallContext.TransactionContext">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopyIV.CallContext.DebugContext">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopyIV.SecurityCxt">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopyIV.SecurityCxt.userID">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopyIV.DebugCxt">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopyIV.DebugCxt.enabled">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopyIV.TransactionCxt">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopyIV.TransactionCxt.startDateTime">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopyIV.TransactionCxt.tranNbr">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopyIV.RetrievePhotoInformationCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopyIV.RetrievePhotoInformationCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopyIV.RetrievePhotoInformationCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.XmlSelect">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.#ctor">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoCopy.XmlSelect.MultiSubmitXmlCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoCopy.XmlSelect.BeginSessionCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoCopy.XmlSelect.EndSessionCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlOnSessionCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoCopy.XmlSelect.SubmitTerminalTransactionCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoCopy.XmlSelect.GetIdentityInfoCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoCopy.XmlSelect.SubmitCruiseTransactionCompleted">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitXml(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSubmitXml(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSubmitXml(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.MultiSubmitXml(System.String,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginMultiSubmitXml(System.String,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.EndMultiSubmitXml(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.MultiSubmitXmlAsync(System.String,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.MultiSubmitXmlAsync(System.String,System.Xml.XmlElement,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSession(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginBeginSession(System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.EndBeginSession(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSessionAsync(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSessionAsync(System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSession(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginEndSession(System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.EndEndSession(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSessionAsync(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSessionAsync(System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlOnSession(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSubmitXmlOnSession(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSubmitXmlOnSession(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlOnSessionAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitXmlOnSessionAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitTerminalTransaction(System.String,System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSubmitTerminalTransaction(System.String,System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSubmitTerminalTransaction(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitTerminalTransactionAsync(System.String,System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitTerminalTransactionAsync(System.String,System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.GetIdentityInfo(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginGetIdentityInfo(System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.EndGetIdentityInfo(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.GetIdentityInfoAsync(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.GetIdentityInfoAsync(System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitCruiseTransaction(System.String,System.String@,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.BeginSubmitCruiseTransaction(System.String,System.String,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.EndSubmitCruiseTransaction(System.IAsyncResult,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitCruiseTransactionAsync(System.String,System.String,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.SubmitCruiseTransactionAsync(System.String,System.String,System.Xml.XmlElement,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoCopy.XmlSelect.CancelAsync(System.Object)">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.SubmitXmlCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.SubmitXmlCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopy.SubmitXmlCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.MultiSubmitXmlCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.MultiSubmitXmlCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopy.MultiSubmitXmlCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.BeginSessionCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.BeginSessionCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopy.BeginSessionCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.EndSessionCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.SubmitXmlOnSessionCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.SubmitXmlOnSessionCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopy.SubmitXmlOnSessionCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.SubmitTerminalTransactionCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.SubmitTerminalTransactionCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopy.SubmitTerminalTransactionCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.GetIdentityInfoCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.GetIdentityInfoCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopy.GetIdentityInfoCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.SubmitCruiseTransactionCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoCopy.SubmitCruiseTransactionCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopy.SubmitCruiseTransactionCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoCopy.SubmitCruiseTransactionCompletedEventArgs.CorrelationToken">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProdIV.ImageViewer">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProdIV.ImageViewer.#ctor">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoProdIV.ImageViewer.RetrievePhotoInformationCompleted">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProdIV.ImageViewer.RetrievePhotoInformation(System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProdIV.ImageViewer.BeginRetrievePhotoInformation(System.Xml.XmlElement,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProdIV.ImageViewer.EndRetrievePhotoInformation(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProdIV.ImageViewer.RetrievePhotoInformationAsync(System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProdIV.ImageViewer.RetrievePhotoInformationAsync(System.Xml.XmlElement,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProdIV.ImageViewer.CancelAsync(System.Object)">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProdIV.CallContext">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProdIV.CallContext.SecurityContext">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProdIV.CallContext.TransactionContext">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProdIV.CallContext.DebugContext">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProdIV.SecurityCxt">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProdIV.SecurityCxt.userID">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProdIV.DebugCxt">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProdIV.DebugCxt.enabled">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProdIV.TransactionCxt">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProdIV.TransactionCxt.startDateTime">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProdIV.TransactionCxt.tranNbr">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProdIV.RetrievePhotoInformationCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProdIV.RetrievePhotoInformationCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProdIV.RetrievePhotoInformationCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.XmlSelect">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.#ctor">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoProd.XmlSelect.SubmitXmlCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoProd.XmlSelect.MultiSubmitXmlCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoProd.XmlSelect.BeginSessionCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoProd.XmlSelect.EndSessionCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoProd.XmlSelect.SubmitXmlOnSessionCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoProd.XmlSelect.SubmitTerminalTransactionCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoProd.XmlSelect.GetIdentityInfoCompleted">
+            <remarks/>
+        </member>
+        <member name="E:Galileo.wsGalileoProd.XmlSelect.SubmitCruiseTransactionCompleted">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitXml(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSubmitXml(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.EndSubmitXml(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitXmlAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitXmlAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.MultiSubmitXml(System.String,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.BeginMultiSubmitXml(System.String,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.EndMultiSubmitXml(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.MultiSubmitXmlAsync(System.String,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.MultiSubmitXmlAsync(System.String,System.Xml.XmlElement,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSession(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.BeginBeginSession(System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.EndBeginSession(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSessionAsync(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSessionAsync(System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.EndSession(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.BeginEndSession(System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.EndEndSession(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.EndSessionAsync(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.EndSessionAsync(System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitXmlOnSession(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSubmitXmlOnSession(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.EndSubmitXmlOnSession(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitXmlOnSessionAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitXmlOnSessionAsync(System.String,System.Xml.XmlElement,System.Xml.XmlElement,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitTerminalTransaction(System.String,System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSubmitTerminalTransaction(System.String,System.String,System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.EndSubmitTerminalTransaction(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitTerminalTransactionAsync(System.String,System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitTerminalTransactionAsync(System.String,System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.GetIdentityInfo(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.BeginGetIdentityInfo(System.String,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.EndGetIdentityInfo(System.IAsyncResult)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.GetIdentityInfoAsync(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.GetIdentityInfoAsync(System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitCruiseTransaction(System.String,System.String@,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.BeginSubmitCruiseTransaction(System.String,System.String,System.Xml.XmlElement,System.AsyncCallback,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.EndSubmitCruiseTransaction(System.IAsyncResult,System.String@)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitCruiseTransactionAsync(System.String,System.String,System.Xml.XmlElement)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.SubmitCruiseTransactionAsync(System.String,System.String,System.Xml.XmlElement,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:Galileo.wsGalileoProd.XmlSelect.CancelAsync(System.Object)">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.SubmitXmlCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.SubmitXmlCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProd.SubmitXmlCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.MultiSubmitXmlCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.MultiSubmitXmlCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProd.MultiSubmitXmlCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.BeginSessionCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.BeginSessionCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProd.BeginSessionCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.EndSessionCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.SubmitXmlOnSessionCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.SubmitXmlOnSessionCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProd.SubmitXmlOnSessionCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.SubmitTerminalTransactionCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.SubmitTerminalTransactionCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProd.SubmitTerminalTransactionCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.GetIdentityInfoCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.GetIdentityInfoCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProd.GetIdentityInfoCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.SubmitCruiseTransactionCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:Galileo.wsGalileoProd.SubmitCruiseTransactionCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProd.SubmitCruiseTransactionCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="P:Galileo.wsGalileoProd.SubmitCruiseTransactionCompletedEventArgs.CorrelationToken">
+            <remarks/>
+        </member>
+    </members>
 </doc>

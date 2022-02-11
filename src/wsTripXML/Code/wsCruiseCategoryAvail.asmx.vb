@@ -1,18 +1,15 @@
-Imports System
 Imports System.Web.Services
 Imports System.Xml
-Imports Amadeus
 Imports TripXMLMain
 Imports System.Xml.Serialization
-Imports System.Data
-Imports System.Text
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
 
-    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCruiseCategoryAvail", _
-        Name:="wsCruiseCategoryAvail", _
-        Description:="A TripXML Web Service to Process Cruise Category Availibility Messages Request.")> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsCruiseCategoryAvail",
+        Name:="wsCruiseCategoryAvail",
+        Description:="A TripXML Web Service to Process Cruise Category Availibility Messages Request.")>
     Public Class wsCruiseCategoryAvail
         Inherits System.Web.Services.WebService
 
@@ -314,7 +311,7 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <WebMethod(Description:="Process Cruise Category Availability Messages Request.")> _
+        <WebMethod(Description:="Process Cruise Category Availability Messages Request.")>
         Public Function wmCruiseCategoryAvail(ByVal OTA_CruiseCategoryAvailRQ As wmCruiseCategoryAvailIn.OTA_CruiseCategoryAvailRQ) As <XmlElementAttribute("OTA_CruiseCategoryAvailRS")> wmCruiseCategoryAvailOut.OTA_CruiseCategoryAvailRS
             Dim xmlMessage As String = ""
             Dim oCruiseCategoryAvailRS As wmCruiseCategoryAvailOut.OTA_CruiseCategoryAvailRS = Nothing
@@ -332,7 +329,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmCruiseCategoryAvailOut.OTA_CruiseCategoryAvailRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmCruiseCategoryAvailOut.OTA_CruiseCategoryAvailRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oCruiseCategoryAvailRS = CType(oSerializer.Deserialize(oReader), wmCruiseCategoryAvailOut.OTA_CruiseCategoryAvailRS)
             Catch ex As Exception

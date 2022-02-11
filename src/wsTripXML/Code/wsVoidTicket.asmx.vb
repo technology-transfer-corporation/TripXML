@@ -1,13 +1,14 @@
 Imports System.Web.Services
 Imports TripXMLMain
 Imports System.Xml.Serialization
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsVoidTicket", _
-        Name:="wsVoidTicket", _
-        Description:="A TripXML Web Service to Process Void Ticket Messages Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsVoidTicket",
+        Name:="wsVoidTicket",
+        Description:="A TripXML Web Service to Process Void Ticket Messages Request.")>
     Public Class wsVoidTicket
         Inherits System.Web.Services.WebService
         Public tXML As TripXML
@@ -106,9 +107,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Void Ticket Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Void Ticket Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmVoidTicket(ByVal TT_VoidTicketRQ As wmVoidTicketIn.TT_VoidTicketRQ) As <XmlElementAttribute("TT_VoidTicketRS")> wmVoidTicketOut.TT_VoidTicketRS
             Dim xmlMessage As String = ""
             Dim oVoidTicketRS As wmVoidTicketOut.TT_VoidTicketRS = Nothing
@@ -126,7 +127,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmVoidTicketOut.TT_VoidTicketRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmVoidTicketOut.TT_VoidTicketRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oVoidTicketRS = CType(oSerializer.Deserialize(oReader), wmVoidTicketOut.TT_VoidTicketRS)
             Catch ex As Exception

@@ -1,19 +1,15 @@
-Imports System
 Imports System.Web.Services
-Imports Amadeus
+Imports TripXMLMain.modCore
 Imports TripXMLMain
 Imports System.Xml
 Imports System.Xml.Serialization
-Imports System.Data
-Imports System.Text
-Imports CompressionExtension
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirSeatMap", _
-        Name:="wsAirSeatMap", _
-        Description:="A TripXML Web Service to Process Air Seat Map Messages Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsAirSeatMap",
+        Name:="wsAirSeatMap",
+        Description:="A TripXML Web Service to Process Air Seat Map Messages Request.")>
     Public Class wsAirSeatMap
         Inherits System.Web.Services.WebService
         Private sb As StringBuilder = New StringBuilder()
@@ -194,9 +190,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Air Seat Map Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Air Seat Map Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmAirSeatMap(ByVal OTA_AirSeatMapRQ As wmAirSeatMapIn.OTA_AirSeatMapRQ) As <XmlElementAttribute("OTA_AirSeatMapRS")> wmAirSeatMapOut.OTA_AirSeatMapRS
             Dim xmlMessage As String = ""
             Dim oAirSeatMapRS As wmAirSeatMapOut.OTA_AirSeatMapRS = Nothing
@@ -214,7 +210,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmAirSeatMapOut.OTA_AirSeatMapRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmAirSeatMapOut.OTA_AirSeatMapRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oAirSeatMapRS = CType(oSerializer.Deserialize(oReader), wmAirSeatMapOut.OTA_AirSeatMapRS)
             Catch ex As Exception

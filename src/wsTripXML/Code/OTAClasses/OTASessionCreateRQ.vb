@@ -69,10 +69,24 @@ Namespace wsTravelTalk.wmSessionCreateIn
     End Class
 
     '<remarks/>
-    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)> _
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
     Public Class SessionCreateRQ
+        '<remarks/>
+        <System.Xml.Serialization.XmlAttributeAttribute(),
+         System.ComponentModel.DefaultValueAttribute(Target.GAL)>
+        Public Target As Target = Target.GAL
 
         '<remarks/>
         Public POS As POS
     End Class
+
+    Public Enum Target
+
+        '<remarks/>
+        GAL
+        '<remarks/>
+        WSP
+        '<remarks/>
+        APL
+    End Enum
 End Namespace

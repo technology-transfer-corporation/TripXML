@@ -2,14 +2,14 @@
 Imports TripXMLMain
 Imports System.Xml
 Imports System.Xml.Serialization
-Imports System.Text
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsPing", _
-        Name:="wsPing", _
-        Description:="A TripXML Web Service to Process Display Ticket Messages Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsPing",
+        Name:="wsPing",
+        Description:="A TripXML Web Service to Process Display Ticket Messages Request.")>
     Public Class wsPing
         Inherits System.Web.Services.WebService
         Public tXML As TripXML
@@ -118,9 +118,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Void Ticket Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Void Ticket Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmPing(ByVal TXML_PingRQ As wmPingIn.TXML_PingRQ) As <XmlElementAttribute("TXML_PingRS")> wmPingOut.TXML_PingRS
             Dim xmlMessage As String = ""
             Dim oPingRS As wmPingOut.TXML_PingRS = Nothing
@@ -138,7 +138,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmPingOut.TXML_PingRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmPingOut.TXML_PingRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oPingRS = CType(oSerializer.Deserialize(oReader), wmPingOut.TXML_PingRS)
             Catch ex As Exception

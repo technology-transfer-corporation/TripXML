@@ -1,11 +1,14 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <doc>
-<assembly>
-<name>
-Worldspan
-</name>
-</assembly>
-<members>
-
-</members>
+    <assembly>
+        <name>Worldspan</name>
+    </assembly>
+    <members>
+        <member name="M:Worldspan.TravelServices.Authorization">
+            <summary>
+            Credit Card Authorization Process
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
 </doc>

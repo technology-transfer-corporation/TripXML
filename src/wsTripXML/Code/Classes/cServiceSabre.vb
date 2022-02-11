@@ -3,7 +3,7 @@ Imports TripXMLMain
 Imports System.Xml
 Imports System.Data
 Imports System.Text
-
+Imports TripXMLMain.modCore
 
 Namespace wsTravelTalk
 
@@ -84,7 +84,7 @@ Namespace wsTravelTalk
             Dim oRootReq1 As XmlElement = Nothing
             Dim oNode1 As XmlNode = Nothing
             Dim aClassNode As XmlNode = Nothing
-            
+
             Dim oAttr As XmlAttribute
             Dim dt As DataTable = Nothing
 

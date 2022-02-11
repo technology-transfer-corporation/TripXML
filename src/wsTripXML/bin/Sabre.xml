@@ -1,10 +1,28 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <doc>
-<assembly>
-<name>
-Sabre
-</name>
-</assembly>
-<members>
-</members>
+    <assembly>
+        <name>Sabre</name>
+    </assembly>
+    <members>
+        <member name="T:Sabre.PNRServices">
+            <summary>
+            PNR Services Methods
+            </summary>
+        </member>
+        <member name="M:Sabre.PNRServices.PNRRead">
+            <summary>
+            Read PNR Method
+            </summary>
+        </member>
+        <member name="M:Sabre.PNRServices.PNRCancel">
+            <summary>
+            Cancel PNR Method
+            </summary>
+        </member>
+        <member name="M:Sabre.PNRServices.PNRReprice">
+            <summary>
+            Read PNR Method
+            </summary>
+        </member>
+    </members>
 </doc>
