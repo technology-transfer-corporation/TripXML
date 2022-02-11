@@ -418,36 +418,6 @@
       <HintPath>Xsl\AmadeusWS\AmadeusWS_QueueRS.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Aggregation_AirAvailRS">
-      <HintPath>..\XSLs\Aggregation\Aggregation_AirAvailRS.dll</HintPath>
-    </Reference>
-    <Reference Include="Aggregation_CarAvailRS">
-      <HintPath>..\XSLs\Aggregation\Aggregation_CarAvailRS.dll</HintPath>
-    </Reference>
-    <Reference Include="Aggregation_HotelAvailRS">
-      <HintPath>..\XSLs\Aggregation\Aggregation_HotelAvailRS.dll</HintPath>
-    </Reference>
-    <Reference Include="Aggregation_LowFareRS">
-      <HintPath>..\XSLs\Aggregation\Aggregation_LowFareRS.dll</HintPath>
-    </Reference>
-    <Reference Include="BL_LowFareNoCountryRS">
-      <HintPath>..\XSLs\BL\BL_LowFareNoCountryRS.dll</HintPath>
-    </Reference>
-    <Reference Include="BL_LowFareNoFareTypeRS">
-      <HintPath>..\XSLs\BL\BL_LowFareNoFareTypeRS.dll</HintPath>
-    </Reference>
-    <Reference Include="BL_LowFareNoMixRS">
-      <HintPath>..\XSLs\BL\BL_LowFareNoMixRS.dll</HintPath>
-    </Reference>
-    <Reference Include="BL_LowFareNoTktRS">
-      <HintPath>..\XSLs\BL\BL_LowFareNoTktRS.dll</HintPath>
-    </Reference>
-    <Reference Include="BL_LowFareRQ">
-      <HintPath>..\XSLs\BL\BL_LowFareRQ.dll</HintPath>
-    </Reference>
-    <Reference Include="BL_LowFareRS">
-      <HintPath>..\XSLs\BL\BL_LowFareRS.dll</HintPath>
-    </Reference>
     <Reference Include="Galileo_AirAvailRQ">
       <HintPath>Xsl\Galileo\Galileo_AirAvailRQ.dll</HintPath>
     </Reference>
@@ -920,7 +890,7 @@
       <HintPath>Xsl\Worldspan\v03_Worldspan_LowFarePlusRS.dll</HintPath>
     </Reference>
     <Reference Include="v03_Worldspan_PNRReadRQ">
-      <HintPath>..\XSLs\Worldspan\v03_Worldspan_PNRReadRQ.dll</HintPath>
+      <HintPath>Xsl\Worldspan\v03_Worldspan_PNRReadRQ.dll</HintPath>
     </Reference>
     <Reference Include="v03_Worldspan_PNRReadRS">
       <HintPath>Xsl\Worldspan\v03_Worldspan_PNRReadRS.dll</HintPath>
@@ -964,8 +934,8 @@
     <Reference Include="Worldspan_AirSeatMapRS">
       <HintPath>Xsl\Worldspan\Worldspan_AirSeatMapRS.dll</HintPath>
     </Reference>
-    <Reference Include="Worldspan_PNRReadRQ">
-      <HintPath>..\XSLs\Worldspan\Worldspan_PNRReadRQ.dll</HintPath>
+    <Reference Include="Worldspan_PNRReadRS">
+      <HintPath>Xsl\Worldspan\Worldspan_PNRReadRS.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
