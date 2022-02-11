@@ -1,0 +1,185 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\WORK\\DTT\\GIT\\TripXML\\Amadeus\\AmadeusWS.csproj": {}
+  },
+  "projects": {
+    "D:\\WORK\\DTT\\GIT\\TripXML\\Amadeus\\AmadeusWS.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\WORK\\DTT\\GIT\\TripXML\\Amadeus\\AmadeusWS.csproj",
+        "projectName": "AmadeusWS",
+        "projectPath": "D:\\WORK\\DTT\\GIT\\TripXML\\Amadeus\\AmadeusWS.csproj",
+        "packagesPath": "C:\\Users\\akobelev\\.nuget\\packages\\",
+        "outputPath": "D:\\WORK\\DTT\\GIT\\TripXML\\Amadeus\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\akobelev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "http://techtransnuget.azurewebsites.net/v3/index.json": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\WORK\\DTT\\GIT\\TripXML\\TripXMLMain\\TripXMLMain.csproj": {
+                "projectPath": "D:\\WORK\\DTT\\GIT\\TripXML\\TripXMLMain\\TripXMLMain.csproj"
+              },
+              "D:\\WORK\\DTT\\GIT\\TripXML\\TripXMLTools\\TripXMLTools.csproj": {
+                "projectPath": "D:\\WORK\\DTT\\GIT\\TripXML\\TripXMLTools\\TripXMLTools.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "Microsoft.Web.Services3": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    },
+    "D:\\WORK\\DTT\\GIT\\TripXML\\TripXMLMain\\TripXMLMain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\WORK\\DTT\\GIT\\TripXML\\TripXMLMain\\TripXMLMain.csproj",
+        "projectName": "TripXMLMain",
+        "projectPath": "D:\\WORK\\DTT\\GIT\\TripXML\\TripXMLMain\\TripXMLMain.csproj",
+        "packagesPath": "C:\\Users\\akobelev\\.nuget\\packages\\",
+        "outputPath": "D:\\WORK\\DTT\\GIT\\TripXML\\TripXMLMain\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\akobelev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "http://techtransnuget.azurewebsites.net/v3/index.json": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    },
+    "D:\\WORK\\DTT\\GIT\\TripXML\\TripXMLTools\\TripXMLTools.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\WORK\\DTT\\GIT\\TripXML\\TripXMLTools\\TripXMLTools.csproj",
+        "projectName": "TripXMLTools",
+        "projectPath": "D:\\WORK\\DTT\\GIT\\TripXML\\TripXMLTools\\TripXMLTools.csproj",
+        "packagesPath": "C:\\Users\\akobelev\\.nuget\\packages\\",
+        "outputPath": "D:\\WORK\\DTT\\GIT\\TripXML\\TripXMLTools\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\akobelev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "http://techtransnuget.azurewebsites.net/v3/index.json": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AmadeusWS</name>
+    </assembly>
+    <members>
+        <member name="M:AmadeusWS.AmadeusBase.SetConversationID(AmadeusWSAdapter)">
+            <summary>
+            This method will either get SessionID from Request or will set new SessionID.
+            </summary>
+            <param name="ttAA">GDS Adapter</param>
+            <returns>returns flag wether conversation in session or not.</returns>
+        </member>
+        <member name="M:AmadeusWS.AmadeusBase.SendGDSMessage(AmadeusWSAdapter,System.String,System.String,System.String,System.String)">
+            <summary>
+            General Method that Sends out message to GDS
+            </summary>
+            <param name="ttAA">GDS Adapter</param>
+            <param name="request">Request XML</param>
+            <param name="methodRQ">Request Object Name</param>
+            <param name="methodRS">Response Object Name</param>
+            <param name="nameSpace">Namespace for which this message belong. Example: "Air". By default it will be empty.</param>
+            <returns></returns>
+        </member>
+        <member name="T:AmadeusWS.wsBlackList.wsFlightBlackList">
+            <remarks/>
+        </member>
+        <member name="M:AmadeusWS.wsBlackList.wsFlightBlackList.#ctor">
+            <remarks/>
+        </member>
+        <member name="E:AmadeusWS.wsBlackList.wsFlightBlackList.wmFlightDisplayCompleted">
+            <remarks/>
+        </member>
+        <member name="E:AmadeusWS.wsBlackList.wsFlightBlackList.wmFlightAddCompleted">
+            <remarks/>
+        </member>
+        <member name="E:AmadeusWS.wsBlackList.wsFlightBlackList.wmFlightDeleteCompleted">
+            <remarks/>
+        </member>
+        <member name="M:AmadeusWS.wsBlackList.wsFlightBlackList.wmFlightDisplay(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:AmadeusWS.wsBlackList.wsFlightBlackList.wmFlightDisplayAsync(System.String)">
+            <remarks/>
+        </member>
+        <member name="M:AmadeusWS.wsBlackList.wsFlightBlackList.wmFlightDisplayAsync(System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:AmadeusWS.wsBlackList.wsFlightBlackList.wmFlightAdd(System.String,System.String,System.DateTime,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:AmadeusWS.wsBlackList.wsFlightBlackList.wmFlightAddAsync(System.String,System.String,System.DateTime,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:AmadeusWS.wsBlackList.wsFlightBlackList.wmFlightAddAsync(System.String,System.String,System.DateTime,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:AmadeusWS.wsBlackList.wsFlightBlackList.wmFlightDelete(System.DateTime)">
+            <remarks/>
+        </member>
+        <member name="M:AmadeusWS.wsBlackList.wsFlightBlackList.wmFlightDeleteAsync(System.DateTime)">
+            <remarks/>
+        </member>
+        <member name="M:AmadeusWS.wsBlackList.wsFlightBlackList.wmFlightDeleteAsync(System.DateTime,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:AmadeusWS.wsBlackList.wsFlightBlackList.CancelAsync(System.Object)">
+            <remarks/>
+        </member>
+        <member name="T:AmadeusWS.wsBlackList.wmFlightDisplayCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:AmadeusWS.wsBlackList.wmFlightDisplayCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:AmadeusWS.wsBlackList.wmFlightDisplayCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:AmadeusWS.wsBlackList.wmFlightAddCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:AmadeusWS.wsBlackList.wmFlightAddCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:AmadeusWS.wsBlackList.wmFlightAddCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:AmadeusWS.wsBlackList.wmFlightDeleteCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:AmadeusWS.wsBlackList.wmFlightDeleteCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:AmadeusWS.wsBlackList.wmFlightDeleteCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="M:AmadeusWSAdapter.PasswordDigest(System.String,System.String,System.String)">
+            <summary>
+            Generate the PasswordDigest based on the Nonce, the decoded Password in base 64 and the date in UTC format.
+            </summary>
+            <param name="nonce"></param>
+            <param name="password"></param>
+            <param name="timeStamp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AmadeusWSAdapter.CloseSessionFromPool(System.String)">
+            <summary>
+            New close methods for session pooling - Shashin - 23-2-2010
+            </summary>
+            <param name="SessionID">Session ID assigned by GDS</param>
+            <returns></returns>
+        </member>
+        <member name="M:ttHttpWebClient.addLog(System.String,System.String)">
+            <summary>
+            This is to log the error in the log
+            </summary>
+            <param name="msg"></param>
+            <param name="username"></param>
+        </member>
+    </members>
+</doc>
