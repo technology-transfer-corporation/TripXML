@@ -20,7 +20,7 @@ namespace TripXMLMain
         public static bool IsCreating = false;
         public static bool NonDirectFlights = false;
         public static int LFSchRequestCount = 0;
-        public static Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
+        public static System.Collections.Specialized.NameValueCollection config => ConfigurationManager.AppSettings;
 
         #region  Structures 
 
@@ -1426,7 +1426,7 @@ namespace TripXMLMain
             // Dim DirPath As String = "C:\\TripXML\\log"
             try
             {
-                string filePath = string.Format(@"{0}\\{1}_{2}.log", config.GetSection("TripXMLLogFolder"), log.UserName, DateTime.Today.ToString("dd-MM-yyyy"));
+                string filePath = string.Format(@"{0}\\{1}_{2}.log", config["TripXMLLogFolder"], log.UserName, DateTime.Today.ToString("dd-MM-yyyy"));
                 //fileNumber = FileSystem.FreeFile();
                 //FileSystem.FileOpen(fileNumber, filePath, OpenMode.Append);
                 //FileSystem.PrintLine(fileNumber, log.ToString());
@@ -1446,7 +1446,7 @@ namespace TripXMLMain
         public static void AddLog(ref string message, string username)
         {
             int fileNumber;
-            string strPath = config.GetSection("TripXMLLogFolder").ToString();
+            string strPath = config["TripXMLLogFolder"].ToString();
             try
             {
                 string filePath = $@"\\{username}_{DateTime.Today.ToString("dd - MM - yyyy")}";

@@ -291,7 +291,7 @@ namespace TripXMLMain
             int i = 0;
             SendEmailAsynch doSendEmail;
             var sb = new StringBuilder();
-            sb.Append(modCore.config.GetSection("TripXMLFolder")).Append(@"\Tables\Users\");
+            sb.Append(modCore.config["TripXMLFolder"]).Append(@"\Tables\Users\");
             strPath = sb.ToString();
             sb.Remove(0, sb.Length);
             oDoc = new XmlDocument();

@@ -41,52 +41,52 @@ namespace TripXMLMain
 
                     /* Unmerged change from project 'TripXML.Library (net6.0)'
                     Before:
-                                        cnnString = Core.modCore.config.GetSection("BEConnectionString").ToString().Trim();
+                                        cnnString = Core.modCore.config["BEConnectionString"].Trim();
                     After:
-                                        cnnString = modCore.config.GetSection("BEConnectionString").ToString().Trim();
+                                        cnnString = modCore.config["BEConnectionString"].Trim();
                     */
-                    cnnString = modCore.config.GetSection("BEConnectionString").ToString().Trim();
+                    cnnString = modCore.config["BEConnectionString"].ToString().Trim();
                 }
                 else if (CnxString == "DataDatabase")
                 {
 
                     /* Unmerged change from project 'TripXML.Library (net6.0)'
                     Before:
-                                        cnnString = Core.modCore.config.GetSection("DataDatabase").ToString().Trim();
+                                        cnnString = Core.modCore.config["DataDatabase"].Trim();
                     After:
-                                        cnnString = modCore.config.GetSection("DataDatabase").ToString().Trim();
+                                        cnnString = modCore.config["DataDatabase"].Trim();
                     */
-                    cnnString = modCore.config.GetSection("DataDatabase").ToString().Trim();
+                    cnnString = modCore.config["DataDatabase"].Trim();
                 }
                 else
                 {
 
                     /* Unmerged change from project 'TripXML.Library (net6.0)'
                     Before:
-                                        cnnString = Core.modCore.config.GetSection("ConnectionString").ToString().Trim();
+                                        cnnString = Core.modCore.config["ConnectionString"].Trim();
                     After:
-                                        cnnString = modCore.config.GetSection("ConnectionString").ToString().Trim();
+                                        cnnString = modCore.config["ConnectionString"].Trim();
                     */
-                    cnnString = modCore.config.GetSection("ConnectionString").ToString().Trim();
+                    cnnString = modCore.config["ConnectionString"].Trim();
                     if (cnnString.Length == 0)
                     {
 
                         /* Unmerged change from project 'TripXML.Library (net6.0)'
                         Before:
-                                                server = Core.modCore.config.GetSection("Server").ToString().Trim(); ;
-                                                database = Core.modCore.config.GetSection("Database").ToString().Trim(); ;
-                                                user = Core.modCore.config.GetSection("User").ToString().Trim(); ;
-                                                password = Core.modCore.config.GetSection("Password").ToString().Trim(); ;
+                                                server = Core.modCore.config["Server"].Trim(); ;
+                                                database = Core.modCore.config["Database"].Trim(); ;
+                                                user = Core.modCore.config["User"].Trim(); ;
+                                                password = Core.modCore.config["Password"].Trim(); ;
                         After:
-                                                server = modCore.config.GetSection("Server").ToString().Trim(); ;
-                                                database = modCore.config.GetSection("Database").ToString().Trim(); ;
-                                                user = modCore.config.GetSection("User").ToString().Trim(); ;
-                                                password = modCore.config.GetSection("Password").ToString().Trim(); ;
+                                                server = modCore.config["Server"].Trim(); ;
+                                                database = modCore.config["Database"].Trim(); ;
+                                                user = modCore.config["User"].Trim(); ;
+                                                password = modCore.config["Password"].Trim(); ;
                         */
-                        server = modCore.config.GetSection("Server").ToString().Trim(); ;
-                        database = modCore.config.GetSection("Database").ToString().Trim(); ;
-                        user = modCore.config.GetSection("User").ToString().Trim(); ;
-                        password = modCore.config.GetSection("Password").ToString().Trim(); ;
+                        server = modCore.config["Server"].Trim(); 
+                        database = modCore.config["Database"].Trim(); 
+                        user = modCore.config["User"].Trim(); 
+                        password = modCore.config["Password"].Trim(); 
                         sb = new StringBuilder();
                         sb.Append("data source=").Append(server).Append(";initial Catalog=").Append(database).Append(";User ID=").Append(user).Append(";Password=").Append(password);
                         cnnString = sb.ToString();
@@ -600,20 +600,20 @@ namespace TripXMLMain
 
                 /* Unmerged change from project 'TripXML.Library (net6.0)'
                 Before:
-                                string Server = Core.modCore.config.GetSection("Server").ToString();
-                                string Database = Core.modCore.config.GetSection("Database").ToString();
-                                string User = Core.modCore.config.GetSection("User").ToString();
-                                string Password = Core.modCore.config.GetSection("Password").ToString();
+                                string Server = Core.modCore.config["Server"];
+                                string Database = Core.modCore.config["Database"];
+                                string User = Core.modCore.config["User"];
+                                string Password = Core.modCore.config["Password"];
                 After:
-                                string Server = modCore.config.GetSection("Server").ToString();
-                                string Database = modCore.config.GetSection("Database").ToString();
-                                string User = modCore.config.GetSection("User").ToString();
-                                string Password = modCore.config.GetSection("Password").ToString();
+                                string Server = modCore.config["Server"];
+                                string Database = modCore.config["Database"];
+                                string User = modCore.config["User"];
+                                string Password = modCore.config["Password"];
                 */
-                string Server = modCore.config.GetSection("Server").ToString();
-                string Database = modCore.config.GetSection("Database").ToString();
-                string User = modCore.config.GetSection("User").ToString();
-                string Password = modCore.config.GetSection("Password").ToString();
+                string Server = modCore.config["Server"];
+                string Database = modCore.config["Database"];
+                string User = modCore.config["User"];
+                string Password = modCore.config["Password"];
                 StringBuilder sb = new StringBuilder();
                 sb.Append("data source=").Append(Server).Append(";initial Catalog=").Append(Database).Append(";User ID=").Append(User).Append(";Password=").Append(Password);
                 string CnnString = sb.ToString();
@@ -1471,30 +1471,30 @@ namespace TripXMLMain
 
             /* Unmerged change from project 'TripXML.Library (net6.0)'
             Before:
-                        string CnnString = Core.modCore.config.GetSection("ConnectionString").ToString().Trim();
+                        string CnnString = Core.modCore.config["ConnectionString"].Trim();
             After:
-                        string CnnString = modCore.config.GetSection("ConnectionString").ToString().Trim();
+                        string CnnString = modCore.config["ConnectionString"].Trim();
             */
-            string CnnString = modCore.config.GetSection("ConnectionString").ToString().Trim();
+            string CnnString = modCore.config["ConnectionString"].Trim();
             if (CnnString.Length == 0)
             {
 
                 /* Unmerged change from project 'TripXML.Library (net6.0)'
                 Before:
-                                string Server = Core.modCore.config.GetSection("Server").ToString();
-                                string Database = Core.modCore.config.GetSection("Database").ToString();
-                                string User = Core.modCore.config.GetSection("User").ToString();
-                                string Password = Core.modCore.config.GetSection("Password").ToString();
+                                string Server = Core.modCore.config["Server"];
+                                string Database = Core.modCore.config["Database"];
+                                string User = Core.modCore.config["User"];
+                                string Password = Core.modCore.config["Password"];
                 After:
-                                string Server = modCore.config.GetSection("Server").ToString();
-                                string Database = modCore.config.GetSection("Database").ToString();
-                                string User = modCore.config.GetSection("User").ToString();
-                                string Password = modCore.config.GetSection("Password").ToString();
+                                string Server = modCore.config["Server"];
+                                string Database = modCore.config["Database"];
+                                string User = modCore.config["User"];
+                                string Password = modCore.config["Password"];
                 */
-                string Server = modCore.config.GetSection("Server").ToString();
-                string Database = modCore.config.GetSection("Database").ToString();
-                string User = modCore.config.GetSection("User").ToString();
-                string Password = modCore.config.GetSection("Password").ToString();
+                string Server = modCore.config["Server"];
+                string Database = modCore.config["Database"];
+                string User = modCore.config["User"];
+                string Password = modCore.config["Password"];
                 StringBuilder sb = new StringBuilder();
                 sb.Append("data source=").Append(Server).Append(";initial Catalog=").Append(Database).Append(";User ID=").Append(User).Append(";Password=").Append(Password);
                 CnnString = sb.ToString();
