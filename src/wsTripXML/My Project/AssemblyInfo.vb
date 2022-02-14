@@ -8,7 +8,7 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("TripXML Platform")> 
+<Assembly: AssemblyTitle("TripXML")>
 <Assembly: AssemblyDescription("TripXML Platform")> 
 <Assembly: AssemblyCompany("Downtown Travel")> 
 <Assembly: AssemblyProduct("TripXML")>
@@ -31,4 +31,4 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 
 <Assembly: AssemblyVersion("1.0.0.*")>
-<Assembly: AssemblyFileVersion("1.1.179.184")>
+<Assembly: AssemblyFileVersion("1.1.234.240")>

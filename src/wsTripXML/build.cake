@@ -22,15 +22,16 @@ Task("Restore")
         NuGetRestore(solutionFolder);
     });
 
-    Task("Build")
-        .IsDependentOn("Restore")
-        .Does(() =>
+Task("Build")
+    .IsDependentOn("Restore")
+    .Does(() =>
+    {
+        MSBuild(solutionFolder, new MSBuildSettings
         {
-            MSBuild(solutionFolder, new MSBuildSettings
-            {
-                Configuration = env,                                                 
-            });            
-        });
+            ToolVersion = MSBuildToolVersion.VS2019,
+            Configuration = env,                                                 
+        });            
+    });
 
 Task("OctoPack")
     .IsDependentOn("Build")

@@ -1050,7 +1050,7 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v05
 
         '<remarks/>
         <System.Xml.Serialization.XmlElementAttribute("ExchangeDocument")>
-        Public ExchangeDocument() As IssuedTicket
+        Public ExchangeDocument() As ExchangeDocument
 
         '<remarks/>
         <System.Xml.Serialization.XmlElementAttribute("TicketingCarrier")>

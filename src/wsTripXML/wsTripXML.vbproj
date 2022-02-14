@@ -43,7 +43,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
@@ -57,7 +57,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
@@ -308,20 +308,10 @@
     <Content Include="Tables\Decoding\ttwshotels.xml" />
     <Content Include="Tables\Decoding\ttwshotelsubtitles.xml" />
     <Content Include="Tables\Decoding\ttwsships.xml" />
-    <Content Include="Tables\Users\AdamTravel.xml" />
-    <Content Include="Tables\Users\CubaMax.xml" />
     <Content Include="Tables\Users\DTT.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Tables\Users\dttticket.xml" />
-    <Content Include="Tables\Users\ErosTravel.xml" />
-    <Content Include="Tables\Users\FinalPrice.xml" />
-    <Content Include="Tables\Users\latam.xml" />
-    <Content Include="Tables\Users\mTrip.xml" />
-    <Content Include="Tables\Users\Skybird.xml" />
-    <Content Include="Tables\Users\techtrans.xml" />
-    <Content Include="Tables\Users\thomalex.xml" />
-    <Content Include="Tables\Users\Travel24.xml" />
     <Content Include="Tables\Users\ttProviders.xml" />
     <Content Include="Tables\Users\tt_acl.xml" />
     <Content Include="Web.config">
@@ -1362,7 +1352,6 @@
     <Content Include="Tables\Decoding\ttwsairports.zi_" />
     <Content Include="Tables\Decoding\ttwsCruiseTables.zip" />
     <Content Include="Tables\Decoding\WS_FTP.LOG" />
-    <Content Include="Tables\Users\WS_FTP.LOG" />
     <Content Include="packages.config" />
     <Content Include="nuget.config" />
     <None Include="Web.Debug.config">
