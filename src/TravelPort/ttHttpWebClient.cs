@@ -70,8 +70,8 @@ namespace Travelport
             // Always add authentication to the header - avoids issue with internal URL's that doesn't require
             // authentication.
             byte[] authBytes = Encoding.UTF8.GetBytes((ttProviderSystems.UserName + ":" + ttProviderSystems.Password).ToCharArray());
-            serverRequest.Headers["Authorization"] = "Basic " + Convert.ToBase64String(authBytes);
-
+            serverRequest.Headers["Authorization"] = $"Basic {Convert.ToBase64String(authBytes)}";
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             return serverRequest;
 
         }
