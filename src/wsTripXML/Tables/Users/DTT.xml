@@ -8104,19 +8104,95 @@
 			<PCC Code="P7020029">
 				<Username>Universal API/uAPI7407969733-144d8821</Username>
 				<Password>X&amp;m86J}zG*</Password>
-				<Profile XML="1G" />
+				<Profile XML="GAL" />
+				<OpenType OfficeID="4KZF" Name="4KZF">
+					<Agent/>
+					<SignIn/>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID/>
+				</OpenType>
 			</PCC>
 			<PCC Code="P7163861">
 				<Username>Universal API/uAPI7407969733-144d8821</Username>
 				<Password>X&amp;m86J}zG*</Password>
-				<Profile XML="1G" />
+				<Profile XML="GAL" />
+				<OpenType OfficeID="4KZF" Name="4KZF">
+					<Agent/>
+					<SignIn/>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID/>
+				</OpenType>
+			</PCC>
+			<PCC Code="P7020030">
+				<Username>Universal API/uAPI7407969733-144d8821</Username>
+				<Password>X&amp;m86J}zG*</Password>
+				<Profile XML="WSP" />
+				<OpenType OfficeID="VJV" Name="VJV">
+					<Agent/>
+					<SignIn/>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID/>
+				</OpenType>
+			</PCC>
+			<PCC Code="P7163861">
+				<Username>Universal API/uAPI7407969733-144d8821</Username>
+				<Password>X&amp;m86J}zG*</Password>
+				<Profile XML="WSP" />
+				<OpenType OfficeID="0MI" Name="0MI">
+					<Agent/>
+					<SignIn/>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID/>
+				</OpenType>
 			</PCC>
 		</System>
 		<System Name="Production">
+			<PCC Code="P3403595">
+				<Username>Universal API/uAPI2275873966-75d271d3</Username>
+				<Password>4m?EQ7y*j{</Password>
+				<Profile XML="GAL" />
+				<OpenType OfficeID="3LM3" Name="3LM3">
+					<Agent/>
+					<SignIn/>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID/>
+				</OpenType>
+			</PCC>
 			<PCC Code="P3998570">
 				<Username>Universal API/uAPI2275873966-75d271d3</Username>
 				<Password>4m?EQ7y*j{</Password>
-				<Profile XML="1G" />
+				<Profile XML="GAL" />
+				<OpenType OfficeID="3M2Y" Name="3M2Y">
+					<Agent/>
+					<SignIn/>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID/>
+				</OpenType>
+			</PCC>
+			<PCC Code="P4041470">
+				<Username>Universal API/uAPI2275873966-75d271d3</Username>
+				<Password>d-5R8rN{J4</Password>
+				<Profile XML="GAL" />
+				<OpenType OfficeID="3MI3" Name="3MI3">
+					<Agent/>
+					<SignIn/>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID/>
+				</OpenType>
 			</PCC>
 		</System>
 	</Provider>

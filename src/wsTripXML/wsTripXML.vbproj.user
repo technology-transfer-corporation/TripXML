@@ -10,7 +10,7 @@
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <ProjectView>ProjectFiles</ProjectView>
-    <NameOfLastUsedPublishProfile>D:\WORK\DTT\GIT\TripXML\wsTripXML\My Project\PublishProfiles\UKRAINE.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>D:\WORK\DTT\GIT\TripXML\wsTripXML\My Project\PublishProfiles\LocalIIS.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
