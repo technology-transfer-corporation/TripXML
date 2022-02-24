@@ -14,7 +14,7 @@
       <agencyDetails>
         <sourceType>
           <sourceQualifier1>REP</sourceQualifier1>
-        </sourceType> my
+        </sourceType>
         <originatorDetails>
           <inHouseIdentification1>
             <xsl:value-of select="PCC"/>

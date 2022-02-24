@@ -4,6 +4,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 11 Feb 2022 - Kobelev - Bate Birth for CHD and INF.
   Date: 21 Oct 2021 - Kobelev - Change Controlling Carrier RemarkType from "Z" to "CC".
   Date: 14 Sep 2021 - Kobelev - Security SSR CTCR,CTCE,CTCM with passanger association.
   Date: 16 Aug 2021 - Kobelev - Controlling Carrier Identification.
@@ -2243,7 +2244,7 @@
                             <xsl:value-of select="substring-after(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'INF')" />
                           </xsl:when>
                           <xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'CHD')">
-                            <xsl:value-of select="translate(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'CHD', '')" />
+                            <xsl:value-of select="substring-after(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'CHD')" />
                           </xsl:when>
                           <xsl:otherwise>
                             <xsl:value-of select="../NameRmkInfo[LNameNum=$ItemNo]/NameRmk" />

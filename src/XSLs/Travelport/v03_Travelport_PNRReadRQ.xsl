@@ -28,6 +28,9 @@
 										<xsl:when test="OTA_ReadRQ/@Target='WSP'">
 											<xsl:value-of select="'1P'"/>
 										</xsl:when>
+										<xsl:when test="OTA_ReadRQ/@Target='APL'">
+											<xsl:value-of select="'1V'"/>
+										</xsl:when>
 										<xsl:otherwise>
 											<xsl:value-of select="'1G'"/>
 										</xsl:otherwise>
@@ -60,6 +63,9 @@
 									<xsl:when test="OTA_ReadRQ/@Target='WSP'">
 										<xsl:value-of select="'1P'"/>
 									</xsl:when>
+									<xsl:when test="OTA_ReadRQ/@Target='APL'">
+										<xsl:value-of select="'1V'"/>
+									</xsl:when>
 									<xsl:otherwise><xsl:value-of select="'1G'"/></xsl:otherwise>
 								</xsl:choose>
 							</xsl:attribute>
@@ -79,6 +85,9 @@
 								<xsl:choose>
 									<xsl:when test="OTA_ReadRQ/@Target='WSP'">
 										<xsl:value-of select="'1P'"/>
+									</xsl:when>
+									<xsl:when test="OTA_ReadRQ/@Target='APL'">
+										<xsl:value-of select="'1V'"/>
 									</xsl:when>
 									<xsl:otherwise><xsl:value-of select="'1G'"/></xsl:otherwise>
 								</xsl:choose>

@@ -3,6 +3,9 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
+   Date: 15 Feb 2022 - Kobelev - *ZZ + Ticket Designator and FareBases with Passanger association. Amount equivalent Sabre host command: WPQY/AD75/DA100.00‡N1.1-3.1
+   Date: 15 Feb 2022 - Kobelev - *ZZ + Ticket Designator and FareBases. Amount equivalent Sabre host command: WPQY/AD75/DA100.00 
+   Date: 14 Feb 2022 - Kobelev - Markup / Commssion with Branded Fare.
    Date: 02 Dec 2021 - Kobelev - Smart Pricing Capabilities moved in priority of execution.
    Date: 01 Dec 2021 - Kobelev - Smart Pricing Capabilities with Passanger Associations.
    Date: 30 Nov 2021 - Kobelev - Smart Pricing Capabilities.
@@ -28,6 +31,7 @@
    -->
 	<xsl:output method="xml" omit-xml-declaration="yes"/>
 	<xsl:key name="storedFareByFF" match="StoredFare" use="BrandedFares/FareFamily"/>
+	<xsl:key name="storedFareByPTC" match="StoredFare" use="PassengerType/@Code"/>
 	<xsl:template match="/">
 		<OTA_PNRRepriceRQ>
 			<xsl:apply-templates select="OTA_PNRRepriceRQ"/>
@@ -87,34 +91,15 @@
 										</xsl:when>
 										<xsl:otherwise>
 											<xsl:if test="StoredFare[1]/Discount/@Percent!='' or StoredFare[1]/TicketDesignator!=''">
-												<xsl:variable name="disc" select="StoredFare[1]/Discount/@Percent" />
-												<xsl:variable name="td" select="StoredFare[1]/TicketDesignator" />
-												<xsl:for-each select="FlightReference">
-													<CommandPricing>
-														<xsl:attribute name="RPH" >
-															<xsl:value-of select="@RPH"/>
-														</xsl:attribute>
-														<xsl:if test="$disc!=''">
-															<Discount>
-																<xsl:if test="$disc!=''">
-																	<xsl:attribute name="Percent">
-																		<xsl:value-of select="$disc"/>
-																	</xsl:attribute>
-																</xsl:if>
-																<xsl:if test="$td!=''">
-																	<xsl:attribute name="AuthCode">
-																		<xsl:value-of select="$td"/>
-																	</xsl:attribute>
-																</xsl:if>
-															</Discount>
-														</xsl:if>
-													</CommandPricing>
-												</xsl:for-each>
+
+												<xsl:apply-templates select="StoredFare[1]" mode="CommandPricing" />
+
 												<ItineraryOptions>
 													<xsl:for-each select="FlightReference">
 														<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
 													</xsl:for-each>
 												</ItineraryOptions>
+
 											</xsl:if>
 										</xsl:otherwise>
 									</xsl:choose>
@@ -147,7 +132,9 @@
 					</OTA_AirPriceRQ>
 				</xsl:when>
 				<xsl:when test="StoredFare/FareSegments">
-					<xsl:apply-templates select="StoredFare" mode="SmartPricingAll" />
+					<xsl:for-each select="StoredFare[generate-id() = generate-id(key('storedFareByPTC', PassengerType/@Code)[1])]">
+						<xsl:apply-templates select="." mode="SmartPricingAll" />
+					</xsl:for-each>
 				</xsl:when>
 				<xsl:when test="count(StoredFare/TicketDesignator) > 0 and count(StoredFare/TicketDesignator)!=count(StoredFare)">
 
@@ -276,10 +263,11 @@
 							<!--
               </xsl:otherwise>
               </xsl:choose>
-              <xsl:if test="StoredFare[1]/Markup/@Amount!=''">
-                <PlusUp Amount="{StoredFare[1]/Markup/@Amount}"/>
-              </xsl:if>
-            -->
+			  -->
+							<xsl:if test="StoredFare[1]/Markup/@Amount!=''">
+								<PlusUp Amount="{StoredFare[1]/Markup/@Amount}"/>
+							</xsl:if>
+
 						</PricingQualifiers>
 					</OptionalQualifiers>
 				</PriceRequestInformation>
@@ -324,29 +312,7 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:if test="StoredFare[TicketDesignator]/Discount/@Percent!='' or StoredFare[TicketDesignator]/TicketDesignator!=''">
-							<xsl:variable name="disc" select="StoredFare[TicketDesignator]/Discount/@Percent" />
-							<xsl:variable name="td" select="StoredFare[TicketDesignator]/TicketDesignator" />
-							<xsl:for-each select="FlightReference">
-								<CommandPricing>
-									<xsl:attribute name="RPH" >
-										<xsl:value-of select="@RPH"/>
-									</xsl:attribute>
-									<xsl:if test="$disc!=''">
-										<Discount>
-											<xsl:if test="$disc!=''">
-												<xsl:attribute name="Percent">
-													<xsl:value-of select="$disc"/>
-												</xsl:attribute>
-											</xsl:if>
-											<xsl:if test="$td!=''">
-												<xsl:attribute name="AuthCode">
-													<xsl:value-of select="$td"/>
-												</xsl:attribute>
-											</xsl:if>
-										</Discount>
-									</xsl:if>
-								</CommandPricing>
-							</xsl:for-each>
+							<xsl:apply-templates select="StoredFare[TicketDesignator]" mode="CommandPricing"/>
 							<ItineraryOptions>
 								<xsl:for-each select="FlightReference">
 									<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
@@ -479,7 +445,7 @@
 		</OTA_AirPriceRQ>
 	</xsl:template>
 
-	<!--
+<!--
 **********************************************
   Branded Fares
 **********************************************
@@ -549,37 +515,76 @@
 	</xsl:template>
 
 	<xsl:template match="FareSegments" mode="SmartPricing">
-		<ItineraryOptions>
-			<xsl:for-each select="AirSegments">
-				<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
-			</xsl:for-each>
-		</ItineraryOptions>
-		<NameSelect>NS</NameSelect>
-		<xsl:if test="../PassengerType">
-			<xsl:variable name="ptc" select="../PassengerType" />
+		<xsl:variable name="ptc" select="../PassengerType" />
 
-			<PassengerType>
-				<xsl:attribute name="Quantity">
-					<xsl:value-of select="$ptc/@Quantity"/>
-				</xsl:attribute>
-				<xsl:attribute name="Code">
-					<xsl:choose>
-						<xsl:when test="$ptc/@Code='CHD'">C09</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="$ptc/@Code"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:attribute>
-			</PassengerType>
-		</xsl:if>
-		<xsl:for-each select="AirSegments">
-			<SpecificFare RPH="{@RPH}">
-				<FareBasis>
-					<xsl:variable name="fbc" select="substring(.,1,8)" />
-					<xsl:value-of select="$fbc"/>
-				</FareBasis>
-			</SpecificFare>
-		</xsl:for-each>
+		<xsl:choose>
+			<xsl:when test="../TicketDesignator!=''">
+				<xsl:apply-templates select="../../StoredFare[PassengerType/@Code=$ptc/@Code]" mode="CommandPricing" />
+				<ItineraryOptions>
+					<xsl:for-each select="../../FlightReference">
+						<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
+					</xsl:for-each>
+				</ItineraryOptions>
+				<NameSelect>NS</NameSelect>
+				<xsl:if test="../PassengerType">
+					<PassengerType>
+						<xsl:attribute name="Quantity">
+							<xsl:value-of select="$ptc/@Quantity"/>
+						</xsl:attribute>
+						<xsl:attribute name="Code">
+							<xsl:choose>
+								<xsl:when test="$ptc/@Code='CHD'">C09</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$ptc/@Code"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:attribute>
+					</PassengerType>
+					<xsl:if test="../Markup/@Amount!=''">
+						<PlusUp Amount="{../Markup/@Amount}"/>
+					</xsl:if>
+				</xsl:if>
+			</xsl:when>
+			<xsl:otherwise>
+				<ItineraryOptions>
+					<xsl:for-each select="AirSegments">
+						<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
+					</xsl:for-each>
+				</ItineraryOptions>
+				<NameSelect>NS</NameSelect>
+				<xsl:if test="../PassengerType">
+
+					<PassengerType>
+						<xsl:attribute name="Quantity">
+							<xsl:value-of select="$ptc/@Quantity"/>
+						</xsl:attribute>
+						<xsl:attribute name="Code">
+							<xsl:choose>
+								<xsl:when test="$ptc/@Code='CHD'">C09</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$ptc/@Code"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:attribute>
+					</PassengerType>
+					<xsl:if test="../Markup/@Amount!=''">
+						<PlusUp Amount="{../Markup/@Amount}"/>
+					</xsl:if>
+
+				</xsl:if>
+				<xsl:for-each select="AirSegments">
+					<SpecificFare RPH="{@RPH}">
+						<FareBasis>
+							<xsl:variable name="fbc" select="substring(.,1,8)" />
+							<xsl:value-of select="$fbc"/>
+						</FareBasis>
+					</SpecificFare>
+				</xsl:for-each>
+
+			</xsl:otherwise>
+		</xsl:choose>
+
+
 	</xsl:template>
 
 	<xsl:template name="StoredFareGroup">
@@ -598,6 +603,75 @@
       </xsl:copy>
       -->
 		</xsl:for-each>
+	</xsl:template>
+
+	<xsl:template match="StoredFare" mode="CommandPricing">
+		<xsl:variable name="td" select="TicketDesignator" />
+		<xsl:variable name="discType">
+			<xsl:choose>
+				<xsl:when test="Discount/@Amount !=''">
+					<xsl:text>A</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>P</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="disc">
+			<xsl:choose>
+				<xsl:when test="Discount/@Amount !=''">
+					<xsl:value-of select="Discount/@Amount"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="Discount/@Percent"/>
+				</xsl:otherwise>
+			</xsl:choose>
+
+		</xsl:variable>
+
+		<xsl:variable name="flt" select="../FlightReference" />
+
+		<xsl:for-each select="FareSegments/AirSegments">
+			<xsl:variable name="rph" select="@RPH" />
+			<CommandPricing>
+				<xsl:attribute name="RPH" >
+					<xsl:value-of select="$rph"/>
+				</xsl:attribute>
+				<xsl:if test="$disc!=''">
+					<Discount>
+						<xsl:choose>
+							<xsl:when test="$discType ='P'">
+								<xsl:attribute name="Percent">
+									<xsl:value-of select="$disc"/>
+								</xsl:attribute>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:attribute name="Amount">
+									<xsl:value-of select="$disc"/>
+								</xsl:attribute>
+							</xsl:otherwise>
+						</xsl:choose>
+						<xsl:if test="$td!=''">
+							<xsl:attribute name="AuthCode">
+								<xsl:value-of select="$td"/>
+							</xsl:attribute>
+						</xsl:if>
+					</Discount>
+				</xsl:if>
+				<xsl:if test="$flt">
+					<FareBasis TicketDesignator="$td">
+						<xsl:attribute name="Code">
+							<xsl:value-of select="."/>
+						</xsl:attribute>
+						<xsl:attribute name="TicketDesignator">
+							<xsl:value-of select="$td"/>
+						</xsl:attribute>
+					</FareBasis>
+				</xsl:if>
+
+			</CommandPricing>
+		</xsl:for-each>
+
 	</xsl:template>
 
 	<xsl:template name="tokenizeString">
@@ -630,5 +704,6 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+
 </xsl:stylesheet>
 

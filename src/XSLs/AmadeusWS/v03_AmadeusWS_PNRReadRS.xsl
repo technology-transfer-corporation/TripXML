@@ -1439,7 +1439,7 @@
 			<xsl:attribute name="RPH">
 				<xsl:value-of select="../elementManagementPassenger/lineNumber"/>
 			</xsl:attribute>
-			
+
 			<xsl:variable name="ptc">
 				<xsl:choose>
 					<xsl:when test="not(enhancedTravellerInformation/travellerNameInfo/type)">ADT</xsl:when>
@@ -1452,7 +1452,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			
+
 			<Customer>
 				<xsl:if test="dateOfBirthInEnhancedPaxData/dateAndTimeDetails[qualifier='706']">
 					<xsl:attribute name="BirthDate">
@@ -1463,7 +1463,7 @@
 						<xsl:value-of select="substring(dateOfBirthInEnhancedPaxData/dateAndTimeDetails/date,1,2)"/>
 					</xsl:attribute>
 				</xsl:if>
-				
+
 				<PersonName>
 					<xsl:attribute name="NameType">
 						<xsl:value-of select="$ptc"/>
@@ -4902,19 +4902,36 @@
 	<xsl:template match="dataElementsIndiv" mode="commission">
 		<AgencyCommission>
 
-			<xsl:if test="referenceForDataElement/reference/qualifier='PT'">
-				<xsl:attribute name="TravelerRefNumberRPHList">
-					<xsl:for-each select="referenceForDataElement/reference[qualifier='PT']">
-						<xsl:if test="position() > 1">
-							<xsl:value-of select="' '"/>
-						</xsl:if>
-						<xsl:variable name="number">
-							<xsl:value-of select="number"/>
-						</xsl:variable>
-						<xsl:value-of select="../../../../travellerInfo/elementManagementPassenger[reference/number=$number]/lineNumber"/>
-					</xsl:for-each>
-				</xsl:attribute>
-			</xsl:if>
+			<xsl:variable name="paxRef" select="referenceForDataElement/reference/number" />
+			<xsl:choose>
+				<xsl:when test="referenceForDataElement/reference/qualifier='PT'">
+					<xsl:attribute name="TravelerRefNumberRPHList">
+						<xsl:for-each select="referenceForDataElement/reference[qualifier='PT']">
+							<xsl:if test="position() > 1">
+								<xsl:value-of select="' '"/>
+							</xsl:if>
+							<xsl:variable name="number">
+								<xsl:value-of select="number"/>
+							</xsl:variable>
+							<xsl:value-of select="../../../../travellerInfo/elementManagementPassenger[reference/number=$number]/lineNumber"/>
+						</xsl:for-each>
+					</xsl:attribute>
+				</xsl:when>
+				<xsl:when test="not($paxRef)">
+					<xsl:attribute name="TravelerRefNumberRPHList">
+						<xsl:for-each select="../../travellerInfo[passengerData/travellerInformation/passenger/type='INF']/elementManagementPassenger/lineNumber">
+							<xsl:if test="position() > 1">
+								<xsl:value-of select="' '"/>
+							</xsl:if>
+							<xsl:variable name="number">
+								<xsl:value-of select="."/>
+							</xsl:variable>
+							<xsl:value-of select="$number" />							
+						</xsl:for-each>
+					</xsl:attribute>
+				</xsl:when>
+			</xsl:choose>
+
 
 			<xsl:attribute name="RPH">
 				<xsl:value-of select="elementManagementData/lineNumber"/>
