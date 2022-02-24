@@ -1496,6 +1496,8 @@ namespace Galileo
                     // Modify PNR - Insert elements *
                     // ******************************* 
                     strErrEvent = "Modify PNR - Insert elements Error.";
+                    oDoc.LoadXml(Request);
+                    oRoot = oDoc.DocumentElement;
                     if (oRoot.SelectSingleNode("Position/Element[@Operation='insert']") != null)
                     {
                         // *******************************************************************
@@ -1547,14 +1549,14 @@ namespace Galileo
                     }
 
                     // ****************************************************************************
-                    // Add Previous Errors and Warnings To Galileo Native End Transact Response  *
+                    // Add Previous Errors and Warnings To Galileo Native End Transact Response   *
                     // ****************************************************************************
                     strNativePNRReply = strResponse;
                     oDocResp = null;
                 }
 
                 // *****************************************************************
-                // Transform Native Galileo TravelBuild Response into OTA Response   *
+                // Transform Native Galileo TravelBuild Response into OTA Response *
                 // ***************************************************************** 
                 try
                 {
