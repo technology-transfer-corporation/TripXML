@@ -1459,7 +1459,7 @@ namespace Galileo
             try
             {
                 var RequestTime = DateTime.Now;
-                string strRequest = SetRequest("Galileo_PNRReadRQ.xsl");
+                string strRequest = SetRequest("Galileo_UpdateInsertRQ.xsl");
                 
                 // *********************
                 // * Create Session    *
@@ -1467,7 +1467,7 @@ namespace Galileo
                 GalileoAdapter ttGA = SetAdapter();
                 bool inSession = SetConversationID(ttGA);
 
-                if (!string.IsNullOrEmpty(strRequest))
+                if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation of OTA PNRRead Request produced empty xml.");
 
                 // ****************************
@@ -1488,7 +1488,7 @@ namespace Galileo
                     // Load OTA Modify XML document  *
                     // ******************************* 
                     var oDoc = new XmlDocument();
-                    oDoc.LoadXml(Request);
+                    oDoc.LoadXml(strRequest);
                     var oRoot = oDoc.DocumentElement;
                     var strEndTransaction = oRoot.SelectSingleNode("ET").InnerXml;
 

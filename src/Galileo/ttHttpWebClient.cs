@@ -41,7 +41,7 @@ namespace Galileo
             // mHttpRequest.Timeout = 60000   ' 1 Minute
             // mHttpRequest.Headers.Add("Authorization", "Basic uAPI-244313738:k6GgkR27")
             mHttpRequest.Headers.Add("Authorization", "Basic GWS/GWS_P7114864:Pjo38-DYm+");
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
         }
 
         public string SendHttpRequest(string UserID, string strMessage = "")

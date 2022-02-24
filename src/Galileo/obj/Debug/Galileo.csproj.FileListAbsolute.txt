@@ -9,11 +9,6 @@ D:\WORK\DTT\GIT\TripXML\Galileo\bin\TripXMLMain.pdb
 D:\WORK\DTT\GIT\TripXML\Galileo\bin\TripXMLMain.xml
 D:\WORK\DTT\GIT\TripXML\Galileo\bin\TripXMLTools.pdb
 D:\WORK\DTT\GIT\TripXML\Galileo\bin\TripXMLTools.dll.config
-D:\WORK\DTT\GIT\TripXML\Galileo\obj\Debug\Galileo.csproj.AssemblyReference.cache
-D:\WORK\DTT\GIT\TripXML\Galileo\obj\Debug\Galileo.csproj.CoreCompileInputs.cache
-D:\WORK\DTT\GIT\TripXML\Galileo\obj\Debug\Galileo.csproj.CopyComplete
-D:\WORK\DTT\GIT\TripXML\Galileo\obj\Debug\Galileo.dll
-D:\WORK\DTT\GIT\TripXML\Galileo\obj\Debug\Galileo.pdb
 D:\WORK\DTT\GIT\TripXML\Galileo\bin\System.Configuration.ConfigurationManager.dll
 D:\WORK\DTT\GIT\TripXML\Galileo\bin\System.Security.AccessControl.dll
 D:\WORK\DTT\GIT\TripXML\Galileo\bin\System.Security.Permissions.dll
@@ -33,3 +28,8 @@ D:\WORK\DTT\GIT\TripXML\Galileo\bin\Debug\TripXMLMain.pdb
 D:\WORK\DTT\GIT\TripXML\Galileo\bin\Debug\TripXMLMain.xml
 D:\WORK\DTT\GIT\TripXML\Galileo\bin\Debug\TripXMLTools.pdb
 D:\WORK\DTT\GIT\TripXML\Galileo\bin\Debug\TripXMLTools.dll.config
+D:\WORK\DTT\GIT\TripXML\Galileo\obj\Debug\Galileo.csproj.AssemblyReference.cache
+D:\WORK\DTT\GIT\TripXML\Galileo\obj\Debug\Galileo.csproj.CoreCompileInputs.cache
+D:\WORK\DTT\GIT\TripXML\Galileo\obj\Debug\Galileo.csproj.CopyComplete
+D:\WORK\DTT\GIT\TripXML\Galileo\obj\Debug\Galileo.dll
+D:\WORK\DTT\GIT\TripXML\Galileo\obj\Debug\Galileo.pdb
