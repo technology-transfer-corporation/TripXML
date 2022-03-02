@@ -38,7 +38,20 @@
   <xsl:template match="OTA_PNRRepriceRQ">
     <PNRBFManagement_53>
       <PNRBFRetrieveMods>
-        <CurrentPNR />
+		  <xsl:choose>
+			  <xsl:when test="ConversationID!=''">
+				  <CurrentPNR />
+			  </xsl:when>
+			  <xsl:otherwise>
+				  <PNRAddr>
+					  <FileAddr />
+					  <CodeCheck />
+					  <RecLoc>
+						  <xsl:value-of select="UniqueID/@ID" />
+					  </RecLoc>
+				  </PNRAddr>
+			  </xsl:otherwise>
+		  </xsl:choose>
       </PNRBFRetrieveMods>
       <xsl:if test="$pqs">
         <xsl:for-each select="$pqs">

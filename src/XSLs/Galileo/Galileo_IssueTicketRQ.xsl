@@ -66,9 +66,7 @@
     
     <PNRCurrentRead>
 			<PNRBFManagement_53>
-				<PNRBFRetrieveMods>
-				  <CurrentPNR />
-  			</PNRBFRetrieveMods>
+				<PNRBFRetrieveMods><CurrentPNR /></PNRBFRetrieveMods>
 				<FareRedisplayMods>
 					<DisplayAction>
 						<Action>D</Action>
