@@ -209,9 +209,15 @@ Namespace wsTravelTalk
                     sessionID = oRoot.SelectSingleNode("ConversationID").OuterXml.Replace("&amp;", "&")
                 End If
 
-                Dim itinRefXmlList As String = oRoot.SelectSingleNode("TravelItinerary/ItineraryRef").OuterXml
-                Dim custInfoXmlList As String = oRoot.SelectSingleNode("TravelItinerary/CustomerInfos").OuterXml
-                Dim tpaInfoXmlList As String = oRoot.SelectSingleNode("TravelItinerary/TPA_Extensions").OuterXml
+                Dim itinRefXmlList As String
+                Dim custInfoXmlList As String
+                Dim tpaInfoXmlList As String
+                If oRoot.SelectSingleNode("TravelItinerary") Is Nothing Then
+                    itinRefXmlList = oRoot.SelectSingleNode("TravelItinerary/ItineraryRef").OuterXml
+                    custInfoXmlList = oRoot.SelectSingleNode("TravelItinerary/CustomerInfos").OuterXml
+                    tpaInfoXmlList = oRoot.SelectSingleNode("TravelItinerary/TPA_Extensions").OuterXml
+                End If
+
                 Dim errMessage = String.Format("<Errors><Error>{0}</Error><Error>{1}</Error></Errors>", ex.InnerException.Message.ToString(), ex.Message.ToString())
 
                 xmlMessage = String.Format("<OTA_TravelItineraryRS Version=""v03"" xmlns:stl=""http://services.sabre.com/STL/v01"">{0}<TravelItinerary>{1}{2}{3}{4}</TravelItinerary>{5}</OTA_TravelItineraryRS>", errMessage, itinRefXmlList, custInfoXmlList, "<ItineraryInfo></ItineraryInfo>", tpaInfoXmlList, sessionID)

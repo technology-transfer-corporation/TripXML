@@ -38,7 +38,7 @@ Namespace wsTravelTalk
             Try
                 TripXMLStartUp(Application)
             Catch ex As Exception
-                TripXMLMain.CoreLib.SendTrace("", "Global.asax", "Error Starting", ex.Message, String.Empty)
+                CoreLib.SendTrace("", "Global.asax", "Error Starting", ex.Message, String.Empty)
             End Try
 
         End Sub
