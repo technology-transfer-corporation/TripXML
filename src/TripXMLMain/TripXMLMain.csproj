@@ -417,7 +417,6 @@
     <Reference Include="AmadeusWS_QueueRS">
       <HintPath>Xsl\AmadeusWS\AmadeusWS_QueueRS.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Galileo_AirAvailRQ">
       <HintPath>Xsl\Galileo\Galileo_AirAvailRQ.dll</HintPath>
     </Reference>
