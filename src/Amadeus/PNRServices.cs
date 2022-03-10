@@ -165,8 +165,6 @@ namespace AmadeusWS
 
                         }
                 }
-
-
                 #endregion
 
                 #region SUBSIDIARY/FRANCHISE
@@ -1092,76 +1090,44 @@ namespace AmadeusWS
                         // Send PNR Redisplay                    
                         strResponse = SendRetrievePNR(ttAA);
 
+                        var GetPricingOptionsTST = string.Empty;
+
                         if (strResponse.Contains("<longFreetext>--- TST ") && ttAA.GetStoredFares)
                         {
                             var strResponseTST = SendDisplayTST(ttAA);
 
                             #region GetPricingOptions
 
-                            //var GetPricingOptionsTST = string.Empty;
+                            if (strResponseTST.Contains("<referenceType>TST</referenceType>"))
+                            {
+                                var oDocTST = new XmlDocument();
+                                oDocTST.LoadXml(strResponseTST);
+                                XmlElement oRootTST = oDocTST.DocumentElement;
+                                var xmlNodeList = oRootTST?.SelectNodes("fareList");
 
+                                if (xmlNodeList != null)
+                                    foreach (XmlNode oNodeTST in xmlNodeList)
+                                    {
+                                        string tstPricingOption = string.Empty;
+                                        string tstNum = oNodeTST.SelectSingleNode("fareReference/uniqueReference").InnerText;
+                                        strRequest = $"<Ticket_GetPricingOptions xmlns=\"http://xml.amadeus.com/TPORRQ_14_1_1A\"><documentSelection><referenceType>TST</referenceType><uniqueReference>{tstNum}</uniqueReference></documentSelection></Ticket_GetPricingOptions>";
 
-                            //if (strResponseTST.Contains("<referenceType>TST</referenceType>"))
-                            //{
-                            //    //var tstNum = strResponseTST.Substring(strResponseTST.IndexOf("<referenceType>TST</referenceType>", StringComparison.Ordinal));
-                            //    //tstNum = tstNum.Substring(tstNum.IndexOf("<uniqueReference>") + "<uniqueReference>".Length, tstNum.IndexOf("</uniqueReference>") - tstNum.IndexOf("<uniqueReference>") - "<uniqueReference>".Length);
+                                        //sbNativeLog.Append($"{Environment.NewLine}{strRequest}");
+                                        tstPricingOption = SendGetPricingOptions(ttAA, strRequest);
+                                        //sbNativeLog.Append($"{Environment.NewLine}{strRequest}");
 
-                            //    var oDocTST = new XmlDocument();
-                            //    oDocTST.LoadXml(strResponseTST);
-                            //    XmlElement oRootTST = oDocTST.DocumentElement;
-                            //    var xmlNodeList = oRootTST?.SelectNodes("fareList");
+                                        //AK: I commented it in order to return PNR even if TST is not active.
+                                        //if (tstPricingOption.Contains("<Error>"))
+                                        //    throw new Exception(tstPricingOption);
 
-                            //    if (xmlNodeList != null)
-                            //        foreach (XmlNode oNodeTST in xmlNodeList)
-                            //        {
-                            //            string tstPricingOption = string.Empty;
-                            //            string tstNum = oNodeTST.SelectSingleNode("fareReference/uniqueReference").InnerText;
-                            //            strRequest = $"<Ticket_GetPricingOptions xmlns=\"http://xml.amadeus.com/TPORRQ_14_1_1A\"><documentSelection><referenceType>TST</referenceType><uniqueReference>{tstNum}</uniqueReference></documentSelection></Ticket_GetPricingOptions>";
-                            //            try
-                            //            {
-                            //                //sbNativeLog.Append(Environment.NewLine + strRequest);
-                            //                if (ttProviderSystems.SOAP4)
-                            //                {
-                            //                    session.StatusCode = TransactionStatusCode.End;
-                            //                    tstPricingOption = ttAA.SendMessagesoap4(strRequest, "", "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/" + ttProviderSystems.AmadeusWSSchema.Ticket_GetPricingOptions, ref session);
-                            //                }
-                            //                else
-                            //                {
-                            //                    tstPricingOption = ttAA.SendMessage(strRequest, "", "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/" + ttProviderSystems.AmadeusWSSchema.Ticket_GetPricingOptions, conversationID);
-                            //                }
+                                        GetPricingOptionsTST += tstPricingOption;
 
-                            //                tstPricingOption = tstPricingOption.Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.AmadeusWSSchema.Ticket_GetPricingOptionsReply + "\"", "");
-
-                            //                //sbNativeLog.Append(Environment.NewLine + strResponseTST);
-
-                            //                if (ttProviderSystems.SOAP4)
-                            //                {
-                            //                    if (session.StatusCode != TransactionStatusCode.End)
-                            //                    {
-                            //                        session.StatusCode = TransactionStatusCode.InSeries;
-                            //                        session.IncreaseSequenceNo();
-                            //                    }
-                            //                }
-                            //                else
-                            //                {
-                            //                    conversationID = UpdateSessionID(conversationID);
-                            //                }
-
-                            //                if (tstPricingOption.Contains("<Error>"))
-                            //                    throw new Exception(tstPricingOption);
-
-                            //                GetPricingOptionsTST += tstPricingOption;
-                            //            }
-                            //            catch (Exception ex)
-                            //            {
-                            //                //throw new Exception(sb.Append("Error GetPricing Options.").Append("\r\n").Append(ex.Message).ToString());
-                            //            }
-                            //        }
-                            //}
-                            //else
-                            //{
-                            //    GetPricingOptionsTST = String.Empty;
-                            //}
+                                    }
+                            }
+                            else
+                            {
+                                GetPricingOptionsTST = string.Empty;
+                            }
 
                             #endregion
 
@@ -1214,6 +1180,9 @@ namespace AmadeusWS
                         if (!strResponse.Contains(strToReplace))
                             strToReplace = "</PNR_Reply>";
                         strResponse = strResponse.Replace(strToReplace, $"{Request}{strToReplace}");
+
+                        if (!string.IsNullOrEmpty(GetPricingOptionsTST))
+                            strResponse = strResponse.Replace(strToReplace, $"{GetPricingOptionsTST}{strToReplace}");
 
                         if (inSession)
                             strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
@@ -2701,7 +2670,7 @@ namespace AmadeusWS
         public string PNREnd()
         {
             string response;
-            
+
             try
             {
                 AmadeusWSAdapter ttAA = SetAdapter();
@@ -2723,7 +2692,7 @@ namespace AmadeusWS
                 if (response.Contains("SIMULTANEOUS CHANGES TO PNR"))
                 {
                     SendCommandCryptically(ttAA, "IR");
-                    response = SendAddMultiElements(ttAA, strRequest);                    
+                    response = SendAddMultiElements(ttAA, strRequest);
                     warning = $"<Warnings><Warning Type=\"TRPXML\">PNR IGNORED AND REDISPLAYED DUE TO SIMULTANEOUS CHANGE</Warning></Warnings>";
                 }
 
@@ -2734,7 +2703,7 @@ namespace AmadeusWS
                 try
                 {
                     response = ConvertToTripXMLMessage(strRequest, inSession, response, strResponseTST);
-                    if(!string.IsNullOrEmpty(warning))
+                    if (!string.IsNullOrEmpty(warning))
                         response = response.Replace("<Success />", $"<Success />{warning}");
                 }
                 catch (Exception ex)
@@ -2749,7 +2718,7 @@ namespace AmadeusWS
                         ConversationID = "";
                     }
                 }
-            }   
+            }
             catch (Exception exx)
             {
                 response = modCore.FormatErrorMessage(modCore.ttServices.PNREnd, exx.Message, ttProviderSystems);
@@ -2778,7 +2747,7 @@ namespace AmadeusWS
             {
                 throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
             }
-            
+
             return response;
         }
 
