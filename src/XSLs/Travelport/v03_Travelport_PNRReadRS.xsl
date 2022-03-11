@@ -9,7 +9,7 @@
 	================================================================== 
 	v03_Travelport_PNRReadRS.xsl 									
 	================================================================== 
-	Date: 08 Mar 2022 - Kobelev Pricing command display in SupplementalInfo
+	Date: 08 Mar 2022 - Kobelev Pricing command display in SupplementalInfo 
 	Date: 08 Mar 2022 - Kobelev Controlling Carrier Identification 
 	Date: 08 Mar 2022 - Kobelev Remarks Name fields fix 	
 	Date: 11 Feb 2022 - Kobelev Implementation Changes 										
