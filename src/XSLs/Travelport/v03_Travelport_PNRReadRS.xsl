@@ -9,6 +9,7 @@
 	================================================================== 
 	v03_Travelport_PNRReadRS.xsl 									
 	================================================================== 
+	Date: 08 Mar 2022 - Kobelev Pricing command display in SupplementalInfo
 	Date: 08 Mar 2022 - Kobelev Controlling Carrier Identification 
 	Date: 08 Mar 2022 - Kobelev Remarks Name fields fix 	
 	Date: 11 Feb 2022 - Kobelev Implementation Changes 										
@@ -136,9 +137,10 @@
 										<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[serviceRequest/ssrb]" mode="Seat"/>
 									</SeatRequests>
 								</xsl:if>
-								<xsl:if test="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='SSR'][not(serviceRequest/ssrb)]">
+								<xsl:if test="common_v50_0:SSR">
 									<SpecialServiceRequests>
-										<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='SSR'][not(serviceRequest/ssrb)]" mode="SSR"/>
+										<xsl:apply-templates select="common_v50_0:BookingTraveler/common_v50_0:SSR" mode="SSR"/>
+										<xsl:apply-templates select="common_v50_0:SSR" mode="SSR"/>
 									</SpecialServiceRequests>
 								</xsl:if>
 								<xsl:if test="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='OS']">
@@ -574,7 +576,11 @@
 					</xsl:if>
 				</xsl:for-each>
 				-->
-
+				<xsl:if test="../../common_v50_0:ActionStatus/common_v50_0:Remark">
+					<SupplementalInfo>
+						<xsl:value-of select="../../common_v50_0:ActionStatus/common_v50_0:Remark"/>
+					</SupplementalInfo>
+				</xsl:if>
 			</TPA_Extensions>
 		</PTC_FareBreakdown>
 	</xsl:template>
@@ -2966,10 +2972,10 @@
 	<!-- ************************************************************** -->
 	<!-- SSR Elements 	                               		    -->
 	<!-- ************************************************************** -->
-	<xsl:template match="dataElementsIndiv" mode="SSR">
+	<xsl:template match="common_v50_0:SSR" mode="SSR">
 		<SpecialServiceRequest>
 			<xsl:attribute name="SSRCode">
-				<xsl:value-of select="serviceRequest/ssr/type"/>
+				<xsl:value-of select="@Type"/>
 			</xsl:attribute>
 			<xsl:if test="referenceForDataElement/reference[qualifier = 'PT']/number != ''">
 				<xsl:variable name="ref">
@@ -2989,20 +2995,14 @@
 			</xsl:if>
 			<Airline>
 				<xsl:attribute name="Code">
-					<xsl:value-of select="serviceRequest/ssr/companyId"/>
+					<xsl:value-of select="@Carrier"/>
+				</xsl:attribute>
+				<xsl:attribute name="CodeContext">
+					<xsl:value-of select="@Status"/>
 				</xsl:attribute>
 			</Airline>
 			<Text>
-				<xsl:text>Status:</xsl:text>
-				<xsl:value-of select="serviceRequest/ssr/status"/>
-				<xsl:if test="serviceRequest/ssr/freeText != ''">
-					<xsl:text>-</xsl:text>
-					<xsl:value-of select="serviceRequest/ssr/freeText"/>
-				</xsl:if>
-				<xsl:if test="frequentFlyerInformationGroup/frequentTravellerInfo/frequentTraveler/membershipNumber != ''">
-					<xsl:text>-</xsl:text>
-					<xsl:value-of select="frequentFlyerInformationGroup/frequentTravellerInfo/frequentTraveler/membershipNumber"/>
-				</xsl:if>
+				<xsl:value-of select="@FreeText"/>
 			</Text>
 		</SpecialServiceRequest>
 	</xsl:template>
