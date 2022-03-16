@@ -3,16 +3,23 @@
 				xmlns:air="http://www.travelport.com/schema/air_v50_0"
 				xmlns:common_v50_0="http://www.travelport.com/schema/common_v50_0"
 				xmlns:universal="http://www.travelport.com/schema/universal_v50_0"
-				xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" version="1.0">
+				xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" version="1.0"
+				xmlns:msxsl="urn:schemas-microsoft-com:xslt">
 	<!-- 
 	================================================================== 
 	v03_Travelport_PNRReadRS.xsl 									
 	================================================================== 
+	Date: 08 Mar 2022 - Kobelev Pricing command display in SupplementalInfo 
+	Date: 08 Mar 2022 - Kobelev Controlling Carrier Identification 
+	Date: 08 Mar 2022 - Kobelev Remarks Name fields fix 	
 	Date: 11 Feb 2022 - Kobelev Implementation Changes 										
 	Date: 11 Nov 2014 - Rastko 										
 	================================================================== 
 	-->
 	<xsl:output omit-xml-declaration="yes"/>
+
+	<xsl:key name="conCarr" match="//universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo/air:FareInfo/air:Brand/@Carrier" use="." />
+
 	<xsl:template match="/">
 		<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord"/>
 		<xsl:apply-templates select="universal:UniversalRecordImportRsp/universal:UniversalRecord"/>
@@ -20,7 +27,7 @@
 		<xsl:apply-templates select="SOAP:Fault/detail" mode="error"/>
 	</xsl:template>
 	<xsl:template match="detail" mode="error">
-		<OTA_TravelItineraryRS Version="v03">
+		<OTA_TravelItineraryRS Version="v03" AltLangID="Travelport">
 			<Errors>
 				<Error>
 					<xsl:value-of select="../faultstring"/>
@@ -32,15 +39,14 @@
 		</OTA_TravelItineraryRS>
 	</xsl:template>
 	<xsl:template match="universal:UniversalRecord">
-		<OTA_TravelItineraryRS>
-			<xsl:attribute name="Version">
-				<xsl:value-of select="'v03'"/>
-			</xsl:attribute>
+		<OTA_TravelItineraryRS Version="v03" AltLangID="Travelport">
+			<!-- 
 			<xsl:if test="@Version!=''">
 				<xsl:attribute name="SequenceNmbr">
 					<xsl:value-of select="@Version"/>
 				</xsl:attribute>
 			</xsl:if>
+			-->
 			<xsl:if test="EchoToken!=''">
 				<xsl:attribute name="EchoToken">
 					<xsl:value-of select="EchoToken"/>
@@ -83,19 +89,19 @@
 									<xsl:value-of select="@LocatorCode"/>
 								</xsl:attribute>
 								<xsl:attribute name="CodeContext">
-									<xsl:text>IATACode</xsl:text>
+									<xsl:choose>
+										<xsl:when test="universal:ProviderReservationInfo/@ProviderCode='1P'">
+											<xsl:text>Worlspan</xsl:text>
+										</xsl:when>
+										<xsl:when test="universal:ProviderReservationInfo/@ProviderCode='1G'">
+											<xsl:text>Galileo</xsl:text>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:text>Apollo</xsl:text>
+										</xsl:otherwise>
+									</xsl:choose>
 								</xsl:attribute>
-								<xsl:choose>
-									<xsl:when test="universal:ProviderReservationInfo/@ProviderCode='1P'">
-										<xsl:value-of select="concat(universal:ProviderReservationInfo/@OwningPCC,'/WSP')"/>
-									</xsl:when>
-									<xsl:when test="universal:ProviderReservationInfo/@ProviderCode='1G'">
-										<xsl:value-of select="concat(universal:ProviderReservationInfo/@OwningPCC,'/GAL')"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="concat(universal:ProviderReservationInfo/@OwningPCC,'/APL')"/>
-									</xsl:otherwise>
-								</xsl:choose>
+								<xsl:value-of select="universal:ProviderReservationInfo/@OwningPCC"/>
 							</CompanyName>
 						</ItineraryRef>
 						<CustomerInfos>
@@ -131,9 +137,10 @@
 										<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[serviceRequest/ssrb]" mode="Seat"/>
 									</SeatRequests>
 								</xsl:if>
-								<xsl:if test="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='SSR'][not(serviceRequest/ssrb)]">
+								<xsl:if test="common_v50_0:SSR">
 									<SpecialServiceRequests>
-										<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='SSR'][not(serviceRequest/ssrb)]" mode="SSR"/>
+										<xsl:apply-templates select="common_v50_0:BookingTraveler/common_v50_0:SSR" mode="SSR"/>
+										<xsl:apply-templates select="common_v50_0:SSR" mode="SSR"/>
 									</SpecialServiceRequests>
 								</xsl:if>
 								<xsl:if test="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='OS']">
@@ -143,17 +150,35 @@
 								</xsl:if>
 								<xsl:if test="common_v50_0:GeneralRemark">
 									<Remarks>
-										<xsl:apply-templates select="common_v50_0:GeneralRemark[@TypeInGds!='Historical']" mode="GenRemark"/>
+										<xsl:apply-templates select="common_v50_0:GeneralRemark[@TypeInGds!='Historical' and @Category='F']" mode="GenRemark"/>
 									</Remarks>
 								</xsl:if>
-								<xsl:if test="common_v50_0:GeneralRemark[@TypeInGds='Historical']">
-									<SpecialRemarks>
+								<SpecialRemarks>
+									<xsl:if test="common_v50_0:GeneralRemark[@Category='Vendor']">
+										<xsl:apply-templates select="common_v50_0:GeneralRemark[@Category='Vendor']" mode="VendorRemark"/>
+									</xsl:if>
+									<xsl:if test="common_v50_0:AccountingRemark">
+										<xsl:apply-templates select="common_v50_0:AccountingRemark" mode="AccountingRemark"/>
+									</xsl:if>
+									<xsl:if test="common_v50_0:GeneralRemark[@TypeInGds='Historical']">
 										<xsl:apply-templates select="common_v50_0:GeneralRemark[@TypeInGds='Historical']" mode="HistoricalRemark"/>
-										<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[contains(elementManagementData/segmentName,'RC')]" mode="ConfRemark"/>
-										<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FE']" mode="Endorsement"/>
-										<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FT']" mode="TourCode"/>
-									</SpecialRemarks>
-								</xsl:if>
+									</xsl:if>
+									<xsl:if test="common_v50_0:ConfRemark">
+										<xsl:apply-templates select="common_v50_0:ConfRemark" mode="ConfRemark"/>
+									</xsl:if>
+									<xsl:if test="air:AirReservation/air:AirPricingInfo[1]/air:FareInfo[1]/common_v50_0:Endorsement">
+										<xsl:apply-templates select="air:AirReservation/air:AirPricingInfo[1]/air:FareInfo[1]/common_v50_0:Endorsement" mode="Endorsement"/>
+									</xsl:if>
+									<xsl:if test="common_v50_0:TourCode">
+										<xsl:apply-templates select="common_v50_0:TourCode" mode="TourCode"/>
+									</xsl:if>
+									<xsl:if test="common_v50_0:TourCode">
+										<xsl:apply-templates select="common_v50_0:TourCode" mode="TourCode"/>
+									</xsl:if>
+									<xsl:if test="air:AirReservation/air:AirPricingInfo[1]/air:FareInfo/air:Brand">
+										<xsl:apply-templates select="air:AirReservation/air:AirPricingInfo[1]" mode="CC"/>
+									</xsl:if>
+								</SpecialRemarks>
 							</SpecialRequestDetails>
 							<xsl:if test="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FV' or elementManagementData/segmentName='FO' or elementManagementData/segmentName='FA' or 		elementManagementData/segmentName='FB' or elementManagementData/segmentName='FI' or substring(elementManagementData/segmentName,1,2)='FH']">
 								<TPA_Extensions>
@@ -173,6 +198,11 @@
 							<TravelCost>
 								<xsl:apply-templates select="air:AirReservation/common_v50_0:FormOfPayment" mode="Payment"/>
 								<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='MCO' ]" mode="MCO"/>
+							</TravelCost>
+						</xsl:if>
+						<xsl:if test="common_v50_0:FormOfPayment">
+							<TravelCost>
+								<xsl:apply-templates select="common_v50_0:FormOfPayment" mode="Payment"/>
 							</TravelCost>
 						</xsl:if>
 						<UpdatedBy>
@@ -280,7 +310,8 @@
 					<xsl:attribute name="DecimalPlaces">
 						<xsl:value-of select="$dect"/>
 					</xsl:attribute>
-					<Tax>
+
+					<!--<Tax>
 						<xsl:attribute name="TaxCode">TotalTax</xsl:attribute>
 						<xsl:attribute name="Amount">
 							<xsl:value-of select="$Taxf"/>
@@ -291,7 +322,7 @@
 						<xsl:attribute name="DecimalPlaces">
 							<xsl:value-of select="$dect"/>
 						</xsl:attribute>
-					</Tax>
+					</Tax>-->
 				</Taxes>
 				<TotalFare>
 					<xsl:attribute name="Amount">
@@ -388,6 +419,11 @@
 				<FareBasisCodes>
 					<xsl:apply-templates select="air:FareInfo" mode="fb"/>
 				</FareBasisCodes>
+			</xsl:if>
+			<xsl:if test="air:FareInfo/air:Brand">
+				<BrandedFares>
+					<xsl:apply-templates select="air:FareInfo/air:Brand" mode="brand"/>
+				</BrandedFares>
 			</xsl:if>
 			<xsl:variable name="nip">
 				<xsl:value-of select="count(air:PassengerType)"/>
@@ -540,14 +576,38 @@
 					</xsl:if>
 				</xsl:for-each>
 				-->
-
+				<xsl:if test="../../common_v50_0:ActionStatus/common_v50_0:Remark">
+					<SupplementalInfo>
+						<xsl:value-of select="../../common_v50_0:ActionStatus/common_v50_0:Remark"/>
+					</SupplementalInfo>
+				</xsl:if>
 			</TPA_Extensions>
 		</PTC_FareBreakdown>
 	</xsl:template>
 	<xsl:template match="air:FareInfo" mode="fb">
+		<xsl:variable name="td" select="air:FareTicketDesignator/@Value"/>
 		<FareBasisCode>
-			<xsl:value-of select="@FareBasis"/>
+			<xsl:choose>
+				<xsl:when test="air:FareTicketDesignator/@Value">
+					<xsl:value-of select="concat(@FareBasis,'/',$td)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="@FareBasis"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</FareBasisCode>
+	</xsl:template>
+
+	<xsl:template match="air:Brand" mode="brand">
+		<FareFamily>
+			<xsl:attribute name="RPH">
+				<xsl:value-of select="position()"/>
+			</xsl:attribute>
+			<xsl:attribute name="Code">
+				<xsl:value-of select="@BrandTier"/>
+			</xsl:attribute>
+			<xsl:value-of select="@Name"/>
+		</FareFamily>
 	</xsl:template>
 	<xsl:template match="air:TaxInfo">
 		<xsl:param name="nip"/>
@@ -580,21 +640,21 @@
 				<xsl:if test="contains(common_v50_0:NameRemark/common_v50_0:RemarkData, 'CHD') or contains(common_v50_0:NameRemark/common_v50_0:RemarkData, 'INF')">
 					<xsl:attribute name="BirthDate">
 						<xsl:call-template name="bdt">
-                      <xsl:with-param name="bdt">
-                        <!-- <NameRmk>23FEB20</NameRmk> -->
-                        <xsl:choose>
-                          <xsl:when test="contains(common_v50_0:NameRemark/common_v50_0:RemarkData, 'INF')">
-                            <xsl:value-of select="substring-after(common_v50_0:NameRemark/common_v50_0:RemarkData, 'INF')" />
-                          </xsl:when>
-                          <xsl:when test="contains(common_v50_0:NameRemark/common_v50_0:RemarkData, 'CHD')">
-                            <xsl:value-of select="substring-after(common_v50_0:NameRemark/common_v50_0:RemarkData, 'CHD')" />
-                          </xsl:when>
-                          <xsl:otherwise>
-                            <xsl:value-of select="common_v50_0:NameRemark/common_v50_0:RemarkData" />
-                          </xsl:otherwise>
-                        </xsl:choose>
-                      </xsl:with-param>
-                    </xsl:call-template>
+							<xsl:with-param name="bdt">
+								<!-- <NameRmk>23FEB20</NameRmk> -->
+								<xsl:choose>
+									<xsl:when test="contains(common_v50_0:NameRemark/common_v50_0:RemarkData, 'INF')">
+										<xsl:value-of select="substring-after(common_v50_0:NameRemark/common_v50_0:RemarkData, 'INF')" />
+									</xsl:when>
+									<xsl:when test="contains(common_v50_0:NameRemark/common_v50_0:RemarkData, 'CHD')">
+										<xsl:value-of select="substring-after(common_v50_0:NameRemark/common_v50_0:RemarkData, 'CHD')" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="common_v50_0:NameRemark/common_v50_0:RemarkData" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:with-param>
+						</xsl:call-template>
 					</xsl:attribute>
 				</xsl:if>
 				<PersonName>
@@ -609,30 +669,30 @@
 						</xsl:choose>
 					</xsl:variable>
 					<xsl:attribute name="NameType">
-						
+
 						<xsl:choose>
-						<xsl:when test="$ptc = 'AA'">ADT</xsl:when>
-						<xsl:when test="$ptc = 'AD'">ADT</xsl:when>
-						<xsl:when test="$ptc = 'CHD'">CHD</xsl:when>
-						<xsl:when test="$ptc = 'CH'">CHD</xsl:when>
-						<xsl:when test="$ptc = 'C'">CHD</xsl:when>
-						<xsl:when test="$ptc = 'CNN'">CHD</xsl:when>
-						<xsl:when test="$ptc = 'INN'">INF</xsl:when>
-						<xsl:when test="$ptc = 'IN'">INF</xsl:when>
-						<xsl:when test="$ptc = 'INF'">INF</xsl:when>
-						<xsl:when test="$ptc = 'GOV'">GOV</xsl:when>
-						<xsl:when test="$ptc = 'GGV'">GOV</xsl:when>
-						<xsl:when test="$ptc = 'MIL'">MIL</xsl:when>
-						<xsl:when test="$ptc = 'CD'">SRC</xsl:when>
-						<xsl:when test="$ptc = 'SC'">SRC</xsl:when>
-						<xsl:when test="$ptc = 'STU'">STD</xsl:when>
-						<xsl:when test="$ptc = 'YC'">YTH</xsl:when>
-						<xsl:when test="$ptc = 'YCD'">SRC</xsl:when>
-						<xsl:when test="$ptc = ''">ADT</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="$ptc"/>
-						</xsl:otherwise>
-					</xsl:choose>
+							<xsl:when test="$ptc = 'AA'">ADT</xsl:when>
+							<xsl:when test="$ptc = 'AD'">ADT</xsl:when>
+							<xsl:when test="$ptc = 'CHD'">CHD</xsl:when>
+							<xsl:when test="$ptc = 'CH'">CHD</xsl:when>
+							<xsl:when test="$ptc = 'C'">CHD</xsl:when>
+							<xsl:when test="$ptc = 'CNN'">CHD</xsl:when>
+							<xsl:when test="$ptc = 'INN'">INF</xsl:when>
+							<xsl:when test="$ptc = 'IN'">INF</xsl:when>
+							<xsl:when test="$ptc = 'INF'">INF</xsl:when>
+							<xsl:when test="$ptc = 'GOV'">GOV</xsl:when>
+							<xsl:when test="$ptc = 'GGV'">GOV</xsl:when>
+							<xsl:when test="$ptc = 'MIL'">MIL</xsl:when>
+							<xsl:when test="$ptc = 'CD'">SRC</xsl:when>
+							<xsl:when test="$ptc = 'SC'">SRC</xsl:when>
+							<xsl:when test="$ptc = 'STU'">STD</xsl:when>
+							<xsl:when test="$ptc = 'YC'">YTH</xsl:when>
+							<xsl:when test="$ptc = 'YCD'">SRC</xsl:when>
+							<xsl:when test="$ptc = ''">ADT</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="$ptc"/>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:attribute>
 					<GivenName>
 						<xsl:value-of select="common_v50_0:BookingTravelerName/@First"/>
@@ -654,6 +714,9 @@
 						<xsl:value-of select="$paxref"/>
 					</xsl:with-param>
 				</xsl:apply-templates>
+				<xsl:if test="../common_v50_0:AgencyContactInfo/common_v50_0:PhoneNumber">
+					<xsl:apply-templates select="../common_v50_0:AgencyContactInfo/common_v50_0:PhoneNumber" mode="phone"/>
+				</xsl:if>
 			</Customer>
 		</CustomerInfo>
 		<xsl:if test="travellerInformation/passenger[1]/infantIndicator = 1 and travellerInformation/passenger[position()=2]/type = 'INF'">
@@ -2112,6 +2175,7 @@
 			</xsl:attribute>
 		</Telephone>
 	</xsl:template>
+
 	<!-- ************************************************************** -->
 	<!-- Ticketing Element	   	                                    -->
 	<!-- ************************************************************** -->
@@ -2163,10 +2227,10 @@
 	<!-- Form of Payment	   		                                    -->
 	<!-- ************************************************************** -->
 	<xsl:template match="common_v50_0:FormOfPayment" mode="Payment">
-		<xsl:choose>
-			<xsl:when test="common_v50_0:CreditCard">
-				<FormOfPayment>
-					<xsl:attribute name="RPH">1</xsl:attribute>
+		<FormOfPayment>
+			<xsl:attribute name="RPH">1</xsl:attribute>
+			<xsl:choose>
+				<xsl:when test="common_v50_0:CreditCard">
 					<PaymentCard>
 						<xsl:attribute name="CardCode">
 							<xsl:choose>
@@ -2184,9 +2248,13 @@
 							<xsl:value-of select="concat(substring(common_v50_0:CreditCard/@ExpDate,6),substring(common_v50_0:CreditCard/@ExpDate,3,2))"/>
 						</xsl:attribute>
 					</PaymentCard>
-				</FormOfPayment>
-			</xsl:when>
-		</xsl:choose>
+				</xsl:when>
+				<xsl:otherwise>
+					<DirectBill DirectBill_ID="Check" />
+					<TPA_Extensions FOPType="CHECK" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</FormOfPayment>
 	</xsl:template>
 	<!-- ************************************************************** -->
 	<!-- MCO	   		                                    -->
@@ -2594,6 +2662,21 @@
 		</SpecialRemark>
 	</xsl:template>
 	<!-- ************************************************************** -->
+	<!-- Accounting Remarks	   	                                    -->
+	<!-- ************************************************************** -->
+	<xsl:template match="common_v50_0:AccountingRemark" mode="AccountingRemark">
+		<SpecialRemark>
+			<xsl:attribute name="RPH">
+				<xsl:value-of select="position()"/>
+			</xsl:attribute>
+			<xsl:attribute name="RemarkType">Invoice</xsl:attribute>
+			<Text>
+				<xsl:value-of select="common_v50_0:RemarkData"/>
+			</Text>
+			<RemarkOrigin>Vendor</RemarkOrigin>
+		</SpecialRemark>
+	</xsl:template>
+	<!-- ************************************************************** -->
 	<!-- Invoice and itinerary Remarks	   	                              -->
 	<!-- ************************************************************** -->
 	<xsl:template match="dataElementsIndiv" mode="InvoiceItinRemark">
@@ -2640,6 +2723,33 @@
 			</Text>
 		</SpecialRemark>
 	</xsl:template>
+	<xsl:template match="common_v50_0:GeneralRemark" mode="VendorRemark">
+		<SpecialRemark>
+			<xsl:attribute name="RPH">
+				<xsl:value-of select="position()"/>
+			</xsl:attribute>
+			<xsl:attribute name="RemarkType">
+				<xsl:value-of select="@Category"/>
+			</xsl:attribute>
+			<Text>
+				<xsl:value-of select="common_v50_0:RemarkData"/>
+			</Text>
+			<Vendor>
+				<xsl:attribute name="TravelSector">
+					<xsl:value-of select="@SupplierType"/>
+				</xsl:attribute>
+				<xsl:attribute name="Code">
+					<xsl:value-of select="@SupplierCode"/>
+				</xsl:attribute>
+			</Vendor>
+			<RemarkDateTime>
+				<xsl:value-of select="@CreateDate"/>
+			</RemarkDateTime>
+			<RemarkOrigin>
+				<xsl:value-of select="@Category"/>
+			</RemarkOrigin>
+		</SpecialRemark>
+	</xsl:template>
 	<xsl:template match="common_v50_0:GeneralRemark" mode="GenRemark">
 		<Remark>
 			<xsl:attribute name="RPH">
@@ -2656,53 +2766,129 @@
 	<!-- ************************************************************** -->
 	<!-- Endorsement Remarks	   	                              -->
 	<!-- ************************************************************** -->
-	<xsl:template match="dataElementsIndiv" mode="Endorsement">
+	<xsl:template match="common_v50_0:Endorsement" mode="Endorsement">
 		<SpecialRemark>
 			<xsl:attribute name="RPH">
-				<xsl:value-of select="elementManagementData/lineNumber"/>
+				<xsl:value-of select="position()"/>
 			</xsl:attribute>
 			<xsl:choose>
-				<xsl:when test="referenceForDataElement/reference/qualifier='ST' or referenceForDataElement/reference/qualifier='PT'">
+				<xsl:when test="../../air:BookingInfo">
 					<xsl:attribute name="RemarkType">Endorsement</xsl:attribute>
-					<xsl:if test="referenceForDataElement/reference/qualifier='PT'">
-						<TravelerRefNumber>
-							<xsl:attribute name="RPH">
-								<xsl:for-each select="referenceForDataElement/reference[qualifier='PT']/number">
-									<xsl:variable name="rph">
-										<xsl:value-of select="."/>
-									</xsl:variable>
-									<xsl:if test="position() > 1">
-										<xsl:text> </xsl:text>
-									</xsl:if>
-									<xsl:value-of select="../../../../../travellerInfo/elementManagementPassenger[reference/number = $rph]/lineNumber"/>
-								</xsl:for-each>
-							</xsl:attribute>
-						</TravelerRefNumber>
-					</xsl:if>
-					<xsl:if test="referenceForDataElement/reference/qualifier='ST'">
-						<FlightRefNumber>
-							<xsl:attribute name="RPH">
-								<xsl:for-each select="referenceForDataElement/reference[qualifier='ST']/number">
-									<xsl:variable name="rph">
-										<xsl:value-of select="."/>
-									</xsl:variable>
-									<xsl:if test="position() > 1">
-										<xsl:text> </xsl:text>
-									</xsl:if>
-									<xsl:value-of select="../../../../../originDestinationDetails/itineraryInfo/elementManagementItinerary[reference/number = $rph]/lineNumber"/>
-								</xsl:for-each>
-							</xsl:attribute>
-						</FlightRefNumber>
-					</xsl:if>
+					<TravelerRefNumber>
+						<xsl:attribute name="RPH">
+							<xsl:for-each select="../../air:PassengerType">
+								<xsl:variable name="paxref">
+									<xsl:value-of select="@BookingTravelerRef"/>
+								</xsl:variable>
+								<xsl:if test="position() > 1">
+									<xsl:text> </xsl:text>
+								</xsl:if>
+								<xsl:call-template name="paxNumber">
+									<xsl:with-param name="key" select="$paxref" />
+								</xsl:call-template>
+							</xsl:for-each>
+						</xsl:attribute>
+					</TravelerRefNumber>
+
+					<FlightRefNumber>
+						<xsl:attribute name="RPH">
+							<xsl:for-each select="../../air:BookingInfo">
+								<xsl:variable name="segref">
+									<xsl:value-of select="@SegmentRef"/>
+								</xsl:variable>
+								<xsl:if test="position() > 1">
+									<xsl:text> </xsl:text>
+								</xsl:if>
+								<xsl:call-template name="fltNumber">
+									<xsl:with-param name="key" select="$segref" />
+								</xsl:call-template>
+							</xsl:for-each>
+						</xsl:attribute>
+					</FlightRefNumber>
+
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:attribute name="RemarkType">Endorsement</xsl:attribute>
 				</xsl:otherwise>
 			</xsl:choose>
 			<Text>
-				<xsl:value-of select="otherDataFreetext/longFreetext"/>
+				<xsl:value-of select="@Value"/>
 			</Text>
 		</SpecialRemark>
+	</xsl:template>
+	<!-- ************************************************************** -->
+	<!-- Controlling Carrier  Remarks	   	                              -->
+	<!-- ************************************************************** -->
+	<xsl:template match="air:AirPricingInfo" mode="CC">
+		<xsl:variable name="cc" select="air:FareInfo/air:Brand" />
+		<xsl:variable name="gqd" select="." />
+		<xsl:variable name="segs" select="air:FareInfo" />
+
+		<xsl:variable name="lCarr">
+			<xsl:for-each select="$cc/@Carrier[generate-id() = generate-id(key('conCarr',.)[1])]">
+				<xsl:if test=". !=''">
+					<xsl:value-of select="concat(., ',')"/>
+				</xsl:if>
+			</xsl:for-each>
+		</xsl:variable>
+
+		<xsl:variable name="elems">
+			<xsl:call-template name="tokenizeString">
+				<xsl:with-param name="list" select="$lCarr"/>
+				<xsl:with-param name="delimiter" select="','"/>
+			</xsl:call-template>
+		</xsl:variable>
+
+		<xsl:for-each select="msxsl:node-set($elems)/elem">
+
+			<xsl:variable name="al">
+				<xsl:value-of select="text()"/>
+			</xsl:variable>
+
+			<SpecialRemark>
+				<xsl:attribute name="RPH">
+					<xsl:value-of select="$al"/>
+				</xsl:attribute>
+				<xsl:attribute name="RemarkType">CC</xsl:attribute>
+
+				<FlightRefNumber>
+					<xsl:attribute name="RPH">
+						<xsl:for-each select="$segs[air:Brand/@Carrier=$al]">
+							<xsl:variable name="rph">
+								<xsl:value-of select="@Key"/>
+							</xsl:variable>
+							<xsl:if test="position() > 1">
+								<xsl:text> </xsl:text>
+							</xsl:if>
+							<xsl:call-template name="fltNumber">
+								<xsl:with-param name="key" select="../air:BookingInfo[@FareInfoRef=$rph]/@SegmentRef" />
+							</xsl:call-template>
+						</xsl:for-each>
+					</xsl:attribute>
+				</FlightRefNumber>
+
+				<xsl:variable name="fltPath">
+					<xsl:for-each select="$segs[air:Brand/@Carrier=$al]">
+						<xsl:variable name="sN" select="node()[1]" />
+						<xsl:variable name="port">
+							<xsl:value-of select="concat(@Origin,@Destination)"/>
+						</xsl:variable>
+
+						<xsl:if test="position() > 1">
+							<xsl:text> </xsl:text>
+						</xsl:if>
+						<xsl:value-of select="$port"/>
+					</xsl:for-each>
+				</xsl:variable>
+
+				<Text>
+					<xsl:call-template name="string-trim">
+						<xsl:with-param name="string" select="concat($fltPath,' -/', $al)" />
+					</xsl:call-template>
+				</Text>
+			</SpecialRemark>
+
+		</xsl:for-each>
 	</xsl:template>
 	<!-- ************************************************************** -->
 	<!-- TourCode Remarks	   	                              -->
@@ -2786,10 +2972,10 @@
 	<!-- ************************************************************** -->
 	<!-- SSR Elements 	                               		    -->
 	<!-- ************************************************************** -->
-	<xsl:template match="dataElementsIndiv" mode="SSR">
+	<xsl:template match="common_v50_0:SSR" mode="SSR">
 		<SpecialServiceRequest>
 			<xsl:attribute name="SSRCode">
-				<xsl:value-of select="serviceRequest/ssr/type"/>
+				<xsl:value-of select="@Type"/>
 			</xsl:attribute>
 			<xsl:if test="referenceForDataElement/reference[qualifier = 'PT']/number != ''">
 				<xsl:variable name="ref">
@@ -2809,20 +2995,14 @@
 			</xsl:if>
 			<Airline>
 				<xsl:attribute name="Code">
-					<xsl:value-of select="serviceRequest/ssr/companyId"/>
+					<xsl:value-of select="@Carrier"/>
+				</xsl:attribute>
+				<xsl:attribute name="CodeContext">
+					<xsl:value-of select="@Status"/>
 				</xsl:attribute>
 			</Airline>
 			<Text>
-				<xsl:text>Status:</xsl:text>
-				<xsl:value-of select="serviceRequest/ssr/status"/>
-				<xsl:if test="serviceRequest/ssr/freeText != ''">
-					<xsl:text>-</xsl:text>
-					<xsl:value-of select="serviceRequest/ssr/freeText"/>
-				</xsl:if>
-				<xsl:if test="frequentFlyerInformationGroup/frequentTravellerInfo/frequentTraveler/membershipNumber != ''">
-					<xsl:text>-</xsl:text>
-					<xsl:value-of select="frequentFlyerInformationGroup/frequentTravellerInfo/frequentTraveler/membershipNumber"/>
-				</xsl:if>
+				<xsl:value-of select="@FreeText"/>
 			</Text>
 		</SpecialServiceRequest>
 	</xsl:template>
@@ -3764,6 +3944,7 @@
 			</xsl:if>
 		</CarPassiveSegment>
 	</xsl:template>
+	
 	<xsl:template match="air:AirPricingInfo" mode="totalbase">
 		<xsl:param name="sum"/>
 		<xsl:param name="pos"/>
@@ -3789,6 +3970,7 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+	
 	<xsl:template match="air:AirPricingInfo" mode="totalTax">
 		<xsl:param name="sum"/>
 		<xsl:param name="pos"/>
@@ -3814,6 +3996,7 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+
 	<xsl:template match="air:AirPricingInfo" mode="totalprice">
 		<xsl:param name="sum"/>
 		<xsl:param name="pos"/>
@@ -3857,41 +4040,133 @@
 			</xsl:if>
 		</xsl:for-each>
 	</xsl:template>
-	
-<xsl:template name="bdt">
-    <xsl:param name="bdt" />
-    <xsl:variable name="bd">
-      <xsl:choose>
-        <xsl:when test="string-length($bdt) > 7">
-          <xsl:value-of select="substring($bdt,string-length($bdt) - 6,7)"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="$bdt"/>
-        </xsl:otherwise>
-      </xsl:choose>
-    </xsl:variable>
-    <xsl:choose>
-      <xsl:when test="substring($bd,6,2) > 89">19</xsl:when>
-      <xsl:otherwise>20</xsl:otherwise>
-    </xsl:choose>
-    <xsl:value-of select="substring($bd,6,2)" />
-    <xsl:text>-</xsl:text>
-    <xsl:choose>
-      <xsl:when test="substring($bd,3,3) = 'JAN'">01</xsl:when>
-      <xsl:when test="substring($bd,3,3) = 'FEB'">02</xsl:when>
-      <xsl:when test="substring($bd,3,3) = 'MAR'">03</xsl:when>
-      <xsl:when test="substring($bd,3,3) = 'APR'">04</xsl:when>
-      <xsl:when test="substring($bd,3,3) = 'MAY'">05</xsl:when>
-      <xsl:when test="substring($bd,3,3) = 'JUN'">06</xsl:when>
-      <xsl:when test="substring($bd,3,3) = 'JUL'">07</xsl:when>
-      <xsl:when test="substring($bd,3,3) = 'AUG'">08</xsl:when>
-      <xsl:when test="substring($bd,3,3) = 'SEP'">09</xsl:when>
-      <xsl:when test="substring($bd,3,3) = 'OCT'">10</xsl:when>
-      <xsl:when test="substring($bd,3,3) = 'NOV'">11</xsl:when>
-      <xsl:when test="substring($bd,3,3) = 'DEC'">12</xsl:when>
-    </xsl:choose>
-    <xsl:text>-</xsl:text>
-    <xsl:value-of select="substring($bd,1,2)" />
-  </xsl:template>
 
+	<xsl:template name="bdt">
+		<xsl:param name="bdt" />
+		<xsl:variable name="bd">
+			<xsl:choose>
+				<xsl:when test="string-length($bdt) > 7">
+					<xsl:value-of select="substring($bdt,string-length($bdt) - 6,7)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$bdt"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:choose>
+			<xsl:when test="substring($bd,6,2) > 89">19</xsl:when>
+			<xsl:otherwise>20</xsl:otherwise>
+		</xsl:choose>
+		<xsl:value-of select="substring($bd,6,2)" />
+		<xsl:text>-</xsl:text>
+		<xsl:choose>
+			<xsl:when test="substring($bd,3,3) = 'JAN'">01</xsl:when>
+			<xsl:when test="substring($bd,3,3) = 'FEB'">02</xsl:when>
+			<xsl:when test="substring($bd,3,3) = 'MAR'">03</xsl:when>
+			<xsl:when test="substring($bd,3,3) = 'APR'">04</xsl:when>
+			<xsl:when test="substring($bd,3,3) = 'MAY'">05</xsl:when>
+			<xsl:when test="substring($bd,3,3) = 'JUN'">06</xsl:when>
+			<xsl:when test="substring($bd,3,3) = 'JUL'">07</xsl:when>
+			<xsl:when test="substring($bd,3,3) = 'AUG'">08</xsl:when>
+			<xsl:when test="substring($bd,3,3) = 'SEP'">09</xsl:when>
+			<xsl:when test="substring($bd,3,3) = 'OCT'">10</xsl:when>
+			<xsl:when test="substring($bd,3,3) = 'NOV'">11</xsl:when>
+			<xsl:when test="substring($bd,3,3) = 'DEC'">12</xsl:when>
+		</xsl:choose>
+		<xsl:text>-</xsl:text>
+		<xsl:value-of select="substring($bd,1,2)" />
+	</xsl:template>
+
+	<xsl:variable name="whitespace" select="'&#09;&#10;&#13; '" />
+
+	<!-- Strips trailing whitespace characters from 'string' -->
+	<xsl:template name="string-rtrim">
+		<xsl:param name="string" />
+		<xsl:param name="trim" select="$whitespace" />
+
+		<xsl:variable name="length" select="string-length($string)" />
+
+		<xsl:if test="$length &gt; 0">
+			<xsl:choose>
+				<xsl:when test="contains($trim, substring($string, $length, 1))">
+					<xsl:call-template name="string-rtrim">
+						<xsl:with-param name="string" select="substring($string, 1, $length - 1)" />
+						<xsl:with-param name="trim"   select="$trim" />
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$string" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:if>
+	</xsl:template>
+
+	<!-- Strips leading whitespace characters from 'string' -->
+	<xsl:template name="string-ltrim">
+		<xsl:param name="string" />
+		<xsl:param name="trim" select="$whitespace" />
+
+		<xsl:if test="string-length($string) &gt; 0">
+			<xsl:choose>
+				<xsl:when test="contains($trim, substring($string, 1, 1))">
+					<xsl:call-template name="string-ltrim">
+						<xsl:with-param name="string" select="substring($string, 2)" />
+						<xsl:with-param name="trim"   select="$trim" />
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$string" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:if>
+	</xsl:template>
+
+	<!-- Strips leading and trailing whitespace characters from 'string' -->
+	<xsl:template name="string-trim">
+		<xsl:param name="string" />
+		<xsl:param name="trim" select="$whitespace" />
+		<xsl:call-template name="string-rtrim">
+			<xsl:with-param name="string">
+				<xsl:call-template name="string-ltrim">
+					<xsl:with-param name="string" select="$string" />
+					<xsl:with-param name="trim"   select="$trim" />
+				</xsl:call-template>
+			</xsl:with-param>
+			<xsl:with-param name="trim"   select="$trim" />
+		</xsl:call-template>
+	</xsl:template>
+
+	<!--############################################################-->
+	<!--## Template to tokenize strings                           ##-->
+	<!--############################################################-->
+	<xsl:template name="tokenizeString">
+		<!--passed template parameter -->
+		<xsl:param name="list"/>
+		<xsl:param name="delimiter"/>
+		<xsl:choose>
+			<xsl:when test="contains($list, $delimiter)">
+				<elem>
+					<!-- get everything in front of the first delimiter -->
+					<xsl:value-of select="substring-before($list,$delimiter)"/>
+				</elem>
+				<xsl:call-template name="tokenizeString">
+					<!-- store anything left in another variable -->
+					<xsl:with-param name="list" select="substring-after($list,$delimiter)"/>
+					<xsl:with-param name="delimiter" select="$delimiter"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:choose>
+					<xsl:when test="$list = ''">
+						<xsl:text/>
+					</xsl:when>
+					<xsl:otherwise>
+						<elem>
+							<xsl:value-of select="$list"/>
+						</elem>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
 </xsl:stylesheet>
