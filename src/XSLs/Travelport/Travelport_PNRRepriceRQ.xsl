@@ -3,6 +3,7 @@
   ================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 
+	Date: 16 Mar 2022 - Kobelev - Branded Fare in Request	
 	Date: 10 Nov 2014 - Rastko - New file											
 	================================================================== 
   -->
@@ -67,15 +68,14 @@
 			<air:AirItinerary>
 				<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirSegment"/>
 			</air:AirItinerary>
+			<xsl:if test="../StoredFare/BrandedFares">
+				<air:AirPricingModifiers InventoryRequestType="DirectAccess">
+					<air:BrandModifiers ModifierType="FareFamilyDisplay"/>
+				</air:AirPricingModifiers>
+			</xsl:if>
 			<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/common_v50_0:BookingTraveler"/>
-			<xsl:choose>
-				<xsl:when test="../StoredFare/BrandedFares">
-					<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[1]" mode="brandFare"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<air:AirPricingCommand/>
-				</xsl:otherwise>
-			</xsl:choose>
+			
+			<xsl:copy-of select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/common_v50_0:FormOfPayment"/>
 		</air:AirPriceReq>
 		<!-- 
 		<xsl:if test="../StoredFare/BrandedFares">
@@ -192,12 +192,12 @@
 	</xsl:template>
 
 	<xsl:template match="air:AirPricingInfo" mode="brandFare">
-		<xsl:variable name="bn" select="air:FareInfo/air:Brand[1]/@BrandID" />
-		<xsl:for-each select="../air:AirSegment">
-			<air:AirPricingCommand>
+		<air:AirPricingCommand>
+			<xsl:variable name="bn" select="air:FareInfo/air:Brand[1]/@BrandID" />
+			<xsl:for-each select="../air:AirSegment">
 				<air:AirSegmentPricingModifiers>
 					<xsl:attribute name="AirSegmentRef">
-						<xsl:value-of select="concat('S', position(), '00')"/>
+						<xsl:value-of select="@Key"/>
 					</xsl:attribute>
 					<xsl:attribute name="BrandTier">
 						<xsl:value-of select="$bn[position()]"/>
@@ -210,8 +210,9 @@
 						</air:BookingCode>
 					</air:PermittedBookingCodes>
 				</air:AirSegmentPricingModifiers>
-			</air:AirPricingCommand>
-		</xsl:for-each>
+
+			</xsl:for-each>
+		</air:AirPricingCommand>
 	</xsl:template>
 
 	<xsl:template match="common_v50_0:BookingTraveler">
@@ -227,5 +228,13 @@
 			</xsl:attribute>
 			<!-- @TravelerType -->
 		</common_v50_0:SearchPassenger>
+		<xsl:choose>
+			<xsl:when test="../../../../StoredFare/BrandedFares">
+				<xsl:apply-templates select="../air:AirReservation/air:AirPricingInfo[air:PassengerType/@BookingTravelerRef=$key]" mode="brandFare"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<air:AirPricingCommand/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>
