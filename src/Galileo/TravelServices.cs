@@ -1471,11 +1471,16 @@ namespace Galileo
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation of OTA PNRRead Request produced empty xml.");
 
+
                 // ****************************
                 // Retrieve existing PNR     *
                 // **************************** 
-                string strCurrentPNR = "<PNRBFManagement_53><PNRBFRetrieveMods><CurrentPNR /></PNRBFRetrieveMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>2</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>3</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
-
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(Request);
+                var oRoot = oDoc.DocumentElement;
+                var strRecLocator = oRoot.SelectSingleNode("UniqueID/@ID").InnerText;
+                string strCurrentPNR = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr /><CodeCheck /><RecLoc>{strRecLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>2</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>3</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>4</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
+                
                 // ********************************************
                 // * Get Galileo Native PNR Retrieve response *
                 // ********************************************
@@ -1488,9 +1493,9 @@ namespace Galileo
                     // *******************************
                     // Load OTA Modify XML document  *
                     // ******************************* 
-                    var oDoc = new XmlDocument();
+                    oDoc = new XmlDocument();
                     oDoc.LoadXml(strRequest);
-                    var oRoot = oDoc.DocumentElement;
+                    oRoot = oDoc.DocumentElement;
                     var strEndTransaction = oRoot.SelectSingleNode("ET").InnerXml;
 
                     // *******************************
