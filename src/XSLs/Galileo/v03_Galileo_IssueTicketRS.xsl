@@ -18,6 +18,11 @@
       <xsl:apply-templates select="PNRBFManagement_53" />
       <xsl:apply-templates select="Screen"/>
       <xsl:apply-templates select="TicketPrinterLinkage_1_0" />
+      <xsl:if test="*/ConversationID!=''">
+        <ConversationID>
+          <xsl:value-of select="*/ConversationID"/>
+        </ConversationID>
+      </xsl:if>
     </TT_IssueTicketRS>
   </xsl:template>
 

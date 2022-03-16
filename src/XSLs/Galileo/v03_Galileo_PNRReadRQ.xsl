@@ -27,19 +27,6 @@
 					</RecLoc>
 				</PNRAddr>
 			</PNRBFRetrieveMods>
-			<EndTransactionMods>
-				<EndTransactRequest>
-					<ETInd>R</ETInd>
-					<RcvdFrom>
-						<xsl:choose>
-							<xsl:when test="POS/Source/@AgentSine != ''">
-								<xsl:value-of select="POS/Source/@AgentSine"/>
-							</xsl:when>
-							<xsl:otherwise>TRIPXML</xsl:otherwise>
-						</xsl:choose>
-					</RcvdFrom>
-				</EndTransactRequest>
-			</EndTransactionMods>
 			<FareRedisplayMods>
 				<DisplayAction>
 					<Action>D</Action>
