@@ -19,6 +19,11 @@
 		<xsl:apply-templates select="Queue_RemoveItemReply/goodResponse" mode="remove"/>
 		<xsl:apply-templates select="Queue_RemoveItemReply/errorReturn"/>
 		<xsl:apply-templates select="MessagesOnly_Reply"/>
+      <xsl:if test="*/ConversationID!=''">
+        <ConversationID>
+          <xsl:value-of select="*/ConversationID"/>
+        </ConversationID>
+      </xsl:if>
 	</OTA_QueueRS>
 </xsl:template>
 		
