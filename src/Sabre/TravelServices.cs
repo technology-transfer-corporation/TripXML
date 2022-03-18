@@ -914,7 +914,7 @@ namespace Sabre
         public string IssueTicket()
         {
             string strResponse;
-            
+
             try
             {
                 string eTicketNo;
@@ -923,7 +923,7 @@ namespace Sabre
 
                 SabreAdapter ttSA = SetAdapter();
                 bool inSession = SetConversationID(ttSA);
-                                
+
                 // *************************
                 // Get Multiple Requests  *
                 // *************************
@@ -1061,7 +1061,6 @@ namespace Sabre
             string strTickets = "";
             try
             {
-                
                 strRequest = SetRequest("Sabre_IssueTicketSessionedRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
@@ -1146,44 +1145,44 @@ namespace Sabre
                     }
 
                     string strER = @"<SabreCommandLLSRQ xmlns=""http://webservices.sabre.com/sabreXML/2011/10"" Version=""2.0.0""><Request Output=""SCREEN"" MDRSubset=""AD01"" CDATA=""true""><HostCommand>6P\ER</HostCommand></Request></SabreCommandLLSRQ>";
-                    strER = strER.Replace(@"6P\ER", "CC/PC");
-                    strNative = ttSA.SendMessage(strER, "CC/PC", "SabreCommandLLSRQ", ConversationID);
-                    strER = strER.Replace("CC/PC", @"6P\ER");
+                    //strER = strER.Replace(@"6P\ER", "CC/PC");
+                    //strNative = ttSA.SendMessage(strER, "CC/PC", "SabreCommandLLSRQ", ConversationID);
+                    //strER = strER.Replace("CC/PC", @"6P\ER");
                     if (!string.IsNullOrEmpty(strTicket))
                     {
-                        strNative = ttSA.SendMessage(strER, "ER", "SabreCommandLLSRQ", ConversationID);
-                        if (strNative.Contains("SIMULTANEOUS CHANGE"))
-                        {
-                            throw new Exception("PNR IGNORED AND REDISPLAYED DUE TO SIMULTANEOUS CHANGE");
-                        }
+                        //    strNative = ttSA.SendMessage(strER, "ER", "SabreCommandLLSRQ", ConversationID);
+                        //    if (strNative.Contains("SIMULTANEOUS CHANGE"))
+                        //    {
+                        //        throw new Exception("PNR IGNORED AND REDISPLAYED DUE TO SIMULTANEOUS CHANGE");
+                        //    }
 
-                        if (strNative.Contains("*WARNING EDITS*") | strNative.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strNative.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
-                            | strNative.Contains("END OR IGNORE PNR") | strNative.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | strNative.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT"))
-                        {
-                            strER = strER.Replace(@"6P\ER", "ER");
-                            strNative = ttSA.SendMessage(strER, "ER", "SabreCommandLLSRQ", ConversationID);
-                            if (strNative.Contains("*WARNING EDITS*") | strNative.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strNative.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
-                                | strNative.Contains("END OR IGNORE PNR") | strNative.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | strNative.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT"))
-                            {
-                                int iTry = 0;
-                                while ((strNative.Contains("*WARNING EDITS*") | strNative.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strNative.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
-                                    | strNative.Contains("END OR IGNORE PNR") | strNative.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | strNative.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT")) & iTry < 8)
-                                {
-                                    Thread.Sleep(1000);
+                        //    if (strNative.Contains("*WARNING EDITS*") | strNative.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strNative.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
+                        //        | strNative.Contains("END OR IGNORE PNR") | strNative.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | strNative.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT"))
+                        //    {
+                        //        strER = strER.Replace(@"6P\ER", "ER");
+                        //        strNative = ttSA.SendMessage(strER, "ER", "SabreCommandLLSRQ", ConversationID);
+                        //        if (strNative.Contains("*WARNING EDITS*") | strNative.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strNative.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
+                        //            | strNative.Contains("END OR IGNORE PNR") | strNative.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | strNative.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT"))
+                        //        {
+                        //            int iTry = 0;
+                        //            while ((strNative.Contains("*WARNING EDITS*") | strNative.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strNative.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
+                        //                | strNative.Contains("END OR IGNORE PNR") | strNative.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | strNative.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT")) & iTry < 8)
+                        //            {
+                        //                Thread.Sleep(1000);
 
-                                    strNative = ttSA.SendMessage(strER, "ER", "SabreCommandLLSRQ", ConversationID);
-                                    iTry += 1;
-                                }
-                            }
+                        //                strNative = ttSA.SendMessage(strER, "ER", "SabreCommandLLSRQ", ConversationID);
+                        //                iTry += 1;
+                        //            }
+                        //        }
 
-                            strER = strER.Replace("ER", @"6P\ER");
-                            if (strNative.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT"))
-                            {
-                                strResponse = "<AirTicketRS><Errors><Error>INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT</Error></Errors><ConversationID>" +
-                                    "<![CDATA[" + ConversationID.Replace("<", "&lt;").Replace(">", "&gt;") + "]]></ConversationID></AirTicketRS>";
-                                return strResponse;
-                            }
-                        }
+                        //        strER = strER.Replace("ER", @"6P\ER");
+                        //        if (strNative.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT"))
+                        //        {
+                        //            strResponse = "<AirTicketRS><Errors><Error>INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT</Error></Errors><ConversationID>" +
+                        //                "<![CDATA[" + ConversationID.Replace("<", "&lt;").Replace(">", "&gt;") + "]]></ConversationID></AirTicketRS>";
+                        //            return strResponse;
+                        //        }
+                        //    }
 
                         // Check for Errors
                         if (strNative.Contains("UNABLE") | strNative.Contains("MIN CONNX TIME"))
@@ -1493,9 +1492,9 @@ namespace Sabre
 
         public string Update()
         {
-            
+
             string strResponse = "";
-            
+
             try
             {
                 string strRequest = SetRequest("Sabre_PNRReadRQ.xsl");
@@ -1792,7 +1791,7 @@ namespace Sabre
         public string UpdateSessioned()
         {
             string strResponse = "";
-            
+
             try
             {
                 SabreAdapter ttSA = SetAdapter();

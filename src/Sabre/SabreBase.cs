@@ -110,9 +110,9 @@ namespace Sabre
                 XmlElement otaElement;
                 otaDoc.LoadXml(Request);
                 otaElement = otaDoc.DocumentElement;
-                if (otaElement != null && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value != null)
+                if (otaElement != null && otaElement.HasAttribute("ConversationID") && otaElement.Attributes["ConversationID"].Value != null)
                 {
-                    ConversationID = otaElement.Attributes["EchoToken"].Value;
+                    ConversationID = otaElement.Attributes["ConversationID"].Value;
                 }
                 else
                 {
@@ -137,6 +137,10 @@ namespace Sabre
         {
             try
             {
+                if (!string.IsNullOrEmpty(ConversationID))
+                {
+                    return true;
+                }
                 var oDocReq = new XmlDocument();
                 oDocReq.LoadXml(Request);
                 var oRootReq = oDocReq.DocumentElement;
