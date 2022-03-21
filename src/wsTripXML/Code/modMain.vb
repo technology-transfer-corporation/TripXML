@@ -1602,7 +1602,7 @@ Namespace wsTravelTalk
                 With ttService
                     .Version = Version
                     .XslPath = XslPath
-                    .ttProviderSystems = ttProviderSystems
+                    .ProviderSystems = ttProviderSystems
                     .Request = strRequest
                     'TODO: PNR Read and other commendted ones are yet to implement
                     Select Case Service
@@ -1826,7 +1826,7 @@ Namespace wsTravelTalk
                 With ttService
                     .Version = Version
                     .XslPath = XslPath
-                    .ttProviderSystems = ttProviderSystems
+                    .ProviderSystems = ttProviderSystems
                     .Request = strRequest
 
                     Select Case Service
@@ -2063,7 +2063,7 @@ Namespace wsTravelTalk
                 With ttService
                     '.Version = Version
                     '.XslPath = XslPath
-                    .ttProviderSystems = ttProviderSystems
+                    .ProviderSystems = ttProviderSystems
                     .Request = strRequest
 
                     Select Case Service
@@ -2322,20 +2322,20 @@ Namespace wsTravelTalk
                     Select Case Service
                         Case ttServices.GenerateVirtualCard
                             strResponse = .CreateVirtualCard()
-                        Case ttServices.CancelVirtualCardLoad
-                            strResponse = .CancelVirtualCardLoad()
+                            'Case ttServices.CancelVirtualCardLoad
+                            '    strResponse = .CancelVirtualCardLoad()
                         Case ttServices.DeleteVirtualCard
                             strResponse = .DeleteVirtualCard()
                         Case ttServices.GetVirtualCardDetails
                             strResponse = .GetVirtualCardDetails()
                         Case ttServices.ListVirtualCards
                             strResponse = .ListVirtualCards()
-                        Case ttServices.ManageDBIData
-                            strResponse = .ManageDBIData()
-                        Case ttServices.ScheduleVirtualCardLoad
-                            strResponse = .ScheduleVirtualCardLoad()
-                        Case ttServices.UpdateVirtualCard
-                            strResponse = .UpdateVirtualCard()
+                            'Case ttServices.ManageDBIData
+                            '    strResponse = .ManageDBIData()
+                            'Case ttServices.ScheduleVirtualCardLoad
+                            '    strResponse = .ScheduleVirtualCardLoad()
+                            'Case ttServices.UpdateVirtualCard
+                            '    strResponse = .UpdateVirtualCard()
                         Case Else
                             Throw New Exception(String.Format("{0} Message is not supported by Amadeus.", Service.ToString()))
                     End Select
@@ -2355,39 +2355,35 @@ Namespace wsTravelTalk
 
         Public Function SendPaymentRequestSabre(ByVal Service As ttServices, ByRef ttCredential As TravelTalkCredential, ByRef ttProviderSystems As TripXMLProviderSystems, ByRef strRequest As String, Optional ByVal Version As String = "") As String
             Dim strResponse As String = ""
-            Dim ttService As Sabre.OtherServices
-
             Try
-                ttService = New Sabre.OtherServices
-
-                With ttService
-                    .Version = Version
-                    .XslPath = XslPath
-                    .ProviderSystems = ttProviderSystems
-                    .Request = strRequest
-
-                    Select Case Service
-                        Case ttServices.CreateSession
-                            strResponse = .CreateSession()
-                        Case ttServices.CloseSession
-                            strResponse = .CloseSession()
-                        Case ttServices.ShowMileage
-                            strResponse = .ShowMileage()
-                        Case ttServices.CCValid
-                            strResponse = .CreditCardValid()
-                        Case ttServices.CurConv
-                            strResponse = .CurrencyConvertion
-                        Case ttServices.TimeDiff
-                            strResponse = .TimeDifference()
-                        Case ttServices.Cryptic
-                            strResponse = .Cryptic()
-                        Case ttServices.Native
-                            strResponse = .Native()
-                        Case Else
-                            Throw New Exception(String.Format("{0} Message is not supported by Sabre.", Service.ToString()))
-                    End Select
-
-                End With
+                'Dim ttService As New Sabre.PaymentServices
+                'With ttService
+                '    .Version = Version
+                '    .XslPath = XslPath
+                '    .ttProviderSystems = ttProviderSystems
+                '    .Request = strRequest
+                '    Select Case Service
+                '        Case ttServices.GenerateVirtualCard
+                '            strResponse = .CreateVirtualCard()
+                '            'Case ttServices.CancelVirtualCardLoad
+                '            '    strResponse = .CancelVirtualCardLoad()
+                '        Case ttServices.DeleteVirtualCard
+                '            strResponse = .DeleteVirtualCard()
+                '        Case ttServices.GetVirtualCardDetails
+                '            strResponse = .GetVirtualCardDetails()
+                '        Case ttServices.ListVirtualCards
+                '            strResponse = .ListVirtualCards()
+                '            'Case ttServices.ManageDBIData
+                '            '    strResponse = .ManageDBIData()
+                '            'Case ttServices.ScheduleVirtualCardLoad
+                '            '    strResponse = .ScheduleVirtualCardLoad()
+                '            'Case ttServices.UpdateVirtualCard
+                '            '    strResponse = .UpdateVirtualCard()
+                '        Case Else
+                '            Throw New Exception(String.Format("{0} Message is not supported by Amadeus.", Service.ToString()))
+                '    End Select
+                '    'ttAA = .ttAPIAdapter
+                'End With
 
                 Return strResponse
 
@@ -2447,7 +2443,7 @@ Namespace wsTravelTalk
                 With ttService
                     '.Version = Version
                     '.XslPath = XslPath
-                    .ttProviderSystems = ttProviderSystems
+                    .ProviderSystems = ttProviderSystems
                     .Request = strRequest
 
                     Select Case Service

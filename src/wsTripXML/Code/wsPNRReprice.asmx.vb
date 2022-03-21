@@ -85,12 +85,11 @@ Namespace wsTravelTalk
                         strResponse = SendPNRRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest)
 
                     Case "Worldspan"
-
                         strResponse = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-
                     Case "Galileo"
                         strResponse = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-
+                    Case "Travelport"
+                        strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttProviderSystems, strRequest)
                     Case Else
                         Throw New Exception(sb.Append("Provider ").Append(ttCredential.Providers(0).Name).Append(" Not Currently Supported.").ToString())
                 End Select

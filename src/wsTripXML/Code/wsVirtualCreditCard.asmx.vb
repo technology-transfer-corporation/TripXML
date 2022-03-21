@@ -77,12 +77,19 @@ Namespace wsTravelTalk
 
                     Case "amadeusws"
                         strResponse = SendPaymentRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        'Case "sabre"
+                        '    strResponse = SendPaymentRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        'Case "worldspan"
+                        '    strResponse = SendPaymentRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        'Case "galielo"
+                        '    strResponse = SendPaymentRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest)
                     Case Else
                         Dim ttDefProvider As TripXMLProviderSystems = Nothing
                         PreServiceRequest(strRequest, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, uuid, "", True)
                         strResponse = SendPaymentRequestAmadeusWS(ttServiceID, ttCredential, ttDefProvider, strRequest)
                         'Throw New Exception(sb.Append("Provider ").Append(ttCredential.Providers(0).Name).Append(" Not Currently Supported.").ToString())
                 End Select
+
 
                 PostServiceRequest(strResponse, validateXSDOut, ttServiceID, ttCredential.UserID)
 

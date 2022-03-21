@@ -106,7 +106,7 @@ Namespace wsTravelTalk
                 With ttService
                     .Version = Version
                     .XslPath = XslPath
-                    .ttProviderSystems = ttProviderSystems
+                    .ProviderSystems = ttProviderSystems
                     .Request = Request
 
                     Select Case ServiceID
@@ -139,7 +139,7 @@ Namespace wsTravelTalk
                 With ttService
                     .Version = Version
                     .XslPath = XslPath
-                    .ttProviderSystems = ttProviderSystems
+                    .ProviderSystems = ttProviderSystems
                     .Request = Request
 
                     Select Case ServiceID
