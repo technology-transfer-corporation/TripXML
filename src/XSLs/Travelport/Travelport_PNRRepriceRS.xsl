@@ -60,7 +60,7 @@
 				<PricedItineraries>
 					<xsl:apply-templates select="universal:UniversalRecord" mode="first"/>
 					<xsl:apply-templates select="air:AirPriceRsp/air:AirPriceResult"/>
-					<xsl:apply-templates select="universal:UniversalRecord/universal:UniversalRecord" mode="second"/>
+					<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord" mode="second"/>
 				</PricedItineraries>
 			</xsl:otherwise>
 		</xsl:choose>
