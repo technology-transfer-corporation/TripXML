@@ -837,16 +837,16 @@ namespace Sabre
 
                 if (strRequest.Contains("SabreCommandLLSRQ"))
                 {
-                    strResponse = ttSA.SendMessage(strRequest, "SabreCommandLLSRQ", "SabreCommandLLSRQ", ConversationID);
+                    strResponse = ttSA.SendMessage(strRequest, "SabreCommandLLSRQ", "SabreCommandLLSRQ");
                     strResponse = strResponse.Replace("<![CDATA[", "<Line>").Replace("]]>", "</Line>").Replace("\r\n", "");
                 }
                 else if (strRequest.Contains("QueueCountRQ"))
                 {
-                    strResponse = ttSA.SendMessage(strRequest, "QueueCountLLSRQ", "QueueCountLLSRQ", ConversationID);
+                    strResponse = ttSA.SendMessage(strRequest, "QueueCountLLSRQ", "QueueCountLLSRQ");
                 }
                 else if (strRequest.Contains("QueuePlaceRQ"))
                 {
-                    strResponse = ttSA.SendMessage(strRequest, "QueuePlaceLLSRQ", "QueuePlaceLLSRQ", ConversationID);
+                    strResponse = ttSA.SendMessage(strRequest, "QueuePlaceLLSRQ", "QueuePlaceLLSRQ");
                 }
 
 
