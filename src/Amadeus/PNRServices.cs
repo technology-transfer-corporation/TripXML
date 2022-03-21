@@ -2173,7 +2173,17 @@ namespace AmadeusWS
                     if (inSession)
                         strPNRReplay = strPNRReplay.Replace("</PNR_RetrieveByRecLocReply>", $"{strResponseTST}{strResponseReprice}{Request}<ConversationID>{ConversationID}</ConversationID></PNR_RetrieveByRecLocReply>");
 
-                    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response", strPNRReplay, ttProviderSystems.LogUUID);
+                    if (strPNRReplay.Length > 5500)
+                    {
+                        CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response I", strPNRReplay.Substring(0, (int)Math.Round(strPNRReplay.Length / 2d)), ttProviderSystems.LogUUID);
+                        CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response II", strPNRReplay.Substring((int)Math.Round(strPNRReplay.Length / 2d)), ttProviderSystems.LogUUID);
+                    }
+                    else
+                    {
+                        CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response I", strPNRReplay, ttProviderSystems.LogUUID);
+                    }
+
+                    //CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response", strPNRReplay, ttProviderSystems.LogUUID);
                     strResponse = CoreLib.TransformXML(strPNRReplay, XslPath, $"{Version}AmadeusWS_PNRRepriceRS.xsl");
                 }
                 catch (Exception ex)
@@ -2360,20 +2370,15 @@ namespace AmadeusWS
 
         private List<string> GetFareFamily(string request, string pnrRead, XmlElement oRootStored)
         {
-            if (!request.Contains("BrandedFares"))
-                return new List<string> { "" };
-
-            var res = new List<string>();
-            //    private string GetFareFamily(string request, string pnrRead, XmlElement oRootStored)
-            //{
-            //    if (!request.Contains("BrandedFares"))
-            //        return string.Empty;
-
-            //    var res = string.Empty;
-
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(request);
             XmlElement root = doc.DocumentElement;
+
+            if (!request.Contains("BrandedFares") ||
+                root.SelectNodes("//StoredFare/BrandedFares").Cast<XmlNode>().ToList().TrueForAll(x => x.InnerText.Equals("")))
+                return new List<string> { "" };
+
+            var res = new List<string>();
 
             XmlNodeList nodes = root.SelectNodes("//StoredFare");
 
