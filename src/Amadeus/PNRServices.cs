@@ -1285,7 +1285,6 @@ namespace AmadeusWS
             try
             {
                 string strResponseReprice = "";
-                string strByFare = "";
                 bool bStoreFare = true;
                 _tracerID = string.Empty;
 
@@ -1554,7 +1553,6 @@ namespace AmadeusWS
 
                                 string strDiscount = "";
                                 string strTktDes = "";
-                                string strPax = "";
                                 strFareType = "RP";
                                 string discQualif = "707"; // amont discount
                                 string strZap = string.Empty;
