@@ -12,7 +12,7 @@ namespace Sabre
         private string mstrVersion = "";
         private string mstrXslPath = "";
         private modCore.TripXMLProviderSystems providerSystems;
-        
+
         protected string ConversationID { get; set; }
 
         public string Request { get; set; }
@@ -22,7 +22,7 @@ namespace Sabre
             get => providerSystems;
             set => providerSystems = value;
         }
-        
+
         public string Version
         {
             get { return mstrVersion; }
@@ -64,7 +64,7 @@ namespace Sabre
 
                 FileInfo ffInfo = new FileInfo(filePath);
 
-                if (ffInfo.Directory is {Exists: false})
+                if (ffInfo.Directory is { Exists: false })
                 {
                     ffInfo.Directory.Create();
                 }
@@ -110,9 +110,10 @@ namespace Sabre
                 XmlElement otaElement;
                 otaDoc.LoadXml(Request);
                 otaElement = otaDoc.DocumentElement;
-                if (otaElement != null && otaElement.HasAttribute("ConversationID") && otaElement.Attributes["ConversationID"].Value != null)
+
+                if (otaElement != null && otaElement?.SelectSingleNode("//ConversationID") != null && otaElement?.SelectSingleNode("//ConversationID").InnerText != null)
                 {
-                    ConversationID = otaElement.Attributes["ConversationID"].Value;
+                    ConversationID = otaElement?.SelectSingleNode("//ConversationID").InnerText;
                 }
                 else
                 {
@@ -150,7 +151,7 @@ namespace Sabre
                 if (oNodeSPL == null)
                 {
                     var oElem = oRootReq?.GetElementsByTagName("ConversationID");
-                    oNodeSPL = oElem is {Count: > 0} ? oElem[0] : null;
+                    oNodeSPL = oElem is { Count: > 0 } ? oElem[0] : null;
                 }
 
                 if (oNodeSPL != null)
@@ -163,7 +164,7 @@ namespace Sabre
                     return true;
                 }
                 else
-                { 
+                {
                     ConversationID = ttAA.CreateSession();
                     CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "Start with clean working area", "", ProviderSystems.LogUUID);
                 }
