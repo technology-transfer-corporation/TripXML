@@ -315,16 +315,7 @@ namespace AmadeusWS
 
                 try
                 {
-
-                    strToReplace = "</PNR_RetrieveByRecLocReply>";
-                    if (!strResponse.Contains(strToReplace))
-                        strToReplace = "</PNR_Reply>";
-                    strResponse = strResponse.Replace(strToReplace, $"{Request}{strToReplace}");
-
-                    if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
-
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
+                    strResponse = ConvertToTripXMLMessage(Request, inSession, strResponse);
 
                     DateTime responseTime = DateTime.Now;
                     String strMeessege = sbNativeLog.ToString();
@@ -2703,6 +2694,39 @@ namespace AmadeusWS
                 if (response.Contains("<longFreetext>--- TST "))
                     strResponseTST = SendDisplayTST(ttAA);
 
+
+                #region GetPricingOptions
+
+                var GetPricingOptionsTST = string.Empty;
+
+                if (strResponseTST.Contains("<referenceType>TST</referenceType>"))
+                {
+                    //var tstNum = strResponseTST.Substring(strResponseTST.IndexOf("<referenceType>TST</referenceType>", StringComparison.Ordinal));
+                    //tstNum = tstNum.Substring(tstNum.IndexOf("<uniqueReference>") + "<uniqueReference>".Length, tstNum.IndexOf("</uniqueReference>") - tstNum.IndexOf("<uniqueReference>") - "<uniqueReference>".Length);
+
+                    var oDocTST = new XmlDocument();
+                    oDocTST.LoadXml(strResponseTST);
+                    XmlElement oRootTST = oDocTST.DocumentElement;
+                    var xmlNodeList = oRootTST?.SelectNodes("fareList");
+
+                    if (xmlNodeList != null)
+                        foreach (XmlNode oNodeTST in xmlNodeList)
+                        {
+                            string tstPricingOption = string.Empty;
+                            string tstNum = oNodeTST.SelectSingleNode("fareReference/uniqueReference").InnerText;
+                            var request = $"<Ticket_GetPricingOptions xmlns=\"http://xml.amadeus.com/TPORRQ_14_1_1A\"><documentSelection><referenceType>TST</referenceType><uniqueReference>{tstNum}</uniqueReference></documentSelection></Ticket_GetPricingOptions>";
+
+                            tstPricingOption = SendGetPricingOptions(ttAA, request);
+                            GetPricingOptionsTST += tstPricingOption;
+                        }
+                }
+                #endregion
+
+                var tagToReplace = response.Contains("PNR_RetrieveByRecLocReply") ? "</PNR_RetrieveByRecLocReply>" : "</PNR_Reply>";
+
+                if (!string.IsNullOrEmpty(GetPricingOptionsTST))
+                    response = response.Replace(tagToReplace, $"{GetPricingOptionsTST}{tagToReplace}");
+
                 try
                 {
                     response = ConvertToTripXMLMessage(strRequest, inSession, response, strResponseTST);
@@ -2729,30 +2753,41 @@ namespace AmadeusWS
             return response;
         }
 
-        private string ConvertToTripXMLMessage(string request, bool inSession, string gdsMessage, string responseTST = "")
+        private string ConvertToTripXMLMessage(string request, bool inSession, string response, string responseTST = "")
         {
-            string response;
             //*****************************************************************
             // Transform Native Amadeus PNRRead Response into OTA Response   *
             //***************************************************************** 
             try
             {
-                var tagToReplace = request.Contains("PNR_RetrieveByRecLoc") ? "</PNR_RetrieveByRecLoc>" : "</PNR_Reply>";
-                gdsMessage = gdsMessage.Replace(tagToReplace, $"{responseTST}{Request}{tagToReplace}");
+                var tagToReplace = response.Contains("PNR_RetrieveByRecLoc") ? "</PNR_RetrieveByRecLoc>" : "</PNR_Reply>";
+                response = response.Replace(tagToReplace, $"{responseTST}{request}{tagToReplace}");
                 if (inSession)
-                    gdsMessage = gdsMessage.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
+                    response = response.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
 
                 Version = "v03_";
-                response = CoreLib.TransformXML(gdsMessage, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
-
+                response = CoreLib.TransformXML(response, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
             }
             catch (Exception ex)
             {
                 throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
             }
-
             return response;
         }
+
+        //private string NewMethod(string strResponse, bool inSession)
+        //{
+        //    string strToReplace = "</PNR_RetrieveByRecLocReply>";
+        //    if (!strResponse.Contains(strToReplace))
+        //        strToReplace = "</PNR_Reply>";
+        //    strResponse = strResponse.Replace(strToReplace, $"{Request}{strToReplace}");
+
+        //    if (inSession)
+        //        strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
+
+        //    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
+        //    return strResponse;
+        //}
 
         public string SearchName()
         {
