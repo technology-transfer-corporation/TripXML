@@ -246,7 +246,8 @@
         </Errors>
       </xsl:when>
 
-      <!--xsl:when test="not(TravelItinerary/ItineraryRef) and not(Errors/Error)">			
+      <!--
+	   <xsl:when test="not(TravelItinerary/ItineraryRef) and not(Errors/Error)">			
 						<Errors>
 								<Error>
 									<xsl:attribute name="Type">Sabre</xsl:attribute>
@@ -254,7 +255,8 @@
 									<xsl:text>INVALID INPUT FILE</xsl:text>
 								</Error>
 						</Errors>
-				</xsl:when-->
+		</xsl:when>
+	  -->
       <xsl:otherwise>
         <Success/>
         <xsl:choose>
