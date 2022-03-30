@@ -1483,7 +1483,7 @@ namespace AmadeusWS
 
                                     tktDesOpt = !string.IsNullOrEmpty(ticketDes) ? $"/ZO-0*{ticketDes}" : string.Empty;
 
-                                    strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{tktDesOpt}{ff.Item2}");
+                                    strHistFareRS = SendCommandCryptically(ttAA, $"FXP{tktDesOpt}{strFareType}{ff.Item2}");
                                     if (strHistFareRS.Contains("TICKET DESIGNATOR TOO LONG TO PROCESS"))
                                     {
                                         strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{ff.Item2}");
@@ -2540,16 +2540,11 @@ namespace AmadeusWS
                     paxFareSegs.Add(new Tuple<string, List<Tuple<string, string, string>>>(tst, new List<Tuple<string, string, string>>()));
                 foreach (XmlNode ffnode in fnode.SelectNodes("BrandedFares/FareFamily"))
                 {
-                    //if (!paxFareSegs.Any(fs => fs.Item1 == ffnode.InnerText && fs.Item2 == tst))
-                    //    paxFareSegs.Add(new Tuple<string, List<Tuple<string, string, string>>>(ffnode.InnerText, tst, new List<Tuple<string, string, string>>()));
-
                     if (!paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Any(i => i.Item1 == ffnode.InnerText && i.Item2 == "S" && i.Item3 == ffnode.Attributes["RPH"].Value))
                         paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Add(new Tuple<string, string, string>(ffnode.InnerText, "S", ffnode.Attributes["RPH"].Value));
 
                     if (!paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Any(i => i.Item2.StartsWith("P")))
                     {
-                        //paxFareSegs.Find(fs => fs.Item1 == ffnode.InnerText && fs.Item2 == tst).Item3.Add(new Tuple<string, string>("T", fnode.Attributes["RPH"].Value));
-
                         var elemPax = oRootStored.SelectSingleNode("fareList[fareReference/uniqueReference = '" + fnode.Attributes["RPH"].Value + "']/paxSegReference");
                         XmlNode oTSTpax = oRootStored.SelectSingleNode("fareList[fareReference/uniqueReference = '" + fnode.Attributes["RPH"].Value + "']/statusInformation/firstStatusDetails/tstFlag");
                         string strTSTpax = "";
@@ -2579,7 +2574,6 @@ namespace AmadeusWS
                         pgs.Item2.Add(pfg);
                 }
             }
-
             Console.WriteLine();
 
             var xml = new XElement("options",
