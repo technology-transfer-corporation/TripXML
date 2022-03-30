@@ -1348,8 +1348,31 @@ namespace AmadeusWS
                 string strResponseTST = string.Empty;
                 if (strPNRReplay.Contains("<longFreetext>--- TST ") && strPNRReplay.Contains("originDestinationDetails"))
                 {
-
                     strResponseTST = SendDisplayTST(ttAA);
+
+                    #region GetPricingOptions
+
+                    var GetPricingOptionsTST = string.Empty;
+
+                    if (strResponseTST.Contains("<referenceType>TST</referenceType>"))
+                    {
+                        var oDocTST = new XmlDocument();
+                        oDocTST.LoadXml(strResponseTST);
+                        XmlElement oRootTST = oDocTST.DocumentElement;
+                        var xmlNodeList = oRootTST?.SelectNodes("fareList");
+
+                        if (xmlNodeList != null)
+                            foreach (XmlNode oNodeTST in xmlNodeList)
+                            {
+                                string tstPricingOption = string.Empty;
+                                string tstNum = oNodeTST.SelectSingleNode("fareReference/uniqueReference").InnerText;
+                                var request = $"<Ticket_GetPricingOptions xmlns=\"http://xml.amadeus.com/TPORRQ_14_1_1A\"><documentSelection><referenceType>TST</referenceType><uniqueReference>{tstNum}</uniqueReference></documentSelection></Ticket_GetPricingOptions>";
+
+                                tstPricingOption = SendGetPricingOptions(ttAA, request);
+                                GetPricingOptionsTST += tstPricingOption;
+                            }
+                    }
+                    #endregion
 
                     XmlDocument oDocStored;
                     XmlElement oRootStored;
@@ -1386,10 +1409,16 @@ namespace AmadeusWS
                                 {
                                     if (oRootReq.SelectSingleNode("StoredFare").SelectSingleNode("@FareType").InnerXml == "Private")
                                         strFareType = "/R,U";
+                                    else
+                                        strFareType = "/R";
                                 }
 
                                 var ffList = GetFareFamilyFXX(Request, strPNRReplay, oRootStored);
 
+                                if (!GetPricingOptionsTST.Contains(">PFF<"))
+                                {
+                                    ffList = GetPricingOptionsFXX(Request, GetPricingOptionsTST, strPNRReplay, oRootStored);
+                                }
                                 string strHistFareRS;
                                 string strEndTransaction;
                                 foreach (var ff in ffList)
@@ -1542,6 +1571,11 @@ namespace AmadeusWS
                             {
                                 var sXmlFareFamily = GetFareFamily(Request, strPNRReplay, oRootStored);
 
+                                if (sXmlFareFamily.All(x => string.IsNullOrEmpty(x)))
+                                {
+                                    sXmlFareFamily = GetPricingOptions(Request, GetPricingOptionsTST, strPNRReplay, oRootStored);
+                                }
+
                                 string strDiscount = "";
                                 string strTktDes = "";
                                 strFareType = "RP";
@@ -1582,7 +1616,7 @@ namespace AmadeusWS
 
                                 foreach (var xmlFareFamily in sXmlFareFamily)
                                 {
-                                    string strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{xmlFareFamily}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup><pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{strZap}</Fare_PricePNRWithBookingClass>";
+                                    string strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{xmlFareFamily}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{(xmlFareFamily.Contains($">{strFareType}<") ? "" : $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>")}{strZap}</Fare_PricePNRWithBookingClass>";
                                     strResponseReprice += FilterPricePNRWithBookingClassResponseByPax(SendPricePNRWithBookingClass(ttAA, strRepriceRQ), xmlFareFamily);
                                 }
                                 //string strAddress =$"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithBookingClass}";
@@ -2209,17 +2243,43 @@ namespace AmadeusWS
             docRS.LoadXml(response);
             XmlElement rootRS = docRS.DocumentElement;
 
-            var okPax = rootRQ
+            var okPax = rootRQ // PAX ref
                 .SelectNodes("//paxSegTstReference/referenceDetails[type='PA' or type='PI' or type='P']")
-                .Cast<XmlNode>().ToList().Select(x => new { value = x.SelectSingleNode("value").InnerText, type = x.SelectSingleNode("type").InnerText }).ToList();
+                .Cast<XmlNode>().ToList().Select(x => (value: x.SelectSingleNode("value").InnerText, type: x.SelectSingleNode("type").InnerText)).ToList();
 
-            var nodeList = docRS.SelectNodes("//fareList");
-            for (int i = 0; i < nodeList.Count; i++)
+            var okTst = new List<string>();
+            if (okPax.Count.Equals(0))// TST ref
             {
-                if (!okPax.Any(x => x.type == nodeList[i].SelectSingleNode("paxSegReference/refDetails/refQualifier")?.InnerText &&
-                                    x.value == nodeList[i].SelectSingleNode("paxSegReference/refDetails/refNumber")?.InnerText))
+                okTst = rootRQ
+                    .SelectNodes("//paxSegTstReference/referenceDetails[type='T']")
+                    .Cast<XmlNode>().ToList().Select(x => x.SelectSingleNode("value").InnerText).ToList();
+            }
+            var nodeList = docRS.SelectNodes("//fareList");
+            if (!okPax.Count.Equals(0))
+            {
+                for (int i = 0; i < nodeList.Count; i++)
                 {
-                    nodeList[i].ParentNode?.RemoveChild(nodeList[i]);
+                    if (!okPax.Any(x => x.type == nodeList[i].SelectSingleNode("paxSegReference/refDetails/refQualifier")?.InnerText &&
+                                        x.value == nodeList[i].SelectSingleNode("paxSegReference/refDetails/refNumber")?.InnerText))
+                    {
+                        nodeList[i].ParentNode?.RemoveChild(nodeList[i]);
+                    }
+                }
+            }
+            if (!okTst.Count.Equals(0))
+            {
+                for (int i = 0; i < nodeList.Count; i++)
+                {
+                    if (!okTst.Any(x => nodeList[i].SelectSingleNode("fareReference/referenceType")?.InnerText == "TST" &&
+                                        nodeList[i].SelectSingleNode("fareReference/uniqueReference")?.InnerText == x))
+                    {
+                        if (nodeList.Count.Equals(okTst.Count))
+                        {//Replace Ref
+                            docRS.SelectSingleNode("//fareReference[referenceType='TST']/uniqueReference").InnerText = okTst.First();
+                        }
+                        else
+                            nodeList[i].ParentNode?.RemoveChild(nodeList[i]);
+                    }
                 }
             }
 
@@ -2242,14 +2302,8 @@ namespace AmadeusWS
 
             XmlDocument pnr = new XmlDocument();
             pnr.LoadXml(pnrRead);
-            //XmlNodeList flightSegs = pnr.DocumentElement.SelectNodes("//originDestinationDetails/itineraryInfo");
             XmlNodeList paxLines = pnr.DocumentElement.SelectNodes("//travellerInfo/elementManagementPassenger");
-            //Dictionary<string, string> flSegMap = new Dictionary<string, string>();
             Dictionary<string, string> paxMap = new Dictionary<string, string>();
-            //foreach (XmlNode fnode in flightSegs)
-            //{
-            //    flSegMap.Add(fnode.SelectSingleNode("elementManagementItinerary/lineNumber").InnerText, fnode.SelectSingleNode("elementManagementItinerary/reference/number").InnerText);
-            //}
             foreach (XmlNode fnode in paxLines)
             {
                 paxMap.Add(fnode.SelectSingleNode("reference/number").InnerText,
@@ -2271,9 +2325,6 @@ namespace AmadeusWS
                             new List<Tuple<string, string, string>>(), tktdes));
                 foreach (XmlNode ffnode in fnode.SelectNodes("BrandedFares/FareFamily"))
                 {
-                    //if (!paxFareSegs.Any(fs => fs.Item1 == ffnode.InnerText && fs.Item2 == tst))
-                    //    paxFareSegs.Add(new Tuple<string, List<Tuple<string, string, string>>>(ffnode.InnerText, tst, new List<Tuple<string, string, string>>()));
-
                     if (!paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Any(i =>
                         i.Item1 == ffnode.InnerText && i.Item2 == "S" && i.Item3 == ffnode.Attributes["RPH"].Value))
                         paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Add(
@@ -2282,18 +2333,10 @@ namespace AmadeusWS
 
                 if (!paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Any(i => i.Item2.StartsWith("P")))
                 {
-                    //paxFareSegs.Find(fs => fs.Item1 == ffnode.InnerText && fs.Item2 == tst).Item3.Add(new Tuple<string, string>("T", fnode.Attributes["RPH"].Value));
-
                     var elemPax = oRootStored.SelectSingleNode(
                         "fareList[fareReference/uniqueReference = '" + fnode.Attributes["RPH"].Value +
                         "']/paxSegReference");
                     var strTSTpax = fnode.SelectSingleNode("PassengerType").Attributes["Code"].Value;
-                    //XmlNode oTSTpax = oRootStored.SelectSingleNode("fareList[fareReference/uniqueReference = '" + fnode.Attributes["RPH"].Value + "']/statusInformation/firstStatusDetails/tstFlag");
-                    //string strTSTpax = "";
-
-                    //if (oTSTpax != null)
-                    //    strTSTpax = oTSTpax.InnerXml;
-
                     foreach (XmlNode pax in elemPax.SelectNodes("refDetails/refNumber"))
                     {
                         paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Add(new Tuple<string, string, string>("",
@@ -2306,20 +2349,6 @@ namespace AmadeusWS
             paxFareSegs.ForEach(pfs => pfs.Item2.RemoveAll(p => p.Item2 == "T"));
             var paxFareSegsGrouped = new List<Tuple<string, List<Tuple<string, string, string>>, string>>();
             paxFareSegsGrouped = paxFareSegs;
-            //foreach (var pfs in paxFareSegs)
-            //{
-            //    if (paxFareSegsGrouped.Any(x => x.Item2.Any(pg => pfs.Item2.FindAll(p => p.Item2.StartsWith("P")).Any(pf => pf.Item2 == pg.Item2 && pf.Item3 == pg.Item3))))
-            //        continue;
-            //    paxFareSegsGrouped.Add(new Tuple<string, List<Tuple<string, string, string>>, string>(pfs.Item1, new List<Tuple<string, string, string>>(), pfs.Item3));
-            //    var pgs = paxFareSegsGrouped.Find(x => x.Item1 == pfs.Item1);
-            //    foreach (var pfg in paxFareSegs.FindAll(x => x.Item2.FindAll(i => i.Item2 == "S").OrderBy(i => i.Item3)
-            //        .Except(pfs.Item2.FindAll(pi => pi.Item2 == "S").OrderBy(pi => pi.Item3)).Count().Equals(0)).SelectMany(x => x.Item2).OrderBy(x => x.Item1))
-            //    {
-            //        if (!pgs.Item2.Any(x => x.Item1 == pfg.Item1 && x.Item2 == pfg.Item2 && x.Item3 == pfg.Item3) &&
-            //            (!pfg.Item2.StartsWith("P") || (pfg.Item2 == "PI" && !pgs.Item2.Any(p => p.Item2.StartsWith("P") && p.Item2 != "PI"))))
-            //            pgs.Item2.Add(pfg);
-            //    }
-            //}
 
             if (paxFareSegsGrouped.SelectMany(x => x.Item2).ToList().FindAll(x => x.Item2 == "S").TrueForAll(s => s.Item1 == paxFareSegsGrouped.First().Item2.First(x => x.Item2 == "S").Item1) &&
                 paxFareSegsGrouped.SelectMany(x => x.Item2).ToList().FindAll(x => x.Item2 == "S").Distinct().Count().Equals(segCount) &&
@@ -2347,13 +2376,136 @@ namespace AmadeusWS
                             $"{(ps.Item2.Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}{(tRes.Count.Equals(0) ? segs : "")}");
                     }
                     res.Add(new Tuple<string, string>(string.Join(",", psg.Select(x => x.Item1)), string.Join("/", tRes)));
-                    //res.Add(new Tuple<string, string>(ps.Item1,
-                    //    $"/P{string.Join(",", ps.Item2.FindAll(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}{(isInf ? "/INF" : "")}" +
-                    //    $"{(ps.Item2.Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}" +
-                    //    $"{string.Join("", ps.Item2.FindAll(p => p.Item2.StartsWith("S")).SelectMany(s => $"/FF{s.Item3}-{s.Item1}"))}"));
                 }
             }
 
+            return res;
+        }
+
+        private List<string> GetPricingOptions(string request, string tstResp, string pnrRead, XmlElement oRootStored)
+        {
+            XmlDocument tstdoc = new XmlDocument();
+            tstdoc.LoadXml("<Ticket_GetPricingOptions>" + tstResp + "</Ticket_GetPricingOptions>");
+            XmlElement tst = tstdoc.DocumentElement;
+            if (!tstResp.Contains("pricingOptionsGroup"))
+            {
+                return new List<string> { "" };
+            }
+
+            var res = new List<string>();
+
+            XmlNodeList opts = tst.SelectNodes("//Ticket_GetPricingOptionsReply");
+            foreach (XmlNode opt in opts)
+            {
+                XmlDocument poks = new XmlDocument();
+                poks.LoadXml(opt.SelectSingleNode("documentInformation").OuterXml);
+
+                var memberNames = poks.SelectNodes("//pricingOptionsGroup").Cast<XmlNode>()
+                               .Select(node => node)
+                               .ToList();
+
+                var xml = new XElement("option", from po in memberNames
+                                                 select
+                    XElement.Parse(po.OuterXml.Replace("pricingOptionsGroup", "pricingOptionGroup")),
+                     new XElement("pricingOptionGroup",
+                      new XElement("pricingOptionKey",
+                       new XElement("pricingOptionKey", "SEL")),
+                       new XElement("paxSegTstReference",
+                        new XElement("referenceDetails",
+                        new XElement("type", "T"), new XElement("value", poks.SelectSingleNode("//documentSelection/uniqueReference").InnerText))
+                )));
+                res.Add(xml.Nodes().Aggregate("", (b, node) => b += node.ToString()));
+            }
+            return res;
+        }
+
+        private List<Tuple<string, string>> GetPricingOptionsFXX(string request, string tstResp, string pnrRead, XmlElement oRootStored)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(request);
+            XmlElement root = doc.DocumentElement;
+
+            XmlDocument tstdoc = new XmlDocument();
+            tstdoc.LoadXml("<Ticket_GetPricingOptions>" + tstResp + "</Ticket_GetPricingOptions>");
+            XmlElement tstRsp = tstdoc.DocumentElement;
+
+            if (tstResp.Contains(">PFF<"))
+                return new List<Tuple<string, string>> { new Tuple<string, string>("", "") };
+
+            var res = new List<Tuple<string, string>>();
+
+            XmlNodeList nodes = root.SelectNodes("//StoredFare");
+
+            XmlDocument pnr = new XmlDocument();
+            pnr.LoadXml(pnrRead);
+            XmlNodeList paxLines = pnr.DocumentElement.SelectNodes("//travellerInfo/elementManagementPassenger");
+            Dictionary<string, string> paxMap = new Dictionary<string, string>();
+            foreach (XmlNode fnode in paxLines)
+            {
+                paxMap.Add(fnode.SelectSingleNode("reference/number").InnerText,
+                    fnode.SelectSingleNode("lineNumber").InnerText);
+            }
+
+            var segCount = pnr.DocumentElement
+                .SelectNodes("//originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AIR']")
+                .Count;
+
+            List<Tuple<string, List<Tuple<string, string, string>>, string>> paxFareSegs =
+                new List<Tuple<string, List<Tuple<string, string, string>>, string>>();
+            foreach (XmlNode fnode in nodes)
+            {
+                var tst = fnode.Attributes["RPH"].Value;
+                var tktdes = fnode.SelectSingleNode("TicketDesignator") == null ? "" : fnode.SelectSingleNode("TicketDesignator").InnerText;
+                if (!paxFareSegs.Any(fs => fs.Item1 == tst))
+                    paxFareSegs.Add(new Tuple<string, List<Tuple<string, string, string>>, string>(tst,
+                            new List<Tuple<string, string, string>>(), tktdes));
+
+                if (!paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Any(i => i.Item2.StartsWith("P")))
+                {
+                    var elemPax = oRootStored.SelectSingleNode(
+                        "fareList[fareReference/uniqueReference = '" + fnode.Attributes["RPH"].Value +
+                        "']/paxSegReference");
+                    var strTSTpax = fnode.SelectSingleNode("PassengerType").Attributes["Code"].Value;
+                    foreach (XmlNode pax in elemPax.SelectNodes("refDetails/refNumber"))
+                    {
+                        paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Add(new Tuple<string, string, string>("",
+                            strTSTpax == "INF" ? "PI" : ((strTSTpax == "ADT" || strTSTpax == "JCB") ? "PA" : "P"),
+                            paxMap[pax.InnerText]));
+
+                    }
+                }
+                if (paxFareSegs.Any(fs => fs.Item1 == tst))
+                {
+                    foreach (XmlNode optDet in tstRsp.SelectNodes($"//documentInformation[documentSelection/referenceType='TST' and documentSelection/uniqueReference='{tst}']/pricingOptionsGroup[pricingOptionKey/pricingOptionKey='PRM']/optionDetail"))
+                    {
+                        XmlDocument poks = new XmlDocument();
+                        poks.LoadXml(optDet.OuterXml);
+                        paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Add(new Tuple<string, string, string>("",
+                           $"*{poks.SelectSingleNode("//criteriaDetails/attributeType").InnerText}",
+                           ""));
+                    }
+                }
+            }
+            var paxFareSegsGrouped = new List<Tuple<string, List<Tuple<string, string, string>>, string>>();
+            paxFareSegsGrouped = paxFareSegs;
+            foreach (var psg in paxFareSegsGrouped.GroupBy(x => new
+            {
+                segs = string.Join(",", x.Item2.FindAll(p => p.Item2.StartsWith("*"))),
+                tktdes = x.Item3,
+                isInf = x.Item2.Any(p => p.Item2.Equals("PI"))
+            }))
+            {
+                List<string> tRes = new List<string>();
+                foreach (var ps in psg)
+                {
+                    var isInf = ps.Item2.Any(p => p.Item2.Equals("PI"));
+                    var opt = $"{string.Join(",", ps.Item2.FindAll(p => p.Item2.StartsWith("*")).Select(s => $",{s.Item2}"))}";
+                    tRes.Add($"{opt}/P{string.Join(",", ps.Item2.FindAll(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}{(isInf ? "/INF" : "")}" +
+                        $"{(ps.Item2.Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}");
+                    res.Add(new Tuple<string, string>(ps.Item1, string.Join("/", tRes).Replace("/,", ",")));
+                    tRes = new List<string>();
+                }
+            }
             return res;
         }
 
