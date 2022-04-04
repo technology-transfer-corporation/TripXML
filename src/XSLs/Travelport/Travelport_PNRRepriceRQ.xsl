@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:air="http://www.travelport.com/schema/air_v50_0" xmlns:universal="http://www.travelport.com/schema/universal_v50_0" xmlns:common_v50_0="http://www.travelport.com/schema/common_v50_0" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:air="http://www.travelport.com/schema/air_v50_0" xmlns:universal="http://www.travelport.com/schema/universal_v50_0" xmlns:common="http://www.travelport.com/schema/common_v50_0" version="1.0">
 	<!-- 
   ================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
@@ -15,15 +15,15 @@
 	<xsl:template match="OTA_PNRRepriceRQ">
 		<xsl:choose>
 			<xsl:when test="not(Response) and not(NewPrice)">
-				<UniversalRecordRetrieveReq xmlns:universal="http://www.travelport.com/schema/universal_v50_0"
-                                    xmlns:air_v50_0="http://www.travelport.com/schema/air_v50_0"
-									xmlns:common_v50_0="http://www.travelport.com/schema/common_v50_0"
+				<UniversalRecordRetrieveReq xmlns="http://www.travelport.com/schema/universal_v50_0"
+                                    xmlns:air="http://www.travelport.com/schema/air_v50_0"
+									xmlns:common="http://www.travelport.com/schema/common_v50_0"
                                     xmlns:hotel="http://www.travelport.com/schema/hotel_v50_0"
                                     xmlns:passive="http://www.travelport.com/schema/passive_v50_0"
                                     xmlns:rail="http://www.travelport.com/schema/rail_v50_0"
                                     xmlns:vehicle="http://www.travelport.com/schema/vehicle_v50_0"
                                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/@PseudoCityCode}">
-					<common_v50_0:BillingPointOfSaleInfo OriginApplication="UAPI"/>
+					<common:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 					<ProviderReservationInfo>
 						<xsl:attribute name="ProviderCode">
 							<xsl:choose>
@@ -64,32 +64,30 @@
 			<xsl:attribute name="TargetBranch">
 				<xsl:value-of select="../POS/Source/@PseudoCityCode"/>
 			</xsl:attribute>
-			<common_v50_0:BillingPointOfSaleInfo xmlns:com="http://www.travelport.com/schema/common_v50_0" OriginApplication="UAPI"/>
+			<common:BillingPointOfSaleInfo xmlns:com="http://www.travelport.com/schema/common_v50_0" OriginApplication="UAPI"/>
 			<air:AirItinerary>
 				<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirSegment"/>
 			</air:AirItinerary>
+
 			<xsl:if test="../StoredFare/BrandedFares">
-				<air:AirPricingModifiers InventoryRequestType="DirectAccess">
-					<air:BrandModifiers ModifierType="FareFamilyDisplay"/>
-				</air:AirPricingModifiers>
+				<air:AirPricingModifiers CurrencyType="USD" ProhibitAdvancePurchaseFares="false" ProhibitNonRefundableFares="true" ProhibitRestrictedFares="false" FaresIndicator="PublicAndPrivateFares" ProhibitMaxStayFares="false" ProhibitMinStayFares="false" AccountCodeFaresOnly="false" />
 			</xsl:if>
-			<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/common_v50_0:BookingTraveler"/>
-			
-			<xsl:copy-of select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/common_v50_0:FormOfPayment"/>
+
+			<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/common:BookingTraveler"/>
+			<!--<xsl:call-template name="passanger_air"/>-->
+
+			<xsl:if test="../StoredFare/BrandedFares">
+				<air:AirPricingCommand/>
+			</xsl:if>
+
+			<xsl:if test="../../../../@StoreFare='true'">
+				<xsl:copy-of select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/common:FormOfPayment"/>
+				<air:AirReservationLocatorCode>
+					<xsl:value-of select="../UniqueID/@ID"/>
+				</air:AirReservationLocatorCode>
+			</xsl:if>
 		</air:AirPriceReq>
-		<!-- 
-		<xsl:if test="../StoredFare/BrandedFares">
-			<air:AirPricingModifiers SellCheck="true" >
-				<air:AirPricingCommand>
-					<air:AirSegmentPricingModifiers AirSegmentRef="S100" BrandTier="0003">
-						<air:air:PermittedBookingCodes>
-							<air:BookingCode Code="S"/>
-							</air:PermittedBookingCodes>
-						</air:AirSegmentPricingModifiers>
-				</air:AirPricingCommand>
-			</air:AirPricingModifiers>
-		</xsl:if>
-		-->
+
 	</xsl:template>
 
 	<xsl:template match="NewPrice">
@@ -97,14 +95,14 @@
 		<xsl:variable name="Price" select="air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution"/>
 		<universal:UniversalRecordModifyReq
       xmlns="http://www.travelport.com/schema/universal_v50_0"
-      xmlns:air_v50_0="http://www.travelport.com/schema/air_v50_0"
-      xmlns:common_v50_0="http://www.travelport.com/schema/common_v50_0"
+      xmlns:air="http://www.travelport.com/schema/air_v50_0"
+      xmlns:common="http://www.travelport.com/schema/common_v50_0"
       xmlns:hotel="http://www.travelport.com/schema/hotel_v50_0"
       xmlns:passive="http://www.travelport.com/schema/passive_v50_0"
       xmlns:rail="http://www.travelport.com/schema/rail_v50_0"
       xmlns:vehicle="http://www.travelport.com/schema/vehicle_v50_0"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/@PseudoCityCode}" ReturnRecord="true">
-			<common_v50_0:BillingPointOfSaleInfo OriginApplication="UAPI"/>
+			<common:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 			<universal:RecordIdentifier UniversalLocatorCode="{$PNR/@LocatorCode}" ProviderCode="{$PNR/universal:ProviderReservationInfo/@ProviderCode}" ProviderLocatorCode="{$PNR/universal:ProviderReservationInfo//@LocatorCode}"/>
 			<universal:UniversalModifyCmd Key="1">
 				<universal:AirDelete ReservationLocatorCode="{$PNR/air:AirReservation/@LocatorCode}" Element="AirPricingInfo" Key="{$PNR/air:AirReservation/air:AirPricingInfo/@Key}"/>
@@ -137,7 +135,7 @@
 					</xsl:for-each>
 				</universal:AirAdd>
 			</universal:UniversalModifyCmd>
-			<common_v50_0:FileFinishingInfo/>
+			<common:FileFinishingInfo/>
 		</universal:UniversalRecordModifyReq>
 	</xsl:template>
 
@@ -192,15 +190,18 @@
 	</xsl:template>
 
 	<xsl:template match="air:AirPricingInfo" mode="brandFare">
+		<xsl:param name="ptc" />
 		<air:AirPricingCommand>
-			<xsl:variable name="bn" select="air:FareInfo/air:Brand[1]/@BrandID" />
+			<!--<xsl:variable name="bn" select="air:FareInfo/air:Brand[1]/@BrandID" />-->
+			<xsl:variable name="bn" select="../../../../../StoredFare[PassengerType/@Code=$ptc]/BrandedFares/FareFamily" />
+
 			<xsl:for-each select="../air:AirSegment">
 				<air:AirSegmentPricingModifiers>
 					<xsl:attribute name="AirSegmentRef">
 						<xsl:value-of select="@Key"/>
 					</xsl:attribute>
 					<xsl:attribute name="BrandTier">
-						<xsl:value-of select="$bn[position()]"/>
+						<xsl:value-of select="$bn[@RPH = position()]/@Code"/>
 					</xsl:attribute>
 					<air:PermittedBookingCodes>
 						<air:BookingCode>
@@ -215,11 +216,15 @@
 		</air:AirPricingCommand>
 	</xsl:template>
 
-	<xsl:template match="common_v50_0:BookingTraveler">
+	<xsl:template name="passanger_air">
+		<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/common:BookingTraveler"/>
+	</xsl:template>
+
+	<xsl:template match="common:BookingTraveler">
 		<xsl:variable name="key" select="@Key" />
 		<xsl:variable name="ptc" select="../air:AirReservation/air:AirPricingInfo/air:PassengerType[@BookingTravelerRef=$key]/@Code" />
 
-		<common_v50_0:SearchPassenger xmlns:com="http://www.travelport.com/schema/common_v50_0">
+		<common:SearchPassenger xmlns:common="http://www.travelport.com/schema/common_v50_0">
 			<xsl:attribute name="BookingTravelerRef">
 				<xsl:value-of select="@Key"/>
 			</xsl:attribute>
@@ -227,14 +232,20 @@
 				<xsl:value-of select="$ptc"/>
 			</xsl:attribute>
 			<!-- @TravelerType -->
-		</common_v50_0:SearchPassenger>
+		</common:SearchPassenger>
+		<!-- -->
 		<xsl:choose>
-			<xsl:when test="../../../../StoredFare/BrandedFares">
-				<xsl:apply-templates select="../air:AirReservation/air:AirPricingInfo[air:PassengerType/@BookingTravelerRef=$key]" mode="brandFare"/>
+			<xsl:when test="../../../../StoredFare[PassengerType/@Code]/BrandedFares and ../../../../@StoreFare='true'">
+				<xsl:apply-templates select="../air:AirReservation/air:AirPricingInfo[air:PassengerType/@BookingTravelerRef=$key]" mode="brandFare">
+					<xsl:with-param name="ptc" select="$ptc" />
+				</xsl:apply-templates>
 			</xsl:when>
+			<!--
 			<xsl:otherwise>
 				<air:AirPricingCommand/>
 			</xsl:otherwise>
+			-->
 		</xsl:choose>
+
 	</xsl:template>
 </xsl:stylesheet>

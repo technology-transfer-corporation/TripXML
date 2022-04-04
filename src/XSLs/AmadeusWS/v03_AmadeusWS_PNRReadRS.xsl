@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 25 Mar 2022 - Kobelev - Added to SupplementalInfo information on criteriaDetails.
    Date: 06 Jan 2022 - Kobelev - Passanger Information display ADT/CHLD vs. INF.
    Date: 21 Oct 2021 - Kobelev - Added handling of Corporate special remarks RX.
    Date: 21 Oct 2021 - Kobelev - Change Controlling Carrier RemarkType from "Z" to "CC".
@@ -792,11 +793,18 @@
 			</xsl:attribute>
 
 			<xsl:variable name="priceOpt">
-				<xsl:for-each select="../../Ticket_GetPricingOptionsReply/documentInformation[documentSelection/uniqueReference = $tqtNum]/pricingOptionsGroup/pricingOptionKey/pricingOptionKey">
+				<xsl:for-each select="../../Ticket_GetPricingOptionsReply/documentInformation[documentSelection/uniqueReference = $tqtNum]/pricingOptionsGroup">
 					<xsl:if test="position() > 1">
 						<xsl:text>,</xsl:text>
 					</xsl:if>
-					<xsl:value-of select="text()"/>
+					<xsl:choose>
+						<xsl:when test="optionDetail/criteriaDetails/attributeType!=''">
+							<xsl:value-of select="concat(pricingOptionKey/pricingOptionKey, '*', optionDetail/criteriaDetails/attributeType)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="pricingOptionKey/pricingOptionKey"/>
+						</xsl:otherwise>
+					</xsl:choose>					
 				</xsl:for-each>
 			</xsl:variable>
 
@@ -1257,7 +1265,7 @@
 
 				<xsl:if test="$priceOpt != ''">
 					<SupplementalInfo>
-						<xsl:value-of select="$priceOpt"/>
+						<xsl:value-of select="$priceOpt"/>							
 					</SupplementalInfo>
 				</xsl:if>
 
