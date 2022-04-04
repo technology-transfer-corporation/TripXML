@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 01 Apr 2022 - Samokhvalov - Fixed Branded Fare object(ARNK)
   Date: 21 Oct 2021 - Kobelev - MCO identification fix.
   Date: 21 Oct 2021 - Kobelev - Change Controlling Carrier RemarkType from "Z" to "CC".
   Date: 02 Sep 2021 - Kobelev - Multi FlightSegment in Item for Controling Carrier process.
@@ -3984,7 +3985,7 @@
 
               <xsl:choose>
                 <xsl:when test="contains($brcmd,'$S1')">
-                  <xsl:apply-templates select="PTC_FareBreakdown/FlightSegment[@SegmentNumber!='']" mode="ffSegmental">
+                  <xsl:apply-templates select="PTC_FareBreakdown/FlightSegment[@SegmentNumber!='' and FareBasis/@Code!='VOID']" mode="ffSegmental">
                     <xsl:with-param name="brID" select="substring-after($brcmd, '$')"/>
                   </xsl:apply-templates>
                 </xsl:when>
