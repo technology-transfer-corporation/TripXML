@@ -99,13 +99,9 @@ Namespace wsTravelTalk
                         'sb.Remove(0, sb.Length())
 
                     Case "amadeusws"
-
                         strResponse = SendOtherRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-
                     Case "apollo", "galileo"
-
                         strResponse = SendOtherRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-
                     Case "sabre"
 
                         'ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
@@ -121,17 +117,9 @@ Namespace wsTravelTalk
                         strResponse = SendOtherRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest)
 
                     Case "worldspan"
-
                         strResponse = SendOtherRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-
-                        'Case "cardelmar"
-
-                        '    strResponse = SendOtherRequestCarDelMar(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-
-                    Case "travelfusion"
-
-                        'strResponse = SendOtherRequestTravelFusion(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-
+                    Case "travelport"
+                        strResponse = SendOtherRequestTravelport(ttServiceID, ttCredential, ttProviderSystems, strRequest)
                     Case "sita"
 
                         'strResponse = SendOtherRequestSITA(ttServiceID, ttCredential, ttProviderSystems, strRequest)
