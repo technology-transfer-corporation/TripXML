@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Threading;
 using System.Xml;
 using TripXMLMain;
@@ -285,7 +286,7 @@ namespace Galileo
                         oDocResp.LoadXml(strResponse);
                         oRootResp = oDocResp.DocumentElement;
                         oNodeResp = oRootResp.SelectSingleNode("PNRBFRetrieve/VndRecLocs/RecLocInfoAry/RecLocInfo/RecLoc");
-                        if (oNodeResp== null)
+                        if (oNodeResp == null)
                         {
                             Thread.Sleep(2000);
 
@@ -293,7 +294,7 @@ namespace Galileo
                             oDocResp.LoadXml(strResponse);
                             oRootResp = oDocResp.DocumentElement;
                             oNodeResp = oRootResp.SelectSingleNode("PNRBFRetrieve/VndRecLocs/RecLocInfoAry/RecLocInfo/RecLoc");
-                            if (oNodeResp== null)
+                            if (oNodeResp == null)
                             {
                                 Thread.Sleep(3000);
 
@@ -301,7 +302,7 @@ namespace Galileo
                                 oDocResp.LoadXml(strResponse);
                                 oRootResp = oDocResp.DocumentElement;
                                 oNodeResp = oRootResp.SelectSingleNode("PNRBFRetrieve/VndRecLocs/RecLocInfoAry/RecLocInfo/RecLoc");
-                                if (oNodeResp== null)
+                                if (oNodeResp == null)
                                 {
                                     Warnings += "<Warning>AIRLINE RECORD LOCATOR NOT IN PNR</Warning>";
                                 }
@@ -375,7 +376,7 @@ namespace Galileo
                             strRequest = $"<TTReprice>{Request}{strResponse}</TTReprice>";
                             strRequest = CoreLib.TransformXML(strRequest, XslPath, $"{Version}Galileo_TravelBuild1RQ.xsl");
                             CoreLib.SendTrace(ProviderSystems.UserID, "ttGalileoService", "OTA Transformed Reprice Request", strRequest, ProviderSystems.LogUUID);
-                            
+
 
                             if (string.IsNullOrEmpty(strRequest))
                                 throw new Exception("Transformation produced empty xml.");
@@ -516,7 +517,7 @@ namespace Galileo
                                 strRequest = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr/><CodeCheck/><RecLoc>{strRecloc}</RecLoc></PNRAddr></PNRBFRetrieveMods>" +
                                 "<FareRedisplayMods></FareRedisplayMods></PNRBFManagement_53>";
                                 strResponse = ttGA.SendMessage(strRequest, ConversationID);
-                                
+
                                 strMessage += $"\r\n{strRequest}\r\n{strResponse}";
                             }
                         }
@@ -539,7 +540,7 @@ namespace Galileo
                         : strResponse;
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
-                    
+
                     if (ProviderSystems.LogNative)
                     {
                         TripXMLTools.TripXMLLog.LogMessage("TravelBuild", ref strMessage, requestTime, DateTime.Now, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
@@ -575,9 +576,9 @@ namespace Galileo
 
         public string TravelModify()
         {
-            
+
             string strResponse = "";
-            
+
             try
             {
                 string strNative = "";
@@ -600,7 +601,7 @@ namespace Galileo
                 oDocReqN.LoadXml(strRequest);
                 var oRootReqN = oDocReqN.DocumentElement;
 
-                if (oRootReqN.SelectSingleNode("Modify")== null)
+                if (oRootReqN.SelectSingleNode("Modify") == null)
                 {
                     bool AutoTicketing = false;
                     // *******************************************************************************
@@ -608,7 +609,7 @@ namespace Galileo
                     // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
                     // *******************************************************************************                     
                     strResponse = ttGA.SendMessage(strRequest, ConversationID);
-                    strNative += $"{strRequest}\r\n{strResponse}";                    
+                    strNative += $"{strRequest}\r\n{strResponse}";
 
                     var oDocResp = new XmlDocument();
                     oDocResp.LoadXml(strResponse);
@@ -618,11 +619,11 @@ namespace Galileo
                     {
                         var iStartPrice = strRequest.IndexOf("<StorePriceMods>").ToString();
                         var iEndPrice = (strRequest.IndexOf("</StorePriceMods>") + 17).ToString();
-                        
-                        var strPricingReq = Convert.ToDouble(iStartPrice) != -1 
+
+                        var strPricingReq = Convert.ToDouble(iStartPrice) != -1
                                 ? strRequest.Substring(Convert.ToInt32(iStartPrice), (int)Math.Round(Convert.ToDouble(iEndPrice) - Convert.ToDouble(iStartPrice)))
                                 : "";
-                       
+
                         strRequest = $"<PNRBFManagement_53>{strPricingReq}<EndTransactionMods><EndTransactRequest><ETInd>R</ETInd><RcvdFrom>TRIPXML</RcvdFrom></EndTransactRequest></EndTransactionMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
                         strResponse = ttGA.SendMessage(strRequest, ConversationID);
                         oDocResp.LoadXml(strResponse);
@@ -658,11 +659,11 @@ namespace Galileo
                                 // *******************************************************************************
                                 // Send manual price Request to the Galileo Adapter and Getting Native Response *
                                 // ******************************************************************************* 
-                                                                
+
                                 strRequest = $"<TTReprice>{Request}{strResponse}</TTReprice>";
                                 strRequest = CoreLib.TransformXML(strRequest, XslPath, $"{Version}Galileo_TravelModify1RQ.xsl");
                                 CoreLib.SendTrace(ProviderSystems.UserID, "ttGalileoService", "OTA Transformed Reprice Request", strRequest, ProviderSystems.LogUUID);
-                                
+
                                 if (string.IsNullOrEmpty(strRequest))
                                     throw new Exception("Transformation produced empty xml.");
 
@@ -684,7 +685,7 @@ namespace Galileo
                                     {
                                         strRequest = "<PNRBFManagement_53><EndTransactionMods><EndTransactRequest><ETInd>E</ETInd><RcvdFrom>TRIPXML</RcvdFrom></EndTransactRequest></EndTransactionMods></PNRBFManagement_53>";
                                         strResponse = ttGA.SendMessage(strRequest, ConversationID);
-                                        strNative += $"{strRequest}\r\n{strResponse}";                                        
+                                        strNative += $"{strRequest}\r\n{strResponse}";
                                     }
 
                                     throw new Exception($"PNR {strRecloc} CREATED AND CANCELLED - {strError}");
@@ -697,7 +698,7 @@ namespace Galileo
                                 // ******************************************************************************* 
                                 strResponse = ttGA.SendMessage(strRequest, ConversationID);
                                 strNative += $"{strRequest}\r\n{strResponse}";
-                                
+
                             }
                         }
                     }
@@ -748,11 +749,11 @@ namespace Galileo
                     if (oNodeResp == null)
                         throw new Exception($"PNR {strRecloc} does not exist");
 
-                    oNodeReqN = oRootReqN.SelectSingleNode("Modify");                    
+                    oNodeReqN = oRootReqN.SelectSingleNode("Modify");
                     strResponse = ttGA.SendMessage(oNodeReqN.InnerXml, ConversationID);
                     strNative = $"{oNodeReqN.InnerXml}\r\n{strResponse}";
-                    
-                    oNodeReqN = oRootReqN.SelectSingleNode("ET");                    
+
+                    oNodeReqN = oRootReqN.SelectSingleNode("ET");
                     strResponse = ttGA.SendMessage(oNodeReqN.InnerXml, ConversationID);
                     strNative = $"{oNodeReqN.InnerXml}\r\n{strResponse}";
 
@@ -806,10 +807,10 @@ namespace Galileo
         public string IssueTicket()
         {
             string strResponse = "";
-            
+
             try
             {
-                
+
                 DateTime RequestTime = DateTime.Now;
                 string strRequest = SetRequest("Galileo_IssueTicketRQ.xsl");
 
@@ -983,7 +984,7 @@ namespace Galileo
 
                     strEmail += $"{strTicket}\r\n{strResponse}";
                     strMessage += $"\r\n{strTicket}\r\n{strResponse}";
-                    
+
                     if (!string.IsNullOrEmpty(strGetTickets) & !strResponse.Contains("TransactionErrorCode") & strResponse.Contains("<TicketingControl><TransType>OK</TransType></TicketingControl>"))
                     {
                         string strResponse1 = ttGA.SendMessage(strRead, ConversationID);
@@ -1014,14 +1015,14 @@ namespace Galileo
 
                     strEmail += strResponse;
 
-                    
+
                     if (ProviderSystems.LogNative)
                         TripXMLTools.TripXMLLog.LogMessage("IssueTicket", ref strMessage, RequestTime, DateTime.Now, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
-                    
+
                     // ****************************************************
                     // below given if condition was not there in local code
                     // ----------------------------------------------------
-                    if (Request.Contains("<System>Production</System>")  & !strResponse.Contains("<Success"))
+                    if (Request.Contains("<System>Production</System>") & !strResponse.Contains("<Success"))
                     {
                         string argMessage = $"<Ticket>{strEmail}</Ticket>";
                         LogMessageToFile("TravelBuild", ref argMessage, DateTime.Now, DateTime.Now);
@@ -1261,7 +1262,7 @@ namespace Galileo
 
                     // If String.IsNullOrEmpty(strCheckPrt) Then
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_IssueTicketRS.xsl");
-                    strEmail += strResponse;                   
+                    strEmail += strResponse;
                 }
                 catch (Exception ex)
                 {
@@ -1278,7 +1279,7 @@ namespace Galileo
                     }
                 }
 
-                
+
                 if (ProviderSystems.LogNative)
                     TripXMLTools.TripXMLLog.LogMessage("IssueTicket", ref strResponse, RequestTime, DateTime.Now, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
 
@@ -1305,7 +1306,7 @@ namespace Galileo
             }
 
             return strResponse;
-            
+
         }
 
         public string Update()
@@ -1373,7 +1374,7 @@ namespace Galileo
                         }
                     }
 
-                    
+
                     // *********************************
                     // * Send End Transaction Request  *
                     // *********************************
@@ -1451,7 +1452,7 @@ namespace Galileo
             {
                 var RequestTime = DateTime.Now;
                 string strRequest = SetRequest("Galileo_UpdateInsertRQ.xsl");
-                
+
                 // *********************
                 // * Create Session    *
                 // *********************
@@ -1526,7 +1527,7 @@ namespace Galileo
                     strResponse = strNativePNRReply;
                     strMessage = $"{strEndTransaction}\r\n{strResponse}";
                     strResponse = ttGA.SendMessage(strCurrentPNR, ConversationID);
-                    
+
                     var oDocResp = new XmlDocument();
                     oDocResp.LoadXml(strResponse);
                     var oRootResp = oDocResp.DocumentElement;
@@ -1563,6 +1564,17 @@ namespace Galileo
                         ? strResponse.Replace("</PNRBFManagement_53>", $"<ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>")
                         : strResponse;
 
+                    //CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response", strResponse, ProviderSystems.LogUUID);
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", $"Final response size for version {Version}", strResponse.Length.ToString(CultureInfo.InvariantCulture), ProviderSystems.LogUUID);
+                    if (strNativePNRReply.Length > 5500)
+                    {
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strNativePNRReply.Substring(0, strNativePNRReply.Length / 2), ProviderSystems.LogUUID);
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II", strNativePNRReply.Substring(strNativePNRReply.Length / 2), ProviderSystems.LogUUID);
+                    }
+                    else
+                    {
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse, ProviderSystems.LogUUID);
+                    }
                     strResponse = CoreLib.TransformXML(strNativePNRReply, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
 
                     if (ProviderSystems.LogNative)
@@ -1581,7 +1593,6 @@ namespace Galileo
                         ttGA = null;
                     }
                 }
-
             }
             catch (Exception exx)
             {
@@ -1627,7 +1638,7 @@ namespace Galileo
                         var oDocTicket = new XmlDocument();
                         oDocTicket.LoadXml(strRequest);
                         var oRootTicket = oDocTicket.DocumentElement;
-                        strFinalResp += strResponse.Contains("ErrText") 
+                        strFinalResp += strResponse.Contains("ErrText")
                             ? $"<Ticket Number=\"{nd.SelectSingleNode("VoidTicketMods").SelectSingleNode("TicketNumberRange").SelectSingleNode("AirNumeric").InnerText + "-" + nd.SelectSingleNode("VoidTicketMods").SelectSingleNode("TicketNumberRange").SelectSingleNode("TkStockNum").InnerText}\" Status=\"NotVoid\"/>"
                             : $"<Ticket Number=\"{nd.SelectSingleNode("VoidTicketMods").SelectSingleNode("TicketNumberRange").SelectSingleNode("AirNumeric").InnerText + "-" + nd.SelectSingleNode("VoidTicketMods").SelectSingleNode("TicketNumberRange").SelectSingleNode("TkStockNum").InnerText}\" Status=\"Void\"/>";
                     }
@@ -1645,11 +1656,11 @@ namespace Galileo
                     // ***********************************************
                     // First if block was not there in local code
                     // ***********************************************                    
-                    strResponse = string.IsNullOrEmpty(strFinalResp) 
+                    strResponse = string.IsNullOrEmpty(strFinalResp)
                         ? "<TT_VoidTicketRS Version=\"1.0\"><Warnings><Warning>Ticket not void</Warning></Warnings></TT_VoidTicketRS>"
-                        : strFinalResp.Contains("NotVoid") 
+                        : strFinalResp.Contains("NotVoid")
                             ? $"<TT_VoidTicketRS Version=\"1.0\"><Warnings><Warning>Ticket not void</Warning></Warnings>{strFinalResp}</TT_VoidTicketRS>"
-                            :$"<TT_VoidTicketRS Version=\"1.0\"><Success/>{strFinalResp}</TT_VoidTicketRS>";
+                            : $"<TT_VoidTicketRS Version=\"1.0\"><Success/>{strFinalResp}</TT_VoidTicketRS>";
 
                     strResponse = inSession
                         ? strResponse.Replace("</TT_VoidTicketRS>", $"<ConversationID>{ConversationID}</ConversationID></TT_VoidTicketRS>")
@@ -1691,11 +1702,11 @@ namespace Galileo
             {
                 var oDoc = new XmlDocument();
                 string strResponse = ttGA.SendMessage(strReq, session);
-                
+
                 oDoc.LoadXml(strResponse);
                 var oRoot = oDoc.DocumentElement;
                 var oNd = oRoot.SelectSingleNode("LinkageUpdate/PrinterParameters[Type='T']");
-                if (oNd== null)
+                if (oNd == null)
                 {
                     throw new Exception("No ticket printer linked");
                 }
