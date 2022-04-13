@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Net.Mail;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 
@@ -56,11 +59,17 @@ namespace TripXMLMain
         #endregion
 
         #region  Send Trace 
-
+        /// <summary>
+        /// Sending Trace line
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="strFile"></param>
+        /// <param name="strText"></param>
+        /// <param name="strItem"></param>
+        /// <param name="strUUID"></param>
         public static void SendTrace(string userID, string strFile, string strText, string strItem, string strUUID)
         {
-            var udpClient = new UdpClient();
-            var sb = new StringBuilder();
+
             try
             {
                 strItem = strItem.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "");
@@ -70,27 +79,57 @@ namespace TripXMLMain
                 strItem = strItem.Replace("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"  standalone=\"yes\"?>", "");
                 strItem = strItem.Replace("<?xml version=\"1.0\"   encoding=\"ISO-8859-1\"  standalone=\"yes\" ?>", "");
                 strItem = strItem.Replace("xmlns = \"\"", "");
+                var udpClient = new UdpClient();
                 udpClient.Connect("localhost", 3070);
-                byte[] sendBytes;
-                if (userID is object)
-                {
-                }
-                else
-                {
-                    userID = "";
-                }
 
-                sb.Append("<").Append(strFile).Append("><Text>").Append(strText).Append("</Text><UUID>").Append(strUUID).Append("</UUID><Item>").Append(strItem).Append("</Item><UserID>").Append(userID).Append("</UserID></").Append(strFile).Append(">");
-                sendBytes = Encoding.ASCII.GetBytes(sb.ToString());
-                udpClient.Send(sendBytes, sendBytes.Length);
+                if (userID == null)
+                    userID = "";
+                var message = strItem.Length > 4096 
+                    ? $"<{strFile}><Text>{strText}_ZIP</Text><UUID>{strUUID}</UUID><Item>{Compress(strItem)}</Item><UserID>{userID}</UserID></{strFile}>"
+                    : $"<{strFile}><Text>{strText}</Text><UUID>{strUUID}</UUID><Item>{strItem}</Item><UserID>{userID}</UserID></{strFile}>";
+
+                byte[] sendBytes = Encoding.ASCII.GetBytes(message);
+                udpClient.Send(sendBytes, sendBytes.Length);                
                 udpClient.Close();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                if (udpClient is object)
+                Console.WriteLine($"ERROR: {ex.Message}");
+            }
+        }
+
+        private static string Compress(string data)
+        {
+            byte[] compressedBytes;
+
+            using (var uncompressedStream = new MemoryStream(Encoding.UTF8.GetBytes(data)))
+            {
+                using (var compressedStream = new MemoryStream())
                 {
-                    udpClient.Close();
+                    // setting the leaveOpen parameter to true to ensure that compressedStream will not be closed when compressorStream is disposed
+                    // this allows compressorStream to close and flush its buffers to compressedStream and guarantees that compressedStream.ToArray() can be called afterward
+                    // although MSDN documentation states that ToArray() can be called on a closed MemoryStream, I don't want to rely on that very odd behavior should it ever change
+                    using (var compressorStream = new DeflateStream(compressedStream, CompressionLevel.Fastest, true))
+                    {
+                        uncompressedStream.CopyTo(compressorStream);
+                    }
+
+                    // call compressedStream.ToArray() after the enclosing DeflateStream has closed and flushed its buffer to compressedStream
+                    compressedBytes = compressedStream.ToArray();
                 }
+            }
+
+            return Convert.ToBase64String(compressedBytes);
+        }
+
+        static byte[] Decompress(byte[] data)
+        {
+            using (var compressedStream = new MemoryStream(data))
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
+            using (var resultStream = new MemoryStream())
+            {
+                zipStream.CopyTo(resultStream);
+                return resultStream.ToArray();
             }
         }
 
