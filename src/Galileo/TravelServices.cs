@@ -840,7 +840,7 @@ namespace Galileo
                     oDoc.LoadXml(strRequest);
                     oRoot = oDoc.DocumentElement;
                     strRead = oRoot.SelectSingleNode("PNRRead").InnerXml;
-
+                                        
                     strTicket = oRoot.SelectSingleNode("Ticket").InnerXml;
                     strVerifyATFQ = oRoot.SelectSingleNode("VerifyATFQ") != null ? oRoot.SelectSingleNode("VerifyATFQ").InnerXml : "";
                     strET = oRoot.SelectSingleNode("ET") != null ? oRoot.SelectSingleNode("ET").InnerXml : "";
@@ -1061,38 +1061,28 @@ namespace Galileo
         {
             string strResponse = "";
             Version = string.IsNullOrEmpty(Version) ? "v03_" : Version;
-            string strEmail = "";
+            string strEmail = string.Empty;
+
             try
             {
                 string strRequest = SetRequest("Galileo_IssueTicketRQ.xsl");
                 DateTime RequestTime = DateTime.Now;
-
-                XmlElement oRoot;
-                string strRead;
-                string strCurrentRead;
-                string strTicket;
-                string strET;
-                string strCrypticRULA;
-                string strGetTickets;
-                string strCheckPrt;
-
-                // TODO: following for possible future use
-                string strReLinkPrt;
                 string strReSetPrt;
+                var strReplacementTag = "</PNRBFManagement_53>";
 
                 // *************************
                 // Get Multiple Requests  *
                 // *************************
                 var oDoc = new XmlDocument();
                 oDoc.LoadXml(strRequest);
-                oRoot = oDoc.DocumentElement;
-                strRead = oRoot.SelectSingleNode("PNRRead").InnerXml;
-                strCurrentRead = oRoot.SelectSingleNode("PNRCurrentRead").InnerXml;
-                strTicket = oRoot.SelectSingleNode("Ticket").InnerXml;
+                XmlElement oRoot = oDoc.DocumentElement;
+                string strRead = oRoot.SelectSingleNode("PNRRead").InnerXml;
+                string strCurrentRead = oRoot.SelectSingleNode("PNRCurrentRead").InnerXml;
+                string strTicket = oRoot.SelectSingleNode("Ticket").InnerXml;
                 string strVerifyATFQ = oRoot.SelectSingleNode("VerifyATFQ") != null ? oRoot.SelectSingleNode("VerifyATFQ").InnerXml : "";
-                strET = oRoot.SelectSingleNode("ET") != null ? oRoot.SelectSingleNode("ET").InnerXml : "";
-                strCrypticRULA = oRoot.SelectSingleNode("CrypticRULA") != null ? oRoot.SelectSingleNode("CrypticRULA").InnerXml : "";
-                strGetTickets = oRoot.SelectSingleNode("GetTickets") != null ? oRoot.SelectSingleNode("GetTickets").InnerXml : "";
+                string strET = oRoot.SelectSingleNode("ET") != null ? oRoot.SelectSingleNode("ET").InnerXml : "";
+                string strCrypticRULA = oRoot.SelectSingleNode("CrypticRULA") != null ? oRoot.SelectSingleNode("CrypticRULA").InnerXml : "";
+                string strGetTickets = oRoot.SelectSingleNode("GetTickets") != null ? oRoot.SelectSingleNode("GetTickets").InnerXml : "";
 
                 var oDocReqOTA = new XmlDocument();
                 oDocReqOTA.LoadXml(Request);
@@ -1107,7 +1097,7 @@ namespace Galileo
                 }
 
                 strEmail += Request;
-                    
+
                 /******  Why would you need this?  *****************
                 if (oRootReqOTA.SelectSingleNode("POS/Source/@ISOCurrency") != null)
                 {
@@ -1115,9 +1105,9 @@ namespace Galileo
                 }
                 ****************************************************/
 
-                strCheckPrt = oRoot.SelectSingleNode("CheckPRT") != null ? oRoot.SelectSingleNode("CheckPRT").InnerXml : "";
-                strReLinkPrt = oRoot.SelectSingleNode("SetPRT") != null ? oRoot.SelectSingleNode("SetPRT").InnerXml : "";
-
+                string strCheckPrt = oRoot.SelectSingleNode("CheckPRT") != null ? oRoot.SelectSingleNode("CheckPRT").InnerXml : "";
+                // TODO: following for possible future use
+                string strReLinkPrt = oRoot.SelectSingleNode("SetPRT") != null ? oRoot.SelectSingleNode("SetPRT").InnerXml : "";
 
                 // **********************
                 // Create Session      *
@@ -1252,6 +1242,7 @@ namespace Galileo
                         strResponse = strResponse.Replace("</DocProdFareManipulation_29>", strResponse + "</DocProdFareManipulation_29>");
                         strEmail += $"{strGetTickets}\r\n{strResponse}";
                         strMessage += $"\r\n{strGetTickets}\r\n{strResponse}";
+                        strReplacementTag = "</DocProdFareManipulation_29>";
                     }
 
 
@@ -1265,7 +1256,7 @@ namespace Galileo
                 try
                 {
                     strResponse = inSession
-                        ? strResponse.Replace("</PNRBFManagement_53>", $"<ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>")
+                        ? strResponse.Replace(strReplacementTag, $"<ConversationID>{ConversationID}</ConversationID>{strReplacementTag}")
                         : strResponse;
 
                     // If String.IsNullOrEmpty(strCheckPrt) Then
