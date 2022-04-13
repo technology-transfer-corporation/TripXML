@@ -6,11 +6,7 @@ using System;
 namespace Travelport
 {
     public class TravelServices : TravelportBase
-    {
-        public modCore.TripXMLProviderSystems ttProviderSystems;
-        private StringBuilder sb = new StringBuilder();
-        private string mstrVersion = "";
-        private string mstrXslPath = "";       
+    {           
         string _tracerID = "";
         public saveInDBData saveDbData;
        
@@ -19,28 +15,6 @@ namespace Travelport
             public string TravelBuildRQ;
             public string TravelBuildRS;
             public string portalSession;
-        }
-
-        public string Request { get; set; } = "";
-
-        public string Version
-        {
-            get { return mstrVersion; }
-            set
-            {
-                mstrVersion = value;
-                if (mstrVersion.Length > 0) mstrVersion += "_";
-            }
-        }
-
-        public string XslPath
-        {
-            get { return mstrXslPath; }
-            set
-            {
-                mstrXslPath = sb.Append(value).Append("Travelport\\").ToString();
-                sb.Remove(0, sb.Length);
-            }
         }
 
         public string TravelBuild()
@@ -188,10 +162,7 @@ namespace Travelport
 
         public string UpdateSessioned()
         {
-            string strResponse = "";
-            StringBuilder sbu = null;
-            string strErrEvent = "";
-
+            string strResponse = "";            
             try
             {
                 #region Get Tracer ID
@@ -214,7 +185,7 @@ namespace Travelport
                 oDoc.LoadXml(strRequest);
                 var oRoot = oDoc.DocumentElement;
 
-                var ttTP = new TravelPortWSAdapter(ttProviderSystems) {TracerID = _tracerID};
+                var ttTP = SetAdapter(ProviderSystems);
 
                 var strMessage = strRequest;
 
@@ -282,22 +253,14 @@ namespace Travelport
                 //******************************* 
                 // Modify PNR - Insert elements * 
                 //******************************* 
-                strErrEvent = "Modify PNR - Insert elements Error.";
+                var strErrEvent = "Modify PNR - Insert elements Error.";
 
                 if (oRoot.SelectSingleNode("Position/Element[@Operation='insert']") != null)
                 {
                     //******************************************************************* 
                     //* Transform OTA Modify Request into Amadeus Native Insert Request * 
                     //******************************************************************* 
-
-                    sbu = new StringBuilder();
-                    sbu.Append("<UpdateInsert>");
-                    sbu.Append(Request);
-                    sbu.Append("</UpdateInsert>");
-
-                    strRequest = CoreLib.TransformXML(sbu.ToString(), mstrXslPath, sb.Append(mstrVersion).Append("Travelport_UpdateInsertRQ.xsl").ToString());
-                    sbu.Remove(0, sbu.Length);
-                    sb.Remove(0, sb.Length);
+                    strRequest = CoreLib.TransformXML($"<UpdateInsert>{Request}</UpdateInsert>", XslPath, $"{Version}Travelport_UpdateInsertRQ.xsl");
 
                     try
                     {
@@ -305,7 +268,7 @@ namespace Travelport
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception(sbu.Append("Error Loading Transformed Request XML Document.").Append("\r\n").Append(ex.Message).ToString());
+                        throw new Exception($"Error in Native Response.\r\n{ex.Message}");
                     }
 
                 }
@@ -374,25 +337,19 @@ namespace Travelport
                 //    }
                 //}
 
-                ttTP = null;
-
                 //***************************************************************** 
                 // Transform Native Amadeus TravelBuild Response into OTA Response * 
                 //***************************************************************** 
                 strErrEvent = "Travelport_PNRReadRS.xsl Error.";
-
-                mstrVersion = Request.Contains("v03") ? "v03_" : "v03_";
-
-                strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Travelport_PNRReadRS.xsl").ToString());
-                sb.Remove(0, sb.Length);
-
-
-                return strResponse;
+                Version = Request.Contains("v03") ? "v03_" : "v03_";
+                strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Travelport_PNRReadRS.xsl");                
             }
-            catch (Exception exx)
+            catch (Exception ex)
             {
-                throw new Exception(sbu.Append(strErrEvent).Append("\r\n").Append(exx.Message).ToString());
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.UpdateSessioned, ex.Message, ProviderSystems);
             }
+
+            return strResponse;
         }
     }
 }

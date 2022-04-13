@@ -5,70 +5,46 @@ using TripXMLMain;
 
 namespace Travelport
 {
-    public class OtherServices
+    public class OtherServices : TravelportBase
     {
-        public modCore.TripXMLProviderSystems ttProviderSystems;
-        private readonly string mstrVersion = "";
-        private readonly string mstrXslPath = "";
-
-        public string Request { get; set; } = "";
-
         public string Native()
         {
-            string ConversationID = "";
-            string strRequest;
             string strResponse = "";
             try
             {
-                strRequest = Request;
+                string ConversationID = "";
+                string strRequest = Request;
                 XmlDocument oReqDoc = new XmlDocument();
                 oReqDoc.LoadXml(strRequest);
                 XmlElement oRoot = oReqDoc.DocumentElement;
+
                 if (oRoot.SelectSingleNode("Native") == null)
-                {
                     throw new Exception("Native Message is missing in the Request.");
-                }
-                else
-                {
-                    strRequest = oRoot.SelectSingleNode("Native").InnerXml;
-                }
-                if (!(oRoot.SelectSingleNode("POS/TPA_Extensions/ConversationID") == null))
-                {
-                    ConversationID = oRoot.SelectSingleNode("POS/TPA_Extensions/ConversationID").InnerText;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Invalid Request.\r\n{ex.Message}");
-            }
+                
+                strRequest = oRoot.SelectSingleNode("Native").InnerXml;            
+
             // *******************************************************************************
             //  Send Native Request to the Amadeus Adapter and Getting Native Response  *
             // ******************************************************************************* 
-            try
-            {
-                TravelPortWSAdapter ttTP = new TravelPortWSAdapter(ttProviderSystems);
+            var ttProviderSystems = ProviderSystems;
+            TravelPortWSAdapter ttTP = SetAdapter(ttProviderSystems);
+            bool inSession = SetConversationID(ttTP);
 
                 if (strRequest.Contains("AvailabilitySearchReq") || strRequest.Contains("AirPriceReq"))
-                    strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.AirService);
-                else if (strRequest.Contains("CreateTerminalSessionReq") || strRequest.Contains("EndTerminalSessionReq") || strRequest.Contains("TerminalReq"))
-                    strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.TerminalService);
-                else if (strRequest.Contains("GdsQueueCountReq") || strRequest.Contains("GdsEnterQueueReq"))
-                    strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.GdsQueueService);
-                else if (strRequest.Contains("PingReq"))
-                    strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.SystemService);
-                else if (strRequest.Contains("UniversalRecordRetrieveReq") || strRequest.Contains("UniversalRecordImportReq") || strRequest.Contains("UniversalRecordCancelReq") || strRequest.Contains("UniversalRecordModifyReq") || strRequest.Contains("UniversalRecordSearchReq"))
-                    strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+                strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.AirService);
+            else if (strRequest.Contains("CreateTerminalSessionReq") || strRequest.Contains("EndTerminalSessionReq") || strRequest.Contains("TerminalReq"))
+                strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.TerminalService);
+            else if (strRequest.Contains("GdsQueueCountReq") || strRequest.Contains("GdsEnterQueueReq"))
+                strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.GdsQueueService);
+            else if (strRequest.Contains("PingReq"))
+                strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.SystemService);
+            else if (strRequest.Contains("UniversalRecordRetrieveReq") || strRequest.Contains("UniversalRecordImportReq") || strRequest.Contains("UniversalRecordCancelReq") || strRequest.Contains("UniversalRecordModifyReq") || strRequest.Contains("UniversalRecordSearchReq"))
+                strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.UniversalRecordService);
 
             // ********************
             //  Build Response    *
             // ********************
-            try
-            {
+           
                 //  Insert ConversationID
                 if (!string.IsNullOrEmpty(ConversationID))
                     ConversationID = $"<ConversationID>{ConversationID}</ConversationID>";
@@ -78,9 +54,10 @@ namespace Travelport
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error in Native Response.\r\n{ex.Message}");
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.Native, ex.Message, ProviderSystems);
             }
-            
+
+            return strResponse;
         }
 
         public string Cryptic()
@@ -89,7 +66,6 @@ namespace Travelport
 
             try
             {
-                string host = "1G";
                 string screen = string.Empty;
                 string strRequest = Request;
 
@@ -100,11 +76,27 @@ namespace Travelport
                 oReqDoc.LoadXml(Request);
                 XmlElement oRoot = oReqDoc.DocumentElement;
 
+                if (oRoot.HasAttribute("Target"))
+                {
+                    switch (oRoot.Attributes["Target"].Value)
+                    {
+                        case "WSP":
+                            host = "1P";
+                            break;
+                        case "GAL":
+                            host = "1G";
+                            break;
+                        default:
+                            host = "1V";
+                            break;
+                    }
+                }
+
                 string conversationID = string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/TPA_Extensions/ConversationID").InnerText)
                     ? ""
                     : oRoot.SelectSingleNode("POS/TPA_Extensions/ConversationID").InnerText;
 
-                string branch = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
+                branch = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
 
                 if (oRoot.HasAttribute("Target"))
                 {
@@ -126,7 +118,7 @@ namespace Travelport
                 //***********************************************************
                 // Transform Cryptic Request into Native TravelPort Request *
                 //***********************************************************
-                strResponse = CoreLib.TransformXML(Request, mstrXslPath, $"{mstrVersion}Travelport_CrypticRQ.xsl");
+                strResponse = CoreLib.TransformXML(Request, XslPath, $"{Version}Travelport_CrypticRQ.xsl");
 
                 if (string.IsNullOrEmpty(strRequest.Trim()))
                     throw new Exception("Transformation produced empty xml.");
@@ -134,20 +126,18 @@ namespace Travelport
                 //********************************************************************************
                 // Send Transformed Request to the Galileo Adapter and Getting Native Response   *
                 //******************************************************************************** 
-                TravelPortWSAdapter ttTP = new TravelPortWSAdapter(ttProviderSystems);
+                TravelPortWSAdapter ttTP = SetAdapter(ProviderSystems);
                 string Token = string.IsNullOrEmpty(conversationID) ? ttTP.CreateTerminalSession(branch, host) : conversationID;
-
                 strResponse = ttTP.SubmitTerminalTransaction(strRequest, branch, host, Token);
 
                 if (string.IsNullOrEmpty(conversationID))
                     Token = ttTP.CloseTerminalSession(branch, host, Token);
 
-
                 //***********************************************************************************
                 // Build and Transform Native TravelPort Cryptic Response into XML Cryptic Response *
                 //***********************************************************************************
                 var PreResponse = $"<CrypticRS><Response>{strResponse}</Response>{screen}<ConversationID>{Token}</ConversationID></CrypticRS>";
-                strResponse = CoreLib.TransformXML(PreResponse, mstrXslPath, $"{mstrVersion}Travelport_CrypticRS.xsl");
+                strResponse = CoreLib.TransformXML(PreResponse, XslPath, $"{Version}Travelport_CrypticRS.xsl");
             }
             catch (Exception ex)
             {
@@ -158,10 +148,7 @@ namespace Travelport
         }
 
         public string CreateSession()
-        {
-            string branchID = "";
-            string strHost = "1G"; 
-          
+        {          
             try
             {
                 XmlDocument oReqDoc = new XmlDocument();
@@ -169,23 +156,23 @@ namespace Travelport
                 XmlElement oRoot = oReqDoc.DocumentElement;
                 
                 if (!string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText))
-                    branchID = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
+                    branch = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
 
                 if (oRoot.HasAttribute("Target"))
                 {
                     switch (oRoot.Attributes["Target"].Value)
                     {
                         case "APL":
-                            strHost = "1V";
+                            host = "1V";
                             break;
                         case "GAL":
-                            strHost = "1G";
+                            host = "1G";
                             break;
                         case "WSP":
-                            strHost = "1P";
+                            host = "1P";
                             break;
                         default:
-                            strHost = "1G"; //GAL
+                            host = "1G"; //GAL
                             break;
                     }
                 }                
@@ -197,9 +184,9 @@ namespace Travelport
 
             try
             {                
-                TravelPortWSAdapter ttGA = new TravelPortWSAdapter(ttProviderSystems);
+                TravelPortWSAdapter ttGA = SetAdapter(ProviderSystems);
                 // Create Session and Get Sesson Token
-                string Token = ttGA.CreateTerminalSession(branchID, strHost);
+                string Token = ttGA.CreateTerminalSession(branch, host);
                 
                 // Build Response.
                 string strResponse = Token.Length == 36 
@@ -217,8 +204,6 @@ namespace Travelport
         {
             try
             {
-                string host = "1G";               
-
                 XmlDocument oReqDoc = new XmlDocument();
                 oReqDoc.LoadXml(Request);
                 XmlElement oRoot = oReqDoc.DocumentElement;
@@ -233,7 +218,6 @@ namespace Travelport
                 //****************************
                 // Close Session with Token  *
                 //****************************
-
                 if (oRoot.HasAttribute("Target"))
                 {
                     switch (oRoot.Attributes["Target"].Value)
@@ -250,7 +234,7 @@ namespace Travelport
                     }
                 }
 
-                TravelPortWSAdapter ttGA = new TravelPortWSAdapter(ttProviderSystems);
+                TravelPortWSAdapter ttGA = SetAdapter(ProviderSystems); 
                 string strResponse = ttGA.CloseTerminalSession(branchID, host, Token);
 
                 strResponse = string.IsNullOrEmpty(strResponse)
@@ -261,7 +245,7 @@ namespace Travelport
             }
             catch (Exception ex)
             {
-                throw new Exception($"Session was not Closed.\r\n{ex.Message}");
+                throw new Exception($"Error Communicating with the TravelTalk Adapter. Session was not Closed.\r\n{ex.Message}");
             }
         }
     }
