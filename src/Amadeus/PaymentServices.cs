@@ -41,7 +41,6 @@ namespace AmadeusWS
                 strRequest = strRequest.Replace("AllowedTransactions", "pay1:AllowedTransactions");
                 strRequest = strRequest.Replace("ValidityPeriod", "pay1:ValidityPeriod");
                 strRequest = strRequest.Replace("AdditionalInfo", "pay1:AdditionalInfo");
-                    
                 
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
