@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Xml;
 using TripXMLMain;
 
@@ -49,7 +48,7 @@ namespace Galileo
 
                 //  Build Response.
                 return "<SessionCloseRS Version=\'1.001\'><Success/></SessionCloseRS>";
-                
+
             }
             catch (Exception ex)
             {
@@ -73,7 +72,7 @@ namespace Galileo
                 //  Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                 // ******************************************************************************* 
                 strResponse = ttGA.SendCrypticMessage(strRequest, ConversationID);
-                
+
 
                 // *****************************************************************
                 //  Transform Native Amadeus ShowMileage Response into OTA Response   *
@@ -119,7 +118,7 @@ namespace Galileo
                 //  Transform OTA Cryptic Request into Native Galileo Request *
                 // ************************************************************ 
                 string strRequest = SetRequest("Galileo_CrypticRQ.xsl");
-                
+
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
 
@@ -196,7 +195,7 @@ namespace Galileo
                     throw new Exception("Transformation produced empty xml.");
 
                 GalileoAdapter ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);                
+                bool inSession = SetConversationID(ttGA);
 
                 // *******************************************************************************
                 //  Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
@@ -208,7 +207,7 @@ namespace Galileo
                 // **************************************************************** 
                 try
                 {
-                    var tagToReplace = strResponse.Contains("</Command_CrypticReply>") 
+                    var tagToReplace = strResponse.Contains("</Command_CrypticReply>")
                         ? "</Command_CrypticReply>"
                         : "</CrypticRS>";
                     if (inSession)
@@ -243,7 +242,7 @@ namespace Galileo
             try
             {
                 string strRequest = SetRequest("Galileo_CurConvRQ.xsl");
-                
+
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
 
@@ -295,7 +294,7 @@ namespace Galileo
             string strResponse;
             try
             {
-                
+
                 // ****************************************************************
                 //  Transform OTA TimeDiff Request into Native Amadeus Request    *
                 // **************************************************************** 
@@ -402,7 +401,7 @@ namespace Galileo
         }
 
         public string ETicketVerify()
-        {                        
+        {
             string strResponse;
             try
             {
@@ -439,24 +438,24 @@ namespace Galileo
                 // Send Transformed Request ETicketVerify PNRBFManagement_7_9 to the Galileo Adapter  *
                 // ************************************************************************************* 
                 strResponse = ttGA.SendMessage(strRequest, ConversationID);
-                
+
 
                 if (strResponse.IndexOf("TransactionErrorCode") == -1)
                 {
                     // ************************************************************************************
                     // Send Transformed Request DocProdETicketCheck_1_0 Tariff to the Galileo Adapter    *
                     // ************************************************************************************ 
-                    
+
                     // DocProdETicketCheck_1_0 Request
                     var oNode = oRoot.SelectSingleNode("DocProdETicketCheck_1_0");
                     strRequest = oNode.OuterXml;
                     strResponse = ttGA.SendMessage(strRequest, ConversationID);
-                    
+
                     // send ignore to release the seats
                     oNode = oRoot.SelectSingleNode("PNRBFManagement_7_9[position()=2]");
                     strRequest = oNode.OuterXml;
                     strRequest = ttGA.SendMessage(strRequest, ConversationID);
-                    
+
                 }
 
                 // *****************************************************************
@@ -519,7 +518,7 @@ namespace Galileo
                     {
                         var oNode = currentONode;
                         strRequest += "<Request><Transaction>";
-                        
+
                         if (oNode.OuterXml.IndexOf("<OTA_AirAvailRQ") != -1)
                         {
                             strRequest += $"{CoreLib.TransformXML(oNode.OuterXml, XslPath, $"{Version}Galileo_AirAvailRQ.xsl")}";
@@ -543,7 +542,7 @@ namespace Galileo
                 // Send MultiMessage Request to the Galileo Adapter and Getting MultiMessage Response   *
                 // ***************************************************************************
 
-                
+
                 ttGA = SetAdapter();
                 bool inSession = SetConversationID(ttGA);
                 strResponse = ttGA.SendMultiMessage(strRequest);
@@ -573,7 +572,7 @@ namespace Galileo
                     }
 
                     strResponse = $"<MultiMessageRS><Success/><Response>{strResponse}</Response></MultiMessageRS>";
-                   
+
                 }
                 catch (Exception ex)
                 {
@@ -603,7 +602,7 @@ namespace Galileo
 
         public string ProfileRead()
         {
-            
+
             string strRequest;
             string strResponse;
 
@@ -623,7 +622,7 @@ namespace Galileo
 
                 GalileoAdapter ttGA = SetAdapter();
                 bool inSession = SetConversationID(ttGA);
-                strResponse = ttGA.SendMessage(strRequest);               
+                strResponse = ttGA.SendMessage(strRequest);
 
                 // ***************************************************************************
                 // Transform Native Galileo Currency Convertion Response into OTA Response  *
@@ -638,7 +637,7 @@ namespace Galileo
                         strResponse = strResponse.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_ProfileReadRS.xsl", false);
-                   
+
                 }
                 catch (Exception ex)
                 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
@@ -6,13 +7,13 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 using TripXMLMain;
-using System.Collections.Generic;
+
 
 namespace Galileo
 {
     public abstract class GalileoBase
     {
-        
+
         private string mstrVersion = "";
         private string mstrXslPath = "";
         private modCore.TripXMLProviderSystems providerSystems;
@@ -154,6 +155,18 @@ namespace Galileo
                     otaElement != null && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value != null
                         ? otaElement.Attributes["EchoToken"].Value
                         : "";
+
+                //if (String.IsNullOrEmpty(ConversationID))
+                //    ConversationID = ProviderSystems.SessionPool ? ttGA.CheckSessionV2() : ttGA.CreateSession();
+
+                //if (!string.IsNullOrEmpty(ConversationID) && ConversationID.Contains("Error"))
+                //{
+                //    string conv = ConversationID.Substring(15, ConversationID.Length - 32);
+                //    ConversationID = "";
+                //    throw new Exception(conv);
+                //}
+
+
                 #endregion
 
                 Request = Request.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "").Replace("<?xml version=\"1.0\"?>", "");
@@ -161,7 +174,7 @@ namespace Galileo
                 if (string.IsNullOrEmpty(xslFile))
                     return Request;
 
-                return CoreLib.TransformXML(Request, mstrXslPath, $"{Version}{xslFile}"); 
+                return CoreLib.TransformXML(Request, mstrXslPath, $"{Version}{xslFile}");
             }
             catch (Exception ex)
             {
@@ -182,7 +195,7 @@ namespace Galileo
                 if (oNodeSPL == null)
                 {
                     var oElem = oRootReq?.GetElementsByTagName("ConversationID");
-                    oNodeSPL = oElem is {Count: > 0} ? oElem[0] : null;
+                    oNodeSPL = oElem is { Count: > 0 } ? oElem[0] : null;
                 }
 
                 if (oNodeSPL != null)
@@ -254,7 +267,7 @@ namespace Galileo
 
                 FileInfo ffInfo = new FileInfo(filePath);
 
-                if (ffInfo.Directory is {Exists: false})
+                if (ffInfo.Directory is { Exists: false })
                 {
                     ffInfo.Directory.Create();
                 }

@@ -1169,7 +1169,6 @@ namespace Galileo
                                 }
                         }
                     }
-
                 }
                 else
                 {
@@ -1470,7 +1469,6 @@ namespace Galileo
 
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation of OTA PNRRead Request produced empty xml.");
-
 
                 // ****************************
                 // Retrieve existing PNR     *

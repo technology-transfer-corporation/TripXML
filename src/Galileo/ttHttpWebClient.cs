@@ -101,7 +101,7 @@ namespace Galileo
             }
 
             return strResponse;
-        } 
+        }
         #endregion
 
     }

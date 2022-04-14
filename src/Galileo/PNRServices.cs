@@ -8,11 +8,11 @@ namespace Galileo
 {
     public class PNRServices : GalileoBase
     {
-        
+
         public string PNRRead()
         {
             string strResponse;
-            
+
             // *****************************************************************
             // Transform OTA PNRRead Request into Native Galileo Request     *
             // ***************************************************************** 
@@ -32,16 +32,16 @@ namespace Galileo
 
                 var ttGA = SetAdapter();
                 bool inSession = SetConversationID(ttGA);
-                
+
                 #endregion
-                
+
                 #region Send Transformed Request to the Galileo Adapter and Getting Native Response
 
 
                 // CoreLib.SendTrace(ProviderSystems.UserID, "Galileo", "PNR Read Request", strRequest, ProviderSystems.LogUUID)
                 strResponse = ttGA.SendMessage(strRequest, ConversationID);
                 var strMessage = $"{strRequest}\r\n{strResponse}";
-                
+
 
                 #endregion
 
@@ -89,7 +89,7 @@ namespace Galileo
                     {
                         TripXMLTools.TripXMLLog.LogMessage("PNRRead", ref strMessage, requestTime, DateTime.Now, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
                     }
-                }                
+                }
                 #endregion
 
             }
@@ -117,14 +117,14 @@ namespace Galileo
                 var oDoc = new XmlDocument();
                 oDoc.LoadXml(strRequest);
                 var oRoot = oDoc.DocumentElement;
-                var strRecLocator = oRoot.SelectSingleNode("PNRBFRetrieveMods/PNRAddr/RecLoc").InnerText;                
+                var strRecLocator = oRoot.SelectSingleNode("PNRBFRetrieveMods/PNRAddr/RecLoc").InnerText;
 
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
 
                 // Create Session
                 var ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);                
+                bool inSession = SetConversationID(ttGA);
 
                 // ************************************************************
                 // Send Transformed Request PNR Read to the Galileo Adapter  *
@@ -161,7 +161,7 @@ namespace Galileo
                         strResponse = strResponse.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_PNRCancelRS.xsl");
-                    
+
                     if (strResponse.Contains("<UniqueID ID=\"\""))
                     {
                         strResponse = strResponse.Replace("<UniqueID ID=\"\"", $"<UniqueID ID=\"{strRecLocator}\"");
@@ -229,9 +229,9 @@ namespace Galileo
 
                     if (!bStoreFare)
                     {
-                        
+
                         string strRepriceReq = CoreLib.TransformXML(strReadResp.Replace("</PNRBFManagement_53>", $"{Request}</PNRBFManagement_53>"), XslPath, $"{Version}Galileo_PNRRePriceRQ.xsl");
-                        
+
                         string strRepriceResp;
                         if (strRepriceReq.Contains("Error Type=\"Galileo\""))
                         {
@@ -248,7 +248,7 @@ namespace Galileo
                             }
                         }
 
-                        
+
 
                         strResponse = strReadResp.Replace("</PNRBFManagement_53>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS><ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
                         CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", strResponse, ProviderSystems.LogUUID);
@@ -257,7 +257,7 @@ namespace Galileo
                     {
                         string strRePriceRQ = strReadResp.Replace("</PNRBFManagement_53>", $"{Request}</PNRBFManagement_53>");
                         string strRepriceStoreReq = CoreLib.TransformXML(strRePriceRQ, XslPath, $"{Version}Galileo_PNRRePriceRQ.xsl");
-                        
+
                         string strRepriceResp = ttGA.SendMessage(strRepriceStoreReq, ConversationID);
                         CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", strRepriceResp, ProviderSystems.LogUUID);
 
@@ -272,14 +272,14 @@ namespace Galileo
                         }
 
                         #endregion
-                       
+
                         strResponse = strReadResp.Replace("</PNRBFManagement_53>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS><ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
                     }
                 }
                 catch (Exception ex)
                 {
                     throw new Exception("PNRReprice", ex);
-                }               
+                }
                 #endregion
 
                 #region Transform Native Sabre PNRRead Response into OTA Response
@@ -337,12 +337,12 @@ namespace Galileo
             try
             {
 
-                
+
                 string strRequest = SetRequest("Galileo_QueueRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
 
-                
+
                 var ttGA = SetAdapter();
                 bool inSession = SetConversationID(ttGA);
 
@@ -351,7 +351,7 @@ namespace Galileo
                     inSession = false;
 
                 strResponse = ttGA.SendMessage(strRequest, ConversationID);
-                
+
 
                 // *****************************************************************
                 // Transform Native Galileo Queue Response into OTA Response   *
@@ -384,7 +384,7 @@ namespace Galileo
                     if (inSession)
                         strResponse = strResponse.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
 
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_QueueRS.xsl");                 
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_QueueRS.xsl");
                 }
                 catch (Exception ex)
                 {
@@ -410,7 +410,7 @@ namespace Galileo
         public string QueueRead()
         {
             string strResponse;
-            
+
             // *****************************************************************
             // Transform OTA Queue Request into Native Galileo Request     *
             // ***************************************************************** 
@@ -422,7 +422,7 @@ namespace Galileo
                 bool queueExit = false;
 
                 //if (string.IsNullOrEmpty(Version))
-                    Version = "";
+                Version = "";
 
                 string strRequest = SetRequest("Galileo_QueueReadRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
@@ -451,7 +451,7 @@ namespace Galileo
                         {
                             queueKeep = true;
                         }
-                        
+
                     }
 
                     // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
@@ -462,7 +462,7 @@ namespace Galileo
                     // Check PNR or Errors in Native Response
                     if (queueAccess & strResponse.Contains("<PNRBFRetrieve>") | queueKeep | queueRemove & strResponse.Contains("<PNRBFRetrieve>"))
                     {
-                        
+
                         // Send PNR Redisplay
                         strRequest = "<PNRBFManagement_53><PNRBFRetrieveMods><CurrentPNR/></PNRBFRetrieveMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
                         strResponse = ttGA.SendMessage(strRequest, ConversationID);
@@ -474,16 +474,16 @@ namespace Galileo
 
                         // Transform PNR Read
                         var tagToReplace = strResponse.Contains("</PNRBFManagement_53>")
-                        ? strResponse.Contains("</PNRBFManagement_17>") 
-                            ? "</PNRBFManagement_17>" 
-                            : "</PNRBFManagement_53>"                            
+                        ? strResponse.Contains("</PNRBFManagement_17>")
+                            ? "</PNRBFManagement_17>"
+                            : "</PNRBFManagement_53>"
                         : "</QueueProcessing_16>";
 
                         if (inSession)
                             strResponse = strResponse.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
 
                         CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response", strResponse, ProviderSystems.LogUUID);
-                        
+
                         if (string.IsNullOrEmpty(Version))
                             Version = "v03_";
 

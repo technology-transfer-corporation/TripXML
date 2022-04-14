@@ -172,7 +172,7 @@ namespace Galileo
             catch (Exception ex)
             {
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CarInfo, ex.Message, ProviderSystems);
-            }            
+            }
 
             return strResponse;
         }

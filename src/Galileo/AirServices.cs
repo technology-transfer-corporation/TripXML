@@ -668,7 +668,7 @@ namespace Galileo
                     dup_check = true;
                 }
 
-                ind ++;
+                ind++;
             }
 
             return dup_check;
@@ -684,7 +684,7 @@ namespace Galileo
                     dup_check = true;
                 }
 
-                ind ++;
+                ind++;
             }
 
             return dup_check;
@@ -709,7 +709,7 @@ namespace Galileo
         {
             string strResponse;
             try
-            {                
+            {
                 int inbound_flg_count = 0;
                 var doc_response = new XmlDocument();
                 XmlNode Root = null;
@@ -1572,7 +1572,7 @@ namespace Galileo
                 var oNode = oDoc.CreateNode(XmlNodeType.Element, "", "Request", "");
                 oNode.InnerXml = Request;
                 oRoot.AppendChild(oNode);
-                strResponse = oDoc.OuterXml;                
+                strResponse = oDoc.OuterXml;
 
                 // *****************************************************************
                 // Transform Native Galileo FareDisplay Response into OTA Response   *

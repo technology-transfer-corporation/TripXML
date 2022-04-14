@@ -8,7 +8,7 @@ namespace Galileo
     {
         public string CruiseSailAvail()
         {
-            
+
             string strResponse;
             try
             {
@@ -63,7 +63,7 @@ namespace Galileo
 
         public string CruiseFareAvail()
         {
-            
+
             string strResponse;
             try
             {
@@ -81,7 +81,7 @@ namespace Galileo
                 GalileoAdapter ttGA = SetAdapter();
                 bool inSession = SetConversationID(ttGA);
                 strResponse = ttGA.SendMessage(strRequest);
-                
+
 
                 // *****************************************************************
                 // Transform Native Galileo CruiseFareAvail Response into OTA Response   *
@@ -113,7 +113,7 @@ namespace Galileo
             {
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruiseFareAvail, ex.Message, ProviderSystems);
             }
-            
+
             return strResponse;
         }
 
@@ -477,7 +477,7 @@ namespace Galileo
                     strRequest = $"<CruiseByPass_GetBookingDetails><agentEnvironment><agentTerminalId>09097451</agentTerminalId></agentEnvironment><bookingReference><referenceType>S</referenceType><uniqueReference>{oNode.InnerText}</uniqueReference></bookingReference></CruiseByPass_GetBookingDetails>";
                     strResponse = ttGA.SendMessage(strRequest, ConversationID);
                 }
-                
+
                 // *****************************************************************
                 // Transform Native Galileo CruiseFareAvail Response into OTA Response   *
                 // ***************************************************************** 
@@ -553,10 +553,10 @@ namespace Galileo
                     strRequest += $"{oNode.InnerText}<cruiselineCode></providerDetails><sailingDateTime><sailingDepartureDate>";
 
                     oNode = oRoot.SelectSingleNode("originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CRU']/typicalCruiseData/sailingDateInformation/beginDateTime/day");
-                    
-                    strRequest += oNode.InnerText.Length == 1 
+
+                    strRequest += oNode.InnerText.Length == 1
                         ? $"0{oNode.InnerText}"
-                        : $"{oNode.InnerText}";  
+                        : $"{oNode.InnerText}";
 
                     oNode = oRoot.SelectSingleNode("originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CRU']/typicalCruiseData/sailingDateInformation/beginDateTime/month");
 
@@ -697,7 +697,7 @@ namespace Galileo
             return strResponse;
 
 
-                
+
         }
 
         public string CruisePackageAvail()

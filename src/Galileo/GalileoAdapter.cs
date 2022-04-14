@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Xml;
-using Newtonsoft.Json.Linq;
 using TripXMLMain;
 
 namespace Galileo
@@ -25,8 +25,8 @@ namespace Galileo
         private string BlockID = "";
         private int NewSessions = 0;
         // static int counts = 0;
-        
-        public string TracerID{ get; set;}
+
+        public string TracerID { get; set; }
 
         /// <summary>
         /// Constructor
@@ -40,11 +40,11 @@ namespace Galileo
             {
                 provider.UserName = !provider.UserName.Contains("GWS/") ? $"GWS/{provider.UserName}" : provider.UserName;
                 ProviderSystems = provider;
-                
-                ows = ProviderSystems.System == "Production" 
-                    ? new wsGalileoProd.XmlSelect { Url = ProviderSystems.URL } 
+
+                ows = ProviderSystems.System == "Production"
+                    ? new wsGalileoProd.XmlSelect { Url = ProviderSystems.URL }
                     : new wsGalileoCopy.XmlSelect { Url = ProviderSystems.URL };
-                                                
+
                 mstrProfile = ProviderSystems.Profile;
                 mstrSystem = ProviderSystems.System;
                 mstrUserID = ProviderSystems.UserID;
@@ -59,7 +59,7 @@ namespace Galileo
                     ((wsGalileoProd.XmlSelect)ows).Credentials = oCc;
                     ((wsGalileoProd.XmlSelect)ows).PreAuthenticate = true;
                 }
-                else 
+                else
                 {
                     oCc.Add(new Uri(((wsGalileoCopy.XmlSelect)ows).Url.ToString()), "Basic", oNc);
                     ((wsGalileoCopy.XmlSelect)ows).Timeout = 60000; // 1 Minute
@@ -99,7 +99,7 @@ namespace Galileo
                 }
             }
         }
-                
+
         public string CreateSession()
         {
             try
@@ -112,10 +112,10 @@ namespace Galileo
                 }
                 // CoreLib.SendTrace(sb.Append($"{mstrUserID} - {mstrProfile}").ToString(), "ttGalileoAdapter", "Create Session", mstrProfile, String.Empty)
                 CoreLib.SendTrace(ProviderSystems.UserID, "ttGalileoAdapter", "Create Session", "", ProviderSystems.LogUUID);
-                string token = ProviderSystems.System == "Production" 
+                string token = ProviderSystems.System == "Production"
                     ? (ows as wsGalileoProd.XmlSelect).BeginSession(mstrProfile).ToString()
                     : ((wsGalileoCopy.XmlSelect)ows).BeginSession(mstrProfile).ToString();
-                
+
                 // Write a procedure that will write a Log file with information on just opened session for SPLUNK
                 var trace = new JObject(new JProperty("Provider", ProviderSystems.Provider), new JProperty("ID", token), new JProperty("Type", "Open"), new JProperty("User", ProviderSystems.UserID), new JProperty("UUID", ProviderSystems.LogUUID), new JProperty("TimeStamp", DateTime.Now));
                 string argmessage = "Session Manager";
@@ -142,7 +142,7 @@ namespace Galileo
 
             // Block Naming
             BlockID = $"B{BlockIDNum}";
-            
+
             CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreAdapter", "Create Session", "", ProviderSystems.LogUUID);
             try
             {
@@ -150,7 +150,7 @@ namespace Galileo
                 length = ProviderSystems.Password.Substring(0, 2);
                 password = ProviderSystems.Password.Substring(2);
                 CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Create Session", mstrProfile, ProviderSystems.LogUUID);
-                
+
                 try
                 {
                     switch (ProviderSystems.System)
@@ -458,7 +458,7 @@ namespace Galileo
 
         public string SendImageViewer(string Message)
         {
-           
+
             XmlDocument oReqDoc = null;
             XmlElement xmlResponse = null;
             try
@@ -479,7 +479,7 @@ namespace Galileo
                 wsGalileoCopyIV.ImageViewer owsCopyIV = null;
 
                 CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Send to Galileo", oReqDoc.DocumentElement.OuterXml, ProviderSystems.LogUUID);
-                
+
                 if (mstrSystem == "Production")
                 {
                     owsPrdIV = new wsGalileoProdIV.ImageViewer();
@@ -494,12 +494,12 @@ namespace Galileo
                 }
 
                 CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Receive from Galileo", xmlResponse.OuterXml, ProviderSystems.LogUUID);
-                
+
             }
             catch (Exception ex)
             {
                 throw new Exception($"Error Sending Request to Galileo.\r\n{ex.Message}");
-                
+
             }
 
             return xmlResponse.OuterXml;
@@ -507,7 +507,7 @@ namespace Galileo
 
         public string SendMultiMessage(string Message)
         {
-             string strResponse;
+            string strResponse;
 
             try
             {
@@ -528,13 +528,13 @@ namespace Galileo
                 }
                 strResponse = xmlResponse.OuterXml;
                 CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Receive from Galileo", strResponse, ProviderSystems.LogUUID);
-                
+
             }
             catch (Exception ex)
             {
                 string errText = ex.Message;
                 CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Galileo exception error", errText, ProviderSystems.LogUUID);
-                
+
                 throw new Exception(errText, ex);
             }
 
@@ -554,7 +554,7 @@ namespace Galileo
 
         private void addLog(string msg, string username)
         {
-            TripXMLTools.TripXMLLog.LogErrorMessage(msg, username, TracerID);            
+            TripXMLTools.TripXMLLog.LogErrorMessage(msg, username, TracerID);
         }
 
         public string formatGalileo(string strDisp, string id = "")
