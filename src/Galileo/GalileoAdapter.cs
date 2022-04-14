@@ -110,7 +110,7 @@ namespace Galileo
                             ? new wsGalileoProd.XmlSelect { Url = ProviderSystems.URL }
                             : new wsGalileoCopy.XmlSelect { Url = ProviderSystems.URL };
                 }
-                // CoreLib.SendTrace(sb.Append($"{mstrUserID} - {mstrProfile}").ToString(), "ttGalileoAdapter", "Create Session", mstrProfile, String.Empty)
+                // CoreLib.SendTrace(sb.Append($"{mstrUserID}").ToString(), "ttGalileoAdapter", "Create Session", mstrProfile, String.Empty)
                 CoreLib.SendTrace(ProviderSystems.UserID, "ttGalileoAdapter", "Create Session", "", ProviderSystems.LogUUID);
                 string token = ProviderSystems.System == "Production"
                     ? (ows as wsGalileoProd.XmlSelect).BeginSession(mstrProfile).ToString()
@@ -120,7 +120,8 @@ namespace Galileo
                 var trace = new JObject(new JProperty("Provider", ProviderSystems.Provider), new JProperty("ID", token), new JProperty("Type", "Open"), new JProperty("User", ProviderSystems.UserID), new JProperty("UUID", ProviderSystems.LogUUID), new JProperty("TimeStamp", DateTime.Now));
                 string argmessage = "Session Manager";
                 modCore.AddLog(modCore.LogType.Info, ref argmessage, ProviderSystems, trace);
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Session Created", token, string.Empty);
+                //CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Session Created", token, string.Empty);
+                CoreLib.SendTrace(ProviderSystems.UserID, $"ttGalileoAdapter", "Session Created", token, ProviderSystems.LogUUID);
 
                 return token;
             }
@@ -149,7 +150,7 @@ namespace Galileo
                 oDa = new cDA("ConnectionString");
                 length = ProviderSystems.Password.Substring(0, 2);
                 password = ProviderSystems.Password.Substring(2);
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Create Session", mstrProfile, ProviderSystems.LogUUID);
+                CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Create Session", mstrProfile, ProviderSystems.LogUUID);
 
                 try
                 {
@@ -273,7 +274,7 @@ namespace Galileo
 
         public void CloseSession(string SessionToken)
         {
-            CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Close Session", SessionToken, ProviderSystems.LogUUID);
+            CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Close Session", SessionToken, ProviderSystems.LogUUID);
             switch (ProviderSystems.System)
             {
                 case "Production":
@@ -325,7 +326,7 @@ namespace Galileo
 
             try
             {
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Send to Galileo", oReqDoc.DocumentElement.OuterXml, ProviderSystems.LogUUID);
+                CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Send to Galileo", oReqDoc.DocumentElement.OuterXml, ProviderSystems.LogUUID);
                 startTime = DateTime.Now;
                 var requesttime = DateTime.Now;
 
@@ -351,7 +352,7 @@ namespace Galileo
                     // addSoapLog(xmlResponse.OuterXml, requesttime, responsetime, ProviderSystems.PCC, ProviderSystems.UserID)
                 }
 
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Receive from Galileo", xmlResponse.OuterXml, ProviderSystems.LogUUID);
+                CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Receive from Galileo", xmlResponse.OuterXml, ProviderSystems.LogUUID);
             }
             catch (Exception ex)
             {
@@ -375,13 +376,13 @@ namespace Galileo
                     errText = errText.Substring(0, errText.IndexOf("-->") - 1);
                 }
 
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Galileo exception error", errText, ProviderSystems.LogUUID);
+                CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Galileo exception error", errText, ProviderSystems.LogUUID);
                 throw new Exception(errText, ex);
             }
             finally
             {
                 var sb2 = new StringBuilder();
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", sb2.Append("Galileo Response Time = ").Append(Convert.ToInt32(DateTime.Now.Subtract(startTime).TotalSeconds)).Append(" seconds.").ToString(), "", ProviderSystems.LogUUID);
+                CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", sb2.Append("Galileo Response Time = ").Append(Convert.ToInt32(DateTime.Now.Subtract(startTime).TotalSeconds)).Append(" seconds.").ToString(), "", ProviderSystems.LogUUID);
                 sb2.Remove(0, sb2.Length);
             }
 
@@ -405,7 +406,7 @@ namespace Galileo
                     CloseThisSession = false;
                 }
 
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Send to Galileo", Message, ProviderSystems.LogUUID);
+                CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Send to Galileo", Message, ProviderSystems.LogUUID);
 
                 switch (ProviderSystems.System)
                 {
@@ -419,7 +420,7 @@ namespace Galileo
 
                 strResponse = strResponse.Replace("<", "&lt;").Replace(">", "&gt;");
 
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Receive from Galileo", strResponse, ProviderSystems.LogUUID);
+                CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Receive from Galileo", strResponse, ProviderSystems.LogUUID);
                 if (CloseThisSession)
                 {
                     CloseSession(sessionToken);
@@ -448,7 +449,7 @@ namespace Galileo
                     errText = errText.Substring(0, errText.IndexOf("-->") - 1);
                 }
 
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Galileo exception error", errText, ProviderSystems.LogUUID);
+                CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Galileo exception error", errText, ProviderSystems.LogUUID);
 
                 throw new Exception(errText, ex);
             }
@@ -478,7 +479,7 @@ namespace Galileo
                 wsGalileoProdIV.ImageViewer owsPrdIV = null;
                 wsGalileoCopyIV.ImageViewer owsCopyIV = null;
 
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Send to Galileo", oReqDoc.DocumentElement.OuterXml, ProviderSystems.LogUUID);
+                CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Send to Galileo", oReqDoc.DocumentElement.OuterXml, ProviderSystems.LogUUID);
 
                 if (mstrSystem == "Production")
                 {
@@ -493,7 +494,7 @@ namespace Galileo
                     xmlResponse = owsCopyIV.RetrievePhotoInformation(oReqDoc.DocumentElement);
                 }
 
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Receive from Galileo", xmlResponse.OuterXml, ProviderSystems.LogUUID);
+                CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Receive from Galileo", xmlResponse.OuterXml, ProviderSystems.LogUUID);
 
             }
             catch (Exception ex)
@@ -514,7 +515,7 @@ namespace Galileo
                 XmlDocument oReqDoc = new XmlDocument();
                 oReqDoc.LoadXml(Message);
 
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Send to Galileo", oReqDoc.DocumentElement.OuterXml, ProviderSystems.LogUUID);
+                CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Send to Galileo", oReqDoc.DocumentElement.OuterXml, ProviderSystems.LogUUID);
 
                 XmlElement xmlResponse;
                 switch (ProviderSystems.System)
@@ -527,13 +528,13 @@ namespace Galileo
                         break;
                 }
                 strResponse = xmlResponse.OuterXml;
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Receive from Galileo", strResponse, ProviderSystems.LogUUID);
+                CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Receive from Galileo", strResponse, ProviderSystems.LogUUID);
 
             }
             catch (Exception ex)
             {
                 string errText = ex.Message;
-                CoreLib.SendTrace($"{mstrUserID} - {mstrProfile}", "ttGalileoAdapter", "Galileo exception error", errText, ProviderSystems.LogUUID);
+                CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Galileo exception error", errText, ProviderSystems.LogUUID);
 
                 throw new Exception(errText, ex);
             }
