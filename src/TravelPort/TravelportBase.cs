@@ -13,17 +13,14 @@ namespace Travelport
     {
         private string mstrVersion = "";
         private string mstrXslPath = "";
-        private modCore.TripXMLProviderSystems providerSystems;
+        public string host = "1G";
+        public string branch = string.Empty;
 
         public string ConversationID { get; set; }
 
         public string Request { get; set; }
 
-        public modCore.TripXMLProviderSystems ProviderSystems
-        {
-            get => providerSystems;
-            set => providerSystems = value;
-        }
+        public modCore.TripXMLProviderSystems ProviderSystems { get; set; }
 
         public string Version
         {
@@ -38,7 +35,7 @@ namespace Travelport
         public string XslPath
         {
             get => mstrXslPath;
-            set => mstrXslPath = $"{value}Worldspan\\";
+            set => mstrXslPath = $"{value}Travelport\\";
         }
 
         public TravelportBase()
@@ -145,11 +142,8 @@ namespace Travelport
 
                 XmlNode oNodeSPL = oRootReq?.SelectSingleNode("ConversationID");
 
-                //if (oRootReq.GetAttributeNode("SequenceNmbr") != null)
-                //{
-                //    conversationID = oRootReq.GetAttributeNode("SequenceNmbr").Value;
-                //    bCloseSession = false;
-                //}
+                //if (!(oDocReq.SelectSingleNode("POS/TPA_Extensions/ConversationID") == null))
+                //    ConversationID = oDocReq.SelectSingleNode("POS/TPA_Extensions/ConversationID").InnerText;
 
                 if (oNodeSPL == null)
                 {
@@ -158,9 +152,7 @@ namespace Travelport
                 }
 
                 if (oNodeSPL != null)
-                {
                     ConversationID = oNodeSPL.InnerText.ToUpper().Replace("NONE", "");
-                }
 
                 var token = ConversationID.Split(new[] { "|" }, StringSplitOptions.None);
                 if (String.IsNullOrEmpty(token[0]))

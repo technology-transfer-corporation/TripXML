@@ -7,104 +7,75 @@ using System.IO;
 
 namespace Travelport
 {
-    public class PNRServices
+    public class PNRServices : TravelportBase
     {
-        public modCore.TripXMLProviderSystems ttProviderSystems;
-        private StringBuilder sb = new StringBuilder();
-        private string mstrVersion = "";
-        private string mstrXslPath = "";
-        private string _tracerID = "";
-
-        public string Request { get; set; } = "";
-
-        public string Version
-        {
-            get { return mstrVersion; }
-            set
-            {
-                mstrVersion = value;
-                if (mstrVersion.Length > 0) mstrVersion += "_";
-            }
-        }
-
-        public string XslPath
-        {
-            get { return mstrXslPath; }
-            set
-            {
-                mstrXslPath = sb.Append(value).Append("TravelPort\\").ToString();
-                sb.Remove(0, sb.Length);
-            }
-        }
-
         public string PNRRead()
         {
             string strResponse;
-            DateTime RequestTime = DateTime.Now;
             //*****************************************************************
             // Transform OTA PNRRead Request into Native Amadeus Request     *
             //***************************************************************** 
 
             try
             {
-                string strRequest ;
+                DateTime RequestTime = DateTime.Now;
+
                 string strRetrieve;
-                string strSearch ;
-                string strImport ;
-                string strProviderRecLoc ;
-                try
-                {
-                    #region Get Tracer ID
+                string strSearch;
+                string strImport;
 
-                    XmlDocument otaDoc = new XmlDocument();
-                    XmlElement otaElement;
-                    otaDoc.LoadXml(Request);
-                    otaElement = otaDoc.DocumentElement;
-                    if (otaElement != null && otaElement.HasAttribute("EchoToken") && (otaElement).Attributes["EchoToken"].Value != null)
-                    {
-                        _tracerID = (otaElement).Attributes["EchoToken"].Value;
-                    }
-                    else
-                    { _tracerID = ""; }
-
-                    strProviderRecLoc = otaElement.SelectSingleNode("UniqueID/@ID").InnerText;
-                    otaDoc = null;
-                    otaElement = null;
-
-                    #endregion
-
-                    Request = Request.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "").Replace("<?xml version=\"1.0\"?>", "");
-                    strRequest = Request;
-
-                    strRequest = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Travelport_PNRReadRQ.xsl").ToString(), false);
-                    sb.Remove(0, sb.Length);
-
-                    var natDoc = new XmlDocument();
-                    natDoc.LoadXml(strRequest);
-                    var natElement = natDoc.DocumentElement;
-
-                    strRetrieve = natElement.SelectSingleNode("RetrieveReq").InnerXml;
-                    strSearch = natElement.SelectSingleNode("SearchReq").InnerXml;
-                    strImport = natElement.SelectSingleNode("ImportReq").InnerXml;
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(sb.Append(sb.Append("Error Transforming OTA Request. ").Append(ex.Message).ToString()).ToString());
-                }
-
-                if (strRequest.Length == 0)
-                {
+                #region Get Tracer ID
+                string strRequest = SetRequest("Travelport_PNRReadRQ.xsl");
+                CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Request", strRequest, ProviderSystems.LogUUID);
+                if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
+
+                XmlDocument oDoc = new XmlDocument();
+                oDoc.LoadXml(Request);
+                XmlElement oRoot = oDoc.DocumentElement;
+                var recordLocator = oRoot.SelectSingleNode("UniqueID/@ID") != null
+                    ? oRoot.SelectSingleNode("UniqueID/@ID").Value
+                    : string.Empty;
+
+                if (oRoot.HasAttribute("Target"))
+                {
+                    switch (oRoot.Attributes["Target"].Value)
+                    {
+                        case "WSP":
+                            host = "1P";
+                            break;
+                        case "GAL":
+                            host = "1G";
+                            break;
+                        default:
+                            host = "1V";
+                            break;
+                    }
                 }
 
-                TravelPortWSAdapter ttTP;
+                branch = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
+
+                #endregion
+
+                oDoc.LoadXml(strRequest);
+                var natElement = oDoc.DocumentElement;
+
+                strRetrieve = natElement.SelectSingleNode("RetrieveReq").InnerXml;
+                strSearch = natElement.SelectSingleNode("SearchReq").InnerXml;
+                strImport = natElement.SelectSingleNode("ImportReq").InnerXml;
+
+                if (string.IsNullOrEmpty(strRequest))
+                    throw new Exception("Transformation produced empty xml.");
+
                 //*******************************************************************************
                 // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                 //******************************************************************************* 
 
-                try
-                {
-                    ttTP = new TravelPortWSAdapter(ttProviderSystems) { TracerID = _tracerID };
+                
+                    bool inSession = false;
+                    var ttProviderSystems = ProviderSystems;
+                    TravelPortWSAdapter ttTP = SetAdapter(ttProviderSystems);
+
                     // send retrieve universal record (UR)
                     strResponse = ttTP.SendMessage(strRetrieve, TravelPortWSAdapter.enRequestType.UniversalRecordService);
 
@@ -140,274 +111,218 @@ namespace Travelport
                     }
 
                     //strResponse = strResponse.Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.TravelportSchema.PNR_RetrieveByRecLocReply + "\"", "");
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                
 
                 //*****************************************************************
                 // Transform Native Amadeus PNRRead Response into OTA Response   *
                 //***************************************************************** 
-
-                ttTP = null;
-
                 try
                 {
-                    strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Travelport_PNRReadRS.xsl").ToString());
-                    sb.Remove(0, sb.Length);
-                    return strResponse;
-                }
+                    //if (strResponse.Length > 1500)
+                    //{
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", strResponse, ProviderSystems.LogUUID);
+                    //}
 
+                    var strToReplace = "</UniversalRecordReqRsp>";
+
+                    if (inSession)
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{ strToReplace}");
+
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Travelport_PNRReadRS.xsl");
+                }
                 catch (Exception ex)
                 {
-                    throw new Exception(sb.Append(sb.Append("Error Transforming Native Response.").Append("\r\n").Append(ex.Message)).ToString());
-
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
                 }
             }
             catch (Exception exx)
             {
-                addLog("<EXOR><M>" + Request + "<BL/>", ttProviderSystems.UserID);
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, exx.Message, ttProviderSystems);
-            }
-            finally
-            {
-                sb.Remove(0, sb.Length);
-            }
-
-            sb = null;
+                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, exx.Message, ProviderSystems);
+            }            
             return strResponse;
         }
 
         public string PNRReprice()
         {
             string strResponse;
-            DateTime RequestTime;
+            DateTime RequestTime = DateTime.Now;
             //*****************************************************************
             // Transform OTA PNRReprice Request into Native Travelport Request     *
             //***************************************************************** 
-            RequestTime = DateTime.Now;
+            var oDoc = new XmlDocument();
             try
             {
-                string strRequest;
-                try
-                {
-                    #region Get Tracer ID
-
-                    XmlDocument otaDoc = new XmlDocument();
-                    XmlElement otaElement;
-                    otaDoc.LoadXml(Request);
-                    otaElement = otaDoc.DocumentElement;
-                    if (otaElement != null && otaElement.HasAttribute("EchoToken") && (otaElement).Attributes["EchoToken"].Value != null)
-                    {
-                        _tracerID = (otaElement).Attributes["EchoToken"].Value;
-                    }
-                    else
-                    { _tracerID = ""; }
-
-                    #endregion
-
-                    Request = Request.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "").Replace("<?xml version=\"1.0\"?>", "");
-                    strRequest = Request;
-
-                    strRequest = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Travelport_PNRRepriceRQ.xsl").ToString(), false);
-                    sb.Remove(0, sb.Length);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(sb.Append(sb.Append("Error Transforming OTA Request. ").Append(ex.Message).ToString()).ToString());
-                }
-
-                if (strRequest.Length == 0)
-                {
+                string strRequest = SetRequest("Travelport_PNRRepriceRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
+
+                oDoc.LoadXml(Request);
+                XmlElement oRoot = oDoc.DocumentElement;
+                var recordLocator = oRoot.SelectSingleNode("UniqueID/@ID") != null
+                    ? oRoot.SelectSingleNode("UniqueID/@ID").Value
+                    : string.Empty;
+
+                if (oRoot.HasAttribute("Target"))
+                {
+                    switch (oRoot.Attributes["Target"].Value)
+                    {
+                        case "WSP":
+                            host = "1P";
+                            break;
+                        case "GAL":
+                            host = "1G";
+                            break;
+                        default:
+                            host = "1V";
+                            break;
+                    }
                 }
+
+                branch = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
 
                 //*******************************************************************************
                 // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                 //******************************************************************************* 
 
                 string strRetrieve;
-                TravelPortWSAdapter ttTP;
-                try
+
+                modCore.TripXMLProviderSystems ttProviderSystems = ProviderSystems;
+                TravelPortWSAdapter ttTP = SetAdapter(ttProviderSystems);
+                bool inSession = SetConversationID(ttTP);
+
+                ttTP = new TravelPortWSAdapter(ttProviderSystems);
+                ttTP.TracerID = ConversationID;
+
+                // send retrieve universal record (UR)
+                strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                                
+                strRetrieve = strResponse;
+
+                if (strResponse.Contains("universal:UniversalRecord LocatorCode="))
                 {
-                    ttTP = new TravelPortWSAdapter(ttProviderSystems);
-                    ttTP.TracerID = _tracerID;
+                    // create and send pricing message
+                    strRequest = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{strResponse}</Response></OTA_PNRRepriceRQ>");
+                    strResponse = CoreLib.TransformXML(strRequest, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
+                    strResponse = ttTP.SendMessage(strResponse, TravelPortWSAdapter.enRequestType.AirService);
+                    strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{strResponse}</universal:UniversalRecordRetrieveRsp>");
 
-                    // send retrieve universal record (UR)
-                    strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-                    strRetrieve = strResponse;
-
-                    if (strResponse.Contains("universal:UniversalRecord LocatorCode="))
+                    if (Request.Contains("StoreFare='true'"))
                     {
-                        // create and send pricing message
-                        strRequest = Request.Replace("</OTA_PNRRepriceRQ>", "<Response>" + strResponse + "</Response></OTA_PNRRepriceRQ>");
-                        strResponse = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Travelport_PNRRepriceRQ.xsl").ToString(), false);
-                        sb.Remove(0, sb.Length);
-
-                        strResponse = ttTP.SendMessage(strResponse, TravelPortWSAdapter.enRequestType.AirService);
-                        strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", strResponse + "</universal:UniversalRecordRetrieveRsp>");
-
-                        if(Request.Contains("StoreFare='true'"))
-                        {
-                            // store new pricing in UR
-                            strRequest = Request.Replace("</OTA_PNRRepriceRQ>", "<NewPrice>" + strResponse + "</NewPrice></OTA_PNRRepriceRQ>");
-                            strResponse = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Travelport_PNRRepriceRQ.xsl").ToString(), false);
-                            sb.Remove(0, sb.Length);
-
-                            strResponse = ttTP.SendMessage(strResponse, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-                            strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", strResponse + "</universal:UniversalRecordRetrieveRsp>");
-                        }
+                        // store new pricing in UR
+                        strRequest = Request.Replace("</OTA_PNRRepriceRQ>", $"<NewPrice>{strResponse}</NewPrice></OTA_PNRRepriceRQ>");
+                        strResponse = CoreLib.TransformXML(strRequest, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
+                        strResponse = ttTP.SendMessage(strResponse, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                        strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{strResponse}</universal:UniversalRecordRetrieveRsp>");
                     }
                 }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
 
-                //*****************************************************************
-                // Transform Native Travelport PNRReprice Response into OTA Response   *
-                //***************************************************************** 
-
-                ttTP = null;
-
+                //********************************************************************
+                // Transform Native Travelport PNRReprice Response into OTA Response *
+                //******************************************************************** 
                 try
                 {
-                    strResponse = CoreLib.TransformXML(strRetrieve, mstrXslPath, sb.Append(mstrVersion).Append("Travelport_PNRRepriceRS.xsl").ToString());
-                    sb.Remove(0, sb.Length);
-
+                    var strToReplace = "</universal:UniversalRecordRetrieveRsp>";
+                    if (inSession)
+                        strRetrieve = strRetrieve.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
+                    
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response", strRetrieve, ProviderSystems.LogUUID);                    
+                    strResponse = CoreLib.TransformXML(strRetrieve, XslPath, $"{Version}Travelport_PNRRepriceRS.xsl");
                     return strResponse;
                 }
-
                 catch (Exception ex)
                 {
-                    throw new Exception(sb.Append(sb.Append("Error Transforming Native Response.").Append("\r\n").Append(ex.Message)).ToString());
-
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttTP.CloseTerminalSession(branch, host, ConversationID);
+                        ConversationID = string.Empty;
+                    }
                 }
             }
-            catch (Exception exx)
+            catch (Exception ex)
             {
-                addLog("<EXOR><M>" + Request + "<BL/>", ttProviderSystems.UserID);
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, exx.Message, ttProviderSystems);
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
             }
-            finally
-            {
-                sb.Remove(0, sb.Length);
-            }
-
-            sb = null;
             return strResponse;
         }
 
         public string Queue()
         {
-            TravelPortWSAdapter ttTP ;
-            string strRequest;
-            string strResponse = "";
-            string ConversationID = "";
-            string strBranch = "";
-            string strHost = "";
-            XmlDocument otaDoc ;
-            XmlElement otaElement;
-
-
+            string strResponse = String.Empty;
             //*****************************************************************
             // Transform OTA Queue Request into Native TravelPort Request     *
             //***************************************************************** 
 
             try
             {
-                #region Get Tracer ID
+                var oDoc = new XmlDocument();
+                string strRequest = SetRequest("Travelport_QueueRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
+                    throw new Exception("Transformation produced empty xml.");
 
-                otaDoc = new XmlDocument();
-                otaDoc.LoadXml(Request);
-                otaElement = otaDoc.DocumentElement;
-                if (otaElement != null && otaElement.HasAttribute("EchoToken") && (otaElement).Attributes["EchoToken"].Value != null)
+                oDoc.LoadXml(Request);
+                XmlElement oRoot = oDoc.DocumentElement;
+
+                if (oRoot.HasAttribute("Target"))
                 {
-                    _tracerID = (otaElement).Attributes["EchoToken"].Value;
-                }
-                else
-                { _tracerID = ""; }
-
-                if (otaElement.SelectSingleNode("ListQueue/@PseudoCityCode") != null)
-                    strBranch = otaElement.SelectSingleNode("ListQueue/@PseudoCityCode").InnerText;
-                else if (otaElement.SelectSingleNode("PlaceQueue/@PseudoCityCode") != null)
-                    strBranch = otaElement.SelectSingleNode("PlaceQueue/@PseudoCityCode").InnerText;
-                else if (otaElement.SelectSingleNode("RemoveQueue/@PseudoCityCode") != null)
-                    strBranch = otaElement.SelectSingleNode("RemoveQueue/@PseudoCityCode").InnerText;
-
-                if (otaElement.HasAttribute("Target"))
-                {
-                    switch (otaElement.Attributes["Target"].Value)
+                    switch (oRoot.Attributes["Target"].Value)
                     {
                         case "WSP":
-                            strHost = "1P";
+                            host = "1P";
                             break;
                         case "GAL":
-                            strHost = "1G";
+                            host = "1G";
                             break;
                         default:
-                            strHost = "1V";
+                            host = "1V";
                             break;
                     }
                 }
 
-                otaDoc = null;
-                otaElement = null;
+                branch = oDoc.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
 
-                #endregion
+                var ttProviderSystems = ProviderSystems;
+                //*******************************************************************************
+                // Send Transformed Request to the TravelPort Adapter and Getting Native Response  *
+                //******************************************************************************* 
 
-                strRequest = Request;
-                strRequest = CoreLib.TransformXML(strRequest, mstrXslPath, sb.Append(mstrVersion).Append("Travelport_QueueRQ.xsl").ToString());
-                sb.Remove(0, sb.Length);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(sb.Append(sb.Append("Error Transforming OTA Request. ").Append(ex.Message)).ToString());
-            }
-
-            if (strRequest.Length == 0)
-            {
-                throw new Exception("Transformation produced empty xml.");
-            }
-
-            //*******************************************************************************
-            // Send Transformed Request to the TravelPort Adapter and Getting Native Response  *
-            //******************************************************************************* 
-
-            try
-            {
-
-                ttTP = new TravelPortWSAdapter(ttProviderSystems) {TracerID = _tracerID};
+                var ttTP = SetAdapter(ttProviderSystems);
+                bool inSession = SetConversationID(ttTP);
+                var strToReplace = "";
 
                 if (Request.IndexOf("ListQueue") != -1)
                 {
                     if (strRequest.Contains("QLD"))
                     {
                         // process Worldspan queue
-                        ConversationID = ttTP.CreateTerminalSession(strBranch, strHost);
-
-                        strResponse = ttTP.SubmitTerminalTransaction(strRequest, strBranch, strHost, ConversationID);
+                        ConversationID = ttTP.CreateTerminalSession(branch, host);
+                        strResponse = ttTP.SubmitTerminalTransaction(strRequest, branch, host, ConversationID);
 
                         if (strResponse.Contains(")"))
                         {
                             int i = 0;
                             var strResponseQL = strResponse;
 
-                            while(i < 10 && strResponse.Contains(")"))
+                            while (i < 10 && strResponse.Contains(")"))
                             {
-                                strResponse = ttTP.SubmitTerminalTransaction("MD", strBranch, strHost, ConversationID);
+                                strResponse = ttTP.SubmitTerminalTransaction("MD", branch, host, ConversationID);
                                 strResponseQL += strResponse;
-
                                 i++;
                             }
-
                             strResponse = strResponseQL;
                         }
 
-                        strResponse = "<ListQueue>" + strResponse + "</ListQueue>";
-
-                        ConversationID = ttTP.CloseTerminalSession(strBranch, strHost, ConversationID);
+                        strResponse = $"<ListQueue>{strResponse}</ListQueue>";
+                        ConversationID = ttTP.CloseTerminalSession(branch, host, ConversationID);
                     }
                     else
                     {
@@ -419,19 +334,18 @@ namespace Travelport
                     if (strRequest.Contains("QEP/"))
                     {
                         // process Worldspan queue
-                        ConversationID = ttTP.CreateTerminalSession(strBranch, strHost);
+                        ConversationID = ttTP.CreateTerminalSession(branch, host);
 
                         // send *pnrloc
-                        strResponse = ttTP.SubmitTerminalTransaction(strRequest.Substring(0,7), strBranch, strHost, ConversationID);
+                        strResponse = ttTP.SubmitTerminalTransaction(strRequest.Substring(0, 7), branch, host, ConversationID);
 
                         if (!strResponse.Contains("INVALID") && !strResponse.Contains("INVLD ADDRESS"))
                         {
-                            strResponse = ttTP.SubmitTerminalTransaction(strRequest.Substring(7), strBranch, strHost, ConversationID);
+                            strResponse = ttTP.SubmitTerminalTransaction(strRequest.Substring(7), branch, host, ConversationID);
                         }
 
-                        strResponse = "<PlaceQueue>" + strResponse + "</PlaceQueue>";
-
-                        ConversationID = ttTP.CloseTerminalSession(strBranch, strHost, ConversationID);
+                        strResponse = $"<PlaceQueue>{strResponse}</PlaceQueue>";
+                        ConversationID = ttTP.CloseTerminalSession(branch, host, ConversationID);
                     }
                     else
                     {
@@ -443,77 +357,57 @@ namespace Travelport
                     if (strRequest.Contains("QRQ/"))
                     {
                         // process Worldspan queue
-                        ConversationID = ttTP.CreateTerminalSession(strBranch, strHost);
+                        ConversationID = ttTP.CreateTerminalSession(branch, host);
 
                         // send *pnrloc
-                        strResponse = ttTP.SubmitTerminalTransaction(strRequest.Substring(0, 7), strBranch, strHost, ConversationID);
+                        strResponse = ttTP.SubmitTerminalTransaction(strRequest.Substring(0, 7), branch, host, ConversationID);
 
                         if (!strResponse.Contains("INVALID") && !strResponse.Contains("INVLD ADDRESS"))
                         {
-                            strResponse = ttTP.SubmitTerminalTransaction(strRequest.Substring(7), strBranch, strHost, ConversationID);
+                            strResponse = ttTP.SubmitTerminalTransaction(strRequest.Substring(7), branch, host, ConversationID);
                         }
 
-                        strResponse = "<RemoveQueue>" + strResponse + "</RemoveQueue>";
+                        strResponse = $"<RemoveQueue>{strResponse}</RemoveQueue>";
 
-                        ConversationID = ttTP.CloseTerminalSession(strBranch, strHost, ConversationID);
+                        ConversationID = ttTP.CloseTerminalSession(branch, host, ConversationID);
                     }
                     else
                     {
                         // process Galileo queue (TBD)
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
 
-            //*******************************************************************************
-            // check if message is queue lists and if need need to scroll the response      *
-            //******************************************************************************* 
-            try
-            {
+                //*******************************************************************************
+                // check if message is queue lists and if need need to scroll the response      *
+                //*******************************************************************************             
                 ConversationID = "";
                 ttTP = null;
 
                 try
                 {
-
-                    strResponse = CoreLib.TransformXML(strResponse, mstrXslPath, sb.Append(mstrVersion).Append("Travelport_QueueRS.xsl").ToString(), false);
-                    sb.Remove(0, sb.Length);
-
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Travelport_QueueRS.xsl", false);
                     return strResponse;
                 }
-
                 catch (Exception ex)
                 {
-                    throw new Exception(sb.Append(sb.Append("Error Transforming Native Response.").Append("\r\n").Append(ex.Message).ToString()).ToString());
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
                 }
             }
-
             catch (Exception ex)
             {
-                if (ConversationID != "")
-                {
-                    ttTP.CloseTerminalSession(strBranch,strHost,ConversationID);
-                }
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
+            }
+            return strResponse;
 
-                throw ex;
-            }
-            finally
-            {
-                sb = null;
-            }
-            
         }
 
         public static void addLog(string msg, string username)
         {
             try
             {
-                string FilePath = "log\\" + username + "_" + DateTime.Today.ToString("dd-MM-yyyy");
+                string FilePath = $"log\\{username}_{DateTime.Today.ToString("dd-MM-yyyy")}";
                 string DirPath = "C:\\TripXML\\log";
-                FilePath = "C:\\TripXML\\" + FilePath + ".txt";
+                FilePath = $"C:\\TripXML\\{FilePath}.txt";
 
                 if (!Directory.Exists(DirPath))
                 {
@@ -523,16 +417,15 @@ namespace Travelport
                 {
                     using (StreamWriter sw = File.CreateText(FilePath))
                     {
-                        sw.WriteLine("created On - " + DateTime.Now + "\r\n");
+                        sw.WriteLine($"created On - {DateTime.Now}\r\n");
                         sw.Flush();
                         sw.Close();
                     }
                 }
                 using (StreamWriter sw = File.AppendText(FilePath))
                 {
-                    DateTimeFormatInfo myDTFI = new CultureInfo("fr-FR", true).DateTimeFormat;
-
-                    sw.WriteLine(DateTime.UtcNow.ToString(myDTFI).Substring(11) + " GMT - " + msg + "\r\n");
+                    DateTimeFormatInfo myDTFI = new CultureInfo("en-US", true).DateTimeFormat;
+                    sw.WriteLine($"{DateTime.UtcNow.ToString(myDTFI).Substring(11)} GMT - {msg}\r\n");
                     sw.Flush();
                     sw.Close();
                 }
