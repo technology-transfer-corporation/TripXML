@@ -4,7 +4,6 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Xml;
 using TripXMLMain;
 
@@ -16,17 +15,12 @@ namespace Galileo
 
         private string mstrVersion = "";
         private string mstrXslPath = "";
-        private modCore.TripXMLProviderSystems providerSystems;
-
+        
         public string ConversationID { get; set; }
 
         public string Request { get; set; }
 
-        public modCore.TripXMLProviderSystems ProviderSystems
-        {
-            get => providerSystems;
-            set => providerSystems = value;
-        }
+        public modCore.TripXMLProviderSystems ProviderSystems { get; set; }
 
         public string Version
         {
