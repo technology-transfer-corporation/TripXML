@@ -27,19 +27,29 @@ Namespace wsTravelTalk.wmCrypticIn
         Public POS As POS
 
         '<remarks/>
+        Public UniqueID As UniqueID
+
+        '<remarks/>
         Public Entry As String
     End Class
 
     '<remarks/>
-    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)> _
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
     Public Class POS
 
         '<remarks/>
-        <System.Xml.Serialization.XmlElementAttribute("Source")> _
+        <System.Xml.Serialization.XmlElementAttribute("Source")>
         Public Source() As Source
 
         '<remarks/>
         Public TPA_Extensions As TPA_Extensions
+    End Class
+
+    Public Class UniqueID
+
+        '<remarks/>
+        <System.Xml.Serialization.XmlAttributeAttribute()>
+        Public ID As String
     End Class
 
     '<remarks/>
