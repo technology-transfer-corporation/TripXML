@@ -129,6 +129,20 @@ namespace Galileo
                 // ******************************************************************************* 
                 try
                 {
+                    if (!inSession)
+                    {
+                        var oDocReq = new XmlDocument();
+                        oDocReq.LoadXml(Request);
+                        var oRootReq = oDocReq.DocumentElement;
+
+                        XmlNode oNodeSPL = oRootReq?.SelectSingleNode("UniqueID");
+                        if (oNodeSPL != null)
+                        {
+                            var pnrRequest = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr/><CodeCheck/><RecLoc>{oNodeSPL.Attributes["ID"].Value}</RecLoc></PNRAddr></PNRBFRetrieveMods></PNRBFManagement_53>";
+                            strResponse = ttGA.SendMessage(pnrRequest, ConversationID);
+                        }
+                    }
+
                     strResponse = ttGA.SendCrypticMessage(strRequest, ConversationID);
                     CoreLib.SendTrace(ProviderSystems.UserID, "Cryptic", "Getting Native Response", strResponse, ProviderSystems.LogUUID);
 
