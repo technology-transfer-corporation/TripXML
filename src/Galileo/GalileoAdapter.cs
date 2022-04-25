@@ -391,21 +391,10 @@ namespace Galileo
 
         public string SendCrypticMessage(string Message, string sessionToken)
         {
-            bool CloseThisSession;
             string strScreen;
             string strResponse;
             try
             {
-                if (sessionToken.Length == 0)
-                {
-                    CloseThisSession = true;
-                    sessionToken = CreateSession();
-                }
-                else
-                {
-                    CloseThisSession = false;
-                }
-
                 CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Send to Galileo", Message, ProviderSystems.LogUUID);
 
                 switch (ProviderSystems.System)
@@ -421,10 +410,6 @@ namespace Galileo
                 strResponse = strResponse.Replace("<", "&lt;").Replace(">", "&gt;");
 
                 CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Receive from Galileo", strResponse, ProviderSystems.LogUUID);
-                if (CloseThisSession)
-                {
-                    CloseSession(sessionToken);
-                }
             }
             catch (Exception ex)
             {

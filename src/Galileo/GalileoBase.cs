@@ -15,7 +15,7 @@ namespace Galileo
 
         private string mstrVersion = "";
         private string mstrXslPath = "";
-        
+
         public string ConversationID { get; set; }
 
         public string Request { get; set; }
@@ -192,14 +192,14 @@ namespace Galileo
                     oNodeSPL = oElem is { Count: > 0 } ? oElem[0] : null;
                 }
 
-                if (oNodeSPL != null)
+                if (oNodeSPL != null && !string.IsNullOrEmpty(oNodeSPL.InnerText))
                 {
                     ConversationID = oNodeSPL.InnerText.Trim();
                     if (!string.IsNullOrEmpty(ConversationID))
                         return true;
                 }
 
-                if (String.IsNullOrEmpty(ConversationID))
+                if (string.IsNullOrEmpty(ConversationID))
                     ConversationID = ttAA.CreateSession();
 
                 if (!string.IsNullOrEmpty(ConversationID) && ConversationID.Contains("Error"))

@@ -130,19 +130,6 @@ namespace Galileo
                 // ******************************************************************************* 
                 try
                 {
-                    var oDoc = new XmlDocument();
-                    oDoc.LoadXml(Request);
-                    XmlElement oRoot = oDoc.DocumentElement;
-                    recordLocator = oRoot.SelectSingleNode("UniqueID/@ID") != null
-                        ? oRoot.SelectSingleNode("UniqueID/@ID").Value
-                        : string.Empty;
-
-                    if (!inSession)
-                    {
-                        var pnrRQ = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr/><CodeCheck/><RecLoc>{recordLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53> ";
-                        ttGA.SendMessage(pnrRQ, ConversationID);
-                    }
-
                     strResponse = ttGA.SendCrypticMessage(strRequest, ConversationID);
                     CoreLib.SendTrace(ProviderSystems.UserID, "Cryptic", "Getting Native Response", strResponse, ProviderSystems.LogUUID);
 
