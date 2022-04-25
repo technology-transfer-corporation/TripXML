@@ -58,7 +58,7 @@ namespace Galileo
             CoreLib.SendTrace(userID, "ttGalileoService", "Record Locator", recordLocator, string.Empty);
             return recordLocator;
         }
-
+        
         protected static string FormatGalileo(string strDisplay)
         {
             string display = "";
@@ -194,8 +194,9 @@ namespace Galileo
 
                 if (oNodeSPL != null)
                 {
-                    ConversationID = oNodeSPL.InnerText;
-                    return true;
+                    ConversationID = oNodeSPL.InnerText.Trim();
+                    if (!string.IsNullOrEmpty(ConversationID))
+                        return true;
                 }
 
                 if (String.IsNullOrEmpty(ConversationID))
@@ -287,6 +288,6 @@ namespace Galileo
             {
                 throw new Exception($"Error adding line to Log.\r\n{ex.Message}");
             }
-        }
+        }        
     }
 }
