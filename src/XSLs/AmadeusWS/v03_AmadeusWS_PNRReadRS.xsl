@@ -4682,7 +4682,7 @@
 	<xsl:template match="dataElementsIndiv" mode="IssuedTicket">
 		<xsl:variable name="tktType">
 			<xsl:choose>
-				<xsl:when test="count(referenceForDataElement/reference[qualifier = 'ST']) = 0 and contains(otherDataFreetext/longFreetext, '/DT')">
+				<xsl:when test="contains(otherDataFreetext/longFreetext, '/DT')">
 					<xsl:value-of select="concat('EMD', ' ', substring-before(otherDataFreetext/longFreetext, ' '))"/>				
 				</xsl:when>
 				<xsl:otherwise>
