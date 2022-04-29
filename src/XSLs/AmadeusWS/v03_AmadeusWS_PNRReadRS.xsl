@@ -4,6 +4,8 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 29 Apr 2022 - Kobelev - EMD Exchange and EMD Service Fee display fix.
+   Date: 28 Apr 2022 - Kobelev - Handle of FOP Errors in case if GDS regected a card.
    Date: 25 Mar 2022 - Kobelev - Added to SupplementalInfo information on criteriaDetails.
    Date: 06 Jan 2022 - Kobelev - Passanger Information display ADT/CHLD vs. INF.
    Date: 21 Oct 2021 - Kobelev - Added handling of Corporate special remarks RX.
@@ -234,21 +236,27 @@
 					</Errors>
 				</xsl:when>
 				<xsl:when test="pnrHeader/reservationInfo/reservation/controlNumber!=''">
-					<!--
-          <xsl:choose>
-            <xsl:when test="originDestinationDetails/itineraryInfo[not (elementManagementItinerary/segmentName='AIR')]">
-              <Errors>
-                <Error Type="Amadeus">
-                  No Air Segments in PNR
-                </Error>
-              </Errors>
-            </xsl:when>
-            <xsl:otherwise>
-              <Success/>
-            </xsl:otherwise>
-          </xsl:choose>
-          -->
-					<Success />
+
+					<xsl:choose>
+						<xsl:when test="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FP']/elementManagementData/status = 'ERR' or dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='MCO']/elementManagementData/status = 'ERR'">
+							<Errors>
+								<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FP' ]" mode="FOPerror"/>
+								<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='MCO' ]" mode="FOPerror"/>
+							</Errors>
+						</xsl:when>
+						<!--
+						<xsl:when test="originDestinationDetails/itineraryInfo[not (elementManagementItinerary/segmentName='AIR')]">
+							<Errors>
+								<Error Type="Amadeus">
+									No Air Segments in PNR
+								</Error>
+							</Errors>
+						</xsl:when>
+						-->
+						<xsl:otherwise>
+							<Success/>
+						</xsl:otherwise>
+					</xsl:choose>
 					<xsl:choose>
 						<xsl:when test="Ticket_DisplayTSTReply[(applicationError)]">
 							<Warnings>
@@ -449,6 +457,25 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:value-of select="."/>
+		</Error>
+	</xsl:template>
+	
+	<xsl:template match="dataElementsIndiv" mode="FOPerror">
+		<Error Type="Amadeus">
+			<xsl:if test="elementErrorInformation">
+				<xsl:attribute name="Code">
+					<xsl:value-of select="concat(elementErrorInformation/errorOrWarningCodeDetails/errorDetails/errorCode, '-', elementErrorInformation/errorOrWarningCodeDetails/errorDetails/errorCategory)"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:value-of select="elementErrorInformation/errorWarningDescription/freeText"/>
+		</Error>
+		<Error Type="Amadeus">
+			<xsl:if test="elementErrorInformation">
+				<xsl:attribute name="Code">
+					<xsl:value-of select="concat(elementErrorInformation/errorOrWarningCodeDetails/errorDetails/errorCode, '-', elementErrorInformation/errorOrWarningCodeDetails/errorDetails/errorCategory)"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:value-of select="otherDataFreetext/longFreetext"/>
 		</Error>
 	</xsl:template>
 
@@ -804,7 +831,7 @@
 						<xsl:otherwise>
 							<xsl:value-of select="pricingOptionKey/pricingOptionKey"/>
 						</xsl:otherwise>
-					</xsl:choose>					
+					</xsl:choose>
 				</xsl:for-each>
 			</xsl:variable>
 
@@ -1265,7 +1292,7 @@
 
 				<xsl:if test="$priceOpt != ''">
 					<SupplementalInfo>
-						<xsl:value-of select="$priceOpt"/>							
+						<xsl:value-of select="$priceOpt"/>
 					</SupplementalInfo>
 				</xsl:if>
 
@@ -1329,11 +1356,13 @@
 			</xsl:attribute>
 		</Tax>
 	</xsl:template>
+	
 	<!-- 
   **************************************************************
    Process Names			                            
   ************************************************************** 
   -->
+	
 	<xsl:template match="passengerData">
 		<CustomerInfo>
 			<xsl:attribute name="RPH">
@@ -3336,6 +3365,7 @@
 			</xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
+	
 	<xsl:template name="ProcessPayment">
 		<xsl:param name="payment"/>
 		<xsl:if test="$payment!=''">
@@ -4109,6 +4139,7 @@
 			</xsl:choose>
 		</Address>
 	</xsl:template>
+	
 	<xsl:template match="structuredAddress">
 		<xsl:if test="address[option='A1']">
 			<StreetNmbr>
@@ -4649,6 +4680,16 @@
 	<!-- Issued Tickets Elements 	                               		    -->
 	<!-- ************************************************************** -->
 	<xsl:template match="dataElementsIndiv" mode="IssuedTicket">
+		<xsl:variable name="tktType">
+			<xsl:choose>
+				<xsl:when test="count(referenceForDataElement/reference[qualifier = 'ST']) = 0 and contains(otherDataFreetext/longFreetext, '/DT')">
+					<xsl:value-of select="concat('EMD', ' ', substring-before(otherDataFreetext/longFreetext, ' '))"/>				
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="substring-before(otherDataFreetext/longFreetext, ' ')"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<IssuedTicket>
 			<xsl:if test="referenceForDataElement/reference/qualifier='PT'">
 				<xsl:attribute name="TravelerRefNumberRPHList">
@@ -4663,7 +4704,7 @@
 					</xsl:for-each>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="referenceForDataElement/reference/qualifier='ST'">
+			<xsl:if test="referenceForDataElement/reference/qualifier='ST' and not(starts-with($tktType, 'EMD'))">
 				<xsl:attribute name="FlightRefNumberRPHList">
 					<xsl:for-each select="referenceForDataElement/reference[qualifier='ST']/number">
 						<xsl:variable name="rph">
@@ -4676,7 +4717,7 @@
 					</xsl:for-each>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:value-of select="otherDataFreetext/longFreetext"/>
+			<xsl:value-of select="concat($tktType, ' ',substring-after(otherDataFreetext/longFreetext, ' '))"/>
 		</IssuedTicket>
 	</xsl:template>
 	<!-- ************************************************************** -->
@@ -4823,6 +4864,28 @@
 			<xsl:value-of select="otherDataFreetext/longFreetext"/>
 		</ExchangeDocument>
 	</xsl:template>
+	<xsl:template match="dataElementsIndiv" mode="EMD">
+		<xsl:variable name="tktType">
+			<xsl:value-of select="substring-before(otherDataFreetext/longFreetext, ' ')"/>
+		</xsl:variable>
+
+		<IssuedTicket>
+			<xsl:if test="referenceForDataElement/reference/qualifier='PT'">
+				<xsl:attribute name="TravelerRefNumberRPHList">
+					<xsl:for-each select="referenceForDataElement/reference[qualifier='PT']/number">
+						<xsl:variable name="rph">
+							<xsl:value-of select="."/>
+						</xsl:variable>
+						<xsl:if test="position() > 1">
+							<xsl:text> </xsl:text>
+						</xsl:if>
+						<xsl:value-of select="../../../../../travellerInfo/elementManagementPassenger[reference/number = $rph]/lineNumber"/>
+					</xsl:for-each>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:value-of select="concat('MCO ', $tktType, ' ',substring-after(otherDataFreetext/longFreetext, ' '))"/>
+		</IssuedTicket>
+	</xsl:template>
 	<!-- ************************************************************** -->
 	<!-- TicketingCarrier Elements 	                               		    -->
 	<!-- ************************************************************** -->
@@ -4934,7 +4997,7 @@
 							<xsl:variable name="number">
 								<xsl:value-of select="."/>
 							</xsl:variable>
-							<xsl:value-of select="$number" />							
+							<xsl:value-of select="$number" />
 						</xsl:for-each>
 					</xsl:attribute>
 				</xsl:when>

@@ -7,4 +7,5 @@
 	<xsl:template match="CrypticRQ">
 		<xsl:value-of select="Entry" />
 	</xsl:template>
+
 </xsl:stylesheet>
