@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 29 Apr 2022 - Kobelev - EMD Exchange and EMD Service Fee display fix.
 Date: 16 Nov 2021 - Kobelev - Airline Decoding.
 Date: 21 Oct 2021 - Kobelev - Change Controlling Carrier RemarkType from "Z" to "CC".
 Date: 28 Sep 2021 - Kobelev - Passanger Date of Birth fix.
@@ -76,6 +77,7 @@ Date: 23 Feb 2015 - Rastko
 	<xsl:variable name="loop">
 		<xsl:value-of select="count(//DPW8/PRC_INF/PRC_QUO/PTC_FAR_DTL) + 1"/>
 	</xsl:variable>
+	
 	<xsl:template match="/">
 		<xsl:apply-templates select="DPW8"/>
 		<xsl:apply-templates select="XXW"/>
@@ -450,6 +452,9 @@ Date: 23 Feb 2015 - Rastko
 								<TPA_Extensions>
 									<IssuedTickets>
 										<xsl:apply-templates select="ETR_INF" mode="IssuedTicket" />
+										<xsl:if test="//PNR_EMD_INF">
+											<xsl:apply-templates select="//PNR_EMD_INF" mode="EMD" />
+										</xsl:if>
 									</IssuedTickets>
 								</TPA_Extensions>
 							</xsl:if>
@@ -628,6 +633,35 @@ Date: 23 Feb 2015 - Rastko
 					</xsl:choose>
 				</ExchangeDocument>
 			</xsl:if>
+		</xsl:for-each>
+	</xsl:template>
+
+	<xsl:template match="PNR_EMD_INF" mode="EMD">
+		
+		<xsl:for-each select="Line">
+			<xsl:variable name="tktPax" select="substring-before(.,' ')" />
+			<xsl:variable name="tkt" select="@EMD" />
+			<xsl:variable name="tktInfo" select="substring-after(.,' ')" />
+			
+			<IssuedTicket>
+				<xsl:attribute name="TravelerRefNumberRPHList">
+					<xsl:for-each select="//PAX_INF/NME_ITM">
+						<xsl:if test="translate(PAX_NME, '.','') = translate($tktPax, '.','')">
+							<xsl:value-of select="NME_POS"/>
+						</xsl:if>
+					</xsl:for-each>
+				</xsl:attribute>
+
+				<xsl:choose>
+					<xsl:when test="starts-with($tktInfo, 'V ')">
+						<xsl:value-of select="concat('EMD ', $tkt, ' *VOID* ', translate($tktInfo, 'V ', ''))"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="concat('EMD ', $tkt, ' ', $tktInfo)"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</IssuedTicket>
+
 		</xsl:for-each>
 	</xsl:template>
 
