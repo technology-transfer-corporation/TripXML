@@ -5135,7 +5135,7 @@
 					<xsl:when test="../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo/Text">
 						<xsl:if test="contains(../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo/Text, '‡UN')">
 							<xsl:call-template name="string-trim">
-								<xsl:with-param name="string" select="substring-before(substring-after(../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo/Text, '‡UN*'), 'Â‡')" />
+								<xsl:with-param name="string" select="substring-before(substring-after(../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo/Text, '‡UN'), 'Â‡')" />
 							</xsl:call-template>
 						</xsl:if>
 					</xsl:when>
@@ -5182,7 +5182,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 			<Text>
-				<xsl:value-of select="$tc"/>
+				<xsl:value-of select="translate($tc, '*', '')"/>
 			</Text>
 		</SpecialRemark>
 	</xsl:template>
