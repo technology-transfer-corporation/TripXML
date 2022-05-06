@@ -5124,8 +5124,11 @@
 	<!-- ************************************************************** -->
 	<xsl:template match="PriceQuote" mode="TourCode">
 		<SpecialRemark>
-			<xsl:attribute name="RPH">
+			<xsl:variable name="pq">
 				<xsl:value-of select="@RPH"/>
+			</xsl:variable>
+			<xsl:attribute name="RPH">
+				<xsl:value-of select="$pq"/>
 			</xsl:attribute>
 			<xsl:variable name="tc">
 				<xsl:choose>
@@ -5133,11 +5136,24 @@
 						<xsl:value-of select="PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/TourCode/Text"/>
 					</xsl:when>
 					<xsl:when test="../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo/Text">
-						<xsl:if test="contains(../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo/Text, '‡UN')">
-							<xsl:call-template name="string-trim">
-								<xsl:with-param name="string" select="substring-before(substring-after(../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo/Text, '‡UN'), 'Â‡')" />
-							</xsl:call-template>
+						<xsl:variable name="futurePricing">
+							<xsl:value-of select="../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo[contains(Text, concat('PQ',$pq))]/Text"/>
+						</xsl:variable>
+
+						<xsl:if test="contains($futurePricing, 'UN*')">
+							<xsl:choose>
+								<xsl:when test="contains($futurePricing, 'Â') or contains($futurePricing, '‡')">
+									<xsl:value-of select="substring-before(substring-after($futurePricing, '‡UN*'), 'Â‡')"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:call-template name="futurePriceElement">
+										<xsl:with-param name="string" select="$futurePricing" />
+										<xsl:with-param name="elem" select="'UN*'" />
+									</xsl:call-template>
+								</xsl:otherwise>
+							</xsl:choose>
 						</xsl:if>
+
 					</xsl:when>
 				</xsl:choose>
 			</xsl:variable>
@@ -5540,5 +5556,20 @@
 			<xsl:value-of select="concat(., substring($delem, 2 - (position() != last())))"/>
 		</xsl:for-each>
 	</xsl:template>
+
+	<xsl:template name="futurePriceElement">
+		<xsl:param name="string" />
+		<xsl:param name="elem" />
+
+		<xsl:variable name="value">
+			<xsl:call-template name="string-trim">
+				<xsl:with-param name="string" select="substring-before(substring-after($string, $elem), '/')" />
+			</xsl:call-template>
+		</xsl:variable>
+
+		<xsl:value-of select="substring($value, 0, string-length($value) - 2)"/>
+	</xsl:template>
+
+
 
 </xsl:stylesheet>
