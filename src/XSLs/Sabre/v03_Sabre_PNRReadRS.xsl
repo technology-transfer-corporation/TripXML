@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 06 May 2022 - Kobelev - Tour Code from Future Pricing line.
   Date: 29 Apr 2022 - Kobelev - EMD Exchange and EMD Service Fee display fix.
   Date: 01 Apr 2022 - Samokhvalov - Fixed Branded Fare object(ARNK)
   Date: 21 Oct 2021 - Kobelev - MCO identification fix.
@@ -1429,14 +1430,14 @@
 						</xsl:if>
 
 						<xsl:variable name="tkt">
-													<xsl:choose>
-							<xsl:when test="../../ItineraryInfo/Ticketing[contains(@eTicketNumber,$tkn) and contains(@eTicketNumber,'VOID')]/@eTicketNumber">
-								<xsl:value-of select="../../ItineraryInfo/Ticketing[contains(@eTicketNumber,$tkn) and contains(@eTicketNumber,'VOID')]/@eTicketNumber"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="@eTicketNumber"/>
-							</xsl:otherwise>
-						</xsl:choose>
+							<xsl:choose>
+								<xsl:when test="../../ItineraryInfo/Ticketing[contains(@eTicketNumber,$tkn) and contains(@eTicketNumber,'VOID')]/@eTicketNumber">
+									<xsl:value-of select="../../ItineraryInfo/Ticketing[contains(@eTicketNumber,$tkn) and contains(@eTicketNumber,'VOID')]/@eTicketNumber"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="@eTicketNumber"/>
+								</xsl:otherwise>
+							</xsl:choose>
 						</xsl:variable>
 
 						<xsl:choose>
@@ -4850,15 +4851,15 @@
 									<xsl:choose>
 										<xsl:when test="starts-with($card, '*') or starts-with($card, '-')">
 											<xsl:choose>
-											<xsl:when test="contains($card, 'Â')">
-												<xsl:value-of select="substring-before(substring($card,4),'Â')"/>
-											</xsl:when>
+												<xsl:when test="contains($card, 'Â')">
+													<xsl:value-of select="substring-before(substring($card,4),'Â')"/>
+												</xsl:when>
 												<xsl:when test="contains($card, '¥')">
-												<xsl:value-of select="substring-before(substring($card,4),'¥')"/>
-											</xsl:when>
+													<xsl:value-of select="substring-before(substring($card,4),'¥')"/>
+												</xsl:when>
 												<xsl:when test="contains($card, '?')">
-												<xsl:value-of select="substring-before(substring($card,4),'?')"/>
-											</xsl:when>
+													<xsl:value-of select="substring-before(substring($card,4),'?')"/>
+												</xsl:when>
 											</xsl:choose>
 										</xsl:when>
 										<xsl:otherwise>
@@ -5126,8 +5127,23 @@
 			<xsl:attribute name="RPH">
 				<xsl:value-of select="@RPH"/>
 			</xsl:attribute>
+			<xsl:variable name="tc">
+				<xsl:choose>
+					<xsl:when test="PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/TourCode/Text">
+						<xsl:value-of select="PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/TourCode/Text"/>
+					</xsl:when>
+					<xsl:when test="../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo/Text">
+						<xsl:if test="contains(../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo/Text, '‡UN')">
+							<xsl:call-template name="string-trim">
+								<xsl:with-param name="string" select="substring-before(substring-after(../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo/Text, '‡UN*'), 'Â‡')" />
+							</xsl:call-template>
+						</xsl:if>
+					</xsl:when>
+				</xsl:choose>
+			</xsl:variable>
+
 			<xsl:choose>
-				<xsl:when test="PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/TourCode/Text">
+				<xsl:when test="string-length($tc) > 0">
 					<xsl:attribute name="RemarkType">TourCode</xsl:attribute>
 					<TravelerRefNumber>
 						<xsl:attribute name="RPH">
@@ -5166,7 +5182,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 			<Text>
-				<xsl:value-of select="PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/TourCode/Text"/>
+				<xsl:value-of select="$tc"/>
 			</Text>
 		</SpecialRemark>
 	</xsl:template>
