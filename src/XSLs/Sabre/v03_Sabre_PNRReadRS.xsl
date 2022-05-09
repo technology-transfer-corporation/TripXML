@@ -5143,7 +5143,15 @@
 						<xsl:if test="contains($futurePricing, 'UN*')">
 							<xsl:choose>
 								<xsl:when test="contains($futurePricing, 'Â') or contains($futurePricing, '‡')">
-									<xsl:value-of select="substring-before(substring-after($futurePricing, '‡UN*'), 'Â‡')"/>
+									<xsl:variable name="tk" select="substring-after($futurePricing, '‡UN*')" />
+									<xsl:choose>
+										<xsl:when test="contains($tk, 'Â‡')">
+											<xsl:value-of select="substring-before(substring-after($futurePricing, '‡UN*'), 'Â‡')"/>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:value-of select="substring-after($futurePricing, '‡UN*')"/>
+										</xsl:otherwise>
+									</xsl:choose>
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:call-template name="futurePriceElement">
@@ -5561,13 +5569,19 @@
 		<xsl:param name="string" />
 		<xsl:param name="elem" />
 
-		<xsl:variable name="value">
-			<xsl:call-template name="string-trim">
-				<xsl:with-param name="string" select="substring-before(substring-after($string, $elem), '/')" />
-			</xsl:call-template>
-		</xsl:variable>
-
-		<xsl:value-of select="substring($value, 0, string-length($value) - 2)"/>
+		<xsl:choose>
+			<xsl:when test="contains($string, '/')">
+				<xsl:variable name="value">
+					<xsl:call-template name="string-trim">
+						<xsl:with-param name="string" select="substring-before(substring-after($string, $elem), '/')" />
+					</xsl:call-template>
+				</xsl:variable>
+				<xsl:value-of select="substring($value, 0, string-length($value) - 2)"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="substring-after($string, $elem)"/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 

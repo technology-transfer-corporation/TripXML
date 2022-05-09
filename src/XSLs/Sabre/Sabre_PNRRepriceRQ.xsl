@@ -32,6 +32,10 @@
 	<xsl:output method="xml" omit-xml-declaration="yes"/>
 	<xsl:key name="storedFareByFF" match="StoredFare" use="BrandedFares/FareFamily"/>
 	<xsl:key name="storedFareByPTC" match="StoredFare" use="PassengerType/@Code"/>
+	<xsl:key name="fbcBysf" match="FareSegments" use="AirSegments/text()"/>
+
+	<xsl:key name="nameDistinct" match="AA[@Aattr = 'xyz1']/BB" use="@bAttr2"/>
+	
 	<xsl:template match="/">
 		<OTA_PNRRepriceRQ>
 			<xsl:apply-templates select="OTA_PNRRepriceRQ"/>
@@ -84,6 +88,41 @@
 								<xsl:value-of select="$sf"/>
 							</xsl:attribute>
 							<OptionalQualifiers>
+								<xsl:if test="TourCode">
+									<MiscQualifiers>
+										<TourCode>
+											<!-- Optional -->
+											<!-- Repeat Factor=0 -->
+											<!-- "Ind" is used to specify to suppress the fare amount on the ticket and replace with BT. -->
+											<!-- This is not applicable to ARC subscribers. -->
+											<!-- Equivalent Sabre host command: WPUB*TEST1212
+											<SuppressFareReplaceWithBT Ind="true"/> -->
+											<!-- Optional -->
+											<!-- Repeat Factor=0 -->
+											<!-- "Ind" is used to specify to suppress the fare amount on the ticket and replace with IT. -->
+											<!-- Equivalent Sabre host command: WPUI*TEST1212
+											<SuppressFareReplaceWithIT Ind="true"/> -->
+											<!-- Optional -->
+											<!-- Repeat Factor=0 -->
+											<!-- "Ind" is used to specify to to suppress the IT in the tourcode box from printing. -->
+											<!-- Equivalent Sabre host command: WPUN*TEST1212
+											<SuppressIT Ind="true"/> -->
+											<!-- Optional -->
+											<!-- Repeat Factor=0 -->
+											<!-- "Ind" is used to specify to specify to suppress IT from printing in the tour box on the ticket and to suppress      fare amounts from printing on the ticket. -->
+											<!-- Equivalent Sabre host command: WPUX*TEST1212
+											<SuppressITSupressFare Ind="true"/> -->
+											<!-- Optional -->
+											<!-- Repeat Factor=0 -->
+											<!-- "Text" is used to specify tour code. -->
+											<!-- Equivalent Sabre host command: WPUTEST1212 -->
+											<Text>
+												<xsl:value-of select="TourCode"/>
+											</Text>
+										</TourCode>
+									</MiscQualifiers>
+								</xsl:if>
+
 								<PricingQualifiers>
 									<xsl:choose>
 										<xsl:when test="StoredFare[1]/BrandedFares">
@@ -445,7 +484,7 @@
 		</OTA_AirPriceRQ>
 	</xsl:template>
 
-<!--
+	<!--
 **********************************************
   Branded Fares
 **********************************************
@@ -497,6 +536,40 @@
 		<xsl:variable name="ptc" select="PassengerType/@Code" />
 
 		<OTA_AirPriceRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.17.0">
+			<xsl:if test="../TourCode">
+				<MiscQualifiers>
+					<TourCode>
+						<!-- Optional -->
+						<!-- Repeat Factor=0 -->
+						<!-- "Ind" is used to specify to suppress the fare amount on the ticket and replace with BT. -->
+						<!-- This is not applicable to ARC subscribers. -->
+						<!-- Equivalent Sabre host command: WPUB*TEST1212
+											<SuppressFareReplaceWithBT Ind="true"/> -->
+						<!-- Optional -->
+						<!-- Repeat Factor=0 -->
+						<!-- "Ind" is used to specify to suppress the fare amount on the ticket and replace with IT. -->
+						<!-- Equivalent Sabre host command: WPUI*TEST1212
+											<SuppressFareReplaceWithIT Ind="true"/> -->
+						<!-- Optional -->
+						<!-- Repeat Factor=0 -->
+						<!-- "Ind" is used to specify to to suppress the IT in the tourcode box from printing. -->
+						<!-- Equivalent Sabre host command: WPUN*TEST1212
+											<SuppressIT Ind="true"/> -->
+						<!-- Optional -->
+						<!-- Repeat Factor=0 -->
+						<!-- "Ind" is used to specify to specify to suppress IT from printing in the tour box on the ticket and to suppress      fare amounts from printing on the ticket. -->
+						<!-- Equivalent Sabre host command: WPUX*TEST1212
+											<SuppressITSupressFare Ind="true"/> -->
+						<!-- Optional -->
+						<!-- Repeat Factor=0 -->
+						<!-- "Text" is used to specify tour code. -->
+						<!-- Equivalent Sabre host command: WPUTEST1212 -->
+						<Text>
+							<xsl:value-of select="../TourCode"/>
+						</Text>
+					</TourCode>
+				</MiscQualifiers>
+			</xsl:if>
 			<PriceRequestInformation>
 				<xsl:variable name="sf" select="../@StoreFare"/>
 				<xsl:attribute name="Retain">
@@ -516,6 +589,28 @@
 
 	<xsl:template match="FareSegments" mode="SmartPricing">
 		<xsl:variable name="ptc" select="../PassengerType" />
+
+		<!-- Черновик -->
+		<xsl:variable name="fbcList" select="AirSegments/text()"/>
+		<xsl:variable name="fbcList2" select="generate-id(AirSegments/text())"/>
+		<xsl:variable name="bfList">
+			<xsl:call-template name="StoredFareGroup">
+				<xsl:with-param name="list" select="$fbcList"/>
+			</xsl:call-template>
+		</xsl:variable>
+
+		
+		<xsl:variable name="fbcL">
+			<xsl:for-each select="AirSegments[generate-id() = generate-id(key('fbcBysf', text())[1])]">
+				<xsl:value-of select="." />
+			</xsl:for-each>		
+		</xsl:variable>
+		<!-- /Черновик -->
+			
+
+		<xsl:for-each select="msxsl:node-set($fbcList)/elem/node()[1]">
+			<xsl:variable name="fbcName" select="." />			
+		</xsl:for-each>
 
 		<xsl:choose>
 			<xsl:when test="../TicketDesignator!=''">
@@ -553,7 +648,6 @@
 				</ItineraryOptions>
 				<NameSelect>NS</NameSelect>
 				<xsl:if test="../PassengerType">
-
 					<PassengerType>
 						<xsl:attribute name="Quantity">
 							<xsl:value-of select="$ptc/@Quantity"/>
@@ -570,7 +664,6 @@
 					<xsl:if test="../Markup/@Amount!=''">
 						<PlusUp Amount="{../Markup/@Amount}"/>
 					</xsl:if>
-
 				</xsl:if>
 				<xsl:for-each select="AirSegments">
 					<SpecificFare RPH="{@RPH}">
@@ -580,11 +673,8 @@
 						</FareBasis>
 					</SpecificFare>
 				</xsl:for-each>
-
 			</xsl:otherwise>
 		</xsl:choose>
-
-
 	</xsl:template>
 
 	<xsl:template name="StoredFareGroup">
@@ -637,7 +727,7 @@
 				<xsl:attribute name="RPH" >
 					<xsl:value-of select="$rph"/>
 				</xsl:attribute>
-				<xsl:if test="$disc!=''">
+				<xsl:if test="$disc!='' and $disc!='0'">
 					<Discount>
 						<xsl:choose>
 							<xsl:when test="$discType ='P'">
