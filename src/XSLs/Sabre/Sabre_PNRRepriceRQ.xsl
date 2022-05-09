@@ -3,6 +3,7 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
+   Date: 09 May 2022 - Samokhvalov - Grouped ItineraryOptions/SegmentSelect
    Date: 15 Feb 2022 - Kobelev - *ZZ + Ticket Designator and FareBases with Passanger association. Amount equivalent Sabre host command: WPQY/AD75/DA100.00‡N1.1-3.1
    Date: 15 Feb 2022 - Kobelev - *ZZ + Ticket Designator and FareBases. Amount equivalent Sabre host command: WPQY/AD75/DA100.00 
    Date: 14 Feb 2022 - Kobelev - Markup / Commssion with Branded Fare.
@@ -35,7 +36,7 @@
 	<xsl:key name="fbcBysf" match="FareSegments" use="AirSegments/text()"/>
 
 	<xsl:key name="nameDistinct" match="AA[@Aattr = 'xyz1']/BB" use="@bAttr2"/>
-	
+
 	<xsl:template match="/">
 		<OTA_PNRRepriceRQ>
 			<xsl:apply-templates select="OTA_PNRRepriceRQ"/>
@@ -587,30 +588,10 @@
 
 	</xsl:template>
 
+	<!--<xsl:key name="keySegs" match="FB/text()" use="." />-->
+
 	<xsl:template match="FareSegments" mode="SmartPricing">
 		<xsl:variable name="ptc" select="../PassengerType" />
-
-		<!-- Черновик -->
-		<xsl:variable name="fbcList" select="AirSegments/text()"/>
-		<xsl:variable name="fbcList2" select="generate-id(AirSegments/text())"/>
-		<xsl:variable name="bfList">
-			<xsl:call-template name="StoredFareGroup">
-				<xsl:with-param name="list" select="$fbcList"/>
-			</xsl:call-template>
-		</xsl:variable>
-
-		
-		<xsl:variable name="fbcL">
-			<xsl:for-each select="AirSegments[generate-id() = generate-id(key('fbcBysf', text())[1])]">
-				<xsl:value-of select="." />
-			</xsl:for-each>		
-		</xsl:variable>
-		<!-- /Черновик -->
-			
-
-		<xsl:for-each select="msxsl:node-set($fbcList)/elem/node()[1]">
-			<xsl:variable name="fbcName" select="." />			
-		</xsl:for-each>
 
 		<xsl:choose>
 			<xsl:when test="../TicketDesignator!=''">
@@ -642,9 +623,48 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<ItineraryOptions>
-					<xsl:for-each select="AirSegments">
-						<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
+					<xsl:variable name="fbSegs">
+						<xsl:for-each select="AirSegments[position()=1 or not(text()=preceding-sibling::AirSegments[1]/text())]">
+							<xsl:variable name="fbCode" select="text()"/>
+							<FB>
+								<xsl:value-of select="@RPH" />
+								<xsl:text>,</xsl:text>
+								<xsl:for-each select="../AirSegments[text()=$fbCode and (text()=preceding-sibling::AirSegments[1]/text())]">
+									<xsl:value-of select="@RPH" />
+									<xsl:text>,</xsl:text>
+								</xsl:for-each>
+							</FB>
+						</xsl:for-each>
+					</xsl:variable>
+
+					<!--<xsl:for-each select="msxsl:node-set($fbSegs)/FB/text()[generate-id() = generate-id(key('keySegs',.)[1])]">-->
+					<xsl:for-each select="msxsl:node-set($fbSegs)/FB/text()">
+						<SegmentSelect>
+							<xsl:attribute name="Number">
+								<xsl:value-of select="substring-before(.,',')"/>
+							</xsl:attribute>
+
+							<xsl:variable name="groupedSF">
+								<xsl:call-template name="tokenizeString">
+									<xsl:with-param name="list" select="."/>
+									<xsl:with-param name="delimiter" select="','"/>
+								</xsl:call-template>
+							</xsl:variable>
+
+							<xsl:if test="contains(substring(.,1,string-length(.)-1),',')">
+								<xsl:attribute name="EndNumber">
+									<xsl:value-of select="msxsl:node-set($groupedSF)/elem[position()=last()]"/>
+								</xsl:attribute>
+							</xsl:if>
+
+							<xsl:attribute name="RPH">
+								<xsl:value-of select="substring-before(.,',')"/>
+							</xsl:attribute>
+						</SegmentSelect>
 					</xsl:for-each>
+					<!--<xsl:for-each select="AirSegments">
+						<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
+					</xsl:for-each>-->
 				</ItineraryOptions>
 				<NameSelect>NS</NameSelect>
 				<xsl:if test="../PassengerType">
