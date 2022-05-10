@@ -135,9 +135,10 @@
 												<xsl:apply-templates select="StoredFare[1]" mode="CommandPricing" />
 
 												<ItineraryOptions>
-													<xsl:for-each select="FlightReference">
+													<xsl:call-template name="GetItineraryOptions"/>
+													<!--<xsl:for-each select="FlightReference">
 														<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
-													</xsl:for-each>
+													</xsl:for-each>-->
 												</ItineraryOptions>
 
 											</xsl:if>
@@ -275,11 +276,13 @@
 						<PricingQualifiers>
 							<!--<xsl:choose>-->
 							<xsl:if test="StoredFare[1]/BrandedFares">
-								<xsl:apply-templates select="StoredFare[1]/BrandedFares" mode="FareFamily" />
+								<xsl:apply-templates select="StoredFare[1]/BrandedFares" mode="FareFamily" >
+									<xsl:with-param name="skipTD">1</xsl:with-param>
+								</xsl:apply-templates>
 							</xsl:if>
-							<xsl:if test="StoredFare/FareSegments">
+							<!--<xsl:if test="StoredFare/FareSegments">
 								<xsl:apply-templates select="StoredFare/FareSegments" mode="SmartPricing" />
-							</xsl:if>
+							</xsl:if>-->
 							<!--<xsl:otherwise>-->
 							<NameSelect>NS</NameSelect>
 							<xsl:if test="StoredFare[1]/PassengerType">
@@ -300,6 +303,17 @@
 
 								</xsl:for-each>
 							</xsl:if>
+							<xsl:for-each select="StoredFare[1]/FareSegments/AirSegments">
+								<xsl:if test=". != 'VOID'">
+									<SpecificFare RPH="{@RPH}">
+										<FareBasis>
+											<xsl:variable name="fbc" select="substring(.,1,8)" />
+											<xsl:value-of select="$fbc"/>
+										</FareBasis>
+									</SpecificFare>
+								</xsl:if>
+							</xsl:for-each>
+
 							<!--
               </xsl:otherwise>
               </xsl:choose>
@@ -354,9 +368,10 @@
 						<xsl:if test="StoredFare[TicketDesignator]/Discount/@Percent!='' or StoredFare[TicketDesignator]/TicketDesignator!=''">
 							<xsl:apply-templates select="StoredFare[TicketDesignator]" mode="CommandPricing"/>
 							<ItineraryOptions>
-								<xsl:for-each select="FlightReference">
+								<xsl:call-template name="GetItineraryOptions"/>
+								<!--<xsl:for-each select="FlightReference">
 									<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
-								</xsl:for-each>
+								</xsl:for-each>-->
 							</ItineraryOptions>
 						</xsl:if>
 					</xsl:otherwise>
@@ -491,7 +506,7 @@
 **********************************************
 -->
 	<xsl:template match="BrandedFares" mode="FareFamily">
-
+		<xsl:param name="skipTD" select="0" />
 		<xsl:for-each select="FareFamily">
 			<Brand>
 				<xsl:attribute name="RPH">
@@ -501,7 +516,7 @@
 			</Brand>
 		</xsl:for-each>
 
-		<xsl:if test="../Discount/@Percent!='' or ../TicketDesignator!=''">
+		<xsl:if test="$skipTD != 1 and (../Discount/@Percent!='' or ../TicketDesignator!='')">
 			<xsl:for-each select="FareFamily">
 				<CommandPricing>
 					<xsl:attribute name="RPH" >
@@ -526,9 +541,10 @@
 		</xsl:if>
 
 		<ItineraryOptions>
-			<xsl:for-each select="FareFamily">
+			<xsl:call-template name="GetItineraryOptions"/>
+			<!--<xsl:for-each select="FareFamily">
 				<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
-			</xsl:for-each>
+			</xsl:for-each>-->
 		</ItineraryOptions>
 
 	</xsl:template>
@@ -597,9 +613,10 @@
 			<xsl:when test="../TicketDesignator!=''">
 				<xsl:apply-templates select="../../StoredFare[PassengerType/@Code=$ptc/@Code]" mode="CommandPricing" />
 				<ItineraryOptions>
-					<xsl:for-each select="../../FlightReference">
+					<xsl:call-template name="GetItineraryOptions"/>
+					<!--<xsl:for-each select="../../FlightReference">
 						<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
-					</xsl:for-each>
+					</xsl:for-each>-->
 				</ItineraryOptions>
 				<NameSelect>NS</NameSelect>
 				<xsl:if test="../PassengerType">
@@ -623,48 +640,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<ItineraryOptions>
-					<xsl:variable name="fbSegs">
-						<xsl:for-each select="AirSegments[position()=1 or not(text()=preceding-sibling::AirSegments[1]/text())]">
-							<xsl:variable name="fbCode" select="text()"/>
-							<FB>
-								<xsl:value-of select="@RPH" />
-								<xsl:text>,</xsl:text>
-								<xsl:for-each select="../AirSegments[text()=$fbCode and (text()=preceding-sibling::AirSegments[1]/text())]">
-									<xsl:value-of select="@RPH" />
-									<xsl:text>,</xsl:text>
-								</xsl:for-each>
-							</FB>
-						</xsl:for-each>
-					</xsl:variable>
-
-					<!--<xsl:for-each select="msxsl:node-set($fbSegs)/FB/text()[generate-id() = generate-id(key('keySegs',.)[1])]">-->
-					<xsl:for-each select="msxsl:node-set($fbSegs)/FB/text()">
-						<SegmentSelect>
-							<xsl:attribute name="Number">
-								<xsl:value-of select="substring-before(.,',')"/>
-							</xsl:attribute>
-
-							<xsl:variable name="groupedSF">
-								<xsl:call-template name="tokenizeString">
-									<xsl:with-param name="list" select="."/>
-									<xsl:with-param name="delimiter" select="','"/>
-								</xsl:call-template>
-							</xsl:variable>
-
-							<xsl:if test="contains(substring(.,1,string-length(.)-1),',')">
-								<xsl:attribute name="EndNumber">
-									<xsl:value-of select="msxsl:node-set($groupedSF)/elem[position()=last()]"/>
-								</xsl:attribute>
-							</xsl:if>
-
-							<xsl:attribute name="RPH">
-								<xsl:value-of select="substring-before(.,',')"/>
-							</xsl:attribute>
-						</SegmentSelect>
-					</xsl:for-each>
-					<!--<xsl:for-each select="AirSegments">
-						<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
-					</xsl:for-each>-->
+					<xsl:call-template name="GetItineraryOptions"/>
 				</ItineraryOptions>
 				<NameSelect>NS</NameSelect>
 				<xsl:if test="../PassengerType">
@@ -695,6 +671,68 @@
 				</xsl:for-each>
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template name="GetItineraryOptions">
+		<xsl:variable name="fbSegs">
+			<xsl:choose>
+				<xsl:when test="AirSegments">
+					<xsl:for-each select="AirSegments[position()=1 or not(text()=preceding-sibling::AirSegments[1]/text())]">
+						<xsl:variable name="fbCode" select="text()"/>
+						<FB>
+							<xsl:value-of select="@RPH" />
+							<xsl:text>,</xsl:text>
+							<xsl:for-each select="../AirSegments[text()=$fbCode and (text()=preceding-sibling::AirSegments[1]/text())]">
+								<xsl:value-of select="@RPH" />
+								<xsl:text>,</xsl:text>
+							</xsl:for-each>
+						</FB>
+					</xsl:for-each>
+				</xsl:when>
+				<xsl:when test="../FareSegments/AirSegments">
+					<xsl:for-each select="../FareSegments/AirSegments[position()=1 or not(text()=preceding-sibling::AirSegments[1]/text())]">
+						<xsl:variable name="fbCode" select="text()"/>
+						<FB>
+							<xsl:value-of select="@RPH" />
+							<xsl:text>,</xsl:text>
+							<xsl:for-each select="../AirSegments[text()=$fbCode and (text()=preceding-sibling::AirSegments[1]/text())]">
+								<xsl:value-of select="@RPH" />
+								<xsl:text>,</xsl:text>
+							</xsl:for-each>
+						</FB>
+					</xsl:for-each>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
+
+		<!--<xsl:for-each select="msxsl:node-set($fbSegs)/FB/text()[generate-id() = generate-id(key('keySegs',.)[1])]">-->
+		<xsl:for-each select="msxsl:node-set($fbSegs)/FB/text()">
+			<SegmentSelect>
+				<xsl:attribute name="Number">
+					<xsl:value-of select="substring-before(.,',')"/>
+				</xsl:attribute>
+
+				<xsl:variable name="groupedSF">
+					<xsl:call-template name="tokenizeString">
+						<xsl:with-param name="list" select="."/>
+						<xsl:with-param name="delimiter" select="','"/>
+					</xsl:call-template>
+				</xsl:variable>
+
+				<xsl:if test="contains(substring(.,1,string-length(.)-1),',')">
+					<xsl:attribute name="EndNumber">
+						<xsl:value-of select="msxsl:node-set($groupedSF)/elem[position()=last()]"/>
+					</xsl:attribute>
+				</xsl:if>
+
+				<xsl:attribute name="RPH">
+					<xsl:value-of select="substring-before(.,',')"/>
+				</xsl:attribute>
+			</SegmentSelect>
+		</xsl:for-each>
+		<!--<xsl:for-each select="AirSegments">
+						<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
+					</xsl:for-each>-->
 	</xsl:template>
 
 	<xsl:template name="StoredFareGroup">
@@ -736,10 +774,18 @@
 					<xsl:value-of select="Discount/@Percent"/>
 				</xsl:otherwise>
 			</xsl:choose>
-
 		</xsl:variable>
 
-		<xsl:variable name="flt" select="../FlightReference" />
+		<xsl:variable name="flt">
+			<xsl:choose>
+				<xsl:when test="../FlightReference">
+					<xsl:copy-of select="../FlightReference" />
+				</xsl:when>
+				<xsl:when test="../FareSegments">
+					<xsl:copy-of select="../FareSegments/AirSegments[text() != 'VOID']" />
+				</xsl:when>
+			</xsl:choose>
+		</xsl:variable>
 
 		<xsl:for-each select="FareSegments/AirSegments">
 			<xsl:variable name="rph" select="@RPH" />
@@ -771,7 +817,12 @@
 				<xsl:if test="$flt">
 					<FareBasis TicketDesignator="$td">
 						<xsl:attribute name="Code">
-							<xsl:value-of select="."/>
+							<xsl:if test="not(contains(.,'/'))">
+								<xsl:value-of select="."/>
+							</xsl:if>
+							<xsl:if test="contains(.,'/')">
+								<xsl:value-of select="substring-before(.,'/')"/>
+							</xsl:if>
 						</xsl:attribute>
 						<xsl:attribute name="TicketDesignator">
 							<xsl:value-of select="$td"/>
