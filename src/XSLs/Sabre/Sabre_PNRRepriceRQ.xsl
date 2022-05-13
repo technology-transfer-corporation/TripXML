@@ -274,16 +274,18 @@
 					</xsl:attribute>
 					<OptionalQualifiers>
 						<PricingQualifiers>
-							<!--<xsl:choose>-->
-							<xsl:if test="StoredFare[1]/BrandedFares">
-								<xsl:apply-templates select="StoredFare[1]/BrandedFares" mode="FareFamily" >
-									<xsl:with-param name="skipTD">1</xsl:with-param>
-								</xsl:apply-templates>
-							</xsl:if>
-							<!--<xsl:if test="StoredFare/FareSegments">
-								<xsl:apply-templates select="StoredFare/FareSegments" mode="SmartPricing" />
-							</xsl:if>-->
-							<!--<xsl:otherwise>-->
+							<xsl:choose>
+								<xsl:when test="StoredFare[1]/BrandedFares">
+									<xsl:apply-templates select="StoredFare[1]/BrandedFares" mode="FareFamily" >
+										<xsl:with-param name="skipTD">1</xsl:with-param>
+									</xsl:apply-templates>
+								</xsl:when>
+								<xsl:otherwise>
+									<ItineraryOptions>
+										<xsl:call-template name="GetItineraryOptions"/>
+									</ItineraryOptions>
+								</xsl:otherwise>
+							</xsl:choose>
 							<NameSelect>NS</NameSelect>
 							<xsl:if test="StoredFare[1]/PassengerType">
 								<xsl:for-each select="StoredFare">
@@ -300,10 +302,10 @@
 											</xsl:choose>
 										</xsl:attribute>
 									</PassengerType>
-
 								</xsl:for-each>
 							</xsl:if>
-							<xsl:for-each select="StoredFare[1]/FareSegments/AirSegments">
+							<xsl:for-each select="StoredFare[1]/FareSegments/AirSegments[position()=1 or not(text()=preceding-sibling::AirSegments[1]/text())]">
+								<!--<xsl:for-each select="StoredFare[1]/FareSegments/AirSegments">-->
 								<xsl:if test=". != 'VOID'">
 									<SpecificFare RPH="{@RPH}">
 										<FareBasis>
@@ -313,11 +315,6 @@
 									</SpecificFare>
 								</xsl:if>
 							</xsl:for-each>
-
-							<!--
-              </xsl:otherwise>
-              </xsl:choose>
-			  -->
 							<xsl:if test="StoredFare[1]/Markup/@Amount!=''">
 								<PlusUp Amount="{StoredFare[1]/Markup/@Amount}"/>
 							</xsl:if>
@@ -661,7 +658,8 @@
 						<PlusUp Amount="{../Markup/@Amount}"/>
 					</xsl:if>
 				</xsl:if>
-				<xsl:for-each select="AirSegments">
+				<xsl:for-each select="AirSegments[position()=1 or not(text()=preceding-sibling::AirSegments[1]/text())]">
+					<!--<xsl:for-each select="AirSegments">-->
 					<SpecificFare RPH="{@RPH}">
 						<FareBasis>
 							<xsl:variable name="fbc" select="substring(.,1,8)" />
@@ -695,7 +693,20 @@
 						<FB>
 							<xsl:value-of select="@RPH" />
 							<xsl:text>,</xsl:text>
-							<xsl:for-each select="../AirSegments[text()=$fbCode and (text()=preceding-sibling::AirSegments[1]/text())]">
+							<xsl:for-each select="../FareSegments/AirSegments[text()=$fbCode and (text()=preceding-sibling::AirSegments[1]/text())]">
+								<xsl:value-of select="@RPH" />
+								<xsl:text>,</xsl:text>
+							</xsl:for-each>
+						</FB>
+					</xsl:for-each>
+				</xsl:when>
+				<xsl:when test="StoredFare[1]/FareSegments/AirSegments">
+					<xsl:for-each select="StoredFare[1]/FareSegments/AirSegments[position()=1 or not(text()=preceding-sibling::AirSegments[1]/text())]">
+						<xsl:variable name="fbCode" select="text()"/>
+						<FB>
+							<xsl:value-of select="@RPH" />
+							<xsl:text>,</xsl:text>
+							<xsl:for-each select="StoredFare[1]/FareSegments/AirSegments[text()=$fbCode and (text()=preceding-sibling::AirSegments[1]/text())]">
 								<xsl:value-of select="@RPH" />
 								<xsl:text>,</xsl:text>
 							</xsl:for-each>
@@ -787,7 +798,8 @@
 			</xsl:choose>
 		</xsl:variable>
 
-		<xsl:for-each select="FareSegments/AirSegments">
+		<xsl:for-each select="FareSegments/AirSegments[position()=1 or not(text()=preceding-sibling::AirSegments[1]/text())]">
+			<!--<xsl:for-each select="FareSegments/AirSegments">-->
 			<xsl:variable name="rph" select="@RPH" />
 			<CommandPricing>
 				<xsl:attribute name="RPH" >
