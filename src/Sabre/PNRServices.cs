@@ -44,7 +44,7 @@ namespace Sabre
                 {
                     var tagToReplace = Version == "v04" ? "</GetReservationRS>" : "</TravelItineraryReadRS>";
                     string dqbResponse = "";
-                    strResponse = Version == "v04_" 
+                    strResponse = Version == "v04_"
                         ? ttSA.SendMessage(strRequest, "GetReservationRQ", "GetReservationRQ", ConversationID)
                         : ttSA.SendMessage(strRequest, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
 
@@ -145,8 +145,8 @@ namespace Sabre
                     {
                         CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse, ProviderSystems.LogUUID);
                     }
-                    
-                   
+
+
                     strResponse = strResponse.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
                     if (inSession)
                         strResponse = strResponse.Replace(tagToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ tagToReplace}");
@@ -206,7 +206,7 @@ namespace Sabre
                 Console.WriteLine(ex.Message);
                 strResponse = string.Empty;
             }
-            
+
             return strResponse;
         }
 
@@ -231,7 +231,7 @@ namespace Sabre
                 var resp = new StringBuilder("<FareFamily>");
                 resp.Append($"{pq}");
                 resp.Append("</FareFamily>");
-            
+
                 strResponse = response.Replace("</TravelItineraryReadRS>", $"{resp}</TravelItineraryReadRS>");
             }
             catch (Exception ex)
@@ -408,13 +408,13 @@ namespace Sabre
                 {
                     strEndTransaction = oRoot.SelectSingleNode("ET").InnerXml.Replace(" xmlns=\"\"", "");
                 }
-                
+
 
                 // *******************
                 // Create Session    *
                 // *******************                
                 var ttSA = SetAdapter();
-                bool inSession = SetConversationID(ttSA);               
+                bool inSession = SetConversationID(ttSA);
 
                 // *******************************************************************************
                 // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
@@ -479,7 +479,7 @@ namespace Sabre
         /// </summary>
         public string PNRReprice()
         {
-            string strResponse;         
+            string strResponse;
             // *****************************************************************
             // Transform OTA PNRRead Request into Native Sabre Request         *
             // ***************************************************************** 
@@ -490,6 +490,15 @@ namespace Sabre
                 string strRepriceResp = "";
                 string strPaxCombined = "";
 
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(Request);
+                XmlNodeList nodesToDel = oDoc.SelectNodes("//FareSegments/AirSegments[text()='VOID']");
+                for (int i = nodesToDel.Count - 1; i >= 0; i--)
+                {
+                    nodesToDel[i].ParentNode.RemoveChild(nodesToDel[i]);
+                }
+                Request = oDoc.OuterXml;
+
                 string strRequest = SetRequest("Sabre_PNRRepriceRQ.xsl");
 
                 if (string.IsNullOrEmpty(strRequest))
@@ -497,15 +506,13 @@ namespace Sabre
 
                 SabreAdapter ttSA = SetAdapter();
                 bool inSession = SetConversationID(ttSA);
-                
-                var oDoc = new XmlDocument();
-                oDoc.LoadXml(Request);
+
                 var oRoot = oDoc.DocumentElement;
 
                 var oDocT = new XmlDocument();
                 oDocT.LoadXml(strRequest);
                 var oRootT = oDocT.DocumentElement;
-                
+
                 var strRead = oRootT.SelectSingleNode("PNRRead").InnerXml;
                 var strRedisplay = oRootT.SelectSingleNode("PNRRedisplay").InnerXml;
                 var strPriceCombined = oRootT.SelectSingleNode("PriceCombined").InnerXml;
@@ -581,6 +588,8 @@ namespace Sabre
 
                                 strRepriceReq = strRepriceReq.Replace("<NameSelect>NS</NameSelect>", strPassengers);
                                 strRepriceResp += ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                if (strRepriceResp.Contains("NO COMBINABLE FARES FOR CLASS USED") || strRepriceResp.Contains("NEED MORE PSGR TYPES OR NAME SELECT") || strRepriceResp.Contains("USE INF PSGR TYPE CODE FOR I"))
+                                    break;
                             }
                         }
                         else
@@ -616,7 +625,7 @@ namespace Sabre
                         var oRootPrice = oDocPrice.DocumentElement;
                         var nsmgr = new XmlNamespaceManager(oDocPrice.NameTable);
                         nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2011/10");
-                        
+
                         int i = 1;
 
                         if (bStoreFare)
@@ -718,7 +727,7 @@ namespace Sabre
                                             {
                                                 strPQS = strPQS.Replace("*CNN*", $"*{pr.Attributes["Code"].Value}*");
                                             }
-                                            strPQ.Add(pr.Attributes["Code"].Value); 
+                                            strPQ.Add(pr.Attributes["Code"].Value);
                                         }
                                     }
                                     string strPassengers = GetPassangerInfo(strPQS, strPQ);
@@ -731,7 +740,7 @@ namespace Sabre
                             {
                                 strPrice = strPrice.Replace("<NameSelect>NS</NameSelect>", "").Replace("<Price>", "").Replace("</Price>", "");
                                 strRepriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
-                            }                            
+                            }
                         }
                     }
 
@@ -771,9 +780,9 @@ namespace Sabre
 
                     var strToReplace = "</TravelItineraryReadRS>";
 
-                    strResponse = !strRepriceResp.Contains("<OTA_AirPriceRS") 
+                    strResponse = !strRepriceResp.Contains("<OTA_AirPriceRS")
                             ? strReadResp.Replace("</TravelItineraryReadRS>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS></TravelItineraryReadRS>")
-                            : strReadResp.Replace("</TravelItineraryReadRS>", $"{strRepriceResp}</TravelItineraryReadRS>");                    
+                            : strReadResp.Replace("</TravelItineraryReadRS>", $"{strRepriceResp}</TravelItineraryReadRS>");
 
                     if (inSession)
                         strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
@@ -789,7 +798,7 @@ namespace Sabre
                     {
                         CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response I", strResponse, ProviderSystems.LogUUID);
                     }
-                    
+
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRRepriceRS.xsl");
                     CoreLib.SendTrace(ProviderSystems.UserID, "strResponse", "Final strResponse", strResponse, ProviderSystems.LogUUID);
                 }
@@ -880,7 +889,7 @@ namespace Sabre
                     else if (strResponse.Contains("MessagesOnly_Reply"))
                     {
                         strToReplace = "</MessagesOnly_Reply>";
-                    }                    
+                    }
 
                     if (inSession)
                         strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
@@ -950,7 +959,7 @@ namespace Sabre
                         strMessage = "AccessQueue";
                         nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2011/10");
                         strRequest = oRootNative.SelectSingleNode("sx:QueueAccessRQ", nsmgr).OuterXml;
-                        
+
                         if (oRootNative.SelectSingleNode("VerifyTickets") != null)
                         {
                             strVerifyTickets = oRootNative.SelectSingleNode("VerifyTickets").OuterXml;
@@ -1150,7 +1159,7 @@ namespace Sabre
                                     if (iVoidTkt != oNodesIssued.Count)
                                     {
                                         strResponse = strResponse.Replace("</TravelItineraryReadRS>", "<Ticketed/></TravelItineraryReadRS>");
-                                    }                                    
+                                    }
                                 }
                             }
                             catch (Exception ex)
@@ -1208,10 +1217,10 @@ namespace Sabre
                         {
                             CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response I", strResponse, ProviderSystems.LogUUID);
                         }
-                        
+
                         strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRReadRS.xsl");
 
-                                                
+
                     }
                     else
                     {
@@ -1297,21 +1306,21 @@ namespace Sabre
             string strPassengers = "";
             try
             {
-                
-                    //string strPQ = oRoot.SelectSingleNode($"StoredFare[position()={i}]/@RPH").InnerText;
-                    CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "stored fare number", strPQ, ProviderSystems.LogUUID);                    
 
-                    foreach (string line in strPQS.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                //string strPQ = oRoot.SelectSingleNode($"StoredFare[position()={i}]/@RPH").InnerText;
+                CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "stored fare number", strPQ, ProviderSystems.LogUUID);
+
+                foreach (string line in strPQS.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "line.Substring(9,1)", line.Substring(9, 1), ProviderSystems.LogUUID);
+                    if ((strPQ ?? "") == (line.Substring(9, 1) ?? ""))
                     {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "line.Substring(9,1)", line.Substring(9, 1), ProviderSystems.LogUUID);
-                        if ((strPQ ?? "") == (line.Substring(9, 1) ?? ""))
-                        {
-                            strPassengers += $"<NameSelect NameNumber=\"{line.Substring(1, 3)}\"/>";
-                            CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "{line.Substring(2, 3)}", line.Substring(1, 3), ProviderSystems.LogUUID);
-                        }
+                        strPassengers += $"<NameSelect NameNumber=\"{line.Substring(1, 3)}\"/>";
+                        CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "{line.Substring(2, 3)}", line.Substring(1, 3), ProviderSystems.LogUUID);
                     }
+                }
 
-                    CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "strPassengers", strPassengers, ProviderSystems.LogUUID);
+                CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "strPassengers", strPassengers, ProviderSystems.LogUUID);
             }
             catch (Exception ex)
             {
@@ -1338,7 +1347,7 @@ namespace Sabre
                         strPassengers += $"<NameSelect NameNumber=\"{line.Substring(1, 3)}\"/>";
                         CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "{line.Substring(2, 3)}", line.Substring(1, 3), ProviderSystems.LogUUID);
                     }
-                    else 
+                    else
                     {
                         //It happandes when PQS has CNN but Stylesheet has C09
                         if (strPQ.First().Equals("C09") && line.Contains("CNN"))
@@ -1348,9 +1357,9 @@ namespace Sabre
                             CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "{line.Substring(2, 3)}", line.Substring(1, 3), ProviderSystems.LogUUID);
                         }
                     }
-                    
+
                 }
-                
+
                 CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "strPassengers", strPassengers, ProviderSystems.LogUUID);
             }
             catch (Exception ex)
@@ -1362,7 +1371,7 @@ namespace Sabre
 
         private bool IsMultiplePrice(string priceXML)
         {
-            try 
+            try
             {
                 var lstElems = priceXML.Split(new[] { "<OTA_AirPriceRQ", "</OTA_AirPriceRQ>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 return lstElems.Count > 1;
@@ -1373,7 +1382,7 @@ namespace Sabre
             }
         }
 
-        private string GetPQS(SabreAdapter ttSA, string cmd) 
+        private string GetPQS(SabreAdapter ttSA, string cmd)
         {
             try
             {
