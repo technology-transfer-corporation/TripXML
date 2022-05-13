@@ -1920,12 +1920,12 @@ namespace Sabre
                                 {
                                     string argstrRequest = oNodeFPI.OuterXml;
                                     strResponse = SendRequestSegment(ttSA, argstrRequest, "FuturePriceInfo", "SabreCommand", "SabreCommandLLSRQ");
-                                    //oNodeFPI.OuterXml = argstrRequest;
 
                                     // Fatal Error
                                     if (strResponse.Trim().Length > 0)
                                     {
                                         strResponse = BuildOTAResponse(strResponse);
+                                        strResponse = strResponse.Replace("</OTA_TravelItineraryRS>", $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID></OTA_TravelItineraryRS>");
                                         return strResponse;
                                     }
                                 }
@@ -1967,7 +1967,6 @@ namespace Sabre
                                 {
                                     string argstrRequest2 = oNodeRD.OuterXml;
                                     strResponse = SendRequestSegment(ttSA, argstrRequest2, "AddAccountingLine", "AddAccountingLine", "AddAccountingLineLLSRQ");
-                                    //oNodeRD.OuterXml = argstrRequest2;
 
                                     // Fatal Error
                                     if (strResponse.Trim().Length > 0)
@@ -1991,7 +1990,6 @@ namespace Sabre
                                 {
                                     string argstrRequest3 = oNodeBD.OuterXml;
                                     strResponse = SendRequestSegment(ttSA, argstrRequest3, "BulkDocument", "SabreCommand", "SabreCommandLLSRQ");
-                                    //oNodeBD.OuterXml = argstrRequest3;
 
                                     // Fatal Error
                                     if (strResponse.Trim().Length > 0 && !strResponse.Contains("*"))
@@ -2003,9 +2001,6 @@ namespace Sabre
                                 }
                             }
                         }
-
-                        // strResponse = SendRequestSegment(strRF, "ReceivedFrom")
-
                         catch (Exception ex)
                         {
                             throw new Exception($"Error Loading Transformed Request XML Document.\r\n{ex.Message}");
