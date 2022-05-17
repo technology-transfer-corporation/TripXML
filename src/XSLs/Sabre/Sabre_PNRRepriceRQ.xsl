@@ -550,46 +550,46 @@
 		<xsl:variable name="ptc" select="PassengerType/@Code" />
 
 		<OTA_AirPriceRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.17.0">
-			<xsl:if test="../TourCode">
-				<MiscQualifiers>
-					<TourCode>
-						<!-- Optional -->
-						<!-- Repeat Factor=0 -->
-						<!-- "Ind" is used to specify to suppress the fare amount on the ticket and replace with BT. -->
-						<!-- This is not applicable to ARC subscribers. -->
-						<!-- Equivalent Sabre host command: WPUB*TEST1212
-											<SuppressFareReplaceWithBT Ind="true"/> -->
-						<!-- Optional -->
-						<!-- Repeat Factor=0 -->
-						<!-- "Ind" is used to specify to suppress the fare amount on the ticket and replace with IT. -->
-						<!-- Equivalent Sabre host command: WPUI*TEST1212
-											<SuppressFareReplaceWithIT Ind="true"/> -->
-						<!-- Optional -->
-						<!-- Repeat Factor=0 -->
-						<!-- "Ind" is used to specify to to suppress the IT in the tourcode box from printing. -->
-						<!-- Equivalent Sabre host command: WPUN*TEST1212
-											<SuppressIT Ind="true"/> -->
-						<!-- Optional -->
-						<!-- Repeat Factor=0 -->
-						<!-- "Ind" is used to specify to specify to suppress IT from printing in the tour box on the ticket and to suppress      fare amounts from printing on the ticket. -->
-						<!-- Equivalent Sabre host command: WPUX*TEST1212
-											<SuppressITSupressFare Ind="true"/> -->
-						<!-- Optional -->
-						<!-- Repeat Factor=0 -->
-						<!-- "Text" is used to specify tour code. -->
-						<!-- Equivalent Sabre host command: WPUTEST1212 -->
-						<Text>
-							<xsl:value-of select="../TourCode"/>
-						</Text>
-					</TourCode>
-				</MiscQualifiers>
-			</xsl:if>
 			<PriceRequestInformation>
 				<xsl:variable name="sf" select="../@StoreFare"/>
 				<xsl:attribute name="Retain">
 					<xsl:value-of select="$sf"/>
 				</xsl:attribute>
 				<OptionalQualifiers>
+					<xsl:if test="TourCode">
+						<MiscQualifiers>
+							<TourCode>
+								<!-- Optional -->
+								<!-- Repeat Factor=0 -->
+								<!-- "Ind" is used to specify to suppress the fare amount on the ticket and replace with BT. -->
+								<!-- This is not applicable to ARC subscribers. -->
+								<!-- Equivalent Sabre host command: WPUB*TEST1212
+											<SuppressFareReplaceWithBT Ind="true"/> -->
+								<!-- Optional -->
+								<!-- Repeat Factor=0 -->
+								<!-- "Ind" is used to specify to suppress the fare amount on the ticket and replace with IT. -->
+								<!-- Equivalent Sabre host command: WPUI*TEST1212
+											<SuppressFareReplaceWithIT Ind="true"/> -->
+								<!-- Optional -->
+								<!-- Repeat Factor=0 -->
+								<!-- "Ind" is used to specify to to suppress the IT in the tourcode box from printing. -->
+								<!-- Equivalent Sabre host command: WPUN*TEST1212
+											<SuppressIT Ind="true"/> -->
+								<!-- Optional -->
+								<!-- Repeat Factor=0 -->
+								<!-- "Ind" is used to specify to specify to suppress IT from printing in the tour box on the ticket and to suppress      fare amounts from printing on the ticket. -->
+								<!-- Equivalent Sabre host command: WPUX*TEST1212
+											<SuppressITSupressFare Ind="true"/> -->
+								<!-- Optional -->
+								<!-- Repeat Factor=0 -->
+								<!-- "Text" is used to specify tour code. -->
+								<!-- Equivalent Sabre host command: WPUTEST1212 -->
+								<Text>
+									<xsl:value-of select="TourCode"/>
+								</Text>
+							</TourCode>
+						</MiscQualifiers>
+					</xsl:if>
 					<PricingQualifiers>
 						<xsl:if test="FareSegments">
 							<xsl:apply-templates select="FareSegments" mode="SmartPricing" />
