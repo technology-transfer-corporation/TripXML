@@ -3,6 +3,8 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
+   Date: 18 May 2022 - Kobelev - Fixed Ticket Designator in RePrice request (According to Irina, regardless if Discount is 0 still have to pass Ticket Desgnator as Discount).
+   Date: 17 May 2022 - Kobelev - Added Tour Code to RePrice request.
    Date: 09 May 2022 - Samokhvalov - Grouped ItineraryOptions/SegmentSelect
    Date: 15 Feb 2022 - Kobelev - *ZZ + Ticket Designator and FareBases with Passanger association. Amount equivalent Sabre host command: WPQY/AD75/DA100.00‡N1.1-3.1
    Date: 15 Feb 2022 - Kobelev - *ZZ + Ticket Designator and FareBases. Amount equivalent Sabre host command: WPQY/AD75/DA100.00 
@@ -282,7 +284,7 @@
 								</xsl:when>
 								<xsl:otherwise>
 									<ItineraryOptions>
-										<xsl:call-template name="GetItineraryOptions"/>
+										<xsl:call-template name="GetItineraryOptions"/>										
 									</ItineraryOptions>
 								</xsl:otherwise>
 							</xsl:choose>
@@ -593,12 +595,12 @@
 					<PricingQualifiers>
 						<xsl:if test="FareSegments">
 							<xsl:apply-templates select="FareSegments" mode="SmartPricing" />
-						</xsl:if>
+						</xsl:if>						
 					</PricingQualifiers>
 				</OptionalQualifiers>
 			</PriceRequestInformation>
 		</OTA_AirPriceRQ>
-
+		
 	</xsl:template>
 
 	<!--<xsl:key name="keySegs" match="FB/text()" use="." />-->
@@ -741,9 +743,11 @@
 				</xsl:attribute>
 			</SegmentSelect>
 		</xsl:for-each>
-		<!--<xsl:for-each select="AirSegments">
-						<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
-					</xsl:for-each>-->
+		<!--
+		<xsl:for-each select="AirSegments">
+			<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
+		</xsl:for-each>
+		-->
 	</xsl:template>
 
 	<xsl:template name="StoredFareGroup">
@@ -805,7 +809,7 @@
 				<xsl:attribute name="RPH" >
 					<xsl:value-of select="$rph"/>
 				</xsl:attribute>
-				<xsl:if test="$disc!='' and $disc!='0'">
+				<xsl:if test="$disc!=''"> <!-- and $disc!='0' -->
 					<Discount>
 						<xsl:choose>
 							<xsl:when test="$discType ='P'">
