@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 18 May 2022 - Kobelev - Tour Code FlightRefNumberRPHList fix.
   Date: 06 May 2022 - Kobelev - Tour Code from Future Pricing line.
   Date: 29 Apr 2022 - Kobelev - EMD Exchange and EMD Service Fee display fix.
   Date: 01 Apr 2022 - Samokhvalov - Fixed Branded Fare object(ARNK)
@@ -5183,21 +5184,33 @@
 						</xsl:attribute>
 					</TravelerRefNumber>
 
+					<xsl:variable name="fltRef">
+						<xsl:for-each select="PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/FlightSegment">
+							<xsl:variable name="rph">
+								<xsl:choose>
+									<xsl:when test="@SegmentNumber">
+										<xsl:value-of select="format-number(@SegmentNumber,'#')"/>
+									</xsl:when>
+									<xsl:when test="@RPH">
+										<xsl:value-of select="format-number(@RPH,'#')"/>
+									</xsl:when>
+								</xsl:choose>
+
+							</xsl:variable>
+							<xsl:if test="position() > 1">
+								<xsl:text> </xsl:text>
+							</xsl:if>
+							<xsl:call-template name="string-trim">
+								<xsl:with-param name="string" select="$rph" />
+							</xsl:call-template>
+						</xsl:for-each>
+					</xsl:variable>
+					
 					<FlightRefNumber>
 						<xsl:attribute name="FlightRefNumber">
-							<xsl:for-each select="../../../../DisplayPriceQuoteRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/FlightSegment">
-								<xsl:variable name="rph">
-									<xsl:if test="@RPH">
-										<xsl:value-of select="format-number(@RPH,'#')"/>
-									</xsl:if>
-								</xsl:variable>
-								<xsl:if test="position() > 1">
-									<xsl:text> </xsl:text>
-								</xsl:if>
-								<xsl:call-template name="string-trim">
-									<xsl:with-param name="string" select="$rph" />
-								</xsl:call-template>
-							</xsl:for-each>
+							<xsl:call-template name="string-trim">
+								<xsl:with-param name="string" select="$fltRef" />
+							</xsl:call-template>
 						</xsl:attribute>
 					</FlightRefNumber>
 				</xsl:when>
