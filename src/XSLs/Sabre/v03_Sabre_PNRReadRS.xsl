@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 23 May 2022 - Kobelev - Ticket Designator fix.
   Date: 18 May 2022 - Kobelev - Tour Code FlightRefNumberRPHList fix.
   Date: 06 May 2022 - Kobelev - Tour Code from Future Pricing line.
   Date: 29 Apr 2022 - Kobelev - EMD Exchange and EMD Service Fee display fix.

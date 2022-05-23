@@ -4,6 +4,7 @@
   ==================================================================
    Worldspan_PNRRepriceRQ.xsl															
   ================================================================== 
+   Date: 23 May 2022 - Kobelev - Ticket Designator fix.
    Date: 24 May 2019 - Kobelev - Added .SR for NEGO fares with markup (BUG 994)
    Date: 11 Sep 2018 - Samokhvalov - Added Fare Qualifier 										
    Date: 08 Apr 2016 - Kobelev - Private Fare identifier											
@@ -65,7 +66,7 @@
                 </xsl:call-template>
               </xsl:for-each>
             </AirTravelerAvail>
-            <xsl:if test="StoredFare/TicketDesignator!='' or StoredFare/Discount or StoredFare/@FareType='Private'">
+            <xsl:if test="count(StoredFare/FareSegments/AirSegments/@TicketDesignator) > 0 or StoredFare/Discount or StoredFare/@FareType='Private'">
               <PriceRequestInformation>
                 <xsl:if test="StoredFare/@FareType='Private'">
                   <xsl:attribute name="FareQualifier">
@@ -80,11 +81,11 @@
                     <xsl:value-of select="StoredFare/@FareQualifier"/>
                   </xsl:attribute>
                 </xsl:if>
-                <xsl:if test="StoredFare/TicketDesignator!='' or StoredFare/Discount or StoredFare/Markup">
+                <xsl:if test="count(StoredFare/FareSegments/AirSegments/@TicketDesignator) > 0 or StoredFare/Discount or StoredFare/Markup">
                   <DiscountPricing>
-                    <xsl:if test="StoredFare/TicketDesignator!=''">
+                    <xsl:if test="StoredFare/FareSegments/AirSegments/@TicketDesignator!=''">
                       <xsl:attribute name="TicketDesignatorCode">
-                        <xsl:value-of select="StoredFare/TicketDesignator"/>
+                        <xsl:value-of select="StoredFare/FareSegments/AirSegments/@TicketDesignator[1]"/>
                       </xsl:attribute>
                     </xsl:if>
                     <xsl:if test="StoredFare/Discount">
