@@ -312,7 +312,8 @@
 								<xsl:if test=". != 'VOID'">
 									<SpecificFare RPH="{@RPH}">
 										<FareBasis>
-											<xsl:variable name="fbc" select="substring(.,1,8)" />
+											<xsl:variable name="fbc" select="." />
+											<!--<xsl:variable name="fbc" select="substring(.,1,8)" />-->
 											<xsl:value-of select="$fbc"/>
 										</FareBasis>
 									</SpecificFare>
@@ -665,8 +666,8 @@
 					<!--<xsl:for-each select="AirSegments">-->
 					<SpecificFare RPH="{@RPH}">
 						<FareBasis>
-							<xsl:variable name="fbc" select="substring(.,1,8)" />
-							<xsl:value-of select="$fbc"/>
+							<!--<xsl:variable name="fbc" select="substring(.,1,8)" />-->
+							<xsl:value-of select="."/>
 						</FareBasis>
 					</SpecificFare>
 				</xsl:for-each>
