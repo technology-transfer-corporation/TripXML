@@ -489,6 +489,9 @@ Namespace wsTravelTalk.wmPNRRepriceIn
         <System.Xml.Serialization.XmlAttributeAttribute()>
         Public RPH As Integer
 
+        <System.Xml.Serialization.XmlAttributeAttribute()>
+        Public TicketDesignator As String
+
         '<remarks/>
         <System.Xml.Serialization.XmlTextAttribute()>
         Public FareBasis As String
