@@ -11,7 +11,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>wsTripXML</RootNamespace>
     <AssemblyName>wsTripXML</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MyType>Custom</MyType>
     <OptionExplicit>On</OptionExplicit>
     <OptionCompare>Binary</OptionCompare>
@@ -1032,7 +1032,7 @@
       <Name>AmadeusWS</Name>
     </ProjectReference>
     <ProjectReference Include="..\CompressionExtension\CompressionExtension.csproj">
-      <Project>{68166A57-F20D-4620-A7EF-E65F2326ED7F}</Project>
+      <Project>{68166a57-f20d-4620-a7ef-e65f2326ed7f}</Project>
       <Name>CompressionExtension</Name>
     </ProjectReference>
     <ProjectReference Include="..\Galileo\Galileo.csproj">
