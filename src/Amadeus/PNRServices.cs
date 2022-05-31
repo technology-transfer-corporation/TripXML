@@ -742,7 +742,7 @@ namespace AmadeusWS
                     throw new Exception($"Error.\r\n{ex.Message}");
                 }
 
-                sbNativeLog.Append($"{Environment.NewLine}{ strSplitRequest}");
+                sbNativeLog.Append($"{Environment.NewLine}{strSplitRequest}");
                 strResponse = SendSplitPNR(ttAA, strSplitRequest);
                 sbNativeLog.Append($"{Environment.NewLine}{strResponse}");
 
@@ -1726,6 +1726,12 @@ namespace AmadeusWS
                                 { updRequest = $"TTK/T{tstRPH}/U{newBF}"; }
 
                                 SendCommandCryptically(ttAA, updRequest);
+                                if (bStoreFare)
+                                {
+                                    var saveCMDresp = SendCommandCryptically(ttAA, "RFTRIPXML;ER");
+                                    if (saveCMDresp.Contains("textStringDetails") && saveCMDresp.Contains("WARNING"))
+                                        saveCMDresp = SendCommandCryptically(ttAA, "ER");
+                            }
                             }
 
                             strResponseReprice = $"<strResponseReprice>{SendDisplayTST(ttAA)}</strResponseReprice>";
@@ -1734,6 +1740,7 @@ namespace AmadeusWS
                                 string strEndTransaction = "<PNR_AddMultiElements><pnrActions><optionCode>11</optionCode></pnrActions><dataElementsMaster><marker1/><dataElementsIndiv><elementManagementData><segmentName>RF</segmentName></elementManagementData><freetextData><freetextDetail><subjectQualifier>3</subjectQualifier><type>P22</type></freetextDetail><longFreetext>TRIPXML</longFreetext></freetextData></dataElementsIndiv></dataElementsMaster></PNR_AddMultiElements>";
                                 SendAddMultiElements(ttAA, strEndTransaction);
                             }
+                            strResponseReprice = $"<strResponseReprice>{SendDisplayTST(ttAA)}</strResponseReprice>";
                             #endregion
                             #region oldCode
                             //    int iTSTCount = 0;
