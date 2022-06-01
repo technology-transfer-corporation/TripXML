@@ -19,7 +19,6 @@ Namespace wsTravelTalk
         Inherits System.Web.Services.WebService
         Public tXML As TripXML
 
-
 #Region " Web Services Designer Generated Code "
 
         Public Sub New()
@@ -54,7 +53,6 @@ Namespace wsTravelTalk
         End Sub
 
 #End Region
-
 
 #Region " Process Service Request All GDS "
         Private sb As StringBuilder = New StringBuilder()
