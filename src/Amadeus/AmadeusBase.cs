@@ -394,6 +394,14 @@ namespace AmadeusWS
                     strEchoToken = $"<EchoToken>{oRootReq.Attributes.GetNamedItem("EchoToken").Value}</EchoToken>";
                 }
 
+                if (Request.Contains("SecurityToken"))
+                {
+                    var oDocReq = new XmlDocument();
+                    oDocReq.LoadXml(Request);
+                    XmlElement oRootReq = oDocReq.DocumentElement;
+                    strEchoToken = $"<ConversationID>{oRootReq.SelectSingleNode("SecurityToken").InnerText}|{oRootReq.SelectSingleNode("SessionId").InnerText}|{oRootReq.SelectSingleNode("SequenceNumber").InnerText}</ConversationID>";
+                }               
+
                 strResponse = $"<PNR_Reply>{strResponse}{strEchoToken}</PNR_Reply>";
                 strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
                 return strResponse;
