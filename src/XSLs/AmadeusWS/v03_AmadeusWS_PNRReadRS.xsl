@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 03 Jun 2022 - Kobelev - Birth Date of passanger from SSR DOCS.
    Date: 29 Apr 2022 - Kobelev - EMD Exchange and EMD Service Fee display fix.
    Date: 28 Apr 2022 - Kobelev - Handle of FOP Errors in case if GDS regected a card.
    Date: 25 Mar 2022 - Kobelev - Added to SupplementalInfo information on criteriaDetails.
@@ -283,8 +284,8 @@
 								<xsl:apply-templates select="pnrHeader[not(reservationInfo/reservation/controlType) and reservationInfo/reservation/companyId='1A' and reservationInfo/reservation/date!='']" mode="header"/>
 								<CustomerInfos>
 									<!--
-				  <xsl:apply-templates select="travellerInfo/passengerData"/>
-				  -->
+									  <xsl:apply-templates select="travellerInfo/passengerData"/>
+									-->
 									<xsl:apply-templates select="travellerInfo/enhancedPassengerData"/>
 								</CustomerInfos>
 								<ItineraryInfo>
@@ -459,7 +460,7 @@
 			<xsl:value-of select="."/>
 		</Error>
 	</xsl:template>
-	
+
 	<xsl:template match="dataElementsIndiv" mode="FOPerror">
 		<Error Type="Amadeus">
 			<xsl:if test="elementErrorInformation">
@@ -1356,28 +1357,40 @@
 			</xsl:attribute>
 		</Tax>
 	</xsl:template>
-	
+
 	<!-- 
   **************************************************************
    Process Names			                            
   ************************************************************** 
   -->
-	
+
 	<xsl:template match="passengerData">
+		<xsl:variable name="paxNum" select="../elementManagementPassenger/lineNumber" />
+		<xsl:variable name="paxref" select="../elementManagementPassenger/reference/number"/>
 		<CustomerInfo>
 			<xsl:attribute name="RPH">
-				<xsl:value-of select="../elementManagementPassenger/lineNumber"/>
+				<xsl:value-of select="$paxNum"/>
 			</xsl:attribute>
 			<Customer>
-				<xsl:if test="dateOfBirth/dateAndTimeDetails[qualifier='706']">
-					<xsl:attribute name="BirthDate">
-						<xsl:value-of select="substring(dateOfBirth/dateAndTimeDetails/date,5,4)"/>
-						<xsl:text>-</xsl:text>
-						<xsl:value-of select="substring(dateOfBirth/dateAndTimeDetails/date,3,2)"/>
-						<xsl:text>-</xsl:text>
-						<xsl:value-of select="substring(dateOfBirth/dateAndTimeDetails/date,1,2)"/>
-					</xsl:attribute>
-				</xsl:if>
+				<xsl:choose>
+					<xsl:when test="dateOfBirth/dateAndTimeDetails[qualifier='706']">
+						<xsl:attribute name="BirthDate">
+							<xsl:value-of select="substring(dateOfBirth/dateAndTimeDetails/date,5,4)"/>
+							<xsl:text>-</xsl:text>
+							<xsl:value-of select="substring(dateOfBirth/dateAndTimeDetails/date,3,2)"/>
+							<xsl:text>-</xsl:text>
+							<xsl:value-of select="substring(dateOfBirth/dateAndTimeDetails/date,1,2)"/>
+						</xsl:attribute>
+					</xsl:when>
+					<xsl:when test="../../dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='SSR' and referenceForDataElement/reference[qualifier='PT']/number = $paxNum]">
+
+						<xsl:call-template name="birthDate">
+							<xsl:with-param name="lookupName" select="concat(enhancedTravellerInformation/otherPaxNamesDetails/surname,'/',enhancedTravellerInformation/otherPaxNamesDetails/givenName)" />
+							<xsl:with-param name="paxref" select="$paxref" />
+						</xsl:call-template>
+
+					</xsl:when>
+				</xsl:choose>
 				<PersonName>
 					<xsl:attribute name="NameType">
 						<xsl:choose>
@@ -1411,9 +1424,6 @@
 						</xsl:choose>
 					</Surname>
 				</PersonName>
-				<xsl:variable name="paxref">
-					<xsl:value-of select="../elementManagementPassenger/reference/number"/>
-				</xsl:variable>
 
 				<xsl:apply-templates select="../../dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='AP']" mode="phone"/>
 				<xsl:apply-templates select="../../dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='AP']" mode="email"/>
@@ -1428,21 +1438,32 @@
 				</xsl:apply-templates>
 			</Customer>
 		</CustomerInfo>
+
 		<xsl:if test="travellerInformation/passenger[1]/infantIndicator = 1 and travellerInformation/passenger[position()=2]/type = 'INF'">
 			<CustomerInfo>
 				<xsl:attribute name="RPH">
-					<xsl:value-of select="../elementManagementPassenger/lineNumber"/>
+					<xsl:value-of select="$paxNum"/>
 				</xsl:attribute>
 				<Customer>
-					<xsl:if test="dateOfBirth/dateAndTimeDetails[qualifier='706']">
-						<xsl:attribute name="BirthDate">
-							<xsl:value-of select="substring(dateOfBirth/dateAndTimeDetails/date,5,4)"/>
-							<xsl:text>-</xsl:text>
-							<xsl:value-of select="substring(dateOfBirth/dateAndTimeDetails/date,3,2)"/>
-							<xsl:text>-</xsl:text>
-							<xsl:value-of select="substring(dateOfBirth/dateAndTimeDetails/date,1,2)"/>
-						</xsl:attribute>
-					</xsl:if>
+					<xsl:choose>
+						<xsl:when test="dateOfBirth/dateAndTimeDetails[qualifier='706']">
+							<xsl:attribute name="BirthDate">
+								<xsl:value-of select="substring(dateOfBirth/dateAndTimeDetails/date,5,4)"/>
+								<xsl:text>-</xsl:text>
+								<xsl:value-of select="substring(dateOfBirth/dateAndTimeDetails/date,3,2)"/>
+								<xsl:text>-</xsl:text>
+								<xsl:value-of select="substring(dateOfBirth/dateAndTimeDetails/date,1,2)"/>
+							</xsl:attribute>
+						</xsl:when>
+						<xsl:when test="../../dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='SSR' and serviceRequest/ssr/type='DOCS' and referenceForDataElement/reference[qualifier='PT']/number = $paxref]">
+
+							<xsl:call-template name="birthDate">
+								<xsl:with-param name="lookupName" select="concat(enhancedTravellerInformation/otherPaxNamesDetails/surname,'/',enhancedTravellerInformation/otherPaxNamesDetails/givenName)" />
+								<xsl:with-param name="paxref" select="$paxref" />
+							</xsl:call-template>
+
+						</xsl:when>
+					</xsl:choose>
 					<PersonName>
 						<xsl:attribute name="NameType">INF</xsl:attribute>
 						<GivenName>
@@ -1472,9 +1493,12 @@
 	</xsl:template>
 
 	<xsl:template match="enhancedPassengerData">
+		<xsl:variable name="paxNum" select="../elementManagementPassenger/lineNumber" />
+		<xsl:variable name="paxref" select="../elementManagementPassenger/reference/number"/>
+
 		<CustomerInfo>
 			<xsl:attribute name="RPH">
-				<xsl:value-of select="../elementManagementPassenger/lineNumber"/>
+				<xsl:value-of select="$paxNum"/>
 			</xsl:attribute>
 
 			<xsl:variable name="ptc">
@@ -1491,15 +1515,25 @@
 			</xsl:variable>
 
 			<Customer>
-				<xsl:if test="dateOfBirthInEnhancedPaxData/dateAndTimeDetails[qualifier='706']">
-					<xsl:attribute name="BirthDate">
-						<xsl:value-of select="substring(dateOfBirthInEnhancedPaxData/dateAndTimeDetails/date,5,4)"/>
-						<xsl:text>-</xsl:text>
-						<xsl:value-of select="substring(dateOfBirthInEnhancedPaxData/dateAndTimeDetails/date,3,2)"/>
-						<xsl:text>-</xsl:text>
-						<xsl:value-of select="substring(dateOfBirthInEnhancedPaxData/dateAndTimeDetails/date,1,2)"/>
-					</xsl:attribute>
-				</xsl:if>
+				<xsl:choose>
+					<xsl:when test="dateOfBirthInEnhancedPaxData/dateAndTimeDetails[qualifier='706']">
+						<xsl:attribute name="BirthDate">
+							<xsl:value-of select="substring(dateOfBirthInEnhancedPaxData/dateAndTimeDetails/date,5,4)"/>
+							<xsl:text>-</xsl:text>
+							<xsl:value-of select="substring(dateOfBirthInEnhancedPaxData/dateAndTimeDetails/date,3,2)"/>
+							<xsl:text>-</xsl:text>
+							<xsl:value-of select="substring(dateOfBirthInEnhancedPaxData/dateAndTimeDetails/date,1,2)"/>
+						</xsl:attribute>
+					</xsl:when>
+					<xsl:when test="../../dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='SSR' and serviceRequest/ssr/type='DOCS' and referenceForDataElement/reference[qualifier='PT']/number = $paxref]">
+
+						<xsl:call-template name="birthDate">
+							<xsl:with-param name="lookupName" select="concat(enhancedTravellerInformation/otherPaxNamesDetails/surname,'/',enhancedTravellerInformation/otherPaxNamesDetails/givenName)" />
+							<xsl:with-param name="paxref" select="$paxref" />
+						</xsl:call-template>
+
+					</xsl:when>
+				</xsl:choose>
 
 				<PersonName>
 					<xsl:attribute name="NameType">
@@ -1520,10 +1554,6 @@
 					</Surname>
 				</PersonName>
 				<xsl:if test="$ptc != 'INF'">
-					<xsl:variable name="paxref">
-						<xsl:value-of select="../elementManagementPassenger/reference/number"/>
-					</xsl:variable>
-
 					<xsl:apply-templates select="../../dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='AP']" mode="phone"/>
 					<xsl:apply-templates select="../../dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='AP']" mode="email"/>
 					<xsl:apply-templates select="../../dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='AB/']" mode="Address"/>
@@ -1583,6 +1613,48 @@
 		</xsl:if>
 		-->
 	</xsl:template>
+
+	<xsl:template name="birthDate">
+		<xsl:param name="lookupName" />
+		<xsl:param name="paxref" />
+
+		<xsl:variable name="ssr" select="../../dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='SSR' and serviceRequest/ssr/type='DOCS' and referenceForDataElement/reference[qualifier='PT']/number = $paxref and contains(serviceRequest/ssr/freeText, $lookupName)]/serviceRequest/ssr/freeText" />
+
+		<xsl:variable name="elems">
+			<xsl:call-template name="tokenizeString">
+				<xsl:with-param name="list" select="$ssr"/>
+				<xsl:with-param name="delimiter" select="'/'"/>
+			</xsl:call-template>
+		</xsl:variable>
+
+		<xsl:variable name="dob">
+			<xsl:for-each select="msxsl:node-set($elems)/elem/node()[1]">
+				<xsl:if test="string-length(.) = 7">
+					<xsl:value-of select="."/>
+				</xsl:if>
+			</xsl:for-each>
+		</xsl:variable>
+
+		<xsl:if test="string-length($dob) > 0">
+			<xsl:attribute name="BirthDate">
+				<xsl:call-template name="year">
+					<xsl:with-param name="year">
+						<xsl:value-of select="substring($dob,6,2)"/>
+					</xsl:with-param>
+				</xsl:call-template>
+
+				<xsl:text>-</xsl:text>
+				<xsl:call-template name="month">
+					<xsl:with-param name="month">
+						<xsl:value-of select="substring($dob,3,3)"/>
+					</xsl:with-param>
+				</xsl:call-template>
+				<xsl:text>-</xsl:text>
+				<xsl:value-of select="substring($dob,1,2)"/>
+			</xsl:attribute>
+		</xsl:if>
+	</xsl:template>
+
 
 	<!-- ****************************************************************************************************************** -->
 	<!-- Process Itinerary				 							                -->
@@ -3365,7 +3437,7 @@
 			</xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
-	
+
 	<xsl:template name="ProcessPayment">
 		<xsl:param name="payment"/>
 		<xsl:if test="$payment!=''">
@@ -4139,7 +4211,7 @@
 			</xsl:choose>
 		</Address>
 	</xsl:template>
-	
+
 	<xsl:template match="structuredAddress">
 		<xsl:if test="address[option='A1']">
 			<StreetNmbr>
@@ -4683,7 +4755,7 @@
 		<xsl:variable name="tktType">
 			<xsl:choose>
 				<xsl:when test="contains(otherDataFreetext/longFreetext, '/DT')">
-					<xsl:value-of select="concat('EMD', ' ', substring-before(otherDataFreetext/longFreetext, ' '))"/>				
+					<xsl:value-of select="concat('EMD', ' ', substring-before(otherDataFreetext/longFreetext, ' '))"/>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="substring-before(otherDataFreetext/longFreetext, ' ')"/>
@@ -5952,6 +6024,67 @@
 			</xsl:with-param>
 			<xsl:with-param name="trim"   select="$trim" />
 		</xsl:call-template>
+	</xsl:template>
+
+	<xsl:template name="month">
+		<xsl:param name="month"/>
+		<xsl:choose>
+			<xsl:when test="$month = 'JAN'">01</xsl:when>
+			<xsl:when test="$month = 'FEB'">02</xsl:when>
+			<xsl:when test="$month = 'MAR'">03</xsl:when>
+			<xsl:when test="$month = 'APR'">04</xsl:when>
+			<xsl:when test="$month = 'MAY'">05</xsl:when>
+			<xsl:when test="$month = 'JUN'">06</xsl:when>
+			<xsl:when test="$month = 'JUL'">07</xsl:when>
+			<xsl:when test="$month = 'AUG'">08</xsl:when>
+			<xsl:when test="$month = 'SEP'">09</xsl:when>
+			<xsl:when test="$month = 'OCT'">10</xsl:when>
+			<xsl:when test="$month = 'NOV'">11</xsl:when>
+			<xsl:when test="$month = 'DEC'">12</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template name="year">
+		<xsl:param name="year"/>
+		<xsl:choose>
+			<xsl:when test="$year > '40' and not($year > '99')">
+				<xsl:value-of select="concat('19', $year)" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat('20', $year)" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template name="tokenizeString">
+		<!--passed template parameter -->
+		<xsl:param name="list"/>
+		<xsl:param name="delimiter"/>
+		<xsl:choose>
+			<xsl:when test="contains($list, $delimiter)">
+				<elem>
+					<!-- get everything in front of the first delimiter -->
+					<xsl:value-of select="substring-before($list,$delimiter)"/>
+				</elem>
+				<xsl:call-template name="tokenizeString">
+					<!-- store anything left in another variable -->
+					<xsl:with-param name="list" select="substring-after($list,$delimiter)"/>
+					<xsl:with-param name="delimiter" select="$delimiter"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:choose>
+					<xsl:when test="$list = ''">
+						<xsl:text/>
+					</xsl:when>
+					<xsl:otherwise>
+						<elem>
+							<xsl:value-of select="$list"/>
+						</elem>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 </xsl:stylesheet>
