@@ -2927,7 +2927,7 @@ namespace AmadeusWS
                             //***************************************************
                             // Following if condition was diffrent in local code
                             //***************************************************
-                            if (strResponse.Length > 0 && strResponse.IndexOf("IS WAIT LIST") == -1)
+                            if (strResponse.Length > 0 && !strResponse.Contains("IS WAIT LIST"))
                             {
                                 strResponse = BuildOTAResponse(strResponse);
                                 return strResponse;
