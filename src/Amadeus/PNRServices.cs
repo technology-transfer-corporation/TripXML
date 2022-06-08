@@ -68,7 +68,7 @@ namespace AmadeusWS
                     oDocBL.Load(ttProviderSystems.BLFile);
 
                     XmlElement oRootBL = oDocBL.DocumentElement;
-                    XmlNode oNodeBL = oRootBL?.SelectSingleNode($"Security/ProviderBL[@Name=\'Amadeus\'][@System=\'{ ttProviderSystems.System }\']");
+                    XmlNode oNodeBL = oRootBL?.SelectSingleNode($"Security/ProviderBL[@Name=\'Amadeus\'][@System=\'{ttProviderSystems.System}\']");
 
                     if (oNodeBL != null)
                     {
@@ -82,10 +82,10 @@ namespace AmadeusWS
                         if (oNodeRespBL != null)
                         {
 
-                            if (oNodeBL.SelectSingleNode($"PCC[@Code=\'{ ttProviderSystems.PCC }\']") != null)
+                            if (oNodeBL.SelectSingleNode($"PCC[@Code=\'{ttProviderSystems.PCC}\']") != null)
                             {
                                 string strAIAN = oNodeRespBL.SelectSingleNode("accounting/account/number").InnerXml;
-                                string strAIN_BL = oNodeBL.SelectSingleNode($"PCC[@Code=\'{ ttProviderSystems.PCC }\']/@AuthorizeCode").InnerXml;
+                                string strAIN_BL = oNodeBL.SelectSingleNode($"PCC[@Code=\'{ttProviderSystems.PCC}\']/@AuthorizeCode").InnerXml;
 
                                 //compare to the one in BL file 
 
@@ -1380,8 +1380,6 @@ namespace AmadeusWS
                     {
                         var paxAssoc = new Dictionary<Tuple<string, int>, int>();
                         string strFareType;
-                        string tktDesOpt = string.Empty;
-                        string ticketDes = string.Empty;
                         if (Request.Contains("StoreHistoricalFare") && bStoreFare)
                         {
                             #region Store Fare
@@ -1413,17 +1411,20 @@ namespace AmadeusWS
                                         strFareType = "/R";
                                 }
 
-                                var ffList = GetFareFamilyFXX(Request, strPNRReplay, oRootStored);
-
-                                if (!GetPricingOptionsTST.Contains(">PFF<"))
-                                {
+                                List<Tuple<string, string>> ffList;
+                                // Blocked check
+                                //if (!GetPricingOptionsTST.Contains(">PFF<"))
+                                if (!Request.Contains("BrandedFares") || Request.Replace(" ", "").Contains("<BrandedFares/>"))
                                     ffList = GetPricingOptionsFXX(Request, GetPricingOptionsTST, strPNRReplay, oRootStored);
-                                }
+                                else
+                                    ffList = GetFareFamilyFXX(Request, strPNRReplay, oRootStored);
+
                                 string strHistFareRS;
                                 string strEndTransaction;
                                 foreach (var ff in ffList)
                                 {
-                                    strHistFareRS = SendCommandCryptically(ttAA, $"FXX{strFareType}{ff.Item2}");
+                                    var fxOpt = System.Text.RegularExpressions.Regex.Replace(ff.Item2, @"\/ZO-0\*[A-Z0-9.,]*", "");
+                                    strHistFareRS = SendCommandCryptically(ttAA, $"FXX{strFareType}{fxOpt}");
                                     if (!string.IsNullOrEmpty(ff.Item1))
                                     {
                                         var fxxResp = strHistFareRS.Split(new[] { '\r', '\n' }).ToList();
@@ -1473,20 +1474,11 @@ namespace AmadeusWS
                                 var tktDesTooLong = false;
                                 foreach (var ff in ffList)
                                 {
-                                    var tktDesNode = oRootReq?.SelectSingleNode(string.IsNullOrEmpty(ff.Item1) ? $"//StoredFare/TicketDesignator" : $"//StoredFare[@RPH = '{(ff.Item1.Contains(",") ? ff.Item1.Split(',')[0] : ff.Item1)}']/TicketDesignator");
-                                    if (tktDesNode != null)
-                                    {
-                                        ticketDes = tktDesNode.InnerText;
-                                    }
-                                    else
-                                        ticketDes = string.Empty;
-
-                                    tktDesOpt = !string.IsNullOrEmpty(ticketDes) ? $"/ZO-0*{ticketDes}" : string.Empty;
-
-                                    strHistFareRS = SendCommandCryptically(ttAA, $"FXP{tktDesOpt}{strFareType}{ff.Item2}");
+                                    strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{ff.Item2}");
                                     if (strHistFareRS.Contains("TICKET DESIGNATOR TOO LONG TO PROCESS"))
                                     {
-                                        strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{ff.Item2}");
+                                        var fxOpt = System.Text.RegularExpressions.Regex.Replace(ff.Item2, @"\/ZO-0\*[A-Z0-9.,]*", "");
+                                        strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{fxOpt}");
                                         tktDesTooLong = true;
                                     }
                                 }
@@ -1499,12 +1491,20 @@ namespace AmadeusWS
                                     var nTSTDoc = new XmlDocument();
                                     nTSTDoc.LoadXml(strResponseTST);
                                     var nRootStored = nTSTDoc.DocumentElement;
+
+                                    XmlDocument pnr = new XmlDocument();
+                                    pnr.LoadXml(strPNRReplay);
+                                    XmlNodeList flightSegs = pnr.DocumentElement.SelectNodes("//originDestinationDetails/itineraryInfo");
+                                    Dictionary<string, string> flSegMap = new Dictionary<string, string>();
+                                    foreach (XmlNode fnode in flightSegs)
+                                    {
+                                        flSegMap.Add(fnode.SelectSingleNode("elementManagementItinerary/reference/number").InnerText,
+                                            fnode.SelectSingleNode("elementManagementItinerary/lineNumber").InnerText);
+                                    }
+
                                     foreach (XmlNode reqNode in oRootReq.SelectNodes("//StoredFare"))
                                     {
-                                        if (reqNode.SelectSingleNode("TicketDesignator") == null)
-                                            continue;
                                         var tstRPH = reqNode.Attributes["RPH"].Value;
-                                        ticketDes = reqNode.SelectSingleNode("TicketDesignator").InnerText;
                                         var paxType = oRootStored?.SelectSingleNode(
                                             $"fareList[fareReference/uniqueReference = '{tstRPH}']/paxSegReference/refDetails/refQualifier").InnerText;
                                         var paxNum = oRootStored?.SelectSingleNode(
@@ -1513,30 +1513,44 @@ namespace AmadeusWS
                                         var nTstRPH = nRootStored?.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxNum}' and paxSegReference/refDetails/refQualifier = '{paxType}']/fareReference/uniqueReference").InnerText;
                                         var oSegmentNodes = nRootStored?.SelectNodes($"fareList[fareReference/uniqueReference = '{nTstRPH}']/segmentInformation");
                                         var tktNode = oSegmentNodes[0].SelectSingleNode("fareQualifier/fareBasisDetails/ticketDesignator");
-                                        if (tktNode != null && tktNode.InnerText.Equals(ticketDes))
-                                            continue;
+                                        var ticketDes = reqNode.SelectSingleNode($"FareSegments/AirSegments").Attributes["TicketDesignator"] != null ?
+                                            reqNode.SelectSingleNode($"FareSegments/AirSegments").Attributes["TicketDesignator"].Value : string.Empty;
                                         var farebasis = $"{oSegmentNodes[0].SelectSingleNode("fareQualifier/fareBasisDetails/primaryCode").InnerText}{oSegmentNodes[0].SelectSingleNode("fareQualifier/fareBasisDetails/fareBasisCode").InnerText}";
                                         var fbSegList = string.Empty;
                                         string updRequest;
                                         string strUpdTicketDes;
                                         foreach (XmlNode segNode in oSegmentNodes)
                                         {
+                                            var segNum = segNode.SelectSingleNode("segmentReference/refDetails[refQualifier='S']/refNumber").InnerText;
+                                            var segTD = string.Empty;
+                                            if (reqNode.SelectSingleNode($"FareSegments/AirSegments[@RPH='{flSegMap[segNum]}']").Attributes["TicketDesignator"] != null)
+                                            {
+                                                segTD = reqNode.SelectSingleNode($"FareSegments/AirSegments[@RPH='{flSegMap[segNum]}']").Attributes["TicketDesignator"].Value;
+                                            }
+                                            else
+                                                continue;
+                                            //if (tktNode != null && tktNode.InnerText.Equals(ticketDes))
+                                            //    continue;
+
                                             if (segNode.SelectSingleNode("fareQualifier") == null)
                                                 continue;
                                             var segFB = $"{segNode.SelectSingleNode("fareQualifier/fareBasisDetails/primaryCode").InnerText}{segNode.SelectSingleNode("fareQualifier/fareBasisDetails/fareBasisCode").InnerText}";
-                                            if (farebasis.Equals(segFB))
+                                            if (farebasis.Equals(segFB) && ticketDes.Equals(segTD))
                                                 fbSegList += $",{segNode.SelectSingleNode("sequenceInformation/sequenceSection/sequenceNumber").InnerText}";
                                             else
                                             {
-                                                updRequest = $"TTI/T{nTstRPH}/L{fbSegList.Substring(1)}{(fbSegList.Substring(1).Contains(",") ? "x" : string.Empty)}/B{farebasis} {ticketDes}";
+                                                updRequest = $"TTI/T{nTstRPH}/L{fbSegList.TrimStart(',')}{(fbSegList.TrimStart(',').Contains(",") ? "x" : string.Empty)}/B{farebasis} {ticketDes}";
                                                 strUpdTicketDes = SendCommandCryptically(ttAA, updRequest);
                                                 farebasis = segFB;
+                                                ticketDes = segTD;
                                                 fbSegList = $",{segNode.SelectSingleNode("sequenceInformation/sequenceSection/sequenceNumber").InnerText}";
                                             }
                                         }
-
-                                        updRequest = $"TTI/T{nTstRPH}/L{fbSegList.Substring(1)}{(fbSegList.Substring(1).Contains(",") ? "x" : string.Empty)}/B{farebasis} {ticketDes}";
-                                        strUpdTicketDes = SendCommandCryptically(ttAA, updRequest);
+                                        if (!string.IsNullOrEmpty(fbSegList))
+                                        {
+                                            updRequest = $"TTI/T{nTstRPH}/L{fbSegList.TrimStart(',')}{(fbSegList.TrimStart(',').Contains(",") ? "x" : string.Empty)}/B{farebasis} {ticketDes}";
+                                            strUpdTicketDes = SendCommandCryptically(ttAA, updRequest);
+                                        }
                                     }
                                     strEndTransaction = "<PNR_AddMultiElements><pnrActions><optionCode>11</optionCode></pnrActions><dataElementsMaster><marker1/><dataElementsIndiv><elementManagementData><segmentName>RF</segmentName></elementManagementData><freetextData><freetextDetail><subjectQualifier>3</subjectQualifier><type>P22</type></freetextDetail><longFreetext>TRIPXML</longFreetext></freetextData></dataElementsIndiv></dataElementsMaster></PNR_AddMultiElements>";
                                     SendAddMultiElements(ttAA, strEndTransaction);
@@ -1569,7 +1583,7 @@ namespace AmadeusWS
 
                             if (oRootStored != null)
                             {
-                                var sXmlFareFamily = GetFareFamily(Request, strPNRReplay, oRootStored);
+                                var sXmlFareFamily = GetPricingOptionsFF_FB(Request, strPNRReplay, oRootStored);
 
                                 if (sXmlFareFamily.All(x => string.IsNullOrEmpty(x)))
                                 {
@@ -1598,10 +1612,10 @@ namespace AmadeusWS
                                     discQualif = "708"; // percent discount
                                 }
 
-                                if (oNode1.SelectSingleNode("TicketDesignator") != null)
-                                {
-                                    strTktDes = $"<rate>{oNode1.SelectSingleNode("TicketDesignator").InnerXml}</rate>";
-                                }
+                                //if (oNode1.SelectSingleNode("TicketDesignator") != null)
+                                //{
+                                //    strTktDes = $"<rate>{oNode1.SelectSingleNode("TicketDesignator").InnerXml}</rate>";
+                                //}
 
                                 if (oNode1.Attributes["FareType"] != null)
                                 {
@@ -1731,10 +1745,9 @@ namespace AmadeusWS
                                     var saveCMDresp = SendCommandCryptically(ttAA, "RFTRIPXML;ER");
                                     if (saveCMDresp.Contains("textStringDetails") && saveCMDresp.Contains("WARNING"))
                                         saveCMDresp = SendCommandCryptically(ttAA, "ER");
-                            }
+                                }
                             }
 
-                            strResponseReprice = $"<strResponseReprice>{SendDisplayTST(ttAA)}</strResponseReprice>";
                             if (bStoreFare)
                             {
                                 string strEndTransaction = "<PNR_AddMultiElements><pnrActions><optionCode>11</optionCode></pnrActions><dataElementsMaster><marker1/><dataElementsIndiv><elementManagementData><segmentName>RF</segmentName></elementManagementData><freetextData><freetextDetail><subjectQualifier>3</subjectQualifier><type>P22</type></freetextDetail><longFreetext>TRIPXML</longFreetext></freetextData></dataElementsIndiv></dataElementsMaster></PNR_AddMultiElements>";
@@ -2299,10 +2312,6 @@ namespace AmadeusWS
             doc.LoadXml(request);
             XmlElement root = doc.DocumentElement;
 
-            if (!request.Contains("BrandedFares") &&
-                (root.SelectNodes("//StoredFare/TicketDesignator").Count.Equals(0) || root.SelectNodes("//StoredFare/TicketDesignator").Count.Equals(root.SelectNodes("//StoredFare").Count)))
-                return new List<Tuple<string, string>> { new Tuple<string, string>("", "") };
-
             var res = new List<Tuple<string, string>>();
 
             XmlNodeList nodes = root.SelectNodes("//StoredFare");
@@ -2321,21 +2330,29 @@ namespace AmadeusWS
                 .SelectNodes("//originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AIR']")
                 .Count;
 
-            List<Tuple<string, List<Tuple<string, string, string>>, string>> paxFareSegs =
-                new List<Tuple<string, List<Tuple<string, string, string>>, string>>();
+            List<Tuple<string, List<Tuple<string, string, string>>>> paxFareSegs =
+                new List<Tuple<string, List<Tuple<string, string, string>>>>();
             foreach (XmlNode fnode in nodes)
             {
                 var tst = fnode.Attributes["RPH"].Value;
-                var tktdes = fnode.SelectSingleNode("TicketDesignator") == null ? "" : fnode.SelectSingleNode("TicketDesignator").InnerText;
                 if (!paxFareSegs.Any(fs => fs.Item1 == tst))
-                    paxFareSegs.Add(new Tuple<string, List<Tuple<string, string, string>>, string>(tst,
-                            new List<Tuple<string, string, string>>(), tktdes));
+                    paxFareSegs.Add(new Tuple<string, List<Tuple<string, string, string>>>(tst,
+                            new List<Tuple<string, string, string>>()));
                 foreach (XmlNode ffnode in fnode.SelectNodes("BrandedFares/FareFamily"))
                 {
                     if (!paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Any(i =>
                         i.Item1 == ffnode.InnerText && i.Item2 == "S" && i.Item3 == ffnode.Attributes["RPH"].Value))
                         paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Add(
                             new Tuple<string, string, string>(ffnode.InnerText, "S", ffnode.Attributes["RPH"].Value));
+                }
+
+                foreach (XmlNode ffnode in fnode.SelectNodes("FareSegments/AirSegments"))
+                {
+                    if (ffnode.Attributes["TicketDesignator"] != null && !string.IsNullOrEmpty(ffnode.Attributes["TicketDesignator"].Value))
+                    {
+                        paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Add(
+                            new Tuple<string, string, string>(ffnode.Attributes["TicketDesignator"].Value, "TD", ffnode.Attributes["RPH"].Value));
+                    }
                 }
 
                 if (!paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Any(i => i.Item2.StartsWith("P")))
@@ -2354,33 +2371,55 @@ namespace AmadeusWS
             }
 
             paxFareSegs.ForEach(pfs => pfs.Item2.RemoveAll(p => p.Item2 == "T"));
-            var paxFareSegsGrouped = new List<Tuple<string, List<Tuple<string, string, string>>, string>>();
+            var paxFareSegsGrouped = new List<Tuple<string, List<Tuple<string, string, string>>>>();
             paxFareSegsGrouped = paxFareSegs;
 
             if (paxFareSegsGrouped.SelectMany(x => x.Item2).ToList().FindAll(x => x.Item2 == "S").TrueForAll(s => s.Item1 == paxFareSegsGrouped.First().Item2.First(x => x.Item2 == "S").Item1) &&
                 paxFareSegsGrouped.SelectMany(x => x.Item2).ToList().FindAll(x => x.Item2 == "S").Distinct().Count().Equals(segCount) &&
-                paxFareSegsGrouped.SelectMany(x => x.Item3).ToList().TrueForAll(x => x.Equals(paxFareSegsGrouped.First().Item3)))
+                paxFareSegsGrouped.SelectMany(x => x.Item2).ToList().FindAll(x => x.Item2 == "TD").Distinct().Count().Equals(segCount) &&
+                paxFareSegsGrouped.TrueForAll(p => p.Item2.FindAll(x => x.Item2 == "TD").OrderBy(x => x.Item3).SequenceEqual(
+                          paxFareSegsGrouped.First().Item2.FindAll(x => x.Item2 == "TD").OrderBy(x => x.Item3)))
+                )
             {
-                res.Add(new Tuple<string, string>("", $"/FF-{paxFareSegsGrouped.First().Item2.First(x => x.Item2 == "S").Item1}"));
+                string tdes = "";
+                var grpTd = paxFareSegsGrouped.First().Item2.FindAll(x => x.Item2 == "TD").GroupBy(x => x.Item1);
+                if (grpTd.Count().Equals(1))
+                    tdes = grpTd.Select(x => $"/ZO-0*{x.Key}").First();
+                else
+                {
+                    foreach (var item in grpTd)
+                        tdes += $"/ZO-0*{item.Key}.{string.Join(",", paxFareSegsGrouped.First().Item2.FindAll(x => x.Item2 == "TD" && x.Item1 == item.Key).Select(x => x.Item3))}";
+                }
+                res.Add(new Tuple<string, string>("", $"/FF-{paxFareSegsGrouped.First().Item2.First(x => x.Item2 == "S").Item1}{tdes}"));
             }
             else
             {
                 foreach (var psg in paxFareSegsGrouped.GroupBy(x => new
                 {
                     segs = string.Join(",", x.Item2.FindAll(p => p.Item2.StartsWith("S")).OrderBy(o => o.Item3).Select(s => $"{s.Item3}-{s.Item1}")),
-                    tktdes = x.Item3,
+                    tktdes = string.Join("", x.Item2.FindAll(p => p.Item2.StartsWith("TD")).OrderBy(o => o.Item3).Select(s => s.Item1)),
                     isInf = x.Item2.Any(p => p.Item2.Equals("PI"))
                 }))
                 {
                     var segs = psg.First().Item2.FindAll(p => p.Item2.StartsWith("S")).TrueForAll(s => s.Item1.Equals(psg.First().Item2.First().Item1)) && psg.First().Item2.FindAll(p => p.Item2.StartsWith("S")).Count.Equals(segCount) ?
                         $"/FF-{psg.First().Item2.First(x => x.Item2 == "S").Item1}" :
                         $"{string.Join("", psg.First().Item2.FindAll(p => p.Item2.StartsWith("S")).SelectMany(s => $"/FF{s.Item3}-{s.Item1}"))}";
-                    List<string> tRes = new List<string>();
-                    foreach (var ps in psg)
+
+                    string tdes = "";
+                    var grpTd = psg.First().Item2.FindAll(x => x.Item2 == "TD").GroupBy(x => x.Item1);
+                    if (grpTd.Count().Equals(1))
+                        tdes = grpTd.Select(x => $"/ZO-0*{x.Key}").First();
+                    else
                     {
-                        var isInf = ps.Item2.Any(p => p.Item2.Equals("PI"));
-                        tRes.Add($"/P{string.Join(",", ps.Item2.FindAll(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}{(isInf ? "/INF" : "")}" +
-                            $"{(ps.Item2.Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}{(tRes.Count.Equals(0) ? segs : "")}");
+                        foreach (var item in grpTd)
+                            tdes += $"/ZO-0*{item.Key}.{string.Join(",", paxFareSegsGrouped.First().Item2.FindAll(x => x.Item2 == "TD" && x.Item1 == item.Key).Select(x => x.Item3))}";
+                    }
+
+                    List<string> tRes = new List<string>();
+                    {
+                        var isInf = psg.SelectMany(x => x.Item2).Any(p => p.Item2.Equals("PI"));
+                        tRes.Add($"/P{string.Join(",", psg.SelectMany(x => x.Item2).Where(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}{(isInf ? "/INF" : "")}" +
+                            $"{(psg.SelectMany(x => x.Item2).Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}{(tRes.Count.Equals(0) ? segs + tdes : "")}");
                     }
                     res.Add(new Tuple<string, string>(string.Join(",", psg.Select(x => x.Item1)), string.Join("/", tRes)));
                 }
@@ -2436,8 +2475,9 @@ namespace AmadeusWS
             tstdoc.LoadXml("<Ticket_GetPricingOptions>" + tstResp + "</Ticket_GetPricingOptions>");
             XmlElement tstRsp = tstdoc.DocumentElement;
 
-            if (tstResp.Contains(">PFF<"))
-                return new List<Tuple<string, string>> { new Tuple<string, string>("", "") };
+            // Blocked check
+            //if (tstResp.Contains(">PFF<"))
+            //    return new List<Tuple<string, string>> { new Tuple<string, string>("", "") };
 
             var res = new List<Tuple<string, string>>();
 
@@ -2457,15 +2497,14 @@ namespace AmadeusWS
                 .SelectNodes("//originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AIR']")
                 .Count;
 
-            List<Tuple<string, List<Tuple<string, string, string>>, string>> paxFareSegs =
-                new List<Tuple<string, List<Tuple<string, string, string>>, string>>();
+            List<Tuple<string, List<Tuple<string, string, string>>>> paxFareSegs =
+                new List<Tuple<string, List<Tuple<string, string, string>>>>();
             foreach (XmlNode fnode in nodes)
             {
                 var tst = fnode.Attributes["RPH"].Value;
-                var tktdes = fnode.SelectSingleNode("TicketDesignator") == null ? "" : fnode.SelectSingleNode("TicketDesignator").InnerText;
                 if (!paxFareSegs.Any(fs => fs.Item1 == tst))
-                    paxFareSegs.Add(new Tuple<string, List<Tuple<string, string, string>>, string>(tst,
-                            new List<Tuple<string, string, string>>(), tktdes));
+                    paxFareSegs.Add(new Tuple<string, List<Tuple<string, string, string>>>(tst,
+                            new List<Tuple<string, string, string>>()));
 
                 if (!paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Any(i => i.Item2.StartsWith("P")))
                 {
@@ -2478,7 +2517,6 @@ namespace AmadeusWS
                         paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Add(new Tuple<string, string, string>("",
                             strTSTpax == "INF" ? "PI" : ((strTSTpax == "ADT" || strTSTpax == "JCB") ? "PA" : "P"),
                             paxMap[pax.InnerText]));
-
                     }
                 }
                 if (paxFareSegs.Any(fs => fs.Item1 == tst))
@@ -2493,38 +2531,68 @@ namespace AmadeusWS
                     }
                 }
             }
-            var paxFareSegsGrouped = new List<Tuple<string, List<Tuple<string, string, string>>, string>>();
+            var paxFareSegsGrouped = new List<Tuple<string, List<Tuple<string, string, string>>>>();
             paxFareSegsGrouped = paxFareSegs;
-            foreach (var psg in paxFareSegsGrouped.GroupBy(x => new
-            {
-                segs = string.Join(",", x.Item2.FindAll(p => p.Item2.StartsWith("*"))),
-                tktdes = x.Item3,
-                isInf = x.Item2.Any(p => p.Item2.Equals("PI"))
-            }))
+            //foreach (var psg in paxFareSegsGrouped.GroupBy(x => new
+            //{
+            //    segs = string.Join(",", x.Item2.FindAll(p => p.Item2.StartsWith("*"))),
+            //    isInf = x.Item2.Any(p => p.Item2.Equals("PI"))
+            //}))
             {
                 List<string> tRes = new List<string>();
-                foreach (var ps in psg)
+                //foreach (var ps in psg)
+                foreach (var ps in paxFareSegs)
                 {
                     var isInf = ps.Item2.Any(p => p.Item2.Equals("PI"));
                     var opt = $"{string.Join(",", ps.Item2.FindAll(p => p.Item2.StartsWith("*")).Select(s => $",{s.Item2}"))}";
-                    tRes.Add($"{opt}/P{string.Join(",", ps.Item2.FindAll(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}{(isInf ? "/INF" : "")}" +
+                    tRes.Add($"{opt}{(isInf ? "/INF" : "")}" +
                         $"{(ps.Item2.Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}");
-                    res.Add(new Tuple<string, string>(ps.Item1, string.Join("/", tRes).Replace("/,", ",")));
+                    var fbCodes = new Dictionary<string, string>();
+                    var tktDes = new Dictionary<string, string>();
+                    foreach (XmlNode item in root.SelectSingleNode($"//StoredFare[@RPH='{ps.Item1}']").SelectNodes("FareSegments/AirSegments"))
+                    {
+                        fbCodes[item.InnerText.TrimEnd('/')] = fbCodes.ContainsKey(item.InnerText.TrimEnd('/'))
+                            ? fbCodes[item.InnerText.TrimEnd('/')] + "," + item.Attributes["RPH"].Value
+                            : item.Attributes["RPH"].Value;
+                        if (item.Attributes["TicketDesignator"] != null)
+                            tktDes[item.Attributes["TicketDesignator"].Value] = tktDes.ContainsKey(item.Attributes["TicketDesignator"].Value)
+                                ? tktDes[item.Attributes["TicketDesignator"].Value] + "," + item.Attributes["RPH"].Value
+                                : item.Attributes["RPH"].Value;
+                    }
+                    tRes.Add(string.Join("/", fbCodes.Select(x => $"A{x.Value}-{x.Key}")));
+                    if (tktDes.Any())
+                    {
+                        tRes.Add(string.Join("/", tktDes.Select(x => $"ZO-0*{x.Key}.{x.Value}")));
+                    }
+                    tRes.Add($"P{string.Join(",", ps.Item2.FindAll(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}");
+                    res.Add(new Tuple<string, string>(ps.Item1, string.Join("/", tRes).Replace("/,", ",").TrimEnd('/')));
                     tRes = new List<string>();
                 }
             }
+            //if (res.TrueForAll(r => System.Text.RegularExpressions.Regex.Replace(r.Item2, @"\/(P\d+|PAX|PI|INF)", "")
+            //                .Equals(System.Text.RegularExpressions.Regex.Replace(res.First().Item2, @"\/(P\d+|PAX|PI|INF)", ""))))
+            //{
+            //    var combRes = System.Text.RegularExpressions.Regex.Replace(res.First().Item2, @"\/(P\d+|PAX|PI|INF)", "");
+            //    res.Clear();
+            //    res.Add(new Tuple<string, string>("", combRes));
+            //}
             return res;
         }
 
-        private List<string> GetFareFamily(string request, string pnrRead, XmlElement oRootStored)
+        private List<string> GetPricingOptionsFF_FB(string request, string pnrRead, XmlElement oRootStored)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(request);
             XmlElement root = doc.DocumentElement;
+            var reqElems = "BrandedFares/FareFamily";
+            var isFF = true;
 
             if (!request.Contains("BrandedFares") ||
                 root.SelectNodes("//StoredFare/BrandedFares").Cast<XmlNode>().ToList().TrueForAll(x => x.InnerText.Equals("")))
-                return new List<string> { "" };
+            {
+                isFF = false;
+                reqElems = "FareSegments/AirSegments[text() != 'VOID']";
+            }
 
             var res = new List<string>();
 
@@ -2545,7 +2613,7 @@ namespace AmadeusWS
                 var tst = fnode.Attributes["RPH"].Value;
                 if (!paxFareSegs.Any(fs => fs.Item1 == tst))
                     paxFareSegs.Add(new Tuple<string, List<Tuple<string, string, string>>>(tst, new List<Tuple<string, string, string>>()));
-                foreach (XmlNode ffnode in fnode.SelectNodes("BrandedFares/FareFamily"))
+                foreach (XmlNode ffnode in fnode.SelectNodes(reqElems))
                 {
                     if (!paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Any(i => i.Item1 == ffnode.InnerText && i.Item2 == "S" && i.Item3 == ffnode.Attributes["RPH"].Value))
                         paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Add(new Tuple<string, string, string>(ffnode.InnerText, "S", ffnode.Attributes["RPH"].Value));
@@ -2591,11 +2659,14 @@ namespace AmadeusWS
                     select
                     new XElement("pricingOptionGroup",
                     new XElement("pricingOptionKey",
-                      new XElement("pricingOptionKey", "PFF")),
+                      new XElement("pricingOptionKey", isFF ? "PFF" : "FBA")),
                     new XElement("optionDetail",
+                    isFF ?
                       new XElement("criteriaDetails",
                           new XElement("attributeType", "FF"),
-                          new XElement("attributeDescription", fs)))
+                          new XElement("attributeDescription", fs)) :
+                      new XElement("criteriaDetails",
+                          new XElement("attributeType", fs.TrimEnd('/'))))
                   , new XElement("paxSegTstReference",
                             fgs.Item2.FindAll(f => f.Item1 == fs || string.IsNullOrEmpty(f.Item1)).OrderByDescending(fse => fse.Item2).Select(fseg =>
                                 new XElement("referenceDetails",
