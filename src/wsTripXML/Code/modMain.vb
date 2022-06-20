@@ -5,6 +5,7 @@ Imports System.Web.Configuration
 Imports System.Threading
 Imports System.Net
 Imports TripXMLMain.modCore
+Imports PaymentServices
 
 Namespace wsTravelTalk
 
@@ -2353,6 +2354,51 @@ Namespace wsTravelTalk
 
         End Function
 
+        Public Function SendPaymentRequest(ByVal Service As ttServices, ByRef ttCredential As TravelTalkCredential, ByRef ttProviderSystems As TripXMLProviderSystems, ByRef request As Object) As Object
+            Dim strResponse As String = ""
+            Dim responseObj As Object = Nothing
+
+            Try
+                Dim paymentServices = New VirtualCardPaymentService
+
+                With paymentServices
+                    .Provider = ttProviderSystems.Provider
+                    .UUID = ttProviderSystems.LogUUID
+                    .Request = request
+
+                    Select Case Service
+                        Case ttServices.GenerateVirtualCard
+                            responseObj = .CreateVirtualCard()
+                            'Case ttServices.CancelVirtualCardLoad
+                            '    strResponse = .CancelVirtualCardLoad()
+                        Case ttServices.DeleteVirtualCard
+                            responseObj = .DeleteVirtualCard()
+                        Case ttServices.GetVirtualCardDetails
+                            responseObj = .GetVirtualCardDetails()
+                        Case ttServices.ListVirtualCards
+                            responseObj = .ListVirtualCards()
+                            'Case ttServices.ManageDBIData
+                            '    strResponse = .ManageDBIData()
+                            'Case ttServices.ScheduleVirtualCardLoad
+                            '    strResponse = .ScheduleVirtualCardLoad()
+                            'Case ttServices.UpdateVirtualCard
+                            '    strResponse = .UpdateVirtualCard()
+                        Case Else
+                            Throw New Exception(String.Format("{0} Message is not supported by Amadeus.", Service.ToString()))
+                    End Select
+
+                    'ttAA = .ttAPIAdapter
+                End With
+
+                Return responseObj
+            Catch ex As Exception
+                Throw
+            Finally
+                GC.Collect()
+            End Try
+
+        End Function
+
         Public Function SendPaymentRequestSabre(ByVal Service As ttServices, ByRef ttCredential As TravelTalkCredential, ByRef ttProviderSystems As TripXMLProviderSystems, ByRef strRequest As String, Optional ByVal Version As String = "") As String
             Dim strResponse As String = ""
             Try
@@ -2402,26 +2448,26 @@ Namespace wsTravelTalk
             Try
                 ttService = New Worldspan.OtherServices
 
-                With ttService
-                    .Version = Version
-                    .XslPath = XslPath
-                    .ProviderSystems = ttProviderSystems
-                    .Request = strRequest
+                'With ttService
+                '    .Version = Version
+                '    .XslPath = XslPath
+                '    .ProviderSystems = ttProviderSystems
+                '    .Request = strRequest
 
-                    Select Case Service
-                        Case ttServices.CreateSession
-                            strResponse = .CreateSession()
-                        Case ttServices.CloseSession
-                            strResponse = .CloseSession()
-                        Case ttServices.Native
-                            strResponse = .Native()
-                        Case ttServices.Cryptic
-                            strResponse = .Cryptic()
-                        Case Else
-                            Throw New Exception(String.Format("{0} Message is not supported by Worldspan.", Service.ToString()))
-                    End Select
+                '    Select Case Service
+                '        Case ttServices.CreateSession
+                '            strResponse = .CreateSession()
+                '        Case ttServices.CloseSession
+                '            strResponse = .CloseSession()
+                '        Case ttServices.Native
+                '            strResponse = .Native()
+                '        Case ttServices.Cryptic
+                '            strResponse = .Cryptic()
+                '        Case Else
+                '            Throw New Exception(String.Format("{0} Message is not supported by Worldspan.", Service.ToString()))
+                '    End Select
 
-                End With
+                'End With
 
                 Return strResponse
 
@@ -2440,26 +2486,26 @@ Namespace wsTravelTalk
             Try
                 ttService = New Travelport.OtherServices
 
-                With ttService
-                    '.Version = Version
-                    '.XslPath = XslPath
-                    .ProviderSystems = ttProviderSystems
-                    .Request = strRequest
+                'With ttService
+                '    '.Version = Version
+                '    '.XslPath = XslPath
+                '    .ProviderSystems = ttProviderSystems
+                '    .Request = strRequest
 
-                    Select Case Service
-                        Case ttServices.CreateSession
-                            strResponse = .CreateSession()
-                        Case ttServices.CloseSession
-                            strResponse = .CloseSession()
-                        Case ttServices.Cryptic
-                            strResponse = .Cryptic()
-                        Case ttServices.Native
-                            strResponse = .Native()
-                        Case Else
-                            Throw New Exception(String.Format("{0} Message is not supported by Travelport.", Service.ToString()))
-                    End Select
+                '    Select Case Service
+                '        Case ttServices.CreateSession
+                '            strResponse = .CreateSession()
+                '        Case ttServices.CloseSession
+                '            strResponse = .CloseSession()
+                '        Case ttServices.Cryptic
+                '            strResponse = .Cryptic()
+                '        Case ttServices.Native
+                '            strResponse = .Native()
+                '        Case Else
+                '            Throw New Exception(String.Format("{0} Message is not supported by Travelport.", Service.ToString()))
+                '    End Select
 
-                End With
+                'End With
 
                 Return strResponse
 
@@ -5412,40 +5458,30 @@ Namespace wsTravelTalk
                                         sb.Remove(0, sb.Length())
 
                                         ' Get Provider Settings
+                                        'TODO: This has to be changed attribute AmadeusWS no longer applicable and needs to be removed complitely from and XML files
+                                        'It should be always worked with provider Amadeus and not AmadeusWS
                                         If Not oNodePCC.Attributes("AmadeusWS") Is Nothing Then
-                                            If oNodePCC.Attributes("AmadeusWS").Value.ToLower = "false" Then
-                                                .AmadeusWS = False
-
-                                                oNodePrv = oRootPrv.SelectSingleNode(sb.Append("Provider[@Name='").Append(provider).Append("']/System[@Name='").Append(.System).Append("']").ToString())
-                                                sb.Remove(0, sb.Length())
-
-                                                .URL = oNodePrv.SelectSingleNode("URL").InnerText
-                                                .Port = oNodePrv.SelectSingleNode("Port").InnerText
-                                                .SOAPAction = oNodePrv.ParentNode.SelectSingleNode("SOAPAction").InnerText
+                                            .AmadeusWS = Convert.ToBoolean(oNodePCC.Attributes("AmadeusWS").Value.ToLower)
+                                            If .AmadeusWS = False Then
+                                                oNodePrv = oRootPrv.SelectSingleNode($"Provider[@Name='{provider}']/System[@Name='{ .System}']")
                                             Else
-                                                .AmadeusWS = True
-
-                                                oNodePrv = oRootPrv.SelectSingleNode(sb.Append("Provider[@Name='").Append(provider).Append("WS").Append("']/System[@Name='").Append(.System).Append("']").ToString())
-                                                sb.Remove(0, sb.Length())
-
-                                                .URL = oNodePrv.SelectSingleNode("URL").InnerText
-                                                If Not oNodePrv.SelectSingleNode("SOAP4URL") Is Nothing Then
-                                                    .SOAP4URL = oNodePrv.SelectSingleNode("SOAP4URL").InnerText
-                                                End If
-                                                .Port = oNodePrv.SelectSingleNode("Port").InnerText
-                                                .SOAPAction = oNodePrv.ParentNode.SelectSingleNode("SOAPAction").InnerText
+                                                oNodePrv = oRootPrv.SelectSingleNode($"Provider[@Name='{provider}WS']/System[@Name='{ .System}']")
                                             End If
                                         Else
+                                            oNodePrv = oRootPrv.SelectSingleNode($"Provider[@Name='{provider}']/System[@Name='{ .System}']")
+                                        End If
 
-                                            oNodePrv = oRootPrv.SelectSingleNode(sb.Append("Provider[@Name='").Append(provider).Append("']/System[@Name='").Append(.System).Append("']").ToString())
-                                            sb.Remove(0, sb.Length())
-                                            If Not oNodePrv Is Nothing Then
-                                                .URL = oNodePrv.SelectSingleNode("URL").InnerText
-                                                .Port = oNodePrv.SelectSingleNode("Port").InnerText
-                                                .SOAPAction = oNodePrv.ParentNode.SelectSingleNode("SOAPAction").InnerText
-                                            Else
-                                                CoreLib.SendTrace("", "modMain", String.Format("Failed to load: {3} - {2} on {1} for {0}", provider, .System, .UserName, .PCC), sb.Append("TripXMLStartUp: Error Loading File ").Append(arFiles(i)).ToString(), String.Empty)
+                                        oNodePrv = oRootPrv.SelectSingleNode(sb.Append("Provider[@Name='").Append(provider).Append("']/System[@Name='").Append(.System).Append("']").ToString())
+                                        sb.Remove(0, sb.Length())
+                                        If Not oNodePrv Is Nothing Then
+                                            .URL = oNodePrv.SelectSingleNode("URL").InnerText
+                                            .Port = oNodePrv.SelectSingleNode("Port").InnerText
+                                            .SOAPAction = oNodePrv.ParentNode.SelectSingleNode("SOAPAction").InnerText
+                                            If Not oNodePrv.SelectSingleNode("SOAP4URL") Is Nothing Then
+                                                .SOAP4URL = oNodePrv.SelectSingleNode("SOAP4URL").InnerText
                                             End If
+                                        Else
+                                            CoreLib.SendTrace("", "modMain", String.Format("Failed to load: {3} - {2} on {1} for {0}", provider, .System, .UserName, .PCC), sb.Append("TripXMLStartUp: Error Loading File ").Append(arFiles(i)).ToString(), String.Empty)
                                         End If
 
 

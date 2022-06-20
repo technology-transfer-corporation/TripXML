@@ -342,9 +342,6 @@ Namespace wsTravelTalk.wmPNRRepriceIn
         Public FareSegments() As FareSegment
 
         '<remarks/>
-        Public TicketDesignator As String
-
-        '<remarks/>
         Public TourCode As String
 
         '<remarks/>
