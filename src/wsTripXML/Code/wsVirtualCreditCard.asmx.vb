@@ -85,7 +85,7 @@ Namespace wsTravelTalk
                                 Dim ttDefProvider As TripXMLProviderSystems = Nothing
                                 PreServiceRequest(strRequest, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, uuid, "", True)
 
-                                strResponse = SendPaymentRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                                strResponse = SendPaymentRequestAmadeusWS(ttServiceID, ttCredential, ttDefProvider, strRequest)
                                 responseObj = TripXMLSerializer.Deserialize(Of T)(strResponse)
                         End Select
                 End Select

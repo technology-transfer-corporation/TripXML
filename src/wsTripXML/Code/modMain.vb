@@ -5471,7 +5471,8 @@ Namespace wsTravelTalk
                                             oNodePrv = oRootPrv.SelectSingleNode($"Provider[@Name='{provider}']/System[@Name='{ .System}']")
                                         End If
 
-                                        oNodePrv = oRootPrv.SelectSingleNode(sb.Append("Provider[@Name='").Append(provider).Append("']/System[@Name='").Append(.System).Append("']").ToString())
+                                        'oNodePrv = oRootPrv.SelectSingleNode(sb.Append("Provider[@Name='").Append(provider).Append("']/System[@Name='").Append(.System).Append("']").ToString())
+
                                         sb.Remove(0, sb.Length())
                                         If Not oNodePrv Is Nothing Then
                                             .URL = oNodePrv.SelectSingleNode("URL").InnerText
