@@ -2447,7 +2447,7 @@ namespace AmadeusWS
                 poks.LoadXml(opt.SelectSingleNode("documentInformation").OuterXml);
 
                 var memberNames = poks.SelectNodes("//pricingOptionsGroup").Cast<XmlNode>()
-                               .Select(node => node)
+                               .Select(node => node).Where(n => n.InnerText != "RP" && n.InnerText != "NOP" && n.InnerText != "RLO" && n.InnerText != "RU")
                                .ToList();
 
                 var xml = new XElement("option", from po in memberNames
@@ -2569,13 +2569,13 @@ namespace AmadeusWS
                     tRes = new List<string>();
                 }
             }
-            //if (res.TrueForAll(r => System.Text.RegularExpressions.Regex.Replace(r.Item2, @"\/(P\d+|PAX|PI|INF)", "")
-            //                .Equals(System.Text.RegularExpressions.Regex.Replace(res.First().Item2, @"\/(P\d+|PAX|PI|INF)", ""))))
-            //{
-            //    var combRes = System.Text.RegularExpressions.Regex.Replace(res.First().Item2, @"\/(P\d+|PAX|PI|INF)", "");
-            //    res.Clear();
-            //    res.Add(new Tuple<string, string>("", combRes));
-            //}
+            if (res.TrueForAll(r => System.Text.RegularExpressions.Regex.Replace(r.Item2, @"\/(P\d+|PAX|PI|INF)", "")
+                            .Equals(System.Text.RegularExpressions.Regex.Replace(res.First().Item2, @"\/(P\d+|PAX|PI|INF)", ""))))
+            {
+                var combRes = System.Text.RegularExpressions.Regex.Replace(res.First().Item2, @"\/(P\d+|PAX|PI|INF)", "");
+                res.Clear();
+                res.Add(new Tuple<string, string>("", combRes));
+            }
             return res;
         }
 
