@@ -1357,14 +1357,17 @@
 					</xsl:choose>
 				</xsl:variable>
 				
-				
-				
 				<FareBasisCode>
-					<xsl:value-of select="$fb"/>
-					<xsl:if test="fareQualifier/fareBasisDetails/ticketDesignator">
-						/<xsl:value-of select="fareQualifier/fareBasisDetails/ticketDesignator"/>
-					</xsl:if>
+					<xsl:choose>
+						<xsl:when test="fareQualifier/fareBasisDetails/ticketDesignator">
+							<xsl:value-of select="concat($fb,'/',fareQualifier/fareBasisDetails/ticketDesignator)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$fb"/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</FareBasisCode>
+				
 			</xsl:when>
 			<xsl:otherwise>
 				<FareBasisCode>VOID</FareBasisCode>
