@@ -3,6 +3,7 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
+   Date: 25 May 2022 - Samokhvalov - Fixed FareBasis (truncation to 8 chars removed).
    Date: 18 May 2022 - Kobelev - Fixed Ticket Designator in RePrice request (According to Irina, regardless if Discount is 0 still have to pass Ticket Desgnator as Discount).
    Date: 17 May 2022 - Kobelev - Added Tour Code to RePrice request.
    Date: 09 May 2022 - Samokhvalov - Grouped ItineraryOptions/SegmentSelect
