@@ -1,23 +1,28 @@
 <?xml version="1.0" ?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<!-- ================================================================== -->
-	<!-- Sabre_AirAvailRQ.xsl 																-->
-	<!-- ================================================================== -->
-	<!-- Date: 08 Jul 2009 - Rastko															-->
-	<!-- ================================================================== -->
+	<!-- 
+	================================================================== 
+	Sabre_AirAvailRQ.xsl 												
+	================================================================== 
+	Date: 06 Jun 2022 - Kobelev - Version update											
+	Date: 08 Jul 2009 - Rastko											
+	================================================================== 
+	-->
 	<xsl:output method="xml" omit-xml-declaration="yes" />
 	<xsl:template match="/">
 		<xsl:apply-templates select="OTA_AirAvailRQ" />
 	</xsl:template>
 	<!--************************************************************************************************************	-->
 	<xsl:template match="OTA_AirAvailRQ">
-		<OTA_AirAvailRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.1.1">
+		<OTA_AirAvailRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.4.0">
+			<!--
 			<xsl:attribute name="Target">
 				<xsl:choose>
 					<xsl:when test="POS/TPA_Extensions/Provider/System='Test'">CERT</xsl:when>
 					<xsl:otherwise>Production</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
+			
 			<POS>
 				<Source>
 					<xsl:attribute name="PseudoCityCode">
@@ -25,6 +30,7 @@
 					</xsl:attribute>
 				</Source>
 			</POS>
+			-->
 			<OriginDestinationInformation>
 				<DepartureDateTime>
 					<xsl:attribute name="DateTime">

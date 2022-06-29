@@ -4,7 +4,8 @@
 				xmlns:common_v50_0="http://www.travelport.com/schema/common_v50_0"
 				xmlns:universal="http://www.travelport.com/schema/universal_v50_0"
 				xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" version="1.0"
-				xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+				xmlns:msxsl="urn:schemas-microsoft-com:xslt"
+				xmlns:ttVB="urn:ttVB">
 	<!-- 
 	================================================================== 
 	v03_Travelport_PNRReadRS.xsl 									
@@ -63,6 +64,8 @@
 					</xsl:if>
 					<TravelItinerary>
 						<ItineraryRef>
+							<xsl:variable name="creationDate" select="ttVB:ShortDateFormat(common_v50_0:AgencyInfo/common_v50_0:AgentAction[@ActionType='Created']/@EventTime)" />
+							
 							<xsl:attribute name="Type">PNR</xsl:attribute>
 							<xsl:attribute name="ID">
 								<xsl:choose>
@@ -86,7 +89,7 @@
 							</xsl:attribute>
 							<CompanyName>
 								<xsl:attribute name="Code">
-									<xsl:value-of select="@LocatorCode"/>
+									<xsl:value-of select="concat(@LocatorCode, '|', $creationDate)"/>
 								</xsl:attribute>
 								<xsl:attribute name="CodeContext">
 									<xsl:choose>
@@ -101,7 +104,7 @@
 										</xsl:otherwise>
 									</xsl:choose>
 								</xsl:attribute>
-								<xsl:value-of select="universal:ProviderReservationInfo/@OwningPCC"/>
+								<xsl:value-of select="concat(universal:ProviderReservationInfo/@OwningPCC,'|', common_v50_0:AgencyInfo/common_v50_0:AgentAction[@ActionType='Created']/@AgencyCode)"/>
 							</CompanyName>
 						</ItineraryRef>
 						<CustomerInfos>
@@ -311,7 +314,8 @@
 						<xsl:value-of select="$dect"/>
 					</xsl:attribute>
 
-					<!--<Tax>
+					<!--
+					<Tax>
 						<xsl:attribute name="TaxCode">TotalTax</xsl:attribute>
 						<xsl:attribute name="Amount">
 							<xsl:value-of select="$Taxf"/>
@@ -322,7 +326,8 @@
 						<xsl:attribute name="DecimalPlaces">
 							<xsl:value-of select="$dect"/>
 						</xsl:attribute>
-					</Tax>-->
+					</Tax>
+					-->
 				</Taxes>
 				<TotalFare>
 					<xsl:attribute name="Amount">
@@ -459,6 +464,9 @@
 						</xsl:with-param>
 						<xsl:with-param name="dec">
 							<xsl:value-of select="$dec"/>
+						</xsl:with-param>
+						<xsl:with-param name="cur">
+							<xsl:value-of select="$cur"/>
 						</xsl:with-param>
 					</xsl:apply-templates>
 				</Taxes>
@@ -612,9 +620,13 @@
 	<xsl:template match="air:TaxInfo">
 		<xsl:param name="nip"/>
 		<xsl:param name="dec"/>
+		<xsl:param name="cur"/>
 		<Tax>
 			<xsl:attribute name="Code">
 				<xsl:value-of select="@Category"/>
+			</xsl:attribute>
+			<xsl:attribute name="CurrencyCode">
+				<xsl:value-of select="$cur"/>
 			</xsl:attribute>
 			<xsl:attribute name="Amount">
 				<xsl:value-of select="translate(substring(@Amount,4),'.','') * $nip"/>
@@ -4169,4 +4181,19 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+
+	<!--**********************************************************************************************-->
+	<msxsl:script language="VisualBasic" implements-prefix="ttVB">
+		<![CDATA[        
+        Function ShortDateFormat(ByVal p_startDate As String) As String
+
+            If IsDate(p_startDate) Then
+                Return Convert.ToDateTime(p_startDate).ToString("yyyy-MM-d")
+            Else
+                Return p_startDate
+            End If
+
+        End Function
+]]>
+	</msxsl:script>
 </xsl:stylesheet>

@@ -46,7 +46,18 @@
 									<xsl:otherwise>E</xsl:otherwise>
 								</xsl:choose>
 							</xsl:attribute>
-							<xsl:value-of select="Errors/Error" />
+							<xsl:choose>
+								<xsl:when test="Errors/Error[@Type='ERR']">
+									<xsl:value-of select="Errors/Error[@Type='ERR']/@ShortText"/>
+								</xsl:when>
+								<xsl:when test="Errors/Error[@Type='SERVER']">
+									<xsl:value-of select="Errors/Error[@Type='SERVER']"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="Errors/Error" />
+								</xsl:otherwise>
+							</xsl:choose>
+							
 						</Error>
 					</Errors>
 				</xsl:when>

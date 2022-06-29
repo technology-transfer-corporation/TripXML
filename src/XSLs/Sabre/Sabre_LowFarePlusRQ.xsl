@@ -14,7 +14,7 @@
   ================================================================== 
   -->
   <xsl:output method="xml" omit-xml-declaration="yes" />
-  <xsl:variable name="requestor" select="OTA_AirLowFareSearchPlusRQ/POS/Source/RequestorID/@ID | OTA_AirLowFareSearchMatrixRQ/POS/Source/RequestorID/@ID"/>
+  <xsl:variable name="requestor" select="OTA_AirLowFareSearchPlusRQ/POS/Source/RequestorID/@ID | OTA_AirLowFareSearchRQ/POS/Source/RequestorID/@ID| OTA_AirLowFareSearchMatrixRQ/POS/Source/RequestorID/@ID"/>
   <xsl:template match="/">
     <xsl:apply-templates select="OTA_AirLowFareSearchPlusRQ | OTA_AirLowFareSearchMatrixRQ" />
   </xsl:template>

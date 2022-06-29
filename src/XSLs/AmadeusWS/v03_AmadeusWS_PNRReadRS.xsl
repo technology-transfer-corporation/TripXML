@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 29 Jun 2022 - Kobelev - FareBasis Codes were getting cut off for CHD and INF.
    Date: 03 Jun 2022 - Kobelev - Birth Date of passanger from SSR DOCS.
    Date: 29 Apr 2022 - Kobelev - EMD Exchange and EMD Service Fee display fix.
    Date: 28 Apr 2022 - Kobelev - Handle of FOP Errors in case if GDS regected a card.
@@ -236,7 +237,7 @@
 						</xsl:for-each>
 					</Errors>
 				</xsl:when>
-				<xsl:when test="pnrHeader/reservationInfo/reservation/controlNumber!=''">
+				<xsl:when test="pnrHeader/reservationInfo/reservation/controlNumber!='' or dataElementsMaster/dataElementsIndiv/elementErrorInformation">
 
 					<xsl:choose>
 						<xsl:when test="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FP']/elementManagementData/status = 'ERR' or dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='MCO']/elementManagementData/status = 'ERR'">
@@ -432,6 +433,11 @@
 				<xsl:when test="Error">
 					<Errors>
 						<xsl:apply-templates select="Error" mode="error"/>
+					</Errors>
+				</xsl:when>
+				<xsl:when test="dataElementsMaster/dataElementsIndiv/elementErrorInformation">
+					<Errors>
+						<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementErrorInformation]" mode="FOPerror"/>
 					</Errors>
 				</xsl:when>
 				<xsl:otherwise>
@@ -1329,11 +1335,35 @@
 	</xsl:template>
 
 	<xsl:template match="segmentInformation">
+		<xsl:variable name="fcl" select="../otherPricingInfo/attributeDetails[attributeType='FCA']/attributeDescription" />
+		
 		<xsl:choose>
 			<xsl:when test="(not(connexInformation/connecDetails/routingInformation) or connexInformation/connecDetails/routingInformation != 'ARNK') and fareQualifier/fareBasisDetails">
+				<xsl:variable name="fb">
+					<xsl:choose>
+						<xsl:when test="string-length(concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode)) = 9 
+						and substring(fareQualifier/fareBasisDetails/fareBasisCode, string-length(fareQualifier/fareBasisDetails/fareBasisCode), 1) = 'C' 
+					    and contains($fcl, concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode))">
+							<xsl:value-of select="concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode,'H')"/>
+						</xsl:when>
+						<xsl:when test="string-length(concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode)) = 9 
+						and substring(fareQualifier/fareBasisDetails/fareBasisCode, string-length(fareQualifier/fareBasisDetails/fareBasisCode), 1) = 'I' 
+					    and contains($fcl, concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode))">
+							<xsl:value-of select="concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode,'N')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode)"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				
+				
+				
 				<FareBasisCode>
-					<xsl:value-of select="fareQualifier/fareBasisDetails/primaryCode"/>
-					<xsl:value-of select="fareQualifier/fareBasisDetails/fareBasisCode"/>/<xsl:value-of select="fareQualifier/fareBasisDetails/ticketDesignator"/>
+					<xsl:value-of select="$fb"/>
+					<xsl:if test="fareQualifier/fareBasisDetails/ticketDesignator">
+						/<xsl:value-of select="fareQualifier/fareBasisDetails/ticketDesignator"/>
+					</xsl:if>
 				</FareBasisCode>
 			</xsl:when>
 			<xsl:otherwise>
