@@ -13,7 +13,7 @@
     <AssemblyName>TripXMLMain</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <GenerateResourceNeverLockTypeAssemblies>true</GenerateResourceNeverLockTypeAssemblies>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -417,9 +417,7 @@
     <Reference Include="AmadeusWS_QueueRS">
       <HintPath>Xsl\AmadeusWS\AmadeusWS_QueueRS.dll</HintPath>
     </Reference>
-    <Reference Include="AmadeusWS_UpdateModifyRQ">
-      <HintPath>Xsl\AmadeusWS\AmadeusWS_UpdateModifyRQ.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Galileo_AirAvailRQ">
       <HintPath>Xsl\Galileo\Galileo_AirAvailRQ.dll</HintPath>
     </Reference>
@@ -894,9 +892,6 @@
     <Reference Include="v03_Worldspan_PNRReadRS">
       <HintPath>Xsl\Worldspan\v03_Worldspan_PNRReadRS.dll</HintPath>
     </Reference>
-    <Reference Include="v04_AmadeusWS_PNRReadRS">
-      <HintPath>Xsl\AmadeusWS\v04_AmadeusWS_PNRReadRS.dll</HintPath>
-    </Reference>
     <Reference Include="v04_Galileo_PNRReadRQ">
       <HintPath>Xsl\Galileo\v04_Galileo_PNRReadRQ.dll</HintPath>
     </Reference>
@@ -960,7 +955,6 @@
     <Compile Include="cDA.cs" />
     <Compile Include="CoreLib.cs" />
     <Compile Include="modCore.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
