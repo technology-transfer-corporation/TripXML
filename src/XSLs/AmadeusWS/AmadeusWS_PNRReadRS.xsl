@@ -2448,7 +2448,7 @@
         </Text>
       </xsl:if>
       <xsl:if test="otherDataFreetext/freetextDetail/type='P27'">
-        <Text>xsl:value-of select="otherDataFreetext/longFreetext"/></Text>
+        <Text><xsl:value-of select="otherDataFreetext/longFreetext"/></Text>
       </xsl:if>
     </OtherServiceInformation>
   </xsl:template>
