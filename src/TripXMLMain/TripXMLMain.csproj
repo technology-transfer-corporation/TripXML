@@ -816,9 +816,6 @@
     <Reference Include="Travelport_UpdateInsertRQ">
       <HintPath>..\wsTripXML\Xsl\Travelport\Travelport_UpdateInsertRQ.dll</HintPath>
     </Reference>
-    <Reference Include="ttCore">
-      <HintPath>..\wsTripXML\Bin\ttCore.dll</HintPath>
-    </Reference>
     <Reference Include="TXML_GetDealsRS">
       <HintPath>..\XSLs\TXML\TXML_GetDealsRS.dll</HintPath>
     </Reference>
@@ -938,6 +935,12 @@
     </Reference>
     <Reference Include="Worldspan_AirSeatMapRS">
       <HintPath>Xsl\Worldspan\Worldspan_AirSeatMapRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_CrypticRQ">
+      <HintPath>Xsl\Worldspan\Worldspan_CrypticRQ.dll</HintPath>
+    </Reference>
+    <Reference Include="Worldspan_CrypticRS">
+      <HintPath>Xsl\Worldspan\Worldspan_CrypticRS.dll</HintPath>
     </Reference>
     <Reference Include="Worldspan_PNRReadRS">
       <HintPath>Xsl\Worldspan\Worldspan_PNRReadRS.dll</HintPath>
