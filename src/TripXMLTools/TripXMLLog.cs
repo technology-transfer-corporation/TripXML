@@ -129,7 +129,6 @@ namespace TripXMLTools
                 );
                 string strLine = JsonConvert.SerializeObject(msg);
 
-
                 //sb.Append("<Message");
                 //sb.Append(" User Name='").Append(userName).Append("'");
                 //sb.Append(" Tracer ID='").Append(tracerID).Append("'");
