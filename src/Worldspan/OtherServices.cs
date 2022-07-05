@@ -110,8 +110,7 @@ namespace Worldspan
                 var ttWA = SetAdapter(tripXmlProviderSystems);
                 bool inSession = SetConversationID(ttWA);
 
-                strResponse = ttWA.SendMessage(strRequest);
-                
+                strResponse = ttWA.SendMessage(strRequest);                
 
                 // ********************************************************************************
                 // parse the response and create screen with lines                               *

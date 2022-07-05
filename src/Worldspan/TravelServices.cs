@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml;
 using TripXMLMain;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Worldspan
 {
@@ -477,9 +478,12 @@ namespace Worldspan
                             
                             // CoreLib.SendTrace(ttProviderSystems.UserID, "WorldspanCommand", "4*", "", ttProviderSystems.LogUUID)
                             string pRead = ttWA.SendCryptic($"*{pnrNum}");
+
+                            bool bEMD = pRead.Contains("EMDL");
+                            string emdDisplay = bEMD ? ttWA.SendCryptic("EMDL(") : "";
+
                             if (!strResponse.Contains("SECURED PNR"))
                             {
-
                                 #region 4*
 
                                 string str4Display = ttWA.SendCryptic("4*");
@@ -513,10 +517,61 @@ namespace Worldspan
                                 }
 
                                 sb4.Append("</PNR_4_INF>");
-
+                                strResponse = strResponse.Replace("</DPW8>", $"{sb4}</DPW8>");
                                 #endregion
 
-                                strResponse = strResponse.Replace("</DPW8>", $"{sb4}</DPW8>");
+                                #region EMDL
+                                if (bEMD)
+                                {
+                                    var emdLines = emdDisplay.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                                    if (emdLines.Last().Contains(")&gt;"))
+                                    {
+                                        string str4More = ttWA.SendCryptic("MD");
+                                        var lstMoreLines = str4More.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                                        foreach (string line in lstMoreLines)
+                                        {
+                                            if (!emdLines.Contains(line))
+                                            {
+                                                emdLines.Add(line);
+                                            }
+                                        }
+                                    }
+                                    var sbEMD = new StringBuilder("<PNR_EMD_INF>");
+
+                                    //EMDL - ELECTRONIC MISCELLANEOUS DOCUMENT LIST
+                                    //  1.LA 0458302220183
+                                    //MARKOVA / ALLA
+                                    //          I 29APR22  181139 Z
+                                    //***** END OF LIST *****                    
+
+                                    foreach (string line in emdLines)
+                                    {
+                                        if (!string.IsNullOrEmpty(line))
+                                        {
+                                            if (line.Contains("END OF LIST"))
+                                                break;
+
+                                            if (line.Contains("EMDL - ELECTRONIC MISCELLANEOUS DOCUMENT LIST"))
+                                                continue;
+
+                                            var bStart = Regex.IsMatch(line, "\\d+\\.\\s*[A-Z]{2}\\s(\\d+)");
+
+                                            if (bStart)
+                                            {
+                                                var index = emdLines.IndexOf(line);
+                                                var trElem = line.Trim().Replace(")&gt;", "").Replace("&gt;", "").Split(new[] { ".", " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                                                var trNum = trElem[2];
+                                                var strLine = $"{emdLines[index + 1].Trim()} {emdLines[index + 2].Trim()}";
+                                                sbEMD.Append($"<Line ID=\"{trElem[0]}\" EMD=\"{trNum}\">{strLine}</Line>");
+                                            }
+                                        }
+                                    }
+
+                                    sbEMD.Append("</PNR_EMD_INF>");
+                                    strResponse = strResponse.Replace("</DPW8>", $"{sbEMD}</DPW8>");
+                                }
+                                #endregion
                             }
                         }
                         catch (Exception ex)
