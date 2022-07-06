@@ -673,6 +673,9 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
         <System.Xml.Serialization.XmlIgnoreAttribute>
         Public CouponStatusSpecified As Boolean
 
+        '<remarks>Global Indicator</remarks>
+        <System.Xml.Serialization.XmlAttributeAttribute>
+        Public GI As String
     End Class
 
     Public Enum CouponStatus
