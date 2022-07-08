@@ -209,7 +209,10 @@
 			</xsl:if>
 		</OTA_TravelItineraryRS>
 	</xsl:template>
-	<!--************************************************************************************************************-->
+	
+	<!--************************************************************************************-->
+	<!--			                                                                        -->
+	<!--************************************************************************************-->
 	<xsl:template match="TravelItineraryReadRS">
 		<xsl:if test="Ticketed">
 			<xsl:attribute name="TransactionStatusCode">Ticketed</xsl:attribute>
@@ -356,8 +359,9 @@
 			<xsl:value-of select="normalize-space(translate(.,'Â',''))"/>
 		</Warning>
 	</xsl:template>
+	
 	<!--************************************************************************************-->
-	<!--			TravelItinerary detail Information                                             -->
+	<!--			TravelItinerary detail Information                                      -->
 	<!--************************************************************************************-->
 	<xsl:template match="TravelItinerary">
 		<!--******************************************************-->
@@ -1192,8 +1196,9 @@
 			</TPA_Extensions>
 		</xsl:if>
 	</xsl:template>
+	
 	<!--************************************************************************************-->
-	<!--			PNR Retrieve Errors                                           	              -->
+	<!--			PNR Retrieve Errors                                           	        -->
 	<!--************************************************************************************-->
 	<xsl:template match="Err">
 		<Error>
@@ -1207,9 +1212,10 @@
 			<xsl:value-of select="SystemSpecificResults/Message"/>
 		</Error>
 	</xsl:template>
+	
 	<!-- ************************************************************** -->
-	<!-- Issued Tickets Elements 	                               		    -->
-	<!-- ************************************************************** -->
+	<!-- Issued Tickets Elements 	                               		-->
+	<!-- ************************************************************** -->	
 	<xsl:template match="Ticketing" mode="IssuedTicket">
 
 		<xsl:if test="@RPH!=''">
@@ -1464,7 +1470,6 @@
 	<!-- ************************************************************** -->
 	<!-- Issued Tickets from DQB lines                                  -->
 	<!-- ************************************************************** -->
-
 	<xsl:template name="ParseDQBLines">
 		<xsl:param name="LostText"/>
 		<xsl:choose>
@@ -1522,7 +1527,7 @@
 	</xsl:template>
 
 	<!--************************************************************************************-->
-	<!--						 Passenger Information         		                                      -->
+	<!--						 Passenger Information         		                        -->
 	<!--************************************************************************************-->
 	<xsl:template match="PersonName">
 		<!--<xsl:param name="pd"/>-->
