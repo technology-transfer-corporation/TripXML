@@ -1947,6 +1947,18 @@
 							</xsl:attribute>
 						</xsl:if>
 
+						<xsl:variable name="orig">
+							<xsl:value-of select="OriginLocation/@LocationCode"/>
+						</xsl:variable>
+						<xsl:variable name="dest">
+							<xsl:value-of select="DestinationLocation/@LocationCode"/>
+						</xsl:variable>
+						<xsl:if test="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown[Departure/@AirportCode=$orig and Departure/@ArrivalAirportCode=$dest]/FareBasis/@GlobalInd">
+							<xsl:attribute name="GI">
+								<xsl:value-of select="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown[Departure/@AirportCode=$orig and Departure/@ArrivalAirportCode=$dest]/FareBasis/@GlobalInd"/>
+							</xsl:attribute>
+						</xsl:if>
+
 						<DepartureAirport>
 							<xsl:attribute name="LocationCode">
 								<xsl:value-of select="OriginLocation/@LocationCode"/>
@@ -2306,6 +2318,19 @@
 								</xsl:choose>
 							</xsl:attribute>
 						</xsl:if>
+
+						<xsl:variable name="orig">
+							<xsl:value-of select="OriginLocation/@LocationCode"/>
+						</xsl:variable>
+						<xsl:variable name="dest">
+							<xsl:value-of select="DestinationLocation/@LocationCode"/>
+						</xsl:variable>
+						<xsl:if test="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown[Departure/@AirportCode=$orig and Departure/@ArrivalAirportCode=$dest]/FareBasis/@GlobalInd">
+							<xsl:attribute name="GI">
+								<xsl:value-of select="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown[Departure/@AirportCode=$orig and Departure/@ArrivalAirportCode=$dest]/FareBasis/@GlobalInd"/>
+							</xsl:attribute>
+						</xsl:if>
+
 						<DepartureAirport>
 							<xsl:attribute name="LocationCode">
 								<xsl:value-of select="OriginLocation/@LocationCode"/>
@@ -2326,11 +2351,6 @@
 								</xsl:attribute>
 							</xsl:if>
 						</ArrivalAirport>
-						<xsl:if test="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown[Departure/@AirportCode=OriginLocation/@LocationCode and Departure/@ArrivalAirportCode=DestinationLocation/@LocationCode]/FareBasis/@GlobalInd">
-							<xsl:attribute name="GI">
-								<xsl:value-of select="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown[Departure/@AirportCode=OriginLocation/@LocationCode and Departure/@ArrivalAirportCode=DestinationLocation/@LocationCode]/FareBasis/@GlobalInd"/>
-							</xsl:attribute>
-						</xsl:if>
 						<OperatingAirline>
 							<xsl:attribute name="Code">
 								<xsl:choose>
