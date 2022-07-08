@@ -1071,10 +1071,9 @@ namespace Sabre
 
                         strResponse = strResponse.Replace("</TravelItineraryReadRS>", $"{cryptic}</TravelItineraryReadRS>");
 
-                        string strFaretype = "<DisplayPriceQuoteRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.3.0\"><AirItineraryPricingInfo><Record/></AirItineraryPricingInfo></DisplayPriceQuoteRQ>";
+                        string strFaretype = "<DisplayPriceQuoteRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.5.2\"><AirItineraryPricingInfo><Record/></AirItineraryPricingInfo></DisplayPriceQuoteRQ>";
                         CoreLib.SendTrace(ProviderSystems.UserID, "FareType", "PD", strFaretype, ProviderSystems.LogUUID);
                         strFaretype = ttSA.SendMessage(strFaretype, "FareType", "DisplayPriceQuoteLLSRQ", ConversationID);
-
                         strResponse = strResponse.Replace("</TravelItineraryReadRS>", $"{strFaretype}</TravelItineraryReadRS>");
 
 
