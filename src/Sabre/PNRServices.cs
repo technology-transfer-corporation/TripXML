@@ -73,14 +73,22 @@ namespace Sabre
                         #endregion
 
                         #region *PQS
-                        string cryptic = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>*PQS</HostCommand></Request></SabreCommandLLSRQ>";
-                        CoreLib.SendTrace(ProviderSystems.UserID, "SabreCommand", "PQS", "", ProviderSystems.LogUUID);
-                        cryptic = ttSA.SendMessage(cryptic, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
+                        //string cryptic = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>*PQS</HostCommand></Request></SabreCommandLLSRQ>";
+                        //CoreLib.SendTrace(ProviderSystems.UserID, "SabreCommand", "PQS", "", ProviderSystems.LogUUID);
+                        //cryptic = ttSA.SendMessage(cryptic, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
+                        string pricerq = ttSA.SendMessage("<DisplayPriceQuoteRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2.5.1\"><AirItineraryPricingInfo><Summary Ind=\"true\"/></AirItineraryPricingInfo></DisplayPriceQuoteRQ>", "FareType", "DisplayPriceQuoteLLSRQ", ConversationID);
+
                         string strFaretype = "<DisplayPriceQuoteRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.3.0\"><AirItineraryPricingInfo><Record/></AirItineraryPricingInfo></DisplayPriceQuoteRQ>";
                         CoreLib.SendTrace(ProviderSystems.UserID, "FareType", "PD", strFaretype, ProviderSystems.LogUUID);
                         strFaretype = ttSA.SendMessage(strFaretype, "FareType", "DisplayPriceQuoteLLSRQ", ConversationID);
-                        strResponse = strResponse.Replace(tagToReplace, $"{cryptic}{strFaretype}<TimeStamp>{DateTime.Now.ToString("yyyy-MM-dd")}</TimeStamp>{dqbResponse}{tagToReplace}");
+                        //strResponse = strResponse.Replace(tagToReplace, $"{cryptic}{strFaretype}<TimeStamp>{DateTime.Now.ToString("yyyy-MM-dd")}</TimeStamp>{dqbResponse}{tagToReplace}");
                         #endregion
+
+                        //Reprice call. Collect Contolling Carrier & Global Ind
+                        string strFareDetails = "<OTA_AirPriceRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2.17.0\"><PriceRequestInformation Retain=\"false\"><OptionalQualifiers><PricingQualifiers><BuyingDate>2022-06-27</BuyingDate></PricingQualifiers></OptionalQualifiers></PriceRequestInformation></OTA_AirPriceRQ>";
+                        //CoreLib.SendTrace(ProviderSystems.UserID, "FareType", "PD", strFaretype, ProviderSystems.LogUUID);
+                        strFareDetails = ttSA.SendMessage(strFareDetails, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                        strResponse = strResponse.Replace(tagToReplace, $"{strFaretype}{pricerq}{strFareDetails}<TimeStamp>{DateTime.Now.ToString("yyyy-MM-dd")}</TimeStamp>{dqbResponse}{tagToReplace}");
 
                         #region *H
                         string strDisplayHI = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>*H</HostCommand></Request></SabreCommandLLSRQ>";
@@ -149,7 +157,7 @@ namespace Sabre
 
                     strResponse = strResponse.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
                     if (inSession)
-                        strResponse = strResponse.Replace(tagToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ tagToReplace}");
+                        strResponse = strResponse.Replace(tagToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{tagToReplace}");
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRReadRS.xsl");
                 }
@@ -447,7 +455,7 @@ namespace Sabre
                     var strToReplace = "</OTA_CancelLLSRS>";
 
                     if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRCancelRS.xsl");
 
@@ -785,7 +793,7 @@ namespace Sabre
                             : strReadResp.Replace("</TravelItineraryReadRS>", $"{strRepriceResp}</TravelItineraryReadRS>");
 
                     if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
 
 
                     // CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response", sb.Append("<TravelItineraryReadRS><OTA_AirPriceRS>").Append(strRepriceResp).Append("</OTA_AirPriceRS>").Append(ConversationID).Append("</TravelItineraryReadRS>").ToString(), ProviderSystems.LogUUID)
@@ -892,7 +900,7 @@ namespace Sabre
                     }
 
                     if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_QueueRS.xsl");
                 }
                 catch (Exception ex)
@@ -1206,7 +1214,7 @@ namespace Sabre
 
                         var strToReplace = "</TravelItineraryReadRS>";
                         if (inSession)
-                            strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
+                            strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
 
                         if (strResponse.Length > 1500)
                         {
