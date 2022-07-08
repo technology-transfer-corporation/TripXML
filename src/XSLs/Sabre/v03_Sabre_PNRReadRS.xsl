@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 08 Jul 2022 - Samokhvalov - Controlling Carrier Remark reworked. Added GI to Air Segments.
   Date: 23 May 2022 - Kobelev - Ticket Designator fix.
   Date: 18 May 2022 - Kobelev - Tour Code FlightRefNumberRPHList fix.
   Date: 06 May 2022 - Kobelev - Tour Code from Future Pricing line.
@@ -368,14 +369,14 @@
 		<!--******************************************************-->
 		<xsl:param name="paramSegMode"/>
 		<CustomerInfos>
-			<xsl:variable name="pd">
+			<!--<xsl:variable name="pd">
 				<xsl:value-of select="../SabreCommandLLSRS/Response"/>
-			</xsl:variable>
+			</xsl:variable>-->
 
 			<xsl:apply-templates select="CustomerInfo//PersonName">
-				<xsl:with-param name="pd">
+				<!--<xsl:with-param name="pd">
 					<xsl:value-of select="$pd"/>
-				</xsl:with-param>
+				</xsl:with-param>-->
 			</xsl:apply-templates>
 		</CustomerInfos>
 		<!--******************************************************-->
@@ -749,18 +750,21 @@
 
 						<xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo]" mode="TourCode"/>
 						<xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo]" mode="Endorsement"/>
-						<xsl:if test="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE']">
-							<xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE'][contains(Text, 'P/') or contains(Text, 'KG/') or contains(Text, 'LB/')]" mode="controllingCarrier"/>
+						<xsl:if test="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown">
+							<xsl:apply-templates select="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown" mode="controllingCarrier"/>
 						</xsl:if>
+						<!--<xsl:if test="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE']">
+							<xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE'][contains(Text, 'P/') or contains(Text, 'KG/') or contains(Text, 'LB/')]" mode="controllingCarrier"/>
+						</xsl:if>-->
 					</SpecialRemarks>
 				</xsl:if>
-				<xsl:if test="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/TourCode/Text or ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE']">
+				<!--<xsl:if test="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/TourCode/Text or ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE']">
 					<SpecialRemarks>
 						<xsl:if test="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE']">
 							<xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='DOT_BAGGAGE'][contains(Text, 'P/') or contains(Text, 'KG/') or contains(Text, 'LB/')]" mode="controllingCarrier"/>
 						</xsl:if>
 					</SpecialRemarks>
-				</xsl:if>
+				</xsl:if>-->
 				<xsl:if test="RemarkInfo/Remark[@Type!='Itinerary']">
 					<Remarks>
 						<xsl:for-each select="RemarkInfo/Remark[@Type!='Itinerary']">
@@ -1526,7 +1530,7 @@
 	<!--						 Passenger Information         		                        -->
 	<!--************************************************************************************-->
 	<xsl:template match="PersonName">
-		<xsl:param name="pd"/>
+		<!--<xsl:param name="pd"/>-->
 
 		<xsl:variable name="paxref">
 			<xsl:value-of select="concat(' ',translate(@NameNumber,'0',''),' ')"/>
@@ -1539,13 +1543,17 @@
 		<xsl:variable name="vDigits" select="'0123456789'"/>
 		<xsl:variable name="alpha" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
 
-		<xsl:variable name="paxtype">
+		<!--<xsl:variable name="paxtype">
 			<xsl:choose>
 				<xsl:when test="translate(substring(substring-after($pd,$paxref),8,3),(translate(substring(substring-after($pd,$paxref),9,3), $alpha,'')), '') = ''">ADT</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="substring(substring-after($pd,$paxref),8,3)"/>
 				</xsl:otherwise>
 			</xsl:choose>
+		</xsl:variable>-->
+
+		<xsl:variable name="paxtype">
+			<xsl:value-of select="//DisplayPriceQuoteRS/PriceQuoteSummary/PTC_FareBreakdown/PassengerTypeQuantity[number(@NameNumber)=number($paxref)]/@Code"/>
 		</xsl:variable>
 
 		<CustomerInfo>
@@ -1573,7 +1581,7 @@
 							<xsl:attribute name="NameType">INF</xsl:attribute>
 						</xsl:when>
 						<!-- this is for parsing *PQS response -->
-						<xsl:when test="contains($pd,$paxref)">
+						<xsl:when test="//DisplayPriceQuoteRS/PriceQuoteSummary/PTC_FareBreakdown/PassengerTypeQuantity[number(@NameNumber)=number($paxref)]/@Code">
 							<xsl:attribute name="NameType">
 								<xsl:choose>
 									<xsl:when test="substring($paxtype,1,1)!=' '">
@@ -1752,6 +1760,18 @@
 							</xsl:attribute>
 						</xsl:if>
 
+						<xsl:variable name="orig">
+							<xsl:value-of select="OriginLocation/@LocationCode"/>
+						</xsl:variable>
+						<xsl:variable name="dest">
+							<xsl:value-of select="DestinationLocation/@LocationCode"/>
+						</xsl:variable>
+						<xsl:if test="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown[Departure/@AirportCode=$orig and Departure/@ArrivalAirportCode=$dest]/FareBasis/@GlobalInd">
+							<xsl:attribute name="GI">
+								<xsl:value-of select="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown[Departure/@AirportCode=$orig and Departure/@ArrivalAirportCode=$dest]/FareBasis/@GlobalInd"/>
+							</xsl:attribute>
+						</xsl:if>
+							
 						<DepartureAirport>
 							<xsl:attribute name="LocationCode">
 								<xsl:value-of select="OriginLocation/@LocationCode"/>
@@ -2311,6 +2331,11 @@
 								</xsl:attribute>
 							</xsl:if>
 						</ArrivalAirport>
+						<xsl:if test="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown[Departure/@AirportCode=OriginLocation/@LocationCode and Departure/@ArrivalAirportCode=DestinationLocation/@LocationCode]/FareBasis/@GlobalInd">
+							<xsl:attribute name="GI">
+								<xsl:value-of select="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown[Departure/@AirportCode=OriginLocation/@LocationCode and Departure/@ArrivalAirportCode=DestinationLocation/@LocationCode]/FareBasis/@GlobalInd"/>
+							</xsl:attribute>
+						</xsl:if>
 						<OperatingAirline>
 							<xsl:attribute name="Code">
 								<xsl:choose>
@@ -3377,11 +3402,9 @@
 				</AirFareInfo>
 			</xsl:otherwise>
 		</xsl:choose>
-
 	</xsl:template>
 
 	<xsl:template match="PricedItinerary" mode="Exch">
-
 		<xsl:variable name="dect">
 			<xsl:choose>
 				<xsl:when test="AirItineraryPricingInfo/ItinTotalFare/EquivFare/@Amount!=''">
@@ -5211,7 +5234,7 @@
 							</xsl:call-template>
 						</xsl:for-each>
 					</xsl:variable>
-					
+
 					<FlightRefNumber>
 						<xsl:attribute name="FlightRefNumber">
 							<xsl:call-template name="string-trim">
@@ -5282,6 +5305,54 @@
 				<xsl:value-of select="PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='SYSTEM_ENDORSEMENT']/Text"/>
 			</Text>
 		</SpecialRemark>
+	</xsl:template>
+
+	<xsl:template match="FareCalculationBreakdown" mode="controllingCarrier">
+		<xsl:variable select="FareBasis/@FilingCarrier" name="airline" />
+		<xsl:if test="string-length($airline) = 2">
+			<xsl:variable name="flts">
+				<xsl:value-of select="concat(Departure/@AirportCode,Departure/@ArrivalAirportCode)" />
+			</xsl:variable>
+
+			<SpecialRemark>
+				<xsl:attribute name="RPH">
+					<xsl:value-of select="$airline"/>
+				</xsl:attribute>
+				<xsl:attribute name="RemarkType">CC</xsl:attribute>
+				<FlightRefNumber>
+					<xsl:attribute name="RPH">
+						<xsl:for-each select="//TravelItinerary/ItineraryInfo/ReservationItems/Item[FlightSegment]">
+							<xsl:variable name="flt">
+								<xsl:choose>
+									<xsl:when test="count(FlightSegment) > 1">
+										<xsl:value-of select="concat(FlightSegment[1]/OriginLocation/@LocationCode,FlightSegment[last()]/DestinationLocation/@LocationCode)" />
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="concat(FlightSegment/OriginLocation/@LocationCode,FlightSegment/DestinationLocation/@LocationCode)" />
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:variable>
+							<xsl:if test="contains($flts, $flt)">
+								<xsl:variable name="rph">
+									<xsl:if test="@RPH">
+										<xsl:value-of select="format-number(./@RPH,'#')"/>
+									</xsl:if>
+								</xsl:variable>
+								<!--<xsl:if test="position() > 1">
+									<xsl:text> </xsl:text>
+								</xsl:if>-->
+								<xsl:call-template name="string-trim">
+									<xsl:with-param name="string" select="$rph" />
+								</xsl:call-template>
+							</xsl:if>
+						</xsl:for-each>
+					</xsl:attribute>
+				</FlightRefNumber>
+				<Text>
+					<xsl:value-of select="concat($flts,'/',FareBasis/@FilingCarrier)"/>
+				</Text>
+			</SpecialRemark>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="Endorsement" mode="controllingCarrier">
