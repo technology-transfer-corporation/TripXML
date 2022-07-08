@@ -84,8 +84,12 @@ namespace Sabre
                         //strResponse = strResponse.Replace(tagToReplace, $"{cryptic}{strFaretype}<TimeStamp>{DateTime.Now.ToString("yyyy-MM-dd")}</TimeStamp>{dqbResponse}{tagToReplace}");
                         #endregion
 
+                        var fareDoc=new XmlDocument();
+                        fareDoc.LoadXml(pricerq);
+                        var priceDate = DateTime.Now.ToString("yyyy-") + fareDoc.DocumentElement.SelectSingleNode("PriceQuoteSummary/@CreateDate").Value;
+
                         //Reprice call. Collect Contolling Carrier & Global Ind
-                        string strFareDetails = "<OTA_AirPriceRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2.17.0\"><PriceRequestInformation Retain=\"false\"><OptionalQualifiers><PricingQualifiers><BuyingDate>2022-06-27</BuyingDate></PricingQualifiers></OptionalQualifiers></PriceRequestInformation></OTA_AirPriceRQ>";
+                        string strFareDetails = $"<OTA_AirPriceRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2.17.0\"><PriceRequestInformation Retain=\"false\"><OptionalQualifiers><PricingQualifiers><BuyingDate>{priceDate}</BuyingDate></PricingQualifiers></OptionalQualifiers></PriceRequestInformation></OTA_AirPriceRQ>";
                         //CoreLib.SendTrace(ProviderSystems.UserID, "FareType", "PD", strFaretype, ProviderSystems.LogUUID);
                         strFareDetails = ttSA.SendMessage(strFareDetails, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                         strResponse = strResponse.Replace(tagToReplace, $"{strFaretype}{pricerq}{strFareDetails}<TimeStamp>{DateTime.Now.ToString("yyyy-MM-dd")}</TimeStamp>{dqbResponse}{tagToReplace}");
