@@ -6,4 +6,3 @@ D:\WORK\DTT\GIT\TripXML\TripXMLTools\obj\Debug\TripXMLTools.csproj.CoreCompileIn
 D:\WORK\DTT\GIT\TripXML\TripXMLTools\obj\Debug\TripXMLTools.csproj.CopyComplete
 D:\WORK\DTT\GIT\TripXML\TripXMLTools\obj\Debug\TripXMLTools.dll
 D:\WORK\DTT\GIT\TripXML\TripXMLTools\obj\Debug\TripXMLTools.pdb
-D:\WORK\DTT\GIT\TripXML\TripXMLTools\obj\Debug\TripXMLTools.csproj.AssemblyReference.cache
