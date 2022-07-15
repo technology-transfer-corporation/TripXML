@@ -170,29 +170,29 @@ Namespace wsTravelTalk
         <WebMethod(Description:="Process UpdateSessioned Info Messages Request.")>
         <Protocols.SoapHeader("tXML")>
         Public Function wmUpdateSessioned(ByVal OTA_UpdateSessionedRQ As wmUpdateSessionedIn.OTA_UpdateSessionedRQ) As <XmlElementAttribute("OTA_TravelItineraryRS")> wmTravelItineraryOut_v03.OTA_TravelItineraryRS
-            Dim xmlMessage As String
+            Dim xmlMessage As String = String.Empty
             Dim otaUpdateSessionedRS As wmTravelItineraryOut_v03.OTA_TravelItineraryRS
             Dim oSerializer As XmlSerializer
             Dim oWriter As IO.StringWriter
             Dim oReader As IO.StringReader
 
-            oSerializer = New XmlSerializer(GetType(wmUpdateSessionedIn.OTA_UpdateSessionedRQ))
-            oWriter = New IO.StringWriter(New StringBuilder)
-
-            '*************************************
-            '* Get PNR Modify XML Request Msg    * 
-            '*************************************
-            oSerializer.Serialize(oWriter, OTA_UpdateSessionedRQ)
-            xmlMessage = oWriter.ToString
-            xmlMessage = xmlMessage.Replace(" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""", "")
-            xmlMessage = xmlMessage.Replace(" xmlns=""http://tripxml.downtowntravel.com/tripxml/wsUpdateSessioned""", "")
-            xmlMessage = xmlMessage.Replace("<?xml version=""1.0"" encoding=""utf-16""?>", "")
-            xmlMessage = xmlMessage.Replace(vbCrLf, "")
-            xmlMessage = xmlMessage.Replace("""", "'")
-
-            xmlMessage = ServiceRequest(xmlMessage, ttServices.UpdateSessioned)
-
             Try
+                oSerializer = New XmlSerializer(GetType(wmUpdateSessionedIn.OTA_UpdateSessionedRQ))
+                oWriter = New IO.StringWriter(New StringBuilder)
+
+                '*************************************
+                '* Get PNR Modify XML Request Msg    * 
+                '*************************************
+                oSerializer.Serialize(oWriter, OTA_UpdateSessionedRQ)
+                xmlMessage = oWriter.ToString
+                xmlMessage = xmlMessage.Replace(" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""", "")
+                xmlMessage = xmlMessage.Replace(" xmlns=""http://tripxml.downtowntravel.com/tripxml/wsUpdateSessioned""", "")
+                xmlMessage = xmlMessage.Replace("<?xml version=""1.0"" encoding=""utf-16""?>", "")
+                xmlMessage = xmlMessage.Replace(vbCrLf, "")
+                xmlMessage = xmlMessage.Replace("""", "'")
+
+                xmlMessage = ServiceRequest(xmlMessage, ttServices.UpdateSessioned)
+
                 oSerializer = Nothing
                 oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut_v03.OTA_TravelItineraryRS))
                 oReader = New IO.StringReader(xmlMessage)
@@ -209,18 +209,18 @@ Namespace wsTravelTalk
                     sessionID = oRoot.SelectSingleNode("ConversationID").OuterXml.Replace("&amp;", "&")
                 End If
 
-                Dim itinRefXmlList As String
-                Dim custInfoXmlList As String
-                Dim tpaInfoXmlList As String
+                Dim itinRefXmlList As String = String.Empty
+                Dim custInfoXmlList As String = String.Empty
+                Dim tpaInfoXmlList As String = String.Empty
                 If oRoot.SelectSingleNode("TravelItinerary") Is Nothing Then
                     itinRefXmlList = oRoot.SelectSingleNode("TravelItinerary/ItineraryRef").OuterXml
                     custInfoXmlList = oRoot.SelectSingleNode("TravelItinerary/CustomerInfos").OuterXml
                     tpaInfoXmlList = oRoot.SelectSingleNode("TravelItinerary/TPA_Extensions").OuterXml
                 End If
 
-                Dim errMessage = String.Format("<Errors><Error>{0}</Error><Error>{1}</Error></Errors>", ex.InnerException.Message.ToString(), ex.Message.ToString())
+                Dim errMessage = $"<Errors><Error>{ex.InnerException?.Message}</Error><Error>{ex.Message}</Error></Errors>"
 
-                xmlMessage = String.Format("<OTA_TravelItineraryRS Version=""v03"" xmlns:stl=""http://services.sabre.com/STL/v01"">{0}<TravelItinerary>{1}{2}{3}{4}</TravelItinerary>{5}</OTA_TravelItineraryRS>", errMessage, itinRefXmlList, custInfoXmlList, "<ItineraryInfo></ItineraryInfo>", tpaInfoXmlList, sessionID)
+                xmlMessage = $"<OTA_TravelItineraryRS Version=""v03"" xmlns:stl=""http://services.sabre.com/STL/v01"">{errMessage}<TravelItinerary>{itinRefXmlList}{custInfoXmlList}<ItineraryInfo></ItineraryInfo>{tpaInfoXmlList}</TravelItinerary>{sessionID}</OTA_TravelItineraryRS>"
 
                 oReader = New IO.StringReader(xmlMessage)
                 otaUpdateSessionedRS = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut_v03.OTA_TravelItineraryRS)
