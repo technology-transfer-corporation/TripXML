@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-<!-- 
+	<!-- 
 ================================================================== 
 v03_AmadeusWS_TB_Errors.xsl                     								
 ================================================================== 
@@ -18,22 +18,24 @@ Date: 08 Oct 2009 - Rastko
 		<xsl:apply-templates select="PNR_Reply/originDestinationDetails/itineraryInfo[elementManagementItinerary/status='ERR']" mode="err" />
 		<xsl:apply-templates select="PNR_Reply/originDestinationDetails/itineraryInfo[relatedProduct/status='HL']" mode="warning"/>
 		<xsl:apply-templates select="PNR_Reply/originDestinationDetails/itineraryInfo[itineraryfreeFormText/text = 'WARNING - CHECK TIMES']" mode="warning1"/>
-		<xsl:apply-templates select="PNR_Reply/travellerInfo/nameError[nameErrorInformation/errorDetail/errorCode='ZZZ']"/>
+		<xsl:apply-templates select="PNR_Reply/travellerInfo/nameError[nameErrorInformation/errorDetail/errorCode='ZZZ'] | PNR_Reply/travellerInfo/nameError[nameErrorInformation/errorDetail/qualifier='EC']"/>
 		<xsl:apply-templates select="PNR_Reply/generalErrorInfo[messageErrorInformation/errorDetail/qualifier='EC'][messageErrorText/freetextDetail/subjectQualifier='3']/messageErrorText/text" mode="error"/>
-    <xsl:apply-templates select="PNR_Reply/generalErrorInfo[errorOrWarningCodeDetails/errorDetails/errorCategory='EC'][errorWarningDescription/freeTextDetails/textSubjectQualifier='3']/errorWarningDescription/freeText" mode="error"/>
 		<xsl:apply-templates select="PNR_Reply/generalErrorInfo[messageErrorInformation/errorDetail/qualifier='WEC'][messageErrorText/freetextDetail/subjectQualifier='3']/messageErrorText/text" mode="warning"/>
-		<xsl:if test="PNR_Reply/dataElementsMaster/dataElementsIndiv[serviceRequest/ssrb][elementManagementData/status='ERR']">
-			<xsl:apply-templates select="PNR_Reply/dataElementsMaster/dataElementsIndiv[serviceRequest/ssrb][elementManagementData/status='ERR']" mode="warning"/>
+		<xsl:if test="PNR_Reply/dataElementsMaster/dataElementsIndiv[serviceRequest/ssrb and not(serviceRequest/ssr/type='RQST')][elementManagementData/status='ERR']">
+			<xsl:apply-templates select="PNR_Reply/dataElementsMaster/dataElementsIndiv[serviceRequest/ssrb and not(serviceRequest/ssr/type='RQST')][elementManagementData/status='ERR']" mode="warning"/>
 		</xsl:if>
 		<xsl:if test="PNR_Reply/dataElementsMaster/dataElementsIndiv[serviceRequest/ssr/type='FQTV'][elementManagementData/status='ERR']">
 			<xsl:apply-templates select="PNR_Reply/dataElementsMaster/dataElementsIndiv[serviceRequest/ssr/type='FQTV'][elementManagementData/status='ERR']" mode="warning"/>
 		</xsl:if>
 		<xsl:apply-templates select="PNR_Reply/dataElementsMaster/dataElementsIndiv[elementManagementData/status='ERR']" mode="error"/>
 		<xsl:apply-templates select="Command_CrypticReply/longTextString/textStringDetails" mode="err"/>
-		<xsl:apply-templates select="Car_SingleAvailabilityReply/errorSituation" mode="error"/>
+		<xsl:apply-templates select="Car_SingleAvailabilityReply/errorSituation[applicationError/errorDetails/errorCategory = 'EC']" mode="error"/>
 		<xsl:apply-templates select="Car_SellReply/errorWarning[applicationError/errorDetails/errorCategory = 'EC']" mode="error"/>
+		<xsl:apply-templates select="Car_SellReply/errorWarning[applicationError/errorDetails/errorCategory = 'WEC']" mode="warning"/>
 		<xsl:apply-templates select="Car_SellReply/errorSituation[applicationError/errorDetails/errorCategory = 'EC']" mode="error"/>
 		<xsl:apply-templates select="Hotel_SellReply/errorWarning/messageErrorText/freeText" mode="error"/>
+		<xsl:apply-templates select="Hotel_SellReply/errorGroup/errorDescription/freeText" mode="error"/>
+		<xsl:apply-templates select="OTA_HotelAvailRS/Errors"/>
 		<xsl:apply-templates select="Fare_PricePNRWithBookingClassReply/applicationError" mode="error"/>
 		<xsl:apply-templates select="Ticket_ImagePlus_Reply/CAPI_Messages[LineType='E']" mode="error"/>
 		<xsl:apply-templates select="MessagesOnly_Reply/CAPI_Messages[LineType='E']" mode="error"/>
@@ -45,7 +47,7 @@ Date: 08 Oct 2009 - Rastko
 		<xsl:apply-templates select="Ticket_CreateManualTSTReply/applicationError[applicationErrorInfo/applicationErrorDetail/codeListQualifier='EC']/errorText" mode="err"/>
 		<xsl:apply-templates select="Errors"/>
 	</xsl:template>
-	
+
 	<xsl:template match="errorCode">
 		<xsl:choose>
 			<xsl:when test="//Air_SellFromRecommendationReply/itineraryDetails/segmentInformation[actionDetails/statusCode != 'OK' and actionDetails/statusCode != 'RQ']">
@@ -62,9 +64,12 @@ Date: 08 Oct 2009 - Rastko
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
+
 	<xsl:template match="segmentInformation">
 		<Error>
+			<xsl:attribute name="Code">
+				<xsl:value-of select="actionDetails/statusCode"/>
+			</xsl:attribute>
 			<xsl:attribute name="Type">Amadeus</xsl:attribute>
 			<xsl:text>Flight </xsl:text>
 			<xsl:value-of select="flightDetails/companyDetails/marketingCompany"/>
@@ -89,24 +94,18 @@ Date: 08 Oct 2009 - Rastko
 		<Error>
 			<xsl:attribute name="Type">Amadeus</xsl:attribute>
 			<xsl:value-of select="Error"/>
+			<xsl:value-of select="Errors/Error"/>
 		</Error>
 	</xsl:template>
-	
+
 	<xsl:template match="applicationError" mode="error">
-		<xsl:if test="errorWarningDescription">
-      <Error>
-        <xsl:attribute name="Type">Amadeus</xsl:attribute>
-        <xsl:value-of select="errorWarningDescription/freeText"/>
-      </Error>
-    </xsl:if>
-    <xsl:if test="errorText">
-      <Error>
-        <xsl:attribute name="Type">Amadeus</xsl:attribute>
-        <xsl:value-of select="errorText/errorFreeText"/>
-      </Error>
-    </xsl:if>
+		<Error>
+			<xsl:attribute name="Type">Amadeus</xsl:attribute>
+			<xsl:value-of select="errorText/errorFreeText"/>
+			<xsl:value-of select="errorWarningDescription/freeText"/>
+		</Error>
 	</xsl:template>
-	
+
 	<xsl:template match="itineraryInfo" mode="err">
 		<Error>
 			<xsl:attribute name="Type">Amadeus</xsl:attribute>
@@ -125,7 +124,7 @@ Date: 08 Oct 2009 - Rastko
 			<xsl:value-of select="errorInfo/errorfreeFormText/text" />
 		</Error>
 	</xsl:template>
-	
+
 	<xsl:template match="nameError">
 		<Error>
 			<xsl:attribute name="Type">Amadeus</xsl:attribute>
@@ -135,7 +134,7 @@ Date: 08 Oct 2009 - Rastko
 			<xsl:value-of select="../travellerInformation/passenger/firstName"/>
 		</Error>
 	</xsl:template>
-	
+
 	<xsl:template match="CAPI_Messages" mode="error">
 		<Error>
 			<xsl:attribute name="Type">Amadeus</xsl:attribute>
@@ -149,35 +148,45 @@ Date: 08 Oct 2009 - Rastko
 			</xsl:choose>
 		</Error>
 	</xsl:template>
-	
+
 	<xsl:template match="text | freeText" mode="error">
-		<Error>
-			<xsl:attribute name="Type">Amadeus</xsl:attribute>
-			<xsl:value-of select="." />
-		</Error>
+		<xsl:choose>
+			<xsl:when test="contains(.,'SEAT ')">
+				<Warning>
+					<xsl:attribute name="Type">Amadeus</xsl:attribute>
+					<xsl:value-of select="." />
+				</Warning>
+			</xsl:when>
+			<xsl:otherwise>
+				<Error>
+					<xsl:attribute name="Type">Amadeus</xsl:attribute>
+					<xsl:value-of select="." />
+				</Error>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
-	
+
 	<xsl:template match="text" mode="warning">
 		<Warning>
 			<xsl:attribute name="Type">Amadeus</xsl:attribute>
 			<xsl:value-of select="." />
 		</Warning>
 	</xsl:template>
-	
+
 	<xsl:template match="errorText" mode="warning">
 		<Warning>
 			<xsl:attribute name="Type">Amadeus</xsl:attribute>
 			<xsl:value-of select="freeText" />
 		</Warning>
 	</xsl:template>
-	
+
 	<xsl:template match="errorText" mode="err">
 		<Error>
 			<xsl:attribute name="Type">Amadeus</xsl:attribute>
 			<xsl:value-of select="freeText" />
 		</Error>
 	</xsl:template>
-	
+
 	<xsl:template match="CAPI_Messages" mode="err">
 		<Error>
 			<xsl:attribute name="Type">Amadeus</xsl:attribute>
@@ -187,15 +196,41 @@ Date: 08 Oct 2009 - Rastko
 
 	<xsl:template match="dataElementsIndiv" mode="error">
 		<xsl:choose>
+			<xsl:when test="elementManagementData/segmentName='SSR' and serviceRequest/ssr/type='RQST'">
+				<Error>
+					<xsl:attribute name="Type">Amadeus</xsl:attribute>
+					<xsl:text>Cannot book seat </xsl:text>
+					<xsl:value-of select="concat(serviceRequest/ssrb/data,'-')"/>
+					<xsl:variable name="seat">
+						<xsl:value-of select="serviceRequest/ssrb/data"/>
+					</xsl:variable>
+					<xsl:variable name="flight">
+						<xsl:value-of select="../../PNR_AddMultiElements/dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='STR' and seatGroup/seatRequest/special/data=$seat]/referenceForDataElement/reference[qualifier='ST']/number"/>
+					</xsl:variable>
+					<xsl:value-of select="concat(../../originDestinationDetails/itineraryInfo[elementManagementItinerary/reference/number=$flight]/travelProduct/companyDetail/identification,'-')"/>
+					<xsl:value-of select="concat(../../originDestinationDetails/itineraryInfo[elementManagementItinerary/reference/number=$flight]/travelProduct/productDetails/identification,'-')"/>
+					<xsl:value-of select="concat(../../originDestinationDetails/itineraryInfo[elementManagementItinerary/reference/number=$flight]/travelProduct/boardpointDetail/cityCode,'-')"/>
+					<xsl:value-of select="../../originDestinationDetails/itineraryInfo[elementManagementItinerary/reference/number=$flight]/travelProduct/offpointDetail/cityCode"/>
+				</Error>
+			</xsl:when>
 			<xsl:when test="elementManagementData/segmentName='SSR'">
 				<Warning>
 					<xsl:attribute name="Type">Amadeus</xsl:attribute>
 					<xsl:value-of select="elementErrorInformation/elementErrorText/text"/>
 				</Warning>
 			</xsl:when>
+			<xsl:when test="elementManagementData/segmentName='OP'">
+				<Error>
+					<xsl:attribute name="Type">Amadeus</xsl:attribute>
+					<xsl:text>QUEUE ELEMENT-</xsl:text>
+					<xsl:value-of select="elementErrorInformation/errorWarningDescription/freeText"/>
+				</Error>
+			</xsl:when>
 			<xsl:otherwise>
 				<Error Type="Amadeus">
 					<xsl:value-of select="elementErrorInformation/elementErrorText/text"/>
+					<xsl:value-of select="elementErrorInformation/errorWarningDescription/freeText"/>
+					<xsl:value-of select="concat(' ',elementManagementData/segmentName,' element')"/>
 				</Error>
 				<xsl:if test="miscellaneousRemarks">
 					<Error Type="Amadeus">
@@ -207,7 +242,7 @@ Date: 08 Oct 2009 - Rastko
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
+
 	<xsl:template match="dataElementsIndiv" mode="warning">
 		<Warning Type="Amadeus">
 			<xsl:if test="serviceRequest/ssrb/data">
@@ -221,7 +256,7 @@ Date: 08 Oct 2009 - Rastko
 			<xsl:value-of select="elementErrorInformation/elementErrorText/text"/>
 		</Warning>
 	</xsl:template>
-	
+
 	<xsl:template match="itineraryInfo" mode="warning">
 		<Error>
 			<xsl:attribute name="Type">Amadeus</xsl:attribute>
@@ -239,7 +274,7 @@ Date: 08 Oct 2009 - Rastko
 			<xsl:text> - IS WAIT LIST</xsl:text>
 		</Error>
 	</xsl:template>
-	
+
 	<xsl:template match="itineraryInfo" mode="warning1">
 		<Warning>
 			<xsl:attribute name="Type">Amadeus</xsl:attribute>
@@ -258,13 +293,22 @@ Date: 08 Oct 2009 - Rastko
 			<xsl:value-of select="itineraryfreeFormText/text[contains(.,'WARNING')]"/>
 		</Warning>
 	</xsl:template>
-	
+
 	<xsl:template match="errorWarning | errorSituation" mode="error">
 		<Error>
 			<xsl:attribute name="Type">Amadeus</xsl:attribute>
 			<xsl:text>CAR - </xsl:text>
 			<xsl:value-of select="errorFreeText/freeText"/>
 		</Error>
+	</xsl:template>
+	<xsl:template match="errorWarning" mode="warning">
+		<xsl:if test="starts-with(errorFreeText/freeText, 'INVALID RESPONSE - RETRY')">
+			<Error>
+				<xsl:attribute name="Type">Amadeus</xsl:attribute>
+				<xsl:text>CAR - </xsl:text>
+				<xsl:value-of select="errorFreeText/freeText"/>
+			</Error>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="Response | textStringDetails" mode="err">
@@ -286,6 +330,12 @@ Date: 08 Oct 2009 - Rastko
 				<Error>
 					<xsl:attribute name="Type">Amadeus</xsl:attribute>
 					<xsl:value-of select="."/>
+				</Error>
+			</xsl:when>
+			<xsl:when test="contains(.,'RECORD LOCATOR NOT FOUND')">
+				<Error>
+					<xsl:attribute name="Type">Amadeus</xsl:attribute>
+					<xsl:value-of select="'TRAVELER PROFILE RECORD LOCATOR NOT FOUND'"/>
 				</Error>
 			</xsl:when>
 		</xsl:choose>
