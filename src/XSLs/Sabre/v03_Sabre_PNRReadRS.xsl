@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 19 Jul 2022 - Samokhvalov - QueueRead - Pax Type Fixes
   Date: 08 Jul 2022 - Samokhvalov - Controlling Carrier Remark reworked. Added GI to Air Segments.
   Date: 23 May 2022 - Kobelev - Ticket Designator fix.
   Date: 18 May 2022 - Kobelev - Tour Code FlightRefNumberRPHList fix.
@@ -209,7 +210,7 @@
 			</xsl:if>
 		</OTA_TravelItineraryRS>
 	</xsl:template>
-	
+
 	<!--************************************************************************************-->
 	<!--			                                                                        -->
 	<!--************************************************************************************-->
@@ -359,7 +360,7 @@
 			<xsl:value-of select="normalize-space(translate(.,'Â',''))"/>
 		</Warning>
 	</xsl:template>
-	
+
 	<!--************************************************************************************-->
 	<!--			TravelItinerary detail Information                                      -->
 	<!--************************************************************************************-->
@@ -369,14 +370,19 @@
 		<!--******************************************************-->
 		<xsl:param name="paramSegMode"/>
 		<CustomerInfos>
+			<xsl:variable name="pd">
+				<xsl:if test="../SabreCommandLLSRS/Response">
+					<xsl:value-of select="../SabreCommandLLSRS/Response"/>
+				</xsl:if>
+			</xsl:variable>
 			<!--<xsl:variable name="pd">
 				<xsl:value-of select="../SabreCommandLLSRS/Response"/>
 			</xsl:variable>-->
 
 			<xsl:apply-templates select="CustomerInfo//PersonName">
-				<!--<xsl:with-param name="pd">
+				<xsl:with-param name="pd">
 					<xsl:value-of select="$pd"/>
-				</xsl:with-param>-->
+				</xsl:with-param>
 			</xsl:apply-templates>
 		</CustomerInfos>
 		<!--******************************************************-->
@@ -1196,7 +1202,7 @@
 			</TPA_Extensions>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<!--************************************************************************************-->
 	<!--			PNR Retrieve Errors                                           	        -->
 	<!--************************************************************************************-->
@@ -1212,10 +1218,10 @@
 			<xsl:value-of select="SystemSpecificResults/Message"/>
 		</Error>
 	</xsl:template>
-	
+
 	<!-- ************************************************************** -->
 	<!-- Issued Tickets Elements 	                               		-->
-	<!-- ************************************************************** -->	
+	<!-- ************************************************************** -->
 	<xsl:template match="Ticketing" mode="IssuedTicket">
 
 		<xsl:if test="@RPH!=''">
@@ -1530,7 +1536,7 @@
 	<!--						 Passenger Information         		                        -->
 	<!--************************************************************************************-->
 	<xsl:template match="PersonName">
-		<!--<xsl:param name="pd"/>-->
+		<xsl:param name="pd"/>
 
 		<xsl:variable name="paxref">
 			<xsl:value-of select="concat(' ',translate(@NameNumber,'0',''),' ')"/>
@@ -1542,18 +1548,20 @@
 
 		<xsl:variable name="vDigits" select="'0123456789'"/>
 		<xsl:variable name="alpha" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
-
-		<!--<xsl:variable name="paxtype">
+		<xsl:variable name="paxtype">
 			<xsl:choose>
-				<xsl:when test="translate(substring(substring-after($pd,$paxref),8,3),(translate(substring(substring-after($pd,$paxref),9,3), $alpha,'')), '') = ''">ADT</xsl:when>
+				<xsl:when test="$pd != ''">
+					<xsl:choose>
+						<xsl:when test="translate(substring(substring-after($pd,$paxref),8,3),(translate(substring(substring-after($pd,$paxref),9,3), $alpha,'')), '') = ''">ADT</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="substring(substring-after($pd,$paxref),8,3)"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="substring(substring-after($pd,$paxref),8,3)"/>
+					<xsl:value-of select="//DisplayPriceQuoteRS/PriceQuoteSummary/PTC_FareBreakdown/PassengerTypeQuantity[number(@NameNumber)=number($paxref)]/@Code"/>
 				</xsl:otherwise>
 			</xsl:choose>
-		</xsl:variable>-->
-
-		<xsl:variable name="paxtype">
-			<xsl:value-of select="//DisplayPriceQuoteRS/PriceQuoteSummary/PTC_FareBreakdown/PassengerTypeQuantity[number(@NameNumber)=number($paxref)]/@Code"/>
 		</xsl:variable>
 
 		<CustomerInfo>
@@ -1581,7 +1589,7 @@
 							<xsl:attribute name="NameType">INF</xsl:attribute>
 						</xsl:when>
 						<!-- this is for parsing *PQS response -->
-						<xsl:when test="//DisplayPriceQuoteRS/PriceQuoteSummary/PTC_FareBreakdown/PassengerTypeQuantity[number(@NameNumber)=number($paxref)]/@Code">
+						<xsl:when test="//DisplayPriceQuoteRS/PriceQuoteSummary/PTC_FareBreakdown/PassengerTypeQuantity[number(@NameNumber)=number($paxref)]/@Code or contains($pd,$paxref)">
 							<xsl:attribute name="NameType">
 								<xsl:choose>
 									<xsl:when test="substring($paxtype,1,1)!=' '">
@@ -1771,7 +1779,7 @@
 								<xsl:value-of select="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown[Departure/@AirportCode=$orig and Departure/@ArrivalAirportCode=$dest]/FareBasis/@GlobalInd"/>
 							</xsl:attribute>
 						</xsl:if>
-							
+
 						<DepartureAirport>
 							<xsl:attribute name="LocationCode">
 								<xsl:value-of select="OriginLocation/@LocationCode"/>
