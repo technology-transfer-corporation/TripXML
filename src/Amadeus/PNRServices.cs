@@ -1521,6 +1521,9 @@ namespace AmadeusWS
                                         string strUpdTicketDes;
                                         foreach (XmlNode segNode in oSegmentNodes)
                                         {
+                                            if (segNode.SelectSingleNode("connexInformation/connecDetails/routingInformation") != null &&
+                                                segNode.SelectSingleNode("connexInformation/connecDetails/routingInformation").InnerText.Equals("ARNK"))
+                                                continue;
                                             var segNum = segNode.SelectSingleNode("segmentReference/refDetails[refQualifier='S']/refNumber").InnerText;
                                             var segTD = string.Empty;
                                             if (reqNode.SelectSingleNode($"FareSegments/AirSegments[@RPH='{flSegMap[segNum]}']").Attributes["TicketDesignator"] != null)
@@ -1627,11 +1630,18 @@ namespace AmadeusWS
                                 {
                                     strZap = $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>ZAP</pricingOptionKey></pricingOptionKey><penDisInformation><discountPenaltyQualifier>ZAP</discountPenaltyQualifier><discountPenaltyDetails><function>700</function><amountType>{discQualif}</amountType><amount>{strDiscount}</amount>{strTktDes}</discountPenaltyDetails></penDisInformation></pricingOptionGroup>";
                                 }
-
+                                var excludeFFopts = false;
                                 foreach (var xmlFareFamily in sXmlFareFamily)
                                 {
-                                    string strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{xmlFareFamily}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{(xmlFareFamily.Contains($">{strFareType}<") ? "" : $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>")}{strZap}</Fare_PricePNRWithBookingClass>";
-                                    strResponseReprice += FilterPricePNRWithBookingClassResponseByPax(SendPricePNRWithBookingClass(ttAA, strRepriceRQ), xmlFareFamily);
+                                    string strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{(excludeFFopts ? "" : xmlFareFamily)}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{(xmlFareFamily.Contains($">{strFareType}<") ? "" : $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>")}{strZap}</Fare_PricePNRWithBookingClass>";
+                                    var respReprice = SendPricePNRWithBookingClass(ttAA, strRepriceRQ);
+                                    if (respReprice != null && respReprice.Contains("NO VALID FARE/RULE COMBINATIONS FOR PRICING"))
+                                    {
+                                        excludeFFopts = true;
+                                        strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{(excludeFFopts ? "" : xmlFareFamily)}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{(xmlFareFamily.Contains($">{strFareType}<") ? "" : $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>")}{strZap}</Fare_PricePNRWithBookingClass>";
+                                        respReprice = SendPricePNRWithBookingClass(ttAA, strRepriceRQ);
+                                    }
+                                    strResponseReprice += FilterPricePNRWithBookingClassResponseByPax(respReprice, xmlFareFamily);
                                 }
                                 //string strAddress =$"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithBookingClass}";
                                 //strResponseReprice = strResponse =ttAA.SendMessage(strRepriceRQ, "", strAddress, conversationID);
@@ -2559,7 +2569,9 @@ namespace AmadeusWS
                                 ? tktDes[item.Attributes["TicketDesignator"].Value] + "," + item.Attributes["RPH"].Value
                                 : item.Attributes["RPH"].Value;
                     }
-                    tRes.Add(string.Join("/", fbCodes.Select(x => $"A{x.Value}-{x.Key}")));
+                    var fbOpt = string.Join("/", fbCodes.Where(x => !string.IsNullOrEmpty(x.Key)).Select(x => $"A{x.Value}-{x.Key}"));
+                    if (!string.IsNullOrEmpty(fbOpt.Trim(' ')))
+                        tRes.Add(fbOpt);
                     if (tktDes.Any())
                     {
                         tRes.Add(string.Join("/", tktDes.Select(x => $"ZO-0*{x.Key}.{x.Value}")));
