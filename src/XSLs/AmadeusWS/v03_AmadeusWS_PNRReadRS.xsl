@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 19 Jul 2022 - Kobelev - Error node for failed FOP change.
    Date: 29 Jun 2022 - Kobelev - FareBasis Codes were getting cut off for CHD and INF.
    Date: 03 Jun 2022 - Kobelev - Birth Date of passanger from SSR DOCS.
    Date: 29 Apr 2022 - Kobelev - EMD Exchange and EMD Service Fee display fix.
@@ -268,9 +269,13 @@
 								<xsl:apply-templates select="Ticket_DisplayTSTReply/applicationError/errorText/errorFreeText" mode="warning"/>
 							</Warnings>
 						</xsl:when>
-						<xsl:when test="Error or Warning">
+						<xsl:when test="Error">
+							<Errors>
+								<xsl:apply-templates select="Error" mode="error"/>								
+							</Errors>
+						</xsl:when>
+						<xsl:when test="Warning">
 							<Warnings>
-								<xsl:apply-templates select="Error" mode="warning"/>
 								<xsl:apply-templates select="Warning" mode="warning"/>
 							</Warnings>
 						</xsl:when>
