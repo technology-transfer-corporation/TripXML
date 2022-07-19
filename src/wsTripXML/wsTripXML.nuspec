@@ -8,13 +8,20 @@
     <licenseUrl>http://example.com</licenseUrl>
     <projectUrl>http://example.com</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>The wsTripXML deployment package, built on 8/23/2021</description>
+    <description>TripXML Platform</description>
     <releaseNotes></releaseNotes>
   </metadata>
   <files>
     <file src="App_Data\Admin\*.asmx" target="App_Data\Admin" />    
-    <file src="bin\*.*" target="bin" />    
-    <file src="..\TripXMLMain\bin\Debug\*.dll" target="bin" />   
+    <file src="bin\*.*" target="bin" />        
+	<file src="..\TripXMLMain\Xsl\Aggregation\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\AmadeusWS\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\BL\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\Galileo\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\Travelport\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\Sabre\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\Worldspan\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\TCML\*.dll" target="bin" />
     <file src="Tables\**\*.*" target="Tables" />    
     <file src="App_Data\Admin\*.*" target="App_Data\Admin" />
     <file src="*.asmx" />
