@@ -6,6 +6,7 @@ Imports System.Xml.Serialization
 Imports System.Data
 Imports System.Text
 Imports TripXMLMain.modCore
+Imports TripXMLTools.TripXMLLoad
 
 Namespace wsTravelTalk
 
@@ -77,24 +78,24 @@ Namespace wsTravelTalk
                     ' *******************
                     ' Decode Airports   *
                     ' *******************
-                    oNode.SelectSingleNode("DepartureAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
-                    oNode.SelectSingleNode("ArrivalAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                    oNode.SelectSingleNode("DepartureAirport").InnerText = DecodeValue(DecodingType.Airport, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                    oNode.SelectSingleNode("ArrivalAirport").InnerText = DecodeValue(DecodingType.Airport, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
 
                     ' *******************
                     ' Decode Airlines   *
                     ' *******************
                     If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
-                        oNode.SelectSingleNode("OperatingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                        oNode.SelectSingleNode("OperatingAirline").InnerText = DecodeValue(DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
                     End If
                     If Not oNode.SelectSingleNode("MarketingAirline") Is Nothing Then
-                        oNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                        oNode.SelectSingleNode("MarketingAirline").InnerText = DecodeValue(DecodingType.Airline, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                     End If
 
                     ' *******************
                     ' Decode Equipments *
                     ' *******************
                     If Not oNode.SelectSingleNode("Equipment") Is Nothing Then
-                        oNode.SelectSingleNode("Equipment").InnerText = GetDecodeValue(ttEquipments, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                        oNode.SelectSingleNode("Equipment").InnerText = DecodeValue(DecodingType.Equipment, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
                     End If
                 Next
 

@@ -1,0 +1,26 @@
+<package>
+  <metadata>
+    <id>wsTripXML</id>
+    <version>1.1.0.081</version>
+    <authors>Technology Transfer Corp</authors>
+    <owners>Technology Transfer Corp</owners>
+    <tags>OctopusDeploy</tags>
+    <licenseUrl>http://example.com</licenseUrl>
+    <projectUrl>http://example.com</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The wsTripXML deployment package, built on 8/23/2021</description>
+    <releaseNotes></releaseNotes>
+  </metadata>
+  <files>
+    <file src="App_Data\Admin\*.asmx" target="App_Data\Admin" />    
+    <file src="bin\*.*" target="bin" />    
+    <file src="..\TripXMLMain\bin\Debug\*.dll" target="bin" />   
+    <file src="Tables\**\*.*" target="Tables" />    
+    <file src="App_Data\Admin\*.*" target="App_Data\Admin" />
+    <file src="*.asmx" />
+    <file src="*.aspx" />
+    <file src="*.asax" />
+    <file src="Web.config" />
+    <file src="packages.config" />    
+     </files>
+</package>
