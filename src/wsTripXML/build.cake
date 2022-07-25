@@ -6,7 +6,7 @@ var assemblyFile = ParseAssemblyInfo("./My Project/AssemblyInfo.vb");
 var title = assemblyFile.Title;
 var readedVersion = assemblyFile.AssemblyFileVersion;
 var currentVersion = new Version(readedVersion);
-var env = Argument("configuration", "Debug");
+var env = Argument("configuration", "Release");
 
 Task("Clean")
     .Does(() =>
@@ -37,7 +37,7 @@ Task("OctoPack")
     .IsDependentOn("Build")
     .Does(() => {
         var files = new List<string>(){"*.dll", "Web.config", "*.asmx", "*.xml", "*.aspx", 
-            "bin***.dll", "bin***.config", "App_Data***.*", "Code/bin***.dll", "Tables/BL***.*", 
+            "bin***.dll", "bin***.config", "bin***.pdb", "App_Data***.*", "Code/bin***.dll", "Tables/BL***.*", 
             "Tables/Decoding***.xml", "Tables/Users***.*"};
        OctoPack(title, new OctopusPackSettings
        {
@@ -46,8 +46,8 @@ Task("OctoPack")
                 OutFolder = outFolder,
                 Overwrite = true,      
                 Version = readedVersion,
-                Description = assemblyFile.Description,
-                Author = assemblyFile.Company,
+                Description = assemblyFile.Description,                
+                Author = "Technology Transfer Corporation",                
                 Include = files,
              });
         });

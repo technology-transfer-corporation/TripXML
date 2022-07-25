@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("TripXML Platform")> 
 <Assembly: AssemblyCompany("Downtown Travel")> 
 <Assembly: AssemblyProduct("TripXML")>
-<Assembly: AssemblyCopyright("Copyright ©  Downtown Travel 2014-2021")>
+<Assembly: AssemblyCopyright("Copyright ©  Downtown Travel 2014-2022")>
 <Assembly: AssemblyTrademark("TripXML")> 
 
 <Assembly: ComVisible(False)> 
@@ -31,4 +31,4 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 
 <Assembly: AssemblyVersion("1.0.0.*")>
-<Assembly: AssemblyFileVersion("1.1.234.246")>
+<Assembly: AssemblyFileVersion("1.1.234.253")>
