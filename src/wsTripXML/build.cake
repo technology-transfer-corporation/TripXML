@@ -53,7 +53,7 @@ Task("OctoPack")
         });
 
 Task("OctoPush")
-    .IsDependentOn("OctoPack")
+    //.IsDependentOn("OctoPack")
     .Does(() => {
             OctoPush("http://georgia/octopus/", 
             "API-XMPHEHGJH9HBXKAWDNS7RQRAXRJBVLDL", 

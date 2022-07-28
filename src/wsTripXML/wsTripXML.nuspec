@@ -2,11 +2,11 @@
   <metadata>
     <id>wsTripXML</id>
     <version>1.1.0.081</version>
-    <authors>Technology Transfer Corp</authors>
-    <owners>Technology Transfer Corp</owners>
+    <authors>Technology Transfer Corporation</authors>
+    <owners>Downtown Travel</owners>
     <tags>OctopusDeploy</tags>
-    <licenseUrl>http://example.com</licenseUrl>
-    <projectUrl>http://example.com</projectUrl>
+    <licenseUrl>https://github.com/git/git-scm.com/blob/main/MIT-LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/Downtown-Travel-TT/wsTripXML</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>TripXML Platform</description>
     <releaseNotes></releaseNotes>

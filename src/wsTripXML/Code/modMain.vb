@@ -74,7 +74,6 @@ Namespace wsTravelTalk
             Dim validateXSDIn As Boolean
             Dim oLog As cLog
             Dim logged As Boolean = False
-            Dim sb As StringBuilder = New StringBuilder()
 
             Try
                 If isDefault Then
@@ -84,16 +83,16 @@ Namespace wsTravelTalk
                 End If
 
                 oDoc = oApp.Get("ttACL")
-                validateXSDIn = oApp.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("In").ToString())
-                sb.Remove(0, sb.Length())
+                'validateXSDIn = oApp.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("In").ToString())
+                validateXSDIn = oApp.Get($"XSD{ttCredential.UserID}In")
 
                 ' SQL Message Log
                 Try
                     If ttServiceID <> 81 Then
                         oLog = New cLog
                         With ttCredential
-                            UUID = oLog.LogRequest(ServerName, .RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, strRequest, StartTime)
-                            sb.Remove(0, sb.Length())
+                            'sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString()
+                            UUID = oLog.LogRequest(ServerName, .RequestorID, .UserID, $"{ .Providers(0).Name } { .System }", ttServiceID, strRequest, StartTime)
                         End With
                     End If
                     logged = True
@@ -104,15 +103,14 @@ Namespace wsTravelTalk
                     GC.Collect()
                 End Try
 
-                If Trace Then CoreLib.SendTrace(ttCredential.UserID, sb.Append("ttMain ").Append(ttServiceID).ToString(), "============= OTA Request ============= ", strRequest, UUID)
-                sb.Remove(0, sb.Length())
+                If Trace Then CoreLib.SendTrace(ttCredential.UserID, $"ttMain {ttServiceID}", "============= OTA Request ============= ", strRequest, UUID)
 
                 Try
                     If validateXSDIn Then
                         CoreLib.ValidateXML(strRequest, ttServiceID, enSchemaType.Request, ttCredential.UserID, Version)
                     End If
                 Catch exx As Exception
-                    Throw New Exception(sb.Append("Invalid Request. Schema Validation Failed.").Append(vbNewLine).Append(exx.Message).ToString())
+                    Throw New Exception($"Invalid Request. Schema Validation Failed.{vbNewLine}{exx.Message}")
                 End Try
 
                 AuthenticateUser(oDoc, ttCredential)
@@ -120,7 +118,6 @@ Namespace wsTravelTalk
 
                 ttProviderSystems = oApp.Get($"PS{ttCredential.Providers(0).Name}{ttCredential.UserID}{ttCredential.System}{ttCredential.Providers.First().PCC}")
 
-                sb.Remove(0, sb.Length())
                 ttProviderSystems.LogUUID = UUID
 
                 If ttProviderSystems.AmadeusWS = True Then
@@ -139,7 +136,8 @@ Namespace wsTravelTalk
                     'ttProviderSystems = oApp.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
                     'sb.Remove(0, sb.Length())
                     If ttProviderSystems.System Is Nothing Then
-                        Throw (New Exception(sb.Append("Access denied to ").Append(ttCredential.Providers(0).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider or PCC (").Append(ttCredential.Providers(0).PCC).Append(").").ToString()))
+                        '$"Access denied to {ttCredential.Providers(0).Name} - {ttCredential.System} system. Or invalid provider or PCC ({ttCredential.Providers(0).PCC})."
+                        Throw New Exception($"Access denied to {ttCredential.Providers(0).Name} - {ttCredential.System} system. Or invalid provider or PCC ({ttCredential.Providers(0).PCC}).")
                     End If
                     If (ttCredential.Providers(0).PCC.Trim.Length > 0 And ttCredential.Providers(0).Name <> "Sabre") Then
                         ttProviderSystems.PCC = ttCredential.Providers(0).PCC
@@ -148,13 +146,11 @@ Namespace wsTravelTalk
 
             Catch ex As Exception
                 If Not logged Then
-                    If Trace Then CoreLib.SendTrace(ttCredential.UserID, sb.Append("ttMain ").Append(ttServiceID).ToString(), "============= OTA Request ============= ", strRequest, ttProviderSystems.LogUUID)
-                    sb.Remove(0, sb.Length())
+                    If Trace Then CoreLib.SendTrace(ttCredential.UserID, $"ttMain {ttServiceID}", "============= OTA Request ============= ", strRequest, ttProviderSystems.LogUUID)
+
                     If Not UUID Is Nothing Then
                         With ttCredential
-                            sb.Remove(0, sb.Length())
-                            LogMessageToFile(enLogType.Request, UUID, ServerName, .RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, strRequest, StartTime, 0, ex.Message)
-                            sb.Remove(0, sb.Length())
+                            LogMessageToFile(enLogType.Request, UUID, ServerName, .RequestorID, .UserID, $"{ .Providers(0).Name} { .System}", ttServiceID, strRequest, StartTime, 0, ex.Message)
                         End With
                     End If
                 End If
@@ -460,24 +456,22 @@ Namespace wsTravelTalk
             Dim count As Integer
             Dim customErr As Boolean = False
             Dim strError As String
-            Dim sb As StringBuilder = New StringBuilder()
 
             'strRequest = strRequest.Insert(strRequest.IndexOf("<RequestorID") + 13, " URL=""").Append(HttpContext.Current.Request.UserHostName).Append(""" ")
-            strRequest = strRequest.Replace("URL=""""", sb.Append("URL=""").Append(HttpContext.Current.Request.UserHostName).Append("""").ToString())
-            sb.Remove(0, sb.Length())
+            strRequest = strRequest.Replace("URL=""""", $"URL=""{HttpContext.Current.Request.UserHostName}""")
 
             Try
                 oReqDoc = New XmlDocument
                 oReqDoc.LoadXml(strRequest)
                 oRoot = oReqDoc.DocumentElement
             Catch ex As Exception
-                Throw New Exception(sb.Append("Error Loading Request XML Document.").Append(ex.Message).ToString())
+                Throw New Exception($"Error Loading Request XML Document.{ex.Message}")
             End Try
 
             Try
                 If Not oRoot.HasChildNodes Then
                     customErr = True
-                    Throw New Exception(sb.Append("Invalid or empty request.").Append(vbNewLine).Append(strRequest).ToString())
+                    Throw New Exception($"Invalid or empty request.{Environment.NewLine}{strRequest}")
                 End If
 
                 oNodePOS = oRoot.SelectSingleNode("POS")
