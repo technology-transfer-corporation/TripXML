@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 28 Jul 2022 - Kobelev - PNR Read with unmasked CC
   Date: 19 Jul 2022 - Samokhvalov - QueueRead - Pax Type Fixes
   Date: 08 Jul 2022 - Samokhvalov - Controlling Carrier Remark reworked. Added GI to Air Segments.
   Date: 23 May 2022 - Kobelev - Ticket Designator fix.
@@ -4879,9 +4880,21 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:if test="string-length($cardNum) >= 8 and string-length(Text) > 15">
+							
 							<xsl:variable name="card">
-								<xsl:value-of select="Text"/>
+								<xsl:choose>
+									<xsl:when test="../../../../../PNR_HDK_FOP">
+										<xsl:variable name="hFOP" select="../../../../../PNR_HDK_FOP"  />
+										<xsl:value-of select="concat('*', $hFOP/@CCType, $hFOP/text(),'?', substring($hFOP/@Exp,1,2), '/', substring($hFOP/@Exp,3,2))"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="Text"/>
+									</xsl:otherwise>
+								</xsl:choose>
+								
 							</xsl:variable>
+							
+							
 							<PaymentCard>
 								<xsl:attribute name="CardCode">
 									<xsl:choose>
