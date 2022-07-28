@@ -97,6 +97,7 @@ namespace Sabre
                         strResponse = strResponse.Replace(tagToReplace, $"{strFaretype}{pricerq}{strFareDetails}<TimeStamp>{DateTime.Now.ToString("yyyy-MM-dd")}</TimeStamp>{dqbResponse}{tagToReplace}");
 
                         #region *H
+                        string strFOP = string.Empty;
                         string strDisplayHI = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>*H</HostCommand></Request></SabreCommandLLSRQ>";
                         CoreLib.SendTrace(ProviderSystems.UserID, "SabreCommand", "HDK", "", ProviderSystems.LogUUID);
                         string strHI = ttSA.SendMessage(strDisplayHI, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
@@ -113,7 +114,18 @@ namespace Sabre
                             if (strline.StartsWith("ADK") | strline.StartsWith("R-"))
                                 continue;
 
-                            bool isGood = Regex.IsMatch(strline, @"[a-zA-Z0-9]{4}\s[a-zA-Z0-9]{4}\*[A-Z0-9]{3}\s[0-9]{4}\/[a-zA-Z0-9]{5}");
+                            bool isGood = false;
+                            if (strline.StartsWith("A"))
+                            {
+                                isGood = Regex.IsMatch(strline, @"(A[0-9]{1}F\s)|(AFP\s)");
+                                if (isGood)
+                                {
+                                    var fopElems = SetFOP(strline);
+                                    strFOP = $"<PNR_HDK_FOP CCType=\"{fopElems.CCType}\" Exp=\"{fopElems.Exp}\">{fopElems.CCNumber}</PNR_HDK_FOP>";
+                                }
+                            }
+
+                            isGood = Regex.IsMatch(strline, @"[a-zA-Z0-9]{4}\s[a-zA-Z0-9]{4}\*[A-Z0-9]{3}\s[0-9]{4}\/[a-zA-Z0-9]{5}");
 
                             // If Not String.IsNullOrEmpty(line) AndAlso Not line.Trim.StartsWith("R-") AndAlso line.Trim.Contains("*") Then
                             if (isGood)
@@ -125,6 +137,10 @@ namespace Sabre
                         }
 
                         sbH.Append("</PNR_HDK>");
+                        if (!string.IsNullOrEmpty(strFOP))
+                        {
+                            sbH.Append(strFOP);
+                        }
                         strResponse = strResponse.Replace(tagToReplace, $"{sbH}{tagToReplace}");
                         #endregion
                     }
@@ -186,6 +202,26 @@ namespace Sabre
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, exx.Message, ProviderSystems);
             }
             return strResponse;
+        }
+
+        private (string AFP, string CCType, string CCNumber, string Exp) SetFOP(string strline)
+        {
+            try
+            {
+                //AFP  *VI4482330035908250/0123
+                //A5F  -*VI4147202552404582\u008707/27
+                if (strline.Contains("\u0087"))
+                    strline = strline.Replace("/", "").Replace("\u0087","/").Replace("-", "");
+
+                var elems = strline.Split(new[] { " ", "*", "/" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                
+                return (AFP:strline, CCType:elems[1].Substring(0,2), CCNumber:elems[1].Substring(2), Exp:elems.Last());
+            }
+            catch (Exception ex)
+            {
+                AddLog($"<Error>{ex.Message}</Error>", ProviderSystems.UserID);
+            }
+            return (AFP: strline, CCType: string.Empty, CCNumber: string.Empty, Exp: string.Empty);
         }
 
         private string GetTicketDocument(string response, string ConversationID, SabreAdapter ttSA)
