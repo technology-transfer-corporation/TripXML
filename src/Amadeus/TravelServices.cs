@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Xsl;
 
 namespace AmadeusWS
 {
@@ -42,10 +43,12 @@ namespace AmadeusWS
         private string SendRequestSegment(AmadeusWSAdapter ttAA, string request, string segment, string soapAction, string nameSpace)
         {
             string strResponse = "";
+            if (string.IsNullOrEmpty(Version))
+                Version = $"v03_";
 
             if (!string.IsNullOrEmpty(request))
             {
-
+                CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSService", $"***** {segment} *****", "", ttProviderSystems.LogUUID);
                 Message += request;
                 strResponse = SendGDSMessage(ttAA, request, soapAction, nameSpace, segment);
                 Message += strResponse;
@@ -68,6 +71,11 @@ namespace AmadeusWS
                 else if (strResponse.Contains("<Warning"))
                 {
                     Warnings += strResponse;
+                    strResponse = "";
+                }
+                else
+                {
+                    strResponse = nativeResp;
                 }
             }
 
@@ -2427,7 +2435,7 @@ namespace AmadeusWS
                         oDocTemp.LoadXml(strRequest);
                         oRootTemp = oDocTemp.DocumentElement;
 
-                        string strErrorResp = SendRequestSegment(ttAA, oRootTemp.SelectSingleNode("Cancel").InnerXml, "Delete", ttProviderSystems.AmadeusWSSchema.PNR_Cancel, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
+                        var strErrorResp = SendRequestSegment(ttAA, oRootTemp.SelectSingleNode("Cancel").InnerXml, "Delete", ttProviderSystems.AmadeusWSSchema.PNR_Cancel, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
                         strNativePNRReply = nativeResp.Replace("PNR_Reply", "PNR_RetrieveByRecLocReply");
 
                         //******************** 
@@ -2788,12 +2796,17 @@ namespace AmadeusWS
                 // Retrieve existing PNR * 
                 //**************************** 
                 strErrEvent = "Error Transforming OTA PNRRead Request.";
-                
+                var argListPPWBC = new XsltArgumentList();
 
                 //******************************************** 
                 //* Get Amadeus Native PNR Retrieve response * 
                 //******************************************** 
                 Message = "<PNR_Retrieve><retrievalFacts><retrieve><type>1</type></retrieve></retrievalFacts></PNR_Retrieve>";
+                if (ttProviderSystems.PriceBookingVersion != null)
+                {
+                    argListPPWBC.AddParam("PPWBCVersion", "", ttProviderSystems.PriceBookingVersion);
+                }
+
                 string strNativePNRReply = SendRetrievePNR(ttAA);
                 strNativePNRReply = strNativePNRReply.Replace("PNR_Reply", "PNR_RetrieveByRecLocReply");
                 Message += strNativePNRReply;
@@ -2806,9 +2819,10 @@ namespace AmadeusWS
 
                 XmlDocument oDocTemp = null;
                 XmlElement oRootTemp = null;
-                string strErrorResp = "";
+                
                 if (oRoot.SelectSingleNode("Position/Element[@Operation='delete']") != null)
                 {
+                    string strErrorResp = "";
                     //******************************** 
                     //* Build PNR Retrieve xml msg * 
                     //******************************** 
@@ -2927,7 +2941,8 @@ namespace AmadeusWS
                             //***************************************************
                             // Following if condition was diffrent in local code
                             //***************************************************
-                            if (strResponse.Length > 0 && !strResponse.Contains("IS WAIT LIST"))
+                            //During remarks Update we are getting back PNR Reply with normal PNR data.
+                            if (strResponse.Length > 0 && !strResponse.StartsWith("<PNR_Reply>") && !strResponse.Contains("IS WAIT LIST"))
                             {
                                 strResponse = BuildOTAResponse(strResponse);
                                 return strResponse;
@@ -2957,7 +2972,6 @@ namespace AmadeusWS
                 // Modify PNR - Modify elements * 
                 //******************************* 
                 strErrEvent = "Modify PNR - Modify elements Error.";
-
                 if (oRoot.SelectSingleNode("Position/Element[@Operation='modify']") != null)
                 {
                     //******************************** 
@@ -2971,7 +2985,7 @@ namespace AmadeusWS
                     oDocResp = new XmlDocument();
                     oDocResp.LoadXml(strRequest);
                     oRootResp = oDocResp.DocumentElement;
-
+                    string strErrorResp = string.Empty;
                     //************************************** 
                     //* Send Amadeus Native Delete Request * 
                     //************************************** 
@@ -2995,21 +3009,26 @@ namespace AmadeusWS
                         //******************** 
                         if (strErrorResp.Length > 0)
                         {
-                            if (strErrorResp.IndexOf("<Error") >= 0)
+                            if (strErrorResp.Contains("<Error"))
                             {
                                 // Fatal Error 
                                 return BuildOTAResponse(strErrorResp);
                             }
-                            else if (strErrorResp.IndexOf("<Warning>") >= 0)
+                            else if (strErrorResp.Contains("<Warning>"))
                             {
                                 Warnings += strErrorResp;
+                            }
+                            else if (strErrorResp.Contains("INVALID ACCOUNT NUMBER"))
+                            {
+                                Errors += BuildErrorNode("INVALID ACCOUNT NUMBER");
                             }
                         }
 
                     }
+
                 }
 
-                strResponse = SendRetrievePNR(ttAA);
+                strResponse =  SendRetrievePNR(ttAA);
                 Message += strResponse;
                 native += $"{strRequest}{strResponse}";
                 //strResponse = strNativePNRReply;

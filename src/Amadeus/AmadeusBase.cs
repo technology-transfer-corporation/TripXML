@@ -413,6 +413,23 @@ namespace AmadeusWS
         }
 
         /// <summary>
+        /// Return formated error for PNR display
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        protected string BuildErrorNode(string message)
+        {
+            try
+            {
+                return $"<Error>{message}</Error>";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error Building OTA Response.\r\n{ex.Message}");
+            }
+        }
+
+        /// <summary>
         /// This method will either get SessionID from Request or will set new SessionID.
         /// </summary>
         /// <param name="ttAA">GDS Adapter</param>
@@ -803,7 +820,8 @@ namespace AmadeusWS
         {
             try
             {
-                var request = $"<PNR_Retrieve><settings><options><optionCode>51</optionCode></options></settings><retrievalFacts><retrieve><type>1</type></retrieve></retrievalFacts></PNR_Retrieve>";
+                var request = $"<PNR_Retrieve><settings><options><optionCode>51</optionCode></options></settings><retrievalFacts><retrieve><type>1</type></retrieve></retrievalFacts>" +
+                    $"</PNR_Retrieve>";
                 return SendRetrievePNR(ttAA, request);
             }
             catch (Exception ex)
