@@ -94,7 +94,7 @@ namespace TripXMLTools
             try
             {
                 var user = UsersObject.Find(p => p.Username == credentials.UserID && p.Password == credentials.Password);
-                var provider = user.ProviderUsers.FirstOrDefault(u => u.Provider.System.Environment == credentials.System 
+                var provider = user.ProviderUsers.FirstOrDefault(u => u.Provider.System.Environment == credentials.System
                     && u.Provider.Name == credentials.Providers[0].Name);
                 var providerPcc = provider.Provider.PCCs[0];
 
@@ -104,7 +104,7 @@ namespace TripXMLTools
                         ttProviderSystem.PCC = providerPcc.Code;
                         ttProviderSystem.AAAPCC = providerPcc.Code;
                         break;
-                    case "Amadeus":                        
+                    case "Amadeus":
                         ttProviderSystem.AmadeusWS = credentials.Providers[0].Name == "Amadeus";
                         ttProviderSystem.AmadeusWSSchema = new Dictionary<enAmadeusWSSchema, string>();
                         foreach (var schema in providerPcc?.Wsdlschemas)
@@ -119,7 +119,7 @@ namespace TripXMLTools
                         ttProviderSystem.PCC = credentials.Providers[0].PCC;
                         break;
                 }
-                
+
                 ttProviderSystem.System = credentials.System;
                 ttProviderSystem.Provider = provider.Provider.Name;
                 ttProviderSystem.UserID = credentials.UserID;
@@ -132,7 +132,7 @@ namespace TripXMLTools
                 ttProviderSystem.GReqID = Requestor;
                 ttProviderSystem.AggFilter = true;
                 ttProviderSystem.FareMessage = "VP";
-                ttProviderSystem.URL = provider.Provider.System.URL; 
+                ttProviderSystem.URL = provider.Provider.System.URL;
                 ttProviderSystem.SOAP4URL = provider.Provider.System.SOAP4Url;
                 ttProviderSystem.ProxyURL = "";
                 ttProviderSystem.BLFile = "";
@@ -152,11 +152,23 @@ namespace TripXMLTools
             switch (type)
             {
                 case DecodingType.Airline:
-                    return DecodingTables.Airline.FirstOrDefault(c => c.Code == code)?.Name;
+                    return DecodingTables.Airlines.FirstOrDefault(c => c.Code == code)?.Name;
                 case DecodingType.Airport:
-                    return DecodingTables.Airport.FirstOrDefault(c => c.Code == code)?.Name;
+                    return DecodingTables.Airports.FirstOrDefault(c => c.Code == code)?.Name;
                 case DecodingType.Equipment:
-                    return DecodingTables.Equipment.FirstOrDefault(c => c.Code == code)?.Name;
+                    return DecodingTables.Equipments.FirstOrDefault(c => c.Code == code)?.Name;
+                case DecodingType.CreditCard:
+                    return DecodingTables.Creditcards.FirstOrDefault(c => c.Code == code)?.Name;
+                case DecodingType.Hotel:
+                    return DecodingTables.Hotels.FirstOrDefault(c => c.Code == code)?.Name;
+                case DecodingType.HotelAmenity:
+                    return DecodingTables.Hotelamenity.FirstOrDefault(c => c.Code == code)?.Name;
+                case DecodingType.HotelArea:
+                    return DecodingTables.Hotelarea.FirstOrDefault(c => c.Code == code)?.Name;
+                case DecodingType.HotelRoom:
+                    return DecodingTables.Hotelrooms.FirstOrDefault(c => c.Code == code)?.Name;
+                case DecodingType.HotelSubtitle:
+                    return DecodingTables.Hotelsubtitle.FirstOrDefault(c => c.Code == code)?.Name;
                 default:
                     return string.Empty;
             }
@@ -195,18 +207,34 @@ namespace TripXMLTools
         }
         public class Decoding
         {
-            public List<Airline> Airline { get; set; }
-            public List<Airport> Airport { get; set; }
-            public List<City> City { get; set; }
-            public List<Equipment> Equipment { get; set; }
+            public List<Airline> Airlines { get; set; }
+            public List<Airport> Airports { get; set; }
+            public List<City> Cities { get; set; }
+            public List<Equipment> Equipments { get; set; }
+            public List<Creditcard> Creditcards { get; set; }
+            public List<Hotelamenity> Hotelamenity { get; set; }
+            public List<Hotelarea> Hotelarea { get; set; }
+            public List<Hotelroom> Hotelrooms { get; set; }
+            public List<Hotelsubtitle> Hotelsubtitle { get; set; }
+            public List<Hotel> Hotels { get; set; }
         }
-        public class Airline : DecodingBase { }
+        public class Airline : DecodingBase
+        {
+            public string ICAO { get; set; }
+        }
         public class Airport : DecodingBase { }
         public class City
         {
             public string CityAirport { get; set; }
         }
         public class Equipment : DecodingBase { }
+        public class Creditcard : DecodingBase { }
+        public class Hotelamenity : DecodingBase { }
+        public class Hotelarea : DecodingBase { }
+        public class Hotelroom : DecodingBase { }
+        public class Hotelsubtitle : DecodingBase {}
+        public class Hotel : DecodingBase { }
+
         public abstract class DecodingBase
         {
             public string Code { get; set; }
@@ -214,6 +242,7 @@ namespace TripXMLTools
         }
     }
 }
+
 
 
 
