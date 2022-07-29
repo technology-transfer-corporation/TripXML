@@ -154,9 +154,12 @@ namespace Travelport
                 XmlDocument oReqDoc = new XmlDocument();
                  oReqDoc.LoadXml(Request);
                 XmlElement oRoot = oReqDoc.DocumentElement;
-                
+
                 if (!string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText))
-                    branch = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
+                { 
+                    pcc = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
+                    branch = ProviderSystems.Profile;
+                }
 
                 if (oRoot.HasAttribute("Target"))
                 {

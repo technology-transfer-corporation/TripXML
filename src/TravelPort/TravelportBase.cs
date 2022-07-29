@@ -15,6 +15,7 @@ namespace Travelport
         private string mstrXslPath = "";
         public string host = "1G";
         public string branch = string.Empty;
+        public string pcc = string.Empty;
 
         public string ConversationID { get; set; }
 
@@ -64,7 +65,7 @@ namespace Travelport
             CoreLib.SendTrace(userID, "ttGalileoService", "Record Locator", recordLocator, string.Empty);
             return recordLocator;
         }
-
+        
         protected string FormatTravelport(string strDisplay, string id = "")
         {
             string display = "";
