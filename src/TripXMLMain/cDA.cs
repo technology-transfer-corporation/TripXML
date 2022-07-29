@@ -1071,7 +1071,7 @@ namespace TripXMLMain
             string PCC = Provider.PCC;
             try
             {
-                string strSQL = "SELECT * FROM tblPCCBlocks where PCC like '" + PCC + "%' and UserID='" + Provider.UserID + "'";
+                string strSQL = $"SELECT * FROM tblPCCBlocks where PCC like '{PCC}%' and UserID='{Provider.UserID}'";
                 oCommand.CommandText = strSQL;
                 oCommand.Connection = moConn;
                 reader = oCommand.ExecuteReader();
