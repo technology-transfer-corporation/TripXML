@@ -95,10 +95,10 @@ Namespace wsTravelTalk
                             ' *******************
                             If Not oNode.SelectSingleNode("DepartureAirport") Is Nothing Then
                                 'oNode.SelectSingleNode("DepartureAirport").InnerText = DecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
-                                oNode.SelectSingleNode("DepartureAirport").InnerText = DecodeValue(oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value, DecodingType.Airport)
+                                oNode.SelectSingleNode("DepartureAirport").InnerText = DecodeValue(DecodingType.Airport, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
                             End If
                             If Not oNode.SelectSingleNode("ArrivalAirport") Is Nothing Then
-                                oNode.SelectSingleNode("ArrivalAirport").InnerText = DecodeValue(oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value, DecodingType.Airport)
+                                oNode.SelectSingleNode("ArrivalAirport").InnerText = DecodeValue(DecodingType.Airport, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
                             End If
 
                             ' *******************
