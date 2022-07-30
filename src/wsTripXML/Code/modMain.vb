@@ -77,12 +77,6 @@ Namespace wsTravelTalk
             Dim sb As StringBuilder = New StringBuilder()
 
             Try
-                'If isDefault Then
-                '    ttCredential = GetTravelTalkDefaultCredential(strRequest, ttServiceID)
-                'Else
-                '    ttCredential = GetTravelTalkCredential(strRequest, ttServiceID)
-                'End If
-
                 ttCredential = TripXMLTools.TripXMLLoad.GetTravelTalkCredential(strRequest, ttServiceID)
 
                 oDoc = oApp.Get("ttACL")
@@ -2886,33 +2880,24 @@ Namespace wsTravelTalk
             Dim oDocPrv As XmlDocument
             Dim oRootPrv As XmlElement
             Dim oNodePrv As XmlNode
-            Dim provider As String = ""
-            Dim reqID() As String = Nothing
-            Dim arUsers() As String = Nothing
-            Dim arFiles() As String = Nothing
-            Dim blFiles() As String = Nothing
-            Dim arPass() As String = Nothing
             Dim i As Integer
             Dim j As Integer
             Dim key As String
-            Dim ttProviderSystems As TripXMLProviderSystems = Nothing
             Dim validateXSDIn As Boolean
             Dim validateXSDOut As Boolean
-            Dim bAggFilter() As Boolean = Nothing
             Dim sb As StringBuilder = New StringBuilder()
 
             Try
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
 
-                oApplication.Clear()
-
-                GC.Collect()
+                Dim start = DateTime.Now
 
                 TripXMLTools.TripXMLLoad.TripXMLLoadObject()
                 TripXMLTools.TripXMLLoad.GetDecodingTables()
 
-                'LoadEncodingTables(oApplication, strPath)
-                'LoadCruiseTables(oApplication, strPath)
+                Dim loadTime = DateTime.Now - start
+
+                CoreLib.SendTrace("", "TripXMLLoad", $"TripXML was loaded in {String.Format("{0:0.##}", loadTime.TotalSeconds)} seconds", "", "")
 
                 Trace = True   ' TODO Remove this line once TravelTalkUserSettings is working.
 
