@@ -1002,6 +1002,7 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="wsTripXML.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App_Data\Admin\wsImportLog.asmx.resx" />
