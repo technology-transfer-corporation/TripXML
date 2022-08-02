@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:stl="http://services.sabre.com/STL/v01"
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:ext="http://exslt.org/common" exclude-result-prefixes="ext">
-<!-- 
+	<!-- 
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
@@ -1122,6 +1122,29 @@
 									<xsl:choose>
 										<xsl:when test="PaymentInfo/Payment/CC_Info">
 											<PaymentCard>
+
+												<xsl:variable name="card">
+													<xsl:choose>
+														<xsl:when test="contains(PaymentInfo/Payment/CC_Info/PaymentCard/@Number, 'XXXX')">
+
+															<xsl:variable name="cardID" select="substring(translate(PaymentInfo/Payment/CC_Info/PaymentCard/@Number, 'X',''), 2)">
+															</xsl:variable>
+															<xsl:choose>
+																<xsl:when test="../../PNR_HDK_FOP[contains(text(), $cardID)]">
+																	<xsl:variable name="hFOP" select="../../PNR_HDK_FOP[contains(text(), $cardID)]"  />
+																	<xsl:value-of select="concat('*', $hFOP/@CCType, $hFOP/text(),'?', substring($hFOP/@Exp,1,2), '/', substring($hFOP/@Exp,3,2))"/>
+																</xsl:when>
+																<xsl:otherwise>
+																	<xsl:value-of select="PaymentInfo/Payment/CC_Info/PaymentCard/@Number"/>
+																</xsl:otherwise>
+															</xsl:choose>
+														</xsl:when>
+														<xsl:otherwise>
+															<xsl:value-of select="PaymentInfo/Payment/CC_Info/PaymentCard/@Number"/>
+														</xsl:otherwise>
+													</xsl:choose>
+												</xsl:variable>
+
 												<xsl:attribute name="CardCode">
 													<xsl:choose>
 														<xsl:when test="PaymentInfo/Payment/CC_Info/PaymentCard/@Code='CA'">MC</xsl:when>
@@ -1131,9 +1154,11 @@
 														</xsl:otherwise>
 													</xsl:choose>
 												</xsl:attribute>
+												
 												<xsl:attribute name="CardNumber">
-													<xsl:value-of select="PaymentInfo/Payment/CC_Info/PaymentCard/@Number"/>
+													<xsl:value-of select="$card"/>
 												</xsl:attribute>
+											
 											</PaymentCard>
 										</xsl:when>
 										<xsl:otherwise>
@@ -4883,18 +4908,26 @@
 							
 							<xsl:variable name="card">
 								<xsl:choose>
-									<xsl:when test="../../../../../PNR_HDK_FOP">
-										<xsl:variable name="hFOP" select="../../../../../PNR_HDK_FOP"  />
-										<xsl:value-of select="concat('*', $hFOP/@CCType, $hFOP/text(),'?', substring($hFOP/@Exp,1,2), '/', substring($hFOP/@Exp,3,2))"/>
+									<xsl:when test="contains(Text, 'XXXX')">
+
+										<xsl:variable name="cardID" select="substring(translate(substring-before(Text, '?'), 'X',''), string-length(translate(substring-before(Text, '?'), 'X','')) - 3)">
+										</xsl:variable>
+										<xsl:choose>
+											<xsl:when test="../../../../../PNR_HDK_FOP[contains(text(), $cardID)]">
+												<xsl:variable name="hFOP" select="../../../../../PNR_HDK_FOP[contains(text(), $cardID)]"  />
+												<xsl:value-of select="concat('*', $hFOP/@CCType, $hFOP/text(),'?', substring($hFOP/@Exp,1,2), '/', substring($hFOP/@Exp,3,2))"/>
+											</xsl:when>
+											<xsl:otherwise>
+												<xsl:value-of select="Text"/>
+											</xsl:otherwise>
+										</xsl:choose>
 									</xsl:when>
 									<xsl:otherwise>
 										<xsl:value-of select="Text"/>
 									</xsl:otherwise>
 								</xsl:choose>
-								
-							</xsl:variable>
-							
-							
+							</xsl:variable>		
+
 							<PaymentCard>
 								<xsl:attribute name="CardCode">
 									<xsl:choose>
