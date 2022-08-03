@@ -97,7 +97,7 @@ namespace Sabre
                         strResponse = strResponse.Replace(tagToReplace, $"{strFaretype}{pricerq}{strFareDetails}<TimeStamp>{DateTime.Now.ToString("yyyy-MM-dd")}</TimeStamp>{dqbResponse}{tagToReplace}");
 
                         #region *H
-                        string strFOP = string.Empty;
+                        List<string> lstFOP = new List<string>();
                         string strDisplayHI = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>*H</HostCommand></Request></SabreCommandLLSRQ>";
                         CoreLib.SendTrace(ProviderSystems.UserID, "SabreCommand", "HDK", "", ProviderSystems.LogUUID);
                         string strHI = ttSA.SendMessage(strDisplayHI, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
@@ -120,8 +120,17 @@ namespace Sabre
                                 isGood = Regex.IsMatch(strline, @"(A[0-9]{1}F\s)|(AFP\s)");
                                 if (isGood)
                                 {
+                                    if (strline.Length < 20)
+                                    {
+                                        var index = lstLines.IndexOf(line);
+                                        strline += lstLines[index + 1];
+                                    }
                                     var fopElems = SetFOP(strline);
-                                    strFOP = $"<PNR_HDK_FOP CCType=\"{fopElems.CCType}\" Exp=\"{fopElems.Exp}\">{fopElems.CCNumber}</PNR_HDK_FOP>";
+                                    var isCanced = lstLines.Exists(l => l.StartsWith($"XFP  *{fopElems.CCType}{fopElems.CCNumber}"));
+                                    var histLine = $"<PNR_HDK_FOP CCType=\"{fopElems.CCType}\" Exp=\"{fopElems.Exp}\" Active=\"{!isCanced}\">{fopElems.CCNumber}</PNR_HDK_FOP>";
+                                    
+                                    if(!lstFOP.Exists(l=> l.Equals(histLine)))
+                                        lstFOP.Add(histLine);
                                 }
                             }
 
@@ -137,9 +146,9 @@ namespace Sabre
                         }
 
                         sbH.Append("</PNR_HDK>");
-                        if (!string.IsNullOrEmpty(strFOP))
+                        if (lstFOP.Count > 0)
                         {
-                            sbH.Append(strFOP);
+                            sbH.Append(string.Join("\r\n",lstFOP));
                         }
                         strResponse = strResponse.Replace(tagToReplace, $"{sbH}{tagToReplace}");
                         #endregion
