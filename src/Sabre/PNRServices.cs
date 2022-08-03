@@ -120,13 +120,16 @@ namespace Sabre
                                 isGood = Regex.IsMatch(strline, @"(A[0-9]{1}F\s)|(AFP\s)");
                                 if (isGood)
                                 {
-                                    if (strline.Length < 20)
+                                    if (!strline.Contains("CHECK") && !strline.Contains("CASH"))
                                     {
-                                        var index = lstLines.IndexOf(line);
-                                        strline += lstLines[index + 1];
+                                        if (strline.Length < 20)
+                                        {
+                                            var index = lstLines.IndexOf(line);
+                                            strline += lstLines[index + 1];
+                                        }                                        
                                     }
                                     var fopElems = SetFOP(strline);
-                                    var isCanced = lstLines.Exists(l => l.StartsWith($"XFP  *{fopElems.CCType}{fopElems.CCNumber}"));
+                                    var isCanced = lstLines.Exists(l => l.StartsWith(strline.Contains("CHECK") ? $"XFP  {fopElems.CCNumber}" : $"XFP  *{fopElems.CCType}{fopElems.CCNumber}"));
                                     var histLine = $"<PNR_HDK_FOP CCType=\"{fopElems.CCType}\" Exp=\"{fopElems.Exp}\" Active=\"{!isCanced}\">{fopElems.CCNumber}</PNR_HDK_FOP>";
                                     
                                     if(!lstFOP.Exists(l=> l.Equals(histLine)))
@@ -219,12 +222,15 @@ namespace Sabre
             {
                 //AFP  *VI4482330035908250/0123
                 //A5F  -*VI4147202552404582\u008707/27
+                //AFP  CHECK
                 if (strline.Contains("\u0087"))
                     strline = strline.Replace("/", "").Replace("\u0087","/").Replace("-", "");
 
                 var elems = strline.Split(new[] { " ", "*", "/" }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 
-                return (AFP:strline, CCType:elems[1].Substring(0,2), CCNumber:elems[1].Substring(2), Exp:elems.Last());
+                return strline.Contains("CHECK") || strline.Contains("CASH")
+                    ? (AFP: strline, CCType: elems[1].Substring(0, 2), CCNumber: elems[1], Exp: "")
+                    : (AFP:strline, CCType:elems[1].Substring(0,2), CCNumber:elems[1].Substring(2), Exp:elems.Last());
             }
             catch (Exception ex)
             {
