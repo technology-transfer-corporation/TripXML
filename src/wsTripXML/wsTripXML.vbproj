@@ -66,8 +66,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoTicket.Domain, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoTicket.Domain.1.0.32\lib\net472\AutoTicket.Domain.dll</HintPath>
+    <Reference Include="AutoTicket.Domain, Version=1.0.34.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoTicket.Domain.1.0.34\lib\net472\AutoTicket.Domain.dll</HintPath>
     </Reference>
     <Reference Include="AutoTicket.Infrastructure, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoTicket.Infrastructure.1.0.8\lib\net472\AutoTicket.Infrastructure.dll</HintPath>
@@ -107,7 +107,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PaymentServices, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PaymentServices.1.0.15\lib\net48\PaymentServices.dll</HintPath>
+      <HintPath>..\packages\PaymentServices.1.0.16\lib\net48\PaymentServices.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.15.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.15.0\lib\net452\RestSharp.dll</HintPath>
@@ -215,7 +215,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="TripXML.Core, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TripXML.Core.1.0.6\lib\net48\TripXML.Core.dll</HintPath>
+      <HintPath>..\packages\TripXML.Core.1.0.7\lib\net48\TripXML.Core.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
