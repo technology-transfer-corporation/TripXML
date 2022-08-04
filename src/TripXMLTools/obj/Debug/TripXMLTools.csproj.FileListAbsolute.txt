@@ -1,8 +1,0 @@
-D:\WORK\DTT\GIT\TripXML\TripXMLTools\bin\Debug\TripXMLTools.dll.config
-D:\WORK\DTT\GIT\TripXML\TripXMLTools\bin\Debug\TripXMLTools.dll
-D:\WORK\DTT\GIT\TripXML\TripXMLTools\bin\Debug\TripXMLTools.pdb
-D:\WORK\DTT\GIT\TripXML\TripXMLTools\bin\Debug\Newtonsoft.Json.dll
-D:\WORK\DTT\GIT\TripXML\TripXMLTools\obj\Debug\TripXMLTools.csproj.CoreCompileInputs.cache
-D:\WORK\DTT\GIT\TripXML\TripXMLTools\obj\Debug\TripXMLTools.csproj.CopyComplete
-D:\WORK\DTT\GIT\TripXML\TripXMLTools\obj\Debug\TripXMLTools.dll
-D:\WORK\DTT\GIT\TripXML\TripXMLTools\obj\Debug\TripXMLTools.pdb

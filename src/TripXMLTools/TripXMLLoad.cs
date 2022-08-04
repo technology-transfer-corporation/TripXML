@@ -34,7 +34,7 @@ namespace TripXMLTools
             var request = new RestRequest("tripxmlload");
             request.AddJsonBody(rqObject);
 
-            var response = _restClient.Post(request);
+            var response = _restClient.AddDefaultHeader("x-hasura-admin-secret", WebConfigurationManager.AppSettings["HasuraKey"]).Post(request);
             if (response.ErrorMessage != null)
                 throw new Exception(response.ErrorMessage);
 
@@ -56,7 +56,7 @@ namespace TripXMLTools
                 var client = _restClient;
                 var request = new RestRequest("decoding");
 
-                var response = client.Get<Decoding>(request);
+                var response = client.AddDefaultHeader("x-hasura-admin-secret", WebConfigurationManager.AppSettings["HasuraKey"]).Get<Decoding>(request);
                 if (response.ErrorMessage != null)
                     throw new Exception(response.ErrorMessage);
 
