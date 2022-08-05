@@ -6,6 +6,9 @@ Imports System.Threading
 Imports System.Net
 Imports TripXMLMain.modCore
 Imports PaymentServices
+Imports System.Text
+Imports System.Web
+Imports System.Data
 
 Namespace wsTravelTalk
 
