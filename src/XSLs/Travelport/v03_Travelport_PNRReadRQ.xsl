@@ -20,7 +20,7 @@
                                         xmlns:passive="http://www.travelport.com/schema/passive_v50_0" 
                                         xmlns:rail="http://www.travelport.com/schema/rail_v50_0" 
                                         xmlns:vehicle="http://www.travelport.com/schema/vehicle_v50_0" 
-                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_ReadRQ/POS/Source/@PseudoCityCode}">
+                                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_ReadRQ/POS/Source/RequestorID/@Instance}">
 							<common:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 							<ProviderReservationInfo>
 								<xsl:attribute name="ProviderCode">
@@ -57,7 +57,7 @@
                                       xmlns:passive="http://www.travelport.com/schema/passive_v50_0" 
                                       xmlns:rail="http://www.travelport.com/schema/rail_v50_0" 
                                       xmlns:vehicle="http://www.travelport.com/schema/vehicle_v50_0" 
-                                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_ReadRQ/POS/Source/@PseudoCityCode}" ProviderLocatorCode="{OTA_ReadRQ/UniqueID/@ID}">
+                                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_ReadRQ/POS/Source/RequestorID/@Instance}" ProviderLocatorCode="{OTA_ReadRQ/UniqueID/@ID}">
 							<xsl:attribute name="ProviderCode">
 								<xsl:choose>
 									<xsl:when test="OTA_ReadRQ/@Target='WSP'">
@@ -80,7 +80,7 @@
                                       xmlns:passive="http://www.travelport.com/schema/passive_v50_0" 
                                       xmlns:rail="http://www.travelport.com/schema/rail_v50_0" 
                                       xmlns:vehicle="http://www.travelport.com/schema/vehicle_v50_0" 
-                                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_ReadRQ/POS/Source/@PseudoCityCode}" ProviderLocatorCode="{OTA_ReadRQ/UniqueID/@ID}">
+                                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_ReadRQ/POS/Source/RequestorID/@Instance}" ProviderLocatorCode="{OTA_ReadRQ/UniqueID/@ID}">
 							<xsl:attribute name="ProviderCode">
 								<xsl:choose>
 									<xsl:when test="OTA_ReadRQ/@Target='WSP'">
@@ -105,7 +105,7 @@
 									xmlns:passive="http://www.travelport.com/schema/passive_v50_0" 
                                     xmlns:rail="http://www.travelport.com/schema/rail_v50_0" 
                                     xmlns:vehicle="http://www.travelport.com/schema/vehicle_v50_0" 
-                                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_UpdateRQ/POS/Source/@PseudoCityCode}">
+                                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_UpdateRQ/POS/Source/RequestorID/@Instance}">
 					<common:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 					<UniversalRecordLocatorCode>
 						<xsl:value-of select="OTA_UpdateRQ/UniqueID/@ID"/>
@@ -120,7 +120,7 @@
                                     xmlns:passive="http://www.travelport.com/schema/passive_v50_0" 
                                     xmlns:rail="http://www.travelport.com/schema/rail_v50_0" 
                                     xmlns:vehicle="http://www.travelport.com/schema/vehicle_v50_0" 
-                                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_TravelModifyRQ/POS/Source/@PseudoCityCode}">
+                                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{OTA_TravelModifyRQ/POS/Source/RequestorID/@Instance}">
 					<common:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 					<UniversalRecordLocatorCode>
 						<xsl:value-of select="OTA_TravelModifyRQ/UniqueID/@ID"/>
