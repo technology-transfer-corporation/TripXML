@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 09 Aug 2022 - Kobelev - Better Pax Birthday handler.
    Date: 19 Jul 2022 - Kobelev - Error node for failed FOP change.
    Date: 29 Jun 2022 - Kobelev - FareBasis Codes were getting cut off for CHD and INF.
    Date: 03 Jun 2022 - Kobelev - Birth Date of passanger from SSR DOCS.
@@ -1667,8 +1668,20 @@
 
 		<xsl:variable name="dob">
 			<xsl:for-each select="msxsl:node-set($elems)/elem/node()[1]">
+									
 				<xsl:if test="string-length(.) = 7">
-					<xsl:value-of select="."/>
+					<xsl:variable name="nNum">
+						<xsl:call-template name="month">
+							<xsl:with-param name="month">
+								<xsl:value-of select="substring(.,3,3)"/>
+							</xsl:with-param>
+						</xsl:call-template>
+					</xsl:variable>
+					
+					<xsl:if test="$nNum != ''">
+						<xsl:value-of select="."/>
+					</xsl:if>
+					
 				</xsl:if>
 			</xsl:for-each>
 		</xsl:variable>
@@ -6079,6 +6092,7 @@
 			<xsl:when test="$month = 'OCT'">10</xsl:when>
 			<xsl:when test="$month = 'NOV'">11</xsl:when>
 			<xsl:when test="$month = 'DEC'">12</xsl:when>
+			<xsl:otherwise></xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
 
