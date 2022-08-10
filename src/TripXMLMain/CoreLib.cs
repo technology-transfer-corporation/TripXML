@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.IO.Compression;
 using System.Net.Mail;
 using System.Net.Sockets;
 using System.Text;
@@ -71,6 +72,7 @@ namespace TripXMLMain
                 strItem = strItem.Replace("<?xml version=\"1.0\"   encoding=\"ISO-8859-1\"  standalone=\"yes\" ?>", "");
                 strItem = strItem.Replace("xmlns = \"\"", "");
                 udpClient.Connect("localhost", 3070);
+                
                 byte[] sendBytes;
                 if (userID is object)
                 {
@@ -82,7 +84,7 @@ namespace TripXMLMain
 
                 sb.Append("<").Append(strFile).Append("><Text>").Append(strText).Append("</Text><UUID>").Append(strUUID).Append("</UUID><Item>").Append(strItem).Append("</Item><UserID>").Append(userID).Append("</UserID></").Append(strFile).Append(">");
                 sendBytes = Encoding.ASCII.GetBytes(sb.ToString());
-                udpClient.Send(sendBytes, sendBytes.Length);
+                udpClient.Send(Compress(sendBytes), sendBytes.Length);
                 udpClient.Close();
             }
             catch (Exception)
@@ -91,6 +93,17 @@ namespace TripXMLMain
                 {
                     udpClient.Close();
                 }
+            }
+        }
+
+        static byte[] Compress(byte[] data)
+        {
+            using (var compressedStream = new MemoryStream())
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
+            {
+                zipStream.Write(data, 0, data.Length);
+                zipStream.Close();
+                return compressedStream.ToArray();
             }
         }
 
