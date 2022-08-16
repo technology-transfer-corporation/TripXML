@@ -126,13 +126,13 @@ namespace Sabre
                                         {
                                             var index = lstLines.IndexOf(line);
                                             strline += lstLines[index + 1];
-                                        }                                        
+                                        }
                                     }
                                     var fopElems = SetFOP(strline);
                                     var isCanced = lstLines.Exists(l => l.StartsWith(strline.Contains("CHECK") ? $"XFP  {fopElems.CCNumber}" : $"XFP  *{fopElems.CCType}{fopElems.CCNumber}"));
                                     var histLine = $"<PNR_HDK_FOP CCType=\"{fopElems.CCType}\" Exp=\"{fopElems.Exp}\" Active=\"{!isCanced}\">{fopElems.CCNumber}</PNR_HDK_FOP>";
-                                    
-                                    if(!lstFOP.Exists(l=> l.Equals(histLine)))
+
+                                    if (!lstFOP.Exists(l => l.Equals(histLine)))
                                         lstFOP.Add(histLine);
                                 }
                             }
@@ -151,7 +151,7 @@ namespace Sabre
                         sbH.Append("</PNR_HDK>");
                         if (lstFOP.Count > 0)
                         {
-                            sbH.Append(string.Join("\r\n",lstFOP));
+                            sbH.Append(string.Join("\r\n", lstFOP));
                         }
                         strResponse = strResponse.Replace(tagToReplace, $"{sbH}{tagToReplace}");
                         #endregion
@@ -224,13 +224,13 @@ namespace Sabre
                 //A5F  -*VI4147202552404582\u008707/27
                 //AFP  CHECK
                 if (strline.Contains("\u0087"))
-                    strline = strline.Replace("/", "").Replace("\u0087","/").Replace("-", "");
+                    strline = strline.Replace("/", "").Replace("\u0087", "/").Replace("-", "");
 
                 var elems = strline.Split(new[] { " ", "*", "/" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                
+
                 return strline.Contains("CHECK") || strline.Contains("CASH")
                     ? (AFP: strline, CCType: elems[1].Substring(0, 2), CCNumber: elems[1], Exp: "")
-                    : (AFP:strline, CCType:elems[1].Substring(0,2), CCNumber:elems[1].Substring(2), Exp:elems.Last());
+                    : (AFP: strline, CCType: elems[1].Substring(0, 2), CCNumber: elems[1].Substring(2), Exp: elems.Last());
             }
             catch (Exception ex)
             {
@@ -610,6 +610,17 @@ namespace Sabre
                     var oDocResp = new XmlDocument();
                     oDocResp.LoadXml(strReadResp);
                     var oRootResp = oDocResp.DocumentElement;
+
+                    var validatingCarrier = string.Empty;
+                    if (oRootResp.SelectSingleNode("TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote[MiscInformation/SignatureLine/@Status='ACTIVE']") != null)
+                    {
+                        var arlns = oRootResp.SelectNodes("TravelItinerary/ItineraryInfo/ReservationItems/Item/FlightSegment/MarketingAirline").Cast<XmlNode>().ToList().Select(x => x.Attributes["Code"].Value).ToList();
+                        if (arlns.Any() && !arlns.TrueForAll(a => a.Equals(arlns.First())))
+                        {
+                            validatingCarrier = oRootResp.SelectSingleNode("TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote[MiscInformation/SignatureLine/@Status='ACTIVE']/PricedItinerary/@ValidatingCarrier").InnerText;
+                        }
+                    }
+
                     if (oRootResp.SelectSingleNode("TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote") is null)
                     {
                         strRepriceResp = "<Error>No stored fare exist in PNR</Error>";
@@ -652,6 +663,10 @@ namespace Sabre
                                 string strPassengers = GetPassangerInfo(strPQS, strPQ);
 
                                 strRepriceReq = strRepriceReq.Replace("<NameSelect>NS</NameSelect>", strPassengers);
+
+                                if (!string.IsNullOrEmpty(validatingCarrier))
+                                    strRepriceReq = AddValidatingCarrier(strRepriceReq, validatingCarrier);
+
                                 strRepriceResp += ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                                 if (strRepriceResp.Contains("NO COMBINABLE FARES FOR CLASS USED") || strRepriceResp.Contains("NEED MORE PSGR TYPES OR NAME SELECT") || strRepriceResp.Contains("USE INF PSGR TYPE CODE FOR I"))
                                     break;
@@ -675,6 +690,10 @@ namespace Sabre
 
                             string strPassengers = GetPassangerInfo(strPQS, strPQ);
                             strPrice = strPrice.Replace("<NameSelect>NS</NameSelect>", strPassengers);
+
+                            if (!string.IsNullOrEmpty(validatingCarrier))
+                                strPrice = AddValidatingCarrier(strPrice, validatingCarrier);
+
                             strRepriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                         }
 
@@ -756,6 +775,9 @@ namespace Sabre
                                     CoreLib.SendTrace(ProviderSystems.UserID, "strRepriceReq", "strRepriceReq", strRepriceReq, ProviderSystems.LogUUID);
                                 }
 
+                                if (!string.IsNullOrEmpty(validatingCarrier))
+                                    strRepriceReq = AddValidatingCarrier(strRepriceReq, validatingCarrier);
+
                                 strRepriceResp += ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                                 if (strRepriceResp.Contains("Error"))
                                 {
@@ -798,20 +820,33 @@ namespace Sabre
                                     string strPassengers = GetPassangerInfo(strPQS, strPQ);
 
                                     strRepriceReq = strRepriceReq.Replace("<NameSelect>NS</NameSelect>", strPassengers);
+
+                                    if (!string.IsNullOrEmpty(validatingCarrier))
+                                        strRepriceReq = AddValidatingCarrier(strRepriceReq, validatingCarrier);
+
                                     strRepriceResp += ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                                 }
                             }
                             else
                             {
                                 strPrice = strPrice.Replace("<NameSelect>NS</NameSelect>", "").Replace("<Price>", "").Replace("</Price>", "");
+
+                                if (!string.IsNullOrEmpty(validatingCarrier))
+                                    strPrice = AddValidatingCarrier(strPrice, validatingCarrier);
+
                                 strRepriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                             }
                         }
+                        { }
                     }
 
                     if (strRepriceResp.Contains("NO COMBINABLE FARES FOR CLASS USED") || strRepriceResp.Contains("NEED MORE PSGR TYPES OR NAME SELECT") || strRepriceResp.Contains("USE INF PSGR TYPE CODE FOR I"))
                     {
                         strPriceCombined = strPriceCombined.Replace("<NameSelect>NS</NameSelect>", strPaxCombined);
+
+                        if (!string.IsNullOrEmpty(validatingCarrier))
+                            strPriceCombined = AddValidatingCarrier(strPriceCombined, validatingCarrier);
+
                         strRepriceResp = ttSA.SendMessage(strPriceCombined, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                         strRepriceResp = strRepriceResp.Replace("<OTA_AirPriceRS Version=\"2.17.0\">", "").Replace("</OTA_AirPriceRS>", "");
                     }
@@ -886,6 +921,22 @@ namespace Sabre
             }
 
             return strResponse;
+        }
+
+        private static string AddValidatingCarrier(string strRepriceReq, string valAL)
+        {
+            var oDocPriceRQ = new XmlDocument();
+            oDocPriceRQ.LoadXml(strRepriceReq);
+            var nsmgrRQ = new XmlNamespaceManager(oDocPriceRQ.NameTable);
+            nsmgrRQ.AddNamespace("xs", "http://webservices.sabre.com/sabreXML/2011/10");
+            var optQualifiersNode = oDocPriceRQ.DocumentElement.SelectSingleNode("//xs:OptionalQualifiers", nsmgrRQ);
+            var alNode = oDocPriceRQ.CreateElement("FlightQualifiers", "http://webservices.sabre.com/sabreXML/2011/10");
+            alNode.AppendChild(oDocPriceRQ.CreateElement("VendorPrefs", "http://webservices.sabre.com/sabreXML/2011/10"));
+            alNode.FirstChild.AppendChild(oDocPriceRQ.CreateElement("Airline", "http://webservices.sabre.com/sabreXML/2011/10"));
+            ((XmlElement)alNode.SelectSingleNode("//xs:Airline", nsmgrRQ)).SetAttribute("Code", valAL);
+            optQualifiersNode.InsertBefore(alNode, optQualifiersNode.FirstChild);
+            strRepriceReq = oDocPriceRQ.OuterXml;
+            return strRepriceReq;
         }
 
         public string Queue()
