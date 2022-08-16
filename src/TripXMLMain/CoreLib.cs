@@ -5,11 +5,12 @@ using System.Net.Mail;
 using System.Net.Sockets;
 using System.Text;
 using System.Xml;
+using TripXMLMain.Classes;
 
 namespace TripXMLMain
 {
     public class CoreLib
-    {
+    {      
 
         #region  Transform XML with XSLs 
 
@@ -71,28 +72,30 @@ namespace TripXMLMain
                 strItem = strItem.Replace("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"  standalone=\"yes\"?>", "");
                 strItem = strItem.Replace("<?xml version=\"1.0\"   encoding=\"ISO-8859-1\"  standalone=\"yes\" ?>", "");
                 strItem = strItem.Replace("xmlns = \"\"", "");
-                udpClient.Connect("localhost", 3070);
                 
+                udpClient.Connect("localhost", 3070);                
                 byte[] sendBytes;
-                if (userID is object)
-                {
-                }
-                else
-                {
+                if (userID == null) 
+                { 
                     userID = "";
                 }
 
                 sb.Append("<").Append(strFile).Append("><Text>").Append(strText).Append("</Text><UUID>").Append(strUUID).Append("</UUID><Item>").Append(strItem).Append("</Item><UserID>").Append(userID).Append("</UserID></").Append(strFile).Append(">");
                 sendBytes = Encoding.ASCII.GetBytes(sb.ToString());
-                udpClient.Send(Compress(sendBytes), sendBytes.Length);
+
+                //var gZIPed = Compress(sendBytes);
+                //udpClient.Send(gZIPed, gZIPed.Length);
+                udpClient.Send(sendBytes, sendBytes.Length);
                 udpClient.Close();
+
+                //RabbitMQProducer.SendMessage(sb.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                if (udpClient is object)
-                {
-                    udpClient.Close();
-                }
+                Console.WriteLine(ex.Message);
+
+                if (udpClient is object)                
+                    udpClient.Close();                
             }
         }
 

@@ -417,7 +417,6 @@
     <Reference Include="AmadeusWS_QueueRS">
       <HintPath>Xsl\AmadeusWS\AmadeusWS_QueueRS.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Galileo_AirAvailRQ">
       <HintPath>Xsl\Galileo\Galileo_AirAvailRQ.dll</HintPath>
     </Reference>
@@ -953,6 +952,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cDA.cs" />
+    <Compile Include="Classes\Producer.cs" />
     <Compile Include="CoreLib.cs" />
     <Compile Include="modCore.cs" />
   </ItemGroup>
