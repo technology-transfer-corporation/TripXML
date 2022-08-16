@@ -56,8 +56,8 @@ Namespace wsTravelTalk.wmPNRRepriceIn
 
         '<remarks/>
         <System.Xml.Serialization.XmlAttributeAttribute(),
-         System.ComponentModel.DefaultValueAttribute(OTA_ReadRQTarget.Production)>
-        Public Target As OTA_ReadRQTarget = OTA_ReadRQTarget.Production
+         System.ComponentModel.DefaultValueAttribute(Target.Production)>
+        Public Target As Target = Target.Production
 
         '<remarks/>
         <System.Xml.Serialization.XmlAttributeAttribute()>
@@ -81,7 +81,7 @@ Namespace wsTravelTalk.wmPNRRepriceIn
 
         '<remarks/>
         <System.Xml.Serialization.XmlAttributeAttribute()>
-        Public TransactionStatusCode As OTA_ReadRQTransactionStatusCode
+        Public TransactionStatusCode As TransactionStatusCode
 
         '<remarks/>
         <System.Xml.Serialization.XmlIgnoreAttribute()>
@@ -557,17 +557,26 @@ Namespace wsTravelTalk.wmPNRRepriceIn
     End Class
 
     '<remarks/>
-    Public Enum OTA_ReadRQTarget
+    Public Enum Target
 
         '<remarks/>
         Test
 
         '<remarks/>
         Production
+
+        '<remarks/>
+        WSP
+
+        '<remarks/>
+        GAL
+
+        '<remarks/>
+        APL
     End Enum
 
     '<remarks/>
-    Public Enum OTA_ReadRQTransactionStatusCode
+    Public Enum TransactionStatusCode
 
         '<remarks/>
         Start

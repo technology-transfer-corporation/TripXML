@@ -1745,6 +1745,9 @@ Namespace wsTravelTalk.wmPNRReadIn
         '<remarks/>
         GAL
 
+        '<remarks/>
+        APL
+
     End Enum
 
     '<remarks/>
