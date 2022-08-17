@@ -440,8 +440,6 @@ namespace TripXMLMain
             {
                 smtp = null;
             }
-
-
         }
     }
 }
