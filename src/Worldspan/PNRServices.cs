@@ -443,7 +443,50 @@ namespace Worldspan
 
                             #endregion
 
-                            strResponse = strResponse.Replace("</DPW8>", $"{sb4}{sbDH}{sbDHV}{sbH}</DPW8>");
+                            #region *4PR
+
+                            string str4P = ttWA.SendCryptic("4P");
+                            string str4PR = ttWA.SendCryptic("4PR");
+                            lstLines = str4PR.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                                StringSplitOptions.RemoveEmptyEntries).ToList();
+                            // Conduct Move Down (MD)
+                            if (lstLines.Last().Contains(")&gt;"))
+                            {
+                                string strDHMore = ttWA.SendCryptic("MD", conversationID: ConversationID);
+                                var lstMoreLines = strDHMore
+                                    .Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                                        StringSplitOptions.RemoveEmptyEntries).ToList();
+                                foreach (string line in lstMoreLines)
+                                {
+                                    if (!lstLines.Contains(line))
+                                    {
+                                        lstLines.Add(line);
+                                    }
+                                }
+                            }
+                            var sb4PR = new StringBuilder("<PNR_4PR>");
+                            foreach (string line in lstLines.GetRange(1, lstLines.Count - 1))
+                            {
+                                var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                                if (!string.IsNullOrEmpty(strLine) && (strLine.Length > 34) && !strLine.StartsWith("PTC   FARE  FARE"))
+                                {
+                                    var lineElem = strLine.Split(new string[] { " ", "*" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                                    switch (lineElem.Count)
+                                    {
+                                        case 6:
+                                            sb4PR.Append($"<Line PTC='{lineElem[1]}' CC='{lineElem.Last()}'>{lineElem[3]}{lineElem[4]}</Line>");
+                                            break;
+                                        case 7:
+                                            sb4PR.Append($"<Line PTC='{lineElem[2]}' CC='{lineElem.Last()}'>{lineElem[4]}{lineElem[5]}</Line>");
+                                            break;
+                                    }
+                                }
+                            }
+                            sb4PR.Append("</PNR_4PR>");
+
+                            #endregion
+
+                            strResponse = strResponse.Replace("</DPW8>", $"{sb4}{sbDH}{sbDHV}{sbH}{sb4PR}</DPW8>"); //
                         }
                     }
                     catch (Exception ex)
@@ -490,8 +533,6 @@ namespace Worldspan
                         throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
                     }
                 }
-
-
 
                 // *****************************************************************
                 // Transform Native Worldspan PNRRead Response into OTA Response   *
