@@ -5,6 +5,7 @@ Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports System.Text
 Imports TripXMLMain.modCore
+Imports System.Globalization
 
 Namespace wsTravelTalk
 
@@ -51,7 +52,113 @@ Namespace wsTravelTalk
 
 #Region " Decode Function "
 
-        ' Not Implemented
+        Private Function DecodePNRRead(ByVal strResponse As String, ByVal UserID As String, ByVal UUID As String) As String
+            Dim oDoc As XmlDocument
+            Dim oRoot As XmlElement
+            Dim ttAirports As DataView
+            Dim ttAirlines As DataView
+            Dim ttAirlinesNames As DataView
+            Dim ttEquipments As DataView
+            Dim oNode As XmlNode
+
+            Try
+
+                oDoc = New XmlDocument
+                oDoc.LoadXml(strResponse)
+                oRoot = oDoc.DocumentElement
+
+                ttAirports = CType(Application.Get("ttAirports"), DataView)
+                ttAirlines = CType(Application.Get("ttAirlines"), DataView)
+                'ttAirlines.Table.PrimaryKey = New DataColumn() { ttAirlines.Table.Columns("Code") } 
+
+                ttEquipments = CType(Application.Get("ttEquipments"), DataView)
+                ttAirlinesNames = CType(Application.Get("ttAirlinesNames"), DataView)
+                'ttAirlinesNames.Table.PrimaryKey = New DataColumn() { ttAirlinesNames.Table.Columns("Code") } 
+
+                Dim testNode As XmlNode = oRoot.SelectSingleNode("TravelItinerary/ItineraryInfo/ReservationItems/Item/Air")
+
+                If (testNode Is Nothing) Then
+                    CoreLib.SendTrace(UserID, "wsPNRRead", "Error *** No Air Segments in PNR", "", UUID)
+                Else
+
+                    For Each oNode In oRoot.SelectNodes("TravelItinerary/ItineraryInfo/ReservationItems/Item/Air")
+                        Try
+                            Dim arnkElem As XmlNode = oNode.SelectSingleNode("TPA_Extensions/Arnk")
+                            If Not arnkElem Is Nothing Then
+                                Continue For
+                            End If
+                            ' *******************
+                            ' Decode Airports   *
+                            ' *******************
+                            If Not oNode.SelectSingleNode("DepartureAirport") Is Nothing Then
+                                oNode.SelectSingleNode("DepartureAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                            End If
+                            If Not oNode.SelectSingleNode("ArrivalAirport") Is Nothing Then
+                                oNode.SelectSingleNode("ArrivalAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                            End If
+
+                            ' *******************
+                            ' Decode Airlines   *
+                            ' *******************
+                            If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
+                                If Not oNode.SelectSingleNode("OperatingAirline").Attributes("Code") Is Nothing Then
+                                    If oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value <> "" Then
+                                        oNode.SelectSingleNode("OperatingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                                    ElseIf Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
+                                        Dim attCode As XmlAttribute
+                                        attCode = oDoc.CreateAttribute("Code")
+                                        attCode.Value = GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                                        oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
+
+                                        oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
+                                    End If
+                                Else
+                                    If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
+                                        Dim attCode As XmlAttribute
+                                        attCode = oDoc.CreateAttribute("Code")
+                                        attCode.Value = GetEncodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").InnerText)
+
+                                        If Not String.IsNullOrEmpty(attCode.Value) Then
+                                            oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
+                                            oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
+                                        End If
+                                    End If
+                                End If
+                            ElseIf Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
+                                Dim attCode As XmlAttribute
+                                attCode = oDoc.CreateAttribute("Code")
+                                attCode.Value = GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                                oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
+
+                                oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
+                            End If
+
+                            If Not oNode.SelectSingleNode("MarketingAirline") Is Nothing Then
+                                oNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                            End If
+
+                            ' *******************
+                            ' Decode Equipments   *
+                            ' *******************
+                            If Not oNode.SelectSingleNode("Equipment") Is Nothing Then
+                                If Not oNode.SelectSingleNode("Equipment").Attributes("AirEquipType") Is Nothing Then
+                                    oNode.SelectSingleNode("Equipment").InnerText = GetDecodeValue(ttEquipments, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                                End If
+                            End If
+                        Catch e As Exception
+                            CoreLib.SendTrace(UserID, "wsPNRRead", "Error *** Decoding AirAvail Response", e.Message, UUID)
+                        End Try
+
+                    Next
+                End If
+
+                strResponse = oDoc.OuterXml
+
+            Catch ex As Exception
+                CoreLib.SendTrace(UserID, "wsPNRRead", "Error *** Decoding AirAvail Response", ex.Message, UUID)
+            End Try
+            Return strResponse
+        End Function
 
 #End Region
 
@@ -138,8 +245,8 @@ Namespace wsTravelTalk
                             strResponse = SendTravelRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest)
 
                         Case "worldspan"
-
                             strResponse = SendTravelRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                            strResponse = DecodePNRRead(strResponse, ttCredential.UserID, uuID)
                         Case Else
                             GotResponse(FormatErrorMessage(ttServiceID, sb.Append("Provider ").Append(.Providers(0).Name).Append(" Not Currently Supported.").ToString(), .Providers(0).Name))
                             sb.Remove(0, sb.Length())
