@@ -2905,8 +2905,11 @@ Namespace wsTravelTalk
 
                 XslPath = sb.Append(strPath).Append("\xsl\").ToString()
                 sb.Remove(0, sb.Length())
-                LogPath = sb.Append(strPath).Append("\Log\").ToString()
+
+                LogPath = WebConfigurationManager.AppSettings("TripXMLLogFolder")
+                'LogPath = sb.Append(strPath).Append("\Log\").ToString()
                 sb.Remove(0, sb.Length())
+
                 SchemaPath = sb.Append(strPath).Append("\Schemas\").ToString()
                 sb.Remove(0, sb.Length())
 
