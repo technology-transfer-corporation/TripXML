@@ -53,8 +53,6 @@ namespace Travelport
                     }
                 }
 
-                branch = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
-
                 #endregion
 
                 oDoc.LoadXml(strRequest);
@@ -111,7 +109,6 @@ namespace Travelport
                     }
 
                     //strResponse = strResponse.Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.TravelportSchema.PNR_RetrieveByRecLocReply + "\"", "");
-                
 
                 //*****************************************************************
                 // Transform Native Amadeus PNRRead Response into OTA Response   *
