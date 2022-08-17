@@ -3,14 +3,22 @@ using System.IO;
 using System.IO.Compression;
 using System.Net.Mail;
 using System.Net.Sockets;
+using System.Net.WebSockets;
 using System.Text;
 using System.Xml;
-using TripXMLMain.Classes;
+using System.Threading;
+using System.Collections.Concurrent;
+using WebSocketSharp;
+using WebSocket = WebSocketSharp.WebSocket;
+using WebSocketState = WebSocketSharp.WebSocketState;
+using System.Runtime.Remoting.Messaging;
 
 namespace TripXMLMain
 {
     public class CoreLib
-    {      
+    {
+        private static BlockingCollection<string> _senderQueue = new BlockingCollection<string>();
+        private static Thread _traceSend;
 
         #region  Transform XML with XSLs 
 
@@ -61,7 +69,12 @@ namespace TripXMLMain
 
         public static void SendTrace(string userID, string strFile, string strText, string strItem, string strUUID)
         {
-            var udpClient = new UdpClient();
+            if (_traceSend == null)
+            {
+                _traceSend = new Thread(TraceSender);
+                _traceSend.Start();
+            }
+
             var sb = new StringBuilder();
             try
             {
@@ -72,31 +85,37 @@ namespace TripXMLMain
                 strItem = strItem.Replace("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"  standalone=\"yes\"?>", "");
                 strItem = strItem.Replace("<?xml version=\"1.0\"   encoding=\"ISO-8859-1\"  standalone=\"yes\" ?>", "");
                 strItem = strItem.Replace("xmlns = \"\"", "");
-                
-                udpClient.Connect("localhost", 3070);                
+
                 byte[] sendBytes;
-                if (userID == null) 
-                { 
+                if (userID is object)
+                {
+                }
+                else
+                {
                     userID = "";
                 }
 
                 sb.Append("<").Append(strFile).Append("><Text>").Append(strText).Append("</Text><UUID>").Append(strUUID).Append("</UUID><Item>").Append(strItem).Append("</Item><UserID>").Append(userID).Append("</UserID></").Append(strFile).Append(">");
-                sendBytes = Encoding.ASCII.GetBytes(sb.ToString());
-
-                //var gZIPed = Compress(sendBytes);
-                //udpClient.Send(gZIPed, gZIPed.Length);
-                udpClient.Send(sendBytes, sendBytes.Length);
-                udpClient.Close();
-
-                //RabbitMQProducer.SendMessage(sb.ToString());
+                _senderQueue.Add(sb.ToString());
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-
-                if (udpClient is object)                
-                    udpClient.Close();                
             }
+        }
+
+        private static void TraceSender()
+        {
+            WebSocket wsClient;
+            wsClient = new WebSocket($"ws://localhost:3070/Trace");
+            while (true)
+            {
+                var msg = _senderQueue.Take();
+                if (wsClient.ReadyState != WebSocketState.Open) wsClient.Connect();
+                if (wsClient.ReadyState == WebSocketState.Connecting)
+                    Thread.Sleep(100);
+                wsClient.Send(msg);
+            }
+            wsClient.Close();
         }
 
         static byte[] Compress(byte[] data)
