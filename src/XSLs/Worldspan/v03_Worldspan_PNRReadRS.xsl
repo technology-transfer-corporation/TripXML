@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 18 Aug 2022 - Samokhvalov - Special Remarks CC(Controlling Carrier) reworked.
 Date: 29 Apr 2022 - Kobelev - EMD Exchange and EMD Service Fee display fix.
 Date: 16 Nov 2021 - Kobelev - Airline Decoding.
 Date: 21 Oct 2021 - Kobelev - Change Controlling Carrier RemarkType from "Z" to "CC".
@@ -77,7 +78,7 @@ Date: 23 Feb 2015 - Rastko
 	<xsl:variable name="loop">
 		<xsl:value-of select="count(//DPW8/PRC_INF/PRC_QUO/PTC_FAR_DTL) + 1"/>
 	</xsl:variable>
-	
+
 	<xsl:template match="/">
 		<xsl:apply-templates select="DPW8"/>
 		<xsl:apply-templates select="XXW"/>
@@ -377,74 +378,93 @@ Date: 23 Feb 2015 - Rastko
 
 											</xsl:when>
 										</xsl:choose>
-										<xsl:variable name="cc" select="//AIR_SEG_INF/AIR_ITM" />
-
-										<xsl:variable name="lCarr">
-											<xsl:for-each select="$cc/ARL_COD[generate-id() = generate-id(key('conCarr',.)[1])]">
-												<xsl:if test=". !=''">
-													<xsl:value-of select="concat(., ',')"/>
-												</xsl:if>
-											</xsl:for-each>
-										</xsl:variable>
-
-										<xsl:variable name="elems">
-											<xsl:call-template name="tokenizeString">
-												<xsl:with-param name="list" select="$lCarr"/>
-												<xsl:with-param name="delimiter" select="','"/>
-											</xsl:call-template>
-										</xsl:variable>
-
-										<xsl:for-each select="msxsl:node-set($elems)/elem">
-
-											<xsl:variable name="al">
-												<xsl:value-of select="text()"/>
-											</xsl:variable>
-
-											<SpecialRemark>
-												<xsl:attribute name="RPH">
-													<xsl:call-template name="string-trim">
-														<xsl:with-param name="string" select="$al" />
-													</xsl:call-template>
-												</xsl:attribute>
-												<xsl:attribute name="RemarkType">CC</xsl:attribute>
-
-												<FlightRefNumber>
-													<xsl:attribute name="RPH">
-														<xsl:for-each select="$cc[ARL_COD=$al]">
-															<xsl:variable name="rph">
-																<xsl:value-of select="SEG_NUM"/>
-															</xsl:variable>
-
-															<xsl:if test="position() > 1">
-																<xsl:text> </xsl:text>
-															</xsl:if>
-															<xsl:value-of select="$rph"/>
-														</xsl:for-each>
-													</xsl:attribute>
-												</FlightRefNumber>
-
-												<xsl:variable name="fltPath">
-													<xsl:for-each select="$cc[ARL_COD=$al]">
-														<xsl:variable name="port">
-															<xsl:value-of select="concat(DEP_ARP,ARR_ARP)"/>
-														</xsl:variable>
-
-														<xsl:if test="position() > 1">
-															<xsl:text> </xsl:text>
+										<xsl:choose>
+											<xsl:when test="PNR_4PR/Line">
+												<xsl:for-each select="PNR_4PR/Line">
+													<SpecialRemark>
+														<xsl:attribute name="RPH">
+															<xsl:value-of select="@CC"/>
+														</xsl:attribute>
+														<xsl:attribute name="RemarkType">CC</xsl:attribute>
+														<FlightRefNumber>
+															<xsl:attribute name="RPH">
+																<xsl:value-of select="@Flights"/>
+															</xsl:attribute>
+														</FlightRefNumber>
+														<Text>
+															<xsl:value-of select="text()"/>
+														</Text>
+													</SpecialRemark>
+												</xsl:for-each>
+											</xsl:when>
+											<xsl:otherwise>
+												<xsl:variable name="cc" select="//AIR_SEG_INF/AIR_ITM" />
+												<xsl:variable name="lCarr">
+													<xsl:for-each select="$cc/ARL_COD[generate-id() = generate-id(key('conCarr',.)[1])]">
+														<xsl:if test=". !=''">
+															<xsl:value-of select="concat(., ',')"/>
 														</xsl:if>
-														<xsl:value-of select="$port"/>
 													</xsl:for-each>
 												</xsl:variable>
 
-												<Text>
-													<xsl:call-template name="string-trim">
-														<xsl:with-param name="string" select="concat($fltPath,' -/', $al)" />
+												<xsl:variable name="elems">
+													<xsl:call-template name="tokenizeString">
+														<xsl:with-param name="list" select="$lCarr"/>
+														<xsl:with-param name="delimiter" select="','"/>
 													</xsl:call-template>
-												</Text>
-											</SpecialRemark>
-										</xsl:for-each>
+												</xsl:variable>
 
+												<xsl:for-each select="msxsl:node-set($elems)/elem">
 
+													<xsl:variable name="al">
+														<xsl:value-of select="text()"/>
+													</xsl:variable>
+
+													<SpecialRemark>
+														<xsl:attribute name="RPH">
+															<xsl:call-template name="string-trim">
+																<xsl:with-param name="string" select="$al" />
+															</xsl:call-template>
+														</xsl:attribute>
+														<xsl:attribute name="RemarkType">CC</xsl:attribute>
+
+														<FlightRefNumber>
+															<xsl:attribute name="RPH">
+																<xsl:for-each select="$cc[ARL_COD=$al]">
+																	<xsl:variable name="rph">
+																		<xsl:value-of select="SEG_NUM"/>
+																	</xsl:variable>
+
+																	<xsl:if test="position() > 1">
+																		<xsl:text> </xsl:text>
+																	</xsl:if>
+																	<xsl:value-of select="$rph"/>
+																</xsl:for-each>
+															</xsl:attribute>
+														</FlightRefNumber>
+
+														<xsl:variable name="fltPath">
+															<xsl:for-each select="$cc[ARL_COD=$al]">
+																<xsl:variable name="port">
+																	<xsl:value-of select="concat(DEP_ARP,ARR_ARP)"/>
+																</xsl:variable>
+
+																<xsl:if test="position() > 1">
+																	<xsl:text> </xsl:text>
+																</xsl:if>
+																<xsl:value-of select="$port"/>
+															</xsl:for-each>
+														</xsl:variable>
+
+														<Text>
+															<xsl:call-template name="string-trim">
+																<xsl:with-param name="string" select="concat($fltPath,' -/', $al)" />
+															</xsl:call-template>
+														</Text>
+													</SpecialRemark>
+												</xsl:for-each>
+											</xsl:otherwise>
+										</xsl:choose>
 									</SpecialRemarks>
 								</SpecialRequestDetails>
 							</xsl:if>
@@ -637,12 +657,12 @@ Date: 23 Feb 2015 - Rastko
 	</xsl:template>
 
 	<xsl:template match="PNR_EMD_INF" mode="EMD">
-		
+
 		<xsl:for-each select="Line">
 			<xsl:variable name="tktPax" select="substring-before(.,' ')" />
 			<xsl:variable name="tkt" select="@EMD" />
 			<xsl:variable name="tktInfo" select="substring-after(.,' ')" />
-			
+
 			<IssuedTicket>
 				<xsl:attribute name="TravelerRefNumberRPHList">
 					<xsl:for-each select="//PAX_INF/NME_ITM">
