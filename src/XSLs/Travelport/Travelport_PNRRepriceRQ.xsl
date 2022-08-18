@@ -22,7 +22,7 @@
                                     xmlns:passive="http://www.travelport.com/schema/passive_v50_0"
                                     xmlns:rail="http://www.travelport.com/schema/rail_v50_0"
                                     xmlns:vehicle="http://www.travelport.com/schema/vehicle_v50_0"
-                                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/@PseudoCityCode}">
+                                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/RequestorID/@Instance}">
 					<common:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 					<ProviderReservationInfo>
 						<xsl:attribute name="ProviderCode">
@@ -62,7 +62,7 @@
 	<xsl:template match="Response">
 		<air:AirPriceReq>
 			<xsl:attribute name="TargetBranch">
-				<xsl:value-of select="../POS/Source/@PseudoCityCode"/>
+				<xsl:value-of select="../POS/Source/RequestorID/@Instance"/>
 			</xsl:attribute>
 			<common:BillingPointOfSaleInfo xmlns:com="http://www.travelport.com/schema/common_v50_0" OriginApplication="UAPI"/>
 			<air:AirItinerary>
@@ -101,7 +101,7 @@
       xmlns:passive="http://www.travelport.com/schema/passive_v50_0"
       xmlns:rail="http://www.travelport.com/schema/rail_v50_0"
       xmlns:vehicle="http://www.travelport.com/schema/vehicle_v50_0"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/@PseudoCityCode}" ReturnRecord="true">
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/RequestorID/@Instance}" ReturnRecord="true">
 			<common:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 			<universal:RecordIdentifier UniversalLocatorCode="{$PNR/@LocatorCode}" ProviderCode="{$PNR/universal:ProviderReservationInfo/@ProviderCode}" ProviderLocatorCode="{$PNR/universal:ProviderReservationInfo//@LocatorCode}"/>
 			<universal:UniversalModifyCmd Key="1">

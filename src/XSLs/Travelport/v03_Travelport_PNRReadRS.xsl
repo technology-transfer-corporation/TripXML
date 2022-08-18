@@ -33,10 +33,10 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
-	
+
 	<!-- Identifies provider. Example: 1P - Worldspan, 1G - Galileo -->
 	<xsl:variable name="provider">
-		<xsl:value-of select="//universal:UniversalRecordRetrieveRsp/universal:ProviderReservationInfo/@ProviderCode"/>			
+		<xsl:value-of select="//universal:UniversalRecordRetrieveRsp/universal:ProviderReservationInfo/@ProviderCode"/>
 	</xsl:variable>
 
 	<xsl:template match="/">
@@ -129,6 +129,7 @@
 							<xsl:apply-templates select="common_v50_0:BookingTraveler"/>
 						</CustomerInfos>
 						<ItineraryInfo>
+							<xsl:variable name="refKey" select="air:AirReservation/common_v50_0:ProviderReservationInfoRef/@Key" />
 							<xsl:if test="air:AirReservation/air:AirSegment | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CCR'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='HHL'] | originDestinationDetails/itineraryInf[elementManagementItinerary/segmentName='HU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='RU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AU'] | 	originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='SUR'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TRN'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CRU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TU']">
 								<ReservationItems>
 									<xsl:apply-templates select="air:AirReservation/air:AirSegment" mode="Air"/>
@@ -148,7 +149,7 @@
 
 									<xsl:if test="air:AirReservation/air:AirPricingInfo">
 										<ItemPricing>
-											<xsl:variable name="refKey" select="air:AirReservation/common_v50_0:ProviderReservationInfoRef/@Key" />
+
 											<xsl:call-template name="AirPricingInfo">
 												<xsl:with-param name="ref" select="$refKey"/>
 											</xsl:call-template>
@@ -156,7 +157,9 @@
 									</xsl:if>
 								</ReservationItems>
 							</xsl:if>
-							<xsl:apply-templates select="common_v50_0:ActionStatus[@TicketDate!='']" mode="ticketing"/>
+
+							<xsl:apply-templates select="common_v50_0:ActionStatus[@ProviderReservationInfoRef=$refKey]" mode="ticketing"/>
+
 							<SpecialRequestDetails>
 								<xsl:if test="dataElementsMaster/dataElementsIndiv[serviceRequest/ssrb]">
 									<SeatRequests>
@@ -176,7 +179,9 @@
 								</xsl:if>
 								<xsl:if test="common_v50_0:GeneralRemark">
 									<Remarks>
-										<xsl:apply-templates select="common_v50_0:GeneralRemark[@TypeInGds!='Historical' and @Category='F']" mode="GenRemark"/>
+										<xsl:apply-templates select="common_v50_0:GeneralRemark[@TypeInGds!='Historical' ]" mode="GenRemark"/>
+										<!-- and @Category='F' -->
+										<xsl:apply-templates select="common_v50_0:GeneralRemark[@TypeInGds='Historical' ]" mode="HistoricalRemark"/>
 									</Remarks>
 								</xsl:if>
 								<SpecialRemarks>
@@ -186,9 +191,11 @@
 									<xsl:if test="common_v50_0:AccountingRemark">
 										<xsl:apply-templates select="common_v50_0:AccountingRemark" mode="AccountingRemark"/>
 									</xsl:if>
+									<!--
 									<xsl:if test="common_v50_0:GeneralRemark[@TypeInGds='Historical']">
 										<xsl:apply-templates select="common_v50_0:GeneralRemark[@TypeInGds='Historical']" mode="HistoricalRemark"/>
 									</xsl:if>
+									-->
 									<xsl:if test="common_v50_0:ConfRemark">
 										<xsl:apply-templates select="common_v50_0:ConfRemark" mode="ConfRemark"/>
 									</xsl:if>
@@ -2253,9 +2260,11 @@
 	<!-- ************************************************************** -->
 	<xsl:template match="common_v50_0:ActionStatus" mode="ticketing">
 		<Ticketing>
-			<xsl:attribute name="TicketTimeLimit">
-				<xsl:value-of select="@TicketDate"/>
-			</xsl:attribute>
+			<xsl:if test="@TicketDate">
+				<xsl:attribute name="TicketTimeLimit">
+					<xsl:value-of select="@TicketDate"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:attribute name="TicketType">eTicket</xsl:attribute>
 			<xsl:if test="@Type = 'TAW'">
 				<TicketAdvisory>
@@ -2265,12 +2274,10 @@
 					<xsl:value-of select="../universal:ProviderReservationInfo/@OwningPCC"/>
 				</TicketAdvisory>
 			</xsl:if>
-			<xsl:if test="ticketElement/ticket/indicator = 'XL'">
-				<TicketAdvisory>
-					<xsl:text>XL-</xsl:text>
-					<xsl:value-of select="ticketElement/ticket/date"/>
-					<xsl:text>/</xsl:text>
-					<xsl:value-of select="ticketElement/ticket/officeId"/>
+			<xsl:if test="common_v50_0:Remark">
+				<TicketAdvisory>					
+					<xsl:text>T/</xsl:text>
+					<xsl:value-of select="common_v50_0:Remark"/>
 				</TicketAdvisory>
 			</xsl:if>
 		</Ticketing>
@@ -2785,15 +2792,16 @@
 	<!-- Historical Remarks	   	                              -->
 	<!-- ************************************************************** -->
 	<xsl:template match="common_v50_0:GeneralRemark" mode="HistoricalRemark">
-		<SpecialRemark>
+		<Remark>
 			<xsl:attribute name="RPH">
 				<xsl:value-of select="position()"/>
 			</xsl:attribute>
-			<xsl:attribute name="RemarkType">H</xsl:attribute>
-			<Text>
-				<xsl:value-of select="common_v50_0:RemarkData"/>
-			</Text>
-		</SpecialRemark>
+			<xsl:attribute name="Category">
+				<xsl:text>Historical</xsl:text>
+			</xsl:attribute>
+
+			<xsl:value-of select="common_v50_0:RemarkData"/>
+		</Remark>
 	</xsl:template>
 	<xsl:template match="common_v50_0:GeneralRemark" mode="VendorRemark">
 		<SpecialRemark>
