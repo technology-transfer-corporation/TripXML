@@ -124,6 +124,14 @@ namespace Worldspan
             return strResponse;
         }
 
+        private class flSegsData
+        {
+            public string segNum;
+            public string depCity;
+            public string arrCity;
+            public bool processed = false;
+        }
+
         public string PNRRead()
         {
             string strResponse;
@@ -265,7 +273,7 @@ namespace Worldspan
 
                                         if (bStart)
                                         {
-                                            var index = emdLines.IndexOf(line);                                            
+                                            var index = emdLines.IndexOf(line);
                                             var trElem = line.Trim().Replace(")&gt;", "").Replace("&gt;", "").Split(new[] { ".", " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
                                             var trNum = trElem[2];
                                             var strLine = $"{emdLines[index + 1].Trim()} {emdLines[index + 2].Trim()}";
@@ -433,7 +441,7 @@ namespace Worldspan
 
                                     sbH.Append($"<Line PCC='{pcc}' Agent='{agent}'>{strLine}</Line>");
                                 }
-                                else 
+                                else
                                 {
                                     bBookElem = line.Trim().StartsWith("AS ");
                                 }
@@ -446,9 +454,8 @@ namespace Worldspan
                             #region *4PR
 
                             string str4P = ttWA.SendCryptic("4P");
-                            string str4PR = ttWA.SendCryptic("4PR");
-                            lstLines = str4PR.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
-                                StringSplitOptions.RemoveEmptyEntries).ToList();
+                            string str4PR = ttWA.SendCryptic("4PRC");
+                            lstLines = str4PR.Split(new string[] { "<Screen>", "</Line><Line>", "</Screen>", "<Line>", "</Line>" }, StringSplitOptions.None).ToList();
                             // Conduct Move Down (MD)
                             if (lstLines.Last().Contains(")&gt;"))
                             {
@@ -465,6 +472,23 @@ namespace Worldspan
                                 }
                             }
                             var sb4PR = new StringBuilder("<PNR_4PR>");
+                            var xResp = new XmlDocument();
+                            xResp.LoadXml(strResponse);
+
+                            var flSegs = new List<flSegsData>();
+                            try
+                            {
+                                xResp.DocumentElement.SelectNodes("//AIR_SEG_INF/AIR_ITM").Cast<XmlNode>().ToList().Select(x =>
+                                    new//(string segNum, string depCity, string arrCity)
+                                    {
+                                        segNum = x.SelectSingleNode("SEG_NUM").InnerText,
+                                        depCity = x.SelectSingleNode("DEP_ARP").InnerText,
+                                        arrCity = x.SelectSingleNode("ARR_ARP").InnerText
+                                    }).ToList().ForEach(x => flSegs.Add(new flSegsData { segNum = x.segNum, depCity = x.depCity, arrCity = x.arrCity }));
+                            }
+                            catch { }
+
+                            var stop = false;
                             foreach (string line in lstLines.GetRange(1, lstLines.Count - 1))
                             {
                                 var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
@@ -474,13 +498,17 @@ namespace Worldspan
                                     switch (lineElem.Count)
                                     {
                                         case 6:
-                                            sb4PR.Append($"<Line PTC='{lineElem[1]}' CC='{lineElem.Last()}'>{lineElem[3]}{lineElem[4]}</Line>");
+                                            sb4PR.Append($"<Line PTC='{lineElem[1]}' CC='{lineElem.Last()}' Flights='{GetFlightRefs(lineElem[3], lineElem[4], ref flSegs)}'>{lineElem[3]}{lineElem[4]}</Line>");
+                                            stop = true;
                                             break;
                                         case 7:
-                                            sb4PR.Append($"<Line PTC='{lineElem[2]}' CC='{lineElem.Last()}'>{lineElem[4]}{lineElem[5]}</Line>");
+                                            sb4PR.Append($"<Line PTC='{lineElem[2]}' CC='{lineElem.Last()}' Flights='{GetFlightRefs(lineElem[4], lineElem[5], ref flSegs)}'>{lineElem[4]}{lineElem[5]}</Line>");
+                                            stop = true;
                                             break;
                                     }
                                 }
+                                else if (string.IsNullOrEmpty(strLine) && stop)
+                                    break;
                             }
                             sb4PR.Append("</PNR_4PR>");
 
@@ -557,7 +585,7 @@ namespace Worldspan
 
 
                     if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{ strToReplace}");
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Worldspan_PNRReadRS.xsl");
 
@@ -584,6 +612,31 @@ namespace Worldspan
             }
 
             return strResponse;
+        }
+
+        private string GetFlightRefs(string from, string to, ref List<flSegsData> flSegs)
+        {
+            var res = string.Empty;
+            try
+            {
+                if (flSegs.Any(f => !f.processed && f.depCity == from) && flSegs.Any(f => !f.processed && f.arrCity == to))
+                {
+                    res += flSegs.First(f => !f.processed && f.depCity == from).segNum;
+                    flSegs.First(f => !f.processed && f.depCity == from).processed = true;
+                    var found = false;
+                    foreach (var seg in flSegs.FindAll(x => !x.processed))
+                    {
+                        if (found && seg.arrCity != to)
+                            break;
+                        res += "," + seg.segNum;
+                        seg.processed = true;
+                        if (seg.arrCity.Equals(to))
+                            found = true;
+                    }
+                }
+            }
+            catch { }
+            return res;
         }
 
         public string PNRCancel()
@@ -617,7 +670,7 @@ namespace Worldspan
                     var strToReplace = strResponse.Contains("XPW3") ? "</XPW3>" : "XXW";
 
                     if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{ strToReplace}");
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Worldspan_PNRCancelRS.xsl");
                 }
@@ -707,7 +760,7 @@ namespace Worldspan
                     bool bEMD = pnr.Contains("**  ELECTRONIC MISC DOCUMENT LIST  **  >EMDL");
 
                     string emdDisplay = bEMD ? ttWA.SendCryptic("EMDL") : "";
-                    string str4Display = ttWA.SendCryptic("4*");                    
+                    string str4Display = ttWA.SendCryptic("4*");
 
                     var lstLines = str4Display.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
                     // Conduct Move Down (MD)
@@ -916,7 +969,7 @@ namespace Worldspan
                         SetConversationID(ttWA);
                         ttWA.SendCryptic($"*{recordLocator}");
 
-                        ttWA.SendCryptic(trElems.Count() > 0 ? $"4PQCTR{string.Join("/", trElems).TrimEnd('/')}" : "4PQC" );
+                        ttWA.SendCryptic(trElems.Count() > 0 ? $"4PQCTR{string.Join("/", trElems).TrimEnd('/')}" : "4PQC");
 
                         ttWA.SendCryptic("ER");
                         inSession = false;
@@ -953,7 +1006,7 @@ namespace Worldspan
             //TR-   3. 4P*FSR.SR/-$P0.00/#TR            1P/0G3/RO 23JUL 1819Z
             //TR-   4. 4P*FSR.SR/-$P10.00/#TR           1P/0G3/RO 23JUL 1819Z
 
-            var rqElem = request.Split(new[] {"TR-"," ", ". ", },StringSplitOptions.RemoveEmptyEntries).ToList();
+            var rqElem = request.Split(new[] { "TR-", " ", ". ", }, StringSplitOptions.RemoveEmptyEntries).ToList();
             //TR-   2. 4P*FSR.SR/-$P10.00/#TR           1P/0G3/RO 23JUL 1819Z
             //---------------------------------------------------------------
             //0:2
@@ -961,7 +1014,7 @@ namespace Worldspan
             //2:1P/0G3/RO
             //3:23JUL
             //4:1819Z
-            
+
             XmlDocument docRS = new XmlDocument();
             docRS.LoadXml(response);
             XmlElement rootRS = docRS.DocumentElement;
@@ -969,7 +1022,7 @@ namespace Worldspan
             var nodeList = docRS.SelectNodes($"//TIC_REC_PRC_QUO[TIC_REC_NUM={rqElem[0]}]/PTC_FAR_DTL");
             for (int i = 0; i < nodeList.Count; i++)
             {
-                if (i+1 != index)
+                if (i + 1 != index)
                 {
                     nodeList[i].ParentNode?.RemoveChild(nodeList[i]);
                 }
