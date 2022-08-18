@@ -19774,6 +19774,15 @@
 					<LanguageCode/>
 					<TravelAgentID/>
 				</OpenType>
+				<!-- Added on 8/17/2022 -->
+				<OpenType OfficeID="4WBJ" Name="4WBJ">
+					<Agent/>
+					<SignIn/>
+					<CountryCode/>
+					<CurrencyCode/>
+					<LanguageCode/>
+					<TravelAgentID/>
+				</OpenType>
 			</PCC>
 		</System>
 	</Provider>
@@ -19949,6 +19958,12 @@
 			</PCC>
 			<!-- Added on 1/4/2021 -->
 			<PCC Code="79BE">
+				<Username>GWS_P3408196</Username>
+				<Password>Ygk8+-CEi7</Password>
+				<Profile>GWS_1G_3LM3_B5E401</Profile>
+			</PCC>
+			<!-- Added on 8/18/2022 -->
+			<PCC Code="3MI3">
 				<Username>GWS_P3408196</Username>
 				<Password>Ygk8+-CEi7</Password>
 				<Profile>GWS_1G_3LM3_B5E401</Profile>
