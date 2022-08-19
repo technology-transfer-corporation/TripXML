@@ -10,6 +10,7 @@
 	================================================================== 
 	v03_Travelport_PNRReadRS.xsl 									
 	==================================================================
+	Date: 18 Aug 2022 - Kobelev - Conversation ID fixed
 	Date: 09 Aug 2022 - Kobelev - Price Supplemental Info Display
 	Date: 08 Aug 2022 - Kobelev - Price Info Display 
 	Date: 08 Mar 2022 - Kobelev - Pricing command display in SupplementalInfo 
@@ -264,9 +265,9 @@
 					</Errors>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:if test="ConversationID!=''">
+			<xsl:if test="../ConversationID!=''">
 				<ConversationID>
-					<xsl:value-of select="ConversationID"/>
+					<xsl:value-of select="../ConversationID"/>
 				</ConversationID>
 			</xsl:if>
 		</OTA_TravelItineraryRS>
