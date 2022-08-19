@@ -488,30 +488,35 @@ namespace Worldspan
                             }
                             catch { }
 
-                            var stop = false;
-                            foreach (string line in lstLines.GetRange(1, lstLines.Count - 1))
+                            if (flSegs.Any())
                             {
-                                var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
-                                if (!string.IsNullOrEmpty(strLine) && (strLine.Length > 34) && !strLine.StartsWith("PTC   FARE  FARE"))
-                                {
-                                    var lineElem = strLine.Split(new string[] { " ", "*" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                                    switch (lineElem.Count)
-                                    {
-                                        case 6:
-                                            sb4PR.Append($"<Line PTC='{lineElem[1]}' CC='{lineElem.Last()}' Flights='{GetFlightRefs(lineElem[3], lineElem[4], ref flSegs)}'>{lineElem[3]}{lineElem[4]}</Line>");
-                                            stop = true;
-                                            break;
-                                        case 7:
-                                            sb4PR.Append($"<Line PTC='{lineElem[2]}' CC='{lineElem.Last()}' Flights='{GetFlightRefs(lineElem[4], lineElem[5], ref flSegs)}'>{lineElem[4]}{lineElem[5]}</Line>");
-                                            stop = true;
-                                            break;
-                                    }
-                                }
-                                else if (string.IsNullOrEmpty(strLine) && stop)
-                                    break;
-                            }
-                            sb4PR.Append("</PNR_4PR>");
 
+                                var stop = false;
+                                foreach (string line in lstLines.GetRange(1, lstLines.Count - 1))
+                                {
+                                    var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                                    if (!string.IsNullOrEmpty(strLine) && (strLine.Length > 34) && !strLine.StartsWith("PTC   FARE  FARE"))
+                                    {
+                                        var lineElem = strLine.Split(new string[] { " ", "*" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                                        switch (lineElem.Count)
+                                        {
+                                            case 6:
+                                                sb4PR.Append($"<Line PTC='{lineElem[1]}' CC='{lineElem.Last()}' Flights='{GetFlightRefs(lineElem[3], lineElem[4], ref flSegs)}'>{lineElem[3]}{lineElem[4]}</Line>");
+                                                stop = true;
+                                                break;
+                                            case 7:
+                                                sb4PR.Append($"<Line PTC='{lineElem[2]}' CC='{lineElem.Last()}' Flights='{GetFlightRefs(lineElem[4], lineElem[5], ref flSegs)}'>{lineElem[4]}{lineElem[5]}</Line>");
+                                                stop = true;
+                                                break;
+                                        }
+                                    }
+                                    else if (string.IsNullOrEmpty(strLine) && stop)
+                                        break;
+                                }
+                                sb4PR.Append("</PNR_4PR>");
+                            }
+                            else
+                                sb4PR.Clear();
                             #endregion
 
                             strResponse = strResponse.Replace("</DPW8>", $"{sb4}{sbDH}{sbDHV}{sbH}{sb4PR}</DPW8>"); //
