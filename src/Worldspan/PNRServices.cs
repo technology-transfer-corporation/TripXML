@@ -624,14 +624,17 @@ namespace Worldspan
                     res += flSegs.First(f => !f.processed && f.depCity == from).segNum;
                     flSegs.First(f => !f.processed && f.depCity == from).processed = true;
                     var found = false;
-                    foreach (var seg in flSegs.FindAll(x => !x.processed))
+                    if (flSegs.First(f => !f.processed && f.depCity == from).segNum != flSegs.First(f => !f.processed && f.arrCity == to).segNum)
                     {
-                        if (found && seg.arrCity != to)
-                            break;
-                        res += "," + seg.segNum;
-                        seg.processed = true;
-                        if (seg.arrCity.Equals(to))
-                            found = true;
+                        foreach (var seg in flSegs.FindAll(x => !x.processed))
+                        {
+                            if (found && seg.arrCity != to)
+                                break;
+                            res += "," + seg.segNum;
+                            seg.processed = true;
+                            if (seg.arrCity.Equals(to))
+                                found = true;
+                        }
                     }
                 }
             }
