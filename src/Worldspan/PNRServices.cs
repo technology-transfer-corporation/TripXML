@@ -478,7 +478,7 @@ namespace Worldspan
                             var flSegs = new List<flSegsData>();
                             try
                             {
-                                xResp.DocumentElement.SelectNodes("//AIR_SEG_INF/AIR_ITM").Cast<XmlNode>().ToList().Select(x =>
+                                xResp.DocumentElement.SelectNodes("//AIR_SEG_INF/AIR_ITM[FLI_NUM!='ARNK']").Cast<XmlNode>().ToList().Select(x =>
                                     new//(string segNum, string depCity, string arrCity)
                                     {
                                         segNum = x.SelectSingleNode("SEG_NUM").InnerText,
@@ -627,15 +627,15 @@ namespace Worldspan
                 if (flSegs.Any(f => !f.processed && f.depCity == from) && flSegs.Any(f => !f.processed && f.arrCity == to))
                 {
                     res += flSegs.First(f => !f.processed && f.depCity == from).segNum;
-                    flSegs.First(f => !f.processed && f.depCity == from).processed = true;
                     var found = false;
                     if (flSegs.First(f => !f.processed && f.depCity == from).segNum != flSegs.First(f => !f.processed && f.arrCity == to).segNum)
                     {
+                        flSegs.First(f => !f.processed && f.depCity == from).processed = true;
                         foreach (var seg in flSegs.FindAll(x => !x.processed))
                         {
                             if (found && seg.arrCity != to)
                                 break;
-                            res += "," + seg.segNum;
+                            res += " " + seg.segNum;
                             seg.processed = true;
                             if (seg.arrCity.Equals(to))
                                 found = true;
