@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 22 Aug 2022 - Samokhvalov - PTC_Farebreakdown flight segments fixes.
 Date: 18 Aug 2022 - Samokhvalov - Special Remarks CC(Controlling Carrier) reworked.
 Date: 29 Apr 2022 - Kobelev - EMD Exchange and EMD Service Fee display fix.
 Date: 16 Nov 2021 - Kobelev - Airline Decoding.
@@ -1319,9 +1320,16 @@ Date: 23 Feb 2015 - Rastko
 				</xsl:variable>
 
 				<xsl:attribute name="FlightRefNumberRPHList">
-					<xsl:call-template name="string-rtrim">
-						<xsl:with-param name="string" select="translate($segs, '-', ' ')" />
-					</xsl:call-template>
+					<xsl:choose>
+						<xsl:when test="../SEGMENTS">
+							<xsl:value-of select="../SEGMENTS"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:call-template name="string-rtrim">
+								<xsl:with-param name="string" select="translate($segs, '-', ' ')" />
+							</xsl:call-template>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:attribute>
 
 				<PassengerTypeQuantity>
@@ -1636,9 +1644,16 @@ Date: 23 Feb 2015 - Rastko
 				</xsl:choose>
 			</xsl:variable>
 			<xsl:attribute name="FlightRefNumberRPHList">
-				<xsl:call-template name="string-rtrim">
-					<xsl:with-param name="string" select="translate($segs, '-', ' ')" />
-				</xsl:call-template>
+				<xsl:choose>
+					<xsl:when test="../../TIC_REC_PRC_QUO[1]/SEGMENTS">
+						<xsl:value-of select="../../TIC_REC_PRC_QUO[1]/SEGMENTS"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:call-template name="string-rtrim">
+							<xsl:with-param name="string" select="translate($segs, '-', ' ')" />
+						</xsl:call-template>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:attribute>
 
 			<PassengerTypeQuantity>
