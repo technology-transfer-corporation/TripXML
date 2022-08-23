@@ -519,6 +519,25 @@ namespace Worldspan
                                 sb4PR.Clear();
                             #endregion
 
+                            #region Add Segments Node to PRC_INF/TIC_REC_PRC_QUO
+                            var prcNode = xResp.SelectSingleNode("//PRC_INF/TIC_REC_PRC_QUO[contains(PRC_QUO_CMD,'*S')]/PRC_QUO_CMD");
+                            if (prcNode != null)
+                            {
+                                var prc_command = prcNode.InnerText.Substring(prcNode.InnerText.IndexOf("*S") + 2);
+                                if (prc_command.Contains("#"))
+                                    prc_command = prc_command.Substring(0, prc_command.IndexOf("#"));
+                                prc_command = Regex.Replace(prc_command, @"(BF\d+)", "");
+                                prc_command = prc_command.Replace("*", "").Replace(":", "").Replace("/", " ");
+                                var segsNode = xResp.CreateElement("SEGMENTS");
+                                segsNode.InnerText = prc_command;
+                                var prc = xResp.SelectSingleNode("//PRC_INF/TIC_REC_PRC_QUO[contains(PRC_QUO_CMD,'*S')]");
+                                prc.InsertAfter(segsNode, prc.FirstChild);
+
+                                strResponse = xResp.OuterXml;
+                            }
+
+                            #endregion
+
                             strResponse = strResponse.Replace("</DPW8>", $"{sb4}{sbDH}{sbDHV}{sbH}{sb4PR}</DPW8>"); //
                         }
                     }
