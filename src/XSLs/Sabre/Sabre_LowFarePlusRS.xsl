@@ -39,8 +39,11 @@
 							<xsl:attribute name="Type">Sabre</xsl:attribute>
 							<xsl:attribute name="Code">
 								<xsl:choose>
-									<xsl:when test="Errors/Error/@Code != ''">
-										<xsl:value-of select="Errors/Error/@Code" />
+									<xsl:when test="Errors/Error[@Type='SERVER' and @Code='MSG'] != ''">
+										<xsl:value-of select="Errors/Error[@Type='SERVER' and @Code='MSG']" />
+									</xsl:when>
+									<xsl:when test="Errors/Error[@Type='ERR' and @Code='NAV'] != ''">
+										<xsl:value-of select="Errors/Error[@Type='ERR' and @Code='NAV']/@ShortText" />
 									</xsl:when>
 									<xsl:otherwise>E</xsl:otherwise>
 								</xsl:choose>

@@ -1,15 +1,18 @@
 <?xml version="1.0" ?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
-	<!-- ================================================================== -->
-	<!-- Sabre_LowFareRS.xsl 																-->
-	<!-- ================================================================== -->
-	<!-- Date: 28 Aug 2011 - Rastko - corrected mapping of validating carrier			-->
-	<!-- Date: 18 Feb 2011 - Rastko - added code to get operating airline in response		-->
-	<!-- Date: 15 Dec 2010 - Rastko - corrected display of fares						-->
-	<!-- Date: 04 Dec 2010 - Rastko - added calculation of JourneyTotalDuration			-->
-	<!-- Date: 31 Aug 2010 - Rastko - corrected marriage group element				-->
-	<!-- Date: 16 Nov 2008 - Rastko														-->
-	<!-- ================================================================== -->
+	<!-- 
+	================================================================== 
+	Sabre_LowFareRS.xsl 																
+	================================================================== 
+	Date: 20 Aug 2022 - Kobelev - Better Error Handler
+	Date: 28 Aug 2011 - Rastko - corrected mapping of validating carrier
+	Date: 18 Feb 2011 - Rastko - added code to get operating airline in response		
+	Date: 15 Dec 2010 - Rastko - corrected display of fares						
+	Date: 04 Dec 2010 - Rastko - added calculation of JourneyTotalDuration			
+	Date: 31 Aug 2010 - Rastko - corrected marriage group element				
+	Date: 16 Nov 2008 - Rastko													
+	================================================================== 
+	-->
 	<xsl:output method="xml" omit-xml-declaration="yes" />
 	<xsl:variable name="tis" select="OTA_AirLowFareSearchRS/TravelerInfoSummary"/>
 	<xsl:template match="/">

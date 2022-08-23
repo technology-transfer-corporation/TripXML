@@ -1,6 +1,6 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-				xmlns:air="http://www.travelport.com/schema/air_v50_0" 
-				xmlns:universal="http://www.travelport.com/schema/universal_v50_0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+				xmlns:air="http://www.travelport.com/schema/air_v50_0"
+				xmlns:universal="http://www.travelport.com/schema/universal_v50_0"
 				xmlns:common="http://www.travelport.com/schema/common_v50_0" version="1.0">
 	<!-- 
 	================================================================== 
@@ -11,7 +11,7 @@
 	Date: 10 Nov 2014 - Rastko - New file											
 	================================================================== 
   -->
-	
+
 	<xsl:output method="xml" omit-xml-declaration="yes"/>
 	<xsl:template match="/">
 		<xsl:apply-templates select="OTA_PNRRepriceRQ"/>
@@ -133,8 +133,9 @@
 					<xsl:value-of select="ConversationID" />
 				</xsl:attribute>
 			</xsl:if>
-			
+
 			<common:BillingPointOfSaleInfo OriginApplication="UAPI"/>
+			<common:ContinuityCheckOverride>Yes</common:ContinuityCheckOverride>
 			<universal:RecordIdentifier UniversalLocatorCode="{$PNR/@LocatorCode}" ProviderCode="{$PNR/universal:ProviderReservationInfo/@ProviderCode}" ProviderLocatorCode="{$PNR/universal:ProviderReservationInfo//@LocatorCode}"/>
 			<universal:UniversalModifyCmd Key="1">
 				<universal:AirDelete ReservationLocatorCode="{$PNR/air:AirReservation/@LocatorCode}" Element="AirPricingInfo" Key="{$PNR/air:AirReservation/air:AirPricingInfo/@Key}"/>
@@ -143,8 +144,9 @@
 				<universal:AirAdd ReservationLocatorCode="{$PNR/air:AirReservation/@LocatorCode}">
 					<xsl:for-each select="$Price/air:AirPricingInfo">
 						<xsl:copy-of select="."/>
-						<!--air:AirPricingInfo Key="{@Key}" TotalPrice="USD1361.12" BasePrice="USD1009.00" ApproximateTotalPrice="USD1361.12" ApproximateBasePrice="USD1009.00" Taxes="USD352.12" LatestTicketingTime="2013-06-03T23:59:00.000+00:00" PricingMethod="Auto" PlatingCarrier="CM" ProviderCode="1P">
-							<air:FareInfo Key="11T" FareBasis="UH07F90" PassengerTypeCode="ADT" Origin="BUE" Destination="PTY" EffectiveDate="2013-05-31T16:59:34.410-03:00" Amount="NUC449.50">
+						<!--
+						<air:AirPricingInfo Key="{@Key}" TotalPrice="USD1361.12" BasePrice="USD1009.00" ApproximateTotalPrice="USD1361.12" ApproximateBasePrice="USD1009.00" Taxes="USD352.12" LatestTicketingTime="2013-06-03T23:59:00.000+00:00" PricingMethod="Auto" PlatingCarrier="CM" ProviderCode="1P">
+							<air:FareInfo Key="@Key" FareBasis="UH07F90" PassengerTypeCode="ADT" Origin="BUE" Destination="PTY" EffectiveDate="2013-05-31T16:59:34.410-03:00" Amount="NUC449.50">
 								<air:FareTicketDesignator Value="SR"/>
 								<air:FareRuleKey FareInfoRef="11T" ProviderCode="1P">XzDMMwsHqPXIslq/Ib7oyrF6nNWs26q/O3RFsLGklWZ4VF+9+au0cPa0xAyxURWhjbG+8ywcYF6ql2SKdQowyK5atgV7J/OD</air:FareRuleKey>
 							</air:FareInfo>
@@ -163,7 +165,8 @@
 							<air:TaxInfo Category="FZ" Amount="USD40.00" Key="10T"/>
 							<air:FareCalc>ADT BUE CM PTY Q80.00 449.50CM BUE Q80.00 399.50NUC1009.00END ROE1.00CM XT10.00QO10.00TQ201.80ZK2.50AH40.00FZ</air:FareCalc>
 							<air:PassengerType Code="ADT"/>
-						</air:AirPricingInfo-->
+						</air:AirPricingInfo>
+						-->
 					</xsl:for-each>
 				</universal:AirAdd>
 			</universal:UniversalModifyCmd>
