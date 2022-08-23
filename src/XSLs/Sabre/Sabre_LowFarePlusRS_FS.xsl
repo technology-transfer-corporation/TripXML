@@ -3,6 +3,7 @@
 	<!-- ================================================================== -->
 	<!-- Sabre_LowFarePlusRS.xsl 														-->
 	<!-- ================================================================== -->
+	<!-- Date: 23 Aug 2022 - Samokhvalov - corrected OriginDestinationOptions			-->
 	<!-- Date: 28 Aug 2011 - Rastko - corrected mapping of validating carrier			-->
 	<!-- Date: 18 Feb 2011 - Rastko - added code to get operating airline in response		-->
 	<!-- Date: 04 Dec 2010 - Rastko - added calculation of JourneyTotalDuration			-->
