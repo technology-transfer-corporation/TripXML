@@ -87,7 +87,7 @@
 					</xsl:choose>
 				</xsl:attribute>
 				<OriginDestinationOptions>
-					<xsl:apply-templates select="AirItinerary/OriginDestinationOptions/OriginDestination" />
+					<xsl:apply-templates select="AirItinerary/OriginDestinationOptions/OriginDestinationOption" />
 				</OriginDestinationOptions>
 			</AirItinerary>
 			<xsl:apply-templates select="AirItineraryPricingInfo" />
@@ -395,7 +395,7 @@
 	<!--  OriginDestination section						    -->
 	<!-- 
 ******************************************************************** -->
-	<xsl:template match="OriginDestination">
+	<xsl:template match="OriginDestinationOption">
 		<OriginDestinationOption>
 			<xsl:attribute name="SectorSequence">
 				<xsl:choose>
