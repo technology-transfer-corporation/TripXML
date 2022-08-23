@@ -714,8 +714,17 @@
     <Reference Include="Sabre_LowFarePlusRQ">
       <HintPath>Xsl\Sabre\Sabre_LowFarePlusRQ.dll</HintPath>
     </Reference>
+    <Reference Include="Sabre_LowFarePlusRQ_Air">
+      <HintPath>Xsl\Sabre\Sabre_LowFarePlusRQ_Air.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_LowFarePlusRQ_FS">
+      <HintPath>Xsl\Sabre\Sabre_LowFarePlusRQ_FS.dll</HintPath>
+    </Reference>
     <Reference Include="Sabre_LowFarePlusRS">
       <HintPath>Xsl\Sabre\Sabre_LowFarePlusRS.dll</HintPath>
+    </Reference>
+    <Reference Include="Sabre_LowFarePlusRS_FS">
+      <HintPath>Xsl\Sabre\Sabre_LowFarePlusRS_FS.dll</HintPath>
     </Reference>
     <Reference Include="Sabre_LowFareRQ">
       <HintPath>Xsl\Sabre\Sabre_LowFareRQ.dll</HintPath>
