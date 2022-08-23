@@ -4,6 +4,7 @@
 	==================================================================
 	Travelport_PNRRepriceRS.xsl 										
 	================================================================== 
+	Date: 19 Aug 2022 - Kobelev - Implamented Conversation ID.
 	Date: 21 Mar 2022 - Kobelev - Update display.
 	Date: 11 Nov 2014 - Rastko - new file								
 	================================================================== 
@@ -14,6 +15,11 @@
 			<xsl:attribute name="Version">1.0</xsl:attribute>
 			<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp"/>
 			<xsl:apply-templates select="SOAP:Fault/detail" mode="error"/>
+			<xsl:if test="universal:UniversalRecordRetrieveRsp/ConversationID!=''">
+				<ConversationID>
+					<xsl:value-of select="universal:UniversalRecordRetrieveRsp/ConversationID"/>
+				</ConversationID>
+			</xsl:if>
 		</OTA_PNRRepriceRS>
 	</xsl:template>
 	<!--************************************************************************************************************-->
@@ -122,7 +128,6 @@
 			<xsl:apply-templates select="air:AirPricingSolution"/>
 		</PricedItinerary>
 	</xsl:template>
-
 	<xsl:template match="air:AirReservation | air:AirPricingSolution">
 		<AirItineraryPricingInfo>
 			<xsl:attribute name="PricingSource">
@@ -207,7 +212,6 @@
 			</PTC_FareBreakdowns>
 		</AirItineraryPricingInfo>
 	</xsl:template>
-
 	<xsl:template match="air:AirPricingInfo">
 		<PTC_FareBreakdown>
 			<xsl:attribute name="RPH">
@@ -268,13 +272,13 @@
 					<xsl:choose>
 						<xsl:when test="../../air:AirSegment">
 							<xsl:call-template name="fltNumber">
-								<xsl:with-param name="key" select="$segref" />								
+								<xsl:with-param name="key" select="$segref" />
 								<xsl:with-param name="segs" select="../../air:AirSegment" />
-							</xsl:call-template>						
+							</xsl:call-template>
 						</xsl:when>
 						<xsl:when test="@SegmentRef">
 							<xsl:call-template name="fltNumber">
-								<xsl:with-param name="key" select="$segref" />								
+								<xsl:with-param name="key" select="$segref" />
 								<xsl:with-param name="segs" select="../../../../../air:AirPriceRsp/air:AirItinerary/air:AirSegment" />
 							</xsl:call-template>
 						</xsl:when>
@@ -473,7 +477,6 @@
 			</xsl:attribute>
 		</Tax>
 	</xsl:template>
-
 	<xsl:template match="ItineraryPricing | OTA_AirPriceRS" mode="Fare">
 		<xsl:param name="fare"/>
 		<xsl:param name="sn"/>

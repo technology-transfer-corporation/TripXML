@@ -1,12 +1,17 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:air="http://www.travelport.com/schema/air_v50_0" xmlns:universal="http://www.travelport.com/schema/universal_v50_0" xmlns:common="http://www.travelport.com/schema/common_v50_0" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+				xmlns:air="http://www.travelport.com/schema/air_v50_0" 
+				xmlns:universal="http://www.travelport.com/schema/universal_v50_0" 
+				xmlns:common="http://www.travelport.com/schema/common_v50_0" version="1.0">
 	<!-- 
-  ================================================================== 
+	================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 
+	Date: 19 Aug 2022 - Kobelev - Implamented Conversation ID.
 	Date: 16 Mar 2022 - Kobelev - Branded Fare in Request	
 	Date: 10 Nov 2014 - Rastko - New file											
 	================================================================== 
   -->
+	
 	<xsl:output method="xml" omit-xml-declaration="yes"/>
 	<xsl:template match="/">
 		<xsl:apply-templates select="OTA_PNRRepriceRQ"/>
@@ -22,7 +27,17 @@
                                     xmlns:passive="http://www.travelport.com/schema/passive_v50_0"
                                     xmlns:rail="http://www.travelport.com/schema/rail_v50_0"
                                     xmlns:vehicle="http://www.travelport.com/schema/vehicle_v50_0"
-                                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/@PseudoCityCode}">
+                                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+					<xsl:attribute name="TargetBranch">
+						<xsl:value-of select="POS/Source/RequestorID/@Instance" />
+					</xsl:attribute>
+
+					<xsl:if test="ConversationID">
+						<xsl:attribute name="SessionKey">
+							<xsl:value-of select="ConversationID" />
+						</xsl:attribute>
+					</xsl:if>
+
 					<common:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 					<ProviderReservationInfo>
 						<xsl:attribute name="ProviderCode">
@@ -62,8 +77,14 @@
 	<xsl:template match="Response">
 		<air:AirPriceReq>
 			<xsl:attribute name="TargetBranch">
-				<xsl:value-of select="../POS/Source/@PseudoCityCode"/>
+				<xsl:value-of select="../POS/Source/RequestorID/@Instance"/>
 			</xsl:attribute>
+			<xsl:if test="../ConversationID">
+				<xsl:attribute name="SessionKey">
+					<xsl:value-of select="../ConversationID" />
+				</xsl:attribute>
+			</xsl:if>
+
 			<common:BillingPointOfSaleInfo xmlns:com="http://www.travelport.com/schema/common_v50_0" OriginApplication="UAPI"/>
 			<air:AirItinerary>
 				<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirSegment"/>
@@ -101,7 +122,18 @@
       xmlns:passive="http://www.travelport.com/schema/passive_v50_0"
       xmlns:rail="http://www.travelport.com/schema/rail_v50_0"
       xmlns:vehicle="http://www.travelport.com/schema/vehicle_v50_0"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" TargetBranch="{POS/Source/@PseudoCityCode}" ReturnRecord="true">
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
+
+			<xsl:attribute name="TargetBranch">
+				<xsl:value-of select="POS/Source/RequestorID/@Instance" />
+			</xsl:attribute>
+
+			<xsl:if test="ConversationID">
+				<xsl:attribute name="SessionKey">
+					<xsl:value-of select="ConversationID" />
+				</xsl:attribute>
+			</xsl:if>
+			
 			<common:BillingPointOfSaleInfo OriginApplication="UAPI"/>
 			<universal:RecordIdentifier UniversalLocatorCode="{$PNR/@LocatorCode}" ProviderCode="{$PNR/universal:ProviderReservationInfo/@ProviderCode}" ProviderLocatorCode="{$PNR/universal:ProviderReservationInfo//@LocatorCode}"/>
 			<universal:UniversalModifyCmd Key="1">

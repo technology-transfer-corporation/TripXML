@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 09 Aug 2022 - Kobelev - Confirmation Number for FOP as part of CC.
    Date: 09 Aug 2022 - Kobelev - Better Pax Birthday handler.
    Date: 19 Jul 2022 - Kobelev - Error node for failed FOP change.
    Date: 29 Jun 2022 - Kobelev - FareBasis Codes were getting cut off for CHD and INF.
@@ -3536,6 +3537,46 @@
 								<xsl:attribute name="RPH">
 									<xsl:value-of select="elementManagementData/lineNumber"/>
 								</xsl:attribute>
+
+								<xsl:variable name="card">
+									<xsl:choose>
+										<xsl:when test="contains($cc,'+')">
+											<xsl:value-of select="substring-before(substring-after(substring-after($cc,'/'),'/'),'+')"/>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:value-of select="substring-after(substring-after($cc,'/'),'/')"/>
+										</xsl:otherwise>
+									</xsl:choose>
+								</xsl:variable>
+
+								<xsl:variable name="conf">
+									<xsl:if test="$card != ''">
+										<xsl:choose>
+											<xsl:when test="contains($card,'/N')">
+												<xsl:value-of select="concat('N',substring-after($card,'/N'))"/>
+											</xsl:when>
+											<xsl:when test="contains($card,'/A')">
+												<xsl:value-of select="concat('N',substring-after($card,'/A'))"/>
+											</xsl:when>
+											<xsl:when test="contains($card,'/') and not(contains($card,'.'))">
+												<xsl:value-of select="$card"/>
+											</xsl:when>
+											<xsl:when test="contains($card,'/')">
+												<xsl:value-of select="substring-after($card,'/')"/>
+											</xsl:when>
+											<xsl:when test="substring($card,1,1)='N' and not(contains($card,'.'))">
+												<xsl:value-of select="$card"/>
+											</xsl:when>
+											<xsl:when test="substring($card,1,1)='A' and not(contains($card,'.'))">
+												<xsl:value-of select="$card"/>
+											</xsl:when>
+											<xsl:when test="not(contains($card,'.'))">
+												<xsl:value-of select="$card"/>
+											</xsl:when>
+										</xsl:choose>
+									</xsl:if>
+								</xsl:variable>
+								
 								<PaymentCard>
 									<xsl:attribute name="CardCode">
 										<xsl:choose>
@@ -3545,7 +3586,19 @@
 												<xsl:value-of select="$cardCode"/>
 											</xsl:otherwise>
 										</xsl:choose>
-									</xsl:attribute>
+									</xsl:attribute>									
+									<xsl:if test="$conf!=''">
+										<xsl:attribute name="ConfirmationNumber">
+											<xsl:choose>
+												<xsl:when test="contains($conf,'+')">
+													<xsl:value-of select="substring-before($conf,'+')"/>
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:value-of select="$conf"/>
+												</xsl:otherwise>
+											</xsl:choose>
+										</xsl:attribute>
+									</xsl:if>									
 									<xsl:choose>
 										<xsl:when test="substring($cc,5,1)='/'">
 											<xsl:attribute name="CardNumber">
@@ -3659,45 +3712,9 @@
 												</xsl:choose>
 											</xsl:attribute>
 										</xsl:otherwise>
-									</xsl:choose>
+									</xsl:choose>									
 								</PaymentCard>
-								<xsl:variable name="card">
-									<xsl:choose>
-										<xsl:when test="contains($cc,'+')">
-											<xsl:value-of select="substring-before(substring-after(substring-after($cc,'/'),'/'),'+')"/>
-										</xsl:when>
-										<xsl:otherwise>
-											<xsl:value-of select="substring-after(substring-after($cc,'/'),'/')"/>
-										</xsl:otherwise>
-									</xsl:choose>
-								</xsl:variable>
-								<xsl:variable name="conf">
-									<xsl:if test="$card != ''">
-										<xsl:choose>
-											<xsl:when test="contains($card,'/N')">
-												<xsl:value-of select="concat('N',substring-after($card,'/N'))"/>
-											</xsl:when>
-											<xsl:when test="contains($card,'/A')">
-												<xsl:value-of select="concat('N',substring-after($card,'/A'))"/>
-											</xsl:when>
-											<xsl:when test="contains($card,'/') and not(contains($card,'.'))">
-												<xsl:value-of select="$card"/>
-											</xsl:when>
-											<xsl:when test="contains($card,'/')">
-												<xsl:value-of select="substring-after($card,'/')"/>
-											</xsl:when>
-											<xsl:when test="substring($card,1,1)='N' and not(contains($card,'.'))">
-												<xsl:value-of select="$card"/>
-											</xsl:when>
-											<xsl:when test="substring($card,1,1)='A' and not(contains($card,'.'))">
-												<xsl:value-of select="$card"/>
-											</xsl:when>
-											<xsl:when test="not(contains($card,'.'))">
-												<xsl:value-of select="$card"/>
-											</xsl:when>
-										</xsl:choose>
-									</xsl:if>
-								</xsl:variable>
+								
 								<xsl:variable name="amt">
 									<xsl:if test="$card != ''">
 										<xsl:choose>
@@ -3715,6 +3732,7 @@
 										</xsl:choose>
 									</xsl:if>
 								</xsl:variable>
+								
 								<TPA_Extensions>
 									<xsl:attribute name="FOPType">CC</xsl:attribute>
 									<xsl:if test="$conf!=''">
@@ -3744,6 +3762,7 @@
 									</xsl:if>
 									<xsl:if test="contains(otherDataFreetext/longFreetext,'INF ')">INF</xsl:if>
 								</TPA_Extensions>
+								
 								<xsl:if test="$amt!='' and (string(number($amt))!='NaN' or string(number(substring($amt,4)))!='NaN')">
 									<PaymentAmount>
 										<xsl:attribute name="Amount">
