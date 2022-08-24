@@ -581,9 +581,10 @@
 					</xsl:attribute>
 				</CabinType>
 				<JourneyDuration>
-					<xsl:value-of select="substring-before(@ElapsedTime,'.')"/>
+					<!--<xsl:value-of select="substring-before(@ElapsedTime,'.')"/>
 					<xsl:text>:</xsl:text>
-					<xsl:value-of select="substring-after(@ElapsedTime,'.')"/>
+					<xsl:value-of select="substring-after(@ElapsedTime,'.')"/>-->
+					<xsl:value-of select="concat(floor(@ElapsedTime div 60),':', floor(@ElapsedTime mod 60))"/>
 				</JourneyDuration>
 				<JourneyTotalDuration>
 					<xsl:value-of select="substring-before($tjd,'.')"/>
