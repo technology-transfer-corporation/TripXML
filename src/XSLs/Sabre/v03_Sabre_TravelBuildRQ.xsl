@@ -1456,7 +1456,7 @@
   <!--  			 Air Itinerary                                       -->
   <!--************************************************************-->
   <xsl:template match="OTA_AirBookRQ">
-    <OTA_AirBookRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.5.1">
+    <OTA_AirBookRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.2.0">
       <POS>
         <Source>
           <xsl:attribute name="PseudoCityCode">
