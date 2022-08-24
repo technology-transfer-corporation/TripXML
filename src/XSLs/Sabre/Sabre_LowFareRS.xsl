@@ -4,6 +4,7 @@
 	================================================================== 
 	Sabre_LowFareRS.xsl 																
 	================================================================== 
+	Date: 24 Aug 2022 - Kobelev - Fixed JourneyDuration Display
 	Date: 20 Aug 2022 - Kobelev - Better Error Handler
 	Date: 28 Aug 2011 - Rastko - corrected mapping of validating carrier
 	Date: 18 Feb 2011 - Rastko - added code to get operating airline in response		
@@ -13,8 +14,10 @@
 	Date: 16 Nov 2008 - Rastko													
 	================================================================== 
 	-->
+
 	<xsl:output method="xml" omit-xml-declaration="yes" />
 	<xsl:variable name="tis" select="OTA_AirLowFareSearchRS/TravelerInfoSummary"/>
+
 	<xsl:template match="/">
 		<xsl:apply-templates select="OTA_AirLowFareSearchRS" />
 		<xsl:if test="ErrorRS/TPA_Extensions/ErrorInfo">
@@ -60,7 +63,7 @@
 									<xsl:value-of select="Errors/Error" />
 								</xsl:otherwise>
 							</xsl:choose>
-							
+
 						</Error>
 					</Errors>
 				</xsl:when>
@@ -96,7 +99,7 @@
 					</xsl:choose>
 				</xsl:attribute>
 				<OriginDestinationOptions>
-					<xsl:apply-templates select="AirItinerary/OriginDestinationOptions/OriginDestination" />
+					<xsl:apply-templates select="AirItinerary/OriginDestinationOptions/OriginDestinationOption" />
 				</OriginDestinationOptions>
 			</AirItinerary>
 			<xsl:apply-templates select="AirItineraryPricingInfo" />
@@ -126,7 +129,7 @@
 					<xsl:otherwise>
 						<xsl:value-of select="substring-after(PTC_FareInfo/PTC_FareBreakdown/PassengerFare/TPA_Extensions/Text[contains(.,'VALIDATING CARRIER - ')],' - ')"/>
 					</xsl:otherwise>
-				</xsl:choose>												   
+				</xsl:choose>
 			</xsl:attribute>
 			<ItinTotalFare>
 				<xsl:variable name="amtbase1">
@@ -134,7 +137,9 @@
 						<xsl:with-param name="total">0</xsl:with-param>
 					</xsl:apply-templates>
 				</xsl:variable>
-				<xsl:variable name="amtbase"><xsl:value-of select="substring-before($amtbase1,'/')" /></xsl:variable>
+				<xsl:variable name="amtbase">
+					<xsl:value-of select="substring-before($amtbase1,'/')" />
+				</xsl:variable>
 				<xsl:variable name="amttot">
 					<xsl:value-of select="translate(ItinTotalFare/TotalFare/@Amount,'.','')" />
 				</xsl:variable>
@@ -152,7 +157,9 @@
 				<Taxes>
 					<Tax>
 						<xsl:attribute name="TaxCode">TotalTax</xsl:attribute>
-						<xsl:attribute name="Amount"><xsl:value-of select="$amttot - $amtbase"/></xsl:attribute>
+						<xsl:attribute name="Amount">
+							<xsl:value-of select="$amttot - $amtbase"/>
+						</xsl:attribute>
 						<xsl:attribute name="CurrencyCode">
 							<xsl:value-of select="ItinTotalFare/TotalFare/@CurrencyCode" />
 						</xsl:attribute>
@@ -196,7 +203,7 @@
 					<xsl:value-of select="translate($ttl1,' ','0')"/>
 				</xsl:variable>
 				<TicketingInfo>
-					<xsl:attribute name="TicketTimeLimit"> 
+					<xsl:attribute name="TicketTimeLimit">
 						<xsl:variable name="mm">
 							<xsl:call-template name="month">
 								<xsl:with-param name="month">
@@ -207,8 +214,12 @@
 						<xsl:variable name="depdate">
 							<xsl:value-of select="../AirItinerary/OriginDestinationOptions/OriginDestination[1]/FlightSegment[1]/@DepartureDateTime"/>
 						</xsl:variable>
-						<xsl:variable name="depmm"><xsl:value-of select="substring($depdate,6,2)"/></xsl:variable>
-						<xsl:variable name="depyyyy"><xsl:value-of select="substring($depdate,1,4)"/></xsl:variable>
+						<xsl:variable name="depmm">
+							<xsl:value-of select="substring($depdate,6,2)"/>
+						</xsl:variable>
+						<xsl:variable name="depyyyy">
+							<xsl:value-of select="substring($depdate,1,4)"/>
+						</xsl:variable>
 						<xsl:choose>
 							<xsl:when test="$depmm &lt; $mm">
 								<xsl:value-of select="$depyyyy - 1"/>
@@ -230,7 +241,7 @@
 					<xsl:value-of select="../AirItinerary/OriginDestinationOptions/OriginDestination[1]/FlightSegment[1]/@DepartureDateTime"/>
 				</xsl:variable>
 				<TicketingInfo>
-					<xsl:attribute name="TicketTimeLimit"> 
+					<xsl:attribute name="TicketTimeLimit">
 						<xsl:value-of select="substring($depdate,1,10)"/>
 						<xsl:text>T00:00:00</xsl:text>
 					</xsl:attribute>
@@ -314,7 +325,9 @@
 				<Taxes>
 					<Tax>
 						<xsl:attribute name="TaxCode">TotalTax</xsl:attribute>
-						<xsl:attribute name="Amount"><xsl:value-of select="$ttot - $tbase"/></xsl:attribute>
+						<xsl:attribute name="Amount">
+							<xsl:value-of select="$ttot - $tbase"/>
+						</xsl:attribute>
 					</Tax>
 				</Taxes>
 				<TotalFare>
@@ -328,12 +341,14 @@
 					<xsl:value-of select="PassengerFare/TPA_Extensions/FarePassengerType/@Code" />
 				</PricedCode>
 				<xsl:if test="PassengerFare/TPA_Extensions/WarningInfo[contains(.,'NOT APPLICABLE')]">
-					<Text><xsl:value-of select="PassengerFare/TPA_Extensions/WarningInfo[contains(.,'NOT APPLICABLE')]"/></Text>
+					<Text>
+						<xsl:value-of select="PassengerFare/TPA_Extensions/WarningInfo[contains(.,'NOT APPLICABLE')]"/>
+					</Text>
 				</xsl:if>
 			</TPA_Extensions>
 		</PTC_FareBreakdown>
 	</xsl:template>
-	
+
 	<xsl:template name="parsefb">
 		<xsl:param name="fbc" />
 		<xsl:choose>
@@ -368,7 +383,9 @@
 	<!-- ************************************************************** -->
 	<xsl:template match="FlightSegment" mode="fareinfos">
 		<xsl:param name="fareref" />
-		<xsl:variable name="pos"><xsl:value-of select="@RPH"/></xsl:variable>
+		<xsl:variable name="pos">
+			<xsl:value-of select="@RPH"/>
+		</xsl:variable>
 		<FareInfo>
 			<DepartureDate>
 				<xsl:value-of select="@DepartureDateTime" />
@@ -404,11 +421,13 @@
 	<!--  OriginDestination section						    -->
 	<!-- 
 ******************************************************************** -->
-	<xsl:template match="OriginDestination">
+	<xsl:template match="OriginDestinationOption">
 		<OriginDestinationOption>
 			<xsl:variable name="tjd1">
 				<xsl:apply-templates select="FlightSegment[1]" mode="calcTJD">
-					<xsl:with-param name="tjd"><xsl:value-of select="'00.00'"/></xsl:with-param>
+					<xsl:with-param name="tjd">
+						<xsl:value-of select="'00.00'"/>
+					</xsl:with-param>
 				</xsl:apply-templates>
 			</xsl:variable>
 			<xsl:apply-templates select="FlightSegment" mode="od">
@@ -421,16 +440,41 @@
 		<xsl:param name="tjd"/>
 		<xsl:choose>
 			<xsl:when test="following-sibling::FlightSegment[1]">
-				<xsl:variable name="hrs1"><xsl:value-of select="substring-before(@ElapsedTime,'.')"/></xsl:variable>
-				<xsl:variable name="min1"><xsl:value-of select="substring-after(@ElapsedTime,'.')"/></xsl:variable>
-				<xsl:variable name="hrs2"><xsl:value-of select="substring-before(following-sibling::FlightSegment[1]/@ElapsedTime,'.')"/></xsl:variable>
-				<xsl:variable name="min2"><xsl:value-of select="substring-after(following-sibling::FlightSegment[1]/@ElapsedTime,'.')"/></xsl:variable>
-				<xsl:variable name="arday"><xsl:value-of select="substring(@ArrivalDateTime,9,2)"/></xsl:variable>
-				<xsl:variable name="arhrs"><xsl:value-of select="substring(@ArrivalDateTime,12,2)"/></xsl:variable>
-				<xsl:variable name="armin"><xsl:value-of select="substring(@ArrivalDateTime,15,2)"/></xsl:variable>
-				<xsl:variable name="deday"><xsl:value-of select="substring(following-sibling::FlightSegment[1]/@DepartureDateTime,9,2)"/></xsl:variable>
-				<xsl:variable name="dehrs"><xsl:value-of select="substring(following-sibling::FlightSegment[1]/@DepartureDateTime,12,2)"/></xsl:variable>
-				<xsl:variable name="demin"><xsl:value-of select="substring(following-sibling::FlightSegment[1]/@DepartureDateTime,15,2)"/></xsl:variable>
+
+				<xsl:variable name="elpsTm" select="concat(floor(@ElapsedTime div 60),'.', floor(@ElapsedTime mod 60))"/>				
+				<xsl:variable name="hrs1">
+					<xsl:value-of select="substring-before($elpsTm,'.')"/>					
+				</xsl:variable>
+				<xsl:variable name="min1">
+					<xsl:value-of select="substring-after($elpsTm,'.')"/>
+				</xsl:variable>
+
+				<xsl:variable name="fltElpsTm" select="concat(floor(following-sibling::FlightSegment[1]/@ElapsedTime div 60),'.', floor(following-sibling::FlightSegment[1]/@ElapsedTime mod 60))"/>
+				<xsl:variable name="hrs2">
+					<xsl:value-of select="substring-before($fltElpsTm,'.')"/>
+				</xsl:variable>
+				<xsl:variable name="min2">
+					<xsl:value-of select="substring-after($fltElpsTm,'.')"/>
+				</xsl:variable>
+				
+				<xsl:variable name="arday">
+					<xsl:value-of select="substring(@ArrivalDateTime,9,2)"/>
+				</xsl:variable>
+				<xsl:variable name="arhrs">
+					<xsl:value-of select="substring(@ArrivalDateTime,12,2)"/>
+				</xsl:variable>
+				<xsl:variable name="armin">
+					<xsl:value-of select="substring(@ArrivalDateTime,15,2)"/>
+				</xsl:variable>
+				<xsl:variable name="deday">
+					<xsl:value-of select="substring(following-sibling::FlightSegment[1]/@DepartureDateTime,9,2)"/>
+				</xsl:variable>
+				<xsl:variable name="dehrs">
+					<xsl:value-of select="substring(following-sibling::FlightSegment[1]/@DepartureDateTime,12,2)"/>
+				</xsl:variable>
+				<xsl:variable name="demin">
+					<xsl:value-of select="substring(following-sibling::FlightSegment[1]/@DepartureDateTime,15,2)"/>
+				</xsl:variable>
 				<xsl:variable name="mins">
 					<xsl:choose>
 						<xsl:when test="$armin &gt; $demin">
@@ -465,20 +509,28 @@
 						<xsl:when test="$summin &gt; 59">
 							<xsl:value-of select="format-number($summin mod 60,'00')"/>
 						</xsl:when>
-						<xsl:otherwise><xsl:value-of select="format-number($summin,'00')"/></xsl:otherwise>
+						<xsl:otherwise>
+							<xsl:value-of select="format-number($summin,'00')"/>
+						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
 				<xsl:variable name="tothrs">
 					<xsl:choose>
 						<xsl:when test="$summin &gt; 59">
 							<xsl:variable name="hrssum">
-								<xsl:variable name="a"><xsl:value-of select="$summin mod 60"/></xsl:variable>
-								<xsl:variable name="b"><xsl:value-of select="$summin - $a"/></xsl:variable>
+								<xsl:variable name="a">
+									<xsl:value-of select="$summin mod 60"/>
+								</xsl:variable>
+								<xsl:variable name="b">
+									<xsl:value-of select="$summin - $a"/>
+								</xsl:variable>
 								<xsl:value-of select="$b div 60"/>
 							</xsl:variable>
 							<xsl:value-of select="$hrssum + $hrs + $hrs1 + $hrs2 + substring-before($tjd,'.')"/>
 						</xsl:when>
-						<xsl:otherwise><xsl:value-of select="$hrs + $hrs1 + $hrs2 + substring-before($tjd,'.')"/></xsl:otherwise>
+						<xsl:otherwise>
+							<xsl:value-of select="$hrs + $hrs1 + $hrs2 + substring-before($tjd,'.')"/>
+						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
 				<xsl:apply-templates select="following-sibling::FlightSegment[1]" mode="calcTJD">
@@ -487,8 +539,12 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:choose>
-					<xsl:when test="$tjd='00.00'"><xsl:value-of select="@ElapsedTime"/></xsl:when>
-					<xsl:otherwise><xsl:value-of select="$tjd"/></xsl:otherwise>
+					<xsl:when test="$tjd='00.00'">
+						<xsl:value-of select="@ElapsedTime"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$tjd"/>
+					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -577,25 +633,32 @@
 			</MarketingAirline>
 			<MarriageGrp>
 				<xsl:choose>
-					<xsl:when test="MarriageGrp='I'"><xsl:value-of select="'true'"/></xsl:when>
-					<xsl:otherwise><xsl:value-of select="'false'"/></xsl:otherwise>
+					<xsl:when test="MarriageGrp='I'">
+						<xsl:value-of select="'true'"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="'false'"/>
+					</xsl:otherwise>
 				</xsl:choose>
 			</MarriageGrp>
 			<TPA_Extensions>
 				<JourneyDuration>
+					<!--
 					<xsl:value-of select="substring-before(@ElapsedTime,'.')"/>
-					<xsl:text>:</xsl:text>
+					<xsl:text>:</xsl:text>					
 					<xsl:value-of select="substring-after(@ElapsedTime,'.')"/>
+					-->
+					<xsl:value-of select="concat(floor(@ElapsedTime div 60),':', floor(@ElapsedTime mod 60))"/>
 				</JourneyDuration>
 				<JourneyTotalDuration>
 					<xsl:value-of select="substring-before($tjd,'.')"/>
 					<xsl:text>:</xsl:text>
 					<xsl:value-of select="substring-after($tjd,'.')"/>
-				</JourneyTotalDuration> 
+				</JourneyTotalDuration>
 			</TPA_Extensions>
 		</FlightSegment>
 	</xsl:template>
-<!-- ******************************************************************** -->
+	<!-- ******************************************************************** -->
 	<xsl:template match="PTC_FareBreakdown" mode="basefare">
 		<xsl:param name="total" />
 		<xsl:variable name="thistotal">
@@ -619,7 +682,7 @@
 		<xsl:value-of select="$bigtotal" />
 		<xsl:text>/</xsl:text>
 	</xsl:template>
-	
+
 	<xsl:template name="month">
 		<xsl:param name="month" />
 		<xsl:choose>
@@ -636,6 +699,7 @@
 			<xsl:when test="$month = 'NOV'">11</xsl:when>
 			<xsl:when test="$month = 'DEC'">12</xsl:when>
 		</xsl:choose>
-	</xsl:template>	
+	</xsl:template>
+
 
 </xsl:stylesheet>

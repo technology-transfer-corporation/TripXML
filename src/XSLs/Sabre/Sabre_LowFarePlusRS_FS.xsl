@@ -1,15 +1,18 @@
 <?xml version="1.0" ?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
-	<!-- ================================================================== -->
-	<!-- Sabre_LowFarePlusRS.xsl 														-->
-	<!-- ================================================================== -->
-	<!-- Date: 23 Aug 2022 - Samokhvalov - corrected OriginDestinationOptions			-->
-	<!-- Date: 28 Aug 2011 - Rastko - corrected mapping of validating carrier			-->
-	<!-- Date: 18 Feb 2011 - Rastko - added code to get operating airline in response		-->
-	<!-- Date: 04 Dec 2010 - Rastko - added calculation of JourneyTotalDuration			-->
-	<!-- Date: 31 Aug 2010 - Rastko - corrected marriage group element				-->
-	<!-- Date: 18 Feb 2010 - Rastko														-->
-	<!-- ================================================================== -->
+	<!-- 
+	================================================================== 
+	Sabre_LowFarePlusRS.xsl 											
+	================================================================== 
+	Date: 24 Aug 2022 - Kobelev - Fixed JourneyDuration Display
+	Date: 23 Aug 2022 - Samokhvalov - corrected OriginDestinationOptions			
+	Date: 28 Aug 2011 - Rastko - corrected mapping of validating carrier			
+	Date: 18 Feb 2011 - Rastko - added code to get operating airline in response	
+	Date: 04 Dec 2010 - Rastko - added calculation of JourneyTotalDuration			
+	Date: 31 Aug 2010 - Rastko - corrected marriage group element				
+	Date: 18 Feb 2010 - Rastko													
+	================================================================== 
+	-->
 	<xsl:output method="xml" omit-xml-declaration="yes" />
 	<xsl:variable name="tis" select="OTA_AirLowFareSearchRS/TravelerInfoSummary"/>
 	<xsl:variable name="SearchODByOneWay">
@@ -423,10 +426,23 @@
 		<xsl:param name="tjd"/>
 		<xsl:choose>
 			<xsl:when test="following-sibling::FlightSegment[1]">
+				
+				<!--
 				<xsl:variable name="hrs1"><xsl:value-of select="substring-before(@ElapsedTime,'.')"/></xsl:variable>
 				<xsl:variable name="min1"><xsl:value-of select="substring-after(@ElapsedTime,'.')"/></xsl:variable>
 				<xsl:variable name="hrs2"><xsl:value-of select="substring-before(following-sibling::FlightSegment[1]/@ElapsedTime,'.')"/></xsl:variable>
 				<xsl:variable name="min2"><xsl:value-of select="substring-after(following-sibling::FlightSegment[1]/@ElapsedTime,'.')"/></xsl:variable>
+				-->
+
+
+				<xsl:variable name="elpsTm" select="concat(floor(@ElapsedTime div 60),'.', floor(@ElapsedTime mod 60))"/>
+				<xsl:variable name="fltElpsTm" select="concat(floor(following-sibling::FlightSegment[1]/@ElapsedTime div 60),'.', floor(following-sibling::FlightSegment[1]/@ElapsedTime mod 60))"/>
+				
+				<xsl:variable name="hrs1"><xsl:value-of select="substring-before($elpsTm,'.')"/></xsl:variable>
+				<xsl:variable name="min1"><xsl:value-of select="substring-after($elpsTm,'.')"/></xsl:variable>
+				<xsl:variable name="hrs2"><xsl:value-of select="substring-before($fltElpsTm,'.')"/></xsl:variable>
+				<xsl:variable name="min2"><xsl:value-of select="substring-after($fltElpsTm,'.')"/></xsl:variable>
+				
 				<xsl:variable name="arday"><xsl:value-of select="substring(@ArrivalDateTime,9,2)"/></xsl:variable>
 				<xsl:variable name="arhrs"><xsl:value-of select="substring(@ArrivalDateTime,12,2)"/></xsl:variable>
 				<xsl:variable name="armin"><xsl:value-of select="substring(@ArrivalDateTime,15,2)"/></xsl:variable>
@@ -595,9 +611,12 @@
 					</xsl:attribute>
 				</CabinType>
 				<JourneyDuration>
+					<!--
 					<xsl:value-of select="substring-before(@ElapsedTime,'.')"/>
 					<xsl:text>:</xsl:text>
 					<xsl:value-of select="substring-after(@ElapsedTime,'.')"/>
+					-->
+					<xsl:value-of select="concat(floor(@ElapsedTime div 60),':', floor(@ElapsedTime mod 60))"/>
 				</JourneyDuration>
 				<JourneyTotalDuration>
 					<xsl:value-of select="substring-before($tjd,'.')"/>

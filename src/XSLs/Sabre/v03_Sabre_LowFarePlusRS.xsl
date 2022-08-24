@@ -1,11 +1,14 @@
 <?xml version="1.0" ?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
-	<!-- ================================================================== -->
-	<!-- Sabre_LowFarePlusRS.xsl 														-->
-	<!-- ================================================================== -->
-	<!-- Date: 18 Feb 2011 - Rastko - added code to get operating airline in response		-->
-	<!-- Date: 18 Feb 2010 - Rastko														-->
-	<!-- ================================================================== -->
+	<!-- 
+	================================================================== 
+	Sabre_LowFarePlusRS.xsl 											
+	================================================================== 
+	Date: 24 Aug 2022 - Kobelev - Fixed JourneyDuration Display
+	Date: 18 Feb 2011 - Rastko - added code to get operating airline in response		
+	Date: 18 Feb 2010 - Rastko														
+	================================================================== 
+	-->
 	<xsl:output method="xml" omit-xml-declaration="yes" />
 	<xsl:variable name="tis" select="OTA_AirLowFareSearchRS/TravelerInfoSummary"/>
 	<xsl:template match="/">
@@ -105,7 +108,7 @@
 			</xsl:attribute>
 			<ItinTotalFare>
 				<xsl:variable name="amtbase1">
-					<xsl:apply-templates select="PTC_FareInfo/PTC_FareBreakdown[1]" mode="basefare">
+					<xsl:apply-templates select="PTC_FareBreakdowns/PTC_FareBreakdown[1]" mode="basefare">
 						<xsl:with-param name="total">0</xsl:with-param>
 					</xsl:apply-templates>
 				</xsl:variable>
@@ -163,7 +166,7 @@
 			</FareInfos>
 		</AirItineraryPricingInfo>
 		<xsl:variable name="ttl1">
-			<xsl:value-of select="substring-after(PTC_FareInfo/PTC_FareBreakdown[1]/PassengerFare/TPA_Extensions/Text[contains(.,'PURCHASE')],'PURCHASE ')"/>
+			<xsl:value-of select="substring-after(PTC_FareBreakdowns/PTC_FareBreakdown[1]/PassengerFare/TPA_Extensions/Text[contains(.,'PURCHASE')],'PURCHASE ')"/>
 		</xsl:variable>
 		<xsl:choose>
 			<xsl:when test="$ttl1 != ''">
@@ -480,9 +483,12 @@
 					</xsl:attribute>
 				</CabinType>
 				<JourneyDuration>
+					<!--
 					<xsl:value-of select="substring-before(@ElapsedTime,'.')"/>
 					<xsl:text>:</xsl:text>
 					<xsl:value-of select="substring-after(@ElapsedTime,'.')"/>
+					-->
+					<xsl:value-of select="concat(floor(@ElapsedTime div 60),':', floor(@ElapsedTime mod 60))"/>
 				</JourneyDuration> 
 			</TPA_Extensions>
 		</FlightSegment>
