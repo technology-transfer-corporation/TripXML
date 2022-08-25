@@ -96,7 +96,8 @@ namespace TripXMLMain
                 }
 
                 sb.Append("<").Append(strFile).Append("><Text>").Append(strText).Append("</Text><UUID>").Append(strUUID).Append("</UUID><Item>").Append(strItem).Append("</Item><UserID>").Append(userID).Append("</UserID></").Append(strFile).Append(">");
-                _senderQueue.Add(sb.ToString());
+                if (_senderQueue.Count < 50)
+                    _senderQueue.Add(sb.ToString());
             }
             catch (Exception)
             {
@@ -109,11 +110,30 @@ namespace TripXMLMain
             wsClient = new WebSocket($"ws://localhost:3070/Trace");
             while (true)
             {
-                var msg = _senderQueue.Take();
-                if (wsClient.ReadyState != WebSocketState.Open) wsClient.Connect();
-                if (wsClient.ReadyState == WebSocketState.Connecting)
-                    Thread.Sleep(100);
-                wsClient.Send(msg);
+                var reconnect = false;
+                string msg = string.Empty;
+                try
+                {
+                    msg = _senderQueue.Take();
+                    if (wsClient.ReadyState != WebSocketState.Open) wsClient.Connect();
+                    if (wsClient.ReadyState == WebSocketState.Connecting)
+                        Thread.Sleep(1000);
+                    wsClient.Send(msg);
+                }
+                catch
+                {
+                    reconnect = true;
+                }
+                if (reconnect)
+                    try
+                    {
+                        wsClient.Close();
+                        if (wsClient.ReadyState != WebSocketState.Open) wsClient.Connect();
+                        if (wsClient.ReadyState == WebSocketState.Connecting)
+                            Thread.Sleep(1000);
+                        wsClient.Send(msg);
+                    }
+                    catch { }
             }
             wsClient.Close();
         }
