@@ -47,6 +47,20 @@ namespace TripXMLMain
 
                 string xxslt = xslName.Replace(".xsl", "");
                 xslt.Load(System.Reflection.Assembly.Load(xxslt).GetType(xxslt));
+
+                /*
+                #if xslTInline == true
+                                string xxslt = xslName.Replace(".xsl", "");
+                                xslt.Load(System.Reflection.Assembly.Load(xxslt).GetType(xxslt));
+
+                #else
+                                if (!xslPath.EndsWith("\\"))
+                                    xslPath += "\\";                
+
+                                xslt.Load($"{xslPath}{xslName}", settings, new XmlUrlResolver());
+                #endif
+                */
+
                 xslt.Transform(oDoc.DocumentElement.ParentNode, null, oWriter);
                 return oWriter.ToString();
             }
@@ -99,7 +113,7 @@ namespace TripXMLMain
                 if (_senderQueue.Count < 50)
                     _senderQueue.Add(sb.ToString());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }
@@ -460,8 +474,6 @@ namespace TripXMLMain
             {
                 smtp = null;
             }
-
-
         }
     }
 }
