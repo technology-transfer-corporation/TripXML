@@ -734,12 +734,13 @@ namespace Sabre
                 // Transform Native Sabre LowFarePlus Response into OTA Response   *
                 // ***************************************************************** 
                 try
-                {
-                    CoreLib.SendTrace(ProviderSystems.UserID, "SabreAirServices", "Response", strResponse, ProviderSystems.LogUUID);
+                {                    
+                    //strResponse = ProviderSystems.SabreFareSearch
+                    //    ? CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_LowFarePlusRS.xsl")
+                    //    : CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_LowFarePlusRS_FS.xsl");
 
-                    strResponse = ProviderSystems.SabreFareSearch
-                        ? CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_LowFarePlusRS.xsl")
-                        : CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_LowFarePlusRS_FS.xsl");
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_LowFarePlusRS_FS.xsl");
+                    CoreLib.SendTrace(ProviderSystems.UserID, "SabreAirServices", "Response", strResponse, ProviderSystems.LogUUID);
                 }
                 catch (Exception ex)
                 {
@@ -907,16 +908,21 @@ namespace Sabre
                 if (ProviderSystems.SessionPool)
                 {
                     ttSA = new SabreAdapter(ProviderSystems, "V1");
+                    
                     strResponse = Convert.ToBoolean(ProviderSystems.AdVShop)
                             ? ttSA.SendMessageV3(strRequest.Replace(" xmlns=\"\"", ""), "Low Fare Search", "SSSAdvShopRQ")
-                            : ttSA.SendMessageV3(strRequest.Replace(" xmlns=\"\"", ""), "Low Fare Search", "BargainFinderMaxRQ");
+                            : Convert.ToBoolean(ProviderSystems.SabreFareSearch) 
+                                ? ttSA.SendMessageV3(strRequest.Replace(" xmlns=\"\"", ""), "Low Fare Search", "OTA_AirLowFareSearchLLSRQ")
+                                : ttSA.SendMessageV3(strRequest.Replace(" xmlns=\"\"", ""), "Low Fare Search", "BargainFinderMaxRQ");
                 }
                 else
                 {
                     ttSA = new SabreAdapter(ProviderSystems);
                     strResponse = !string.IsNullOrEmpty(ProviderSystems.AdVShop)
                             ? ttSA.SendMessage(strRequest.Replace(" xmlns=\"\"", ""), "Low Fare Search", "SSSAdvShopRQ")
-                            : ttSA.SendMessage(strRequest.Replace(" xmlns=\"\"", ""), "Low Fare Search", "BargainFinderMaxRQ");
+                            : Convert.ToBoolean(ProviderSystems.SabreFareSearch)  
+                                ? ttSA.SendMessage(strRequest.Replace(" xmlns=\"\"", ""), "Low Fare Search", "OTA_AirLowFareSearchLLSRQ")
+                                : ttSA.SendMessage(strRequest.Replace(" xmlns=\"\"", ""), "Low Fare Search", "BargainFinderMaxRQ");
                 }
 
                 // ************************************

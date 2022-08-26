@@ -77,6 +77,10 @@ namespace Sabre
                 if (fi != null)
                 {
                     var oHttpResponse = (HttpWebResponse)fi.GetValue(mHttpRequest);
+                    
+                    if (oHttpResponse == null)
+                        throw new Exception($"Error Getting Response.\r\n{ex.Message}");
+
                     var stream = oHttpResponse.GetResponseStream();
                     var oReader = new StreamReader(stream);
                     string strResponse = oReader.ReadToEnd();

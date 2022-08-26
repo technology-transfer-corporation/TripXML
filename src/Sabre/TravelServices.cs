@@ -642,14 +642,12 @@ namespace Sabre
             bool Other;
             bool Special;
             bool Queue;
-            string strPassengerDetails = "";
             string strEnhanced_AirBookRQ = "";
-            string strReqPassengerDetails = Request;
             string strWarnings = string.Empty;
             string strErrors = string.Empty;
             try
             {
-                strReqPassengerDetails = SetRequest("Sabre_TravelBuildRQ.xsl");
+                strRequest = SetRequest("Sabre_TravelBuildRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
 
@@ -667,7 +665,7 @@ namespace Sabre
                     oDoc.LoadXml(strRequest);
                     var oRoot = oDoc.DocumentElement;
                     var oDoc2 = new XmlDocument();
-                    oDoc2.LoadXml(strReqPassengerDetails);
+                    oDoc2.LoadXml(Request);
                     var oRoot2 = oDoc2.DocumentElement;
 
                     if (oRoot.SelectSingleNode("AddInfo") is null)
@@ -679,6 +677,7 @@ namespace Sabre
                         strAddInfo = oRoot.SelectSingleNode("AddInfo").InnerXml.Replace(" xmlns=\"\"", "");
                     }
 
+                    string strPassengerDetails = "";
                     if (oRoot2.SelectSingleNode("PassengerDetails") is null)
                     {
                         throw new Exception("Request is missing mandatory elements.");
