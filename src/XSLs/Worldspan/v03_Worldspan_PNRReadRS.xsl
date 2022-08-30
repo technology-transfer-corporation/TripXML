@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 30 Aug 2022 - Samokhvalov - OperatingAirline Code fixes
 Date: 30 Aug 2022 - Samokhvalov - Added TPA_Extensions/AgencyCommission.
 Date: 22 Aug 2022 - Samokhvalov - PTC_Farebreakdown flight segments fixes.
 Date: 18 Aug 2022 - Samokhvalov - Special Remarks CC(Controlling Carrier) reworked.
