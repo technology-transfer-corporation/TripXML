@@ -4,6 +4,7 @@
 	================================================================== 
 	Sabre_LowFarePlusRS.xsl 											
 	================================================================== 
+	Date: 26 Aug 2022 - Kobelev - Fixed FareInfo Display
 	Date: 24 Aug 2022 - Kobelev - Fixed JourneyDuration Display
 	Date: 23 Aug 2022 - Samokhvalov - corrected OriginDestinationOptions			
 	Date: 28 Aug 2011 - Rastko - corrected mapping of validating carrier			
@@ -172,9 +173,9 @@
 				<xsl:apply-templates select="PTC_FareInfo/PTC_FareBreakdown" mode="PaxType" />
 			</PTC_FareBreakdowns>
 			<FareInfos>
-				<xsl:for-each select="PTC_FareInfo/PTC_FareBreakdown">
-					<xsl:variable name="fareref" select="FareBasisCode"/>
-					<xsl:apply-templates select="../../../AirItinerary/OriginDestinationOptions/OriginDestination/FlightSegment" mode="fareinfos">
+				<xsl:for-each select="PTC_FareBreakdowns/PTC_FareBreakdown">
+					<xsl:variable name="fareref" select="FareBasisCodes/FareBasisCode"/>
+					<xsl:apply-templates select="../../../AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment" mode="fareinfos">
 						<xsl:with-param name="fareref">
 							<xsl:copy-of select="$fareref" />
 						</xsl:with-param>
@@ -363,7 +364,10 @@
 	<!-- ************************************************************** -->
 	<xsl:template match="FlightSegment" mode="fareinfos">
 		<xsl:param name="fareref" />
-		<xsl:variable name="pos"><xsl:value-of select="@RPH"/></xsl:variable>
+		<xsl:variable name="pos">
+			<!--<xsl:value-of select="@RPH"/>-->
+			<xsl:value-of select="position()"/>
+		</xsl:variable>
 		<FareInfo>
 			<DepartureDate>
 				<xsl:value-of select="@DepartureDateTime" />

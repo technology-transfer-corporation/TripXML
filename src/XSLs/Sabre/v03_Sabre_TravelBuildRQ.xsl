@@ -1281,7 +1281,9 @@
 		<xsl:if test="AccountingLine!=''">
 			<TravelItineraryAddInfoRQ Version="2.2.1" xmlns="http://webservices.sabre.com/sabreXML/2011/10">
 				<CustomerInfo>
-					<CustomerIdentifier><xsl:value-of select="AccountingLine"/></CustomerIdentifier>
+					<CustomerIdentifier>
+						<xsl:value-of select="AccountingLine"/>
+					</CustomerIdentifier>
 				</CustomerInfo>
 			</TravelItineraryAddInfoRQ>
 		</xsl:if>
@@ -2093,16 +2095,16 @@
 		<OTA_AirPriceRQ Version="2.17.0" xmlns="http://webservices.sabre.com/sabreXML/2011/10">
 			<PriceRequestInformation Retain="true">
 				<OptionalQualifiers>
-					<MiscQualifiers>
-						<xsl:if test="@PricingInstruction!=''">
+					<xsl:if test="@PricingInstruction!=''">
+						<MiscQualifiers>
 							<HemisphereCode>
 								<xsl:value-of select="substring(substring-after(@PricingInstruction,'H'),1,1)"/>
 							</HemisphereCode>
 							<JourneyCode>
 								<xsl:value-of select="substring(substring-after(@PricingInstruction,'J'),1,1)"/>
 							</JourneyCode>
-						</xsl:if>
-					</MiscQualifiers>
+						</MiscQualifiers>
+					</xsl:if>
 					<PricingQualifiers>
 						<xsl:if test="../../OTA_AirBookRQ/AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment/@FareFamily!=''">
 							<xsl:for-each select="../../OTA_AirBookRQ/AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment">
@@ -2119,6 +2121,16 @@
 								<SegmentSelect Number="{position()}" RPH="{position()}"/>
 							</xsl:for-each>
 						</ItineraryOptions>
+						
+							<xsl:for-each select="../../OTA_AirBookRQ/AirItineraryPricingInfo/PTC_FareBreakdowns/PTC_FareBreakdown/FareBasisCodes/FareBasisCode">
+								<xsl:variable name="pos" select="position()" />
+								<SpecificFare RPH="position()">
+									<FareBasis>
+										<xsl:value-of select="text()"/>
+									</FareBasis>
+								</SpecificFare>
+							</xsl:for-each>
+							
 						<xsl:choose>
 							<xsl:when test="PassengerTypeQuantity/@Code!=''">
 								<xsl:for-each select="PassengerTypeQuantity">
