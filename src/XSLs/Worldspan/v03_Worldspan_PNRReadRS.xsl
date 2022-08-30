@@ -3298,6 +3298,8 @@ Date: 23 Feb 2015 - Rastko
     OPERATED BY AZUL AIRLINES AD 4493 
     OPERATED BY /AVIANCA
     OPERATED BY VIRGIN AUST INTL FOR VA SE ASIA
+	
+	OPERATED BY FINNAIR FOR EW DISCOVER 4Y 65
     Attempt to extract airline code from it.
     -->
 		<xsl:variable name="elems">
@@ -3310,7 +3312,17 @@ Date: 23 Feb 2015 - Rastko
 		<xsl:variable name="AirlineCode" >
 			<xsl:choose>
 				<xsl:when test="contains(., ' BY ') and contains(., ' FOR ')">
-					<xsl:value-of select="' '"/>
+					<xsl:variable name="lastElem">
+						<xsl:value-of select="msxsl:node-set($elems)/elem[position()=(last())]"/>
+					</xsl:variable>
+					<xsl:choose>
+						<xsl:when test="number($lastElem) = $lastElem">
+							<xsl:value-of select="msxsl:node-set($elems)/elem[position()=(last() - 1)]"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="' '"/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:when>
 				<xsl:when test="count(msxsl:node-set($elems)/elem) > 3">
 					<xsl:value-of select="msxsl:node-set($elems)/elem[position()=(last() - 1)]"/>
