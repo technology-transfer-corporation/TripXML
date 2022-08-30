@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 30 Aug 2022 - Samokhvalov - Added TPA_Extensions/AgencyCommission.
 Date: 22 Aug 2022 - Samokhvalov - PTC_Farebreakdown flight segments fixes.
 Date: 18 Aug 2022 - Samokhvalov - Special Remarks CC(Controlling Carrier) reworked.
 Date: 29 Apr 2022 - Kobelev - EMD Exchange and EMD Service Fee display fix.
@@ -490,8 +491,8 @@ Date: 23 Feb 2015 - Rastko
 								</xsl:otherwise>
 							</xsl:choose>
 						</TravelCost>
-						<xsl:if test="RMK_INF/SPE_RMK_INF/RMK_ITM[RMK_TYP='CA' or RMK_TYP='DI']">
-							<TPA_Extensions>
+						<TPA_Extensions>
+							<xsl:if test="RMK_INF/SPE_RMK_INF/RMK_ITM[RMK_TYP='CA' or RMK_TYP='DI']">
 								<xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FM']" mode="commission"/>
 								<xsl:apply-templates select="RMK_INF/SPE_RMK_INF/RMK_ITM[RMK_TYP='CA']" mode="accounting"/>
 								<xsl:call-template name="DILine">
@@ -500,8 +501,11 @@ Date: 23 Feb 2015 - Rastko
 									</xsl:with-param>
 									<xsl:with-param name="rph">1</xsl:with-param>
 								</xsl:call-template>
-							</TPA_Extensions>
-						</xsl:if>
+							</xsl:if>
+							<xsl:if test="//PNR_DHT_INF/DOC_ITM/CM_INF">
+								<xsl:apply-templates select="//PNR_DHT_INF/DOC_ITM" mode="agencyComm"/>
+							</xsl:if>
+						</TPA_Extensions>
 					</TravelItinerary>
 				</xsl:otherwise>
 			</xsl:choose>
@@ -733,6 +737,22 @@ Date: 23 Feb 2015 - Rastko
 		<AccountingLine>
 			<xsl:value-of select="RMK_TXT"/>
 		</AccountingLine>
+	</xsl:template>
+
+	<xsl:template match="DOC_ITM" mode="agencyComm">
+		<AgencyCommission>
+			<xsl:attribute name="Amount">
+				<xsl:value-of select="translate(CM_INF/CM_AMT, translate(CM_INF/CM_AMT,'.0123456789',''),'')"/>
+			</xsl:attribute>
+			<xsl:variable name="tktPax" select="DOC_PAX_INF/PAX_NME" />
+			<xsl:attribute name="TravelerRefNumberRPHList">
+				<xsl:for-each select="//PAX_INF/NME_ITM">
+					<xsl:if test="translate(PAX_NME, '.','') = translate($tktPax, '.','')">
+						<xsl:value-of select="NME_POS"/>
+					</xsl:if>
+				</xsl:for-each>
+			</xsl:attribute>
+		</AgencyCommission>
 	</xsl:template>
 
 	<xsl:template match="PRC_QUO">
@@ -1529,14 +1549,21 @@ Date: 23 Feb 2015 - Rastko
             -->
 							</BagAllowance>
 						</xsl:if>
-
-						<!--<xsl:if test="contains(../PRC_QUO_CMD,'-$P')">-->
-						<SupplementalInfo>
-							<xsl:value-of select="PRC_QUO_CMD"/>
-						</SupplementalInfo>
-						<!--</xsl:if>-->
-
 					</xsl:if>
+					<xsl:choose>
+						<xsl:when test="//PNR_DHT_INF/DOC_ITM[DOC_PAX_INF/PTC=$paxtype]/DOC_PRC_INF/FAR_SHE_INF">
+							<SupplementalInfo>
+								<xsl:value-of select="//PNR_DHT_INF/DOC_ITM[DOC_PAX_INF/PTC=$paxtype]/DOC_PRC_INF/FAR_SHE_INF/FAR_SHE_TXT"/>
+							</SupplementalInfo>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:if test="PTC_FAR_DTL[PTC=$paxtype]/FAR_LDR!='' and PRC_QUO_CMD">
+								<SupplementalInfo>
+									<xsl:value-of select="PRC_QUO_CMD"/>
+								</SupplementalInfo>
+							</xsl:if>
+						</xsl:otherwise>
+					</xsl:choose>
 				</TPA_Extensions>
 			</PTC_FareBreakdown>
 		</xsl:for-each>
@@ -1809,13 +1836,21 @@ Date: 23 Feb 2015 - Rastko
 					</xsl:if>
 
 					<!-- <xsl:if test="contains(../PRC_QUO_CMD,'-$P')"> -->
-					<xsl:if test="../PRC_QUO_CMD">
-						<SupplementalInfo>
-							<xsl:value-of select="../PRC_QUO_CMD"/>
-						</SupplementalInfo>
-					</xsl:if>
-
 				</xsl:if>
+				<xsl:choose>
+					<xsl:when test="//PNR_DHT_INF/DOC_ITM[DOC_PAX_INF/PTC=$paxtype]/DOC_PRC_INF/FAR_SHE_INF">
+						<SupplementalInfo>
+							<xsl:value-of select="//PNR_DHT_INF/DOC_ITM[DOC_PAX_INF/PTC=$paxtype]/DOC_PRC_INF/FAR_SHE_INF/FAR_SHE_TXT"/>
+						</SupplementalInfo>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:if test="FAR_LDR!='' and ../PRC_QUO_CMD">
+							<SupplementalInfo>
+								<xsl:value-of select="../PRC_QUO_CMD"/>
+							</SupplementalInfo>
+						</xsl:if>
+					</xsl:otherwise>
+				</xsl:choose>
 			</TPA_Extensions>
 		</PTC_FareBreakdown>
 
