@@ -87,9 +87,11 @@
 			<xsl:value-of select="normalize-space(translate(.,'Â',''))"/>
 		</Warning>
 	</xsl:template>
-	<!--************************************************************************************-->
-	<!--			PNR Retrieve Errors                                           	                 -->
-	<!--************************************************************************************-->
+	<!--
+	************************************************************************************
+				PNR Retrieve Errors                                           	    
+	************************************************************************************
+	-->
 	<xsl:template match="Err">
 		<Error>
 			<xsl:attribute name="Type">General</xsl:attribute>
@@ -140,13 +142,13 @@
 			<xsl:variable name="bf">
 				<xsl:choose>
 					<xsl:when test="air:AirPricingInfo[@PricingType='StoredFareQuote']">
-						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFareQuote']" mode="totalbase">
+						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFareQuote'][1]" mode="totalbase">
 							<xsl:with-param name="sum">0</xsl:with-param>
 							<xsl:with-param name="pos">1</xsl:with-param>
 						</xsl:apply-templates>
 					</xsl:when>
 					<xsl:when test="air:AirPricingInfo[@PricingType='StoredFare']">
-						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFare']" mode="totalbase">
+						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFare'][1]" mode="totalbase">
 							<xsl:with-param name="sum">0</xsl:with-param>
 							<xsl:with-param name="pos">1</xsl:with-param>
 						</xsl:apply-templates>
@@ -158,20 +160,52 @@
 						</xsl:apply-templates>
 					</xsl:otherwise>
 				</xsl:choose>
-
-
 			</xsl:variable>
+
 			<xsl:variable name="tf">
-				<xsl:apply-templates select="air:AirPricingInfo[1]" mode="totalprice">
-					<xsl:with-param name="sum">0</xsl:with-param>
-					<xsl:with-param name="pos">1</xsl:with-param>
-				</xsl:apply-templates>
+				<xsl:choose>
+					<xsl:when test="air:AirPricingInfo[@PricingType='StoredFareQuote']">
+						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFareQuote'][1]" mode="totalprice">
+							<xsl:with-param name="sum">0</xsl:with-param>
+							<xsl:with-param name="pos">1</xsl:with-param>
+						</xsl:apply-templates>
+					</xsl:when>
+					<xsl:when test="air:AirPricingInfo[@PricingType='StoredFare']">
+						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFare'][1]" mode="totalprice">
+							<xsl:with-param name="sum">0</xsl:with-param>
+							<xsl:with-param name="pos">1</xsl:with-param>
+						</xsl:apply-templates>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:apply-templates select="air:AirPricingInfo[1]" mode="totalprice">
+							<xsl:with-param name="sum">0</xsl:with-param>
+							<xsl:with-param name="pos">1</xsl:with-param>
+						</xsl:apply-templates>
+					</xsl:otherwise>
+				</xsl:choose>			
+				
 			</xsl:variable>
 			<xsl:variable name="Taxf">
-				<xsl:apply-templates select="air:AirPricingInfo[1]" mode="totalTax">
-					<xsl:with-param name="sum">0</xsl:with-param>
-					<xsl:with-param name="pos">1</xsl:with-param>
-				</xsl:apply-templates>
+				<xsl:choose>
+					<xsl:when test="air:AirPricingInfo[@PricingType='StoredFareQuote']">
+						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFareQuote'][1]" mode="totalTax">
+							<xsl:with-param name="sum">0</xsl:with-param>
+							<xsl:with-param name="pos">1</xsl:with-param>
+						</xsl:apply-templates>
+					</xsl:when>
+					<xsl:when test="air:AirPricingInfo[@PricingType='StoredFare']">
+						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFare'][1]" mode="totalTax">
+							<xsl:with-param name="sum">0</xsl:with-param>
+							<xsl:with-param name="pos">1</xsl:with-param>
+						</xsl:apply-templates>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:apply-templates select="air:AirPricingInfo[1]" mode="totalTax">
+							<xsl:with-param name="sum">0</xsl:with-param>
+							<xsl:with-param name="pos">1</xsl:with-param>
+						</xsl:apply-templates>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:variable>
 			<xsl:variable name="curt">
 				<xsl:value-of select="substring(air:AirPricingInfo[1]/@BasePrice,1,3)"/>
@@ -1257,26 +1291,51 @@
 	<xsl:template match="air:AirPricingInfo" mode="totalbase">
 		<xsl:param name="sum"/>
 		<xsl:param name="pos"/>
-		<xsl:variable name="nopt">
+
+		<xsl:variable name="pax">
 			<xsl:value-of select="count(air:PassengerType)"/>
 		</xsl:variable>
+
 		<xsl:variable name="pq" select="@PricingType" />
+
 		<xsl:variable name="tot">
-			<xsl:value-of select="translate(substring(@BasePrice,4),'.','') * $nopt"/>
+			<xsl:value-of select="translate(substring(@BasePrice,4),'.','') * $pax"/>
 		</xsl:variable>
+
 		<xsl:choose>
-			<xsl:when test="../air:AirPricingInfo[@PricingType=$pq][$pos + 1]">
-				<xsl:apply-templates select="../air:AirPricingInfo[@PricingType=$pq][$pos + 1]" mode="totalbase">
-					<xsl:with-param name="sum">
-						<xsl:value-of select="$tot + $sum"/>
-					</xsl:with-param>
-					<xsl:with-param name="pos">
-						<xsl:value-of select="$pos + 1"/>
-					</xsl:with-param>
-				</xsl:apply-templates>
+			<xsl:when test="$pq!=''">
+				<xsl:choose>
+					<xsl:when test="../air:AirPricingInfo[@PricingType=$pq][$pos + 1]">
+						<xsl:apply-templates select="../air:AirPricingInfo[@PricingType=$pq][$pos + 1]" mode="totalbase">
+							<xsl:with-param name="sum">
+								<xsl:value-of select="number($tot) + number($sum)"/>
+							</xsl:with-param>
+							<xsl:with-param name="pos">
+								<xsl:value-of select="$pos + 1"/>
+							</xsl:with-param>
+						</xsl:apply-templates>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="number($tot) + number($sum)"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="$tot + $sum"/>
+				<xsl:choose>
+					<xsl:when test="../air:AirPricingInfo[$pos + 1]">
+						<xsl:apply-templates select="../air:AirPricingInfo[$pos + 1]" mode="totalbase">
+							<xsl:with-param name="sum">
+								<xsl:value-of select="number($tot) + number($sum)"/>
+							</xsl:with-param>
+							<xsl:with-param name="pos">
+								<xsl:value-of select="$pos + 1"/>
+							</xsl:with-param>
+						</xsl:apply-templates>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="number($tot) + number($sum)"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
@@ -1315,22 +1374,46 @@
 		<xsl:variable name="tot">
 			<xsl:value-of select="translate(substring(@TotalPrice,4),'.','') * $nopt"/>
 		</xsl:variable>
+		
 		<xsl:variable name="pq" select="@PricingType" />
+
 		<xsl:choose>
-			<xsl:when test="../air:AirPricingInfo[@PricingType=$pq][$pos + 1]">
-				<xsl:apply-templates select="../air:AirPricingInfo[@PricingType=$pq][$pos + 1]" mode="totalprice">
-					<xsl:with-param name="sum">
+			<xsl:when test="$pq!=''">
+				<xsl:choose>
+					<xsl:when test="../air:AirPricingInfo[@PricingType=$pq][$pos + 1]">
+						<xsl:apply-templates select="../air:AirPricingInfo[@PricingType=$pq][$pos + 1]" mode="totalprice">
+							<xsl:with-param name="sum">
+								<xsl:value-of select="$tot + $sum"/>
+							</xsl:with-param>
+							<xsl:with-param name="pos">
+								<xsl:value-of select="$pos + 1"/>
+							</xsl:with-param>
+						</xsl:apply-templates>
+					</xsl:when>
+					<xsl:otherwise>
 						<xsl:value-of select="$tot + $sum"/>
-					</xsl:with-param>
-					<xsl:with-param name="pos">
-						<xsl:value-of select="$pos + 1"/>
-					</xsl:with-param>
-				</xsl:apply-templates>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="$tot + $sum"/>
+				<xsl:choose>
+					<xsl:when test="../air:AirPricingInfo[$pos + 1]">
+						<xsl:apply-templates select="../air:AirPricingInfo[$pos + 1]" mode="totalprice">
+							<xsl:with-param name="sum">
+								<xsl:value-of select="number($tot) + number($sum)"/>
+							</xsl:with-param>
+							<xsl:with-param name="pos">
+								<xsl:value-of select="$pos + 1"/>
+							</xsl:with-param>
+						</xsl:apply-templates>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="number($tot) + number($sum)"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:otherwise>
-		</xsl:choose>
+		</xsl:choose>		
+		
 	</xsl:template>
 	<xsl:template name="paxNumber">
 		<xsl:param name="key" />
