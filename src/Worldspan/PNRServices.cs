@@ -155,6 +155,8 @@ namespace Worldspan
                 bool inSession = false; //SetConversationID(ttWA);
                 strResponse = ttWA.SendMessage(strRequest);
 
+                var agentCommResp = string.Empty;
+
                 if (!string.IsNullOrEmpty(strResponse)
                     && !strResponse.Contains("no session configured with name ")
                     && !strResponse.Contains("NO BRIDGE BRANCH") & !strResponse.Contains("SECURED PNR"))
@@ -169,6 +171,36 @@ namespace Worldspan
                         oDoc.LoadXml(Request);
                         var oRoot = oDoc.DocumentElement;
                         var pnrNum = oRoot.SelectSingleNode("UniqueID/@ID").InnerText;
+
+                        var xResp = new XmlDocument();
+                        xResp.LoadXml(strResponse);
+
+                        try
+                        {
+                            var ticketNums = xResp.SelectNodes("//DPW8/ETR_INF/ETR_TIC_INF[CPN_INF/E_TIC_STA_COD = 'O']/TIC_NUM").Cast<XmlNode>()
+                                .Select(x => x.InnerText).ToList();
+                            //filter conjunction
+                            var ticketSSR = ticketNums.SelectMany(tk => xResp.SelectNodes($"//SSR_INF/SSR_ITM[contains(SSR_TXT, {tk}) and contains(SSR_TXT, '/') and contains(SSR_TXT, '-')]/SSR_TXT").Cast<XmlNode>().Select(x => x.InnerText).ToList()).ToList();
+                            var conjTks = ticketSSR.Select(s =>
+                            {
+                                var det = s.Split(".C/".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                                return new KeyValuePair<string, string>(det[0], det[2]);
+                            }).GroupBy(x => x.Key).Select(y => y.First()).ToList();
+
+                            ticketNums.RemoveAll(t => conjTks.Any(c => t.EndsWith(c.Value.Split('-').Last())));
+
+                            foreach (var ticketNode in ticketNums)
+                            {
+                                var dhReq = $"<DPC8><REC_LOC>{pnrNum}</REC_LOC><DOC_HIS><REC_LOC>{pnrNum}</REC_LOC><DOC_NUM>{ticketNode}</DOC_NUM></DOC_HIS></DPC8>";
+                                agentCommResp += ttWA.SendMessage(dhReq).Replace("</DOC_HIS></DPW8>", "").Replace("<DPW8><DOC_HIS>", "");
+                            }
+                            if (!string.IsNullOrEmpty(agentCommResp))
+                            {
+                                agentCommResp = "<PNR_DHT_INF>" + agentCommResp + "</PNR_DHT_INF>";
+                            }
+                        }
+                        catch { }
+
                         // send to ticket
                         ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
                         ttWA = SetAdapter(ttProviderSystems);
@@ -288,7 +320,6 @@ namespace Worldspan
                             #endregion
 
                             #region *DH
-
 
                             string strDisplayDHA = ttWA.SendCryptic("*DH");
                             lstLines = strDisplayDHA.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
@@ -453,7 +484,16 @@ namespace Worldspan
 
                             #region *4PR
 
-                            string str4P = ttWA.SendCryptic("4P");
+                            var prcs = xResp.DocumentElement.SelectNodes("//DPW8/PRC_INF/PRC_QUO/PTC_FAR_DTL/FAR_SHE_ORI").Cast<XmlNode>().Select(x => x.InnerText).ToList();
+                            var prc_opts = string.Empty;
+                            if (prcs.Any(s => s.EndsWith(" SR")))
+                            {
+                                if (prcs.Any(s => s.Contains("JWZ")))
+                                    prc_opts = "FSR";
+                                else
+                                    prc_opts = "FSR.SR";
+                            }
+                            string str4P = ttWA.SendCryptic($"4P{prc_opts}");
                             string str4PR = ttWA.SendCryptic("4PRC");
                             lstLines = str4PR.Split(new string[] { "<Screen>", "</Line><Line>", "</Screen>", "<Line>", "</Line>" }, StringSplitOptions.None).ToList();
                             // Conduct Move Down (MD)
@@ -472,8 +512,6 @@ namespace Worldspan
                                 }
                             }
                             var sb4PR = new StringBuilder("<PNR_4PR>");
-                            var xResp = new XmlDocument();
-                            xResp.LoadXml(strResponse);
 
                             var flSegs = new List<flSegsData>();
                             try
@@ -538,7 +576,12 @@ namespace Worldspan
 
                             #endregion
 
-                            strResponse = strResponse.Replace("</DPW8>", $"{sb4}{sbDH}{sbDHV}{sbH}{sb4PR}</DPW8>"); //
+                            #region Add TPA_Extensions/AgencyCommission info
+
+
+                            #endregion
+
+                            strResponse = strResponse.Replace("</DPW8>", $"{sb4}{sbDH}{sbDHV}{sbH}{sb4PR}{agentCommResp}</DPW8>"); //
                         }
                     }
                     catch (Exception ex)
