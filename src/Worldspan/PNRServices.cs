@@ -158,7 +158,7 @@ namespace Worldspan
                 var agentCommResp = string.Empty;
 
                 if (!string.IsNullOrEmpty(strResponse)
-                    && !strResponse.Contains("no session configured with name ")
+                    && !strResponse.Contains("no session configured with name ") && !strResponse.Contains("UTR PNR INVALID ADDRESS")
                     && !strResponse.Contains("NO BRIDGE BRANCH") & !strResponse.Contains("SECURED PNR"))
                 {
                     // If strResponse.Contains("EQV_BAS_FAR_CUR_COD") Then
