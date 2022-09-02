@@ -175,6 +175,10 @@ Namespace wsTravelTalk
                 ttCredential = GetTravelTalkCredential(strRequest, ttServiceID)
 
                 oDoc = oApp.Get("ttACL")
+                If oDoc Is Nothing Then
+                    Throw New Exception("Failed to find ttACL")
+                End If
+
                 validateXSDIn = oApp.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("In").ToString())
                 sb.Remove(0, sb.Length())
 
