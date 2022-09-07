@@ -10,6 +10,7 @@
 	================================================================== 
 	v03_Travelport_PNRReadRS.xsl 									
 	==================================================================
+	Date: 07 Sep 2022 - Kobelev - ARNK display fixed
 	Date: 07 Sep 2022 - Samokhvalov - ARNK segments added
 	Date: 18 Aug 2022 - Kobelev - Conversation ID fixed
 	Date: 09 Aug 2022 - Kobelev - Price Supplemental Info Display
@@ -124,7 +125,19 @@
 										</xsl:otherwise>
 									</xsl:choose>
 								</xsl:attribute>
-								<xsl:value-of select="concat(universal:ProviderReservationInfo/@OwningPCC,'|', common_v50_0:AgencyInfo/common_v50_0:AgentAction[@ActionType='Created']/@AgencyCode)"/>
+
+								<xsl:choose>
+									<xsl:when test="common_v50_0:AgencyInfo/common_v50_0:AgentAction[@ActionType='Ticketed']">
+										<xsl:value-of select="concat(universal:ProviderReservationInfo/@OwningPCC,'|', common_v50_0:AgencyInfo/common_v50_0:AgentAction[@ActionType='Ticketed']/@BranchCode)"/>
+									</xsl:when>
+									<xsl:when test="common_v50_0:AgencyInfo/common_v50_0:AgentAction[@ActionType='Modified']">
+										<xsl:value-of select="concat(universal:ProviderReservationInfo/@OwningPCC,'|', common_v50_0:AgencyInfo/common_v50_0:AgentAction[@ActionType='Modified']/@BranchCode)"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="concat(universal:ProviderReservationInfo/@OwningPCC,'|', common_v50_0:AgencyInfo/common_v50_0:AgentAction[@ActionType='Created']/@BranchCode)"/>
+									</xsl:otherwise>
+								</xsl:choose>
+
 							</CompanyName>
 						</ItineraryRef>
 						<CustomerInfos>
@@ -134,8 +147,17 @@
 							<xsl:variable name="refKey" select="air:AirReservation/common_v50_0:ProviderReservationInfoRef/@Key" />
 							<xsl:if test="air:AirReservation/air:AirSegment | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CCR'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='HHL'] | originDestinationDetails/itineraryInf[elementManagementItinerary/segmentName='HU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='RU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AU'] | 	originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='SUR'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TRN'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CRU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TU']">
 								<ReservationItems>
-									<xsl:apply-templates select="air:AirReservation/air:AirSegment" mode="Air"/>
-									<xsl:apply-templates select="common_v50_0:ProviderARNKSegment"/>
+									<xsl:choose>
+										<xsl:when test="common_v50_0:ProviderARNKSegment">
+											<xsl:apply-templates select="air:AirReservation/air:AirSegment" mode="Air">
+												<xsl:with-param name="arnk" select="common_v50_0:ProviderARNKSegment/@ProviderSegmentOrder" />
+											</xsl:apply-templates>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:apply-templates select="air:AirReservation/air:AirSegment" mode="Air"/>
+										</xsl:otherwise>
+									</xsl:choose>
+
 									<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CCR']" mode="Car"/>
 									<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CU']" mode="Car"/>
 									<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='HHL']" mode="Hotel"/>
@@ -296,6 +318,9 @@
 		<xsl:param name="ref"/>
 		<xsl:variable name="priceGroup">
 			<xsl:choose>
+				<xsl:when test="air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @PricingType = 'TicketRecord']">
+					<xsl:value-of select="air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @PricingType = 'TicketRecord'][last()]/@AirPricingInfoGroup"/>
+				</xsl:when>
 				<xsl:when test="air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @PricingType = 'StoredFareQuote']">
 					<xsl:value-of select="air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @PricingType = 'StoredFareQuote']/@AirPricingInfoGroup"/>
 				</xsl:when>
@@ -849,10 +874,21 @@
 	<!-- Air Segments    				                    -->
 	<!-- ************************************************************** -->
 	<xsl:template match="air:AirSegment" mode="Air">
+		<xsl:param name="arnk"/>
+
 		<xsl:variable name="pos">
 			<xsl:value-of select="position()"/>
 		</xsl:variable>
+
+		<xsl:for-each select="$arnk">
+			<xsl:if test=".=$pos">
+				<xsl:apply-templates select="../../common_v50_0:ProviderARNKSegment[@ProviderSegmentOrder=$pos]" />
+			</xsl:if>
+		</xsl:for-each>
+
+
 		<Item>
+
 			<xsl:attribute name="Status">
 				<xsl:value-of select="@Status"/>
 			</xsl:attribute>
@@ -862,137 +898,129 @@
 			<xsl:if test="@Status='GK'">
 				<xsl:attribute name="IsPassive">true</xsl:attribute>
 			</xsl:if>
-			<xsl:choose>
-				<xsl:when test="travelProduct/productDetails/identification='ARNK'">
-					<TPA_Extensions>
-						<Arnk/>
-					</TPA_Extensions>
-				</xsl:when>
-				<xsl:otherwise>
-					<Air>
-						<!--************************************************************************************-->
-						<!--			Air Segments/Open Segments  						      -->
-						<!--************************************************************************************-->
-						<xsl:variable name="zeroes">0000</xsl:variable>
-						<xsl:attribute name="DepartureDateTime">
-							<xsl:value-of select="@DepartureTime"/>
+
+			<Air>
+				<!--************************************************************************************-->
+				<!--			Air Segments/Open Segments  						      -->
+				<!--************************************************************************************-->
+				<xsl:variable name="zeroes">0000</xsl:variable>
+				<xsl:attribute name="DepartureDateTime">
+					<xsl:value-of select="@DepartureTime"/>
+				</xsl:attribute>
+				<xsl:attribute name="ArrivalDateTime">
+					<xsl:value-of select="@ArrivalTime"/>
+				</xsl:attribute>
+				<xsl:attribute name="StopQuantity">
+					<xsl:value-of select="count(air:FlightDetails) - 1"/>
+				</xsl:attribute>
+				<xsl:attribute name="RPH">
+					<xsl:value-of select="position()"/>
+				</xsl:attribute>
+				<xsl:attribute name="FlightNumber">
+					<xsl:value-of select="@FlightNumber"/>
+				</xsl:attribute>
+				<xsl:attribute name="ResBookDesigCode">
+					<xsl:value-of select="@ClassOfService"/>
+				</xsl:attribute>
+				<xsl:if test="relatedProduct/quantity!=''">
+					<xsl:attribute name="NumberInParty">
+						<xsl:value-of select="relatedProduct/quantity"/>
+					</xsl:attribute>
+				</xsl:if>
+				<xsl:attribute name="Status">
+					<xsl:value-of select="@Status"/>
+				</xsl:attribute>
+				<xsl:if test="@ETicketability != ''">
+					<xsl:attribute name="E_TicketEligibility">
+						<xsl:choose>
+							<xsl:when test="@ETicketability = 'Yes'">Eligible</xsl:when>
+							<xsl:otherwise>NotEligible</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+				</xsl:if>
+				<DepartureAirport>
+					<xsl:attribute name="LocationCode">
+						<xsl:value-of select="@Origin"/>
+					</xsl:attribute>
+					<xsl:if test="flightDetail/departureInformation/departTerminal != ''">
+						<xsl:attribute name="Terminal">
+							<xsl:value-of select="flightDetail/departureInformation/departTerminal"/>
 						</xsl:attribute>
-						<xsl:attribute name="ArrivalDateTime">
-							<xsl:value-of select="@ArrivalTime"/>
-						</xsl:attribute>
-						<xsl:attribute name="StopQuantity">
-							<xsl:value-of select="count(air:FlightDetails) - 1"/>
-						</xsl:attribute>
-						<xsl:attribute name="RPH">
-							<xsl:value-of select="position()"/>
-						</xsl:attribute>
-						<xsl:attribute name="FlightNumber">
-							<xsl:value-of select="@FlightNumber"/>
-						</xsl:attribute>
-						<xsl:attribute name="ResBookDesigCode">
-							<xsl:value-of select="@ClassOfService"/>
-						</xsl:attribute>
-						<xsl:if test="relatedProduct/quantity!=''">
-							<xsl:attribute name="NumberInParty">
-								<xsl:value-of select="relatedProduct/quantity"/>
-							</xsl:attribute>
-						</xsl:if>
-						<xsl:attribute name="Status">
-							<xsl:value-of select="@Status"/>
-						</xsl:attribute>
-						<xsl:if test="@ETicketability != ''">
-							<xsl:attribute name="E_TicketEligibility">
-								<xsl:choose>
-									<xsl:when test="@ETicketability = 'Yes'">Eligible</xsl:when>
-									<xsl:otherwise>NotEligible</xsl:otherwise>
-								</xsl:choose>
-							</xsl:attribute>
-						</xsl:if>
-						<DepartureAirport>
-							<xsl:attribute name="LocationCode">
-								<xsl:value-of select="@Origin"/>
-							</xsl:attribute>
-							<xsl:if test="flightDetail/departureInformation/departTerminal != ''">
-								<xsl:attribute name="Terminal">
-									<xsl:value-of select="flightDetail/departureInformation/departTerminal"/>
-								</xsl:attribute>
-							</xsl:if>
-						</DepartureAirport>
-						<ArrivalAirport>
-							<xsl:attribute name="LocationCode">
-								<xsl:value-of select="@Destination"/>
-							</xsl:attribute>
-						</ArrivalAirport>
-						<OperatingAirline>
-							<xsl:choose>
-								<xsl:when test="itineraryfreeFormText[freetextDetail/subjectQualifier='3']/text !=''">
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:attribute name="Code">
-										<xsl:value-of select="@Carrier"/>
-									</xsl:attribute>
-								</xsl:otherwise>
-							</xsl:choose>
-						</OperatingAirline>
-						<Equipment>
-							<xsl:attribute name="AirEquipType">
-								<xsl:value-of select="air:FlightDetails/@Equipment"/>
-							</xsl:attribute>
-						</Equipment>
-						<MarketingAirline>
+					</xsl:if>
+				</DepartureAirport>
+				<ArrivalAirport>
+					<xsl:attribute name="LocationCode">
+						<xsl:value-of select="@Destination"/>
+					</xsl:attribute>
+				</ArrivalAirport>
+				<OperatingAirline>
+					<xsl:choose>
+						<xsl:when test="itineraryfreeFormText[freetextDetail/subjectQualifier='3']/text !=''">
+						</xsl:when>
+						<xsl:otherwise>
 							<xsl:attribute name="Code">
 								<xsl:value-of select="@Carrier"/>
 							</xsl:attribute>
-						</MarketingAirline>
-						<TPA_Extensions>
-							<xsl:attribute name="ConfirmationNumber">
-								<xsl:variable name="airline">
-									<xsl:value-of select="@Carrier"/>
-								</xsl:variable>
-								<xsl:choose>
-									<xsl:when test="../common_v50_0:SupplierLocator[@SupplierCode=$airline]">
-										<xsl:value-of select="../common_v50_0:SupplierLocator[@SupplierCode=$airline]/@SupplierLocatorCode"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="../@LocatorCode"/>
-									</xsl:otherwise>
-								</xsl:choose>
-							</xsl:attribute>
-							<xsl:if test="air:FlightDetails/@FlightTime">
-								<xsl:variable name="zeros">00</xsl:variable>
-								<xsl:variable name="jt">
-									<xsl:value-of select="air:FlightDetails/@FlightTime" />
-								</xsl:variable>
-								<xsl:variable name="hours">
-									<xsl:choose>
-										<xsl:when test="substring-before(($jt div 60),'.')=''">
-											<xsl:value-of select="$jt div 60" />
-										</xsl:when>
-										<xsl:otherwise>
-											<xsl:value-of select="substring-before(($jt div 60),'.')" />
-										</xsl:otherwise>
-									</xsl:choose>
-								</xsl:variable>
-								<xsl:variable name="minutes">
-									<xsl:value-of select="$jt - ($hours*60)" />
-								</xsl:variable>
-								<xsl:attribute name="FlightDuration">
-									<xsl:choose>
-										<xsl:when test="$minutes = 'NaN'">
-											<xsl:value-of select="substring(string($zeros),1,2-string-length($hours))" />
-											<xsl:value-of select="$hours" />
-											<xsl:text>:00</xsl:text>
-										</xsl:when>
-										<xsl:otherwise>
-											<xsl:value-of select="substring(string($zeros),1,2-string-length($hours))" /><xsl:value-of select="$hours" />:<xsl:value-of select="substring(string($zeros),1,2-string-length($minutes))" /><xsl:value-of select="$minutes" />
-										</xsl:otherwise>
-									</xsl:choose>
-								</xsl:attribute>
-							</xsl:if>
-						</TPA_Extensions>
-					</Air>
-				</xsl:otherwise>
-			</xsl:choose>
+						</xsl:otherwise>
+					</xsl:choose>
+				</OperatingAirline>
+				<Equipment>
+					<xsl:attribute name="AirEquipType">
+						<xsl:value-of select="air:FlightDetails/@Equipment"/>
+					</xsl:attribute>
+				</Equipment>
+				<MarketingAirline>
+					<xsl:attribute name="Code">
+						<xsl:value-of select="@Carrier"/>
+					</xsl:attribute>
+				</MarketingAirline>
+				<TPA_Extensions>
+					<xsl:attribute name="ConfirmationNumber">
+						<xsl:variable name="airline">
+							<xsl:value-of select="@Carrier"/>
+						</xsl:variable>
+						<xsl:choose>
+							<xsl:when test="../common_v50_0:SupplierLocator[@SupplierCode=$airline]">
+								<xsl:value-of select="../common_v50_0:SupplierLocator[@SupplierCode=$airline]/@SupplierLocatorCode"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="../@LocatorCode"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+					<xsl:if test="air:FlightDetails/@FlightTime">
+						<xsl:variable name="zeros">00</xsl:variable>
+						<xsl:variable name="jt">
+							<xsl:value-of select="air:FlightDetails/@FlightTime" />
+						</xsl:variable>
+						<xsl:variable name="hours">
+							<xsl:choose>
+								<xsl:when test="substring-before(($jt div 60),'.')=''">
+									<xsl:value-of select="$jt div 60" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="substring-before(($jt div 60),'.')" />
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:variable>
+						<xsl:variable name="minutes">
+							<xsl:value-of select="$jt - ($hours*60)" />
+						</xsl:variable>
+						<xsl:attribute name="FlightDuration">
+							<xsl:choose>
+								<xsl:when test="$minutes = 'NaN'">
+									<xsl:value-of select="substring(string($zeros),1,2-string-length($hours))" />
+									<xsl:value-of select="$hours" />
+									<xsl:text>:00</xsl:text>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="substring(string($zeros),1,2-string-length($hours))" /><xsl:value-of select="$hours" />:<xsl:value-of select="substring(string($zeros),1,2-string-length($minutes))" /><xsl:value-of select="$minutes" />
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:attribute>
+					</xsl:if>
+				</TPA_Extensions>
+			</Air>
 		</Item>
 	</xsl:template>
 	<xsl:template match="common_v50_0:ProviderARNKSegment">
