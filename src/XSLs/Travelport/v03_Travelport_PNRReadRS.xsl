@@ -10,6 +10,7 @@
 	================================================================== 
 	v03_Travelport_PNRReadRS.xsl 									
 	==================================================================
+	Date: 07 Sep 2022 - Samokhvalov - ARNK segments added
 	Date: 18 Aug 2022 - Kobelev - Conversation ID fixed
 	Date: 09 Aug 2022 - Kobelev - Price Supplemental Info Display
 	Date: 08 Aug 2022 - Kobelev - Price Info Display 
@@ -134,6 +135,7 @@
 							<xsl:if test="air:AirReservation/air:AirSegment | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CCR'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='HHL'] | originDestinationDetails/itineraryInf[elementManagementItinerary/segmentName='HU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='RU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AU'] | 	originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='SUR'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TRN'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CRU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TU']">
 								<ReservationItems>
 									<xsl:apply-templates select="air:AirReservation/air:AirSegment" mode="Air"/>
+									<xsl:apply-templates select="common_v50_0:ProviderARNKSegment"/>
 									<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CCR']" mode="Car"/>
 									<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CU']" mode="Car"/>
 									<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='HHL']" mode="Hotel"/>
@@ -991,6 +993,16 @@
 					</Air>
 				</xsl:otherwise>
 			</xsl:choose>
+		</Item>
+	</xsl:template>
+	<xsl:template match="common_v50_0:ProviderARNKSegment">
+		<Item>
+			<xsl:attribute name="ItinSeqNumber">
+				<xsl:value-of select="@ProviderSegmentOrder"/>
+			</xsl:attribute>
+			<TPA_Extensions>
+				<Arnk />
+			</TPA_Extensions>
 		</Item>
 	</xsl:template>
 	<!--************************************************************************************-->
@@ -2276,7 +2288,7 @@
 				</TicketAdvisory>
 			</xsl:if>
 			<xsl:if test="common_v50_0:Remark">
-				<TicketAdvisory>					
+				<TicketAdvisory>
 					<xsl:text>T/</xsl:text>
 					<xsl:value-of select="common_v50_0:Remark"/>
 				</TicketAdvisory>
