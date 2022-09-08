@@ -6,6 +6,7 @@ Imports System.Xml.Serialization
 Imports System.Data
 Imports System.Text
 Imports TripXMLMain.modCore
+Imports TripXMLTools.TripXMLLoad
 
 Namespace wsTravelTalk
 
@@ -74,10 +75,10 @@ Namespace wsTravelTalk
                     ' Decode Airports   *
                     ' *******************
                     If Not oNode.SelectSingleNode("DepartureAirport") Is Nothing Then
-                        oNode.SelectSingleNode("DepartureAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                        oNode.SelectSingleNode("DepartureAirport").InnerText = DecodeValue(DecodingType.Airport, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
                     End If
                     If Not oNode.SelectSingleNode("ArrivalAirport") Is Nothing Then
-                        oNode.SelectSingleNode("ArrivalAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                        oNode.SelectSingleNode("ArrivalAirport").InnerText = DecodeValue(DecodingType.Airport, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
                     End If
                 Next
 

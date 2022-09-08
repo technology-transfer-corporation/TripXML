@@ -4,6 +4,7 @@ Imports TripXMLMain.modCore
 Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports System.Threading
+Imports TripXMLTools.TripXMLLoad
 
 Namespace wsTravelTalk
 
@@ -75,10 +76,10 @@ Namespace wsTravelTalk
                     ' Decode Airports   *
                     ' *******************
                     If Not oNode.SelectSingleNode("PickUpLocation") Is Nothing Then
-                        oNode.SelectSingleNode("PickUpLocation").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("PickUpLocation").Attributes("LocationCode").Value)
+                        oNode.SelectSingleNode("PickUpLocation").InnerText = DecodeValue(DecodingType.Airport, oNode.SelectSingleNode("PickUpLocation").Attributes("LocationCode").Value)
                     End If
                     If Not oNode.SelectSingleNode("ReturnLocation") Is Nothing Then
-                        oNode.SelectSingleNode("ReturnLocation").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("ReturnLocation").Attributes("LocationCode").Value)
+                        oNode.SelectSingleNode("ReturnLocation").InnerText = DecodeValue(DecodingType.Airport, oNode.SelectSingleNode("ReturnLocation").Attributes("LocationCode").Value)
                     End If
                 Next
                 For Each oNode In oRoot.SelectNodes("VehAvailRSCore/VehVendorAvails/VehVendorAvail")
@@ -86,7 +87,7 @@ Namespace wsTravelTalk
                     ' Decode Cars   *
                     ' *******************
                     If Not oNode.SelectSingleNode("Vendor") Is Nothing Then
-                        oNode.SelectSingleNode("Vendor").InnerText = GetDecodeValue(ttCars, oNode.SelectSingleNode("Vendor").Attributes("Code").Value)
+                        oNode.SelectSingleNode("Vendor").InnerText = DecodeValue(DecodingType.CarCompany, oNode.SelectSingleNode("Vendor").Attributes("Code").Value)
                     End If
                 Next
                 For Each oNode In oRoot.SelectNodes("VehAvailRSCore/VehVendorAvails/VehVendorAvail/VehAvails/VehAvail/VehAvailCore/Vehicle")
@@ -94,7 +95,7 @@ Namespace wsTravelTalk
                     ' Decode CarTypes *
                     ' *******************
                     If Not oNode.SelectSingleNode("VehType") Is Nothing Then
-                        oNode.SelectSingleNode("VehType").InnerText = GetDecodeValue(ttCarTypes, oNode.SelectSingleNode("VehType").Attributes("VehicleCategory").Value)
+                        oNode.SelectSingleNode("VehType").InnerText = DecodeValue(DecodingType.CarType, oNode.SelectSingleNode("VehType").Attributes("VehicleCategory").Value)
                     End If
                 Next
 
