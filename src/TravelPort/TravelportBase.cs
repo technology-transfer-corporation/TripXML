@@ -155,23 +155,18 @@ namespace Travelport
                 if (oNodeSPL != null)
                     ConversationID = oNodeSPL.InnerText.ToUpper().Replace("NONE", "");
 
-                var token = ConversationID.Split(new[] { "|" }, StringSplitOptions.None);
-                if (String.IsNullOrEmpty(token[0]))
+                //var token = ConversationID.Split(new[] { "|" }, StringSplitOptions.None);
+                if (!String.IsNullOrEmpty(ConversationID))
                 {
-                    //TODO
-                    //ConversationID = ttTP.CreateTerminalSession();
-                }
-                else
-                {
-                    return true;
-                }
+                    if (!string.IsNullOrEmpty(ConversationID) && ConversationID.Contains("Error"))
+                    {
+                        string conv = ConversationID.Substring(15, ConversationID.Length - 32);
+                        ConversationID = "";
+                        throw new Exception(conv);
+                    }
 
-                if (!string.IsNullOrEmpty(ConversationID) && ConversationID.Contains("Error"))
-                {
-                    string conv = ConversationID.Substring(15, ConversationID.Length - 32);
-                    ConversationID = "";
-                    throw new Exception(conv);
-                }
+                    return true;
+                }               
 
                 return false;
             }

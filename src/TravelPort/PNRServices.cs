@@ -69,66 +69,56 @@ namespace Travelport
                 // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                 //******************************************************************************* 
 
-                
-                    bool inSession = false;
-                    var ttProviderSystems = ProviderSystems;
-                    TravelPortWSAdapter ttTP = SetAdapter(ttProviderSystems);
+                var ttProviderSystems = ProviderSystems;
+                TravelPortWSAdapter ttTP = SetAdapter(ttProviderSystems);
+                bool inSession = SetConversationID(ttTP);
 
-                    // send retrieve universal record (UR)
-                    strResponse = ttTP.SendMessage(strRetrieve, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                // send retrieve universal record (UR)
+                strResponse = ttTP.SendMessage(strRetrieve, TravelPortWSAdapter.enRequestType.UniversalRecordService);
 
-                    if (strResponse.Contains("Record locator not found"))
+                if (strResponse.Contains("Record locator not found"))
+                {
+                    // search UR by GDS locator
+                    strResponse = ttTP.SendMessage(strSearch, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+
+                    if (strResponse.Contains("No matching records found for the given parameters"))
                     {
-                        // search UR by GDS locator
-                        strResponse = ttTP.SendMessage(strSearch, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-
-                        if (strResponse.Contains("No matching records found for the given parameters"))
-                        {
-                            // GDS locator does not exist as UR, so import it
-                            strResponse = ttTP.SendMessage(strImport, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-                        }
-                        //------------------------------------------------------------
-                        // It appears that no need for any prior manipulations with message
-                        //------------------------------------------------------------
-                        //else
-                        //{
-                        //    // get UR locator and retrieve it
-                        //    XmlDocument otaDoc = new XmlDocument();
-                        //    otaDoc.LoadXml(strResponse);
-                        //    var otaElement = otaDoc.DocumentElement;
-
-                        //    var nsmgr = new XmlNamespaceManager(otaDoc.NameTable);
-                        //    nsmgr.AddNamespace("un", "http://www.travelport.com/schema/universal_v27_0");
-
-                        //    var strURRecLoc = otaElement.SelectSingleNode("un:UniversalRecordSearchResult/@UniversalRecordLocatorCode", nsmgr).InnerText;
-
-                        //    strRetrieve = strRetrieve.Replace(strProviderRecLoc, strURRecLoc);
-
-                        //    strResponse = ttTP.SendMessage(strRetrieve, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-                        //}
+                        // GDS locator does not exist as UR, so import it
+                        strResponse = ttTP.SendMessage(strImport, TravelPortWSAdapter.enRequestType.UniversalRecordService);
                     }
+                    //------------------------------------------------------------
+                    // It appears that no need for any prior manipulations with message
+                    //------------------------------------------------------------
+                    //else
+                    //{
+                    //    // get UR locator and retrieve it
+                    //    XmlDocument otaDoc = new XmlDocument();
+                    //    otaDoc.LoadXml(strResponse);
+                    //    var otaElement = otaDoc.DocumentElement;
 
-                    //strResponse = strResponse.Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.TravelportSchema.PNR_RetrieveByRecLocReply + "\"", "");
+                    //    var nsmgr = new XmlNamespaceManager(otaDoc.NameTable);
+                    //    nsmgr.AddNamespace("un", "http://www.travelport.com/schema/universal_v27_0");
+
+                    //    var strURRecLoc = otaElement.SelectSingleNode("un:UniversalRecordSearchResult/@UniversalRecordLocatorCode", nsmgr).InnerText;
+
+                    //    strRetrieve = strRetrieve.Replace(strProviderRecLoc, strURRecLoc);
+
+                    //    strResponse = ttTP.SendMessage(strRetrieve, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                    //}
+                }
+
+                //strResponse = strResponse.Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.TravelportSchema.PNR_RetrieveByRecLocReply + "\"", "");
 
                 //*****************************************************************
                 // Transform Native Amadeus PNRRead Response into OTA Response   *
                 //***************************************************************** 
                 try
                 {
-                    //if (strResponse.Length > 1500)
-                    //{
-                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                    //}
-                    //else
-                    //{
-                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", strResponse, ProviderSystems.LogUUID);
-                    //}
-
-                    var strToReplace = "</UniversalRecordReqRsp>";
-
+                    var strToReplace = "</universal:UniversalRecordRetrieveRsp>";
                     if (inSession)
                         strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{ strToReplace}");
+
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", strResponse, ProviderSystems.LogUUID);
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Travelport_PNRReadRS.xsl");
                 }
@@ -141,7 +131,7 @@ namespace Travelport
             {
                 AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, exx.Message, ProviderSystems);
-            }            
+            }
             return strResponse;
         }
 
@@ -198,7 +188,7 @@ namespace Travelport
 
                 // send retrieve universal record (UR)
                 strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-                                
+
                 strRetrieve = strResponse;
 
                 if (strResponse.Contains("universal:UniversalRecord LocatorCode="))
@@ -227,10 +217,9 @@ namespace Travelport
                     var strToReplace = "</universal:UniversalRecordRetrieveRsp>";
                     if (inSession)
                         strRetrieve = strRetrieve.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
-                    
-                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response", strRetrieve, ProviderSystems.LogUUID);                    
+
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response", strRetrieve, ProviderSystems.LogUUID);
                     strResponse = CoreLib.TransformXML(strRetrieve, XslPath, $"{Version}Travelport_PNRRepriceRS.xsl");
-                    return strResponse;
                 }
                 catch (Exception ex)
                 {
