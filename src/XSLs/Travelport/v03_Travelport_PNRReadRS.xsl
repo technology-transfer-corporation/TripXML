@@ -10,6 +10,7 @@
 	================================================================== 
 	v03_Travelport_PNRReadRS.xsl 									
 	==================================================================
+	Date: 09 Sep 2022 - Kobelev - ARNK display fixed for PNRs without ARNK
 	Date: 07 Sep 2022 - Kobelev - ARNK display fixed
 	Date: 07 Sep 2022 - Samokhvalov - ARNK segments added
 	Date: 18 Aug 2022 - Kobelev - Conversation ID fixed
@@ -880,12 +881,13 @@
 			<xsl:value-of select="position()"/>
 		</xsl:variable>
 
-		<xsl:for-each select="$arnk">
-			<xsl:if test=".=$pos">
-				<xsl:apply-templates select="../../common_v50_0:ProviderARNKSegment[@ProviderSegmentOrder=$pos]" />
-			</xsl:if>
-		</xsl:for-each>
-
+		<xsl:if test="$arnk!=''">
+			<xsl:for-each select="$arnk">
+				<xsl:if test=".=$pos">
+					<xsl:apply-templates select="../../common_v50_0:ProviderARNKSegment[@ProviderSegmentOrder=$pos]" />
+				</xsl:if>
+			</xsl:for-each>
+		</xsl:if>
 
 		<Item>
 

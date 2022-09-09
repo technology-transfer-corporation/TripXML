@@ -6,6 +6,7 @@
 	================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 
+	Date: 09 Sep 2022 - Kobelev - Use of PNR Brand Data vs. Brand Data from Request.
 	Date: 19 Aug 2022 - Kobelev - Implamented Conversation ID.
 	Date: 16 Mar 2022 - Kobelev - Branded Fare in Request	
 	Date: 10 Nov 2014 - Rastko - New file											
@@ -226,28 +227,60 @@
 
 	<xsl:template match="air:AirPricingInfo" mode="brandFare">
 		<xsl:param name="ptc" />
+
 		<air:AirPricingCommand>
 			<!--<xsl:variable name="bn" select="air:FareInfo/air:Brand[1]/@BrandID" />-->
-			<xsl:variable name="bn" select="../../../../../StoredFare[PassengerType/@Code=$ptc]/BrandedFares/FareFamily" />
-
-			<xsl:for-each select="../air:AirSegment">
-				<air:AirSegmentPricingModifiers>
-					<xsl:attribute name="AirSegmentRef">
-						<xsl:value-of select="@Key"/>
-					</xsl:attribute>
-					<xsl:attribute name="BrandTier">
-						<xsl:value-of select="$bn[@RPH = position()]/@Code"/>
-					</xsl:attribute>
-					<air:PermittedBookingCodes>
-						<air:BookingCode>
-							<xsl:attribute name="Code">
-								<xsl:value-of select="@ClassOfService"/>
+			<xsl:choose>
+				<xsl:when test="../../../../../StoredFare[PassengerType/@Code=$ptc]/BrandedFares/FareFamily">
+					<!--Brand Information from Request Object-->
+					<xsl:variable name="bn" select="../../../../../StoredFare[PassengerType/@Code=$ptc]/BrandedFares/FareFamily" />
+					<xsl:for-each select="../air:AirSegment">
+						<xsl:variable name="pos" select="position()" />
+						<air:AirSegmentPricingModifiers>							
+							<xsl:attribute name="AirSegmentRef">
+								<xsl:value-of select="@Key"/>
 							</xsl:attribute>
-						</air:BookingCode>
-					</air:PermittedBookingCodes>
-				</air:AirSegmentPricingModifiers>
+							<xsl:attribute name="BrandTier">
+								<xsl:value-of select="$bn[@RPH=$pos]/@Code"/>
+							</xsl:attribute>
+							<air:PermittedBookingCodes>
+								<air:BookingCode>
+									<xsl:attribute name="Code">
+										<xsl:value-of select="@ClassOfService"/>
+									</xsl:attribute>
+								</air:BookingCode>
+							</air:PermittedBookingCodes>
+						</air:AirSegmentPricingModifiers>
+					</xsl:for-each>					
+				</xsl:when>
+				<xsl:when test="air:FareInfo/air:Brand">
+					<!--Brand Information from PNR Object-->
+					<xsl:variable name="bn" select="air:FareInfo/air:Brand" />
+					<xsl:for-each select="../air:AirSegment">
+						<xsl:variable name="segkey" select="@Key"/>
+						<xsl:variable name="key" select="../air:AirPricingInfo/air:BookingInfo[@SegmentRef=$segkey]/@FareInfoRef"/>
+						<air:AirSegmentPricingModifiers>
+							<xsl:attribute name="AirSegmentRef">
+								<xsl:value-of select="@Key"/>
+							</xsl:attribute>
+							<xsl:if test="$bn[@Key=$key]/@BrandTier!=''">
+								<xsl:attribute name="BrandTier">
+									<xsl:value-of select="$bn[@Key=$key]/@BrandTier"/>
+								</xsl:attribute>
+							</xsl:if>
+							<air:PermittedBookingCodes>
+								<air:BookingCode>
+									<xsl:attribute name="Code">
+										<xsl:value-of select="@ClassOfService"/>
+									</xsl:attribute>
+								</air:BookingCode>
+							</air:PermittedBookingCodes>
+						</air:AirSegmentPricingModifiers>
 
-			</xsl:for-each>
+					</xsl:for-each>
+				</xsl:when>
+			</xsl:choose>
+
 		</air:AirPricingCommand>
 	</xsl:template>
 
@@ -271,6 +304,11 @@
 		<!-- -->
 		<xsl:choose>
 			<xsl:when test="../../../../StoredFare[PassengerType/@Code]/BrandedFares and ../../../../@StoreFare='true'">
+				<xsl:apply-templates select="../air:AirReservation/air:AirPricingInfo[air:PassengerType/@BookingTravelerRef=$key]" mode="brandFare">
+					<xsl:with-param name="ptc" select="$ptc" />
+				</xsl:apply-templates>
+			</xsl:when>
+			<xsl:when test="../air:AirReservation/air:AirPricingInfo[air:PassengerType/@BookingTravelerRef=$key]/air:FareInfo/air:Brand and ../../../../@StoreFare='true'">
 				<xsl:apply-templates select="../air:AirReservation/air:AirPricingInfo[air:PassengerType/@BookingTravelerRef=$key]" mode="brandFare">
 					<xsl:with-param name="ptc" select="$ptc" />
 				</xsl:apply-templates>

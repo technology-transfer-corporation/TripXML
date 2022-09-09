@@ -4,6 +4,7 @@
 	==================================================================
 	Travelport_PNRRepriceRS.xsl 										
 	================================================================== 
+	Date: 09 Sep 2022 - Kobelev - Return some information on at least original price even if there was error during reprice.
 	Date: 30 Aug 2022 - Kobelev - Total Display and Price info Display corrected.
 	Date: 19 Aug 2022 - Kobelev - Implamented Conversation ID.
 	Date: 21 Mar 2022 - Kobelev - Update display.
@@ -66,6 +67,14 @@
 						<xsl:value-of select="Errors/Error"/>
 					</Error>
 				</Errors>
+				<xsl:if test="universal:UniversalRecord!=''">
+					<PricedItineraries>
+						<xsl:apply-templates select="universal:UniversalRecord" mode="first"/>
+						<xsl:apply-templates select="air:AirPriceRsp/air:AirPriceResult"/>
+						<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord" mode="second"/>
+					</PricedItineraries>
+				</xsl:if>
+				
 			</xsl:when>
 			<xsl:otherwise>
 				<Success/>
