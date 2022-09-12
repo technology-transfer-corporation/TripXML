@@ -1,0 +1,310 @@
+<TTWSHotelSubTitle>
+	<SubTitle>
+		<Code>ADT1</Code>
+		<Name>Rate description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT2</Code>
+		<Name>Property description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT3</Code>
+		<Name>Property location</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT4</Code>
+		<Name>Room information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT5</Code>
+		<Name>Guarantee information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT6</Code>
+		<Name>Deposit information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT7</Code>
+		<Name>Cancellation information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT8</Code>
+		<Name>Check in check out information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT9</Code>
+		<Name>Extra charge information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT10</Code>
+		<Name>Tax information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT11</Code>
+		<Name>Service charge information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT12</Code>
+		<Name>Package information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT13</Code>
+		<Name>Commission information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT14</Code>
+		<Name>Miscellaneous information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT15</Code>
+		<Name>Promotional information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT16</Code>
+		<Name>Inclusion information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT17</Code>
+		<Name>Amenity information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT18</Code>
+		<Name>Late arrival information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT19</Code>
+		<Name>Late departure information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT20</Code>
+		<Name>Advanced booking information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT21</Code>
+		<Name>Extra person information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT22</Code>
+		<Name>Areas served</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT23</Code>
+		<Name>Onsite facilities information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT24</Code>
+		<Name>Offsite facilities information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT25</Code>
+		<Name>Onsite services information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT26</Code>
+		<Name>Offsite services information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT27</Code>
+		<Name>Extended stay information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT28</Code>
+		<Name>Corporate booking information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT29</Code>
+		<Name>Booking guidelines</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT30</Code>
+		<Name>Government booking policy</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT31</Code>
+		<Name>Group booking information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT32</Code>
+		<Name>Rate disclaimer information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT33</Code>
+		<Name>Visa/travel requirement information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT34</Code>
+		<Name>Security information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT35</Code>
+		<Name>Onsite recreational activities information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT36</Code>
+		<Name>Offsite recreational activities information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT37</Code>
+		<Name>General meeting planning information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT38</Code>
+		<Name>Group meeting planning information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT39</Code>
+		<Name>Contract/negotiated booking information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT40</Code>
+		<Name>Travel industry booking information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT41</Code>
+		<Name>Meeting room description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT42</Code>
+		<Name>Pet policy description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT43</Code>
+		<Name>Meal plan description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT44</Code>
+		<Name>Family plan description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT45</Code>
+		<Name>Children information</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT46</Code>
+		<Name>Early checkout description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT47</Code>
+		<Name>Special offers description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT48</Code>
+		<Name>Catering description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT49</Code>
+		<Name>Room decor description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT50</Code>
+		<Name>Oversold policy description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT51</Code>
+		<Name>Last room availability description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>ADT52</Code>
+		<Name>Room type upgrade description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF1</Code>
+		<Name>Description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF2</Code>
+		<Name>Policy</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF3</Code>
+		<Name>Marketing</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF4</Code>
+		<Name>Special instructions</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF5</Code>
+		<Name>Other</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF6</Code>
+		<Name>Amenities</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF7</Code>
+		<Name>Attractions</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF8</Code>
+		<Name>Awards</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF9</Code>
+		<Name>Corporate locations</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF10</Code>
+		<Name>Dining</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF11</Code>
+		<Name>Driving directions</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF12</Code>
+		<Name>Facilities</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF13</Code>
+		<Name>Recreation</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF14</Code>
+		<Name>Safety</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF15</Code>
+		<Name>Services</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF16</Code>
+		<Name>Transportation</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF17</Code>
+		<Name>Short description</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF18</Code>
+		<Name>Advisory</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF19</Code>
+		<Name>Geocodes</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF20</Code>
+		<Name>Location</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF21</Code>
+		<Name>Address</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF22</Code>
+		<Name>Contact</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF23</Code>
+		<Name>Pictures</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF24</Code>
+		<Name>Descriptive content</Name>
+	</SubTitle>
+	<SubTitle>
+		<Code>INF25</Code>
+		<Name>Long name</Name>
+	</SubTitle>
+</TTWSHotelSubTitle>

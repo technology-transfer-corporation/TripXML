@@ -1,0 +1,90 @@
+<TTWSCruiseLines>
+	<CruiseLine>
+		<Code>CCL</Code>
+		<Name>CARNIVAL CRUISE LINES</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>CEL</Code>
+		<Name>CELEBRITY CRUISES</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>CST</Code>
+		<Name>COSTA CRUISE LINES</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>HAL</Code>
+		<Name>HOLLAND AMERICA LINES WESTOURS</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>MSC</Code>
+		<Name>MSC CROCIERE</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>NCL</Code>
+		<Name>NORWEGIAN CRUISE LINE</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>PCL</Code>
+		<Name>PRINCESS CRUISES</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>RCC</Code>
+		<Name>ROYAL CARIBBEAN INTERNATIONAL</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>SBN</Code>
+		<Name>SEABOURN</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>WSC</Code>
+		<Name>WINDSTAR CRUISES</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>ACD</Code>
+		<Name>AMADEUS CRUISE IT HOSTING DEMO</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>CLP</Code>
+		<Name>CLIPPER CRUISE</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>CUN</Code>
+		<Name>CUNARD</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>FOL</Code>
+		<Name>FRED. OLSEN</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>ICL</Code>
+		<Name>ISLAND CRUISES</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>LCL</Code>
+		<Name>LOUIS CRUISE LINES</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>OVH</Code>
+		<Name>OCEAN VILLAGE</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>OCL</Code>
+		<Name>OCEANIA CRUISES</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>POC</Code>
+		<Name>P&amp;O CRUISES</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>SWH</Code>
+		<Name>SWAN HELLENIC</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>TCL</Code>
+		<Name>THOMSON CRUISES</Name>
+	</CruiseLine>
+	<CruiseLine>
+		<Code>VCC</Code>
+		<Name>VACATION.COM CRUISECENTRE</Name>
+	</CruiseLine>
+</TTWSCruiseLines>

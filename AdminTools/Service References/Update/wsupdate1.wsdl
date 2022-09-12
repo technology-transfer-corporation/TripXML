@@ -1,0 +1,2947 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://traveltalk.com/wsUpdate" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://traveltalk.com/wsUpdate" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">A TripXML Web Service to Process Update Messages Request.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://traveltalk.com/wsUpdate">
+      <s:element name="wmUpdate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OTA_UpdateRQ" type="tns:OTA_UpdateRQ" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="OTA_UpdateRQ">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UniqueID" type="tns:UniqueID_Type" />
+          <s:element minOccurs="0" maxOccurs="1" name="POS" type="tns:POS_Type" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Position" type="tns:UpdatePositionType" />
+        </s:sequence>
+        <s:attribute name="EchoToken" type="s:string" />
+        <s:attribute name="TimeStamp" type="s:dateTime" />
+        <s:attribute default="Production" name="Target" type="tns:OTA_UpdateRQTarget" />
+        <s:attribute name="Version" type="s:string" />
+        <s:attribute name="TransactionIdentifier" type="s:string" />
+        <s:attribute name="SequenceNmbr" type="s:nonNegativeInteger" />
+        <s:attribute name="TransactionStatusCode" type="tns:OTA_UpdateRQTransactionStatusCode" />
+        <s:attribute name="RetransmissionIndicator" type="s:boolean" />
+        <s:attribute name="ReqRespVersion" type="s:string" />
+      </s:complexType>
+      <s:complexType name="UniqueID_Type">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="tns:CompanyNameType" />
+        </s:sequence>
+        <s:attribute name="URL" type="s:anyURI" />
+        <s:attribute name="Type" type="s:string" />
+        <s:attribute name="Instance" type="s:string" />
+        <s:attribute name="ID_Context" type="s:string" />
+        <s:attribute name="ID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="CompanyNameType">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="CompanyShortName" type="s:string" />
+            <s:attribute name="TravelSector" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="CodeContext" type="s:string" />
+            <s:attribute name="Division" type="s:string" />
+            <s:attribute name="Department" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="SourceTypeRequestorID">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:UniqueID_Type">
+            <s:attribute name="MessagePassword" type="s:string" />
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="POS_Type">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Source" type="tns:SourceType" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_Extensions" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SourceType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RequestorID" type="tns:SourceTypeRequestorID" />
+          <s:element minOccurs="0" maxOccurs="1" name="Position" type="tns:SourceTypePosition" />
+          <s:element minOccurs="0" maxOccurs="1" name="BookingChannel" type="tns:SourceTypeBookingChannel" />
+        </s:sequence>
+        <s:attribute name="AgentSine" type="s:string" />
+        <s:attribute name="PseudoCityCode" type="s:string" />
+        <s:attribute name="ISOCountry" type="s:string" />
+        <s:attribute name="ISOCurrency" type="s:string" />
+        <s:attribute name="AgentDutyCode" type="s:string" />
+        <s:attribute name="AirlineVendorID" type="s:string" />
+        <s:attribute name="AirportCode" type="s:string" />
+        <s:attribute name="FirstDepartPoint" type="s:string" />
+        <s:attribute name="ERSP_UserID" type="s:string" />
+        <s:attribute name="TerminalID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="SourceTypePosition">
+        <s:attribute name="Latitude" type="s:string" />
+        <s:attribute name="Longitude" type="s:string" />
+        <s:attribute name="Altitude" type="s:string" />
+        <s:attribute name="AltitudeUnitOfMeasureCode" type="s:string" />
+      </s:complexType>
+      <s:complexType name="SourceTypeBookingChannel">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="tns:CompanyNameType" />
+        </s:sequence>
+        <s:attribute name="Type" type="s:string" />
+        <s:attribute name="Primary" type="s:boolean" />
+      </s:complexType>
+      <s:complexType name="TPA_Extensions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Provider" type="tns:Provider" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Provider">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="System" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Userid" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UpdatePositionType">
+        <s:sequence>
+          <s:choice minOccurs="0" maxOccurs="unbounded">
+            <s:element minOccurs="0" maxOccurs="1" name="Element" type="tns:Element" />
+            <s:element minOccurs="0" maxOccurs="1" name="Root" type="tns:Root" />
+            <s:element minOccurs="0" maxOccurs="1" name="Attribute" type="tns:Attribute" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subtree" type="tns:Subtree" />
+          </s:choice>
+        </s:sequence>
+        <s:attribute name="XPath" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Element">
+        <s:sequence>
+          <s:any minOccurs="0" maxOccurs="unbounded" />
+        </s:sequence>
+        <s:attribute name="Operation" type="tns:ElementOperation" use="required" />
+        <s:attribute name="Child" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="ElementOperation">
+        <s:restriction base="s:string">
+          <s:enumeration value="insert" />
+          <s:enumeration value="modify" />
+          <s:enumeration value="delete" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Root">
+        <s:sequence>
+          <s:any minOccurs="0" maxOccurs="1" />
+        </s:sequence>
+        <s:attribute name="Operation" type="tns:RootOperation" use="required" />
+      </s:complexType>
+      <s:simpleType name="RootOperation">
+        <s:restriction base="s:string">
+          <s:enumeration value="replace" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Attribute">
+        <s:attribute name="Operation" type="tns:AttributeOperation" use="required" />
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="Value" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="AttributeOperation">
+        <s:restriction base="s:string">
+          <s:enumeration value="insert" />
+          <s:enumeration value="modify" />
+          <s:enumeration value="delete" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Subtree">
+        <s:sequence>
+          <s:any minOccurs="0" maxOccurs="1" />
+        </s:sequence>
+        <s:attribute name="Operation" type="tns:SubtreeOperation" use="required" />
+        <s:attribute name="Child" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="SubtreeOperation">
+        <s:restriction base="s:string">
+          <s:enumeration value="insert" />
+          <s:enumeration value="delete" />
+          <s:enumeration value="modify" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="OTA_UpdateRQTarget">
+        <s:restriction base="s:string">
+          <s:enumeration value="Test" />
+          <s:enumeration value="Production" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="OTA_UpdateRQTransactionStatusCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="Start" />
+          <s:enumeration value="End" />
+          <s:enumeration value="Rollback" />
+          <s:enumeration value="InSeries" />
+          <s:enumeration value="Continuation" />
+          <s:enumeration value="Subsequent" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="wmUpdateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OTA_TravelItineraryRS" type="tns:OTA_TravelItineraryRS" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="OTA_TravelItineraryRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Success" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Warnings" type="tns:ArrayOfWarning" />
+          <s:element minOccurs="0" maxOccurs="1" name="TravelItinerary" type="tns:TravelItinerary" />
+          <s:element minOccurs="0" maxOccurs="1" name="Errors" type="tns:ArrayOfError" />
+          <s:element minOccurs="0" maxOccurs="1" name="ConversationID" type="s:string" />
+        </s:sequence>
+        <s:attribute name="EchoToken" type="s:string" />
+        <s:attribute name="TimeStamp" type="s:dateTime" />
+        <s:attribute default="Production" name="Target" type="tns:OTA_TravelItineraryRSTarget" />
+        <s:attribute name="Version" type="s:string" />
+        <s:attribute name="TransactionIdentifier" type="s:string" />
+        <s:attribute name="SequenceNmbr" type="s:int" />
+        <s:attribute name="TransactionStatusCode" type="tns:OTA_TravelItineraryRSTransactionStatusCode" />
+        <s:attribute name="PrimaryLangID" type="s:string" />
+        <s:attribute name="AltLangID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfWarning">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Warning" type="tns:Warning" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Warning">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Language" type="s:string" />
+            <s:attribute name="Type" type="s:string" />
+            <s:attribute name="ShortText" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="DocURL" type="s:anyURI" />
+            <s:attribute name="Status" type="s:string" />
+            <s:attribute name="Tag" type="s:string" />
+            <s:attribute name="RecordID" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="TravelItinerary">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ItineraryRef" type="tns:ItineraryRef" />
+          <s:element minOccurs="0" maxOccurs="1" name="CustomerInfos" type="tns:CustomerInfosRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="ItineraryInfo" type="tns:ItineraryInfo" />
+          <s:element minOccurs="0" maxOccurs="1" name="AssociatedContent" type="tns:AssociatedContent" />
+          <s:element minOccurs="0" maxOccurs="1" name="TravelCost" type="tns:TravelCost" />
+          <s:element minOccurs="0" maxOccurs="1" name="Remarks" type="tns:RemarksRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="UpdatedBy" type="tns:UpdatedBy" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ItineraryRef">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="tns:CompanyName" />
+        </s:sequence>
+        <s:attribute name="URL" type="s:anyURI" />
+        <s:attribute name="Type" type="s:string" />
+        <s:attribute name="Instance" type="s:string" />
+        <s:attribute name="ID" type="s:string" />
+        <s:attribute name="ID_Context" type="s:string" />
+      </s:complexType>
+      <s:complexType name="CompanyName">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="CompanyShortName" type="s:string" />
+            <s:attribute name="TravelSector" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="CodeContext" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="CustomerInfosRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CustomerInfo" type="tns:CustomerInfoRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CustomerInfoRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Customer" type="tns:CustomerRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="ProfileRef" type="tns:ProfileRefRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Remarks" type="tns:RemarksRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="AgencyAcctNumber" type="tns:AgencyAcctNumber" />
+        </s:sequence>
+        <s:attribute name="RPH" type="s:string" />
+      </s:complexType>
+      <s:complexType name="CustomerRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PersonName" type="tns:PersonName" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Telephone" type="tns:TelephoneRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Email" type="tns:Email" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Address" type="tns:AddressRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="URL" type="tns:URL" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CitizenCountryName" type="tns:CitizenCountryNameRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PhysChallName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PetInfo" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PaymentForm" type="tns:PaymentForm" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RelatedTraveler" type="tns:RelatedTraveler" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ContactPerson" type="tns:ContactPerson" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Document" type="tns:DocumentRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CustLoyalty" type="tns:CustLoyaltyRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="EmployeeInfo" type="tns:EmployeeInfo" />
+        </s:sequence>
+        <s:attribute name="Gender" type="tns:CustomerGender" />
+        <s:attribute name="Deceased" type="s:boolean" />
+        <s:attribute name="LockoutType" type="s:string" />
+        <s:attribute name="BirthDate" type="s:date" />
+        <s:attribute name="CurrencyCode" type="s:string" />
+        <s:attribute name="DecimalPlaces" type="s:int" />
+      </s:complexType>
+      <s:complexType name="PersonName">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NamePrefix" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="GivenName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MiddleName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurnamePrefix" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Surname" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NameSuffix" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NameTitle" type="s:string" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:PersonNameShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:PersonNameShareMarketInd" />
+        <s:attribute name="NameType" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="PersonNameShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="PersonNameShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="TelephoneRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="ShareSynchInd" type="tns:TelephoneShareSynchInd" />
+            <s:attribute name="ShareMarketInd" type="tns:TelephoneShareMarketInd" />
+            <s:attribute name="PhoneLocationType" type="s:string" />
+            <s:attribute name="PhoneTechType" type="s:string" />
+            <s:attribute name="CountryAccessCode" type="s:string" />
+            <s:attribute name="AreaCityCode" type="s:string" />
+            <s:attribute name="PhoneNumber" type="s:string" />
+            <s:attribute name="Extension" type="s:string" />
+            <s:attribute name="PIN" type="s:string" />
+            <s:attribute default="false" name="FormattedInd" type="s:boolean" />
+            <s:attribute default="false" name="DefaultInd" type="s:boolean" />
+            <s:attribute name="PhoneUseType" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="TelephoneShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="TelephoneShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Email">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="ShareSynchInd" type="tns:EmailShareSynchInd" />
+            <s:attribute name="ShareMarketInd" type="tns:EmailShareMarketInd" />
+            <s:attribute default="false" name="DefaultInd" type="s:boolean" />
+            <s:attribute name="EmailType" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="EmailShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="EmailShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AddressRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="StreetNmbr" type="tns:StreetNmbr" />
+          <s:element minOccurs="0" maxOccurs="1" name="BldgRoom" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AddressLine" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CityName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PostalCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="County" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="StateProv" type="tns:StateProv" />
+          <s:element minOccurs="0" maxOccurs="1" name="CountryName" type="tns:CountryName" />
+          <s:element minOccurs="0" maxOccurs="1" name="ContactName" type="s:string" />
+        </s:sequence>
+        <s:attribute default="false" name="FormattedInd" type="s:boolean" />
+        <s:attribute name="ShareSynchInd" type="tns:AddressShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:AddressShareMarketInd" />
+        <s:attribute name="Type" type="s:string" />
+        <s:attribute default="false" name="DefaultInd" type="s:boolean" />
+        <s:attribute name="UseType" type="s:string" />
+      </s:complexType>
+      <s:complexType name="StreetNmbr">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="PO_Box" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="StateProv">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="StateCode" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="CountryName">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Code" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="AddressShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AddressShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="URL">
+        <s:simpleContent>
+          <s:extension base="s:anyURI">
+            <s:attribute name="ShareSynchInd" type="tns:URLShareSynchInd" />
+            <s:attribute name="ShareMarketInd" type="tns:URLShareMarketInd" />
+            <s:attribute name="Type" type="s:string" />
+            <s:attribute default="false" name="DefaultInd" type="s:boolean" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="URLShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="URLShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="CitizenCountryNameRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute default="false" name="DefaultInd" type="s:boolean" />
+            <s:attribute name="Code" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="PaymentForm">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentCard" type="tns:PaymentCardRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="BankAcct" type="tns:BankAcct" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirectBill" type="tns:DirectBillRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="Voucher" type="tns:VoucherRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="LoyaltyRedemption" type="tns:LoyaltyRedemptionRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="MiscChargeOrder" type="tns:MiscChargeOrderRS" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:PaymentFormShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:PaymentFormShareMarketInd" />
+        <s:attribute name="CostCenterID" type="s:string" />
+        <s:attribute name="RPH" type="s:string" />
+      </s:complexType>
+      <s:complexType name="PaymentCardRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CardHolderName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="CardIssuerName" type="tns:CardIssuerNameRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="tns:AddressRS" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:PaymentCardShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:PaymentCardShareMarketInd" />
+        <s:attribute name="CardType" type="s:string" />
+        <s:attribute name="CardCode" type="tns:PaymentCardCardCode" />
+        <s:attribute name="CardNumber" type="s:string" />
+        <s:attribute name="SeriesCode" type="s:string" />
+        <s:attribute name="EffectiveDate" type="s:string" />
+        <s:attribute name="ExpireDate" type="s:string" />
+        <s:attribute name="ConfirmationNumber" type="s:string" />
+      </s:complexType>
+      <s:complexType name="CardIssuerNameRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="BankID" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="PaymentCardShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="PaymentCardShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="PaymentCardCardCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="AU" />
+          <s:enumeration value="AX" />
+          <s:enumeration value="BC" />
+          <s:enumeration value="BL" />
+          <s:enumeration value="CB" />
+          <s:enumeration value="CG" />
+          <s:enumeration value="CN" />
+          <s:enumeration value="CX" />
+          <s:enumeration value="DN" />
+          <s:enumeration value="DK" />
+          <s:enumeration value="DS" />
+          <s:enumeration value="EC" />
+          <s:enumeration value="GK" />
+          <s:enumeration value="JC" />
+          <s:enumeration value="MC" />
+          <s:enumeration value="MD" />
+          <s:enumeration value="MO" />
+          <s:enumeration value="MP" />
+          <s:enumeration value="SO" />
+          <s:enumeration value="SW" />
+          <s:enumeration value="TC" />
+          <s:enumeration value="TP" />
+          <s:enumeration value="VI" />
+          <s:enumeration value="VD" />
+          <s:enumeration value="VE" />
+          <s:enumeration value="VT" />
+          <s:enumeration value="XS" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="BankAcct">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="BankAcctName" type="s:string" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:BankAcctShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:BankAcctShareMarketInd" />
+        <s:attribute name="BankID" type="s:string" />
+        <s:attribute name="AcctType" type="s:string" />
+        <s:attribute name="BankAcctNumber" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="BankAcctShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="BankAcctShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="DirectBillRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="tns:CompanyName" />
+          <s:element minOccurs="0" maxOccurs="1" name="Address" type="tns:AddressRS" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:DirectBillShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:DirectBillShareMarketInd" />
+        <s:attribute name="DirectBill_ID" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="DirectBillShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="DirectBillShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="VoucherRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="EffectiveDate" type="s:date" />
+            <s:attribute name="ExpireDate" type="s:date" />
+            <s:attribute name="SeriesCode" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="LoyaltyRedemptionRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="CertificateNumber" type="s:string" />
+            <s:attribute name="MemberNumber" type="s:string" />
+            <s:attribute name="PromotionCode" type="s:string" />
+            <s:attribute name="RedemptionQuantity" type="s:int" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="MiscChargeOrderRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="TicketNumber" type="s:string" />
+            <s:attribute name="TravelerRefNumber" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="PaymentFormShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="PaymentFormShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="RelatedTraveler">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UniqueID" type="tns:UniqueID" />
+          <s:element minOccurs="0" maxOccurs="1" name="PersonName" type="tns:PersonName" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:RelatedTravelerShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:RelatedTravelerShareMarketInd" />
+        <s:attribute name="Relation" type="s:string" />
+      </s:complexType>
+      <s:complexType name="UniqueID">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="tns:CompanyName" />
+        </s:sequence>
+        <s:attribute name="URL" type="s:anyURI" />
+        <s:attribute name="Type" type="s:string" />
+        <s:attribute name="Instance" type="s:string" />
+        <s:attribute name="ID" type="s:string" />
+        <s:attribute name="ID_Context" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="RelatedTravelerShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="RelatedTravelerShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ContactPerson">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PersonName" type="tns:PersonName" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Telephone" type="tns:TelephoneRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Address" type="tns:AddressRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Email" type="tns:Email" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="URL" type="tns:URL" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CompanyName" type="tns:CompanyName" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="EmployeeInfo" type="tns:EmployeeInfo" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:ContactPersonShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:ContactPersonShareMarketInd" />
+        <s:attribute default="false" name="DefaultInd" type="s:boolean" />
+        <s:attribute name="ContactType" type="s:string" />
+        <s:attribute name="Relation" type="s:string" />
+        <s:attribute default="false" name="EmergencyFlag" type="s:boolean" />
+        <s:attribute name="RPH" type="s:string" />
+      </s:complexType>
+      <s:complexType name="EmployeeInfo">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="EmployeeId" type="s:string" />
+            <s:attribute name="EmployeeLevel" type="s:string" />
+            <s:attribute name="EmployeeTitle" type="s:string" />
+            <s:attribute name="EmployeeStatus" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="ContactPersonShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="ContactPersonShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="DocumentRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="DocHolderName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DocLimitations" type="s:string" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:DocumentShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:DocumentShareMarketInd" />
+        <s:attribute name="DocIssueAuthority" type="s:string" />
+        <s:attribute name="DocIssueLocation" type="s:string" />
+        <s:attribute name="DocID" type="s:string" />
+        <s:attribute name="DocType" type="s:string" />
+        <s:attribute name="Gender" type="tns:DocumentGender" />
+        <s:attribute name="BirthDate" type="s:date" />
+        <s:attribute name="EffectiveDate" type="s:date" />
+        <s:attribute name="ExpireDate" type="s:date" />
+      </s:complexType>
+      <s:simpleType name="DocumentShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="DocumentShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="DocumentGender">
+        <s:restriction base="s:string">
+          <s:enumeration value="Male" />
+          <s:enumeration value="Female" />
+          <s:enumeration value="Unknown" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="CustLoyaltyRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="ShareSynchInd" type="tns:CustLoyaltyShareSynchInd" />
+            <s:attribute name="ShareMarketInd" type="tns:CustLoyaltyShareMarketInd" />
+            <s:attribute name="ProgramID" type="s:string" />
+            <s:attribute name="MembershipID" type="s:string" />
+            <s:attribute name="TravelSector" type="s:string" />
+            <s:attribute name="LoyalLevel" type="s:string" />
+            <s:attribute name="SingleVendorInd" type="tns:CustLoyaltySingleVendorInd" />
+            <s:attribute name="SignupDate" type="s:date" />
+            <s:attribute name="EffectiveDate" type="s:date" />
+            <s:attribute name="ExpireDate" type="s:date" />
+            <s:attribute name="RPH" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="CustLoyaltyShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="CustLoyaltyShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="CustLoyaltySingleVendorInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="SingleVndr" />
+          <s:enumeration value="Alliance" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="CustomerGender">
+        <s:restriction base="s:string">
+          <s:enumeration value="Male" />
+          <s:enumeration value="Female" />
+          <s:enumeration value="Unknown" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ProfileRefRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="tns:CompanyName" />
+        </s:sequence>
+        <s:attribute name="URL" type="s:anyURI" />
+        <s:attribute name="Type" type="s:string" />
+        <s:attribute name="Instance" type="s:string" />
+        <s:attribute name="ID" type="s:string" />
+        <s:attribute name="ID_Context" type="s:string" />
+      </s:complexType>
+      <s:complexType name="RemarksRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Remark" type="tns:Remark" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+        <s:attribute name="RemarkType" type="tns:RemarksRemarkType" />
+      </s:complexType>
+      <s:complexType name="Remark">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="RPH" type="s:string" />
+            <s:attribute name="Category" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="TPA_ExtensionsRS" mixed="true">
+        <s:sequence>
+          <s:choice minOccurs="0" maxOccurs="unbounded">
+            <s:element minOccurs="0" maxOccurs="1" name="GuestFirstName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RollawayAdult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ExtraAdult" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AdvancedDeposit" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MealPlan" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Crib" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ExtraChild" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RollawayChild" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CarOptions" type="tns:ArrayOfCarOption" />
+            <s:element minOccurs="0" maxOccurs="1" name="SupplementalInfo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Rules" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="CarType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MerchantCurrency" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CorporateDiscount" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OverrideCorporateRate" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="TourNumber" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AlternateCurrency" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="RateQuoted" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AgencyCommission" type="tns:AgencyCommission" />
+            <s:element minOccurs="0" maxOccurs="1" name="RoomLocation" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="AgencyServiceFee" type="tns:AgencyServiceFee" />
+            <s:element minOccurs="0" maxOccurs="1" name="RateRequested" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="GuestLastName" type="s:string" />
+          </s:choice>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AccountingLine" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Arnk" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IssuedTickets" type="tns:IssuedTickets" />
+          <s:element minOccurs="0" maxOccurs="1" name="Vendor" type="tns:Vendor" />
+          <s:element minOccurs="0" maxOccurs="1" name="OriginCityCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FareCalculation" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentRestrictions" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentCard" type="tns:PaymentCardRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="ValidatingAirlineCode" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BagAllowance" type="tns:BagAllowance" />
+          <s:element minOccurs="0" maxOccurs="1" name="FareRules" type="tns:FareRules" />
+          <s:element minOccurs="0" maxOccurs="1" name="OriginRailwayStation" type="tns:OriginRailwayStation" />
+          <s:element minOccurs="0" maxOccurs="1" name="DestinationRailwayStation" type="tns:DestinationRailwayStation" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AccountingInfo" type="tns:AccountingInfo" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="FuturePriceInfo" type="tns:FuturePriceInfo" />
+        </s:sequence>
+        <s:attribute name="FlightType" type="s:string" />
+        <s:attribute name="DateChange" type="s:string" />
+        <s:attribute name="FlownIndicator" type="s:boolean" />
+        <s:attribute name="FOPType" type="s:string" />
+        <s:attribute name="RPH" type="s:string" />
+        <s:attribute name="BookingCode" type="s:string" />
+        <s:attribute name="Status" type="s:string" />
+        <s:attribute name="BookingSource" type="s:string" />
+        <s:attribute name="ConfirmationNumber" type="s:string" />
+        <s:attribute name="NumberInParty" type="s:string" />
+        <s:attribute name="ManualPricing" type="s:boolean" />
+        <s:attribute name="TrainNumber" type="s:string" />
+        <s:attribute name="ClassOfService" type="s:string" />
+        <s:attribute name="BookingReference" type="s:string" />
+        <s:attribute name="TrainEquipment" type="s:string" />
+        <s:attribute name="FlightDuration" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfCarOption">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CarOption" nillable="true" type="tns:CarOption" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CarOption">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+        </s:sequence>
+        <s:attribute name="Option" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AgencyCommission">
+        <s:attribute name="Amount" type="s:decimal" />
+        <s:attribute name="Percent" type="s:decimal" />
+        <s:attribute name="PassengerType" type="s:string" />
+        <s:attribute name="RPH" type="s:string" />
+      </s:complexType>
+      <s:complexType name="AgencyServiceFee">
+        <s:attribute name="Amount" type="s:decimal" />
+      </s:complexType>
+      <s:complexType name="IssuedTickets">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="IssuedTicket" type="tns:IssuedTicket" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ManualDocument" type="tns:ManualDocument" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AutomatedTicket" type="tns:AutomatedTicket" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ElectronicTicket" type="tns:ElectronicTicket" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ManualTicket" type="tns:ManualTicket" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="IssuedInvoice" type="tns:IssuedInvoice" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ExchangeDocument" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TicketingCarrier" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="IssuedTicket">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="TravelerRefNumberRPHList" type="s:string" />
+            <s:attribute name="FlightRefNumberRPHList" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="ManualDocument">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="TravelerRefNumberRPHList" type="s:string" />
+            <s:attribute name="FlightRefNumberRPHList" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="AutomatedTicket">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="TravelerRefNumberRPHList" type="s:string" />
+            <s:attribute name="FlightRefNumberRPHList" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="ElectronicTicket">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="TravelerRefNumberRPHList" type="s:string" />
+            <s:attribute name="FlightRefNumberRPHList" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="ManualTicket">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="TravelerRefNumberRPHList" type="s:string" />
+            <s:attribute name="FlightRefNumberRPHList" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="IssuedInvoice">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="TravelerRefNumberRPHList" type="s:string" />
+            <s:attribute name="FlightRefNumberRPHList" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="Vendor">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="CompanyShortName" type="s:string" />
+            <s:attribute name="TravelSector" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="CodeContext" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="BagAllowance">
+        <s:attribute name="Quantity" type="s:int" />
+        <s:attribute name="Weight" type="s:decimal" />
+        <s:attribute name="Type" type="tns:BagAllowanceType" />
+        <s:attribute name="Unit" type="tns:BagAllowanceUnit" />
+        <s:attribute name="ItinSeqNumber" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="BagAllowanceType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Piece" />
+          <s:enumeration value="Weight" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="BagAllowanceUnit">
+        <s:restriction base="s:string">
+          <s:enumeration value="K" />
+          <s:enumeration value="L" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="FareRules">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Text" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OriginRailwayStation">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Code" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="DestinationRailwayStation">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Code" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="AccountingInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AccountVendor" type="tns:AccountVendor" />
+          <s:element minOccurs="0" maxOccurs="1" name="Airline" type="tns:Airline" />
+          <s:element minOccurs="0" maxOccurs="1" name="BaseFare" type="tns:BaseFareRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="DocumentInfo" type="tns:DocumentInfo" />
+          <s:element minOccurs="0" maxOccurs="1" name="ChargeCategory" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="FareApplication" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentInfo" type="tns:PaymentInfo" />
+          <s:element minOccurs="0" maxOccurs="1" name="TravelerRefNumber" type="tns:TravelerRefNumber" />
+          <s:element minOccurs="0" maxOccurs="1" name="Taxes" type="tns:TaxesRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="TicketingInfo" type="tns:TicketingInfo" />
+        </s:sequence>
+        <s:attribute name="RPH" type="s:int" use="required" />
+        <s:attribute name="LinkCode" type="s:string" />
+        <s:attribute name="Type" type="s:string" />
+      </s:complexType>
+      <s:complexType name="AccountVendor">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Code" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="Airline">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="CompanyShortName" type="s:string" />
+            <s:attribute name="TravelSector" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="CodeContext" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="BaseFareRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Amount" type="s:double" />
+            <s:attribute name="CurrencyCode" type="s:string" />
+            <s:attribute name="DecimalPlaces" type="s:int" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="DocumentInfo">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Number" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="PaymentInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Commission" type="tns:Commission" />
+          <s:element minOccurs="0" maxOccurs="1" name="FormOfPayment" type="tns:FormOfPaymentRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Commission">
+        <s:attribute name="Amount" type="s:double" use="required" />
+        <s:attribute name="CurrencyCode" type="s:string" />
+        <s:attribute name="DecimalPlaces" type="s:int" use="required" />
+      </s:complexType>
+      <s:complexType name="FormOfPaymentRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentCard" type="tns:PaymentCardRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="BankAcct" type="tns:BankAcct" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirectBill" type="tns:DirectBillRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="Voucher" type="tns:VoucherRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="LoyaltyRedemption" type="tns:LoyaltyRedemptionRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="MiscChargeOrder" type="tns:MiscChargeOrderRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentAmount" type="tns:PaymentAmountRS" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:FormOfPaymentShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:FormOfPaymentShareMarketInd" />
+        <s:attribute name="CostCenterID" type="s:string" />
+        <s:attribute name="RPH" type="s:string" />
+      </s:complexType>
+      <s:complexType name="PaymentAmountRS">
+        <s:attribute name="Amount" type="s:double" />
+        <s:attribute name="CurrencyCode" type="s:string" />
+        <s:attribute name="DecimalPlaces" type="s:int" />
+      </s:complexType>
+      <s:simpleType name="FormOfPaymentShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="FormOfPaymentShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="TravelerRefNumber">
+        <s:attribute name="RPH" type="s:string" />
+      </s:complexType>
+      <s:complexType name="TaxesRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Tax" type="tns:TaxRS" />
+        </s:sequence>
+        <s:attribute name="Amount" type="s:double" />
+        <s:attribute name="CurrencyCode" type="s:string" />
+        <s:attribute name="DecimalPlaces" type="s:int" />
+      </s:complexType>
+      <s:complexType name="TaxRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TaxDescription" type="tns:TaxDescription" />
+        </s:sequence>
+        <s:attribute name="Type" type="tns:TaxType" />
+        <s:attribute name="Code" type="s:string" />
+        <s:attribute name="TaxCode" type="s:string" />
+        <s:attribute name="Percent" type="s:double" />
+        <s:attribute name="Amount" type="s:double" />
+        <s:attribute name="CurrencyCode" type="s:string" />
+        <s:attribute name="DecimalPlaces" type="s:int" />
+      </s:complexType>
+      <s:complexType name="TaxDescription">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Image" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="URL" type="tns:URL" />
+          <s:element minOccurs="0" maxOccurs="1" name="ListItem" type="tns:ListItem" />
+        </s:sequence>
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="ParagraphNumber" type="s:int" />
+        <s:attribute name="CreateDateTime" type="s:dateTime" />
+        <s:attribute name="CreatorID" type="s:string" />
+        <s:attribute name="LastModifyDateTime" type="s:dateTime" />
+        <s:attribute name="LastModifierID" type="s:string" />
+        <s:attribute name="Language" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ListItem">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Formatted" type="s:boolean" />
+            <s:attribute name="Language" type="s:string" />
+            <s:attribute name="ListItem" type="s:int" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="TaxType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Inclusive" />
+          <s:enumeration value="Exclusive" />
+          <s:enumeration value="Cumulative" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="TicketingInfo">
+        <s:attribute name="ExchangeInd" type="s:string" />
+        <s:attribute name="OriginalInvoiceNumber" type="s:string" />
+        <s:attribute name="TarriffBasis" type="s:string" />
+      </s:complexType>
+      <s:complexType name="FuturePriceInfo">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="RPH" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="RemarksRemarkType">
+        <s:restriction base="s:string">
+          <s:enumeration value="General" />
+          <s:enumeration value="TravelPolicy" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AgencyAcctNumber">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="tns:CompanyName" />
+        </s:sequence>
+        <s:attribute name="URL" type="s:anyURI" />
+        <s:attribute name="Type" type="s:string" />
+        <s:attribute name="Instance" type="s:string" />
+        <s:attribute name="ID" type="s:string" />
+        <s:attribute name="ID_Context" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ItineraryInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ContactInfo" type="tns:ContactInfo" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReservationItems" type="tns:ReservationItems" />
+          <s:element minOccurs="0" maxOccurs="1" name="Ticketing" type="tns:TicketingRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ItineraryPricing" type="tns:ItineraryPricing" />
+          <s:element minOccurs="0" maxOccurs="1" name="SpecialRequestDetails" type="tns:SpecialRequestDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ContactInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PersonName" type="tns:PersonName" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Telephone" type="tns:TelephoneRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Address" type="tns:AddressRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Email" type="tns:Email" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="URL" type="tns:URL" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CompanyName" type="tns:CompanyName" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="EmployeeInfo" type="tns:EmployeeInfo" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:ContactInfoShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:ContactInfoShareMarketInd" />
+        <s:attribute default="false" name="DefaultInd" type="s:boolean" />
+        <s:attribute name="ContactType" type="s:string" />
+        <s:attribute name="Relation" type="s:string" />
+        <s:attribute default="false" name="EmergencyFlag" type="s:boolean" />
+        <s:attribute name="RPH" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="ContactInfoShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="ContactInfoShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ReservationItems">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Item" type="tns:Item" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ItemPricing" type="tns:ItemPricing" />
+          <s:element minOccurs="0" maxOccurs="1" name="SpecialRequestDetails" type="tns:SpecialRequestDetails" />
+        </s:sequence>
+        <s:attribute name="ChronoOrdered" type="s:boolean" />
+      </s:complexType>
+      <s:complexType name="Item">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Air" type="tns:Air" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Vehicle" type="tns:Vehicle" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Hotel" type="tns:Hotel" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Rail" type="tns:Rail" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Cruise" type="tns:Cruise" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Tour" type="tns:Tour" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="General" type="tns:General" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Package" type="tns:Package" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+        <s:attribute name="RPH" type="s:string" />
+        <s:attribute name="Status" type="s:string" />
+        <s:attribute name="ItinSeqNumber" type="s:int" />
+        <s:attribute default="false" name="IsPassive" type="s:boolean" />
+        <s:attribute name="IssueBoardingPass" type="s:boolean" />
+        <s:attribute name="BoardingPassIssued" type="s:boolean" />
+      </s:complexType>
+      <s:complexType name="Air" mixed="true">
+        <s:sequence>
+          <s:choice minOccurs="0" maxOccurs="unbounded">
+            <s:element minOccurs="0" maxOccurs="1" name="DepartureAirport" type="tns:DepartureAirport" />
+            <s:element minOccurs="0" maxOccurs="1" name="Seats" type="tns:ArrayOfSeat" />
+            <s:element minOccurs="0" maxOccurs="1" name="OperatingAirline" type="tns:OperatingAirline" />
+            <s:element minOccurs="0" maxOccurs="1" name="MarriageGrp" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MarketingAirline" type="tns:MarketingAirline" />
+            <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+            <s:element minOccurs="0" maxOccurs="1" name="ArrivalAirport" type="tns:ArrivalAirport" />
+            <s:element minOccurs="0" maxOccurs="1" name="Equipment" type="tns:Equipment" />
+          </s:choice>
+        </s:sequence>
+        <s:attribute name="DepartureDateTime" type="s:string" />
+        <s:attribute name="ArrivalDateTime" type="s:string" />
+        <s:attribute name="StopQuantity" type="s:int" />
+        <s:attribute name="RPH" type="s:string" />
+        <s:attribute name="InfoSource" type="s:string" />
+        <s:attribute name="FlightNumber" type="s:string" />
+        <s:attribute name="ResBookDesigCode" type="s:string" />
+        <s:attribute name="NumberInParty" type="s:int" />
+        <s:attribute name="Status" type="s:string" />
+        <s:attribute name="E_TicketEligibility" type="tns:E_TicketEligibilityType" />
+        <s:attribute name="MealCode" type="s:string" />
+        <s:attribute name="DepartureDay" type="tns:DepartureDayType" />
+        <s:attribute name="OrginDestType" type="tns:AirOrginDestType" />
+        <s:attribute name="CouponStatus" type="tns:CouponStatus" />
+      </s:complexType>
+      <s:complexType name="DepartureAirport">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="LocationCode" type="s:string" />
+            <s:attribute default="IATA" name="CodeContext" type="s:string" />
+            <s:attribute name="Terminal" type="s:string" />
+            <s:attribute name="Gate" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfSeat">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Seat" nillable="true" type="tns:Seat" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Seat">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="CustomerRPH" type="s:string" />
+            <s:attribute name="Number" type="s:string" />
+            <s:attribute name="Characteristic" type="s:string" />
+            <s:attribute name="SeatLocation" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="OperatingAirline">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="CompanyShortName" type="s:string" />
+            <s:attribute name="TravelSector" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="CodeContext" type="s:string" />
+            <s:attribute name="FlightNumber" type="tns:OperatingAirlineFlightNumber" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="OperatingAirlineFlightNumber">
+        <s:restriction base="s:string">
+          <s:enumeration value="OPEN" />
+          <s:enumeration value="ARNK" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="MarketingAirline">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="CompanyShortName" type="s:string" />
+            <s:attribute name="TravelSector" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="CodeContext" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="ArrivalAirport">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="LocationCode" type="s:string" />
+            <s:attribute default="IATA" name="CodeContext" type="s:string" />
+            <s:attribute name="Terminal" type="s:string" />
+            <s:attribute name="Gate" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="Equipment">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="AirEquipType" type="s:string" />
+            <s:attribute default="false" name="ChangeofGauge" type="s:boolean" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="E_TicketEligibilityType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Eligible" />
+          <s:enumeration value="NotEligible" />
+          <s:enumeration value="Required" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="DepartureDayType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Mon" />
+          <s:enumeration value="Tue" />
+          <s:enumeration value="Wed" />
+          <s:enumeration value="Thu" />
+          <s:enumeration value="Fri" />
+          <s:enumeration value="Sat" />
+          <s:enumeration value="Sun" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AirOrginDestType">
+        <s:restriction base="s:string">
+          <s:enumeration value="First" />
+          <s:enumeration value="Intermediate" />
+          <s:enumeration value="Last" />
+          <s:enumeration value="Only" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="CouponStatus">
+        <s:restriction base="s:string">
+          <s:enumeration value="Void" />
+          <s:enumeration value="AirportControl" />
+          <s:enumeration value="FlownUsed" />
+          <s:enumeration value="Boarded" />
+          <s:enumeration value="CheckedIn" />
+          <s:enumeration value="ExchangedReissued" />
+          <s:enumeration value="OriginalIssue" />
+          <s:enumeration value="IrregularOperations" />
+          <s:enumeration value="NotAvailable" />
+          <s:enumeration value="Confirmed" />
+          <s:enumeration value="PrintExchange" />
+          <s:enumeration value="Printed" />
+          <s:enumeration value="Refunded" />
+          <s:enumeration value="Requested" />
+          <s:enumeration value="NotFound" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Vehicle">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ConfID" type="tns:ConfID" />
+          <s:element minOccurs="0" maxOccurs="1" name="Vendor" type="tns:Vendor" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehRentalCore" type="tns:VehRentalCore" />
+          <s:element minOccurs="0" maxOccurs="1" name="Veh" type="tns:Veh" />
+          <s:element minOccurs="0" maxOccurs="1" name="RentalRate" type="tns:RentalRate" />
+          <s:element minOccurs="0" maxOccurs="1" name="PricedEquips" type="tns:ArrayOfPricedEquip" />
+          <s:element minOccurs="0" maxOccurs="1" name="Fees" type="tns:ArrayOfFeeRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="TotalCharge" type="tns:TotalCharge" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ConfID">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="tns:CompanyName" />
+        </s:sequence>
+        <s:attribute name="URL" type="s:anyURI" />
+        <s:attribute name="Type" type="s:string" />
+        <s:attribute name="Instance" type="s:string" />
+        <s:attribute name="ID" type="s:string" />
+        <s:attribute name="ID_Context" type="s:string" />
+      </s:complexType>
+      <s:complexType name="VehRentalCore">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PickUpLocation" type="tns:PickUpLocation" />
+          <s:element minOccurs="0" maxOccurs="1" name="ReturnLocation" type="tns:ReturnLocation" />
+        </s:sequence>
+        <s:attribute name="PickUpDateTime" type="s:dateTime" />
+        <s:attribute name="ReturnDateTime" type="s:dateTime" />
+      </s:complexType>
+      <s:complexType name="PickUpLocation">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="LocationCode" type="s:string" />
+            <s:attribute default="IATA" name="CodeContext" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="ReturnLocation">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="LocationCode" type="s:string" />
+            <s:attribute default="IATA" name="CodeContext" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="Veh">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="VehType" type="tns:VehTypeRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehClass" type="tns:VehClassRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehMakeModel" type="tns:VehMakeModel" />
+          <s:element minOccurs="0" maxOccurs="1" name="PictureURL" type="s:anyURI" />
+        </s:sequence>
+        <s:attribute name="AirConditionInd" type="s:boolean" />
+        <s:attribute name="TransmissionType" type="tns:VehTransmissionType" />
+        <s:attribute name="PassengerQuantity" type="s:int" />
+        <s:attribute name="BaggageQuantity" type="s:int" />
+      </s:complexType>
+      <s:complexType name="VehTypeRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="VehicleCategory" type="s:string" />
+            <s:attribute name="DoorCount" type="s:int" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="VehClassRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Size" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="VehMakeModel">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Name" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="VehTransmissionType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Manual" />
+          <s:enumeration value="Automatic" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="RentalRate">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RateDistance" type="tns:RateDistance" />
+          <s:element minOccurs="0" maxOccurs="1" name="VehicleCharges" type="tns:VehicleCharges" />
+          <s:element minOccurs="0" maxOccurs="1" name="RateQualifier" type="tns:RateQualifierRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="RateRestrictions" type="tns:RateRestrictions" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RateDistance">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Unlimited" type="s:boolean" use="required" />
+            <s:attribute name="Quantity" type="s:int" />
+            <s:attribute name="DistUnitName" type="tns:RateDistanceDistUnitName" use="required" />
+            <s:attribute name="VehiclePeriodUnitName" type="tns:RateDistanceVehiclePeriodUnitName" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="RateDistanceDistUnitName">
+        <s:restriction base="s:string">
+          <s:enumeration value="Mile" />
+          <s:enumeration value="Km" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="RateDistanceVehiclePeriodUnitName">
+        <s:restriction base="s:string">
+          <s:enumeration value="RentalPeriod" />
+          <s:enumeration value="Year" />
+          <s:enumeration value="Month" />
+          <s:enumeration value="Week" />
+          <s:enumeration value="Weekend" />
+          <s:enumeration value="Day" />
+          <s:enumeration value="Hour" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="VehicleCharges">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="VehicleCharge" type="tns:VehicleCharge" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="VehicleCharge">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TaxAmounts" type="tns:ArrayOfTaxAmount" />
+          <s:element minOccurs="0" maxOccurs="1" name="MinMax" type="tns:MinMax" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Calculation" type="tns:Calculation" />
+        </s:sequence>
+        <s:attribute name="Amount" type="s:double" />
+        <s:attribute name="CurrencyCode" type="s:string" />
+        <s:attribute name="DecimalPlaces" type="s:int" />
+        <s:attribute name="TaxInclusive" type="s:boolean" use="required" />
+        <s:attribute name="Description" type="s:string" />
+        <s:attribute name="GuaranteedInd" type="s:boolean" />
+        <s:attribute default="false" name="IncludedInRate" type="s:boolean" />
+        <s:attribute name="Purpose" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfTaxAmount">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TaxAmount" type="tns:TaxAmount" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TaxAmount">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Total" type="s:double" use="required" />
+            <s:attribute name="CurrencyCode" type="s:string" />
+            <s:attribute name="TaxCode" type="s:string" />
+            <s:attribute name="Percentage" type="s:double" />
+            <s:attribute name="Description" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="MinMax">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="MaxCharge" type="s:double" />
+            <s:attribute name="MinCharge" type="s:double" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="Calculation">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="UnitCharge" type="s:double" />
+            <s:attribute name="UnitName" type="tns:CalculationUnitName" />
+            <s:attribute name="Quantity" type="s:int" />
+            <s:attribute name="Percentage" type="s:double" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="CalculationUnitName">
+        <s:restriction base="s:string">
+          <s:enumeration value="RentalPeriod" />
+          <s:enumeration value="Year" />
+          <s:enumeration value="Month" />
+          <s:enumeration value="Week" />
+          <s:enumeration value="Day" />
+          <s:enumeration value="Hour" />
+          <s:enumeration value="Gallon" />
+          <s:enumeration value="Liter" />
+          <s:enumeration value="Mile" />
+          <s:enumeration value="Km" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="RateQualifierRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PromoDesc" type="s:string" />
+        </s:sequence>
+        <s:attribute name="TravelPurpose" type="s:string" />
+        <s:attribute name="RateCategory" type="s:string" />
+        <s:attribute name="CorpDiscountNmbr" type="s:string" />
+        <s:attribute name="PromotionCode" type="s:string" />
+        <s:attribute name="RateQualifier" type="s:string" />
+        <s:attribute name="RatePeriod" type="tns:RateQualifierRatePeriod" />
+      </s:complexType>
+      <s:simpleType name="RateQualifierRatePeriod">
+        <s:restriction base="s:string">
+          <s:enumeration value="Hourly" />
+          <s:enumeration value="Daily" />
+          <s:enumeration value="Weekly" />
+          <s:enumeration value="Monthly" />
+          <s:enumeration value="WeekendDay" />
+          <s:enumeration value="Other" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="RateRestrictions">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute default="false" name="ArriveByFlight" type="s:boolean" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfPricedEquip">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PricedEquip" type="tns:PricedEquip" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PricedEquip">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Equipment" type="tns:Equipment" />
+          <s:element minOccurs="0" maxOccurs="1" name="Charge" type="tns:Charge" />
+        </s:sequence>
+        <s:attribute default="false" name="Required" type="s:boolean" />
+      </s:complexType>
+      <s:complexType name="Charge">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TaxAmounts" type="tns:ArrayOfTaxAmount" />
+          <s:element minOccurs="0" maxOccurs="1" name="MinMax" type="tns:MinMax" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Calculation" type="tns:Calculation" />
+        </s:sequence>
+        <s:attribute name="Amount" type="s:double" />
+        <s:attribute name="CurrencyCode" type="s:string" />
+        <s:attribute name="DecimalPlaces" type="s:int" />
+        <s:attribute name="TaxInclusive" type="s:boolean" use="required" />
+        <s:attribute name="Description" type="s:string" />
+        <s:attribute name="GuaranteedInd" type="s:boolean" />
+        <s:attribute default="false" name="IncludedInRate" type="s:boolean" />
+      </s:complexType>
+      <s:complexType name="ArrayOfFeeRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="FeeRS" type="tns:FeeRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="FeeRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TaxAmounts" type="tns:ArrayOfTaxAmount" />
+          <s:element minOccurs="0" maxOccurs="1" name="MinMax" type="tns:MinMax" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Calculation" type="tns:Calculation" />
+        </s:sequence>
+        <s:attribute name="Amount" type="s:double" />
+        <s:attribute name="CurrencyCode" type="s:string" />
+        <s:attribute name="DecimalPlaces" type="s:int" />
+        <s:attribute name="TaxInclusive" type="s:boolean" use="required" />
+        <s:attribute name="Description" type="s:string" />
+        <s:attribute name="GuaranteedInd" type="s:boolean" />
+        <s:attribute default="false" name="IncludedInRate" type="s:boolean" />
+        <s:attribute name="Purpose" type="s:string" />
+      </s:complexType>
+      <s:complexType name="TotalCharge">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="RateTotalAmount" type="s:double" use="required" />
+            <s:attribute name="EstimatedTotalAmount" type="s:double" />
+            <s:attribute name="CurrencyCode" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="Hotel">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Reservation" type="tns:Reservation" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Reservation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RoomTypes" type="tns:RoomTypesRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="RatePlans" type="tns:ArrayOfRatePlan" />
+          <s:element minOccurs="0" maxOccurs="1" name="RoomRates" type="tns:RoomRatesRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="GuestCounts" type="tns:GuestCountsRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="TimeSpan" type="tns:TimeSpanRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Guarantee" type="tns:GuaranteeRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DepositPayment" type="tns:DepositPaymentRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="BasicPropertyInfo" type="tns:BasicPropertyInfoRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RoomTypesRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RoomType" type="tns:RoomTypeRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RoomTypeRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RoomDescription" type="tns:RoomDescriptionRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Amenity" type="tns:Amenity" />
+        </s:sequence>
+        <s:attribute name="RoomTypeCode" type="s:string" />
+        <s:attribute name="NumberOfUnits" type="s:int" />
+      </s:complexType>
+      <s:complexType name="RoomDescriptionRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Image" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="URL" type="tns:URL" />
+          <s:element minOccurs="0" maxOccurs="1" name="ListItem" type="tns:ListItem" />
+        </s:sequence>
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="ParagraphNumber" type="s:int" />
+        <s:attribute name="CreateDateTime" type="s:dateTime" />
+        <s:attribute name="CreatorID" type="s:string" />
+        <s:attribute name="LastModifyDateTime" type="s:dateTime" />
+        <s:attribute name="LastModifierID" type="s:string" />
+        <s:attribute name="Language" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Amenity">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute default="Preferred" name="PreferLevel" type="tns:AmenityPreferLevel" />
+            <s:attribute name="RoomAmenity" type="s:string" />
+            <s:attribute name="Quantity" type="s:int" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="AmenityPreferLevel">
+        <s:restriction base="s:string">
+          <s:enumeration value="Only" />
+          <s:enumeration value="Unacceptable" />
+          <s:enumeration value="Preferred" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfRatePlan">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RatePlan" type="tns:RatePlan" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RatePlan">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Guarantee" type="tns:GuaranteeRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="RatePlanDescription" type="tns:RatePlanDescription" />
+        </s:sequence>
+        <s:attribute name="RatePlanCode" type="s:string" />
+        <s:attribute name="EffectiveDate" type="s:date" />
+        <s:attribute name="ExpireDate" type="s:date" />
+        <s:attribute name="RateIndicator" type="tns:RatePlanRateIndicator" />
+        <s:attribute name="RatePlanType" type="s:string" />
+        <s:attribute name="RatePlanID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="GuaranteeRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="GuaranteesAccepted" type="tns:GuaranteesAcceptedRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="Deadline" type="tns:Deadline" />
+          <s:element minOccurs="0" maxOccurs="1" name="Comments" type="tns:ArrayOfCommentRS" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="GuaranteeDescription" type="tns:GuaranteeDescriptionRS" />
+        </s:sequence>
+        <s:attribute name="RetributionType" type="tns:GuaranteeRetributionType" />
+        <s:attribute name="GuaranteeCode" type="s:string" />
+        <s:attribute name="GuaranteeType" type="s:string" />
+        <s:attribute name="HoldTime" type="s:time" />
+      </s:complexType>
+      <s:complexType name="GuaranteesAcceptedRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="GuaranteeAccepted" type="tns:GuaranteeAcceptedRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="GuaranteeAcceptedRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentCard" type="tns:PaymentCardRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="BankAcct" type="tns:BankAcct" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirectBill" type="tns:DirectBillRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="Voucher" type="tns:VoucherRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="LoyaltyRedemption" type="tns:LoyaltyRedemptionRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="MiscChargeOrder" type="tns:MiscChargeOrderRS" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:GuaranteeAcceptedShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:GuaranteeAcceptedShareMarketInd" />
+        <s:attribute name="CostCenterID" type="s:string" />
+        <s:attribute name="RPH" type="s:string" />
+        <s:attribute name="Default" type="s:boolean" />
+      </s:complexType>
+      <s:simpleType name="GuaranteeAcceptedShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="GuaranteeAcceptedShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Deadline">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="AbsoluteDeadline" type="s:dateTime" />
+            <s:attribute name="OffsetTimeUnit" type="tns:DeadlineOffsetTimeUnit" />
+            <s:attribute name="OffsetUnitMultiplier" type="s:int" />
+            <s:attribute name="OffsetDropTime" type="tns:DeadlineOffsetDropTime" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="DeadlineOffsetTimeUnit">
+        <s:restriction base="s:string">
+          <s:enumeration value="Year" />
+          <s:enumeration value="Month" />
+          <s:enumeration value="Week" />
+          <s:enumeration value="Day" />
+          <s:enumeration value="Hour" />
+          <s:enumeration value="Second" />
+          <s:enumeration value="FullDuration" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="DeadlineOffsetDropTime">
+        <s:restriction base="s:string">
+          <s:enumeration value="BeforeArrival" />
+          <s:enumeration value="AfterBooking" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfCommentRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="CommentRS" type="tns:CommentRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CommentRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Image" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="URL" type="tns:URL" />
+          <s:element minOccurs="0" maxOccurs="1" name="ListItem" type="tns:ListItem" />
+        </s:sequence>
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="ParagraphNumber" type="s:int" />
+        <s:attribute name="CreateDateTime" type="s:dateTime" />
+        <s:attribute name="CreatorID" type="s:string" />
+        <s:attribute name="LastModifyDateTime" type="s:dateTime" />
+        <s:attribute name="LastModifierID" type="s:string" />
+        <s:attribute name="Language" type="s:string" />
+        <s:attribute name="CommentOriginatorCode" type="s:string" />
+        <s:attribute name="GuestViewable" type="s:boolean" />
+      </s:complexType>
+      <s:complexType name="GuaranteeDescriptionRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Image" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="URL" type="tns:URL" />
+          <s:element minOccurs="0" maxOccurs="1" name="ListItem" type="tns:ListItem" />
+        </s:sequence>
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="ParagraphNumber" type="s:int" />
+        <s:attribute name="CreateDateTime" type="s:dateTime" />
+        <s:attribute name="CreatorID" type="s:string" />
+        <s:attribute name="LastModifyDateTime" type="s:dateTime" />
+        <s:attribute name="LastModifierID" type="s:string" />
+        <s:attribute name="Language" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="GuaranteeRetributionType">
+        <s:restriction base="s:string">
+          <s:enumeration value="ResAutoCancelled" />
+          <s:enumeration value="ResNotGuaranteed" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="RatePlanDescription">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Image" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="URL" type="tns:URL" />
+          <s:element minOccurs="0" maxOccurs="1" name="ListItem" type="tns:ListItem" />
+        </s:sequence>
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="ParagraphNumber" type="s:int" />
+        <s:attribute name="CreateDateTime" type="s:dateTime" />
+        <s:attribute name="CreatorID" type="s:string" />
+        <s:attribute name="LastModifyDateTime" type="s:dateTime" />
+        <s:attribute name="LastModifierID" type="s:string" />
+        <s:attribute name="Language" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="RatePlanRateIndicator">
+        <s:restriction base="s:string">
+          <s:enumeration value="ChangeDuringStay" />
+          <s:enumeration value="MultipleNights" />
+          <s:enumeration value="Exclusive" />
+          <s:enumeration value="OnRequest" />
+          <s:enumeration value="LimitedAvailability" />
+          <s:enumeration value="AvailableForSale" />
+          <s:enumeration value="ClosedOut" />
+          <s:enumeration value="OtherAvailable" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="RoomRatesRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="RoomRate" type="tns:RoomRateRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RoomRateRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Rates" type="tns:ArrayOfRate" />
+        </s:sequence>
+        <s:attribute name="EffectiveDate" type="s:date" />
+        <s:attribute name="ExpireDate" type="s:date" />
+        <s:attribute name="RoomTypeCode" type="s:string" />
+        <s:attribute name="InvBlockCode" type="s:string" />
+        <s:attribute name="NumberOfUnits" type="s:int" />
+        <s:attribute name="RatePlanType" type="s:string" />
+        <s:attribute name="RatePlanCode" type="s:string" />
+        <s:attribute name="RatePlanID" type="s:string" />
+        <s:attribute name="RatePlanQualifier" type="s:boolean" />
+        <s:attribute name="PromotionCode" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfRate">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Rate" type="tns:Rate" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Rate">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Base" type="tns:Base" />
+        </s:sequence>
+        <s:attribute name="EffectiveDate" type="s:date" />
+        <s:attribute name="ExpireDate" type="s:date" />
+        <s:attribute name="AgeQualifyingCode" type="s:string" />
+        <s:attribute name="MinAge" type="s:int" />
+        <s:attribute name="MaxAge" type="s:int" />
+        <s:attribute name="AgeTimeUnit" type="tns:RateAgeTimeUnit" />
+        <s:attribute name="GuaranteedInd" type="s:boolean" />
+      </s:complexType>
+      <s:complexType name="Base">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Taxes" type="tns:TaxesRS" />
+        </s:sequence>
+        <s:attribute name="AmountBeforeTax" type="s:double" />
+        <s:attribute name="AmountAfterTax" type="s:double" />
+        <s:attribute name="CurrencyCode" type="s:string" />
+        <s:attribute name="DecimalPlaces" type="s:int" />
+      </s:complexType>
+      <s:simpleType name="RateAgeTimeUnit">
+        <s:restriction base="s:string">
+          <s:enumeration value="Year" />
+          <s:enumeration value="Month" />
+          <s:enumeration value="Week" />
+          <s:enumeration value="Day" />
+          <s:enumeration value="Hour" />
+          <s:enumeration value="Second" />
+          <s:enumeration value="FullDuration" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="GuestCountsRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="GuestCount" type="tns:GuestCountRS" />
+        </s:sequence>
+        <s:attribute name="IsPerRoom" type="s:boolean" />
+      </s:complexType>
+      <s:complexType name="GuestCountRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="AgeQualifyingCode" type="s:string" />
+            <s:attribute name="Age" type="s:int" />
+            <s:attribute name="Count" type="s:int" />
+            <s:attribute name="RPH" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="TimeSpanRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="DateWindowRange" type="tns:DateWindowRangeRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="StartDateWindow" type="tns:StartDateWindowRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="EndDateWindow" type="tns:EndDateWindowRS" />
+        </s:sequence>
+        <s:attribute name="Start" type="s:date" />
+        <s:attribute name="Duration" type="s:string" />
+        <s:attribute name="End" type="s:date" />
+      </s:complexType>
+      <s:complexType name="DateWindowRangeRS">
+        <s:simpleContent>
+          <s:extension base="s:date">
+            <s:attribute name="WindowBefore" type="s:string" />
+            <s:attribute name="WindowAfter" type="s:string" />
+            <s:attribute name="CrossDateAllowedIndicator" type="s:boolean" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="StartDateWindowRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="EarliestDate" type="s:date" />
+            <s:attribute name="LatestDate" type="s:date" />
+            <s:attribute name="DOW" type="tns:StartDateWindowDOW" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="StartDateWindowDOW">
+        <s:restriction base="s:string">
+          <s:enumeration value="Mon" />
+          <s:enumeration value="Tue" />
+          <s:enumeration value="Wed" />
+          <s:enumeration value="Thu" />
+          <s:enumeration value="Fri" />
+          <s:enumeration value="Sat" />
+          <s:enumeration value="Sun" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="EndDateWindowRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="EarliestDate" type="s:date" />
+            <s:attribute name="LatestDate" type="s:date" />
+            <s:attribute name="DOW" type="tns:EndDateWindowDOW" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="EndDateWindowDOW">
+        <s:restriction base="s:string">
+          <s:enumeration value="Mon" />
+          <s:enumeration value="Tue" />
+          <s:enumeration value="Wed" />
+          <s:enumeration value="Thu" />
+          <s:enumeration value="Fri" />
+          <s:enumeration value="Sat" />
+          <s:enumeration value="Sun" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="DepositPaymentRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AcceptedPayments" type="tns:ArrayOfAcceptedPaymentRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="AmountPercent" type="tns:AmountPercent" />
+        </s:sequence>
+        <s:attribute name="RetributionType" type="tns:DepositPaymentRetributionType" />
+      </s:complexType>
+      <s:complexType name="ArrayOfAcceptedPaymentRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AcceptedPaymentRS" type="tns:AcceptedPaymentRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AcceptedPaymentRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PaymentCard" type="tns:PaymentCardRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="BankAcct" type="tns:BankAcct" />
+          <s:element minOccurs="0" maxOccurs="1" name="DirectBill" type="tns:DirectBillRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="Voucher" type="tns:VoucherRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="LoyaltyRedemption" type="tns:LoyaltyRedemptionRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="MiscChargeOrder" type="tns:MiscChargeOrderRS" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:AcceptedPaymentShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:AcceptedPaymentShareMarketInd" />
+        <s:attribute name="CostCenterID" type="s:string" />
+        <s:attribute name="RPH" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="AcceptedPaymentShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AcceptedPaymentShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AmountPercent">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Taxes" type="tns:TaxesRS" />
+        </s:sequence>
+        <s:attribute name="TaxInclusive" type="s:boolean" />
+        <s:attribute name="FeesInclusive" type="s:boolean" />
+        <s:attribute name="NmbrOfNights" type="s:int" />
+        <s:attribute name="BasisType" type="tns:AmountPercentBasisType" />
+        <s:attribute name="Percent" type="s:double" />
+        <s:attribute name="Amount" type="s:double" />
+        <s:attribute name="CurrencyCode" type="s:string" />
+        <s:attribute name="DecimalPlaces" type="s:int" />
+      </s:complexType>
+      <s:simpleType name="AmountPercentBasisType">
+        <s:restriction base="s:string">
+          <s:enumeration value="FullStay" />
+          <s:enumeration value="Nights" />
+          <s:enumeration value="FirstLast" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="DepositPaymentRetributionType">
+        <s:restriction base="s:string">
+          <s:enumeration value="ResAutoCancelled" />
+          <s:enumeration value="ResNotGuaranteed" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="BasicPropertyInfoRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="ChainCode" type="s:string" />
+            <s:attribute name="BrandCode" type="s:string" />
+            <s:attribute name="HotelCode" type="s:string" />
+            <s:attribute name="HotelCityCode" type="s:string" />
+            <s:attribute name="HotelName" type="s:string" />
+            <s:attribute name="HotelCodeContext" type="s:string" />
+            <s:attribute name="ChainName" type="s:string" />
+            <s:attribute name="BrandName" type="s:string" />
+            <s:attribute name="AreaID" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="Rail">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" />
+        </s:sequence>
+        <s:attribute name="Start" type="s:string" />
+        <s:attribute name="End" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Cruise">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Tour">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="tns:Description" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+        <s:attribute name="ID_Type" type="s:string" />
+        <s:attribute name="Start" type="s:date" />
+        <s:attribute name="Duration" type="s:string" />
+        <s:attribute name="End" type="s:date" />
+      </s:complexType>
+      <s:complexType name="Description">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Language" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="General">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="tns:Description" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+        <s:attribute name="Type" type="tns:GeneralType" />
+        <s:attribute name="Start" type="s:date" />
+        <s:attribute name="Duration" type="s:string" />
+        <s:attribute name="End" type="s:date" />
+      </s:complexType>
+      <s:simpleType name="GeneralType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Bus" />
+          <s:enumeration value="Show" />
+          <s:enumeration value="Unknown" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Package">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+        <s:attribute name="ItemRPH_List" type="s:string" />
+        <s:attribute name="AssocItemRPH_List" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ItemPricing">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Cost" type="tns:Cost" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="AirFareInfo" type="tns:AirFareInfo" />
+        </s:sequence>
+        <s:attribute name="ItemRPH_List" type="s:string" />
+        <s:attribute name="AssociatedItemRPH" type="s:string" />
+        <s:attribute name="RPH" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Cost">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Taxes" type="tns:TaxesRS" />
+        </s:sequence>
+        <s:attribute name="AmountBeforeTax" type="s:double" />
+        <s:attribute name="AmountAfterTax" type="s:double" />
+        <s:attribute name="CurrencyCode" type="s:string" />
+        <s:attribute name="DecimalPlaces" type="s:int" />
+        <s:attribute name="FormOfPaymentRPH" type="s:string" />
+      </s:complexType>
+      <s:complexType name="AirFareInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ItinTotalFare" type="tns:ItinTotalFareRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="PTC_FareBreakdowns" type="tns:ArrayOfPTC_FareBreakdownRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="FareInfos" type="tns:ArrayOfFareInfoRS" />
+        </s:sequence>
+        <s:attribute name="PricingSource" type="tns:AirFareInfoPricingSource" />
+        <s:attribute default="false" name="RepriceRequired" type="s:boolean" />
+      </s:complexType>
+      <s:complexType name="ItinTotalFareRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="BaseFare" type="tns:BaseFareRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="EquivFare" type="tns:EquivFareRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="Taxes" type="tns:TaxesRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="Fees" type="tns:ArrayOfFeeRS1" />
+          <s:element minOccurs="0" maxOccurs="1" name="TotalFare" type="tns:TotalFareRS" />
+        </s:sequence>
+        <s:attribute default="false" name="NegotiatedFare" type="s:boolean" />
+        <s:attribute name="NegotiatedFareCode" type="s:string" />
+      </s:complexType>
+      <s:complexType name="EquivFareRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Amount" type="s:double" />
+            <s:attribute name="CurrencyCode" type="s:string" />
+            <s:attribute name="DecimalPlaces" type="s:int" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfFeeRS1">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Fee" type="tns:FeeRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TotalFareRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Amount" type="s:double" />
+            <s:attribute name="CurrencyCode" type="s:string" />
+            <s:attribute name="DecimalPlaces" type="s:int" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfPTC_FareBreakdownRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PTC_FareBreakdown" type="tns:PTC_FareBreakdownRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PTC_FareBreakdownRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="PassengerTypeQuantity" type="tns:PassengerTypeQuantityRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="FareBasisCodes" type="tns:ArrayOfString1" />
+          <s:element minOccurs="0" maxOccurs="1" name="PassengerFare" type="tns:PassengerFareRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+        <s:attribute name="PricingSource" type="tns:PTC_FareBreakdownPricingSource" />
+        <s:attribute name="TravelerRefNumberRPHList" type="s:string" />
+        <s:attribute name="FlightRefNumberRPHList" type="s:string" />
+        <s:attribute name="RPH" type="s:string" />
+      </s:complexType>
+      <s:complexType name="PassengerTypeQuantityRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Age" type="s:int" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="CodeContext" type="s:string" />
+            <s:attribute name="URI" type="s:anyURI" />
+            <s:attribute name="Quantity" type="s:int" />
+            <s:attribute default="true" name="Changeable" type="s:boolean" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfString1">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="FareBasisCode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PassengerFareRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="BaseFare" type="tns:BaseFareRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="EquivFare" type="tns:EquivFareRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="Taxes" type="tns:TaxesRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="Fees" type="tns:ArrayOfFeeRS1" />
+          <s:element minOccurs="0" maxOccurs="1" name="TotalFare" type="tns:TotalFareRS" />
+        </s:sequence>
+        <s:attribute default="false" name="NegotiatedFare" type="s:boolean" />
+        <s:attribute name="NegotiatedFareCode" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="PTC_FareBreakdownPricingSource">
+        <s:restriction base="s:string">
+          <s:enumeration value="Published" />
+          <s:enumeration value="Private" />
+          <s:enumeration value="Both" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfFareInfoRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="FareInfo" type="tns:FareInfoRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="FareInfoRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="DepartureDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="FareReference" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="RuleInfo" type="tns:RuleInfoRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="FilingAirline" type="tns:FilingAirline" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MarketingAirline" type="tns:MarketingAirline" />
+          <s:element minOccurs="0" maxOccurs="1" name="DepartureAirport" type="tns:DepartureAirport" />
+          <s:element minOccurs="0" maxOccurs="1" name="ArrivalAirport" type="tns:ArrivalAirport" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+        <s:attribute default="false" name="NegotiatedFare" type="s:boolean" />
+        <s:attribute name="NegotiatedFareCode" type="s:string" />
+      </s:complexType>
+      <s:complexType name="RuleInfoRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ResTicketingRules" type="tns:ResTicketingRulesRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="LengthOfStayRules" type="tns:LengthOfStayRulesRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="ChargesRules" type="tns:ChargesRulesRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ResTicketingRulesRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AdvResTicketing" type="tns:AdvResTicketingRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AdvResTicketingRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AdvReservation" type="tns:AdvReservation" />
+          <s:element minOccurs="0" maxOccurs="1" name="AdvTicketing" type="tns:AdvTicketingRS" />
+        </s:sequence>
+        <s:attribute name="AdvResInd" type="s:boolean" />
+        <s:attribute name="AdvTicketingInd" type="s:boolean" />
+      </s:complexType>
+      <s:complexType name="AdvReservation">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="LatestTimeOfDay" type="s:dateTime" />
+            <s:attribute name="LatestPeriod" type="s:string" />
+            <s:attribute name="LatestUnit" type="tns:AdvReservationLatestUnit" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="AdvReservationLatestUnit">
+        <s:restriction base="s:string">
+          <s:enumeration value="Minutes" />
+          <s:enumeration value="Hours" />
+          <s:enumeration value="Days" />
+          <s:enumeration value="Months" />
+          <s:enumeration value="MON" />
+          <s:enumeration value="TUES" />
+          <s:enumeration value="WED" />
+          <s:enumeration value="THU" />
+          <s:enumeration value="FRI" />
+          <s:enumeration value="SAT" />
+          <s:enumeration value="SUN" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AdvTicketingRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="FromResTimeOfDay" type="s:dateTime" />
+            <s:attribute name="FromResPeriod" type="s:string" />
+            <s:attribute name="FromResUnit" type="tns:AdvTicketingFromResUnit" />
+            <s:attribute name="FromDepartTimeOfDay" type="s:dateTime" />
+            <s:attribute name="FromDepartPeriod" type="s:string" />
+            <s:attribute name="FromDepartUnit" type="tns:AdvTicketingFromDepartUnit" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="AdvTicketingFromResUnit">
+        <s:restriction base="s:string">
+          <s:enumeration value="Minutes" />
+          <s:enumeration value="Hours" />
+          <s:enumeration value="Days" />
+          <s:enumeration value="Months" />
+          <s:enumeration value="MON" />
+          <s:enumeration value="TUES" />
+          <s:enumeration value="WED" />
+          <s:enumeration value="THU" />
+          <s:enumeration value="FRI" />
+          <s:enumeration value="SAT" />
+          <s:enumeration value="SUN" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AdvTicketingFromDepartUnit">
+        <s:restriction base="s:string">
+          <s:enumeration value="Minutes" />
+          <s:enumeration value="Hours" />
+          <s:enumeration value="Days" />
+          <s:enumeration value="Months" />
+          <s:enumeration value="MON" />
+          <s:enumeration value="TUES" />
+          <s:enumeration value="WED" />
+          <s:enumeration value="THU" />
+          <s:enumeration value="FRI" />
+          <s:enumeration value="SAT" />
+          <s:enumeration value="SUN" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="LengthOfStayRulesRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MinimumStay" type="tns:MinimumStayRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="MaximumStay" type="tns:MaximumStayRS" />
+        </s:sequence>
+        <s:attribute name="StayRestrictionsInd" type="s:boolean" />
+      </s:complexType>
+      <s:complexType name="MinimumStayRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="ReturnTimeOfDay" type="s:dateTime" />
+            <s:attribute name="MinStay" type="s:string" />
+            <s:attribute name="StayUnit" type="tns:MinimumStayStayUnit" />
+            <s:attribute name="MinStayDate" type="s:dateTime" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="MinimumStayStayUnit">
+        <s:restriction base="s:string">
+          <s:enumeration value="Minutes" />
+          <s:enumeration value="Hours" />
+          <s:enumeration value="Days" />
+          <s:enumeration value="Months" />
+          <s:enumeration value="MON" />
+          <s:enumeration value="TUES" />
+          <s:enumeration value="WED" />
+          <s:enumeration value="THU" />
+          <s:enumeration value="FRI" />
+          <s:enumeration value="SAT" />
+          <s:enumeration value="SUN" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="MaximumStayRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="ReturnType" type="s:string" />
+            <s:attribute name="ReturnTimeOfDay" type="s:dateTime" />
+            <s:attribute name="MaxStay" type="s:string" />
+            <s:attribute name="StayUnit" type="tns:MaximumStayStayUnit" />
+            <s:attribute name="MaxStayDate" type="s:dateTime" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="MaximumStayStayUnit">
+        <s:restriction base="s:string">
+          <s:enumeration value="Minutes" />
+          <s:enumeration value="Hours" />
+          <s:enumeration value="Days" />
+          <s:enumeration value="Months" />
+          <s:enumeration value="MON" />
+          <s:enumeration value="TUES" />
+          <s:enumeration value="WED" />
+          <s:enumeration value="THU" />
+          <s:enumeration value="FRI" />
+          <s:enumeration value="SAT" />
+          <s:enumeration value="SUN" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ChargesRulesRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="VoluntaryChanges" type="tns:VoluntaryChangesRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="VoluntaryChangesRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Penalty" type="tns:PenaltyRS" />
+        </s:sequence>
+        <s:attribute name="VolChangeInd" type="s:boolean" />
+      </s:complexType>
+      <s:complexType name="PenaltyRS">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="PenaltyType" type="s:string" />
+            <s:attribute name="DepartureStatus" type="s:string" />
+            <s:attribute name="Amount" type="s:double" />
+            <s:attribute name="CurrencyCode" type="s:string" />
+            <s:attribute name="DecimalPlaces" type="s:int" />
+            <s:attribute name="Percent" type="s:double" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="FilingAirline">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="CompanyShortName" type="s:string" />
+            <s:attribute name="TravelSector" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="CodeContext" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="AirFareInfoPricingSource">
+        <s:restriction base="s:string">
+          <s:enumeration value="Published" />
+          <s:enumeration value="Private" />
+          <s:enumeration value="Both" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="SpecialRequestDetails">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="SeatRequests" type="tns:ArrayOfSeatRequest" />
+          <s:element minOccurs="0" maxOccurs="1" name="SpecialServiceRequests" type="tns:ArrayOfSpecialServiceRequest" />
+          <s:element minOccurs="0" maxOccurs="1" name="OtherServiceInformations" type="tns:ArrayOfOtherServiceInformation" />
+          <s:element minOccurs="0" maxOccurs="1" name="Remarks" type="tns:RemarksRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="UniqueRemarks" type="tns:ArrayOfUniqueRemark" />
+          <s:element minOccurs="0" maxOccurs="1" name="SpecialRemarks" type="tns:SpecialRemarkRSA" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfSeatRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SeatRequest" type="tns:SeatRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SeatRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="DepartureAirport" type="tns:DepartureAirport" />
+          <s:element minOccurs="0" maxOccurs="1" name="ArrivalAirport" type="tns:ArrivalAirport" />
+        </s:sequence>
+        <s:attribute name="SeatNumber" type="s:string" />
+        <s:attribute name="SeatPreference" type="s:string" />
+        <s:attribute name="SmokingAllowed" type="s:boolean" use="required" />
+        <s:attribute name="Status" type="s:string" />
+        <s:attribute name="TravelerRefNumberRPHList" type="s:string" />
+        <s:attribute name="FlightRefNumberRPHList" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfSpecialServiceRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SpecialServiceRequest" type="tns:SpecialServiceRequest" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SpecialServiceRequest">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Airline" type="tns:Airline" />
+          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+        </s:sequence>
+        <s:attribute name="SSRCode" type="s:string" />
+        <s:attribute name="TravelerRefNumberRPHList" type="s:string" />
+        <s:attribute name="FlightRefNumberRPHList" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfOtherServiceInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="OtherServiceInformation" type="tns:OtherServiceInformation" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OtherServiceInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TravelerRefNumber" type="tns:TravelerRefNumber" />
+          <s:element minOccurs="0" maxOccurs="1" name="Airline" type="tns:Airline" />
+          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfUniqueRemark">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="UniqueRemark" type="tns:UniqueRemark" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="UniqueRemark">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="RemarkType" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="SpecialRemarkRSA">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SpecialRemark" type="tns:SpecialRemarkRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SpecialRemarkRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="TravelerRefNumber" type="tns:TravelerRefNumber" />
+          <s:element minOccurs="0" maxOccurs="1" name="FlightRefNumber" type="tns:FlightRefNumber" />
+          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Vendor" type="tns:Vendor" />
+          <s:element minOccurs="0" maxOccurs="1" name="RemarkDateTime" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="RemarkOrigin" type="tns:RemarkOriginEnum" />
+        </s:sequence>
+        <s:attribute name="RemarkType" type="tns:SpecialRemarkRemarkTypeRS" use="required" />
+        <s:attribute name="RPH" type="s:string" />
+      </s:complexType>
+      <s:complexType name="FlightRefNumber">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="RPH" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="RemarkOriginEnum">
+        <s:restriction base="s:string">
+          <s:enumeration value="Vendor" />
+          <s:enumeration value="Agent" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="SpecialRemarkRemarkTypeRS">
+        <s:restriction base="s:string">
+          <s:enumeration value="Itinerary" />
+          <s:enumeration value="Invoice" />
+          <s:enumeration value="Endorsement" />
+          <s:enumeration value="TourCode" />
+          <s:enumeration value="Vendor" />
+          <s:enumeration value="A" />
+          <s:enumeration value="B" />
+          <s:enumeration value="C" />
+          <s:enumeration value="D" />
+          <s:enumeration value="E" />
+          <s:enumeration value="F" />
+          <s:enumeration value="G" />
+          <s:enumeration value="H" />
+          <s:enumeration value="I" />
+          <s:enumeration value="J" />
+          <s:enumeration value="K" />
+          <s:enumeration value="L" />
+          <s:enumeration value="M" />
+          <s:enumeration value="N" />
+          <s:enumeration value="O" />
+          <s:enumeration value="P" />
+          <s:enumeration value="Q" />
+          <s:enumeration value="R" />
+          <s:enumeration value="S" />
+          <s:enumeration value="T" />
+          <s:enumeration value="U" />
+          <s:enumeration value="V" />
+          <s:enumeration value="W" />
+          <s:enumeration value="X" />
+          <s:enumeration value="Y" />
+          <s:enumeration value="Z" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="TicketingRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TicketAdvisory" type="tns:TicketAdvisory" />
+        </s:sequence>
+        <s:attribute name="TicketTimeLimit" type="s:string" />
+        <s:attribute name="TicketType" type="tns:TicketingTicketTypeRS" use="required" />
+        <s:attribute name="eTicketNumber" type="s:string" />
+        <s:attribute name="PlatingCarrier" type="s:string" />
+      </s:complexType>
+      <s:complexType name="TicketAdvisory">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Language" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="TicketingTicketTypeRS">
+        <s:restriction base="s:string">
+          <s:enumeration value="eTicket" />
+          <s:enumeration value="Paper" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ItineraryPricing">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Cost" type="tns:Cost" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+        <s:attribute name="ItemRPH_List" type="s:string" />
+        <s:attribute name="AssociatedItemRPH" type="s:string" />
+      </s:complexType>
+      <s:complexType name="AssociatedContent">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AssocItems" type="tns:AssocItems" />
+          <s:element minOccurs="0" maxOccurs="1" name="Pricing" type="tns:Pricing" />
+          <s:element minOccurs="0" maxOccurs="1" name="SpecialRequestDetails" type="tns:SpecialRequestDetails" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AssocItems">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AssocItem" type="tns:AssocItem" />
+          <s:element minOccurs="0" maxOccurs="1" name="Pricing" type="tns:Pricing" />
+          <s:element minOccurs="0" maxOccurs="1" name="SpecialRequestDetails" type="tns:SpecialRequestDetails" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AssocItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AssocItemRef" type="tns:AssocItemRef" />
+        </s:sequence>
+        <s:attribute name="RPH" type="s:string" />
+        <s:attribute name="DateTime" type="s:date" />
+        <s:attribute name="Type" type="s:string" />
+      </s:complexType>
+      <s:complexType name="AssocItemRef">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="tns:CompanyName" />
+        </s:sequence>
+        <s:attribute name="URL" type="s:anyURI" />
+        <s:attribute name="Type" type="s:string" />
+        <s:attribute name="Instance" type="s:string" />
+        <s:attribute name="ID" type="s:string" />
+        <s:attribute name="ID_Context" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Pricing">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Cost" type="tns:Cost" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+        <s:attribute name="ItemRPH_List" type="s:string" />
+        <s:attribute name="AssociatedItemRPH" type="s:string" />
+      </s:complexType>
+      <s:complexType name="TravelCost">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="FormOfPayment" type="tns:FormOfPaymentRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="CostTotals" type="tns:CostTotals" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_ExtensionsRS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CostTotals">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Taxes" type="tns:TaxesRS" />
+        </s:sequence>
+        <s:attribute name="AmountBeforeTax" type="s:double" />
+        <s:attribute name="AmountAfterTax" type="s:double" />
+        <s:attribute name="CurrencyCode" type="s:string" />
+        <s:attribute name="DecimalPlaces" type="s:int" />
+        <s:attribute name="FormOfPaymentRPH" type="s:string" />
+      </s:complexType>
+      <s:complexType name="UpdatedBy">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Access" type="tns:Access" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:UpdatedByShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:UpdatedByShareMarketInd" />
+        <s:attribute name="CreateDateTime" type="s:dateTime" />
+      </s:complexType>
+      <s:complexType name="Access">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AccessPerson" type="tns:AccessPerson" />
+          <s:element minOccurs="0" maxOccurs="1" name="AccessComment" type="tns:AccessComment" />
+        </s:sequence>
+        <s:attribute name="ActionType" type="tns:AccessActionType" />
+        <s:attribute name="ActionDateTime" type="s:dateTime" />
+        <s:attribute name="ID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="AccessPerson">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="NamePrefix" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="GivenName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="MiddleName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="SurnamePrefix" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Surname" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="NameSuffix" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="NameTitle" type="s:string" />
+        </s:sequence>
+        <s:attribute name="ShareSynchInd" type="tns:AccessPersonShareSynchInd" />
+        <s:attribute name="ShareMarketInd" type="tns:AccessPersonShareMarketInd" />
+        <s:attribute name="NameType" type="s:string" />
+      </s:complexType>
+      <s:simpleType name="AccessPersonShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="AccessPersonShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="AccessComment">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Language" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="AccessActionType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Create" />
+          <s:enumeration value="Read" />
+          <s:enumeration value="Update" />
+          <s:enumeration value="Delete" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="UpdatedByShareSynchInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="UpdatedByShareMarketInd">
+        <s:restriction base="s:string">
+          <s:enumeration value="Yes" />
+          <s:enumeration value="No" />
+          <s:enumeration value="Inherit" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfError">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Error" type="tns:Error" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Error">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Language" type="s:string" />
+            <s:attribute name="Type" type="s:string" />
+            <s:attribute name="ShortText" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="DocURL" type="s:anyURI" />
+            <s:attribute name="Status" type="s:string" />
+            <s:attribute name="Tag" type="s:string" />
+            <s:attribute name="RecordID" type="s:string" />
+            <s:attribute name="NodeList" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="OTA_TravelItineraryRSTarget">
+        <s:restriction base="s:string">
+          <s:enumeration value="Test" />
+          <s:enumeration value="Production" />
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="OTA_TravelItineraryRSTransactionStatusCode">
+        <s:restriction base="s:string">
+          <s:enumeration value="Start" />
+          <s:enumeration value="End" />
+          <s:enumeration value="Rollback" />
+          <s:enumeration value="InSeries" />
+          <s:enumeration value="Ticketed" />
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="TripXML" type="tns:TripXML" />
+      <s:complexType name="TripXML">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="compressed" type="s:boolean" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="wmUpdateXml">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xmlRequest" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="wmUpdateXmlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="wmUpdateXmlResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="wmUpdateSoapIn">
+    <wsdl:part name="parameters" element="tns:wmUpdate" />
+  </wsdl:message>
+  <wsdl:message name="wmUpdateSoapOut">
+    <wsdl:part name="parameters" element="tns:wmUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="wmUpdateTripXML">
+    <wsdl:part name="TripXML" element="tns:TripXML" />
+  </wsdl:message>
+  <wsdl:message name="wmUpdateXmlSoapIn">
+    <wsdl:part name="parameters" element="tns:wmUpdateXml" />
+  </wsdl:message>
+  <wsdl:message name="wmUpdateXmlSoapOut">
+    <wsdl:part name="parameters" element="tns:wmUpdateXmlResponse" />
+  </wsdl:message>
+  <wsdl:message name="wmUpdateXmlHttpGetIn">
+    <wsdl:part name="xmlRequest" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="wmUpdateXmlHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="wsUpdateSoap">
+    <wsdl:operation name="wmUpdate">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Update Info Messages Request.</wsdl:documentation>
+      <wsdl:input message="tns:wmUpdateSoapIn" />
+      <wsdl:output message="tns:wmUpdateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="wmUpdateXml">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Update Info Xml Messages Request.</wsdl:documentation>
+      <wsdl:input message="tns:wmUpdateXmlSoapIn" />
+      <wsdl:output message="tns:wmUpdateXmlSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="wsUpdateHttpGet">
+    <wsdl:operation name="wmUpdateXml">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Update Info Xml Messages Request.</wsdl:documentation>
+      <wsdl:input message="tns:wmUpdateXmlHttpGetIn" />
+      <wsdl:output message="tns:wmUpdateXmlHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="wsUpdateSoap" type="tns:wsUpdateSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="wmUpdate">
+      <soap:operation soapAction="http://traveltalk.com/wsUpdate/wmUpdate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:wmUpdateTripXML" part="TripXML" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="wmUpdateXml">
+      <soap:operation soapAction="http://traveltalk.com/wsUpdate/wmUpdateXml" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsUpdateSoap12" type="tns:wsUpdateSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="wmUpdate">
+      <soap12:operation soapAction="http://traveltalk.com/wsUpdate/wmUpdate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:wmUpdateTripXML" part="TripXML" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="wmUpdateXml">
+      <soap12:operation soapAction="http://traveltalk.com/wsUpdate/wmUpdateXml" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsUpdateHttpGet" type="tns:wsUpdateHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="wmUpdateXml">
+      <http:operation location="/wmUpdateXml" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="wsUpdate">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">A TripXML Web Service to Process Update Messages Request.</wsdl:documentation>
+    <wsdl:port name="wsUpdateSoap" binding="tns:wsUpdateSoap">
+      <soap:address location="http://tripxml.downtowntravel.com/tripxml/wsupdate.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsUpdateSoap12" binding="tns:wsUpdateSoap12">
+      <soap12:address location="http://tripxml.downtowntravel.com/tripxml/wsupdate.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsUpdateHttpGet" binding="tns:wsUpdateHttpGet">
+      <http:address location="http://tripxml.downtowntravel.com/tripxml/wsupdate.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://traveltalk.com/wsQueue" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://traveltalk.com/wsQueue" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">A TripXML Web Service to Process Queue Messages Request.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://traveltalk.com/wsQueue">
+      <s:element name="wmQueue">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OTA_QueueRQ" type="tns:OTA_QueueRQ" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="OTA_QueueRQ">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="POS" type="tns:POS" />
+          <s:element minOccurs="0" maxOccurs="1" name="BounceQueue" type="tns:BounceQueue" />
+          <s:element minOccurs="0" maxOccurs="1" name="CleanQueue" type="tns:CleanQueue" />
+          <s:element minOccurs="0" maxOccurs="1" name="CountQueue" type="tns:CountQueue" />
+          <s:element minOccurs="0" maxOccurs="1" name="ListQueue" type="tns:ListQueue" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PlaceQueue" type="tns:PlaceQueue" />
+          <s:element minOccurs="0" maxOccurs="1" name="RemoveQueue" type="tns:RemoveQueue" />
+          <s:element minOccurs="0" maxOccurs="1" name="Move" type="tns:Move" />
+        </s:sequence>
+        <s:attribute name="EchoToken" type="s:string" />
+        <s:attribute name="TimeStamp" type="s:string" />
+        <s:attribute name="Target" type="s:NMTOKEN" />
+        <s:attribute name="Version" type="s:string" />
+        <s:attribute name="TransactionIdentifier" type="s:string" />
+        <s:attribute name="SequenceNmbr" type="s:string" />
+        <s:attribute name="TransactionStatusCode" type="s:NMTOKEN" />
+        <s:attribute name="PrimaryLangID" type="s:string" />
+        <s:attribute name="AltLangID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="POS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Source" type="tns:Source" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:ArrayOfProvider" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Source">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RequestorID" type="tns:RequestorID" />
+          <s:element minOccurs="0" maxOccurs="1" name="Position" type="tns:Position" />
+          <s:element minOccurs="0" maxOccurs="1" name="BookingChannel" type="tns:BookingChannel" />
+        </s:sequence>
+        <s:attribute name="AgentSine" type="s:string" />
+        <s:attribute name="PseudoCityCode" type="s:string" />
+        <s:attribute name="ISOCountry" type="s:string" />
+        <s:attribute name="ISOCurrency" type="s:string" />
+        <s:attribute name="AgentDutyCode" type="s:string" />
+        <s:attribute name="AirlineVendorID" type="s:string" />
+        <s:attribute name="AirportCode" type="s:string" />
+        <s:attribute name="FirstDepartPoint" type="s:string" />
+        <s:attribute name="ERSP_UserID" type="s:string" />
+        <s:attribute name="TerminalID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="RequestorID">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="tns:CompanyName" />
+        </s:sequence>
+        <s:attribute name="URL" type="s:string" />
+        <s:attribute name="Type" type="s:string" />
+        <s:attribute name="Instance" type="s:string" />
+        <s:attribute name="ID" type="s:string" />
+        <s:attribute name="ID_Context" type="s:string" />
+      </s:complexType>
+      <s:complexType name="CompanyName">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="CompanyShortName" type="s:string" />
+            <s:attribute name="TravelSector" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="CodeContext" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="Position">
+        <s:attribute name="Latitude" type="s:string" />
+        <s:attribute name="Longitude" type="s:string" />
+        <s:attribute name="Altitude" type="s:string" />
+      </s:complexType>
+      <s:complexType name="BookingChannel">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="tns:CompanyName" />
+        </s:sequence>
+        <s:attribute name="Type" type="s:string" />
+        <s:attribute name="Primary" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfProvider">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Provider" type="tns:Provider" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Provider">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="System" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Userid" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BounceQueue">
+        <s:attribute name="Action" type="s:NMTOKEN" />
+        <s:attribute name="ItemsForward" type="s:string" />
+        <s:attribute name="ItemsBackward" type="s:string" />
+      </s:complexType>
+      <s:complexType name="CleanQueue">
+        <s:attribute name="Number" type="s:string" />
+        <s:attribute name="Category" type="s:string" />
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="PseudoCityCode" type="s:string" />
+      </s:complexType>
+      <s:complexType name="CountQueue">
+        <s:attribute name="Number" type="s:string" />
+        <s:attribute name="Category" type="s:string" />
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="PseudoCityCode" type="s:string" />
+        <s:attribute name="Summary" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ListQueue">
+        <s:attribute name="Number" type="s:string" />
+        <s:attribute name="Category" type="s:string" />
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="PseudoCityCode" type="s:string" />
+      </s:complexType>
+      <s:complexType name="PlaceQueue">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UniqueID" type="tns:UniqueID" />
+        </s:sequence>
+        <s:attribute name="Number" type="s:string" />
+        <s:attribute name="Category" type="s:string" />
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="PseudoCityCode" type="s:string" />
+      </s:complexType>
+      <s:complexType name="UniqueID">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="tns:CompanyName" />
+        </s:sequence>
+        <s:attribute name="URL" type="s:string" />
+        <s:attribute name="Type" type="s:string" />
+        <s:attribute name="Instance" type="s:string" />
+        <s:attribute name="ID" type="s:string" />
+        <s:attribute name="ID_Context" type="s:string" />
+      </s:complexType>
+      <s:complexType name="RemoveQueue">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UniqueID" type="tns:UniqueID" />
+        </s:sequence>
+        <s:attribute name="Number" type="s:string" />
+        <s:attribute name="Category" type="s:string" />
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="PseudoCityCode" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Move">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="FromQueue" type="tns:FromQueue" />
+          <s:element minOccurs="0" maxOccurs="1" name="ToQueue" type="tns:ToQueue" />
+        </s:sequence>
+        <s:attribute name="ItemsQuantity" type="s:string" />
+      </s:complexType>
+      <s:complexType name="FromQueue">
+        <s:attribute name="Number" type="s:string" />
+        <s:attribute name="Category" type="s:string" />
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="PseudoCityCode" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ToQueue">
+        <s:attribute name="Number" type="s:string" />
+        <s:attribute name="Category" type="s:string" />
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="PseudoCityCode" type="s:string" />
+      </s:complexType>
+      <s:element name="wmQueueResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OTA_QueueRS" type="tns:OTA_QueueRS" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="OTA_QueueRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Success" type="tns:Success" />
+          <s:element minOccurs="0" maxOccurs="1" name="Warnings" type="tns:ArrayOfWarning" />
+          <s:element minOccurs="0" maxOccurs="1" name="CountQueue" type="tns:CountQueueRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="ListQueue" type="tns:ListQueueRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="PlaceQueue" type="tns:PlaceQueueRS" />
+          <s:element minOccurs="0" maxOccurs="1" name="Remove" type="tns:RemoveMove" />
+          <s:element minOccurs="0" maxOccurs="1" name="Move" type="tns:RemoveMove" />
+          <s:element minOccurs="0" maxOccurs="1" name="Errors" type="tns:ArrayOfError" />
+        </s:sequence>
+        <s:attribute name="EchoToken" type="s:string" />
+        <s:attribute name="TimeStamp" type="s:string" />
+        <s:attribute name="Target" type="s:NMTOKEN" />
+        <s:attribute name="Version" type="s:string" />
+        <s:attribute name="TransactionIdentifier" type="s:string" />
+        <s:attribute name="SequenceNmbr" type="s:string" />
+        <s:attribute name="TransactionStatusCode" type="s:NMTOKEN" />
+        <s:attribute name="PrimaryLangID" type="s:string" />
+        <s:attribute name="AltLangID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Success" />
+      <s:complexType name="ArrayOfWarning">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Warning" type="tns:Warning" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Warning">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Language" type="s:string" />
+            <s:attribute name="Type" type="s:string" />
+            <s:attribute name="ShortText" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="DocURL" type="s:string" />
+            <s:attribute name="Status" type="s:string" />
+            <s:attribute name="Tag" type="s:string" />
+            <s:attribute name="RecordID" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="CountQueueRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Queues" type="tns:ArrayOfQueue" />
+        </s:sequence>
+        <s:attribute name="PseudoCityCode" type="s:string" />
+        <s:attribute name="CurrentDateTime" type="s:string" />
+        <s:attribute name="TotalItems" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfQueue">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Queue" type="tns:Queue" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Queue">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Categories" type="tns:ArrayOfCategory" />
+        </s:sequence>
+        <s:attribute name="Number" type="s:string" />
+        <s:attribute name="Name" type="s:string" />
+        <s:attribute name="TotalQueueItems" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfCategory">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Category" type="tns:Category" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Category">
+        <s:attribute name="Number" type="s:string" />
+        <s:attribute name="TotalCategoryItems" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ListQueueRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="QueueCategory" type="tns:QueueCategory" />
+        </s:sequence>
+        <s:attribute name="PseudoCityCode" type="s:string" />
+        <s:attribute name="CurrentDateTime" type="s:string" />
+      </s:complexType>
+      <s:complexType name="QueueCategory">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="QueueItems" type="tns:ArrayOfQueueItem" />
+        </s:sequence>
+        <s:attribute name="QueueNumber" type="s:string" />
+        <s:attribute name="QueueName" type="s:string" />
+        <s:attribute name="CategoryNumber" type="s:string" />
+        <s:attribute name="TotalItems" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfQueueItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="QueueItem" type="tns:QueueItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="QueueItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UniqueID" type="tns:UniqueID" />
+          <s:element minOccurs="0" maxOccurs="1" name="TravelerName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Flight" type="tns:Flight" />
+        </s:sequence>
+        <s:attribute name="AgentCode" type="s:string" />
+        <s:attribute name="DateQueued" type="s:string" />
+        <s:attribute name="TicketDate" type="s:string" />
+        <s:attribute name="DateTimeCreated" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Flight">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="DepartureAirport" type="tns:DepartureAirport" />
+          <s:element minOccurs="0" maxOccurs="1" name="ArrivalAirport" type="tns:ArrivalAirport" />
+          <s:element minOccurs="0" maxOccurs="1" name="OperatingAirline" type="tns:OperatingAirline" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Equipment" type="tns:Equipment" />
+          <s:element minOccurs="0" maxOccurs="1" name="MarketingAirline" type="tns:MarketingAirline" />
+        </s:sequence>
+        <s:attribute name="DepartureDateTime" type="s:string" />
+        <s:attribute name="ArrivalDateTime" type="s:string" />
+        <s:attribute name="StopQuantity" type="s:string" />
+        <s:attribute name="RPH" type="s:string" />
+        <s:attribute name="InfoSource" type="s:string" />
+        <s:attribute name="FlightNumber" type="s:string" />
+        <s:attribute name="TourOperatorFlightID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="DepartureAirport">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="LocationCode" type="s:string" />
+            <s:attribute default="IATA" name="CodeContext" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="ArrivalAirport">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="LocationCode" type="s:string" />
+            <s:attribute default="IATA" name="CodeContext" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="OperatingAirline">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="CompanyShortName" type="s:string" />
+            <s:attribute name="TravelSector" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="CodeContext" type="s:string" />
+            <s:attribute name="FlightNumber" type="tns:OperatingAirlineFlightNumber" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:simpleType name="OperatingAirlineFlightNumber">
+        <s:restriction base="s:string">
+          <s:enumeration value="OPEN" />
+          <s:enumeration value="ARNK" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="Equipment">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="AirEquipType" type="s:string" />
+            <s:attribute name="ChangeofGauge" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="MarketingAirline">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="CompanyShortName" type="s:string" />
+            <s:attribute name="TravelSector" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="CodeContext" type="s:string" />
+            <s:attribute name="SingleVendorInd" type="s:NMTOKEN" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="PlaceQueueRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="UniqueID" type="tns:UniqueID" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RemoveMove">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NumberOfPNRS" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="From" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="To" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Text" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfError">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Error" type="tns:Error" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Error">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Language" type="s:string" />
+            <s:attribute name="Type" type="s:string" />
+            <s:attribute name="ShortText" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+            <s:attribute name="DocURL" type="s:string" />
+            <s:attribute name="Status" type="s:string" />
+            <s:attribute name="Tag" type="s:string" />
+            <s:attribute name="RecordID" type="s:string" />
+            <s:attribute name="NodeList" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:element name="TripXML" type="tns:TripXML" />
+      <s:complexType name="TripXML">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="compressed" type="s:boolean" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="wmQueueXml">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xmlRequest" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="wmQueueXmlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="wmQueueXmlResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="wmQueueSoapIn">
+    <wsdl:part name="parameters" element="tns:wmQueue" />
+  </wsdl:message>
+  <wsdl:message name="wmQueueSoapOut">
+    <wsdl:part name="parameters" element="tns:wmQueueResponse" />
+  </wsdl:message>
+  <wsdl:message name="wmQueueTripXML">
+    <wsdl:part name="TripXML" element="tns:TripXML" />
+  </wsdl:message>
+  <wsdl:message name="wmQueueXmlSoapIn">
+    <wsdl:part name="parameters" element="tns:wmQueueXml" />
+  </wsdl:message>
+  <wsdl:message name="wmQueueXmlSoapOut">
+    <wsdl:part name="parameters" element="tns:wmQueueXmlResponse" />
+  </wsdl:message>
+  <wsdl:message name="wmQueueXmlHttpGetIn">
+    <wsdl:part name="xmlRequest" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="wmQueueXmlHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="wsQueueSoap">
+    <wsdl:operation name="wmQueue">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Queue Messages Request.</wsdl:documentation>
+      <wsdl:input message="tns:wmQueueSoapIn" />
+      <wsdl:output message="tns:wmQueueSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="wmQueueXml">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Queue well format Xml Messages Request.</wsdl:documentation>
+      <wsdl:input message="tns:wmQueueXmlSoapIn" />
+      <wsdl:output message="tns:wmQueueXmlSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="wsQueueHttpGet">
+    <wsdl:operation name="wmQueueXml">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Queue well format Xml Messages Request.</wsdl:documentation>
+      <wsdl:input message="tns:wmQueueXmlHttpGetIn" />
+      <wsdl:output message="tns:wmQueueXmlHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="wsQueueSoap" type="tns:wsQueueSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="wmQueue">
+      <soap:operation soapAction="http://traveltalk.com/wsQueue/wmQueue" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:wmQueueTripXML" part="TripXML" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="wmQueueXml">
+      <soap:operation soapAction="http://traveltalk.com/wsQueue/wmQueueXml" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsQueueSoap12" type="tns:wsQueueSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="wmQueue">
+      <soap12:operation soapAction="http://traveltalk.com/wsQueue/wmQueue" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:wmQueueTripXML" part="TripXML" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="wmQueueXml">
+      <soap12:operation soapAction="http://traveltalk.com/wsQueue/wmQueueXml" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsQueueHttpGet" type="tns:wsQueueHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="wmQueueXml">
+      <http:operation location="/wmQueueXml" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="wsQueue">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">A TripXML Web Service to Process Queue Messages Request.</wsdl:documentation>
+    <wsdl:port name="wsQueueSoap" binding="tns:wsQueueSoap">
+      <soap:address location="http://tripxml.downtowntravel.com/tripxml/wsqueue.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsQueueSoap12" binding="tns:wsQueueSoap12">
+      <soap12:address location="http://tripxml.downtowntravel.com/tripxml/wsqueue.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsQueueHttpGet" binding="tns:wsQueueHttpGet">
+      <http:address location="http://tripxml.downtowntravel.com/tripxml/wsqueue.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

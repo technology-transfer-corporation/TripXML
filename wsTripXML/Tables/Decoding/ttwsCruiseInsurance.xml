@@ -1,0 +1,118 @@
+<ttWSCruiseInsurance>
+	<Insurance>
+		<Code>EAS</Code>
+		<Name>AT EASE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>CRC</Code>
+		<Name>CRUISE CARE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>GUA</Code>
+		<Name>CRUISE GUARD</Name>
+	</Insurance>
+	<Insurance>
+		<Code>CUC</Code>
+		<Name>CUNARD CARE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>DES</Code>
+		<Name>DESCRIPTION</Name>
+	</Insurance>
+	<Insurance>
+		<Code>IAC</Code>
+		<Name>EUROPE AND CANCEL</Name>
+	</Insurance>
+	<Insurance>
+		<Code>IAN</Code>
+		<Name>EUROPE INSURANCE PREMIUM</Name>
+	</Insurance>
+	<Insurance>
+		<Code>HRT</Code>
+		<Name>HURTIGRUTEN INSURANCE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>INS</Code>
+		<Name>INSURANCE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>LON</Code>
+		<Name>LONDON MARKET INSURANCE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>MED</Code>
+		<Name>MEDICAL COVERAGE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>NON</Code>
+		<Name>NONE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>OVI</Code>
+		<Name>OCEAN VILLAGE INSURANCE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>OWN</Code>
+		<Name>OWN INSURANCE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>POI</Code>
+		<Name>P O INSURANCE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>PCP</Code>
+		<Name>PLATINIUM CNL PROT PLAN</Name>
+	</Insurance>
+	<Insurance>
+		<Code>PLT</Code>
+		<Name>PLATINUM INSURANCE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>LBC</Code>
+		<Name>PRINCESS TRAVEL CARE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>LBG</Code>
+		<Name>PRINCESS TRAVEL CARE GOLD</Name>
+	</Insurance>
+	<Insurance>
+		<Code>STD</Code>
+		<Name>STANDARD INSURANCE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>CPP</Code>
+		<Name>STD CANCEL PROTECT PLAN</Name>
+	</Insurance>
+	<Insurance>
+		<Code>TRP</Code>
+		<Name>TRIP INSURANCE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>VAC</Code>
+		<Name>VACATION COVERAGE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>VPP</Code>
+		<Name>VACATION PROTECTION PLAN</Name>
+	</Insurance>
+	<Insurance>
+		<Code>VCM</Code>
+		<Name>VCOM SPONSORED INSURANCE</Name>
+	</Insurance>
+	<Insurance>
+		<Code>IBC</Code>
+		<Name>WORLD EXCL USA AND CANCEL</Name>
+	</Insurance>
+	<Insurance>
+		<Code>IBN</Code>
+		<Name>WORLD EXCL USA PREMIUM</Name>
+	</Insurance>
+	<Insurance>
+		<Code>ICC</Code>
+		<Name>WORLD INCL USA AND CANCEL</Name>
+	</Insurance>
+	<Insurance>
+		<Code>ICN</Code>
+		<Name>WORLD INCL USA PREMIUM</Name>
+	</Insurance>
+</ttWSCruiseInsurance>

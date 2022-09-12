@@ -1,0 +1,667 @@
+<?xml version="1.0" ?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+	<!-- *****************************************************************************************-->
+	<!-- Rastko - 09 Dec																-->
+	<!-- created call for multiple flights options per price					   -->
+	<!-- *****************************************************************************************-->
+	<!-- Rastko -27 Jan 2004																-->
+	<!-- added TPA_Extensions BookingClass and JourneyTotalDuration to flight segment	   -->
+	<!-- *****************************************************************************************-->
+	<xsl:output method="xml" omit-xml-declaration="yes" />
+	<xsl:variable name="zeros">000</xsl:variable>
+	<xsl:template match="/">
+		<xsl:apply-templates select="FareQuoteShop_8_0" />
+	</xsl:template>
+	<!-- ************************************************************** -->
+	<xsl:template match="FareQuoteShop_8_0">
+		<OTA_AirLowFareSearchPlusRS>
+			<xsl:attribute name="Version">3.14</xsl:attribute>
+			<xsl:choose>
+				<xsl:when test="FareInfo/RespHeader/ErrMsg='Y' or FareInfo/ErrText/Err!='' or FareInfo/ErrorCode != ''">
+					<Errors>
+						<xsl:apply-templates select="FareInfo/ErrText" />
+						<xsl:apply-templates select="FareInfo/InfoMsg" mode="warning" />
+					</Errors>
+				</xsl:when>
+				<xsl:when test="TransactionErrorCode">
+					<Errors>
+						<xsl:apply-templates select="TransactionErrorCode" />
+					</Errors>
+				</xsl:when>
+				<xsl:otherwise>
+					<Success></Success>
+					<PricedItineraries>
+						<xsl:apply-templates select="FareInfo" mode="PricedItin" />
+					</PricedItineraries>
+				</xsl:otherwise>
+			</xsl:choose>
+		</OTA_AirLowFareSearchPlusRS>
+	</xsl:template>
+	<!--*************************************************************-->
+	<xsl:template match="FareInfo" mode="PricedItin">
+		<PricedItinerary>
+			<xsl:attribute name="SequenceNumber">
+				<xsl:value-of select="position()" />
+			</xsl:attribute>
+			<AirItinerary>
+				<xsl:attribute name="DirectionInd">
+					<xsl:choose>
+						<xsl:when test="ItinSeg[1]/StartPt  = ItinSeg[position()=last()]/EndPt">Circle</xsl:when>
+						<xsl:otherwise>OneWay</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+				<OriginDestinationOptions>
+					<xsl:apply-templates select="FlightItemRef[not(ODNum = preceding-sibling::FlightItemRef/ODNum)]" mode="first" />
+				</OriginDestinationOptions>
+			</AirItinerary>
+			<xsl:apply-templates select="." mode="totalprice" />
+		</PricedItinerary>
+	</xsl:template>
+	<!--*************************************************************-->
+	<xsl:template match="ErrText">
+		<Error Type="Fare">
+			<xsl:choose>
+				<xsl:when test="Err='F 000001' and KlrInErr='15DE' and Text='SYSTEM ERROR'">
+					<xsl:attribute name="Code">
+						<xsl:text>XXERR</xsl:text>
+					</xsl:attribute>
+					<xsl:text>NO NEGO/PUBLISHED FARES</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:attribute name="Code">
+						<xsl:value-of select="Err" />
+					</xsl:attribute>
+					<xsl:value-of select="Text" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</Error>
+	</xsl:template>
+	<!--*************************************************************-->
+	<xsl:template match="InfoMsg" mode="warning">
+		<Error Type="Fare">
+			<xsl:attribute name="Code">
+				<xsl:value-of select="AppNum" />
+				<xsl:value-of select="MsgType" />
+			</xsl:attribute>
+			<xsl:value-of select="Text" />
+		</Error>
+	</xsl:template>
+	<xsl:template match="TransactionErrorCode">
+		<Error Type="General">
+			<xsl:attribute name="Code">
+				<xsl:value-of select="Domain" />
+				<xsl:value-of select="Code" />
+			</xsl:attribute>
+			<xsl:text>- SYSTEM ERROR</xsl:text>
+		</Error>
+	</xsl:template>
+	<!-- ************************************************************** -->
+	<!-- Total Fare and PTC_FareBreakdown 				    -->
+	<!-- ************************************************************** -->
+	<xsl:template match="FareInfo" mode="totalprice">
+		<xsl:variable name="pos">
+			<xsl:value-of select="position()" />
+		</xsl:variable>
+		<AirItineraryPricingInfo>
+			<xsl:choose>
+				<xsl:when test="GenQuoteDetails[1]/PrivFQd='Y'">
+					<xsl:attribute name="PricingSource">Private</xsl:attribute>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:attribute name="PricingSource">Published</xsl:attribute>
+				</xsl:otherwise>
+			</xsl:choose>
+			<ItinTotalFare>
+				<BaseFare>
+					<xsl:attribute name="Amount">
+						<xsl:variable name="amttot">
+							<xsl:apply-templates select="GenQuoteDetails[1]" mode="basefare">
+								<xsl:with-param name="total">0</xsl:with-param>
+							</xsl:apply-templates>
+						</xsl:variable>
+						<xsl:value-of select="substring-before($amttot,'/')" />
+					</xsl:attribute>
+					<!--xsl:attribute name="CurrencyCode">
+						<xsl:value-of select="GenQuoteDetails[1]/BaseFareCurrency"/>					
+					</xsl:attribute>
+					<xsl:attribute name="DecimalPlaces">
+						<xsl:value-of select="GenQuoteDetails[1]/BaseDecPos"/>					
+					</xsl:attribute-->
+				</BaseFare>
+				<xsl:if test="GenQuoteDetails[1]/EquivAmt != '0'">
+					<xsl:attribute name="Amount">
+						<xsl:variable name="amttot2">
+							<xsl:apply-templates select="GenQuoteDetails[1]" mode="basefare2">
+								<xsl:with-param name="total">0</xsl:with-param>
+							</xsl:apply-templates>
+						</xsl:variable>
+						<xsl:value-of select="substring-before($amttot2,'/')" />
+					</xsl:attribute>
+					<!--xsl:attribute name="CurrencyCode">
+						<xsl:value-of select="GenQuoteDetails[1]/EquivCurrency"/>
+					</xsl:attribute>
+					<xsl:attribute name="DecimalPlaces">
+						<xsl:value-of select="GenQuoteDetails[1]/EquivDecPos"/>
+					</xsl:attribute-->
+				</xsl:if>
+				<Taxes>
+					<xsl:apply-templates select="GenQuoteDetails[1]" mode="TotalTax" />
+					<xsl:attribute name="CurrencyCode">
+						<xsl:value-of select="GenQuoteDetails[1]/TotCurrency" />
+					</xsl:attribute>
+					<xsl:attribute name="DecimalPlaces">
+						<xsl:value-of select="GenQuoteDetails[1]/TotDecPos" />
+					</xsl:attribute>
+				</Taxes>
+				<TotalFare>
+					<xsl:attribute name="Amount">
+						<xsl:variable name="amttot1">
+							<xsl:apply-templates select="GenQuoteDetails[1]" mode="totalfare">
+								<xsl:with-param name="total">0</xsl:with-param>
+							</xsl:apply-templates>
+						</xsl:variable>
+						<xsl:value-of select="substring-before($amttot1,'/')" />
+					</xsl:attribute>
+					<xsl:attribute name="CurrencyCode">
+						<xsl:value-of select="GenQuoteDetails[1]/TotCurrency" />
+					</xsl:attribute>
+					<xsl:attribute name="DecimalPlaces">
+						<xsl:value-of select="GenQuoteDetails[1]/TotDecPos" />
+					</xsl:attribute>
+				</TotalFare>
+			</ItinTotalFare>
+			<PTC_FareBreakdowns>
+				<xsl:apply-templates select="GenQuoteDetails" mode="travelergroup" />
+			</PTC_FareBreakdowns>
+			<FareInfos>
+				<xsl:apply-templates select="SegRelatedInfo" />
+			</FareInfos>
+		</AirItineraryPricingInfo>
+	</xsl:template>
+	<!-- ******************************************************************** -->
+	<xsl:template match="GenQuoteDetails" mode="basefare">
+		<xsl:param name="total" />
+		<xsl:variable name="uk">
+			<xsl:value-of select="UniqueKey" />
+		</xsl:variable>
+		<xsl:variable name="thistotal">
+			<xsl:value-of select="BaseFareAmt * ../PsgrTypes[UniqueKey=$uk]/PICPsgrs" />
+		</xsl:variable>
+		<xsl:variable name="bigtotal">
+			<xsl:value-of select="$total + $thistotal" />
+		</xsl:variable>
+		<xsl:apply-templates select="following-sibling::GenQuoteDetails[1]" mode="basefare">
+			<xsl:with-param name="total">
+				<xsl:value-of select="$bigtotal" />
+			</xsl:with-param>
+		</xsl:apply-templates>
+		<xsl:value-of select="$bigtotal" />
+		<xsl:text>/</xsl:text>
+	</xsl:template>
+	<xsl:template match="GenQuoteDetails" mode="basefare2">
+		<xsl:param name="total" />
+		<xsl:variable name="uk">
+			<xsl:value-of select="UniqueKey" />
+		</xsl:variable>
+		<xsl:variable name="thistotal">
+			<xsl:value-of select="EquivAmt * ../PsgrTypes[UniqueKey=$uk]/PICPsgrs" />
+		</xsl:variable>
+		<xsl:variable name="bigtotal">
+			<xsl:value-of select="$total + $thistotal" />
+		</xsl:variable>
+		<xsl:apply-templates select="following-sibling::GenQuoteDetails[1]" mode="basefare2">
+			<xsl:with-param name="total">
+				<xsl:value-of select="$bigtotal" />
+			</xsl:with-param>
+		</xsl:apply-templates>
+		<xsl:value-of select="$bigtotal" />
+		<xsl:text>/</xsl:text>
+	</xsl:template>
+	<xsl:template match="GenQuoteDetails" mode="totalfare">
+		<xsl:param name="total" />
+		<xsl:variable name="uk">
+			<xsl:value-of select="UniqueKey" />
+		</xsl:variable>
+		<xsl:variable name="thistotal">
+			<xsl:value-of select="TotAmt * ../PsgrTypes[UniqueKey=$uk]/PICPsgrs" />
+		</xsl:variable>
+		<xsl:variable name="bigtotal">
+			<xsl:value-of select="$total + $thistotal" />
+		</xsl:variable>
+		<xsl:apply-templates select="following-sibling::GenQuoteDetails[1]" mode="totalfare">
+			<xsl:with-param name="total">
+				<xsl:value-of select="$bigtotal" />
+			</xsl:with-param>
+		</xsl:apply-templates>
+		<xsl:value-of select="$bigtotal" />
+		<xsl:text>/</xsl:text>
+	</xsl:template>
+	<xsl:template match="GenQuoteDetails" mode="toteachtax">
+		<xsl:param name="total" />
+		<xsl:param name="taxcode" />
+		<xsl:variable name="uk">
+			<xsl:value-of select="UniqueKey" />
+		</xsl:variable>
+		<xsl:variable name="thistotal">
+			<xsl:value-of select="TaxDataAry/TaxData[Country=$taxcode]/Amt * ../PsgrTypes[UniqueKey=$uk]/PICPsgrs" />
+		</xsl:variable>
+		<xsl:variable name="bigtotal">
+			<xsl:choose>
+				<xsl:when test="$thistotal = 'NaN'">
+					<xsl:value-of select="$total" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$total + $thistotal" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:apply-templates select="following-sibling::GenQuoteDetails[1]" mode="toteachtax">
+			<xsl:with-param name="total">
+				<xsl:value-of select="$bigtotal" />
+			</xsl:with-param>
+			<xsl:with-param name="taxcode">
+				<xsl:value-of select="$taxcode" />
+			</xsl:with-param>
+		</xsl:apply-templates>
+		<xsl:value-of select="$bigtotal" />
+		<xsl:text>/</xsl:text>
+	</xsl:template>
+	<xsl:template match="GenQuoteDetails" mode="TotalTax">
+		<xsl:for-each select="TaxDataAry/TaxData">
+			<xsl:variable name="taxcode" select="Country" />
+			<xsl:variable name="addzeros">00000</xsl:variable>
+			<xsl:variable name="numberdecimals" select="../../TotDecPos" />
+			<xsl:variable name="amttot">
+				<xsl:apply-templates select="../../../GenQuoteDetails[1]" mode="toteachtax">
+					<xsl:with-param name="total">0</xsl:with-param>
+					<xsl:with-param name="taxcode">
+						<xsl:value-of select="$taxcode" />
+					</xsl:with-param>
+				</xsl:apply-templates>
+			</xsl:variable>
+			<xsl:variable name="SumOfTax">
+				<xsl:value-of select="substring-before($amttot,'/')" />
+			</xsl:variable>
+			<xsl:variable name="SumOfTaxWithoutDec">
+				<xsl:value-of select="translate(string($SumOfTax),'. ','')" />
+			</xsl:variable>
+			<xsl:variable name="Length">
+				<xsl:value-of select="string-length($SumOfTaxWithoutDec)" />
+			</xsl:variable>
+			<xsl:variable name="subtract">1<xsl:value-of select="substring($addzeros,1,$numberdecimals)" /></xsl:variable>
+			<xsl:variable name="SumOfTaxTwo">
+				<xsl:value-of select="$SumOfTax * $subtract" />
+			</xsl:variable>
+			<xsl:variable name="NoDecimals">
+				<xsl:value-of select="substring-before(string($SumOfTaxTwo),'.')" />
+			</xsl:variable>
+			<Tax>
+				<xsl:attribute name="TaxCode">
+					<xsl:value-of select="Country" />
+				</xsl:attribute>
+				<xsl:attribute name="Amount">
+					<xsl:choose>
+						<xsl:when test="contains($SumOfTaxTwo, '.')">
+							<xsl:value-of select="$NoDecimals" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$SumOfTaxTwo" />
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+			</Tax>
+		</xsl:for-each>
+	</xsl:template>
+	<!-- ******************************************************************** -->
+	<!--  OriginDestinationOption section						    -->
+	<!-- ******************************************************************** -->
+	<xsl:template match="FlightItemRef" mode="first">
+		<xsl:variable name="ODNumber" select="ODNum" />
+		<xsl:variable name="FirstFlight" select="FltItemAry/FltItem[1]/IndexNum" />
+		<OriginDestinationOption>
+			<xsl:apply-templates select="FltItemAry/FltItem[1]" mode="firstsegment">
+				<xsl:with-param name="rph">1</xsl:with-param>
+			</xsl:apply-templates>
+			<xsl:apply-templates select="following-sibling::FlightItemRef[ODNum=current()/ODNum]" mode="next" />
+		</OriginDestinationOption>
+	</xsl:template>
+	<xsl:template match="FlightItemRef" mode="next">
+		<xsl:apply-templates select="FltItemAry/FltItem[1]" mode="firstsegment">
+			<xsl:with-param name="rph">1</xsl:with-param>
+		</xsl:apply-templates>
+	</xsl:template>
+	<!-- ********************************************************** -->
+	<!-- create flight for this OandD 			-->
+	<!-- ********************************************************** -->
+	<xsl:template match="FltItem" mode="firstsegment">
+		<xsl:param name="rph" />
+		<xsl:variable name="Index" select="IndexNum" />
+		<xsl:variable name="ODNum" select="../../ODNum" />
+		<xsl:variable name="NumLegs" select="../../ODNumLegs" />
+		<xsl:variable name="cl" select="translate(../../FltItemAry,'0123456789','')" />
+		<xsl:apply-templates select="../../../../AirAvail[position()=$ODNum]/AvailFlt[position()=$Index]">
+			<xsl:with-param name="class">
+				<xsl:value-of select="$cl" />
+			</xsl:with-param>
+			<xsl:with-param name="pos">
+				<xsl:value-of select="$rph" />
+			</xsl:with-param>
+		</xsl:apply-templates>
+		<xsl:apply-templates select="following-sibling::FltItem[position()=$NumLegs]" mode="firstsegment">
+			<xsl:with-param name="rph">
+				<xsl:value-of select="$rph + 1" />
+			</xsl:with-param>
+		</xsl:apply-templates>
+	</xsl:template>
+	<!-- ************************************************************** -->
+	<!-- Fare Breakdown per pax type					    -->
+	<!-- ************************************************************** -->
+	<xsl:template match="GenQuoteDetails" mode="travelergroup">
+		<xsl:variable name="pos">
+			<xsl:value-of select="position()" />
+		</xsl:variable>
+		<xsl:variable name="paxno">
+			<xsl:value-of select="UniqueKey" />
+		</xsl:variable>
+		<PTC_FareBreakdown>
+			<xsl:attribute name="PricingSource">
+				<xsl:choose>
+					<xsl:when test="PrivFQd='Y'">Private</xsl:when>
+					<xsl:otherwise>Published</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
+			<PassengerTypeQuantity>
+				<xsl:attribute name="Code">
+					<xsl:variable name="PsgrType">
+						<xsl:value-of select="../PsgrTypes[UniqueKey=$paxno]/PICReq" />
+					</xsl:variable>
+					<xsl:choose>
+						<xsl:when test="$PsgrType = 'AA'">ADT</xsl:when>
+						<xsl:when test="$PsgrType = 'AD'">ADT</xsl:when>
+						<xsl:when test="$PsgrType = 'CHD'">CHD</xsl:when>
+						<xsl:when test="$PsgrType = 'CH'">CHD</xsl:when>
+						<xsl:when test="$PsgrType = 'C'">CHD</xsl:when>
+						<xsl:when test="$PsgrType = 'IN'">INF</xsl:when>
+						<xsl:when test="$PsgrType = 'INF'">INF</xsl:when>
+						<xsl:when test="$PsgrType = 'GOV'">GOV</xsl:when>
+						<xsl:when test="$PsgrType = 'MIL'">MIL</xsl:when>
+						<xsl:when test="$PsgrType = 'CD'">SRC</xsl:when>
+						<xsl:when test="$PsgrType = 'SC'">SRC</xsl:when>
+						<xsl:when test="$PsgrType = 'STU'">STD</xsl:when>
+						<xsl:when test="$PsgrType = 'YC'">YTH</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$PsgrType" />
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+				<xsl:attribute name="Quantity">
+					<xsl:value-of select="../PsgrTypes[UniqueKey=$paxno]/PICPsgrs" />
+				</xsl:attribute>
+			</PassengerTypeQuantity>
+			<FareBasisCodes>
+				<xsl:for-each select="../SegRelatedInfo[UniqueKey=$paxno]">
+					<FareBasisCode>
+						<xsl:value-of select="FIC" />
+					</FareBasisCode>
+				</xsl:for-each>
+			</FareBasisCodes>
+			<PassengerFare>
+				<xsl:if test="PrivFQd='Y'">
+					<xsl:attribute name="NegotiatedFare">1</xsl:attribute>
+				</xsl:if>
+				<BaseFare>
+					<xsl:attribute name="Amount">
+						<xsl:choose>
+							<xsl:when test="TotCurrency = BaseFareCurrency">
+								<xsl:value-of select="BaseFareAmt" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="EquivAmt" />
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+					<!--xsl:attribute name="CurrencyCode">
+						<xsl:value-of select="BaseFareCurrency"/>					
+					</xsl:attribute>
+					<xsl:attribute name="DecimalPlaces">
+						<xsl:value-of select="BaseDecPos"/>
+					</xsl:attribute-->
+				</BaseFare>
+				<xsl:if test="EquivAmt != '0'">
+					<xsl:attribute name="Amount">
+						<xsl:value-of select="EquivAmt" />
+					</xsl:attribute>
+					<!--xsl:attribute name="CurrencyCode">
+						<xsl:value-of select="EquivCurrency"/>
+					</xsl:attribute>
+					<xsl:attribute name="DecimalPlaces">
+						<xsl:value-of select="EquivDecPos"/>
+					</xsl:attribute-->
+				</xsl:if>
+				<Taxes>
+					<xsl:apply-templates select="TaxDataAry/TaxData" mode="tax" />
+					<xsl:if test="not(TaxDataAry/TaxData/Amt)">
+						<Tax Amount="000" />
+					</xsl:if>
+				</Taxes>
+				<TotalFare>
+					<xsl:attribute name="Amount">
+						<xsl:value-of select="TotAmt" />
+					</xsl:attribute>
+					<xsl:attribute name="CurrencyCode">
+						<xsl:value-of select="TotCurrency" />
+					</xsl:attribute>
+					<xsl:attribute name="DecimalPlaces">
+						<xsl:value-of select="TotDecPos" />
+					</xsl:attribute>
+				</TotalFare>
+			</PassengerFare>
+		</PTC_FareBreakdown>
+	</xsl:template>
+	<!-- ************************************************************** -->
+	<!-- Build Tax Data Group					 		   -->
+	<!-- ************************************************************** -->
+	<xsl:template match="TaxData" mode="tax">
+		<xsl:variable name="tax" select="translate(string(Amt),'. ','')" />
+		<Tax>
+			<xsl:attribute name="TaxCode">
+				<xsl:value-of select="Country" />
+			</xsl:attribute>
+			<xsl:attribute name="Amount">
+				<xsl:choose>
+					<xsl:when test="starts-with($tax,'00000')">
+						<xsl:value-of select="substring($tax, 6)" />
+					</xsl:when>
+					<xsl:when test="starts-with($tax,'0000')">
+						<xsl:value-of select="substring($tax, 5)" />
+					</xsl:when>
+					<xsl:when test="starts-with($tax,'000')">
+						<xsl:value-of select="substring($tax, 4)" />
+					</xsl:when>
+					<xsl:when test="starts-with($tax,'00')">
+						<xsl:value-of select="substring($tax, 3)" />
+					</xsl:when>
+					<xsl:when test="starts-with($tax,'0')">
+						<xsl:value-of select="substring($tax, 2)" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$tax" />
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
+			<!--xsl:attribute name="CurrencyCode">
+				<xsl:value-of select="../../TotCurrency"/>
+			</xsl:attribute>
+			<xsl:attribute name="DecimalPlaces">
+				<xsl:value-of select="../../TotDecPos"/>
+			</xsl:attribute-->
+		</Tax>
+	</xsl:template>
+	<!-- ************************************************************** -->
+	<!--Fare Rule Info section							    -->
+	<!-- ************************************************************** -->
+	<xsl:template match="SegRelatedInfo">
+		<FareInfo>
+			<xsl:variable name="segnum" select="RelSegNum" />
+			<xsl:variable name="StartTime">
+				<xsl:value-of select="substring(string($zeros),1,4-string-length(../ItinSeg[position()=$segnum]/StartTm))" />
+				<xsl:value-of select="../ItinSeg[position()=$segnum]/StartTm" />
+			</xsl:variable>
+			<xsl:variable name="EndTime">
+				<xsl:value-of select="substring(string($zeros),1,4-string-length(../ItinSeg[position()=$segnum]/EndTm))" />
+				<xsl:value-of select="../ItinSeg[position()=$segnum]/EndTm" />
+			</xsl:variable>
+			<DepartureDate>
+				<xsl:value-of select="substring(string(../ItinSeg[position()=$segnum]/StartDt),1,4)" />-<xsl:value-of select="substring(string(../ItinSeg[position()=$segnum]/StartDt),5,2)" />-<xsl:value-of select="substring(string(../ItinSeg[position()=$segnum]/StartDt),7,2)" />T<xsl:value-of select="substring(string($StartTime),1,2)" />:<xsl:value-of select="substring(string($StartTime),3,2)" />:00-<xsl:value-of select="substring(string($EndTime),1,2)" />:<xsl:value-of select="substring(string($EndTime),3,2)" />
+			</DepartureDate>
+			<FareReference>
+				<xsl:value-of select="FIC" />
+			</FareReference>
+			<RuleInfo>
+				<xsl:if test="../RsvnRules/AdvRsvnDataExists='Y'">
+					<ResTicketingRules>
+						<AdvResTicketing AdvResInd="1">
+							<AdvReservation></AdvReservation>
+						</AdvResTicketing>
+					</ResTicketingRules>
+				</xsl:if>
+			</RuleInfo>
+			<FilingAirline>
+				<xsl:attribute name="Code">
+					<xsl:value-of select="../ItinSeg[position()=$segnum]/AirV" />
+				</xsl:attribute>
+			</FilingAirline>
+			<xsl:if test="../ItinSeg[position()=$segnum]/OpAirV != ' '">
+				<MarketingAirline>
+					<xsl:attribute name="Code">
+						<xsl:value-of select="../ItinSeg[position()=$segnum]/OpAirV" />
+					</xsl:attribute>
+				</MarketingAirline>
+			</xsl:if>
+			<DepartureAirport>
+				<xsl:attribute name="LocationCode">
+					<xsl:value-of select="../ItinSeg[position()=$segnum]/StartPt" />
+				</xsl:attribute>
+			</DepartureAirport>
+			<ArrivalAirport>
+				<xsl:attribute name="LocationCode">
+					<xsl:value-of select="../ItinSeg[position()=$segnum]/EndPt" />
+				</xsl:attribute>
+			</ArrivalAirport>
+		</FareInfo>
+	</xsl:template>
+	<!-- ************************************************************** -->
+	<!--  		          Segment Data                           		    -->
+	<!-- *************************************************************** -->
+	<xsl:template match="AvailFlt">
+		<xsl:param name="class" />
+		<xsl:param name="pos" />
+		<xsl:variable name="cl">
+			<xsl:value-of select="$class" />
+		</xsl:variable>
+		<xsl:variable name="ps">
+			<xsl:value-of select="$pos" />
+		</xsl:variable>
+		<xsl:apply-templates select="." mode="Segment">
+			<xsl:with-param name="class">
+				<xsl:value-of select="$cl" />
+			</xsl:with-param>
+			<xsl:with-param name="pos">
+				<xsl:value-of select="$ps" />
+			</xsl:with-param>
+		</xsl:apply-templates>
+	</xsl:template>
+	<xsl:template match="AvailFlt" mode="Segment">
+		<xsl:param name="class" />
+		<xsl:param name="pos" />
+		<FlightSegment>
+			<xsl:variable name="DepTime">
+				<xsl:value-of select="substring(string($zeros),1,4-string-length(StartTm))" />
+				<xsl:value-of select="StartTm" />
+			</xsl:variable>
+			<xsl:variable name="ArrTime">
+				<xsl:value-of select="substring(string($zeros),1,4-string-length(EndTm))" />
+				<xsl:value-of select="EndTm" />
+			</xsl:variable>
+			<xsl:attribute name="DepartureDateTime"><xsl:value-of select="substring(StartDt,1,4)" />-<xsl:value-of select="substring(StartDt,5,2)" />-<xsl:value-of select="substring(StartDt,7,2)" />T<xsl:value-of select="substring($DepTime,1,2)" />:<xsl:value-of select="substring($DepTime,3,2)" />:00</xsl:attribute>
+			<xsl:attribute name="ArrivalDateTime"><xsl:value-of select="substring(EndDt,1,4)" />-<xsl:value-of select="substring(EndDt,5,2)" />-<xsl:value-of select="substring(EndDt,7,2)" />T<xsl:value-of select="substring($ArrTime,1,2)" />:<xsl:value-of select="substring($ArrTime,3,2)" />:00</xsl:attribute>
+			<xsl:attribute name="StopQuantity">
+				<xsl:value-of select="NumStops" />
+			</xsl:attribute>
+			<xsl:attribute name="RPH">
+				<xsl:value-of select="$pos" />
+			</xsl:attribute>
+			<xsl:attribute name="FlightNumber">
+				<xsl:value-of select="substring(string($zeros),1,4-string-length(FltNum))" />
+				<xsl:value-of select="FltNum" />
+			</xsl:attribute>
+			<DepartureAirport>
+				<xsl:attribute name="LocationCode">
+					<xsl:value-of select="StartAirp" />
+				</xsl:attribute>
+			</DepartureAirport>
+			<ArrivalAirport>
+				<xsl:attribute name="LocationCode">
+					<xsl:value-of select="EndAirp" />
+				</xsl:attribute>
+			</ArrivalAirport>
+			<xsl:if test="OpAirV !=''">
+				<OperatingAirline>
+					<xsl:attribute name="Code">
+						<xsl:value-of select="OpAirV" />
+					</xsl:attribute>
+				</OperatingAirline>
+			</xsl:if>
+			<Equipment>
+				<xsl:attribute name="AirEquipType">
+					<xsl:value-of select="Equip" />
+				</xsl:attribute>
+			</Equipment>
+			<MarketingAirline>
+				<xsl:attribute name="Code">
+					<xsl:value-of select="AirV" />
+				</xsl:attribute>
+			</MarketingAirline>
+			<TPA_Extensions>
+				<BookingClass>
+					<xsl:value-of select="substring($class,$pos,1)" />
+				</BookingClass>
+				<xsl:variable name="jt">
+					<xsl:value-of select="JrnyTm" />
+				</xsl:variable>
+				<xsl:variable name="hours">
+					<xsl:choose>
+						<xsl:when test="substring-before(($jt div 60),'.')=''">
+							<xsl:value-of select="$jt div 60" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="substring-before(($jt div 60),'.')" />
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="minutes">
+					<xsl:value-of select="$jt - ($hours*60)" />
+				</xsl:variable>
+				<xsl:choose>
+					<xsl:when test="$minutes = 'NaN'">
+						<JourneyTotalDuration><xsl:value-of select="substring(string($zeros),1,2-string-length($hours))" /><xsl:value-of select="$hours" />:00</JourneyTotalDuration>
+					</xsl:when>
+					<xsl:otherwise>
+						<JourneyTotalDuration><xsl:value-of select="substring(string($zeros),1,2-string-length($hours))" /><xsl:value-of select="$hours" />:<xsl:value-of select="substring(string($zeros),1,2-string-length($minutes))" /><xsl:value-of select="$minutes" /></JourneyTotalDuration>
+					</xsl:otherwise>
+				</xsl:choose>
+			</TPA_Extensions>
+		</FlightSegment>
+		<xsl:if test="Conx='Y'">
+			<xsl:apply-templates select="following-sibling::AvailFlt[1]" mode="Segment">
+				<xsl:with-param name="class">
+					<xsl:value-of select="$class" />
+				</xsl:with-param>
+				<xsl:with-param name="pos">
+					<xsl:value-of select="$pos" />
+				</xsl:with-param>
+			</xsl:apply-templates>
+		</xsl:if>
+	</xsl:template>
+	<!-- **************************************************************** -->
+</xsl:stylesheet>

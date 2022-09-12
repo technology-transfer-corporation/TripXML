@@ -1,0 +1,1190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4DEF104C-48CF-45F9-8112-7045E77E22F0}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>wsTripXML</RootNamespace>
+    <AssemblyName>wsTripXML</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MyType>Custom</MyType>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <GenerateResourceNeverLockTypeAssemblies>true</GenerateResourceNeverLockTypeAssemblies>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <IncludeIisSettings>false</IncludeIisSettings>
+    <IncludeAppPool>true</IncludeAppPool>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoTicket.Domain, Version=1.0.34.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoTicket.Domain.1.0.34\lib\net472\AutoTicket.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoTicket.Infrastructure, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoTicket.Infrastructure.1.0.8\lib\net472\AutoTicket.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonServiceLocator, Version=2.0.6.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.6\lib\net47\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Memory.6.0.0\lib\net461\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=6.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.6.0.1\lib\net461\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.FileExtensions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.FileExtensions.6.0.0\lib\net461\Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Json.6.0.0\lib\net461\Microsoft.Extensions.Configuration.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Physical.6.0.0\lib\net461\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileSystemGlobbing, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileSystemGlobbing.6.0.0\lib\net461\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.6.0.0\lib\net461\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.6.0.0\lib\net461\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PaymentServices, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PaymentServices.1.0.16\lib\net48\PaymentServices.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.15.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.15.0\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.6.0.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Data.SqlClient, Version=4.6.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.8.3\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.2-mauipre.1.22054.8\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Permissions.6.0.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Text.Encodings.Web, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.6.0.0\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=6.0.0.5, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.6.0.5\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="TripXML.Core, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TripXML.Core.1.0.7\lib\net48\TripXML.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Collections.Specialized" />
+    <Import Include="System.Configuration" />
+    <Import Include="System.Text" />
+    <Import Include="System.Text.RegularExpressions" />
+    <Import Include="System.Web" />
+    <Import Include="System.Web.Caching" />
+    <Import Include="System.Web.SessionState" />
+    <Import Include="System.Web.Security" />
+    <Import Include="System.Web.Profile" />
+    <Import Include="System.Web.UI" />
+    <Import Include="System.Web.UI.WebControls" />
+    <Import Include="System.Web.UI.WebControls.WebParts" />
+    <Import Include="System.Web.UI.HtmlControls" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".gitignore" />
+    <Content Include="App_Data\Admin\wsimportlog.asmx" />
+    <Content Include="App_Data\Admin\wsrefreshmem.asmx" />
+    <!-- 
+	<Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
+    <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Logging.dll" />
+    <Content Include="bin\Microsoft.Practices.ServiceLocation.dll" /> 
+	-->
+    <Content Include="Tables\BL\DTT_BL.xml" />
+    <Content Include="Tables\Decoding\airports.xml" />
+    <Content Include="Tables\Decoding\AmadeusAirports.xml" />
+    <Content Include="Tables\Decoding\AmadeusCarProviders.xml" />
+    <Content Include="Tables\Decoding\CruiseDB.xml" />
+    <Content Include="Tables\Decoding\HotelCities.xml" />
+    <Content Include="Tables\Decoding\HotelsDotComAirports.xml" />
+    <Content Include="Tables\Decoding\HotelsDotComCities.xml" />
+    <Content Include="Tables\Decoding\HotelsDotComNonAirports.xml" />
+    <Content Include="Tables\Decoding\LocationTable.xml" />
+    <Content Include="Tables\Decoding\NoAirport.xml" />
+    <Content Include="Tables\Decoding\NoAirport1.xml" />
+    <Content Include="Tables\Decoding\NoAirport2.xml" />
+    <Content Include="Tables\Decoding\NoGeoInfo.xml" />
+    <Content Include="Tables\Decoding\ttAirlines.xml" />
+    <Content Include="Tables\Decoding\ttCruiseCabinFilter.xml" />
+    <Content Include="Tables\Decoding\ttCruiseCities.xml" />
+    <Content Include="Tables\Decoding\ttCruiseCurrency.xml" />
+    <Content Include="Tables\Decoding\ttCruiseDB.xml" />
+    <Content Include="Tables\Decoding\ttCruiseMot.xml" />
+    <Content Include="Tables\Decoding\ttCruiseOccupation.xml" />
+    <Content Include="Tables\Decoding\ttCruisePaxTitle.xml" />
+    <Content Include="Tables\Decoding\ttCruiseProfiles.xml" />
+    <Content Include="Tables\Decoding\ttCruiseShips.xml" />
+    <Content Include="Tables\Decoding\ttwsairlines.xml" />
+    <Content Include="Tables\Decoding\ttwsairports.xml" />
+    <Content Include="Tables\Decoding\ttwscars.xml" />
+    <Content Include="Tables\Decoding\ttwscartypes.xml" />
+    <Content Include="Tables\Decoding\ttwscities.xml" />
+    <Content Include="Tables\Decoding\ttwscities1.xml" />
+    <Content Include="Tables\Decoding\ttwscities2.xml" />
+    <Content Include="Tables\Decoding\ttwsconfig.xml" />
+    <Content Include="Tables\Decoding\ttwscountries.xml" />
+    <Content Include="Tables\Decoding\ttwsCreditCards.xml" />
+    <Content Include="Tables\Decoding\ttwsCruiseAdvisory.xml" />
+    <Content Include="Tables\Decoding\ttwsCruiseBedConfiguration.xml" />
+    <Content Include="Tables\Decoding\ttwsCruiseCities.xml" />
+    <Content Include="Tables\Decoding\ttwsCruiseInsurance.xml" />
+    <Content Include="Tables\Decoding\ttwsCruiseLines.xml" />
+    <Content Include="Tables\Decoding\ttwsCruisePaxTitle.xml" />
+    <Content Include="Tables\Decoding\ttwsCruisePricedItems.xml" />
+    <Content Include="Tables\Decoding\ttwsCruiseRegions.xml" />
+    <Content Include="Tables\Decoding\ttwsequipments.xml" />
+    <Content Include="Tables\Decoding\ttwshiddenairlines.xml" />
+    <Content Include="Tables\Decoding\ttwshotelamenities.xml" />
+    <Content Include="Tables\Decoding\ttwshotelareas.xml" />
+    <Content Include="Tables\Decoding\ttwshotelrooms.xml" />
+    <Content Include="Tables\Decoding\ttwshotels.xml" />
+    <Content Include="Tables\Decoding\ttwshotelsubtitles.xml" />
+    <Content Include="Tables\Decoding\ttwsships.xml" />
+    <Content Include="Tables\Users\DTT.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Tables\Users\dttticket.xml" />
+    <Content Include="Tables\Users\ttProviders.xml" />
+    <Content Include="Tables\Users\tt_acl.xml" />
+    <Content Include="TTLogo.ico" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Code\Classes\cServiceTravelport.vb" />
+    <Compile Include="Code\NDCClasses\AirShoppingRQ.vb" />
+    <Compile Include="Code\NDCClasses\AirShoppingRS.vb" />
+    <Compile Include="Code\NDCClasses\edist_commontypes.vb" />
+    <Compile Include="Code\NDCClasses\NdcAuthenticate.vb" />
+    <Compile Include="Code\NDCClasses\OfferPriceRQ.vb" />
+    <Compile Include="Code\NDCClasses\OfferPriceRS.vb" />
+    <Compile Include="Code\NDCClasses\OrderCancelRQ.vb" />
+    <Compile Include="Code\NDCClasses\OrderCancelRS.vb" />
+    <Compile Include="Code\NDCClasses\OrderChangeRQ.vb" />
+    <Compile Include="Code\NDCClasses\OrderCreateRQ.vb" />
+    <Compile Include="Code\NDCClasses\OrderRetrieveRQ.vb" />
+    <Compile Include="Code\NDCClasses\OrderViewRS.vb" />
+    <Compile Include="Code\NDCClasses\SeatAvailabilityRQ.vb" />
+    <Compile Include="Code\NDCClasses\SeatAvailabilityRS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_DeleteVirtualCardRQ.vb" />
+    <Compile Include="Code\OTAClasses\PAY_DeleteVirtualCardRS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_GenerateVirtualCardRS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_GenerateVirtualCardRQ.vb" />
+    <Compile Include="Code\OTAClasses\PAY_CancelVirtualCardLoadRQ.vb" />
+    <Compile Include="Code\OTAClasses\PAY_CancelVirtualCardLoadRS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_General_Types.vb" />
+    <Compile Include="Code\OTAClasses\PAY_GetVirtualCardDetailsRQ.vb" />
+    <Compile Include="Code\OTAClasses\PAY_GetVirtualCardDetailsRS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_ListVCC_RS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_ListVirtualCardsRQ.vb" />
+    <Compile Include="Code\OTAClasses\PAY_ListVirtualCardsRS.vb" />
+    <Compile Include="Code\OTAClasses\PAY_ScheduleVirtualCardLoadRQ.vb" />
+    <Compile Include="Code\OTAClasses\PAY_ScheduleVirtualCardLoadRS.vb" />
+    <Compile Include="Code\OTAClasses\Ticket_AutomaticUpdateRQ.vb" />
+    <Compile Include="Code\OTAClasses\Ticket_AutomaticUpdateRS.vb" />
+    <Compile Include="Code\wsReIssueTicketSessioned.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsVirtualCreditCard.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="wsAuthorization.asmx.vb">
+      <DependentUpon>wsAuthorization.asmx</DependentUpon>
+    </Compile>
+    <Compile Include="wsVirtualCreditCard.asmx.vb">
+      <DependentUpon>wsVirtualCreditCard.asmx</DependentUpon>
+    </Compile>
+    <Content Include="wsAuthorization.asmx" />
+    <Content Include="wsCarList.asmx" />
+    <Content Include="wsCryptic.asmx" />
+    <Content Include="wsDisplayTicket.asmx" />
+    <Content Include="wsDisplayTicket_v03.asmx" />
+    <Content Include="wsReIssueTicketSessioned.asmx" />
+    <Content Include="wsVirtualCreditCard.asmx" />
+    <Content Include="wsInventoryManagement.asmx" />
+    <Content Include="wsLowOfferMatrix.asmx" />
+    <Content Include="wsLowOfferSearch.asmx" />
+    <Content Include="wsPing.asmx" />
+    <Content Include="wsPNRSplit.asmx" />
+    <Content Include="wsRefundTicket.asmx" />
+    <Content Include="wsSalesReport.asmx" />
+    <Content Include="wsVoidTicket.asmx" />
+    <Content Include="GetFareRules.aspx" />
+    <Content Include="RulesResult.aspx" />
+    <Content Include="wsCreateTicketInvoice.asmx" />
+    <Content Include="wsIssueTicketSessioned.asmx" />
+    <Content Include="wsLowFarePlus_vJR.asmx" />
+    <Content Include="wsPNRRead_v05.asmx" />
+    <Content Include="wsStoredFareBuild_v03.asmx" />
+    <Content Include="Global.asax" />
+    <Content Include="build.cake" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="wsAdmin.asmx" />
+    <Content Include="wsAirAvail.asmx" />
+    <Content Include="wsAirAvail_v03.asmx" />
+    <Content Include="wsAirAvail_v2003.asmx" />
+    <Content Include="wsAirFlifo.asmx" />
+    <Content Include="wsAirPrice.asmx" />
+    <Content Include="wsAirPrice_v03.asmx" />
+    <Content Include="wsAirRules.asmx" />
+    <Content Include="wsAirRules_v03.asmx" />
+    <Content Include="wsAirSchedule.asmx" />
+    <Content Include="wsAirSeatMap.asmx" />
+    <Content Include="wsCarAvail.asmx" />
+    <Content Include="wsCarAvail_v03.asmx" />
+    <Content Include="wsCarInfo.asmx" />
+    <Content Include="wsCarRules.asmx" />
+    <Content Include="wsCCValid.asmx" />
+    <Content Include="wsCruiseCabinAvail.asmx" />
+    <Content Include="wsCruiseCabinHold.asmx" />
+    <Content Include="wsCruiseCabinUnhold.asmx" />
+    <Content Include="wsCruiseCancel.asmx" />
+    <Content Include="wsCruiseCategoryAvail.asmx" />
+    <Content Include="wsCruiseCreateBooking.asmx" />
+    <Content Include="wsCruiseFareAvail.asmx" />
+    <Content Include="wsCruiseItineraryDesc.asmx" />
+    <Content Include="wsCruiseModifyBooking.asmx" />
+    <Content Include="wsCruisePackageAvail.asmx" />
+    <Content Include="wsCruisePackageDesc.asmx" />
+    <Content Include="wsCruisePriceBooking.asmx" />
+    <Content Include="wsCruiseRead.asmx" />
+    <Content Include="wsCruiseSailAvail.asmx" />
+    <Content Include="wsCruiseTransferAvail.asmx" />
+    <Content Include="wsCrypticEntries.asmx" />
+    <Content Include="wsCurConv.asmx" />
+    <Content Include="wsETicketVerify.asmx" />
+    <Content Include="wsFareDisplay.asmx" />
+    <Content Include="wsFareInfo.asmx" />
+    <Content Include="wsHotelAvail.asmx" />
+    <Content Include="wsHotelAvail_v03.asmx" />
+    <Content Include="wsHotelInfo.asmx" />
+    <Content Include="wsHotelModify.asmx" />
+    <Content Include="wsHotelSearch.asmx" />
+    <Content Include="wsInsuranceBook.asmx" />
+    <Content Include="wsInsuranceQuote.asmx" />
+    <Content Include="wsIssueTicket.asmx" />
+    <Content Include="wsIssueTicket_v03.asmx" />
+    <Content Include="wsLowFare.asmx" />
+    <Content Include="wsLowFareFlights.asmx" />
+    <Content Include="wsLowFareMatrix.asmx" />
+    <Content Include="wsLowFarePlus.asmx" />
+    <Content Include="wsLowFarePlus_v03.asmx" />
+    <Content Include="wsLowFareSchedule.asmx" />
+    <Content Include="wsLowFareSchedule_v03.asmx" />
+    <Content Include="wsLowFare_v03.asmx" />
+    <Content Include="wsMultiMessage.asmx" />
+    <Content Include="wsNative.asmx" />
+    <Content Include="wsPNRCancel.asmx" />
+    <Content Include="wsPNREnd.asmx" />
+    <Content Include="wsPNRRead.asmx" />
+    <Content Include="wsPNRRead_v03.asmx" />
+    <Content Include="wsPNRRead_v04.asmx" />
+    <Content Include="wsPNRReprice.asmx" />
+    <Content Include="wsProfileCreate.asmx" />
+    <Content Include="wsProfileRead.asmx" />
+    <Content Include="wsQueue.asmx" />
+    <Content Include="wsQueueRead.asmx" />
+    <Content Include="wsQueueRead_v04.asmx" />
+    <Content Include="wsSessionClose.asmx" />
+    <Content Include="wsSessionCreate.asmx" />
+    <Content Include="wsShowMileage.asmx" />
+    <Content Include="wsStoredFareBuild.asmx" />
+    <Content Include="wsStoredFareUpdate.asmx" />
+    <Content Include="wsTimeDiff.asmx" />
+    <Content Include="wsTransferOwnership.asmx" />
+    <Content Include="wsTravelBuild.asmx" />
+    <Content Include="wsTravelBuild_v03.asmx" />
+    <Content Include="wsTravelBuild_v04.asmx" />
+    <Content Include="wsTravelModify.asmx" />
+    <Content Include="wsGetDeals.asmx" />
+    <Content Include="wsUpdate.asmx" />
+    <Content Include="wsUpdateMarkups.asmx" />
+    <Content Include="wsUpdateSessioned.asmx" />
+    <Compile Include="Code\Admin\wsImportLog.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\Admin\wsRefreshMem.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\Classes\cAggregation.vb" />
+    <Compile Include="Code\Classes\cLog.vb" />
+    <Compile Include="Code\Classes\cLogData.vb" />
+    <Compile Include="Code\Classes\cServiceAmadeusWS.vb" />
+    <Compile Include="Code\Classes\cServiceGalileo.vb" />
+    <Compile Include="Code\Classes\cServiceSabre.vb" />
+    <Compile Include="Code\Classes\cServiceWorldspan.vb" />
+    <Compile Include="Code\Classes\cSoapRQ.vb" />
+    <Compile Include="Code\OTAClasses\ContractManagerRQ.vb" />
+    <Compile Include="Code\OTAClasses\ContractManagerRS.vb" />
+    <Compile Include="Code\OTAClasses\DisplayTicketRQ.vb" />
+    <Compile Include="Code\OTAClasses\DisplayTicketRS.vb" />
+    <Compile Include="Code\OTAClasses\DisplayTicketRS_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAAuthorizationRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAuthorizationRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACarListRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACarListRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACryptic.vb" />
+    <Compile Include="Code\OTAClasses\OTACrypticRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACrypticRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowOfferMatrixRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowOfferMatrixRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowOfferSearchRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowOfferSearchRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRSplitRQ.vb" />
+    <Compile Include="Code\OTAClasses\PingRQ.vb" />
+    <Compile Include="Code\OTAClasses\PingRS.vb" />
+    <Compile Include="Code\OTAClasses\RefundTicketRQ.vb" />
+    <Compile Include="Code\OTAClasses\RefundTicketRS.vb" />
+    <Compile Include="Code\OTAClasses\SalesReport.vb" />
+    <Compile Include="Code\OTAClasses\SalesReportRQ.vb" />
+    <Compile Include="Code\OTAClasses\SalesReportRS.vb" />
+    <Compile Include="Code\OTAClasses\TXMLInventoryManagementRQ.vb" />
+    <Compile Include="Code\OTAClasses\TXMLInventoryManagementRS.vb" />
+    <Compile Include="Code\OTAClasses\VoidTicketRS.vb" />
+    <Compile Include="Code\OTAClasses\VoidTicketRQ.vb" />
+    <Compile Include="Code\wsAuthorization.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCarList.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsDisplayTicket.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsDisplayTicket_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsInventoryManagement.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowOfferMatrix.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowOfferSearch.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPing.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRSplit.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsSalesReport.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsVoidTicket.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsRefundTicket.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\Global.asax.vb" />
+    <Compile Include="Code\modMain.vb" />
+    <Compile Include="Code\OTAClasses\2005A_OTAAirAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\2005A_OTAAirAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\IssueTicketRQ.vb" />
+    <Compile Include="Code\OTAClasses\IssueTicketRQ_v03.vb" />
+    <Compile Include="Code\OTAClasses\IssueTicketRS.vb" />
+    <Compile Include="Code\OTAClasses\IssueTicketSessionedRQ.vb" />
+    <Compile Include="Code\OTAClasses\IssueTicketSessionedRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirAvailRQ_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirFlifoRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirFlifoRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirPrice.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirPriceRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirPriceRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirRules.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirRulesRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirRulesRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirRulesRS_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirRules_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirScheduleRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirScheduleRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirSeatMap.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirSeatMapRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAAirSeatMapRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACarAvail.vb" />
+    <Compile Include="Code\OTAClasses\OTACarAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACarAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACarInfo.vb" />
+    <Compile Include="Code\OTAClasses\OTACarInfoRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACarInfoRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACarRulesRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACarRulesRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACCValidRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACCValidRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseBooking.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinAvail.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinHoldRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinHoldRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinUnhold.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinUnholdRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCabinUnholdRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCancel.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCancelRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCancelRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCategoryAvail.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCategoryAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCategoryAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCreateBooking.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCreateBookingRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseCreateBookingRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseFareAvail.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseFareAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseFareAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseItineraryDescRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseItineraryDescRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePackageAvail.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePackageAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePackageAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePackageDescRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePackageDescRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePriceBookingRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruisePriceBookingRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseReadRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseReadRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseSailAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseSailAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseTransferAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACruiseTransferAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACrypticEntriesRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACrypticEntriesRS.vb" />
+    <Compile Include="Code\OTAClasses\OTACurConvRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTACurConvRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAETicketVerifyRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAETicketVerifyRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAFareDisplay.vb" />
+    <Compile Include="Code\OTAClasses\OTAFareDisplayRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAFareDisplayRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAFareInfo.vb" />
+    <Compile Include="Code\OTAClasses\OTAFareInfoRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAFareInfoRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelAvail.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelAvailRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelAvailRQ_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelAvailRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelAvailRS_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelAvail_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelInfo.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelInfoRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelInfoRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelModifyRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelSearch.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelSearchRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAHotelSearchRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAInsuranceBook.vb" />
+    <Compile Include="Code\OTAClasses\OTAInsuranceBookRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAInsuranceBookRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAInsuranceQuote.vb" />
+    <Compile Include="Code\OTAClasses\OTAInsuranceQuoteRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAInsuranceQuoteRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareFlightsRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareFlightsRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareMatrixRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareMatrixRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFarePlusRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFarePlusRQ_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFarePlusRQ_vJR.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFarePlusRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFarePlusRS_vJR.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareRQ_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareScheduleRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareScheduleRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAMultiMessageRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAMultiMessageRS.vb" />
+    <Compile Include="Code\OTAClasses\OTANativeRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTANativeRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRCancel.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRCancelRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRCancelRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNREndRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRReadRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRRepriceRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAPNRRepriceRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAProfileCommon.vb" />
+    <Compile Include="Code\OTAClasses\OTAProfileCreateRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAProfileReadRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAProfileReadRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAQueue.vb" />
+    <Compile Include="Code\OTAClasses\OTAQueueReadRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAQueueRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAQueueRS.vb" />
+    <Compile Include="Code\OTAClasses\OTASessionCloseRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTASessionCloseRS.vb" />
+    <Compile Include="Code\OTAClasses\OTASessionCreateRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTASessionCreateRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAShowMileageRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAShowMileageRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAStoredFareBuildRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAStoredFareBuildRS.vb" />
+    <Compile Include="Code\OTAClasses\OTAStoredFareBuildRS_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAStoredFareUpdateRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAStoredFareUpdateRS.vb" />
+    <Compile Include="Code\OTAClasses\OTATimeDiffRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTATimeDiffRS.vb" />
+    <Compile Include="Code\OTAClasses\OTATransferOwnershipRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTATransferOwnershipRS.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItinerary.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItineraryRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItineraryRQ_v04.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItineraryRS.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItineraryRS_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItineraryRS_v04.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelItineraryRS_v05.vb" />
+    <Compile Include="Code\OTAClasses\OTATravelModifyRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAUpdateRQ.vb" />
+    <Compile Include="Code\OTAClasses\OTAUpdateRS.vb" />
+    <Compile Include="Code\OTAClasses\OTALowFareScheduleRQ_v03.vb" />
+    <Compile Include="Code\OTAClasses\OTAUpdateSessionedRQ.vb" />
+    <Compile Include="Code\OTAClasses\TXMLGetDealsRQ.vb" />
+    <Compile Include="Code\OTAClasses\TXMLGetDealsRS.vb" />
+    <Compile Include="Code\wsAdmin.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirAvail_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirAvail_v2003.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirFlifo.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirPrice.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirPrice_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirRules.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirRules_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirSchedule.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsAirSeatMap.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCarAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCarAvail_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCarInfo.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCarRules.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCCValid.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCreateTicketInvoice.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseCabinAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseCabinHold.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseCabinUnhold.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseCancel.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseCategoryAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseCreateBooking.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseFareAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseItineraryDesc.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseModifyBooking.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruisePackageAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruisePackageDesc.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruisePriceBooking.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseRead.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseSailAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCruiseTransferAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCryptic.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCrypticEntries.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsCurConv.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsETicketVerify.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsFareDisplay.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsFareInfo.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsHotelAvail.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsHotelAvail_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsHotelInfo.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsHotelModify.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsHotelSearch.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsInsuranceBook.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsInsuranceQuote.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsIssueTicket.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsIssueTicketSessioned.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsIssueTicket_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFare.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFareFlights.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFareMatrix.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFarePlus.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFarePlus_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFarePlus_vJR.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFareSchedule.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFareSchedule_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsLowFare_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsMultiMessage.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsNative.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRCancel.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNREnd.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRRead.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRRead_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRRead_v04.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRRead_v05.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsPNRReprice.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsProfileCreate.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsProfileRead.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsQueue.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsQueueRead.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsQueueRead_v04.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsSessionClose.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsSessionCreate.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsShowMileage.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsStoredFareBuild.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsStoredFareBuild_v03.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsStoredFareUpdate.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsTimeDiff.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsTransferOwnership.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsTravelBuild.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsTravelBuild_v03.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsTravelBuild_v04.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsTravelModify.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsGetDeals.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsUpdate.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsUpdateMarkups.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\wsUpdateSessioned.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GetFareRules.aspx.designer.vb">
+      <DependentUpon>GetFareRules.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GetFareRules.aspx.vb">
+      <DependentUpon>GetFareRules.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="RulesResult.aspx.designer.vb">
+      <DependentUpon>RulesResult.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RulesResult.aspx.vb">
+      <DependentUpon>RulesResult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <None Include="My Project\PublishProfiles\DTT.pubxml" />
+    <None Include="My Project\PublishProfiles\LocalDeployment.pubxml" />
+    <None Include="My Project\PublishProfiles\LocalIIS.pubxml" />
+    <None Include="My Project\PublishProfiles\LocalPlatform.pubxml" />
+    <None Include="My Project\PublishProfiles\RegularTripXML.pubxml" />
+    <None Include="My Project\PublishProfiles\UKRAINE.pubxml" />
+    <Content Include="packages.config" />
+    <Content Include="nuget.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <Content Include="wsTripXML.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App_Data\Admin\wsImportLog.asmx.resx" />
+    <EmbeddedResource Include="App_Data\Admin\wsRefreshMem.asmx.resx" />
+    <EmbeddedResource Include="Code\wsCruiseTransferAvail.asmx.resx">
+      <DependentUpon>wsCruiseTransferAvail.asmx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Global.asax.resx" />
+    <EmbeddedResource Include="wsAirAvail.asmx.resx" />
+    <EmbeddedResource Include="wsAirAvail_v2003.asmx.resx" />
+    <EmbeddedResource Include="wsAirFlifo.asmx.resx" />
+    <EmbeddedResource Include="wsAirPrice.asmx.resx" />
+    <EmbeddedResource Include="wsAirRules.asmx.resx" />
+    <EmbeddedResource Include="wsAirSeatMap.asmx.resx" />
+    <EmbeddedResource Include="wsCarAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCarInfo.asmx.resx" />
+    <EmbeddedResource Include="wsCCValid.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseCabinAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseCabinHold.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseCabinUnhold.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseCancel.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseCategoryAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseCreateBooking.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseFareAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseItineraryDesc.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseModifyBooking.asmx.resx" />
+    <EmbeddedResource Include="wsCruisePackageAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCruisePackageDesc.asmx.resx" />
+    <EmbeddedResource Include="wsCruisePriceBooking.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseRead.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseSailAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCruiseTransferAvail.asmx.resx" />
+    <EmbeddedResource Include="wsCryptic.asmx.resx" />
+    <EmbeddedResource Include="wsCurConv.asmx.resx" />
+    <EmbeddedResource Include="wsETicketVerify.asmx.resx" />
+    <EmbeddedResource Include="wsFareDisplay.asmx.resx" />
+    <EmbeddedResource Include="wsHotelAvail.asmx.resx" />
+    <EmbeddedResource Include="wsHotelInfo.asmx.resx" />
+    <EmbeddedResource Include="wsHotelModify.asmx.resx" />
+    <EmbeddedResource Include="wsHotelSearch.asmx.resx" />
+    <EmbeddedResource Include="wsInsuranceBook.asmx.resx" />
+    <EmbeddedResource Include="wsInsuranceQuote.asmx.resx" />
+    <EmbeddedResource Include="wsIssueTicket.asmx.resx" />
+    <EmbeddedResource Include="wsLowFare.asmx.resx" />
+    <EmbeddedResource Include="wsLowFarePlus.asmx.resx" />
+    <EmbeddedResource Include="wsMultiMessage.asmx.resx" />
+    <EmbeddedResource Include="wsNative.asmx.resx" />
+    <EmbeddedResource Include="wsPNRCancel.asmx.resx" />
+    <EmbeddedResource Include="wsPNRRead.asmx.resx" />
+    <EmbeddedResource Include="wsQueue.asmx.resx" />
+    <EmbeddedResource Include="wsQueueRead.asmx.resx" />
+    <EmbeddedResource Include="wsSessionClose.asmx.resx" />
+    <EmbeddedResource Include="wsSessionCreate.asmx.resx" />
+    <EmbeddedResource Include="wsShowMileage.asmx.resx" />
+    <EmbeddedResource Include="wsTimeDiff.asmx.resx" />
+    <EmbeddedResource Include="wsTravelBuild.asmx.resx" />
+    <EmbeddedResource Include="wsTravelModify.asmx.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Amadeus\AmadeusWS.csproj">
+      <Project>{deb7aa8c-6eff-4085-af1c-55dfc4a13083}</Project>
+      <Name>AmadeusWS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CompressionExtension\CompressionExtension.csproj">
+      <Project>{68166A57-F20D-4620-A7EF-E65F2326ED7F}</Project>
+      <Name>CompressionExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Galileo\Galileo.csproj">
+      <Project>{e7d7bbb7-e6f5-04bf-3e34-f99a5351e8e1}</Project>
+      <Name>Galileo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sabre\Sabre.csproj">
+      <Project>{e7280d0f-fdef-0eca-020a-4183f59428c1}</Project>
+      <Name>Sabre</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TravelPort\TravelPort.csproj">
+      <Project>{0c66b5e2-1e92-471a-a5fb-c83c241e4ce4}</Project>
+      <Name>TravelPort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TripXMLMain\TripXMLMain.csproj">
+      <Project>{c9d99008-6b09-0fb3-2941-ac1bb23825fa}</Project>
+      <Name>TripXMLMain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TripXMLTools\TripXMLTools.csproj">
+      <Project>{b362f5bf-5f86-4997-9ef4-067c8e3db74e}</Project>
+      <Name>TripXMLTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Worldspan\Worldspan.csproj">
+      <Project>{08b45e83-8921-0869-3fb1-53ed81167882}</Project>
+      <Name>Worldspan</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\MyExtensions\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>9730</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/TripXMLSource</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="CustomCollectFiles">
+    <ItemGroup>
+      <_CustomFiles Include="..\ExtraFiles\**\*" />
+      <FilesForPackagingFromProject Include="%(_CustomFiles.Identity)">
+        <DestinationRelativePath>%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <CopyAllFilesToSingleFolderForPackageDependsOn>
+      CustomCollectFiles;
+      $(CopyAllFilesToSingleFolderForPackageDependsOn);
+    </CopyAllFilesToSingleFolderForPackageDependsOn>
+    <CopyAllFilesToSingleFolderForMsdeployDependsOn>
+      CustomCollectFiles;
+      $(CopyAllFilesToSingleFolderForPackageDependsOn);
+    </CopyAllFilesToSingleFolderForMsdeployDependsOn>
+  </PropertyGroup>
+  <Import Project="..\packages\OctoPack.3.6.5\build\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.6.5\build\OctoPack.targets')" />
+  <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <Target Name="Web_config_AfterBuild" AfterTargets="AfterBuild" Condition="Exists('Web.$(Configuration).config')">
+    <TransformXml Source="Web.config" Destination="$(OutputPath)Web.config" Transform="Web.$(Configuration).config" />
+  </Target>
+  <Import Project="..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets" Condition="Exists('..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Text.Json.6.0.5\build\System.Text.Json.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets'))" />
+  </Target>
+  <Import Project="..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets')" />
+</Project>

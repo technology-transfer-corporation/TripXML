@@ -1,0 +1,1 @@
+﻿<%@ WebService Language="vb" CodeBehind="wsVirtualCreditCard.asmx.vb" Class="wsTripXML.wsTravelTalk.wsVirtualCreditCard" %>

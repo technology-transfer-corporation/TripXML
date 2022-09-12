@@ -1,0 +1,5475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TTWSAirlines>
+  <Airline>
+    <ID>475</ID>
+    <Code>0B</Code>
+    <Name>BLUE AIR</Name>
+    <ICAO>475</ICAO>
+  </Airline>
+  <Airline>
+    <ID>338</ID>
+    <Code>0V</Code>
+    <Name>VIETNAM AIR SERVICE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>952</ID>
+    <Code>0Y</Code>
+    <Name>AMADEUS AIRLINE 0Y</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>790</ID>
+    <Code>1A</Code>
+    <Name>AMADEUS</Name>
+    <ICAO>AGT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>776</ID>
+    <Code>1B</Code>
+    <Name>ABACUS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>1C</Code>
+    <Name>EDS INFORMATION BUSINESS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>252</ID>
+    <Code>1E</Code>
+    <Name>TRAVELSKY TECHNOLOGY LTD</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>788</ID>
+    <Code>1F</Code>
+    <Name>INFINI TRAVEL INFORMATION</Name>
+    <ICAO>TTF</ICAO>
+  </Airline>
+  <Airline>
+    <ID>773</ID>
+    <Code>1G</Code>
+    <Name>TRAVELPORT</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>835</ID>
+    <Code>1J</Code>
+    <Name>AXESS INTERNATIONAL</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>1K</Code>
+    <Name>SUTRA INC.</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>1L</Code>
+    <Name>CITIZENPLANE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>538</ID>
+    <Code>1M</Code>
+    <Name>SYSTEMS TAIS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>892</ID>
+    <Code>1N</Code>
+    <Name>NAVITAIRE NEW SKIES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>523</ID>
+    <Code>1P</Code>
+    <Name>WORLDSPAN</Name>
+    <ICAO>WSP</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>1R</Code>
+    <Name>JR TECHONOLOGIES IRELAND</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>153</ID>
+    <Code>1S</Code>
+    <Name>SABRE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>588</ID>
+    <Code>1V</Code>
+    <Name>GALILEO INTERNATIONAL</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>1W</Code>
+    <Name>CTW CONSULTING</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>1X</Code>
+    <Name>BRANSON AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>1Z</Code>
+    <Name>BIRD INFORMATION SYSTEM</Name>
+    <ICAO>APD</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>2A</Code>
+    <Name>DEUTSCHE BAHN AG</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>654</ID>
+    <Code>2B</Code>
+    <Name>ALBAWINGS</Name>
+    <ICAO>AWT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>054</ID>
+    <Code>2D</Code>
+    <Name>EASTERN AIRLINES</Name>
+    <ICAO>DYA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>2E</Code>
+    <Name>SMOKEY BAY AIR</Name>
+    <ICAO>EIX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>735</ID>
+    <Code>2G</Code>
+    <Name>ANGARA AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>056</ID>
+    <Code>2H</Code>
+    <Name>THALYS INTERNATIONAL</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>156</ID>
+    <Code>2I</Code>
+    <Name>STAR PERU</Name>
+    <ICAO>SRU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>226</ID>
+    <Code>2J</Code>
+    <Name>AIR BURKINA</Name>
+    <ICAO>226</ICAO>
+  </Airline>
+  <Airline>
+    <ID>547</ID>
+    <Code>2K</Code>
+    <Name>GAEROLINEAS GALAPAGOS</Name>
+    <ICAO>547</ICAO>
+  </Airline>
+  <Airline>
+    <ID>102</ID>
+    <Code>2L</Code>
+    <Name>HELVETIC AIRWAYS AG</Name>
+    <ICAO>102</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>2M</Code>
+    <Name>MAYA ISLAND AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>121</ID>
+    <Code>2N</Code>
+    <Name>NEXTJET</Name>
+    <ICAO>NTJ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>2O</Code>
+    <Name>REDEMPTION</Name>
+    <ICAO>RNE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>211</ID>
+    <Code>2P</Code>
+    <Name>PAL EXPRESS</Name>
+    <ICAO>GAP</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>2U</Code>
+    <Name>ERO SUN D'OR</Name>
+    <ICAO>ERO</ICAO>
+  </Airline>
+  <Airline>
+    <ID>554</ID>
+    <Code>2V</Code>
+    <Name>AMTRAK</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>227</ID>
+    <Code>2W</Code>
+    <Name>WELCOME AIR LUFTFAHRT</Name>
+    <ICAO>227</ICAO>
+  </Airline>
+  <Airline>
+    <ID>799</ID>
+    <Code>2X</Code>
+    <Name>AMADEUS TWO</Name>
+    <ICAO>XYA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>2Y</Code>
+    <Name>AMADEUS PDF 2Y</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>678</ID>
+    <Code>2Z</Code>
+    <Name>PASSAREDO TRANSPORTES</Name>
+    <ICAO>678</ICAO>
+  </Airline>
+  <Airline>
+    <ID>028</ID>
+    <Code>3A</Code>
+    <Name>CHU KONG PASSENGER TRANSPORT</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>383</ID>
+    <Code>3B</Code>
+    <Name>TICV</Name>
+    <ICAO>NTB</ICAO>
+  </Airline>
+  <Airline>
+    <ID>850</ID>
+    <Code>3C</Code>
+    <Name>AIR CHATHAMS</Name>
+    <ICAO>CVA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>122</ID>
+    <Code>3E</Code>
+    <Name>MULTI AERO</Name>
+    <ICAO>OMQ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>3F</Code>
+    <Name>PACIFIC AIRWAYS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>3G</Code>
+    <Name>GAMBIA BIRD AIRLINES LTD</Name>
+    <ICAO>GBQ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>466</ID>
+    <Code>3H</Code>
+    <Name>AIR INUIT</Name>
+    <ICAO>AIE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>535</ID>
+    <Code>3J</Code>
+    <Name>JUBBA AIRWAYS (KENYA)</Name>
+    <ICAO>JBW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>375</ID>
+    <Code>3K</Code>
+    <Name>JETSTAR ASIA AIRWAYS</Name>
+    <ICAO>375</ICAO>
+  </Airline>
+  <Airline>
+    <ID>049</ID>
+    <Code>3L</Code>
+    <Name>AIR ARABIA ABU DHABI</Name>
+    <ICAO>ADY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>449</ID>
+    <Code>3M</Code>
+    <Name>SILVER AIRWAYS CORP</Name>
+    <ICAO>449</ICAO>
+  </Airline>
+  <Airline>
+    <ID>746</ID>
+    <Code>3N</Code>
+    <Name>AIR URGA</Name>
+    <ICAO>URG</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>3O</Code>
+    <Name>AIR ARABIA MAROC</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>253</ID>
+    <Code>3P</Code>
+    <Name>TIARA AIR ARUBA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>3R</Code>
+    <Name>DIVI DIVI AIR</Name>
+    <ICAO>DVR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>875</ID>
+    <Code>3S</Code>
+    <Name>AIR ANTILLES EXPRESS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>524</ID>
+    <Code>3T</Code>
+    <Name>TARCO AVIATION</Name>
+    <ICAO>TQQ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>876</ID>
+    <Code>3U</Code>
+    <Name>SICHUAN AIRLINES</Name>
+    <ICAO>876</ICAO>
+  </Airline>
+  <Airline>
+    <ID>756</ID>
+    <Code>3V</Code>
+    <Name>ASL AIRLINES BELGIUM</Name>
+    <ICAO>TAY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>529</ID>
+    <Code>3W</Code>
+    <Name>MALAWI AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>3Y</Code>
+    <Name>KARTIKA AIRLINES</Name>
+    <ICAO>KAE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>3Z</Code>
+    <Name>SMARTWINGS POLAND</Name>
+    <ICAO>TVP</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>4A</Code>
+    <Name>AERO TRANSPORTE</Name>
+    <ICAO>AMP</ICAO>
+  </Airline>
+  <Airline>
+    <ID>184</ID>
+    <Code>4B</Code>
+    <Name>BOUTIQUE AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>035</ID>
+    <Code>4C</Code>
+    <Name>AIRES S.A.</Name>
+    <ICAO>035</ICAO>
+  </Airline>
+  <Airline>
+    <ID>903</ID>
+    <Code>4D</Code>
+    <Name>AIR SINAI</Name>
+    <ICAO>ASD</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>4F</Code>
+    <Name>FREEDOM AIRLINE EXPRESS</Name>
+    <ICAO>FDT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>579</ID>
+    <Code>4G</Code>
+    <Name>GAZPROMAVIA</Name>
+    <ICAO>GZP</ICAO>
+  </Airline>
+  <Airline>
+    <ID>597</ID>
+    <Code>4I</Code>
+    <Name>IHY IZMIR HAVAYOLLARI</Name>
+    <ICAO>IZM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>4J</Code>
+    <Name>UNITED CARIBBEAN AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>4K</Code>
+    <Name>KENN BOREK AIR</Name>
+    <ICAO>KBA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>469</ID>
+    <Code>4M</Code>
+    <Name>LAN ARGENTINA</Name>
+    <ICAO>469</ICAO>
+  </Airline>
+  <Airline>
+    <ID>287</ID>
+    <Code>4N</Code>
+    <Name>AIR NORTH</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>837</ID>
+    <Code>4O</Code>
+    <Name>INTERJET</Name>
+    <ICAO>837</ICAO>
+  </Airline>
+  <Airline>
+    <ID>351</ID>
+    <Code>4P</Code>
+    <Name>REGIONAL SKY</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>741</ID>
+    <Code>4Q</Code>
+    <Name>SAFI AIRWAYS</Name>
+    <ICAO>741</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>4R</Code>
+    <Name>RENFE VIAJEROS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>4T</Code>
+    <Name>BELAIR AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>051</ID>
+    <Code>4U</Code>
+    <Name>GERMANWINGS</Name>
+    <ICAO>051</ICAO>
+  </Airline>
+  <Airline>
+    <ID>884</ID>
+    <Code>4V</Code>
+    <Name>Fly Gangwon</Name>
+    <ICAO>FGW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>4W</Code>
+    <Name>WARBELOWS AIR VENTURES</Name>
+    <ICAO>WAV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>4X</Code>
+    <Name>ATLANTIC EXPRESS AIRLINE</Name>
+    <ICAO>ANX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>749</ID>
+    <Code>4Z</Code>
+    <Name>SOUTH AFRICAN AIRLINK</Name>
+    <ICAO>749</ICAO>
+  </Airline>
+  <Airline>
+    <ID>590</ID>
+    <Code>5B</Code>
+    <Name>BASSAKA AIR</Name>
+    <ICAO>BSX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>642</ID>
+    <Code>5D</Code>
+    <Name>AEROLITORAL</Name>
+    <ICAO>SLI</ICAO>
+  </Airline>
+  <Airline>
+    <ID>113</ID>
+    <Code>5G</Code>
+    <Name>MAYAIR</Name>
+    <ICAO>CUO</ICAO>
+  </Airline>
+  <Airline>
+    <ID>540</ID>
+    <Code>5H</Code>
+    <Name>FIVE FOURTY AVIATION</Name>
+    <ICAO>FFV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>203</ID>
+    <Code>5J</Code>
+    <Name>CEBU AIR</Name>
+    <ICAO>CEB</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>5K</Code>
+    <Name>HI FLY TRANSPORTES AEREO</Name>
+    <ICAO>HFY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>5L</Code>
+    <Name>TRANSPORTES AEREOS COSTARICENSES</Name>
+    <ICAO>TIC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>5M</Code>
+    <Name>FLY MONTSERRAT</Name>
+    <ICAO>MNT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>316</ID>
+    <Code>5N</Code>
+    <Name>SMARTAVIA</Name>
+    <ICAO>AUL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>004</ID>
+    <Code>5O</Code>
+    <Name>ASL AIRLINES FRANCE</Name>
+    <ICAO>004</ICAO>
+  </Airline>
+  <Airline>
+    <ID>062</ID>
+    <Code>5Q</Code>
+    <Name>HOLIDAY EUROPE</Name>
+    <ICAO>HES</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>5R</Code>
+    <Name>RUTACA</Name>
+    <ICAO>RUC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>5S</Code>
+    <Name>SERVICIOS AEREOS PROFESIONALES</Name>
+    <ICAO>PSV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>518</ID>
+    <Code>5T</Code>
+    <Name>CANADIAN NORTH</Name>
+    <ICAO>518</ICAO>
+  </Airline>
+  <Airline>
+    <ID>911</ID>
+    <Code>5U</Code>
+    <Name>TAG</Name>
+    <ICAO>911</ICAO>
+  </Airline>
+  <Airline>
+    <ID>840</ID>
+    <Code>5V</Code>
+    <Name>EVERTS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>5W</Code>
+    <Name>SPEED ALLIANCE WESTBAHN</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>225</ID>
+    <Code>5Z</Code>
+    <Name>CEMAIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>616</ID>
+    <Code>6A</Code>
+    <Name>ARMENIA AIRWAYS</Name>
+    <ICAO>AMW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>951</ID>
+    <Code>6B</Code>
+    <Name>TUIFLY NORDIC</Name>
+    <ICAO>BLX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>586</ID>
+    <Code>6C</Code>
+    <Name>AIR TIMOR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>6D</Code>
+    <Name>SMARTWINGS SLOVAKIA</Name>
+    <ICAO>TVQ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>312</ID>
+    <Code>6E</Code>
+    <Name>INDIGO</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>818</ID>
+    <Code>6H</Code>
+    <Name>ISRAIR AIRLINES</Name>
+    <ICAO>ISR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>248</ID>
+    <Code>6I</Code>
+    <Name>AIR ALSIE</Name>
+    <ICAO>MMD</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>6J</Code>
+    <Name>SOLASEED AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>709</ID>
+    <Code>6L</Code>
+    <Name>AKLAK AIR</Name>
+    <ICAO>AKK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>6N</Code>
+    <Name>NIGER AIRLINES</Name>
+    <ICAO>NIN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>6O</Code>
+    <Name>ORBEST (GHD)</Name>
+    <ICAO>OBS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>6Q</Code>
+    <Name>CHAM WINGS AIRLINES</Name>
+    <ICAO>SAW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>6R</Code>
+    <Name>MIRNY AIR</Name>
+    <ICAO>DRU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>571</ID>
+    <Code>6S</Code>
+    <Name>SAUDI GULF AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>6V</Code>
+    <Name>AVANZA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>6W</Code>
+    <Name>FLYBOSNIA</Name>
+    <ICAO>FBS</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>6Y</Code>
+    <Name>NICARAGÜENSE DE AVIACIÓN S.A</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>562</ID>
+    <Code>7B</Code>
+    <Name>FLY BLUE CRANE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>806</ID>
+    <Code>7C</Code>
+    <Name>JEJU AIR</Name>
+    <ICAO>806</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>7D</Code>
+    <Name>MADAGASIKARA AIRWAYS</Name>
+    <ICAO>AYS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>7E</Code>
+    <Name>SYLT AIR GMBH</Name>
+    <ICAO>AWU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>061</ID>
+    <Code>7F</Code>
+    <Name>FIRST AIR</Name>
+    <ICAO>061</ICAO>
+  </Airline>
+  <Airline>
+    <ID>922</ID>
+    <Code>7G</Code>
+    <Name>STAR FLYER</Name>
+    <ICAO>922</ICAO>
+  </Airline>
+  <Airline>
+    <ID>808</ID>
+    <Code>7H</Code>
+    <Name>RAVN ALASKA</Name>
+    <ICAO>ERH</ICAO>
+  </Airline>
+  <Airline>
+    <ID>958</ID>
+    <Code>7I</Code>
+    <Name>INSEL AIR INTERNATIONAL</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>502</ID>
+    <Code>7J</Code>
+    <Name>TAJIK AIR</Name>
+    <ICAO>TJK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>474</ID>
+    <Code>7M</Code>
+    <Name>MAYAIR</Name>
+    <ICAO>474</ICAO>
+  </Airline>
+  <Airline>
+    <ID>111</ID>
+    <Code>7N</Code>
+    <Name>PAWA DOMINICANA</Name>
+    <ICAO>111</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>7P</Code>
+    <Name>AIR PANAMA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>087</ID>
+    <Code>7Q</Code>
+    <Name>ELITE AIRWAYS</Name>
+    <ICAO>MNU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>362</ID>
+    <Code>7R</Code>
+    <Name>RUSLINE</Name>
+    <ICAO>RLU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>792</ID>
+    <Code>7S</Code>
+    <Name>AMADEUS PDF 7S</Name>
+    <ICAO>XYW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>7T</Code>
+    <Name>TRENITALIA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>739</ID>
+    <Code>7V</Code>
+    <Name>FEDERAL AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>7W</Code>
+    <Name>WIND ROSE AVIATION</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>7Y</Code>
+    <Name>MANN YADANARPON AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>8B</Code>
+    <Name>TRANSNUSA AVIATION</Name>
+    <ICAO>BCC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>058</ID>
+    <Code>8C</Code>
+    <Name>COTAI WATER JET</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>8E</Code>
+    <Name>BERING AIR</Name>
+    <ICAO>BRG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>470</ID>
+    <Code>8F</Code>
+    <Name>STP AIRWAYS</Name>
+    <ICAO>STP</ICAO>
+  </Airline>
+  <Airline>
+    <ID>357</ID>
+    <Code>8G</Code>
+    <Name>MID AFRICA AVIATION</Name>
+    <ICAO>MFG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>366</ID>
+    <Code>8H</Code>
+    <Name>BH AIR</Name>
+    <ICAO>BGH</ICAO>
+  </Airline>
+  <Airline>
+    <ID>778</ID>
+    <Code>8I</Code>
+    <Name>INSEL AIR ARUBA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>8J</Code>
+    <Name>LINEA AEREA ECO JET</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>8K</Code>
+    <Name>EXPLOITS VALLEY AIR SERVICES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>859</ID>
+    <Code>8L</Code>
+    <Name>LUCKY AIR</Name>
+    <ICAO>859</ICAO>
+  </Airline>
+  <Airline>
+    <ID>599</ID>
+    <Code>8M</Code>
+    <Name>MYANMAR AIRWAYS INTERNATIONAL</Name>
+    <ICAO>599</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>8N</Code>
+    <Name>REGIONAL AIR SERVICES</Name>
+    <ICAO>REG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>905</ID>
+    <Code>8P</Code>
+    <Name>PACIFIC COASTAL AIRLINES</Name>
+    <ICAO>PCO</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>8T</Code>
+    <Name>AIR TINDI LTD</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>546</ID>
+    <Code>8U</Code>
+    <Name>AFRIQIYAH AIRWAYS</Name>
+    <ICAO>AAW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>8V</Code>
+    <Name>WRIGHT AIR SERVICES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>8W</Code>
+    <Name>FLY ALWAYS</Name>
+    <ICAO>EDR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>639</ID>
+    <Code>8Y</Code>
+    <Name>ASTRO AIR INTERNATIONAL</Name>
+    <ICAO>AAV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>582</ID>
+    <Code>8Z</Code>
+    <Name>CONGO AIRWAYS</Name>
+    <ICAO>CGA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>196</ID>
+    <Code>9A</Code>
+    <Name>GRAN COLOMBIA DE AVIACION</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>450</ID>
+    <Code>9B</Code>
+    <Name>ACCESSRAIL</Name>
+    <ICAO>450</ICAO>
+  </Airline>
+  <Airline>
+    <ID>089</ID>
+    <Code>9C</Code>
+    <Name>SPRING AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>568</ID>
+    <Code>9D</Code>
+    <Name>GENGHIS KHAN AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>430</ID>
+    <Code>9E</Code>
+    <Name>PINNACLE AIRLINES</Name>
+    <ICAO>430</ICAO>
+  </Airline>
+  <Airline>
+    <ID>814</ID>
+    <Code>9F</Code>
+    <Name>EUROSTAR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>856</ID>
+    <Code>9H</Code>
+    <Name>CHANGAN AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>234</ID>
+    <Code>9J</Code>
+    <Name>DANA AIRLINES LIMITED</Name>
+    <ICAO>DAN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>306</ID>
+    <Code>9K</Code>
+    <Name>CAPE AIR</Name>
+    <ICAO>306</ICAO>
+  </Airline>
+  <Airline>
+    <ID>426</ID>
+    <Code>9L</Code>
+    <Name>COLGAN AIR</Name>
+    <ICAO>426</ICAO>
+  </Airline>
+  <Airline>
+    <ID>634</ID>
+    <Code>9M</Code>
+    <Name>CENTRAL MOUNTAIN AIR</Name>
+    <ICAO>634</ICAO>
+  </Airline>
+  <Airline>
+    <ID>789</ID>
+    <Code>9N</Code>
+    <Name>TROPIC AIR LIMITED</Name>
+    <ICAO>TOS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>311</ID>
+    <Code>9P</Code>
+    <Name>AIR ARABIA JORDAN</Name>
+    <ICAO>PTR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>9Q</Code>
+    <Name>CAICOS EXPRESS AIRWAYS</Name>
+    <ICAO>CXE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>9Q</Code>
+    <Name>CAICOS EXPRESS AIRWAYS</Name>
+    <ICAO>CXE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>019</ID>
+    <Code>9R</Code>
+    <Name>SATENA</Name>
+    <ICAO>NSE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>793</ID>
+    <Code>9S</Code>
+    <Name>AMADEUS PDF 9S</Name>
+    <ICAO>XYX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>572</ID>
+    <Code>9U</Code>
+    <Name>AIR MOLDOVA</Name>
+    <ICAO>572</ICAO>
+  </Airline>
+  <Airline>
+    <ID>742</ID>
+    <Code>9V</Code>
+    <Name>AVIOR AIRLINES</Name>
+    <ICAO>742</ICAO>
+  </Airline>
+  <Airline>
+    <ID>589</ID>
+    <Code>9W</Code>
+    <Name>JET AIRWAYS</Name>
+    <ICAO>589</ICAO>
+  </Airline>
+  <Airline>
+    <ID>504</ID>
+    <Code>9X</Code>
+    <Name>SOUTHERN AIRWAYS EXPRESS</Name>
+    <ICAO>FDY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>993</ID>
+    <Code>9Y</Code>
+    <Name>NATIONAL AIRWAYS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>177</ID>
+    <Code>A0</Code>
+    <Name>AVIANCA ARGENTINA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>A1</Code>
+    <Name>A.P.G. DISTRIBUTION SYSTEM</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>273</ID>
+    <Code>A2</Code>
+    <Name>ASTRA AIRLINES</Name>
+    <ICAO>AZI</ICAO>
+  </Airline>
+  <Airline>
+    <ID>390</ID>
+    <Code>A3</Code>
+    <Name>AEGEAN AIRLINES</Name>
+    <ICAO>390</ICAO>
+  </Airline>
+  <Airline>
+    <ID>222</ID>
+    <Code>A4</Code>
+    <Name>JSC AZIMUTH AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>163</ID>
+    <Code>A5</Code>
+    <Name>HOP</Name>
+    <ICAO>HOP</ICAO>
+  </Airline>
+  <Airline>
+    <ID>527</ID>
+    <Code>A6</Code>
+    <Name>AIR ALPS AVAITION</Name>
+    <ICAO>527</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>A7</Code>
+    <Name>AEREO CALAFIA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>A8</Code>
+    <Name>AEROLINK UGANDA LIMITED</Name>
+    <ICAO>XAU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>606</ID>
+    <Code>A9</Code>
+    <Name>GEORGIAN AIRWAYS</Name>
+    <ICAO>606</ICAO>
+  </Airline>
+  <Airline>
+    <ID>001</ID>
+    <Code>AA</Code>
+    <Name>AMERICAN AILRINES</Name>
+    <ICAO>001</ICAO>
+  </Airline>
+  <Airline>
+    <ID>745</ID>
+    <Code>AB</Code>
+    <Name>AIR BERLINE</Name>
+    <ICAO>745</ICAO>
+  </Airline>
+  <Airline>
+    <ID>014</ID>
+    <Code>AC</Code>
+    <Name>AIR CANADA</Name>
+    <ICAO>014</ICAO>
+  </Airline>
+  <Airline>
+    <ID>577</ID>
+    <Code>AD</Code>
+    <Name>AZUL LINHAS AEREAS BRASILEIRAS</Name>
+    <ICAO>577</ICAO>
+  </Airline>
+  <Airline>
+    <ID>803</ID>
+    <Code>AE</Code>
+    <Name>MANDARIN AIRLINES</Name>
+    <ICAO>803</ICAO>
+  </Airline>
+  <Airline>
+    <ID>057</ID>
+    <Code>AF</Code>
+    <Name>AIR FRANCE</Name>
+    <ICAO>057</ICAO>
+  </Airline>
+  <Airline>
+    <ID>209</ID>
+    <Code>AG</Code>
+    <Name>ARUBA AIRLINES</Name>
+    <ICAO>ARU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>124</ID>
+    <Code>AH</Code>
+    <Name>AIR ALGERIE</Name>
+    <ICAO>124</ICAO>
+  </Airline>
+  <Airline>
+    <ID>098</ID>
+    <Code>AI</Code>
+    <Name>AIR INDIA</Name>
+    <ICAO>098</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>AJ</Code>
+    <Name>AZTEC WORLDWIDE AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>807</ID>
+    <Code>AK</Code>
+    <Name>AIRASIA SDN BHD</Name>
+    <ICAO>AXM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>AL</Code>
+    <Name>MALTA AIR</Name>
+    <ICAO>MAY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>139</ID>
+    <Code>AM</Code>
+    <Name>AEROMEXICO</Name>
+    <ICAO>139</ICAO>
+  </Airline>
+  <Airline>
+    <ID>360</ID>
+    <Code>AN</Code>
+    <Name>ADVANCED AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>AO</Code>
+    <Name>AIR JUAN AVIATION</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>374</ID>
+    <Code>AP</Code>
+    <Name>ALBA STAR</Name>
+    <ICAO>LAV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>902</ID>
+    <Code>AQ</Code>
+    <Name>9 AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>044</ID>
+    <Code>AR</Code>
+    <Name>AEROLINEAS ARGENTINAS</Name>
+    <ICAO>044</ICAO>
+  </Airline>
+  <Airline>
+    <ID>027</ID>
+    <Code>AS</Code>
+    <Name>AS-027 ALASKA AIRLINES</Name>
+    <ICAO>027</ICAO>
+  </Airline>
+  <Airline>
+    <ID>147</ID>
+    <Code>AT</Code>
+    <Name>ROYAL AIR MAROC</Name>
+    <ICAO>147</ICAO>
+  </Airline>
+  <Airline>
+    <ID>143</ID>
+    <Code>AU</Code>
+    <Name>AUSTRAL LINEAS AEREAS</Name>
+    <ICAO>AUT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>134</ID>
+    <Code>AV</Code>
+    <Name>AVIANCA</Name>
+    <ICAO>134</ICAO>
+  </Airline>
+  <Airline>
+    <ID>394</ID>
+    <Code>AW</Code>
+    <Name>AFRICA WORLD AIRLINES</Name>
+    <ICAO>394</ICAO>
+  </Airline>
+  <Airline>
+    <ID>414</ID>
+    <Code>AX</Code>
+    <Name>TRANS STATES AIRLINES</Name>
+    <ICAO>414</ICAO>
+  </Airline>
+  <Airline>
+    <ID>105</ID>
+    <Code>AY</Code>
+    <Name>FINNAIR</Name>
+    <ICAO>105</ICAO>
+  </Airline>
+  <Airline>
+    <ID>055</ID>
+    <Code>AZ</Code>
+    <Name>ALITALIA</Name>
+    <ICAO>055</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>B2</Code>
+    <Name>BELAVIA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>786</ID>
+    <Code>B3</Code>
+    <Name>BHUTAN AIRLINES</Name>
+    <ICAO>BTN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>B4</Code>
+    <Name>ZANAIR</Name>
+    <ICAO>TAN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>305</ID>
+    <Code>B5</Code>
+    <Name>EAST AFRICAN SAFARI AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>279</ID>
+    <Code>B6</Code>
+    <Name>JETBLUE AIRWAYS</Name>
+    <ICAO>279</ICAO>
+  </Airline>
+  <Airline>
+    <ID>525</ID>
+    <Code>B7</Code>
+    <Name>UNI AIRWAYS</Name>
+    <ICAO>525</ICAO>
+  </Airline>
+  <Airline>
+    <ID>637</ID>
+    <Code>B8</Code>
+    <Name>ERITREAN AIRLINES</Name>
+    <ICAO>ERT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>491</ID>
+    <Code>B9</Code>
+    <Name>IRAN AIR TOURS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>125</ID>
+    <Code>BA</Code>
+    <Name>BRITISH AIRWAYS</Name>
+    <ICAO>125</ICAO>
+  </Airline>
+  <Airline>
+    <ID>376</ID>
+    <Code>BB</Code>
+    <Name>SEABORNE AIRLINES</Name>
+    <ICAO>376</ICAO>
+  </Airline>
+  <Airline>
+    <ID>090</ID>
+    <Code>BC</Code>
+    <Name>SKYMARK AIRLINES</Name>
+    <ICAO>SKY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>688</ID>
+    <Code>BD</Code>
+    <Name>BMI</Name>
+    <ICAO>688</ICAO>
+  </Airline>
+  <Airline>
+    <ID>267</ID>
+    <Code>BE</Code>
+    <Name>FLYBE</Name>
+    <ICAO>267</ICAO>
+  </Airline>
+  <Airline>
+    <ID>396</ID>
+    <Code>BF</Code>
+    <Name>FRENCH BEE</Name>
+    <ICAO>396</ICAO>
+  </Airline>
+  <Airline>
+    <ID>997</ID>
+    <Code>BG</Code>
+    <Name>BIMAN BANGLADESH AIRLINE</Name>
+    <ICAO>BBC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>672</ID>
+    <Code>BI</Code>
+    <Name>ROYAL BRUNEI</Name>
+    <ICAO>672</ICAO>
+  </Airline>
+  <Airline>
+    <ID>796</ID>
+    <Code>BJ</Code>
+    <Name>NOUVELAIR</Name>
+    <ICAO>LBT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>866</ID>
+    <Code>BK</Code>
+    <Name>OKAY AIRWAYS COMPANY LIMITED</Name>
+    <ICAO>OKA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>550</ID>
+    <Code>BL</Code>
+    <Name>JETSTAR PACIFIC AIRLINES</Name>
+    <ICAO>PIC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>480</ID>
+    <Code>BM</Code>
+    <Name>BMI REGIONAL</Name>
+    <ICAO>480</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>BP</Code>
+    <Name>AIR BOTSWANA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>695</ID>
+    <Code>BR</Code>
+    <Name>EVA AIRWAYS</Name>
+    <ICAO>695</ICAO>
+  </Airline>
+  <Airline>
+    <ID>779</ID>
+    <Code>BS</Code>
+    <Name>US BANGLA AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>657</ID>
+    <Code>BT</Code>
+    <Name>AIR BALTIC</Name>
+    <ICAO>657</ICAO>
+  </Airline>
+  <Airline>
+    <ID>883</ID>
+    <Code>BU</Code>
+    <Name>COMPAGNIE AFRICAINE D'AVIATION</Name>
+    <ICAO>FPY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>004</ID>
+    <Code>BV</Code>
+    <Name>BLUE PANORAMA AIRLINES</Name>
+    <ICAO>BPA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>106</ID>
+    <Code>BW</Code>
+    <Name>CARIBBEAN AIRLINES</Name>
+    <ICAO>106</ICAO>
+  </Airline>
+  <Airline>
+    <ID>982</ID>
+    <Code>BX</Code>
+    <Name>AIR BUSAN</Name>
+    <ICAO>ABL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>754</ID>
+    <Code>BY</Code>
+    <Name>TUI</Name>
+    <ICAO>TOM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>404</ID>
+    <Code>BZ</Code>
+    <Name>BLUE BIRD AIRWAYS</Name>
+    <ICAO>BBG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>304</ID>
+    <Code>C2</Code>
+    <Name>CEIBA INTERCONTINENTAL</Name>
+    <ICAO>304</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>C3</Code>
+    <Name>CONTACT AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>841</ID>
+    <Code>C5</Code>
+    <Name>CHAMPLAIN ENTERPRISES</Name>
+    <ICAO>841</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>C7</Code>
+    <Name>CINNAMON AIR</Name>
+    <ICAO>CIN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>498</ID>
+    <Code>C8</Code>
+    <Name>CRONOS AIRLINES</Name>
+    <ICAO>CRA</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>C9</Code>
+    <Name>CIRRUS AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>999</ID>
+    <Code>CA</Code>
+    <Name>AIR CHINA LIMITED</Name>
+    <ICAO>999</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>CB</Code>
+    <Name>Trans Caribbean Air ExportImport</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>907</ID>
+    <Code>CC</Code>
+    <Name>CM AIRLINES</Name>
+    <ICAO>OMT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>CD</Code>
+    <Name>CORENDON DUTCH AIRLINES</Name>
+    <ICAO>CND</ICAO>
+  </Airline>
+  <Airline>
+    <ID>980</ID>
+    <Code>CE</Code>
+    <Name>CHALAIR AVIATION</Name>
+    <ICAO>CLG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>626</ID>
+    <Code>CG</Code>
+    <Name>PNG AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>297</ID>
+    <Code>CI</Code>
+    <Name>CHINA AIRLINES</Name>
+    <ICAO>297</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>CJ</Code>
+    <Name>BA CITYFLYER</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>683</ID>
+    <Code>CL</Code>
+    <Name>LUFTHANSA CITYLINE</Name>
+    <ICAO>683</ICAO>
+  </Airline>
+  <Airline>
+    <ID>230</ID>
+    <Code>CM</Code>
+    <Name>COPA</Name>
+    <ICAO>230</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>CN</Code>
+    <Name>GRAND CHINA AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>CO</Code>
+    <Name>CONTINENTAL</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>003</ID>
+    <Code>CP</Code>
+    <Name>COMPASS AIRLINES</Name>
+    <ICAO>003</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>CQ</Code>
+    <Name>COASTAL TRAVELS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>596</ID>
+    <Code>CS</Code>
+    <Name>CO. MICRONESIA</Name>
+    <ICAO>596</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>CT</Code>
+    <Name>ALITALIA CITY LINER SPA</Name>
+    <ICAO>CYL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>136</ID>
+    <Code>CU</Code>
+    <Name>CUBANA DE AVIACION</Name>
+    <ICAO>CUB</ICAO>
+  </Airline>
+  <Airline>
+    <ID>160</ID>
+    <Code>CX</Code>
+    <Name>CATHAY PACIFIC AIRWAYS</Name>
+    <ICAO>160</ICAO>
+  </Airline>
+  <Airline>
+    <ID>078</ID>
+    <Code>CY</Code>
+    <Name>CYPRUS AIRWAYS LTD</Name>
+    <ICAO>078</ICAO>
+  </Airline>
+  <Airline>
+    <ID>784</ID>
+    <Code>CZ</Code>
+    <Name>CHINA SOUTHERN AIRLINES</Name>
+    <ICAO>784</ICAO>
+  </Airline>
+  <Airline>
+    <ID>103</ID>
+    <Code>D2</Code>
+    <Name>SEVERSTAL AIRCOMPANY</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>991</ID>
+    <Code>D3</Code>
+    <Name>DAALLO AIRLINES</Name>
+    <ICAO>DAO</ICAO>
+  </Airline>
+  <Airline>
+    <ID>443</ID>
+    <Code>D4</Code>
+    <Name>DART LIMITED TRUST</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>625</ID>
+    <Code>D6</Code>
+    <Name>INTER AIR</Name>
+    <ICAO>INL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>843</ID>
+    <Code>D7</Code>
+    <Name>AIRASIAX SDN BHD</Name>
+    <ICAO>XAX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>329</ID>
+    <Code>D8</Code>
+    <Name>NORWEGIAN AIR INTERNATIONAL LTD</Name>
+    <ICAO>IBK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>313</ID>
+    <Code>D9</Code>
+    <Name>DENA AIRWAYS</Name>
+    <ICAO>DAI</ICAO>
+  </Airline>
+  <Airline>
+    <ID>215</ID>
+    <Code>DC</Code>
+    <Name>BRAATHENS REGIONAL</Name>
+    <ICAO>215</ICAO>
+  </Airline>
+  <Airline>
+    <ID>596</ID>
+    <Code>DD</Code>
+    <Name>NOK AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>881</ID>
+    <Code>DE</Code>
+    <Name>CONDOR</Name>
+    <ICAO>881</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>DF</Code>
+    <Name>CONDOR BERLIN</Name>
+    <ICAO>CIB</ICAO>
+  </Airline>
+  <Airline>
+    <ID>931</ID>
+    <Code>DG</Code>
+    <Name>CEBGO</Name>
+    <ICAO>SRQ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>762</ID>
+    <Code>DI</Code>
+    <Name>NORWEGIAN AIR UK</Name>
+    <ICAO>NRS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>DJ</Code>
+    <Name>AIRASIA JAPAN</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>630</ID>
+    <Code>DK</Code>
+    <Name>SUNCLASS AIRLINES</Name>
+    <ICAO>VKG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>006</ID>
+    <Code>DL</Code>
+    <Name>DELTA AIRLINES</Name>
+    <ICAO>006</ICAO>
+  </Airline>
+  <Airline>
+    <ID>323</ID>
+    <Code>DN</Code>
+    <Name>NORWEGIAN AIR ARGENTINA</Name>
+    <ICAO>NAA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>791</ID>
+    <Code>DO</Code>
+    <Name>SKY HIGH AVIATION SERVICES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>425</ID>
+    <Code>DP</Code>
+    <Name>POBEDA AIRLINES</Name>
+    <ICAO>PBD</ICAO>
+  </Airline>
+  <Airline>
+    <ID>299</ID>
+    <Code>DR</Code>
+    <Name>RUILI AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>DS</Code>
+    <Name>EASYJET SWITZERLAND</Name>
+    <ICAO>EZS</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>DT</Code>
+    <Name>TAAG</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>DU</Code>
+    <Name>SKY JET M.G. INC.</Name>
+    <ICAO>LIZ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>655</ID>
+    <Code>DV</Code>
+    <Name>SCAT AIRLINES</Name>
+    <ICAO>655</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>DW</Code>
+    <Name>GREAT DANE AIRLINES</Name>
+    <ICAO>GDE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>243</ID>
+    <Code>DX</Code>
+    <Name>DAT</Name>
+    <ICAO>DTR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>328</ID>
+    <Code>DY</Code>
+    <Name>NORWEGIAN AIR SHUTTLE</Name>
+    <ICAO>NAX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>893</ID>
+    <Code>DZ</Code>
+    <Name>DONGHAI AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>E2</Code>
+    <Name>EUROWINGS EUROPE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>386</ID>
+    <Code>E3</Code>
+    <Name>NEW GEN</Name>
+    <ICAO>VGO</ICAO>
+  </Airline>
+  <Airline>
+    <ID>844</ID>
+    <Code>E5</Code>
+    <Name>AIR ARABIA EGYPT</Name>
+    <ICAO>RBG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>965</ID>
+    <Code>E7</Code>
+    <Name>EQUAFLIGHT SERVICE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>E8</Code>
+    <Name>TAYARAN JET JSC</Name>
+    <ICAO>TJB</ICAO>
+  </Airline>
+  <Airline>
+    <ID>783</ID>
+    <Code>E9</Code>
+    <Name>EVELOP AIRLINES</Name>
+    <ICAO>EVE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>460</ID>
+    <Code>EB</Code>
+    <Name>WAMOS AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>284</ID>
+    <Code>EC</Code>
+    <Name>OPENSKIES/OPENSKIES SAS</Name>
+    <ICAO>284</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>ED</Code>
+    <Name>AIR EXPLORE</Name>
+    <ICAO>AXE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>201</ID>
+    <Code>EE</Code>
+    <Name>REGIONAL JET</Name>
+    <ICAO>EST</ICAO>
+  </Airline>
+  <Airline>
+    <ID>584</ID>
+    <Code>EG</Code>
+    <Name>ERNEST AIRLINES</Name>
+    <ICAO>ERN</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>EH</Code>
+    <Name>ALL NIPPON NETWORK CO</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>053</ID>
+    <Code>EI</Code>
+    <Name>AER LINGUS</Name>
+    <ICAO>053</ICAO>
+  </Airline>
+  <Airline>
+    <ID>176</ID>
+    <Code>EK</Code>
+    <Name>EMIRATES</Name>
+    <ICAO>176</ICAO>
+  </Airline>
+  <Airline>
+    <ID>241</ID>
+    <Code>EL</Code>
+    <Name>ELLINAIR</Name>
+    <ICAO>ELB</ICAO>
+  </Airline>
+  <Airline>
+    <ID>101</ID>
+    <Code>EN</Code>
+    <Name>AIR DOLOMITI</Name>
+    <ICAO>101</ICAO>
+  </Airline>
+  <Airline>
+    <ID>770</ID>
+    <Code>EO</Code>
+    <Name>PEGAS FLY</Name>
+    <ICAO>KAR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>815</ID>
+    <Code>EP</Code>
+    <Name>IRAN ASEMAN AIRLINES</Name>
+    <ICAO>IRC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>269</ID>
+    <Code>EQ</Code>
+    <Name>TAME LINEA AEREA DEL ECUADOR</Name>
+    <ICAO>269</ICAO>
+  </Airline>
+  <Airline>
+    <ID>071</ID>
+    <Code>ET</Code>
+    <Name>ETHIOPIAN AIRLINES</Name>
+    <ICAO>071</ICAO>
+  </Airline>
+  <Airline>
+    <ID>811</ID>
+    <Code>EU</Code>
+    <Name>CHENGDU AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>862</ID>
+    <Code>EV</Code>
+    <Name>ATLANTIC SOUTHEAST</Name>
+    <ICAO>862</ICAO>
+  </Airline>
+  <Airline>
+    <ID>104</ID>
+    <Code>EW</Code>
+    <Name>EUROWINGS</Name>
+    <ICAO>104</ICAO>
+  </Airline>
+  <Airline>
+    <ID>039</ID>
+    <Code>EX</Code>
+    <Name>REGIONAL EXPRESS AMERICAS</Name>
+    <ICAO>5AH</ICAO>
+  </Airline>
+  <Airline>
+    <ID>607</ID>
+    <Code>EY</Code>
+    <Name>EITIHAD AIRWAYS</Name>
+    <ICAO>607</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>EZ</Code>
+    <Name>SUN AIR OF SCANDINAVIA</Name>
+    <ICAO>SUS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>F2</Code>
+    <Name>SAFARILINK AVIATION</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>F3</Code>
+    <Name>FLYADEAL</Name>
+    <ICAO>FAD</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>F4</Code>
+    <Name>AIR FLAMENCO</Name>
+    <ICAO>WAF</ICAO>
+  </Airline>
+  <Airline>
+    <ID>033</ID>
+    <Code>F7</Code>
+    <Name>DARWIN AIRLINES SA</Name>
+    <ICAO>033</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>F8</Code>
+    <Name>FLAIR AIRLINES</Name>
+    <ICAO>FLE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>422</ID>
+    <Code>F9</Code>
+    <Name>FRONTIER AIRLINES</Name>
+    <ICAO>422</ICAO>
+  </Airline>
+  <Airline>
+    <ID>640</ID>
+    <Code>FA</Code>
+    <Name>SAFAIR</Name>
+    <ICAO>SFR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>623</ID>
+    <Code>FB</Code>
+    <Name>BULGARIA AIR</Name>
+    <ICAO>623</ICAO>
+  </Airline>
+  <Airline>
+    <ID>441</ID>
+    <Code>FC</Code>
+    <Name>LINK AIRWAYS FLY FC</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>900</ID>
+    <Code>FD</Code>
+    <Name>THAI AIRASIA</Name>
+    <ICAO>AIQ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>436</ID>
+    <Code>FE</Code>
+    <Name>FAR EASTERN</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>255</ID>
+    <Code>FG</Code>
+    <Name>ARIANA AFGHAN AIRLINES</Name>
+    <ICAO>AFG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>FH</Code>
+    <Name>FREEBIRD AIRLINES</Name>
+    <ICAO>FHY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>108</ID>
+    <Code>FI</Code>
+    <Name>ICELANDAIR</Name>
+    <ICAO>ICE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>260</ID>
+    <Code>FJ</Code>
+    <Name>FIJI AIRWAYS</Name>
+    <ICAO>260</ICAO>
+  </Airline>
+  <Airline>
+    <ID>774</ID>
+    <Code>FM</Code>
+    <Name>SHANGHAI AIRLINES</Name>
+    <ICAO>774</ICAO>
+  </Airline>
+  <Airline>
+    <ID>334</ID>
+    <Code>FN</Code>
+    <Name>FASTJET ZIMBABWE</Name>
+    <ICAO>FTZ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>569</ID>
+    <Code>FO</Code>
+    <Name>FELIX AIRWAYS</Name>
+    <ICAO>FXX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>166</ID>
+    <Code>FP</Code>
+    <Name>FLYPELICAN</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>300</ID>
+    <Code>FQ</Code>
+    <Name>FLYEST LINEAS AEREAS</Name>
+    <ICAO>OLS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>405</ID>
+    <Code>FR</Code>
+    <Name>RYANAIR</Name>
+    <ICAO>RYR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>393</ID>
+    <Code>FS</Code>
+    <Name>SYPHAX AIRLINES SA</Name>
+    <ICAO>SYA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>171</ID>
+    <Code>FT</Code>
+    <Name>FLYEGYPT</Name>
+    <ICAO>FEG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>666</ID>
+    <Code>FU</Code>
+    <Name>FUZHOU AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>195</ID>
+    <Code>FV</Code>
+    <Name>ROSSIYA AIRLINES</Name>
+    <ICAO>SDM</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>FW</Code>
+    <Name>IBEX AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>918</ID>
+    <Code>FY</Code>
+    <Name>FLYFIREFLY</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>141</ID>
+    <Code>FZ</Code>
+    <Name>FLYDUBAI</Name>
+    <ICAO>141</ICAO>
+  </Airline>
+  <Airline>
+    <ID>261</ID>
+    <Code>G0</Code>
+    <Name>ALIANZA GLANCELOT</Name>
+    <ICAO>GAL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>127</ID>
+    <Code>G3</Code>
+    <Name>GOL LINHAS AEREAS S.A.</Name>
+    <ICAO>127</ICAO>
+  </Airline>
+  <Airline>
+    <ID>268</ID>
+    <Code>G4</Code>
+    <Name>ALLEGIANT AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>987</ID>
+    <Code>G5</Code>
+    <Name>CHINA EXPRESS AIRLINES</Name>
+    <ICAO>987</ICAO>
+  </Airline>
+  <Airline>
+    <ID>573</ID>
+    <Code>G7</Code>
+    <Name>GOJET AIRLINES</Name>
+    <ICAO>573</ICAO>
+  </Airline>
+  <Airline>
+    <ID>879</ID>
+    <Code>G8</Code>
+    <Name>GO AIRLINES</Name>
+    <ICAO>GOW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>514</ID>
+    <Code>G9</Code>
+    <Name>AIR ARABIA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>126</ID>
+    <Code>GA</Code>
+    <Name>GARUDA INDONESIA</Name>
+    <ICAO>126</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>GD</Code>
+    <Name>AVIAR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>170</ID>
+    <Code>GE</Code>
+    <Name>TRANSASIA AIRWAYS</Name>
+    <ICAO>TNA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>072</ID>
+    <Code>GF</Code>
+    <Name>GULF AIR</Name>
+    <ICAO>072</ICAO>
+  </Airline>
+  <Airline>
+    <ID>674</ID>
+    <Code>GH</Code>
+    <Name>GLOBUS LLC</Name>
+    <ICAO>GHA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>891</ID>
+    <Code>GJ</Code>
+    <Name>EUROFLY</Name>
+    <ICAO>891</ICAO>
+  </Airline>
+  <Airline>
+    <ID>798</ID>
+    <Code>GK</Code>
+    <Name>JETSTAR JAPAN CO LTD</Name>
+    <ICAO>798</ICAO>
+  </Airline>
+  <Airline>
+    <ID>631</ID>
+    <Code>GL</Code>
+    <Name>AIR GREENLAND</Name>
+    <ICAO>GRL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>581</ID>
+    <Code>GM</Code>
+    <Name>CHAIR AIRLINES</Name>
+    <ICAO>GSW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>275</ID>
+    <Code>GP</Code>
+    <Name>APG AIRLINES</Name>
+    <ICAO>275</ICAO>
+  </Airline>
+  <Airline>
+    <ID>633</ID>
+    <Code>GQ</Code>
+    <Name>SKY EXPRESS</Name>
+    <ICAO>SEH</ICAO>
+  </Airline>
+  <Airline>
+    <ID>924</ID>
+    <Code>GR</Code>
+    <Name>AURIGNY AIR SERVICES</Name>
+    <ICAO>AUR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>826</ID>
+    <Code>GS</Code>
+    <Name>TIANJIN AIRLINES</Name>
+    <ICAO>826</ICAO>
+  </Airline>
+  <Airline>
+    <ID>730</ID>
+    <Code>GT</Code>
+    <Name>AIR GUILIN</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>240</ID>
+    <Code>GU</Code>
+    <Name>AVIATECA</Name>
+    <ICAO>240</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>GV</Code>
+    <Name>GRANT AVIATION</Name>
+    <ICAO>GUN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>358</ID>
+    <Code>GW</Code>
+    <Name>SKYGREECE AIRLINES</Name>
+    <ICAO>SKG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>872</ID>
+    <Code>GX</Code>
+    <Name>GX AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>661</ID>
+    <Code>GY</Code>
+    <Name>COLORFUL GUIZHOU AIRLINE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>755</ID>
+    <Code>GZ</Code>
+    <Name>AIR RAROTONGA</Name>
+    <ICAO>755</ICAO>
+  </Airline>
+  <Airline>
+    <ID>605</ID>
+    <Code>H2</Code>
+    <Name>SKY AIRLINE</Name>
+    <ICAO>605</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>H3</Code>
+    <Name>HERMES AIRLINES</Name>
+    <ICAO>HRM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>379</ID>
+    <Code>H7</Code>
+    <Name>TARON AVIA</Name>
+    <ICAO>TRV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>609</ID>
+    <Code>H8</Code>
+    <Name>SKY AIRLINES PERU</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>769</ID>
+    <Code>H9</Code>
+    <Name>HIMALAYA AIRLINES</Name>
+    <ICAO>HIM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>173</ID>
+    <Code>HA</Code>
+    <Name>HAWAIIAN AIRLINES</Name>
+    <ICAO>173</ICAO>
+  </Airline>
+  <Airline>
+    <ID>943</ID>
+    <Code>HB</Code>
+    <Name>ASIA ATLANTIC AIRLINES</Name>
+    <ICAO>AAQ</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>HC</Code>
+    <Name>AIR SENEGAL</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>HD</Code>
+    <Name>AIRDO CO LTD</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>HE</Code>
+    <Name>LGW LUFTFAHRTGES WALTER</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>483</ID>
+    <Code>HF</Code>
+    <Name>AIR COTE D IVOIRE</Name>
+    <ICAO>483</ICAO>
+  </Airline>
+  <Airline>
+    <ID>411</ID>
+    <Code>HG</Code>
+    <Name>NIKI</Name>
+    <ICAO>411</ICAO>
+  </Airline>
+  <Airline>
+    <ID>283</ID>
+    <Code>HH</Code>
+    <Name>TABAN AIRLINES</Name>
+    <ICAO>TBN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>563</ID>
+    <Code>HI</Code>
+    <Name>PAPILLON AIRWAYS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>681</ID>
+    <Code>HJ</Code>
+    <Name>HELLAS JET</Name>
+    <ICAO>HEJ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>HK</Code>
+    <Name>SKIPPERS AVIATION PTY</Name>
+    <ICAO>HAY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>061</ID>
+    <Code>HM</Code>
+    <Name>AIR SEYCHELLES</Name>
+    <ICAO>061</ICAO>
+  </Airline>
+  <Airline>
+    <ID>342</ID>
+    <Code>HN</Code>
+    <Name>SAFFAT AIRLINES</Name>
+    <ICAO>IRV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>018</ID>
+    <Code>HO</Code>
+    <Name>JUNEYAO AIRLINES</Name>
+    <ICAO>018</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>HP</Code>
+    <Name>AMAPOLA FLYG AB</Name>
+    <ICAO>APF</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>HQ</Code>
+    <Name>SINO LAC AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>169</ID>
+    <Code>HR</Code>
+    <Name>HAHN AIR</Name>
+    <ICAO>169</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>HS</Code>
+    <Name>HELI SECURITE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>880</ID>
+    <Code>HU</Code>
+    <Name>HAINAN AIRLINES</Name>
+    <ICAO>880</ICAO>
+  </Airline>
+  <Airline>
+    <ID>979</ID>
+    <Code>HV</Code>
+    <Name>TRANSAVIA AIRLINES</Name>
+    <ICAO>979</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>HW</Code>
+    <Name>NORTH WRIGHT AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>851</ID>
+    <Code>HX</Code>
+    <Name>HONG KONG AIRLINES</Name>
+    <ICAO>851</ICAO>
+  </Airline>
+  <Airline>
+    <ID>250</ID>
+    <Code>HY</Code>
+    <Name>UZBEKISTAN AIRWAYS</Name>
+    <ICAO>250</ICAO>
+  </Airline>
+  <Airline>
+    <ID>598</ID>
+    <Code>HZ</Code>
+    <Name>AURORA AIRLINES</Name>
+    <ICAO>SHU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>060</ID>
+    <Code>I2</Code>
+    <Name>IBERIA EXPRESS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>917</ID>
+    <Code>I3</Code>
+    <Name>ATA AIRLINES</Name>
+    <ICAO>TBZ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>I4</Code>
+    <Name>SCOTT AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>091</ID>
+    <Code>I5</Code>
+    <Name>AIRASIA INDIA</Name>
+    <ICAO>IAD</ICAO>
+  </Airline>
+  <Airline>
+    <ID>073</ID>
+    <Code>IA</Code>
+    <Name>I A W</Name>
+    <ICAO>IAW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>075</ID>
+    <Code>IB</Code>
+    <Name>IBERIA</Name>
+    <ICAO>075</ICAO>
+  </Airline>
+  <Airline>
+    <ID>938</ID>
+    <Code>ID</Code>
+    <Name>BATIK AIR</Name>
+    <ICAO>938</ICAO>
+  </Airline>
+  <Airline>
+    <ID>193</ID>
+    <Code>IE</Code>
+    <Name>SOLOMON AIRLINES</Name>
+    <ICAO>193</ICAO>
+  </Airline>
+  <Airline>
+    <ID>017</ID>
+    <Code>IF</Code>
+    <Name>FLY BAGHDAD AIRLINES</Name>
+    <ICAO>FBA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>191</ID>
+    <Code>IG</Code>
+    <Name>AIRITALY</Name>
+    <ICAO>191</ICAO>
+  </Airline>
+  <Airline>
+    <ID>824</ID>
+    <Code>IH</Code>
+    <Name>SOUTHERN SKY AIRLINES JSC</Name>
+    <ICAO>SRS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>175</ID>
+    <Code>II</Code>
+    <Name>IBC AIRWAYS INC</Name>
+    <ICAO>CSQ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>069</ID>
+    <Code>IK</Code>
+    <Name>AIR KIRIBATI</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>IL</Code>
+    <Name>PT.TRIGANA AIR SERVICE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>274</ID>
+    <Code>IN</Code>
+    <Name>NAM AIR</Name>
+    <ICAO>LKN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>154</ID>
+    <Code>IO</Code>
+    <Name>CLOSED JSC IRAERO</Name>
+    <ICAO>IAE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>IP</Code>
+    <Name>ONE AIRLINES</Name>
+    <ICAO>ONS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>614</ID>
+    <Code>IQ</Code>
+    <Name>AUGSBURG AIRWAYS</Name>
+    <ICAO>614</ICAO>
+  </Airline>
+  <Airline>
+    <ID>096</ID>
+    <Code>IR</Code>
+    <Name>IRAN AIR</Name>
+    <ICAO>096</ICAO>
+  </Airline>
+  <Airline>
+    <ID>714</ID>
+    <Code>IS</Code>
+    <Name>SEPEHRAN AIRLINES</Name>
+    <ICAO>SHI</ICAO>
+  </Airline>
+  <Airline>
+    <ID>608</ID>
+    <Code>IT</Code>
+    <Name>TIGERAIR TAIWAN</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>513</ID>
+    <Code>IW</Code>
+    <Name>PT WINGS ABADI AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>236</ID>
+    <Code>IX</Code>
+    <Name>AIR INDIA CHARTERS LIMITED</Name>
+    <ICAO>AXB</ICAO>
+  </Airline>
+  <Airline>
+    <ID>635</ID>
+    <Code>IY</Code>
+    <Name>YEMEN AIRWAYS</Name>
+    <ICAO>IYE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>238</ID>
+    <Code>IZ</Code>
+    <Name>ARKIA</Name>
+    <ICAO>238</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>J0</Code>
+    <Name>JAM AIRLINK EXPRESS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>771</ID>
+    <Code>J2</Code>
+    <Name>AZERBAIJAN AIRLINES</Name>
+    <ICAO>771</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>J3</Code>
+    <Name>NORTHWESTERN AIR LEASE</Name>
+    <ICAO>PLR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>367</ID>
+    <Code>J4</Code>
+    <Name>BADR AIRLINES</Name>
+    <ICAO>BDR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>J5</Code>
+    <Name>ALASKA SEAPLANE SERVICE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>J7</Code>
+    <Name>AFRIJET BUSINESS SERVICE</Name>
+    <ICAO>ABS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>801</ID>
+    <Code>J8</Code>
+    <Name>BERJAYA AIR</Name>
+    <ICAO>BVT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>486</ID>
+    <Code>J9</Code>
+    <Name>JAZEERA AIRWAYS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>JA</Code>
+    <Name>JETSMART SPA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>613</ID>
+    <Code>JB</Code>
+    <Name>HELIJET INTERNATIONAL</Name>
+    <ICAO>JBA</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>JC</Code>
+    <Name>JAL EXPRESS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>898</ID>
+    <Code>JD</Code>
+    <Name>BEIJING CAPITAL AIRLINES</Name>
+    <ICAO>898</ICAO>
+  </Airline>
+  <Airline>
+    <ID>472</ID>
+    <Code>JE</Code>
+    <Name>MANGO</Name>
+    <ICAO>MNO</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>JF</Code>
+    <Name>JET ASIA AIRWAYS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>JH</Code>
+    <Name>FUJI DREAM AIRLINES</Name>
+    <ICAO>FDA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>648</ID>
+    <Code>JI</Code>
+    <Name>MERAJ AIR</Name>
+    <ICAO>MRJ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>957</ID>
+    <Code>JJ</Code>
+    <Name>TAM LINHAS AEREAS</Name>
+    <ICAO>957</ICAO>
+  </Airline>
+  <Airline>
+    <ID>957</ID>
+    <Code>JJ</Code>
+    <Name>TAM LINHAS AEREAS</Name>
+    <ICAO>957</ICAO>
+  </Airline>
+  <Airline>
+    <ID>131</ID>
+    <Code>JL</Code>
+    <Name>JAPAN AIRLINES</Name>
+    <ICAO>131</ICAO>
+  </Airline>
+  <Airline>
+    <ID>702</ID>
+    <Code>JM</Code>
+    <Name>JAMBOJET</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>JO</Code>
+    <Name>JET TIME</Name>
+    <ICAO>JTG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>165</ID>
+    <Code>JP</Code>
+    <Name>ADRIA AIRWAYS</Name>
+    <ICAO>165</ICAO>
+  </Airline>
+  <Airline>
+    <ID>041</ID>
+    <Code>JQ</Code>
+    <Name>JETSTAR</Name>
+    <ICAO>041</ICAO>
+  </Airline>
+  <Airline>
+    <ID>929</ID>
+    <Code>JR</Code>
+    <Name>JOY AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>120</ID>
+    <Code>JS</Code>
+    <Name>AIR KORYO</Name>
+    <ICAO>KOR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>990</ID>
+    <Code>JT</Code>
+    <Name>LION AIRLINES</Name>
+    <ICAO>LNI</ICAO>
+  </Airline>
+  <Airline>
+    <ID>115</ID>
+    <Code>JU</Code>
+    <Name>AIR SERBIA</Name>
+    <ICAO>115</ICAO>
+  </Airline>
+  <Airline>
+    <ID>649</ID>
+    <Code>JV</Code>
+    <Name>BEARSKIN AIRLINES</Name>
+    <ICAO>649</ICAO>
+  </Airline>
+  <Airline>
+    <ID>842</ID>
+    <Code>JW</Code>
+    <Name>VANILLA AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>189</ID>
+    <Code>JX</Code>
+    <Name>STARLUX AIRLINES</Name>
+    <ICAO>SJX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>653</ID>
+    <Code>JY</Code>
+    <Name>INTERCARIBBEAN</Name>
+    <ICAO>653</ICAO>
+  </Airline>
+  <Airline>
+    <ID>078</ID>
+    <Code>K2</Code>
+    <Name>EUROLOT</Name>
+    <ICAO>078</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>K3</Code>
+    <Name>TAQUAN AIR SERVICES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>K5</Code>
+    <Name>SILVERSTONE AIR SERVICES LTD</Name>
+    <ICAO>SLR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>188</ID>
+    <Code>K6</Code>
+    <Name>CAMBODIA ANGKOR AIR</Name>
+    <ICAO>188</ICAO>
+  </Airline>
+  <Airline>
+    <ID>314</ID>
+    <Code>K7</Code>
+    <Name>AIR KBZ</Name>
+    <ICAO>KBZ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>043</ID>
+    <Code>KA</Code>
+    <Name>DRAGONAIR</Name>
+    <ICAO>043</ICAO>
+  </Airline>
+  <Airline>
+    <ID>787</ID>
+    <Code>KB</Code>
+    <Name>DRUK AIR</Name>
+    <ICAO>787</ICAO>
+  </Airline>
+  <Airline>
+    <ID>465</ID>
+    <Code>KC</Code>
+    <Name>AIR ASTANA</Name>
+    <ICAO>465</ICAO>
+  </Airline>
+  <Airline>
+    <ID>180</ID>
+    <Code>KE</Code>
+    <Name>KOREAN AIR</Name>
+    <ICAO>180</ICAO>
+  </Airline>
+  <Airline>
+    <ID>142</ID>
+    <Code>KF</Code>
+    <Name>BLUE1</Name>
+    <ICAO>142</ICAO>
+  </Airline>
+  <Airline>
+    <ID>494</ID>
+    <Code>KG</Code>
+    <Name>KEY LIME AIR CORPORATION</Name>
+    <ICAO>LYM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>KJ</Code>
+    <Name>AIR INCHEON</Name>
+    <ICAO>AIH</ICAO>
+  </Airline>
+  <Airline>
+    <ID>610</ID>
+    <Code>KK</Code>
+    <Name>ATLASJET HAVAYOLLARI A.S</Name>
+    <ICAO>610</ICAO>
+  </Airline>
+  <Airline>
+    <ID>074</ID>
+    <Code>KL</Code>
+    <Name>KLM ROYAL DUTCH AIRLINES</Name>
+    <ICAO>074</ICAO>
+  </Airline>
+  <Airline>
+    <ID>643</ID>
+    <Code>KM</Code>
+    <Name>AIR MALTA</Name>
+    <ICAO>643</ICAO>
+  </Airline>
+  <Airline>
+    <ID>822</ID>
+    <Code>KN</Code>
+    <Name>CHINA UNITED AIRLINES</Name>
+    <ICAO>CUA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>KO</Code>
+    <Name>OJSC KOMIAVIATRANS</Name>
+    <ICAO>KHO</ICAO>
+  </Airline>
+  <Airline>
+    <ID>574</ID>
+    <Code>KP</Code>
+    <Name>ASKY</Name>
+    <ICAO>574</ICAO>
+  </Airline>
+  <Airline>
+    <ID>706</ID>
+    <Code>KQ</Code>
+    <Name>KENYA AIRWAYS</Name>
+    <ICAO>706</ICAO>
+  </Airline>
+  <Airline>
+    <ID>733</ID>
+    <Code>KR</Code>
+    <Name>CAMBODIA AIRWAYS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>339</ID>
+    <Code>KS</Code>
+    <Name>PENAIR</Name>
+    <ICAO>PEN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>263</ID>
+    <Code>KT</Code>
+    <Name>MAHOGANY AIR</Name>
+    <ICAO>HOG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>229</ID>
+    <Code>KU</Code>
+    <Name>KUWAIT AIRWAYS</Name>
+    <ICAO>229</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>KV</Code>
+    <Name>SKY REGIONAL AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>KW</Code>
+    <Name>KOREA EXPRESS AIR</Name>
+    <ICAO>KEA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>378</ID>
+    <Code>KX</Code>
+    <Name>CAYMAN AIRWAYS</Name>
+    <ICAO>CAY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>833</ID>
+    <Code>KY</Code>
+    <Name>KUNMING AIRLINES</Name>
+    <ICAO>833</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>L2</Code>
+    <Name>DJIBOUTI AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>402</ID>
+    <Code>L5</Code>
+    <Name>ATLANTIQUE AIR ASSISTANCE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>495</ID>
+    <Code>L6</Code>
+    <Name>MAURITIANIA AIRLINES</Name>
+    <ICAO>495</ICAO>
+  </Airline>
+  <Airline>
+    <ID>348</ID>
+    <Code>L8</Code>
+    <Name>AFRIC AVIATION</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>812</ID>
+    <Code>L9</Code>
+    <Name>BELLE AIR EUROPE</Name>
+    <ICAO>BAL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>045</ID>
+    <Code>LA</Code>
+    <Name>LAN AIRLINES S.A</Name>
+    <ICAO>045</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>LC</Code>
+    <Name>SKYWAY</Name>
+    <ICAO>GCS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>LE</Code>
+    <Name>NORWEGIAN AIR SWEDEN AB</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>522</ID>
+    <Code>LF</Code>
+    <Name>CONTOUR AIRLINES</Name>
+    <ICAO>VTE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>149</ID>
+    <Code>LG</Code>
+    <Name>LUXAIR</Name>
+    <ICAO>149</ICAO>
+  </Airline>
+  <Airline>
+    <ID>220</ID>
+    <Code>LH</Code>
+    <Name>LUFTHANSA</Name>
+    <ICAO>220</ICAO>
+  </Airline>
+  <Airline>
+    <ID>140</ID>
+    <Code>LI</Code>
+    <Name>LIAT</Name>
+    <ICAO>LIA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>718</ID>
+    <Code>LJ</Code>
+    <Name>JIN AIR</Name>
+    <ICAO>718</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>LK</Code>
+    <Name>LAO SKYWAY</Name>
+    <ICAO>LLL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>LL</Code>
+    <Name>MIAMI AIR INTERNATIONAL</Name>
+    <ICAO>BSK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>682</ID>
+    <Code>LM</Code>
+    <Name>LOGANAIR</Name>
+    <ICAO>682</ICAO>
+  </Airline>
+  <Airline>
+    <ID>148</ID>
+    <Code>LN</Code>
+    <Name>LIBYAN AIRLINES</Name>
+    <ICAO>LAA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>080</ID>
+    <Code>LO</Code>
+    <Name>LOT POLISH SIRLINES</Name>
+    <ICAO>080</ICAO>
+  </Airline>
+  <Airline>
+    <ID>544</ID>
+    <Code>LP</Code>
+    <Name>LAN PERU S.A</Name>
+    <ICAO>544</ICAO>
+  </Airline>
+  <Airline>
+    <ID>544</ID>
+    <Code>LP</Code>
+    <Name>LATAM AIRLINES PERU</Name>
+    <ICAO>LPE</ICAO>
+  </Airline>	
+  <Airline>
+    <ID>961</ID>
+    <Code>LQ</Code>
+    <Name>LANMEI AIRLINES</Name>
+    <ICAO>961</ICAO>
+  </Airline>
+  <Airline>
+    <ID>133</ID>
+    <Code>LR</Code>
+    <Name>LACSA</Name>
+    <ICAO>133</ICAO>
+  </Airline>
+  <Airline>
+    <ID>949</ID>
+    <Code>LS</Code>
+    <Name>JET2.COM</Name>
+    <ICAO>EXS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>867</ID>
+    <Code>LT</Code>
+    <Name>LONGJIANG AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>972</ID>
+    <Code>LU</Code>
+    <Name>LAN EXPRESS</Name>
+    <ICAO>972</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>LV</Code>
+    <Name>LEVEL OPENSKIES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>966</ID>
+    <Code>LW</Code>
+    <Name>LATIN AMERICAN WINGS</Name>
+    <ICAO>JMR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>724</ID>
+    <Code>LX</Code>
+    <Name>SWISS</Name>
+    <ICAO>724</ICAO>
+  </Airline>
+  <Airline>
+    <ID>114</ID>
+    <Code>LY</Code>
+    <Name>ELAL ISRAEL AIRLINES</Name>
+    <ICAO>114</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>LZ</Code>
+    <Name>AIR LINK</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>970</ID>
+    <Code>M0</Code>
+    <Name>AEROMONGOLIA</Name>
+    <ICAO>MNG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>M2</Code>
+    <Name>MHS AVIATION</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>M4</Code>
+    <Name>MISTRAL AIR</Name>
+    <ICAO>MSA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>M5</Code>
+    <Name>KENMORE AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>M8</Code>
+    <Name>SKYJET</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>011</ID>
+    <Code>M9</Code>
+    <Name>MOTOR-SICH JSC</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>182</ID>
+    <Code>MA</Code>
+    <Name>MALEV HUNGARIAN AIRLINES</Name>
+    <ICAO>182</ICAO>
+  </Airline>
+  <Airline>
+    <ID>716</ID>
+    <Code>MB</Code>
+    <Name>MNG AIRLINES CARGO</Name>
+    <ICAO>MNB</ICAO>
+  </Airline>
+  <Airline>
+    <ID>258</ID>
+    <Code>MD</Code>
+    <Name>AIR MADAGASCAR</Name>
+    <ICAO>MDG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>076</ID>
+    <Code>ME</Code>
+    <Name>MIDDLE EAST AIRLINES</Name>
+    <ICAO>076</ICAO>
+  </Airline>
+  <Airline>
+    <ID>731</ID>
+    <Code>MF</Code>
+    <Name>XIAMEN AIRLINES</Name>
+    <ICAO>731</ICAO>
+  </Airline>
+  <Airline>
+    <ID>116</ID>
+    <Code>MG</Code>
+    <Name>EZNIS AIRWAYS</Name>
+    <ICAO>EZA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>232</ID>
+    <Code>MH</Code>
+    <Name>MALAYSIA AIRLINES</Name>
+    <ICAO>232</ICAO>
+  </Airline>
+  <Airline>
+    <ID>629</ID>
+    <Code>MI</Code>
+    <Name>SILKAIR</Name>
+    <ICAO>629</ICAO>
+  </Airline>
+  <Airline>
+    <ID>669</ID>
+    <Code>MJ</Code>
+    <Name>MYWAY AIRLINES</Name>
+    <ICAO>MYW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>239</ID>
+    <Code>MK</Code>
+    <Name>AIR MAURITIUS</Name>
+    <ICAO>MAU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>MM</Code>
+    <Name>PEACH AVIATION</Name>
+    <ICAO>APJ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>161</ID>
+    <Code>MN</Code>
+    <Name>COMAIR LTD</Name>
+    <ICAO>CAW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>622</ID>
+    <Code>MO</Code>
+    <Name>CALM AIR INTERNATIONAL</Name>
+    <ICAO>CAV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>093</ID>
+    <Code>MQ</Code>
+    <Name>ENVOY AIR</Name>
+    <ICAO>ENY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>861</ID>
+    <Code>MR</Code>
+    <Name>HUNNU AIR</Name>
+    <ICAO>MML</ICAO>
+  </Airline>
+  <Airline>
+    <ID>077</ID>
+    <Code>MS</Code>
+    <Name>EGYPTAIR</Name>
+    <ICAO>077</ICAO>
+  </Airline>
+  <Airline>
+    <ID>727</ID>
+    <Code>MT</Code>
+    <Name>THOMAS COOK</Name>
+    <ICAO>727</ICAO>
+  </Airline>
+  <Airline>
+    <ID>781</ID>
+    <Code>MU</Code>
+    <Name>CHINA EASTERN AIRLINES</Name>
+    <ICAO>781</ICAO>
+  </Airline>
+  <Airline>
+    <ID>012</ID>
+    <Code>MV</Code>
+    <Name>AIR MEDITERRANEAN</Name>
+    <ICAO>MAR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>415</ID>
+    <Code>MW</Code>
+    <Name>MOKULELE FLIGHT SERVICE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>132</ID>
+    <Code>MX</Code>
+    <Name>MEXICANA</Name>
+    <ICAO>MXA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>819</ID>
+    <Code>MY</Code>
+    <Name>MASWINGS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>MZ</Code>
+    <Name>AMAKUSA AIRLINES</Name>
+    <ICAO>AHX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>370</ID>
+    <Code>N3</Code>
+    <Name>VUELA EL SALVADOR</Name>
+    <ICAO>VOS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>216</ID>
+    <Code>N4</Code>
+    <Name>NORD WIND</Name>
+    <ICAO>NWS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>N5</Code>
+    <Name>LES INVESTISSEMENTS NOLINOR</Name>
+    <ICAO>NRL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>N9</Code>
+    <Name>SHREE AIRLINES</Name>
+    <ICAO>SHA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>646</ID>
+    <Code>NA</Code>
+    <Name>NESMA AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>NC</Code>
+    <Name>NATIONAL JET SYSTEMS</Name>
+    <ICAO>NJS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>477</ID>
+    <Code>NE</Code>
+    <Name>NESMA AIRLINES</Name>
+    <ICAO>NMA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>218</ID>
+    <Code>NF</Code>
+    <Name>AIR VANUATU</Name>
+    <ICAO>218</ICAO>
+  </Airline>
+  <Airline>
+    <ID>708</ID>
+    <Code>NG</Code>
+    <Name>LAUDA AIR</Name>
+    <ICAO>708</ICAO>
+  </Airline>
+  <Airline>
+    <ID>205</ID>
+    <Code>NH</Code>
+    <Name>ALL NIPPON AIRWAYS</Name>
+    <ICAO>205</ICAO>
+  </Airline>
+  <Airline>
+    <ID>685</ID>
+    <Code>NI</Code>
+    <Name>PORTUGALIA</Name>
+    <ICAO>685</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>NJ</Code>
+    <Name>NIGER AIRWAYS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>487</ID>
+    <Code>NK</Code>
+    <Name>SPIRIT Airlines</Name>
+    <ICAO>487</ICAO>
+  </Airline>
+  <Airline>
+    <ID>152</ID>
+    <Code>NL</Code>
+    <Name>AMELIA INTERNATIONAL</Name>
+    <ICAO>AEH</ICAO>
+  </Airline>
+  <Airline>
+    <ID>823</ID>
+    <Code>NN</Code>
+    <Name>VIM AIRLINES</Name>
+    <ICAO>MOV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>703</ID>
+    <Code>NO</Code>
+    <Name>NEOS SPA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>NP</Code>
+    <Name>NILE AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>NQ</Code>
+    <Name>AIR JAPAN COMPANY LTD</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>NR</Code>
+    <Name>MANTA AVIATION</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>836</ID>
+    <Code>NS</Code>
+    <Name>HEBEI AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>474</ID>
+    <Code>NT</Code>
+    <Name>BINTER CANARIAS</Name>
+    <ICAO>IBB</ICAO>
+  </Airline>
+  <Airline>
+    <ID>353</ID>
+    <Code>NU</Code>
+    <Name>JAPAN TRANSOCEAN</Name>
+    <ICAO>353</ICAO>
+  </Airline>
+  <Airline>
+    <ID>346</ID>
+    <Code>NV</Code>
+    <Name>KARUN AIRLINES</Name>
+    <ICAO>KRU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>675</ID>
+    <Code>NX</Code>
+    <Name>AIR MACAU</Name>
+    <ICAO>675</ICAO>
+  </Airline>
+  <Airline>
+    <ID>882</ID>
+    <Code>NY</Code>
+    <Name>AIR ICELAND CONNECT</Name>
+    <ICAO>882</ICAO>
+  </Airline>
+  <Airline>
+    <ID>086</ID>
+    <Code>NZ</Code>
+    <Name>AIR NEW ZEALAND</Name>
+    <ICAO>086</ICAO>
+  </Airline>
+  <Airline>
+    <ID>764</ID>
+    <Code>O2</Code>
+    <Name>HOPSCOTCH AIR</Name>
+    <ICAO>HPK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>919</ID>
+    <Code>O4</Code>
+    <Name>ORANGE2FLY AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>247</ID>
+    <Code>O6</Code>
+    <Name>AVIANCA BRASIL</Name>
+    <ICAO>247</ICAO>
+  </Airline>
+  <Airline>
+    <ID>050</ID>
+    <Code>OA</Code>
+    <Name>OLYMPIC AIR</Name>
+    <ICAO>050</ICAO>
+  </Airline>
+  <Airline>
+    <ID>930</ID>
+    <Code>OB</Code>
+    <Name>BOLIVIANA DE AVIACION</Name>
+    <ICAO>930</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>OC</Code>
+    <Name>ORIENTAL AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>816</ID>
+    <Code>OD</Code>
+    <Name>MALINDO AIR</Name>
+    <ICAO>816</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>OE</Code>
+    <Name>LAUDAMOTION</Name>
+    <ICAO>LDM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>OF</Code>
+    <Name>OVERLAND AIRWAYS</Name>
+    <ICAO>OLA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>OG</Code>
+    <Name>AIR FREIGHT NZ</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>320</ID>
+    <Code>OH</Code>
+    <Name>PSA AIRLINES</Name>
+    <ICAO>JIA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>OI</Code>
+    <Name>HINTERLAND AVIATION</Name>
+    <ICAO>HND</ICAO>
+  </Airline>
+  <Airline>
+    <ID>266</ID>
+    <Code>OJ</Code>
+    <Name>FLY JAMAICA AIRWAYS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>064</ID>
+    <Code>OK</Code>
+    <Name>CZCH AIRLINES</Name>
+    <ICAO>064</ICAO>
+  </Airline>
+  <Airline>
+    <ID>162</ID>
+    <Code>OL</Code>
+    <Name>SAMOA AIRWAYS</Name>
+    <ICAO>PAO</ICAO>
+  </Airline>
+  <Airline>
+    <ID>289</ID>
+    <Code>OM</Code>
+    <Name>MIAT MONGOLIAN AIRLINES</Name>
+    <ICAO>289</ICAO>
+  </Airline>
+  <Airline>
+    <ID>123</ID>
+    <Code>ON</Code>
+    <Name>NAURU AIRLINES</Name>
+    <ICAO>RON</ICAO>
+  </Airline>
+  <Airline>
+    <ID>302</ID>
+    <Code>OO</Code>
+    <Name>SKYWEST AIRLINES</Name>
+    <ICAO>302</ICAO>
+  </Airline>
+  <Airline>
+    <ID>213</ID>
+    <Code>OP</Code>
+    <Name>DAC INTERNATIONAL AIRLINES</Name>
+    <ICAO>DIG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>878</ID>
+    <Code>OQ</Code>
+    <Name>CHONGQING AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>178</ID>
+    <Code>OR</Code>
+    <Name>TUI FLY NETHERLANDS</Name>
+    <ICAO>TFL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>257</ID>
+    <Code>OS</Code>
+    <Name>AUSTRIAN</Name>
+    <ICAO>257</ICAO>
+  </Airline>
+  <Airline>
+    <ID>024</ID>
+    <Code>OT</Code>
+    <Name>TCHADIA AIRLINES</Name>
+    <ICAO>CDO</ICAO>
+  </Airline>
+  <Airline>
+    <ID>831</ID>
+    <Code>OU</Code>
+    <Name>CROATIA AIRLINES</Name>
+    <ICAO>831</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>OV</Code>
+    <Name>SALAM AIR</Name>
+    <ICAO>OMS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>OW</Code>
+    <Name>SKYWARD EXPRESS</Name>
+    <ICAO>SEW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>578</ID>
+    <Code>OX</Code>
+    <Name>ORIENT THAI AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>650</ID>
+    <Code>OY</Code>
+    <Name>ANDES LINEAS AEREAS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>988</ID>
+    <Code>OZ</Code>
+    <Name>ASIANA AIRLINES</Name>
+    <ICAO>988</ICAO>
+  </Airline>
+  <Airline>
+    <ID>659</ID>
+    <Code>P0</Code>
+    <Name>PROFLIGHT ZAMBIA</Name>
+    <ICAO>PFZ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>P2</Code>
+    <Name>AIRKENYA EXPRESS</Name>
+    <ICAO>XAK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>710</ID>
+    <Code>P4</Code>
+    <Name>AIR PEACE LIMITED</Name>
+    <ICAO>APK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>845</ID>
+    <Code>P5</Code>
+    <Name>AERO REPUBLICA</Name>
+    <ICAO>845</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>P6</Code>
+    <Name>PASCAN AVIATION INC</Name>
+    <ICAO>PSC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>P8</Code>
+    <Name>SPRINTAIR</Name>
+    <ICAO>SRN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>700</ID>
+    <Code>P9</Code>
+    <Name>PERUVIAN AIRLINES</Name>
+    <ICAO>700</ICAO>
+  </Airline>
+  <Airline>
+    <ID>084</ID>
+    <Code>PA</Code>
+    <Name>AIRBLUE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>967</ID>
+    <Code>PB</Code>
+    <Name>PAL AIRLINES</Name>
+    <ICAO>SPR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>624</ID>
+    <Code>PC</Code>
+    <Name>PEGASUS AIRLINES</Name>
+    <ICAO>624</ICAO>
+  </Airline>
+  <Airline>
+    <ID>451</ID>
+    <Code>PD</Code>
+    <Name>PORTER AIRLINES</Name>
+    <ICAO>451</ICAO>
+  </Airline>
+  <Airline>
+    <ID>335</ID>
+    <Code>PE</Code>
+    <Name>PEOPLES</Name>
+    <ICAO>PEV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>673</ID>
+    <Code>PF</Code>
+    <Name>AIR SIAL LIMITED</Name>
+    <ICAO>SIF</ICAO>
+  </Airline>
+  <Airline>
+    <ID>829</ID>
+    <Code>PG</Code>
+    <Name>BANGKOK AIRWAYS</Name>
+    <ICAO>829</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>PH</Code>
+    <Name>PIONAIR AUSTRALIA</Name>
+    <ICAO>SFZ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>545</ID>
+    <Code>PI</Code>
+    <Name>POLAR AIRLINES</Name>
+    <ICAO>RKA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>638</ID>
+    <Code>PJ</Code>
+    <Name>AIR SAINT PIERRE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>214</ID>
+    <Code>PK</Code>
+    <Name>PAKISTAN INTERNATIONAL</Name>
+    <ICAO>214</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>PL</Code>
+    <Name>SOUTHERN AIR CHARTER</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>496</ID>
+    <Code>PM</Code>
+    <Name>CANARY FLY</Name>
+    <ICAO>CNF</ICAO>
+  </Airline>
+  <Airline>
+    <ID>847</ID>
+    <Code>PN</Code>
+    <Name>WEST AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>PQ</Code>
+    <Name>SKYUP AIRLINES</Name>
+    <ICAO>SQP</ICAO>
+  </Airline>
+  <Airline>
+    <ID>079</ID>
+    <Code>PR</Code>
+    <Name>PHILIPPINE AIRLINES</Name>
+    <ICAO>079</ICAO>
+  </Airline>
+  <Airline>
+    <ID>566</ID>
+    <Code>PS</Code>
+    <Name>UKRAINE INTERNATIONAL AIRLINES</Name>
+    <ICAO>566</ICAO>
+  </Airline>
+  <Airline>
+    <ID>531</ID>
+    <Code>PT</Code>
+    <Name>PIEDMONT AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>663</ID>
+    <Code>PU</Code>
+    <Name>PLUS ULTRA LINEAS AEREAS</Name>
+    <ICAO>PUE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>PV</Code>
+    <Name>SAINT BARTH COMMUTER</Name>
+    <ICAO>SBU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>031</ID>
+    <Code>PW</Code>
+    <Name>PRECISION AIR</Name>
+    <ICAO>031</ICAO>
+  </Airline>
+  <Airline>
+    <ID>656</ID>
+    <Code>PX</Code>
+    <Name>AIR NIUGINI</Name>
+    <ICAO>656</ICAO>
+  </Airline>
+  <Airline>
+    <ID>192</ID>
+    <Code>PY</Code>
+    <Name>SURINAM AIRWAYS</Name>
+    <ICAO>SLM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>692</ID>
+    <Code>PZ</Code>
+    <Name>TAM MERCOSUR</Name>
+    <ICAO>692</ICAO>
+  </Airline>
+  <Airline>
+    <ID>986</ID>
+    <Code>Q2</Code>
+    <Name>ISLAND AVIATION SERVICES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>Q3</Code>
+    <Name>ANGUILLA AIR SERVICES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>291</ID>
+    <Code>Q4</Code>
+    <Name>EUROAIRLINES</Name>
+    <ICAO>ELE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>Q5</Code>
+    <Name>FORTY MILE AIR</Name>
+    <ICAO>MLA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>621</ID>
+    <Code>Q6</Code>
+    <Name>VOLARIS COSTA RICA</Name>
+    <ICAO>VOC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>223</ID>
+    <Code>Q8</Code>
+    <Name>TRANS AIR CONGO</Name>
+    <ICAO>TSG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>237</ID>
+    <Code>QB</Code>
+    <Name>QESHM AIR</Name>
+    <ICAO>IRQ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>040</ID>
+    <Code>QC</Code>
+    <Name>CAMAIR-CO</Name>
+    <ICAO>040</ICAO>
+  </Airline>
+  <Airline>
+    <ID>009</ID>
+    <Code>QD</Code>
+    <Name>JC CAMBODIA INTL AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>081</ID>
+    <Code>QF</Code>
+    <Name>QANTAS AIRWAYS</Name>
+    <ICAO>081</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>QG</Code>
+    <Name>CITILINK</Name>
+    <ICAO>CTV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>926</ID>
+    <Code>QH</Code>
+    <Name>BAMBOO AIRWAYS</Name>
+    <ICAO>BAV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>QI</Code>
+    <Name>IBOM AIRLINES</Name>
+    <ICAO>IAN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>983</ID>
+    <Code>QK</Code>
+    <Name>JAZZ AVIATION</Name>
+    <ICAO>983</ICAO>
+  </Airline>
+  <Airline>
+    <ID>782</ID>
+    <Code>QL</Code>
+    <Name>LINEA AEREA DE SERVICIO</Name>
+    <ICAO>LER</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>QM</Code>
+    <Name>MONACAIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>QN</Code>
+    <Name>Skytrans Regional</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>QQ</Code>
+    <Name>ALLIANCE AIRLINES</Name>
+    <ICAO>UTY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>157</ID>
+    <Code>QR</Code>
+    <Name>QATAR AIRWAYS</Name>
+    <ICAO>157</ICAO>
+  </Airline>
+  <Airline>
+    <ID>797</ID>
+    <Code>QS</Code>
+    <Name>SMARTWINGS</Name>
+    <ICAO>TVS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>761</ID>
+    <Code>QU</Code>
+    <Name>AZUR AIR UKRAINE AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>627</ID>
+    <Code>QV</Code>
+    <Name>LAO AIRLINES</Name>
+    <ICAO>627</ICAO>
+  </Airline>
+  <Airline>
+    <ID>912</ID>
+    <Code>QW</Code>
+    <Name>QINGDAO AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>481</ID>
+    <Code>QX</Code>
+    <Name>HORIZON AIR</Name>
+    <ICAO>481</ICAO>
+  </Airline>
+  <Airline>
+    <ID>975</ID>
+    <Code>QZ</Code>
+    <Name>AIRASIA X INDONESIA</Name>
+    <ICAO>AWQ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>R0</Code>
+    <Name>TANTALUS AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>R2</Code>
+    <Name>TRANSAIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>849</ID>
+    <Code>R3</Code>
+    <Name>JSC AIRCOMPANY YAKUTIA</Name>
+    <ICAO>SYL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>448</ID>
+    <Code>R4</Code>
+    <Name>REAL TONGA OUR KINGDOM AIRLINE</Name>
+    <ICAO>RLT</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>R5</Code>
+    <Name>JORDAN AVIATION</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>R6</Code>
+    <Name>DAT</Name>
+    <ICAO>DNU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>717</ID>
+    <Code>R7</Code>
+    <Name>AEROSERVICIOS CARABOBO C.A.</Name>
+    <ICAO>717</ICAO>
+  </Airline>
+  <Airline>
+    <ID>285</ID>
+    <Code>RA</Code>
+    <Name>NEPAL AIRLINES</Name>
+    <ICAO>285</ICAO>
+  </Airline>
+  <Airline>
+    <ID>070</ID>
+    <Code>RB</Code>
+    <Name>SYRIAN ARAB AIRLINES</Name>
+    <ICAO>SYR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>767</ID>
+    <Code>RC</Code>
+    <Name>ATLANTIC AIRWAYS</Name>
+    <ICAO>FLI</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>RE</Code>
+    <Name>STOBART AIR</Name>
+    <ICAO>REA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>RF</Code>
+    <Name>AERO K AIRLINES</Name>
+    <ICAO>EOK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>482</ID>
+    <Code>RG</Code>
+    <Name>ROTANA JET</Name>
+    <ICAO>RJD</ICAO>
+  </Airline>
+  <Airline>
+    <ID>713</ID>
+    <Code>RI</Code>
+    <Name>RAHILA AIR</Name>
+    <ICAO>RIH</ICAO>
+  </Airline>
+  <Airline>
+    <ID>512</ID>
+    <Code>RJ</Code>
+    <Name>ROYAL JORDANIAN</Name>
+    <ICAO>512</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>RK</Code>
+    <Name>RYANAIR UK</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>750</ID>
+    <Code>RL</Code>
+    <Name>ROYAL FLIGHT AIRLINES</Name>
+    <ICAO>ABG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>437</ID>
+    <Code>RM</Code>
+    <Name>AIRCOMPANY ARMENIA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>281</ID>
+    <Code>RO</Code>
+    <Name>TAROM ROMANIAN</Name>
+    <ICAO>281</ICAO>
+  </Airline>
+  <Airline>
+    <ID>363</ID>
+    <Code>RP</Code>
+    <Name>CHAUTAUQUA AIRLINES</Name>
+    <ICAO>363</ICAO>
+  </Airline>
+  <Airline>
+    <ID>384</ID>
+    <Code>RQ</Code>
+    <Name>KAM AIR</Name>
+    <ICAO>384</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>RR</Code>
+    <Name>ROYAL AIR FORCE</Name>
+    <ICAO>RFR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>820</ID>
+    <Code>RS</Code>
+    <Name>SKY REGIONAL AIRLINES</Name>
+    <ICAO>820</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>RT</Code>
+    <Name>JSC UVT AERO</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>RV</Code>
+    <Name>AIR CANADA ROUGE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>869</ID>
+    <Code>RW</Code>
+    <Name>ROYAL AIR CHARTER SERVICE</Name>
+    <ICAO>RYL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>989</ID>
+    <Code>RY</Code>
+    <Name>JIANGXI AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>684</ID>
+    <Code>RZ</Code>
+    <Name>SANSA</Name>
+    <ICAO>LRS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>S0</Code>
+    <Name>AEROLINEAS SOSA S.A. DE C.V.</Name>
+    <ICAO>NSO</ICAO>
+  </Airline>
+  <Airline>
+    <ID>705</ID>
+    <Code>S2</Code>
+    <Name>JET LITE</Name>
+    <ICAO>705</ICAO>
+  </Airline>
+  <Airline>
+    <ID>249</ID>
+    <Code>S3</Code>
+    <Name>SANTA BARBARA AIRLINES</Name>
+    <ICAO>249</ICAO>
+  </Airline>
+  <Airline>
+    <ID>331</ID>
+    <Code>S4</Code>
+    <Name>SATA AZORES AIRLINES</Name>
+    <ICAO>331</ICAO>
+  </Airline>
+  <Airline>
+    <ID>919</ID>
+    <Code>S5</Code>
+    <Name>SHUTTLE AMERICA</Name>
+    <ICAO>919</ICAO>
+  </Airline>
+  <Airline>
+    <ID>660</ID>
+    <Code>S6</Code>
+    <Name>SUNRISE AIRWAYS</Name>
+    <ICAO>KSZ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>421</ID>
+    <Code>S7</Code>
+    <Name>SIBERIA AIRLINES</Name>
+    <ICAO>421</ICAO>
+  </Airline>
+  <Airline>
+    <ID>759</ID>
+    <Code>S9</Code>
+    <Name>STARBOW</Name>
+    <ICAO>IKM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>083</ID>
+    <Code>SA</Code>
+    <Name>SOUTH AFRICAN AIRWAYS</Name>
+    <ICAO>083</ICAO>
+  </Airline>
+  <Airline>
+    <ID>063</ID>
+    <Code>SB</Code>
+    <Name>AIR CALEDONIE INTL</Name>
+    <ICAO>063</ICAO>
+  </Airline>
+  <Airline>
+    <ID>324</ID>
+    <Code>SC</Code>
+    <Name>SHANDONG AIRLINES</Name>
+    <ICAO>324</ICAO>
+  </Airline>
+  <Airline>
+    <ID>200</ID>
+    <Code>SD</Code>
+    <Name>SUDAN AIRWAYS</Name>
+    <ICAO>SUD</ICAO>
+  </Airline>
+  <Airline>
+    <ID>473</ID>
+    <Code>SE</Code>
+    <Name>XL AIRWAYS FRANCE</Name>
+    <ICAO>473</ICAO>
+  </Airline>
+  <Airline>
+    <ID>515</ID>
+    <Code>SF</Code>
+    <Name>TASSILI AIRLINES</Name>
+    <ICAO>DTH</ICAO>
+  </Airline>
+  <Airline>
+    <ID>775</ID>
+    <Code>SG</Code>
+    <Name>SPICEJET</Name>
+    <ICAO>SEJ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>SH</Code>
+    <Name>SHARP AVIATION</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>821</ID>
+    <Code>SI</Code>
+    <Name>BLUE ISLANDS</Name>
+    <ICAO>BCI</ICAO>
+  </Airline>
+  <Airline>
+    <ID>977</ID>
+    <Code>SJ</Code>
+    <Name>PT SRIWIJAYA AIR</Name>
+    <ICAO>SJY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>117</ID>
+    <Code>SK</Code>
+    <Name>SCANDINAVIAN AIRLINES</Name>
+    <ICAO>117</ICAO>
+  </Airline>
+  <Airline>
+    <ID>310</ID>
+    <Code>SL</Code>
+    <Name>THAI LION AIR</Name>
+    <ICAO>310</ICAO>
+  </Airline>
+  <Airline>
+    <ID>381</ID>
+    <Code>SM</Code>
+    <Name>AIR CAIRO</Name>
+    <ICAO>MSC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>082</ID>
+    <Code>SN</Code>
+    <Name>BRUSSELS AIRLINES</Name>
+    <ICAO>082</ICAO>
+  </Airline>
+  <Airline>
+    <ID>737</ID>
+    <Code>SP</Code>
+    <Name>SATA AIR ACORES</Name>
+    <ICAO>SAT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>618</ID>
+    <Code>SQ</Code>
+    <Name>SINGAPORE AIRLINES</Name>
+    <ICAO>618</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>SR</Code>
+    <Name>SUNDAIR</Name>
+    <ICAO>SDR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>923</ID>
+    <Code>SS</Code>
+    <Name>CORSAIR</Name>
+    <ICAO>923</ICAO>
+  </Airline>
+  <Airline>
+    <ID>246</ID>
+    <Code>ST</Code>
+    <Name>GERMANIA</Name>
+    <ICAO>GMI</ICAO>
+  </Airline>
+  <Airline>
+    <ID>555</ID>
+    <Code>SU</Code>
+    <Name>AEROFLOT</Name>
+    <ICAO>555</ICAO>
+  </Airline>
+  <Airline>
+    <ID>065</ID>
+    <Code>SV</Code>
+    <Name>SAUDI ARABIAN AIRLINES</Name>
+    <ICAO>065</ICAO>
+  </Airline>
+  <Airline>
+    <ID>186</ID>
+    <Code>SW</Code>
+    <Name>AIR NAMIBIA</Name>
+    <ICAO>186</ICAO>
+  </Airline>
+  <Airline>
+    <ID>772</ID>
+    <Code>SX</Code>
+    <Name>SKYWORK AIRLINES</Name>
+    <ICAO>SRK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>337</ID>
+    <Code>SY</Code>
+    <Name>SUN COUNTRY</Name>
+    <ICAO>337</ICAO>
+  </Airline>
+  <Airline>
+    <ID>413</ID>
+    <Code>SZ</Code>
+    <Name>SOMON AIR</Name>
+    <ICAO>SMR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>530</ID>
+    <Code>T0</Code>
+    <Name>TACA PERU</Name>
+    <ICAO>530</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>T2</Code>
+    <Name>FLY ART</Name>
+    <ICAO>FLB</ICAO>
+  </Airline>
+  <Airline>
+    <ID>467</ID>
+    <Code>T3</Code>
+    <Name>EASTERN AIRWAYS</Name>
+    <ICAO>EZE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>T4</Code>
+    <Name>TRIP</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>542</ID>
+    <Code>T5</Code>
+    <Name>TURKMENISTAN AIRLINES</Name>
+    <ICAO>TUA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>T6</Code>
+    <Name>AIRSWIFT</Name>
+    <ICAO>ATX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>294</ID>
+    <Code>T7</Code>
+    <Name>TWIN JET</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>067</ID>
+    <Code>T9</Code>
+    <Name>TURPIAL AIRLINES</Name>
+    <ICAO>VTU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>202</ID>
+    <Code>TA</Code>
+    <Name>TACA INTERNATIONAL AIRLINES</Name>
+    <ICAO>202</ICAO>
+  </Airline>
+  <Airline>
+    <ID>612</ID>
+    <Code>TB</Code>
+    <Name>TUI FLY BELGIUM.</Name>
+    <ICAO>612</ICAO>
+  </Airline>
+  <Airline>
+    <ID>197</ID>
+    <Code>TC</Code>
+    <Name>AIR TANZANIA</Name>
+    <ICAO>ATC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>432</ID>
+    <Code>TD</Code>
+    <Name>ATLANTIS ARMENIAN AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>TE</Code>
+    <Name>SKY TAXI</Name>
+    <ICAO>IGA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>276</ID>
+    <Code>TF</Code>
+    <Name>BRAATHENS REGIONAL AIRWAYS AB</Name>
+    <ICAO>BRX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>217</ID>
+    <Code>TG</Code>
+    <Name>THAI AIRWAYS INTL LTD</Name>
+    <ICAO>217</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>TI</Code>
+    <Name>TROPIC OCEANAIRWAYS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>492</ID>
+    <Code>TJ</Code>
+    <Name>TRADEWIND AVIATION</Name>
+    <ICAO>GPD</ICAO>
+  </Airline>
+  <Airline>
+    <ID>235</ID>
+    <Code>TK</Code>
+    <Name>TURKISH AIRINES</Name>
+    <ICAO>235</ICAO>
+  </Airline>
+  <Airline>
+    <ID>935</ID>
+    <Code>TL</Code>
+    <Name>AIRNORTH</Name>
+    <ICAO>ANO</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>TM</Code>
+    <Name>LINHAS AEREAS DE MOCAMBIQUE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>244</ID>
+    <Code>TN</Code>
+    <Name>AIR TAHITI NUI</Name>
+    <ICAO>244</ICAO>
+  </Airline>
+  <Airline>
+    <ID>270</ID>
+    <Code>TO</Code>
+    <Name>TRANSAVIA FRANCE</Name>
+    <ICAO>TVF</ICAO>
+  </Airline>
+  <Airline>
+    <ID>047</ID>
+    <Code>TP</Code>
+    <Name>TAP PORTUGAL</Name>
+    <ICAO>047</ICAO>
+  </Airline>
+  <Airline>
+    <ID>038</ID>
+    <Code>TQ</Code>
+    <Name>TANDEM AERO</Name>
+    <ICAO>TDM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>668</ID>
+    <Code>TR</Code>
+    <Name>SCOOT TIGERAIR</Name>
+    <ICAO>668</ICAO>
+  </Airline>
+  <Airline>
+    <ID>649</ID>
+    <Code>TS</Code>
+    <Name>AIR TRANSAT</Name>
+    <ICAO>TSC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>559</ID>
+    <Code>TT</Code>
+    <Name>TIGER AIRWAYS AUSTRALIA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>199</ID>
+    <Code>TU</Code>
+    <Name>TUNISAIR</Name>
+    <ICAO>199</ICAO>
+  </Airline>
+  <Airline>
+    <ID>088</ID>
+    <Code>TV</Code>
+    <Name>SHANDONG AIRLINES</Name>
+    <ICAO>088</ICAO>
+  </Airline>
+  <Airline>
+    <ID>722</ID>
+    <Code>TW</Code>
+    <Name>TWAY AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>427</ID>
+    <Code>TX</Code>
+    <Name>AIR CARAIBES</Name>
+    <ICAO>427</ICAO>
+  </Airline>
+  <Airline>
+    <ID>190</ID>
+    <Code>TY</Code>
+    <Name>AIR CALEDONIE</Name>
+    <ICAO>TPC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>852</ID>
+    <Code>TZ</Code>
+    <Name>TSARADIA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>888</ID>
+    <Code>U2</Code>
+    <Name>EASYJET</Name>
+    <ICAO>EZY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>U3</Code>
+    <Name>AVIES</Name>
+    <ICAO>AIA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>U4</Code>
+    <Name>BUDDHA AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>262</ID>
+    <Code>U6</Code>
+    <Name>URAL AIRLINES</Name>
+    <ICAO>262</ICAO>
+  </Airline>
+  <Airline>
+    <ID>034</ID>
+    <Code>U8</Code>
+    <Name>TUS AIRWAYS</Name>
+    <ICAO>CYF</ICAO>
+  </Airline>
+  <Airline>
+    <ID>016</ID>
+    <Code>UA</Code>
+    <Name>UNITED AIRLINES</Name>
+    <ICAO>016</ICAO>
+  </Airline>
+  <Airline>
+    <ID>665</ID>
+    <Code>UB</Code>
+    <Name>MYANMAR NATIONAL AIRLINE</Name>
+    <ICAO>665</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>UD</Code>
+    <Name>UR AIRLINES</Name>
+    <ICAO>UBD</ICAO>
+  </Airline>
+  <Airline>
+    <ID>327</ID>
+    <Code>UE</Code>
+    <Name>ULTIMATE AIR SHUTTLE</Name>
+    <ICAO>UJC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>505</ID>
+    <Code>UF</Code>
+    <Name>PETROLEUM AIR SERVICES</Name>
+    <ICAO>PER</ICAO>
+  </Airline>
+  <Airline>
+    <ID>120</ID>
+    <Code>UG</Code>
+    <Name>TUNISAIR EXPRESS</Name>
+    <ICAO>120</ICAO>
+  </Airline>
+  <Airline>
+    <ID>500</ID>
+    <Code>UH</Code>
+    <Name>ATLASJET UKRAINE</Name>
+    <ICAO>UJX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>UI</Code>
+    <Name>AURIC AIR SERVICES</Name>
+    <ICAO>AUK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>110</ID>
+    <Code>UJ</Code>
+    <Name>ALMASRIA UNIVERSAL AIRLINES</Name>
+    <ICAO>LMU</ICAO>
+  </Airline>
+  <Airline>
+    <ID>228</ID>
+    <Code>UK</Code>
+    <Name>VISTARA</Name>
+    <ICAO>228</ICAO>
+  </Airline>
+  <Airline>
+    <ID>603</ID>
+    <Code>UL</Code>
+    <Name>SRILANKAN AIRLINES</Name>
+    <ICAO>603</ICAO>
+  </Airline>
+  <Airline>
+    <ID>168</ID>
+    <Code>UM</Code>
+    <Name>AIR ZIMBABWE</Name>
+    <ICAO>AZW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>670</ID>
+    <Code>UN</Code>
+    <Name>TRANSERO AIRLINES</Name>
+    <ICAO>670</ICAO>
+  </Airline>
+  <Airline>
+    <ID>128</ID>
+    <Code>UO</Code>
+    <Name>HONG KONG EXPRESS AIRWAYS</Name>
+    <ICAO>128</ICAO>
+  </Airline>
+  <Airline>
+    <ID>111</ID>
+    <Code>UP</Code>
+    <Name>BAHAMASAIR</Name>
+    <ICAO>BHS</ICAO>
+  </Airline>
+  <Airline>
+    <ID>886</ID>
+    <Code>UQ</Code>
+    <Name>URUMQI AIRLINES</Name>
+    <ICAO>CUH</ICAO>
+  </Airline>
+  <Airline>
+    <ID>109</ID>
+    <Code>UR</Code>
+    <Name>UGANDA AIRLINES</Name>
+    <ICAO>109</ICAO>
+  </Airline>
+  <Airline>
+    <ID>037</ID>
+    <Code>US</Code>
+    <Name>US AIRWAYS</Name>
+    <ICAO>037</ICAO>
+  </Airline>
+  <Airline>
+    <ID>298</ID>
+    <Code>UT</Code>
+    <Name>UTAIR AVIATION</Name>
+    <ICAO>298</ICAO>
+  </Airline>
+  <Airline>
+    <ID>760</ID>
+    <Code>UU</Code>
+    <Name>AIR AUSTRAL</Name>
+    <ICAO>760</ICAO>
+  </Airline>
+  <Airline>
+    <ID>996</ID>
+    <Code>UX</Code>
+    <Name>AIR EUROPA</Name>
+    <ICAO>996</ICAO>
+  </Airline>
+  <Airline>
+    <ID>532</ID>
+    <Code>UY</Code>
+    <Name>SKY PRIME CHARTER</Name>
+    <ICAO>SPD</ICAO>
+  </Airline>
+  <Airline>
+    <ID>928</ID>
+    <Code>UZ</Code>
+    <Name>BURAQ AIR</Name>
+    <ICAO>BRQ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>308</ID>
+    <Code>V0</Code>
+    <Name>CONVIASA</Name>
+    <ICAO>VCV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>021</ID>
+    <Code>V3</Code>
+    <Name>CARPATAIR</Name>
+    <ICAO>KRP</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>V4</Code>
+    <Name>VIEQUES AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>V5</Code>
+    <Name>AEROVIAS DAP</Name>
+    <ICAO>DAP</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>V6</Code>
+    <Name>VI AIRLINK</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>712</ID>
+    <Code>V7</Code>
+    <Name>VOLOTEA</Name>
+    <ICAO>712</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>V8</Code>
+    <Name>ILIAMNA AIR</Name>
+    <ICAO>IAR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>795</ID>
+    <Code>VA</Code>
+    <Name>VIRGIN AUSTRALIA INTL</Name>
+    <ICAO>795</ICAO>
+  </Airline>
+  <Airline>
+    <ID>333</ID>
+    <Code>VB</Code>
+    <Name>AEROENLACES NACIONALES</Name>
+    <ICAO>VIV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>359</ID>
+    <Code>VC</Code>
+    <Name>VIA AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>VE</Code>
+    <Name>EASYFLY S.A.</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>048</ID>
+    <Code>VG</Code>
+    <Name>VIPPER.COM</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>641</ID>
+    <Code>VH</Code>
+    <Name>VIVA COLOMBIA</Name>
+    <ICAO>VVC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>978</ID>
+    <Code>VJ</Code>
+    <Name>VIETJET AVIATION</Name>
+    <ICAO>VJC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>013</ID>
+    <Code>VK</Code>
+    <Name>LEVEL EUROPE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>429</ID>
+    <Code>VL</Code>
+    <Name>MED VIEW AIRLINES</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>VM</Code>
+    <Name>MAX AIR LIMITED</Name>
+    <ICAO>NGL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>738</ID>
+    <Code>VN</Code>
+    <Name>VIETNAM AIRLINES</Name>
+    <ICAO>738</ICAO>
+  </Airline>
+  <Airline>
+    <ID>333</ID>
+    <Code>VO</Code>
+    <Name>TYROLEAN AIRWAYS</Name>
+    <ICAO>333</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>VP</Code>
+    <Name>VILLA AIR</Name>
+    <ICAO>VQI</ICAO>
+  </Airline>
+  <Airline>
+    <ID>855</ID>
+    <Code>VQ</Code>
+    <Name>NOVOAIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>696</ID>
+    <Code>VR</Code>
+    <Name>TACV CABO VERDE</Name>
+    <ICAO>696</ICAO>
+  </Airline>
+  <Airline>
+    <ID>932</ID>
+    <Code>VS</Code>
+    <Name>VIRGIN ATLANTIC</Name>
+    <ICAO>932</ICAO>
+  </Airline>
+  <Airline>
+    <ID>135</ID>
+    <Code>VT</Code>
+    <Name>AIR TAHITI</Name>
+    <ICAO>135</ICAO>
+  </Airline>
+  <Airline>
+    <ID>100</ID>
+    <Code>VU</Code>
+    <Name>VUELOS ECONOMICOS</Name>
+    <ICAO>VAR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>127</ID>
+    <Code>VV</Code>
+    <Name>AEROSVIT AIRLINES</Name>
+    <ICAO>127</ICAO>
+  </Airline>
+  <Airline>
+    <ID>942</ID>
+    <Code>VW</Code>
+    <Name>AEROMAR</Name>
+    <ICAO>942</ICAO>
+  </Airline>
+  <Airline>
+    <ID>984</ID>
+    <Code>VX</Code>
+    <Name>VIRGIN AMERICA</Name>
+    <ICAO>984</ICAO>
+  </Airline>
+  <Airline>
+    <ID>030</ID>
+    <Code>VY</Code>
+    <Name>VUELING AIRLINES SA</Name>
+    <ICAO>030</ICAO>
+  </Airline>
+  <Airline>
+    <ID>863</ID>
+    <Code>VZ</Code>
+    <Name>THAI VIETJET AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>365</ID>
+    <Code>W2</Code>
+    <Name>FLEXFLIGHT</Name>
+    <ICAO>FXT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>725</ID>
+    <Code>W3</Code>
+    <Name>ARIK AIR INTERNATIONAL</Name>
+    <ICAO>725</ICAO>
+  </Airline>
+  <Airline>
+    <ID>537</ID>
+    <Code>W5</Code>
+    <Name>MAHAN AIRLINES</Name>
+    <ICAO>IRM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>790</ID>
+    <Code>W6</Code>
+    <Name>WIZZ AIR HUNGARY</Name>
+    <ICAO>WZZ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>W7</Code>
+    <Name>WINGS OF LEBANON</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>W9</Code>
+    <Name>WIZZ AIR UK</Name>
+    <ICAO>WUK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>WA</Code>
+    <Name>KLM CITYHOPPER</Name>
+    <ICAO>KLC</ICAO>
+  </Airline>
+  <Airline>
+    <ID>459</ID>
+    <Code>WB</Code>
+    <Name>RWANDAIR</Name>
+    <ICAO>459</ICAO>
+  </Airline>
+  <Airline>
+    <ID>110</ID>
+    <Code>WC</Code>
+    <Name>AVIANCA HONDURAS</Name>
+    <ICAO>110</ICAO>
+  </Airline>
+  <Airline>
+    <ID>909</ID>
+    <Code>WE</Code>
+    <Name>THAI SMILE AIRWAYS</Name>
+    <ICAO>909</ICAO>
+  </Airline>
+  <Airline>
+    <ID>701</ID>
+    <Code>WF</Code>
+    <Name>WIDEROE</Name>
+    <ICAO>701</ICAO>
+  </Airline>
+  <Airline>
+    <ID>292</ID>
+    <Code>WG</Code>
+    <Name>SUNWING AIRLINES INC.</Name>
+    <ICAO>SWG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>WH</Code>
+    <Name>WDL AVIATION</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>097</ID>
+    <Code>WI</Code>
+    <Name>WHITE AIRWAYS S.A.</Name>
+    <ICAO>097</ICAO>
+  </Airline>
+  <Airline>
+    <ID>927</ID>
+    <Code>WJ</Code>
+    <Name>LABRADOR AIRWAYS LIMITED</Name>
+    <ICAO>LAL</ICAO>
+  </Airline>
+  <Airline>
+    <ID>945</ID>
+    <Code>WK</Code>
+    <Name>EDELWEISS AIR</Name>
+    <ICAO>945</ICAO>
+  </Airline>
+  <Airline>
+    <ID>295</ID>
+    <Code>WM</Code>
+    <Name>WINDWARD ISLAND AIRWAYS</Name>
+    <ICAO>WIA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>526</ID>
+    <Code>WN</Code>
+    <Name>SOUTHWEST AIRLINES TEXAS</Name>
+    <ICAO>SWA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>995</ID>
+    <Code>WO</Code>
+    <Name>SWOOP</Name>
+    <ICAO>WSW</ICAO>
+  </Airline>
+  <Airline>
+    <ID>347</ID>
+    <Code>WP</Code>
+    <Name>ISLAND AIR</Name>
+    <ICAO>347</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>WR</Code>
+    <Name>WESTJET ENCORE LTD</Name>
+    <ICAO>WEN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>838</ID>
+    <Code>WS</Code>
+    <Name>WESTJET</Name>
+    <ICAO>838</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>WU</Code>
+    <Name>JETWAYS AIRLINES LIMITED</Name>
+    <ICAO>JWX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>614</ID>
+    <Code>WV</Code>
+    <Name>WESTAIR AVIATION</Name>
+    <ICAO>WAA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>377</ID>
+    <Code>WW</Code>
+    <Name>WOW AIR</Name>
+    <ICAO>377</ICAO>
+  </Airline>
+  <Airline>
+    <ID>689</ID>
+    <Code>WX</Code>
+    <Name>CITYJET</Name>
+    <ICAO>689</ICAO>
+  </Airline>
+  <Airline>
+    <ID>910</ID>
+    <Code>WY</Code>
+    <Name>OMAN AIR</Name>
+    <ICAO>910</ICAO>
+  </Airline>
+  <Airline>
+    <ID>309</ID>
+    <Code>WZ</Code>
+    <Name>RED WINDS</Name>
+    <ICAO>309</ICAO>
+  </Airline>
+  <Airline>
+    <ID>617</ID>
+    <Code>X3</Code>
+    <Name>TUIFLY</Name>
+    <ICAO>TUI</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>X9</Code>
+    <Name>AVION EXPRESS</Name>
+    <ICAO>NVD</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>XC</Code>
+    <Name>CORENDON AIRLINES</Name>
+    <ICAO>CAI</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>XD</Code>
+    <Name>ARC</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>040</ID>
+    <Code>XE</Code>
+    <Name>JETSUITEX</Name>
+    <ICAO>040</ICAO>
+  </Airline>
+  <Airline>
+    <ID>277</ID>
+    <Code>XF</Code>
+    <Name>VLADIVOSTOK AIR</Name>
+    <ICAO>VLK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>XG</Code>
+    <Name>SUNEXPRESS GERMANY</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>940</ID>
+    <Code>XJ</Code>
+    <Name>MESABA AVIATION</Name>
+    <ICAO>940</ICAO>
+  </Airline>
+  <Airline>
+    <ID>146</ID>
+    <Code>XK</Code>
+    <Name>AIR CORSICA</Name>
+    <ICAO>146</ICAO>
+  </Airline>
+  <Airline>
+    <ID>462</ID>
+    <Code>XL</Code>
+    <Name>LAN ECUADOR AEROLANE SA</Name>
+    <ICAO>462</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>XM</Code>
+    <Name>C.A.I. FIRST S.P.A.</Name>
+    <ICAO>SMX</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>XN</Code>
+    <Name>TRAVEL EXPRESS AVIATION</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>XO</Code>
+    <Name>SEAIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>XP</Code>
+    <Name>XTRA AIRWAYS</Name>
+    <ICAO>CXP</ICAO>
+  </Airline>
+  <Airline>
+    <ID>564</ID>
+    <Code>XQ</Code>
+    <Name>SUN EXPRESS</Name>
+    <ICAO>564</ICAO>
+  </Airline>
+  <Airline>
+    <ID>187</ID>
+    <Code>XR</Code>
+    <Name>CORENDON AIRLINES EUROPE</Name>
+    <ICAO>CXI</ICAO>
+  </Airline>
+  <Airline>
+    <ID>809</ID>
+    <Code>XT</Code>
+    <Name>INDONESIA AIRASIA EXTRA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>XU</Code>
+    <Name>AFRICAN EXPRESS AIRWAYS</Name>
+    <ICAO>AXK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>478</ID>
+    <Code>XW</Code>
+    <Name>NOKSCOOT AIRLINES</Name>
+    <ICAO>NCT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>593</ID>
+    <Code>XY</Code>
+    <Name>FLYNAS</Name>
+    <ICAO>KNE</ICAO>
+  </Airline>
+  <Airline>
+    <ID>029</ID>
+    <Code>XZ</Code>
+    <Name>SOUTH AFRICAN EXPRESS</Name>
+    <ICAO>029</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>Y2</Code>
+    <Name>AIR CENTURY</Name>
+    <ICAO>CEY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>036</ID>
+    <Code>Y4</Code>
+    <Name>VOLARIS</Name>
+    <ICAO>VOI</ICAO>
+  </Airline>
+  <Airline>
+    <ID>476</ID>
+    <Code>Y7</Code>
+    <Name>NORDSTAR</Name>
+    <ICAO>TYA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>780</ID>
+    <Code>Y9</Code>
+    <Name>KISH AIRLINES</Name>
+    <ICAO>IRK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>YB</Code>
+    <Name>HARBOUR AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>664</ID>
+    <Code>YC</Code>
+    <Name>YAMAL AIRLINES</Name>
+    <ICAO>LLM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>206</ID>
+    <Code>YE</Code>
+    <Name>YAN AIR</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>363</ID>
+    <Code>YH</Code>
+    <Name>AIR THANLWIN</Name>
+    <ICAO>AYG</ICAO>
+  </Airline>
+  <Airline>
+    <ID>601</ID>
+    <Code>YJ</Code>
+    <Name>ASIAN WINGS AIRWAYS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>511</ID>
+    <Code>YK</Code>
+    <Name>AVIA TRAFFIC COMPANY</Name>
+    <ICAO>AVJ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>368</ID>
+    <Code>YL</Code>
+    <Name>LIBYAN WINGS AIRLINE</Name>
+    <ICAO>LWA</ICAO>
+  </Airline>
+  <Airline>
+    <ID>409</ID>
+    <Code>YM</Code>
+    <Name>MONTENEGRO AIRLINES</Name>
+    <ICAO>409</ICAO>
+  </Airline>
+  <Airline>
+    <ID>219</ID>
+    <Code>YN</Code>
+    <Name>AIR CREEBEC INC</Name>
+    <ICAO>219</ICAO>
+  </Airline>
+  <Airline>
+    <ID>747</ID>
+    <Code>YO</Code>
+    <Name>HELI AIR MONACO</Name>
+    <ICAO>MCM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>YQ</Code>
+    <Name>LINK CONEXION AEREA</Name>
+    <ICAO>LCT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>398</ID>
+    <Code>YR</Code>
+    <Name>SCENIC AIRLINES</Name>
+    <ICAO>EGJ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>YS</Code>
+    <Name>HOP REGIONAL</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>YT</Code>
+    <Name>YETI AIRLINES</Name>
+    <ICAO>NYT</ICAO>
+  </Airline>
+  <Airline>
+    <ID>551</ID>
+    <Code>YU</Code>
+    <Name>EUROATLANTIC AIRWAYS</Name>
+    <ICAO>551</ICAO>
+  </Airline>
+  <Airline>
+    <ID>533</ID>
+    <Code>YV</Code>
+    <Name>MESA AIRLINES</Name>
+    <ICAO>533</ICAO>
+  </Airline>
+  <Airline>
+    <ID>694</ID>
+    <Code>YW</Code>
+    <Name>AIR NOSTRUM</Name>
+    <ICAO>694</ICAO>
+  </Airline>
+  <Airline>
+    <ID>453</ID>
+    <Code>YX</Code>
+    <Name>REPUBLIC AIRLINE</Name>
+    <ICAO>453</ICAO>
+  </Airline>
+  <Airline>
+    <ID>457</ID>
+    <Code>Z2</Code>
+    <Name>PHILIPPINES AIRASIA</Name>
+    <ICAO>EZD</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>Z3</Code>
+    <Name>BIDZY TA HOT AANA CORPORATION</Name>
+    <ICAO>TNR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>541</ID>
+    <Code>Z4</Code>
+    <Name>ZAGROS JET</Name>
+    <ICAO>GZQ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>181</ID>
+    <Code>Z6</Code>
+    <Name>DNIPROAVIA</Name>
+    <ICAO>UDN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>464</ID>
+    <Code>Z8</Code>
+    <Name>AMASZONAS S.A.</Name>
+    <ICAO>464</ICAO>
+  </Airline>
+  <Airline>
+    <ID>183</ID>
+    <Code>Z9</Code>
+    <Name>JSC BEK AIR</Name>
+    <ICAO>BEK</ICAO>
+  </Airline>
+  <Airline>
+    <ID>969</ID>
+    <Code>ZA</Code>
+    <Name>SKY ANGKOR AIRLINES</Name>
+    <ICAO>SWM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>667</ID>
+    <Code>ZB</Code>
+    <Name>AIR ALBANIA</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>557</ID>
+    <Code>ZC</Code>
+    <Name>KORONGO AIRLINES</Name>
+    <ICAO>557</ICAO>
+  </Airline>
+  <Airline>
+    <ID>732</ID>
+    <Code>ZD</Code>
+    <Name>EWA AIR</Name>
+    <ICAO>EWR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>839</ID>
+    <Code>ZE</Code>
+    <Name>EASTAR JET</Name>
+    <ICAO>ESR</ICAO>
+  </Airline>
+  <Airline>
+    <ID>037</ID>
+    <Code>ZF</Code>
+    <Name>AZUR AIR</Name>
+    <ICAO>AZV</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>ZG</Code>
+    <Name>GROZNYY AVIA</Name>
+    <ICAO>GOZ</ICAO>
+  </Airline>
+  <Airline>
+    <ID>479</ID>
+    <Code>ZH</Code>
+    <Name>SHENZHEN AIRLINES</Name>
+    <ICAO>479</ICAO>
+  </Airline>
+  <Airline>
+    <ID>439</ID>
+    <Code>ZI</Code>
+    <Name>AIGLE AZUL</Name>
+    <ICAO>439</ICAO>
+  </Airline>
+  <Airline>
+    <ID>846</ID>
+    <Code>ZK</Code>
+    <Name>GREAT LAKES AVIATION</Name>
+    <ICAO>846</ICAO>
+  </Airline>
+  <Airline>
+    <ID>899</ID>
+    <Code>ZL</Code>
+    <Name>REGIONAL EXPRESS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>887</ID>
+    <Code>ZM</Code>
+    <Name>AIR MANAS</Name>
+    <ICAO>MBB</ICAO>
+  </Airline>
+  <Airline>
+    <ID>595</ID>
+    <Code>ZN</Code>
+    <Name>NAYSA</Name>
+    <ICAO>NAY</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>ZO</Code>
+    <Name>COLORFUL YUNNAN GENERAL AVIATION</Name>
+    <ICAO>CYN</ICAO>
+  </Airline>
+  <Airline>
+    <ID>445</ID>
+    <Code>ZP</Code>
+    <Name>PARANAIR</Name>
+    <ICAO>AZP</ICAO>
+  </Airline>
+  <Airline>
+    <ID>419</ID>
+    <Code>ZQ</Code>
+    <Name>AZMAN AIR SERVICES</Name>
+    <ICAO>AZM</ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>ZT</Code>
+    <Name>TITAN AIRWAYS</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>971</ID>
+    <Code>ZU</Code>
+    <Name>ETHIOPIAN MOZAMBIQUE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>303</ID>
+    <Code>ZW</Code>
+    <Name>AIR WISCONSIN</Name>
+    <ICAO>303</ICAO>
+  </Airline>
+  <Airline>
+    <ID></ID>
+    <Code>ZX</Code>
+    <Name>AIR ALLIANCE</Name>
+    <ICAO></ICAO>
+  </Airline>
+  <Airline>
+    <ID>000</ID>
+    <Code>ZY</Code>
+    <Name>CHINA AIR CARGO</Name>
+    <ICAO></ICAO>
+  </Airline>
+</TTWSAirlines>

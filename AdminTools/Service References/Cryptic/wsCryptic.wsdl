@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tripxml.downtowntravel.com/tripxml/wsCryptic" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tripxml.downtowntravel.com/tripxml/wsCryptic" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">A TripXML Web Service to Process Cryptic Messages Request.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tripxml.downtowntravel.com/tripxml/wsCryptic">
+      <s:element name="wmCryptic">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CrypticRQ" type="tns:CrypticRQ" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CrypticRQ">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="POS" type="tns:POS" />
+          <s:element minOccurs="0" maxOccurs="1" name="Entry" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="POS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Source" type="tns:Source" />
+          <s:element minOccurs="0" maxOccurs="1" name="TPA_Extensions" type="tns:TPA_Extensions" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Source">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RequestorID" type="tns:RequestorID" />
+        </s:sequence>
+        <s:attribute name="PseudoCityCode" type="s:string" />
+      </s:complexType>
+      <s:complexType name="RequestorID">
+        <s:attribute name="ID" type="s:string" />
+      </s:complexType>
+      <s:complexType name="TPA_Extensions">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Provider" type="tns:Provider" />
+          <s:element minOccurs="0" maxOccurs="1" name="ConversationID" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Provider">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="System" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Userid" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="wmCrypticResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CrypticRS" type="tns:CrypticRS" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="CrypticRS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Success" type="tns:Success" />
+          <s:element minOccurs="0" maxOccurs="1" name="Errors" type="tns:ArrayOfError" />
+          <s:element minOccurs="0" maxOccurs="1" name="Response" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Screen" type="tns:ArrayOfLine" />
+          <s:element minOccurs="0" maxOccurs="1" name="ConversationID" type="s:string" />
+        </s:sequence>
+        <s:attribute name="Version" type="s:string" />
+      </s:complexType>
+      <s:complexType name="Success" />
+      <s:complexType name="ArrayOfError">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Error" type="tns:Error" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Error">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="Type" type="s:string" />
+            <s:attribute name="Code" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfLine">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Line" type="tns:Line" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Line">
+        <s:simpleContent>
+          <s:extension base="s:string" />
+        </s:simpleContent>
+      </s:complexType>
+      <s:element name="TripXML" type="tns:TripXML" />
+      <s:complexType name="TripXML">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="userName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="compressed" type="s:boolean" />
+        </s:sequence>
+        <s:anyAttribute />
+      </s:complexType>
+      <s:element name="wmCrypticXml">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xmlRequest" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="wmCrypticXmlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="wmCrypticXmlResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="wmCrypticSoapIn">
+    <wsdl:part name="parameters" element="tns:wmCryptic" />
+  </wsdl:message>
+  <wsdl:message name="wmCrypticSoapOut">
+    <wsdl:part name="parameters" element="tns:wmCrypticResponse" />
+  </wsdl:message>
+  <wsdl:message name="wmCrypticTripXML">
+    <wsdl:part name="TripXML" element="tns:TripXML" />
+  </wsdl:message>
+  <wsdl:message name="wmCrypticXmlSoapIn">
+    <wsdl:part name="parameters" element="tns:wmCrypticXml" />
+  </wsdl:message>
+  <wsdl:message name="wmCrypticXmlSoapOut">
+    <wsdl:part name="parameters" element="tns:wmCrypticXmlResponse" />
+  </wsdl:message>
+  <wsdl:message name="wmCrypticXmlHttpGetIn">
+    <wsdl:part name="xmlRequest" type="s:string" />
+  </wsdl:message>
+  <wsdl:message name="wmCrypticXmlHttpGetOut">
+    <wsdl:part name="Body" element="tns:string" />
+  </wsdl:message>
+  <wsdl:portType name="wsCrypticSoap">
+    <wsdl:operation name="wmCryptic">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Cryptic Messages Request.</wsdl:documentation>
+      <wsdl:input message="tns:wmCrypticSoapIn" />
+      <wsdl:output message="tns:wmCrypticSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="wmCrypticXml">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Cryptic Xml Messages Request.</wsdl:documentation>
+      <wsdl:input message="tns:wmCrypticXmlSoapIn" />
+      <wsdl:output message="tns:wmCrypticXmlSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="wsCrypticHttpGet">
+    <wsdl:operation name="wmCrypticXml">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Process Cryptic Xml Messages Request.</wsdl:documentation>
+      <wsdl:input message="tns:wmCrypticXmlHttpGetIn" />
+      <wsdl:output message="tns:wmCrypticXmlHttpGetOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="wsCrypticSoap" type="tns:wsCrypticSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="wmCryptic">
+      <soap:operation soapAction="http://tripxml.downtowntravel.com/tripxml/wsCryptic/wmCryptic" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+        <soap:header message="tns:wmCrypticTripXML" part="TripXML" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="wmCrypticXml">
+      <soap:operation soapAction="http://tripxml.downtowntravel.com/tripxml/wsCryptic/wmCrypticXml" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsCrypticSoap12" type="tns:wsCrypticSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="wmCryptic">
+      <soap12:operation soapAction="http://tripxml.downtowntravel.com/tripxml/wsCryptic/wmCryptic" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+        <soap12:header message="tns:wmCrypticTripXML" part="TripXML" use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="wmCrypticXml">
+      <soap12:operation soapAction="http://tripxml.downtowntravel.com/tripxml/wsCryptic/wmCrypticXml" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsCrypticHttpGet" type="tns:wsCrypticHttpGet">
+    <http:binding verb="GET" />
+    <wsdl:operation name="wmCrypticXml">
+      <http:operation location="/wmCrypticXml" />
+      <wsdl:input>
+        <http:urlEncoded />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="wsCryptic">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">A TripXML Web Service to Process Cryptic Messages Request.</wsdl:documentation>
+    <wsdl:port name="wsCrypticSoap" binding="tns:wsCrypticSoap">
+      <soap:address location="http://kiev/tripxml/wsCryptic.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsCrypticSoap12" binding="tns:wsCrypticSoap12">
+      <soap12:address location="http://kiev/tripxml/wsCryptic.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsCrypticHttpGet" binding="tns:wsCrypticHttpGet">
+      <http:address location="http://kiev/tripxml/wsCryptic.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,6354 @@
+<TTWSCruiseCities>
+	<City>
+		<Code>AAL</Code>
+		<Name>AALBORG, DK</Name>
+	</City>
+	<City>
+		<Code>AAR</Code>
+		<Name>AARHUS, DK</Name>
+	</City>
+	<City>
+		<Code>ABE</Code>
+		<Name>ALLENTOWN BTHLEHM, US, PA</Name>
+	</City>
+	<City>
+		<Code>ABI</Code>
+		<Name>ABILENE (ABI), US, TX</Name>
+	</City>
+	<City>
+		<Code>ABJ</Code>
+		<Name>ABIDJAN, CI</Name>
+	</City>
+	<City>
+		<Code>ABQ</Code>
+		<Name>ALBUQUERQUE, US, NM</Name>
+	</City>
+	<City>
+		<Code>ABR</Code>
+		<Name>ABERDEEN, US, SD</Name>
+	</City>
+	<City>
+		<Code>ABY</Code>
+		<Name>ALBANY (ABY), US, GA</Name>
+	</City>
+	<City>
+		<Code>ABZ</Code>
+		<Name>ABERDEEN, GB</Name>
+	</City>
+	<City>
+		<Code>ACA</Code>
+		<Name>ACAPULCO, MX</Name>
+	</City>
+	<City>
+		<Code>ACC</Code>
+		<Name>ACCRA, GH</Name>
+	</City>
+	<City>
+		<Code>ACE</Code>
+		<Name>LANZAROTE, ES</Name>
+	</City>
+	<City>
+		<Code>ACK</Code>
+		<Name>NANTUCKET, US, MA</Name>
+	</City>
+	<City>
+		<Code>ACT</Code>
+		<Name>WACO (ACT), US, TX</Name>
+	</City>
+	<City>
+		<Code>ACV</Code>
+		<Name>ARCATA (ACV), US, CA</Name>
+	</City>
+	<City>
+		<Code>ACY</Code>
+		<Name>ATLANTIC CITY (ACY), US, NJ</Name>
+	</City>
+	<City>
+		<Code>ADB</Code>
+		<Name>IZMIR (ADB), TR</Name>
+	</City>
+	<City>
+		<Code>ADL</Code>
+		<Name>ADELAIDE, AU, SA</Name>
+	</City>
+	<City>
+		<Code>ADZ</Code>
+		<Name>SAN ANDRES ISLAND, CO</Name>
+	</City>
+	<City>
+		<Code>AEP</Code>
+		<Name>BUENOS AIRES (AEP), AR, BA</Name>
+	</City>
+	<City>
+		<Code>AES</Code>
+		<Name>AALESUND, NO</Name>
+	</City>
+	<City>
+		<Code>AEX</Code>
+		<Name>ALEXANDRIA (AEX), US, LA</Name>
+	</City>
+	<City>
+		<Code>AEY</Code>
+		<Name>AKUREYRI, IS</Name>
+	</City>
+	<City>
+		<Code>AGA</Code>
+		<Name>AGADIR, MA</Name>
+	</City>
+	<City>
+		<Code>AGB</Code>
+		<Name>MUNICH (AGB), DE</Name>
+	</City>
+	<City>
+		<Code>AGF</Code>
+		<Name>AGEN, FR</Name>
+	</City>
+	<City>
+		<Code>AGH</Code>
+		<Name>ANGELHOLM/HELSINGBORG, SE</Name>
+	</City>
+	<City>
+		<Code>AGP</Code>
+		<Name>MALAGA, ES</Name>
+	</City>
+	<City>
+		<Code>AGR</Code>
+		<Name>AGRA, IN</Name>
+	</City>
+	<City>
+		<Code>AGS</Code>
+		<Name>AUGUSTA (AGS), US, GA</Name>
+	</City>
+	<City>
+		<Code>AHN</Code>
+		<Name>ATHENS, US, GA</Name>
+	</City>
+	<City>
+		<Code>AHO</Code>
+		<Name>ALGHERO, IT</Name>
+	</City>
+	<City>
+		<Code>AIA</Code>
+		<Name>ALLIANCE, US, NE</Name>
+	</City>
+	<City>
+		<Code>AIY</Code>
+		<Name>ATLANTIC CITY (AIY), US, NJ</Name>
+	</City>
+	<City>
+		<Code>AJA</Code>
+		<Name>AJACCIO, FR</Name>
+	</City>
+	<City>
+		<Code>AJU</Code>
+		<Name>ARACAJU, BR, SE</Name>
+	</City>
+	<City>
+		<Code>AKL</Code>
+		<Name>AUCKLAND, NZ</Name>
+	</City>
+	<City>
+		<Code>AKN</Code>
+		<Name>KING SALMON, US, AK</Name>
+	</City>
+	<City>
+		<Code>ALA</Code>
+		<Name>ALMATY, KZ</Name>
+	</City>
+	<City>
+		<Code>ALB</Code>
+		<Name>ALBANY, US, NY</Name>
+	</City>
+	<City>
+		<Code>ALC</Code>
+		<Name>ALICANTE, ES</Name>
+	</City>
+	<City>
+		<Code>ALE</Code>
+		<Name>ALPINE, US, TX</Name>
+	</City>
+	<City>
+		<Code>ALF</Code>
+		<Name>ALTA, NO</Name>
+	</City>
+	<City>
+		<Code>ALM</Code>
+		<Name>ALAMOGORDO (ALM), US, NM</Name>
+	</City>
+	<City>
+		<Code>ALN</Code>
+		<Name>ALTON, US, IL</Name>
+	</City>
+	<City>
+		<Code>ALO</Code>
+		<Name>WATERLOO, US, IA</Name>
+	</City>
+	<City>
+		<Code>ALS</Code>
+		<Name>ALAMOSA, US, CO</Name>
+	</City>
+	<City>
+		<Code>ALW</Code>
+		<Name>WALLA WALLA, US, WA</Name>
+	</City>
+	<City>
+		<Code>ALY</Code>
+		<Name>ALEXANDRIA, EG</Name>
+	</City>
+	<City>
+		<Code>AMA</Code>
+		<Name>AMARILLO (AMA), US, TX</Name>
+	</City>
+	<City>
+		<Code>AMD</Code>
+		<Name>AHMEDABAD, IN</Name>
+	</City>
+	<City>
+		<Code>AMM</Code>
+		<Name>AMMAN (AMM), JO</Name>
+	</City>
+	<City>
+		<Code>AMS</Code>
+		<Name>AMSTERDAM, NL</Name>
+	</City>
+	<City>
+		<Code>ANB</Code>
+		<Name>ANNISTON, US, AL</Name>
+	</City>
+	<City>
+		<Code>ANC</Code>
+		<Name>ANCHORAGE (ANC), US, AK</Name>
+	</City>
+	<City>
+		<Code>AND</Code>
+		<Name>ANDERSON, US, SC</Name>
+	</City>
+	<City>
+		<Code>ANK</Code>
+		<Name>ANKARA (ANK), TR</Name>
+	</City>
+	<City>
+		<Code>ANR</Code>
+		<Name>ANTWERP, BE</Name>
+	</City>
+	<City>
+		<Code>ANU</Code>
+		<Name>ANTIGUA, AG</Name>
+	</City>
+	<City>
+		<Code>AOI</Code>
+		<Name>ANCONA, IT</Name>
+	</City>
+	<City>
+		<Code>AOO</Code>
+		<Name>ALTOONA, US, PA</Name>
+	</City>
+	<City>
+		<Code>APF</Code>
+		<Name>NAPLES, US, FL</Name>
+	</City>
+	<City>
+		<Code>APN</Code>
+		<Name>ALPENA, US, MI</Name>
+	</City>
+	<City>
+		<Code>AQJ</Code>
+		<Name>AQABA, JO</Name>
+	</City>
+	<City>
+		<Code>ARN</Code>
+		<Name>STOCKHOLM (ARN), SE</Name>
+	</City>
+	<City>
+		<Code>ART</Code>
+		<Name>WATERTOWN, US, NY</Name>
+	</City>
+	<City>
+		<Code>ARV</Code>
+		<Name>MINOCQUA, US, WI</Name>
+	</City>
+	<City>
+		<Code>ASE</Code>
+		<Name>ASPEN, US, CO</Name>
+	</City>
+	<City>
+		<Code>ASP</Code>
+		<Name>ALICE SPRINGS, AU, NT</Name>
+	</City>
+	<City>
+		<Code>AST</Code>
+		<Name>ASTORIA, US, OR</Name>
+	</City>
+	<City>
+		<Code>ASU</Code>
+		<Name>ASUNCION, PY</Name>
+	</City>
+	<City>
+		<Code>ATH</Code>
+		<Name>ATHENS, GR</Name>
+	</City>
+	<City>
+		<Code>ATL</Code>
+		<Name>ATLANTA (ATL), US, GA</Name>
+	</City>
+	<City>
+		<Code>ATW</Code>
+		<Name>APPLETON, US, WI</Name>
+	</City>
+	<City>
+		<Code>ATY</Code>
+		<Name>WATERTOWN, US, SD</Name>
+	</City>
+	<City>
+		<Code>AUA</Code>
+		<Name>ARUBA, AW</Name>
+	</City>
+	<City>
+		<Code>AUG</Code>
+		<Name>AUGUSTA, US, ME</Name>
+	</City>
+	<City>
+		<Code>AUS</Code>
+		<Name>AUSTIN, US, TX</Name>
+	</City>
+	<City>
+		<Code>AVL</Code>
+		<Name>ASHEVILLE, US, NC</Name>
+	</City>
+	<City>
+		<Code>AVN</Code>
+		<Name>AVIGNON, FR</Name>
+	</City>
+	<City>
+		<Code>AVP</Code>
+		<Name>SCRANTON (AVP), US, PA</Name>
+	</City>
+	<City>
+		<Code>AVX</Code>
+		<Name>CATALINA ISLAND (AVX), US, CA</Name>
+	</City>
+	<City>
+		<Code>AXA</Code>
+		<Name>ANGUILLA, AI</Name>
+	</City>
+	<City>
+		<Code>AYQ</Code>
+		<Name>AYERS ROCK, AU, NT</Name>
+	</City>
+	<City>
+		<Code>AYT</Code>
+		<Name>ANTALYA, TR</Name>
+	</City>
+	<City>
+		<Code>AZO</Code>
+		<Name>KALAMAZOO, US, MI</Name>
+	</City>
+	<City>
+		<Code>BAH</Code>
+		<Name>BAHRAIN, BH</Name>
+	</City>
+	<City>
+		<Code>BAU</Code>
+		<Name>BAURU, BR, SP</Name>
+	</City>
+	<City>
+		<Code>BBF</Code>
+		<Name>BURLINGTON, US, MA</Name>
+	</City>
+	<City>
+		<Code>BBQ</Code>
+		<Name>BARBUDA, AG</Name>
+	</City>
+	<City>
+		<Code>BCN</Code>
+		<Name>BARCELONA, ES</Name>
+	</City>
+	<City>
+		<Code>BCT</Code>
+		<Name>BOCA RATON, US, FL</Name>
+	</City>
+	<City>
+		<Code>BDA</Code>
+		<Name>BERMUDA (BDA), BM</Name>
+	</City>
+	<City>
+		<Code>BDF</Code>
+		<Name>BRADFORD, US, IL</Name>
+	</City>
+	<City>
+		<Code>BDL</Code>
+		<Name>HARTFORD (BDL), US, CT</Name>
+	</City>
+	<City>
+		<Code>BDR</Code>
+		<Name>BRIDGEPORT, US, CT</Name>
+	</City>
+	<City>
+		<Code>BDS</Code>
+		<Name>BRINDISI, IT</Name>
+	</City>
+	<City>
+		<Code>BDU</Code>
+		<Name>BARDUFOSS, NO</Name>
+	</City>
+	<City>
+		<Code>BEB</Code>
+		<Name>BENBECULA, GB</Name>
+	</City>
+	<City>
+		<Code>BED</Code>
+		<Name>BEDFORD, US, MA</Name>
+	</City>
+	<City>
+		<Code>BEG</Code>
+		<Name>BELGRADE (BEG), CS</Name>
+	</City>
+	<City>
+		<Code>BEH</Code>
+		<Name>BENTON HARBOR, US, MI</Name>
+	</City>
+	<City>
+		<Code>BEL</Code>
+		<Name>BELEM, BR, PA</Name>
+	</City>
+	<City>
+		<Code>BER</Code>
+		<Name>BERLIN, DE</Name>
+	</City>
+	<City>
+		<Code>BES</Code>
+		<Name>BREST, FR</Name>
+	</City>
+	<City>
+		<Code>BET</Code>
+		<Name>BETHEL (BET), US, AK</Name>
+	</City>
+	<City>
+		<Code>BFD</Code>
+		<Name>BRADFORD, US, PA</Name>
+	</City>
+	<City>
+		<Code>BFF</Code>
+		<Name>SCOTTSBLUFF, US, NE</Name>
+	</City>
+	<City>
+		<Code>BFL</Code>
+		<Name>BAKERSFIELD, US, CA</Name>
+	</City>
+	<City>
+		<Code>BFM</Code>
+		<Name>MOBILE (BFM), US, AL</Name>
+	</City>
+	<City>
+		<Code>BFS</Code>
+		<Name>BELFAST (BFS), GB</Name>
+	</City>
+	<City>
+		<Code>BGI</Code>
+		<Name>BRIDGETOWN, BB</Name>
+	</City>
+	<City>
+		<Code>BGM</Code>
+		<Name>BINGHAMTON, US, NY</Name>
+	</City>
+	<City>
+		<Code>BGO</Code>
+		<Name>BERGEN, NO</Name>
+	</City>
+	<City>
+		<Code>BGR</Code>
+		<Name>BANGOR, US, ME</Name>
+	</City>
+	<City>
+		<Code>BGY</Code>
+		<Name>MILAN (BGY), IT</Name>
+	</City>
+	<City>
+		<Code>BHB</Code>
+		<Name>BAR HARBOUR, US, ME</Name>
+	</City>
+	<City>
+		<Code>BHC</Code>
+		<Name>BHURBAN, PK</Name>
+	</City>
+	<City>
+		<Code>BHD</Code>
+		<Name>BELFAST (BHD), GB</Name>
+	</City>
+	<City>
+		<Code>BHI</Code>
+		<Name>BAHIA BLANCA, AR, BA</Name>
+	</City>
+	<City>
+		<Code>BHM</Code>
+		<Name>BIRMINGHAM, US, AL</Name>
+	</City>
+	<City>
+		<Code>BHX</Code>
+		<Name>BIRMINGHAM, GB</Name>
+	</City>
+	<City>
+		<Code>BHZ</Code>
+		<Name>BELO HORIZONTE, BR, MG</Name>
+	</City>
+	<City>
+		<Code>BIA</Code>
+		<Name>BASTIA, FR</Name>
+	</City>
+	<City>
+		<Code>BID</Code>
+		<Name>BLOCK ISLAND, US, RI</Name>
+	</City>
+	<City>
+		<Code>BIG</Code>
+		<Name>BIG DELTA, US, AK</Name>
+	</City>
+	<City>
+		<Code>BIH</Code>
+		<Name>BISHOP, US, CA</Name>
+	</City>
+	<City>
+		<Code>BIL</Code>
+		<Name>BILLINGS, US, MT</Name>
+	</City>
+	<City>
+		<Code>BIM</Code>
+		<Name>BIMINI (BIM), BS</Name>
+	</City>
+	<City>
+		<Code>BIO</Code>
+		<Name>BILBAO, ES</Name>
+	</City>
+	<City>
+		<Code>BIQ</Code>
+		<Name>BIARRITZ, FR</Name>
+	</City>
+	<City>
+		<Code>BIS</Code>
+		<Name>BISMARCK, US, ND</Name>
+	</City>
+	<City>
+		<Code>BJI</Code>
+		<Name>BEMIDJI, US, MN</Name>
+	</City>
+	<City>
+		<Code>BJS</Code>
+		<Name>BEIJING, CN</Name>
+	</City>
+	<City>
+		<Code>BJX</Code>
+		<Name>LEON, MX</Name>
+	</City>
+	<City>
+		<Code>BKC</Code>
+		<Name>BUCKLAND, US, AK</Name>
+	</City>
+	<City>
+		<Code>BKI</Code>
+		<Name>KOTA KINABALU, MY</Name>
+	</City>
+	<City>
+		<Code>BKK</Code>
+		<Name>BANGKOK, TH</Name>
+	</City>
+	<City>
+		<Code>BKL</Code>
+		<Name>CLEVELAND (BKL), US, OH</Name>
+	</City>
+	<City>
+		<Code>BKW</Code>
+		<Name>BECKLEY, US, WV</Name>
+	</City>
+	<City>
+		<Code>BKX</Code>
+		<Name>BROOKINGS, US, SD</Name>
+	</City>
+	<City>
+		<Code>BLF</Code>
+		<Name>BLUEFIELD, US, WV</Name>
+	</City>
+	<City>
+		<Code>BLG</Code>
+		<Name>BELAGA, MY</Name>
+	</City>
+	<City>
+		<Code>BLI</Code>
+		<Name>BELLINGHAM, US, WA</Name>
+	</City>
+	<City>
+		<Code>BLK</Code>
+		<Name>BLACKPOOL, GB</Name>
+	</City>
+	<City>
+		<Code>BLL</Code>
+		<Name>BILLUND, DK</Name>
+	</City>
+	<City>
+		<Code>BLQ</Code>
+		<Name>BOLOGNA, IT</Name>
+	</City>
+	<City>
+		<Code>BMA</Code>
+		<Name>STOCKHOLM (BMA), SE</Name>
+	</City>
+	<City>
+		<Code>BMG</Code>
+		<Name>BLOOMINGTON, US, IN</Name>
+	</City>
+	<City>
+		<Code>BMI</Code>
+		<Name>BLOOMINGTON, US, IL</Name>
+	</City>
+	<City>
+		<Code>BMN</Code>
+		<Name>BAMERNY, IQ</Name>
+	</City>
+	<City>
+		<Code>BNA</Code>
+		<Name>NASHVILLE, US, TN</Name>
+	</City>
+	<City>
+		<Code>BNE</Code>
+		<Name>BRISBANE, AU, QL</Name>
+	</City>
+	<City>
+		<Code>BNG</Code>
+		<Name>BANNING, US, CA</Name>
+	</City>
+	<City>
+		<Code>BNI</Code>
+		<Name>BENIN CITY, NG</Name>
+	</City>
+	<City>
+		<Code>BOD</Code>
+		<Name>BORDEAUX, FR</Name>
+	</City>
+	<City>
+		<Code>BOG</Code>
+		<Name>BOGOTA, CO</Name>
+	</City>
+	<City>
+		<Code>BOH</Code>
+		<Name>BOURNEMOUTH, GB</Name>
+	</City>
+	<City>
+		<Code>BOI</Code>
+		<Name>BOISE, US, ID</Name>
+	</City>
+	<City>
+		<Code>BOJ</Code>
+		<Name>BOURGAS, BG</Name>
+	</City>
+	<City>
+		<Code>BOM</Code>
+		<Name>MUMBAI, IN</Name>
+	</City>
+	<City>
+		<Code>BON</Code>
+		<Name>BONAIRE, AN</Name>
+	</City>
+	<City>
+		<Code>BOO</Code>
+		<Name>BODO, NO</Name>
+	</City>
+	<City>
+		<Code>BOS</Code>
+		<Name>BOSTON, US, MA</Name>
+	</City>
+	<City>
+		<Code>BPT</Code>
+		<Name>BEAUMONT (BPT), US, TX</Name>
+	</City>
+	<City>
+		<Code>BQK</Code>
+		<Name>BRUNSWICK (BQK), US, GA</Name>
+	</City>
+	<City>
+		<Code>BQN</Code>
+		<Name>AGUADILLA, PR</Name>
+	</City>
+	<City>
+		<Code>BRC</Code>
+		<Name>SAN CARLOS DE BARILOCHE, AR, RN</Name>
+	</City>
+	<City>
+		<Code>BRD</Code>
+		<Name>BRAINERD, US, MN</Name>
+	</City>
+	<City>
+		<Code>BRE</Code>
+		<Name>BREMEN, DE</Name>
+	</City>
+	<City>
+		<Code>BRI</Code>
+		<Name>BARI, IT</Name>
+	</City>
+	<City>
+		<Code>BRL</Code>
+		<Name>BURLINGTON, US, IA</Name>
+	</City>
+	<City>
+		<Code>BRM</Code>
+		<Name>BARQUISIMETO, VE</Name>
+	</City>
+	<City>
+		<Code>BRN</Code>
+		<Name>BERNE, CH</Name>
+	</City>
+	<City>
+		<Code>BRO</Code>
+		<Name>BROWNSVILLE, US, TX</Name>
+	</City>
+	<City>
+		<Code>BRR</Code>
+		<Name>BARRA, GB</Name>
+	</City>
+	<City>
+		<Code>BRS</Code>
+		<Name>BRISTOL, GB</Name>
+	</City>
+	<City>
+		<Code>BRU</Code>
+		<Name>BRUSSELS (BRU), BE</Name>
+	</City>
+	<City>
+		<Code>BRW</Code>
+		<Name>BARROW (BRW), US, AK</Name>
+	</City>
+	<City>
+		<Code>BSB</Code>
+		<Name>BRASILIA, BR, DF</Name>
+	</City>
+	<City>
+		<Code>BSL</Code>
+		<Name>BASEL MULHOUSE (BSL), CH</Name>
+	</City>
+	<City>
+		<Code>BTF</Code>
+		<Name>BOUNTIFUL, US, UT</Name>
+	</City>
+	<City>
+		<Code>BTI</Code>
+		<Name>BARTER ISLAND, US, AK</Name>
+	</City>
+	<City>
+		<Code>BTM</Code>
+		<Name>BUTTE, US, MT</Name>
+	</City>
+	<City>
+		<Code>BTR</Code>
+		<Name>BATON ROUGE (BTR), US, LA</Name>
+	</City>
+	<City>
+		<Code>BTT</Code>
+		<Name>BETTLES, US, AK</Name>
+	</City>
+	<City>
+		<Code>BTV</Code>
+		<Name>BURLINGTON, US, VT</Name>
+	</City>
+	<City>
+		<Code>BUD</Code>
+		<Name>BUDAPEST, HU</Name>
+	</City>
+	<City>
+		<Code>BUE</Code>
+		<Name>BUENOS AIRES, AR, BA</Name>
+	</City>
+	<City>
+		<Code>BUF</Code>
+		<Name>BUFFALO, US, NY</Name>
+	</City>
+	<City>
+		<Code>BUH</Code>
+		<Name>BUCHAREST, RO</Name>
+	</City>
+	<City>
+		<Code>BUR</Code>
+		<Name>BURBANK, US, CA</Name>
+	</City>
+	<City>
+		<Code>BUS</Code>
+		<Name>BATUMI, GE</Name>
+	</City>
+	<City>
+		<Code>BVE</Code>
+		<Name>BRIVE LA GAILLARD, FR</Name>
+	</City>
+	<City>
+		<Code>BWD</Code>
+		<Name>BROWNWOOD, US, TX</Name>
+	</City>
+	<City>
+		<Code>BWI</Code>
+		<Name>WASHINGTON (BWI), US, MD</Name>
+	</City>
+	<City>
+		<Code>BWN</Code>
+		<Name>BANDAR SERI BEGAWAN, BN</Name>
+	</City>
+	<City>
+		<Code>BXC</Code>
+		<Name>BOXBOROUGH, US, MA</Name>
+	</City>
+	<City>
+		<Code>BXN</Code>
+		<Name>BODRUM (BXN), TR</Name>
+	</City>
+	<City>
+		<Code>BYA</Code>
+		<Name>BOUNDARY, US, AK</Name>
+	</City>
+	<City>
+		<Code>BYU</Code>
+		<Name>BAYREUTH, DE</Name>
+	</City>
+	<City>
+		<Code>BZE</Code>
+		<Name>BELIZE CITY (BZE), BZ</Name>
+	</City>
+	<City>
+		<Code>BZN</Code>
+		<Name>BOZEMAN, US, MT</Name>
+	</City>
+	<City>
+		<Code>BZR</Code>
+		<Name>BEZIERS, FR</Name>
+	</City>
+	<City>
+		<Code>CAE</Code>
+		<Name>COLUMBIA (CAE), US, SC</Name>
+	</City>
+	<City>
+		<Code>CAG</Code>
+		<Name>CAGLIARI, IT</Name>
+	</City>
+	<City>
+		<Code>CAI</Code>
+		<Name>CAIRO, EG</Name>
+	</City>
+	<City>
+		<Code>CAK</Code>
+		<Name>CANTON AKRON (CAK), US, OH</Name>
+	</City>
+	<City>
+		<Code>CAN</Code>
+		<Name>GUANGZHOU, CN</Name>
+	</City>
+	<City>
+		<Code>CAS</Code>
+		<Name>CASABLANCA (CAS), MA</Name>
+	</City>
+	<City>
+		<Code>CBE</Code>
+		<Name>CUMBERLAND, US, MD</Name>
+	</City>
+	<City>
+		<Code>CBG</Code>
+		<Name>CAMBRIDGE, GB</Name>
+	</City>
+	<City>
+		<Code>CBR</Code>
+		<Name>CANBERRA, AU, AC</Name>
+	</City>
+	<City>
+		<Code>CCF</Code>
+		<Name>CARCASSONNE, FR</Name>
+	</City>
+	<City>
+		<Code>CCR</Code>
+		<Name>CONCORD, US, CA</Name>
+	</City>
+	<City>
+		<Code>CCS</Code>
+		<Name>CARACAS, VE</Name>
+	</City>
+	<City>
+		<Code>CCU</Code>
+		<Name>KOLKATA, IN</Name>
+	</City>
+	<City>
+		<Code>CDB</Code>
+		<Name>COLD BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>CDC</Code>
+		<Name>CEDAR CITY, US, UT</Name>
+	</City>
+	<City>
+		<Code>CDG</Code>
+		<Name>PARIS (CDG), FR</Name>
+	</City>
+	<City>
+		<Code>CDH</Code>
+		<Name>CAMDEN, US, AR</Name>
+	</City>
+	<City>
+		<Code>CDR</Code>
+		<Name>CHADRON, US, NE</Name>
+	</City>
+	<City>
+		<Code>CDV</Code>
+		<Name>CORDOVA (CDV), US, AK</Name>
+	</City>
+	<City>
+		<Code>CEB</Code>
+		<Name>CEBU, PH</Name>
+	</City>
+	<City>
+		<Code>CEC</Code>
+		<Name>CRESCENT CITY, US, CA</Name>
+	</City>
+	<City>
+		<Code>CEF</Code>
+		<Name>SPRINGFIELD (CEF), US, MA</Name>
+	</City>
+	<City>
+		<Code>CEM</Code>
+		<Name>CENTRAL, US, AK</Name>
+	</City>
+	<City>
+		<Code>CEQ</Code>
+		<Name>CANNES, FR</Name>
+	</City>
+	<City>
+		<Code>CER</Code>
+		<Name>CHERBOURG, FR</Name>
+	</City>
+	<City>
+		<Code>CEZ</Code>
+		<Name>CORTEZ, US, CO</Name>
+	</City>
+	<City>
+		<Code>CFE</Code>
+		<Name>CLERMONT FERRAND, FR</Name>
+	</City>
+	<City>
+		<Code>CFN</Code>
+		<Name>DONEGAL, IE</Name>
+	</City>
+	<City>
+		<Code>CFR</Code>
+		<Name>CAEN, FR</Name>
+	</City>
+	<City>
+		<Code>CFU</Code>
+		<Name>KERKYRA, GR</Name>
+	</City>
+	<City>
+		<Code>CGA</Code>
+		<Name>CRAIG, US, AK</Name>
+	</City>
+	<City>
+		<Code>CGB</Code>
+		<Name>CUIABA, BR, MT</Name>
+	</City>
+	<City>
+		<Code>CGD</Code>
+		<Name>CHANGDE, CN</Name>
+	</City>
+	<City>
+		<Code>CGH</Code>
+		<Name>SAO PAULO (CGH), BR, SP</Name>
+	</City>
+	<City>
+		<Code>CGI</Code>
+		<Name>CAPE GIRARDEAU, US, MO</Name>
+	</City>
+	<City>
+		<Code>CGN</Code>
+		<Name>COLOGNE, DE</Name>
+	</City>
+	<City>
+		<Code>CGT</Code>
+		<Name>CHINGUITTI, MR</Name>
+	</City>
+	<City>
+		<Code>CGX</Code>
+		<Name>CHICAGO (CGX), US, IL</Name>
+	</City>
+	<City>
+		<Code>CHA</Code>
+		<Name>CHATTANOOGA, US, TN</Name>
+	</City>
+	<City>
+		<Code>CHC</Code>
+		<Name>CHRISTCHURCH, NZ</Name>
+	</City>
+	<City>
+		<Code>CHI</Code>
+		<Name>CHICAGO, US, IL</Name>
+	</City>
+	<City>
+		<Code>CHO</Code>
+		<Name>CHARLOTTESVILLE, US, VA</Name>
+	</City>
+	<City>
+		<Code>CHP</Code>
+		<Name>CIRCLE HOT SPRING, US, AK</Name>
+	</City>
+	<City>
+		<Code>CHQ</Code>
+		<Name>CHANIA, GR</Name>
+	</City>
+	<City>
+		<Code>CHS</Code>
+		<Name>CHARLESTON, US, SC</Name>
+	</City>
+	<City>
+		<Code>CHU</Code>
+		<Name>CHUATHBALUK, US, AK</Name>
+	</City>
+	<City>
+		<Code>CIA</Code>
+		<Name>ROME (CIA), IT</Name>
+	</City>
+	<City>
+		<Code>CIB</Code>
+		<Name>CATALINA ISLAND (CIB), US, CA</Name>
+	</City>
+	<City>
+		<Code>CIC</Code>
+		<Name>CHICO, US, CA</Name>
+	</City>
+	<City>
+		<Code>CID</Code>
+		<Name>CEDAR RAPIDS, US, IA</Name>
+	</City>
+	<City>
+		<Code>CIK</Code>
+		<Name>CHALKYITSIK, US, AK</Name>
+	</City>
+	<City>
+		<Code>CIU</Code>
+		<Name>SAULT STE MARIE (CIU), US, MI</Name>
+	</City>
+	<City>
+		<Code>CJS</Code>
+		<Name>CIUDAD JUAREZ, MX</Name>
+	</City>
+	<City>
+		<Code>CKB</Code>
+		<Name>CLARKSBURG, US, WV</Name>
+	</City>
+	<City>
+		<Code>CKD</Code>
+		<Name>CROOKED CREEK, US, AK</Name>
+	</City>
+	<City>
+		<Code>CKT</Code>
+		<Name>SARAKHS, IR</Name>
+	</City>
+	<City>
+		<Code>CKX</Code>
+		<Name>CHICKEN, US, AK</Name>
+	</City>
+	<City>
+		<Code>CKZ</Code>
+		<Name>CANAKKALE, TR</Name>
+	</City>
+	<City>
+		<Code>CLC</Code>
+		<Name>CLEARLAKE, US, TX</Name>
+	</City>
+	<City>
+		<Code>CLD</Code>
+		<Name>CARLSBAD, US, CA</Name>
+	</City>
+	<City>
+		<Code>CLE</Code>
+		<Name>CLEVELAND (CLE), US, OH</Name>
+	</City>
+	<City>
+		<Code>CLL</Code>
+		<Name>COLLEGE STATION, US, TX</Name>
+	</City>
+	<City>
+		<Code>CLM</Code>
+		<Name>PORT ANGELES, US, WA</Name>
+	</City>
+	<City>
+		<Code>CLP</Code>
+		<Name>CLARKS POINT, US, AK</Name>
+	</City>
+	<City>
+		<Code>CLQ</Code>
+		<Name>COLIMA, MX</Name>
+	</City>
+	<City>
+		<Code>CLT</Code>
+		<Name>CHARLOTTE (CLT), US, NC</Name>
+	</City>
+	<City>
+		<Code>CLW</Code>
+		<Name>CLEARWATER, US, FL</Name>
+	</City>
+	<City>
+		<Code>CLY</Code>
+		<Name>CALVI, FR</Name>
+	</City>
+	<City>
+		<Code>CMB</Code>
+		<Name>COLOMBO (CMB), LK</Name>
+	</City>
+	<City>
+		<Code>CMF</Code>
+		<Name>CHAMBERY, FR</Name>
+	</City>
+	<City>
+		<Code>CMH</Code>
+		<Name>COLUMBUS (CMH), US, OH</Name>
+	</City>
+	<City>
+		<Code>CMI</Code>
+		<Name>CHAMPAIGN, US, IL</Name>
+	</City>
+	<City>
+		<Code>CMN</Code>
+		<Name>CASABLANCA (CMN), MA</Name>
+	</City>
+	<City>
+		<Code>CMX</Code>
+		<Name>HANCOCK, US, MI</Name>
+	</City>
+	<City>
+		<Code>CNF</Code>
+		<Name>BELO HORIZONTE (CNF), BR, MG</Name>
+	</City>
+	<City>
+		<Code>CNM</Code>
+		<Name>CARLSBAD, US, NM</Name>
+	</City>
+	<City>
+		<Code>CNQ</Code>
+		<Name>CORRIENTES, AR, CR</Name>
+	</City>
+	<City>
+		<Code>CNS</Code>
+		<Name>CAIRNS, AU, QL</Name>
+	</City>
+	<City>
+		<Code>CNX</Code>
+		<Name>CHIANG MAI, TH</Name>
+	</City>
+	<City>
+		<Code>CNY</Code>
+		<Name>MOAB, US, UT</Name>
+	</City>
+	<City>
+		<Code>COD</Code>
+		<Name>CODY, US, WY</Name>
+	</City>
+	<City>
+		<Code>COE</Code>
+		<Name>COEUR D'ALENE, US, ID</Name>
+	</City>
+	<City>
+		<Code>COK</Code>
+		<Name>COCHIN, IN</Name>
+	</City>
+	<City>
+		<Code>COR</Code>
+		<Name>CORDOBA, AR, CD</Name>
+	</City>
+	<City>
+		<Code>COS</Code>
+		<Name>COLORADO SPRINGS, US, CO</Name>
+	</City>
+	<City>
+		<Code>COU</Code>
+		<Name>COLUMBIA, US, MO</Name>
+	</City>
+	<City>
+		<Code>CPE</Code>
+		<Name>CAMPECHE, MX</Name>
+	</City>
+	<City>
+		<Code>CPH</Code>
+		<Name>COPENHAGEN (CPH), DK</Name>
+	</City>
+	<City>
+		<Code>CPR</Code>
+		<Name>CASPER, US, WY</Name>
+	</City>
+	<City>
+		<Code>CPT</Code>
+		<Name>CAPE TOWN, ZA</Name>
+	</City>
+	<City>
+		<Code>CPX</Code>
+		<Name>CULEBRA, PR</Name>
+	</City>
+	<City>
+		<Code>CRD</Code>
+		<Name>COMODORO RIVADAVI, AR, CB</Name>
+	</City>
+	<City>
+		<Code>CRL</Code>
+		<Name>BRUSSELS (CRL), BE</Name>
+	</City>
+	<City>
+		<Code>CRP</Code>
+		<Name>CORPUS CHRISTI (CRP), US, TX</Name>
+	</City>
+	<City>
+		<Code>CRV</Code>
+		<Name>CROTONE, IT</Name>
+	</City>
+	<City>
+		<Code>CRW</Code>
+		<Name>CHARLESTON, US, WV</Name>
+	</City>
+	<City>
+		<Code>CSG</Code>
+		<Name>COLUMBUS, US, GA</Name>
+	</City>
+	<City>
+		<Code>CTA</Code>
+		<Name>CATANIA, IT</Name>
+	</City>
+	<City>
+		<Code>CTG</Code>
+		<Name>CARTAGENA, CO</Name>
+	</City>
+	<City>
+		<Code>CUL</Code>
+		<Name>CULIACAN, MX</Name>
+	</City>
+	<City>
+		<Code>CUN</Code>
+		<Name>CANCUN, MX</Name>
+	</City>
+	<City>
+		<Code>CUR</Code>
+		<Name>CURACAO, AN</Name>
+	</City>
+	<City>
+		<Code>CUU</Code>
+		<Name>CHIHUAHUA, MX</Name>
+	</City>
+	<City>
+		<Code>CVG</Code>
+		<Name>CINCINNATI (CVG), US, OH</Name>
+	</City>
+	<City>
+		<Code>CVM</Code>
+		<Name>CIUDAD VICTORIA, MX</Name>
+	</City>
+	<City>
+		<Code>CVN</Code>
+		<Name>CLOVIS (CVN), US, NM</Name>
+	</City>
+	<City>
+		<Code>CVT</Code>
+		<Name>COVENTRY, GB</Name>
+	</City>
+	<City>
+		<Code>CWA</Code>
+		<Name>WAUSAU (CWA), US, WI</Name>
+	</City>
+	<City>
+		<Code>CWB</Code>
+		<Name>CURITIBA (CWB), BR, PR</Name>
+	</City>
+	<City>
+		<Code>CWL</Code>
+		<Name>CARDIFF, GB</Name>
+	</City>
+	<City>
+		<Code>CXH</Code>
+		<Name>VANCOUVER (CXH), CA, BC</Name>
+	</City>
+	<City>
+		<Code>CXL</Code>
+		<Name>CALEXICO, US, CA</Name>
+	</City>
+	<City>
+		<Code>CYB</Code>
+		<Name>CAYMAN BRAC IS, KY</Name>
+	</City>
+	<City>
+		<Code>CYF</Code>
+		<Name>CHEFORNAK, US, AK</Name>
+	</City>
+	<City>
+		<Code>CYS</Code>
+		<Name>CHEYENNE, US, WY</Name>
+	</City>
+	<City>
+		<Code>CZM</Code>
+		<Name>COZUMEL, MX</Name>
+	</City>
+	<City>
+		<Code>CZN</Code>
+		<Name>CHISANA, US, AK</Name>
+	</City>
+	<City>
+		<Code>DAB</Code>
+		<Name>DAYTONA BEACH, US, FL</Name>
+	</City>
+	<City>
+		<Code>DAC</Code>
+		<Name>DHAKA, BD</Name>
+	</City>
+	<City>
+		<Code>DAD</Code>
+		<Name>DA NANG, VN</Name>
+	</City>
+	<City>
+		<Code>DAL</Code>
+		<Name>DALLAS (DAL), US, TX</Name>
+	</City>
+	<City>
+		<Code>DAM</Code>
+		<Name>DAMASCUS, SY</Name>
+	</City>
+	<City>
+		<Code>DAN</Code>
+		<Name>DANVILLE, US, VA</Name>
+	</City>
+	<City>
+		<Code>DAR</Code>
+		<Name>DAR ES SALAAM, TZ</Name>
+	</City>
+	<City>
+		<Code>DAY</Code>
+		<Name>DAYTON (DAY), US, OH</Name>
+	</City>
+	<City>
+		<Code>DBQ</Code>
+		<Name>DUBUQUE, US, IA</Name>
+	</City>
+	<City>
+		<Code>DBV</Code>
+		<Name>DUBROVNIK, HR</Name>
+	</City>
+	<City>
+		<Code>DCA</Code>
+		<Name>WASHINGTON (DCA), US, DC</Name>
+	</City>
+	<City>
+		<Code>DCF</Code>
+		<Name>DOMINICA (DCF), DM</Name>
+	</City>
+	<City>
+		<Code>DCM</Code>
+		<Name>CASTRES, FR</Name>
+	</City>
+	<City>
+		<Code>DDC</Code>
+		<Name>DODGE CITY, US, KS</Name>
+	</City>
+	<City>
+		<Code>DEC</Code>
+		<Name>DECATUR, US, IL</Name>
+	</City>
+	<City>
+		<Code>DEL</Code>
+		<Name>DELHI, IN</Name>
+	</City>
+	<City>
+		<Code>DEN</Code>
+		<Name>DENVER (DEN), US, CO</Name>
+	</City>
+	<City>
+		<Code>DET</Code>
+		<Name>DETROIT (DET), US, MI</Name>
+	</City>
+	<City>
+		<Code>DFW</Code>
+		<Name>DALLAS (DFW), US, TX</Name>
+	</City>
+	<City>
+		<Code>DGC</Code>
+		<Name>DEGAHBUR, ET</Name>
+	</City>
+	<City>
+		<Code>DGO</Code>
+		<Name>DURANGO, MX</Name>
+	</City>
+	<City>
+		<Code>DHA</Code>
+		<Name>DHAHRAN, SA</Name>
+	</City>
+	<City>
+		<Code>DHN</Code>
+		<Name>DOTHAN, US, AL</Name>
+	</City>
+	<City>
+		<Code>DIJ</Code>
+		<Name>DIJON, FR</Name>
+	</City>
+	<City>
+		<Code>DIK</Code>
+		<Name>DICKINSON, US, ND</Name>
+	</City>
+	<City>
+		<Code>DIO</Code>
+		<Name>DIOMEDE ISLAND, US, AK</Name>
+	</City>
+	<City>
+		<Code>DKR</Code>
+		<Name>DAKAR, SN</Name>
+	</City>
+	<City>
+		<Code>DLG</Code>
+		<Name>DILLINGHAM, US, AK</Name>
+	</City>
+	<City>
+		<Code>DLH</Code>
+		<Name>DULUTH (DLH), US, MN</Name>
+	</City>
+	<City>
+		<Code>DLO</Code>
+		<Name>DOLOMI, US, AK</Name>
+	</City>
+	<City>
+		<Code>DND</Code>
+		<Name>DUNDEE, GB</Name>
+	</City>
+	<City>
+		<Code>DOF</Code>
+		<Name>DORA BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>DOH</Code>
+		<Name>DOHA, QA</Name>
+	</City>
+	<City>
+		<Code>DOM</Code>
+		<Name>DOMINICA (DOM), DM</Name>
+	</City>
+	<City>
+		<Code>DOV</Code>
+		<Name>DOVER CHESWOLD, US, DE</Name>
+	</City>
+	<City>
+		<Code>DPS</Code>
+		<Name>DENPASAR BALI, ID</Name>
+	</City>
+	<City>
+		<Code>DRE</Code>
+		<Name>DRUMMOND ISLAND, US, MI</Name>
+	</City>
+	<City>
+		<Code>DRG</Code>
+		<Name>DEERING, US, AK</Name>
+	</City>
+	<City>
+		<Code>DRO</Code>
+		<Name>DURANGO (DRO), US, CO</Name>
+	</City>
+	<City>
+		<Code>DRS</Code>
+		<Name>DRESDEN, DE</Name>
+	</City>
+	<City>
+		<Code>DRW</Code>
+		<Name>DARWIN, AU, NT</Name>
+	</City>
+	<City>
+		<Code>DSA</Code>
+		<Name>DONCASTER, GB</Name>
+	</City>
+	<City>
+		<Code>DSM</Code>
+		<Name>DES MOINES, US, IA</Name>
+	</City>
+	<City>
+		<Code>DTM</Code>
+		<Name>DORTMUND, DE</Name>
+	</City>
+	<City>
+		<Code>DTT</Code>
+		<Name>DETROIT, US, MI</Name>
+	</City>
+	<City>
+		<Code>DTW</Code>
+		<Name>DETROIT (DTW), US, MI</Name>
+	</City>
+	<City>
+		<Code>DUB</Code>
+		<Name>DUBLIN, IE</Name>
+	</City>
+	<City>
+		<Code>DUJ</Code>
+		<Name>DUBOIS, US, PA</Name>
+	</City>
+	<City>
+		<Code>DUR</Code>
+		<Name>DURBAN (DUR), ZA</Name>
+	</City>
+	<City>
+		<Code>DUS</Code>
+		<Name>DUSSELDORF, DE</Name>
+	</City>
+	<City>
+		<Code>DUT</Code>
+		<Name>DUTCH HARBOR, US, AK</Name>
+	</City>
+	<City>
+		<Code>DVL</Code>
+		<Name>DEVILS LAKE, US, ND</Name>
+	</City>
+	<City>
+		<Code>DVN</Code>
+		<Name>DAVENPORT, US, IA</Name>
+	</City>
+	<City>
+		<Code>DVO</Code>
+		<Name>DAVAO, PH</Name>
+	</City>
+	<City>
+		<Code>DXB</Code>
+		<Name>DUBAI, AE</Name>
+	</City>
+	<City>
+		<Code>EAA</Code>
+		<Name>EAGLE, US, AK</Name>
+	</City>
+	<City>
+		<Code>EAP</Code>
+		<Name>BASEL MULHOUSE, FR</Name>
+	</City>
+	<City>
+		<Code>EAR</Code>
+		<Name>KEARNEY, US, NE</Name>
+	</City>
+	<City>
+		<Code>EAS</Code>
+		<Name>SAN SEBASTIAN, ES</Name>
+	</City>
+	<City>
+		<Code>EAT</Code>
+		<Name>WENATCHEE, US, WA</Name>
+	</City>
+	<City>
+		<Code>EAU</Code>
+		<Name>EAU CLAIRE, US, WI</Name>
+	</City>
+	<City>
+		<Code>EBA</Code>
+		<Name>ELBA ISLAND, IT</Name>
+	</City>
+	<City>
+		<Code>EBB</Code>
+		<Name>ENTEBBE, UG</Name>
+	</City>
+	<City>
+		<Code>EBU</Code>
+		<Name>ST ETIENNE, FR</Name>
+	</City>
+	<City>
+		<Code>EDA</Code>
+		<Name>EDNA BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>EDI</Code>
+		<Name>EDINBURGH, GB</Name>
+	</City>
+	<City>
+		<Code>EEK</Code>
+		<Name>EEK, US, AK</Name>
+	</City>
+	<City>
+		<Code>EFD</Code>
+		<Name>HOUSTON (EFD), US, TX</Name>
+	</City>
+	<City>
+		<Code>EGC</Code>
+		<Name>BERGERAC, FR</Name>
+	</City>
+	<City>
+		<Code>EGE</Code>
+		<Name>VAIL EAGLE, US, CO</Name>
+	</City>
+	<City>
+		<Code>EGV</Code>
+		<Name>EAGLE RIVER, US, WI</Name>
+	</City>
+	<City>
+		<Code>EGX</Code>
+		<Name>EGEGIK, US, AK</Name>
+	</City>
+	<City>
+		<Code>EIN</Code>
+		<Name>EINDHOVEN, NL</Name>
+	</City>
+	<City>
+		<Code>EIS</Code>
+		<Name>BEEF ISLAND, VG</Name>
+	</City>
+	<City>
+		<Code>EKA</Code>
+		<Name>ARCATA (EKA), US, CA</Name>
+	</City>
+	<City>
+		<Code>EKN</Code>
+		<Name>ELKINS, US, WV</Name>
+	</City>
+	<City>
+		<Code>EKO</Code>
+		<Name>ELKO, US, NV</Name>
+	</City>
+	<City>
+		<Code>ELD</Code>
+		<Name>EL DORADO, US, AR</Name>
+	</City>
+	<City>
+		<Code>ELH</Code>
+		<Name>NORTH ELEUTHERA, BS</Name>
+	</City>
+	<City>
+		<Code>ELI</Code>
+		<Name>ELIM, US, AK</Name>
+	</City>
+	<City>
+		<Code>ELM</Code>
+		<Name>ELMIRA, US, NY</Name>
+	</City>
+	<City>
+		<Code>ELP</Code>
+		<Name>EL PASO (ELP), US, TX</Name>
+	</City>
+	<City>
+		<Code>ELV</Code>
+		<Name>ELFIN COVE, US, AK</Name>
+	</City>
+	<City>
+		<Code>ELY</Code>
+		<Name>ELY, US, NV</Name>
+	</City>
+	<City>
+		<Code>EMA</Code>
+		<Name>NOTTINGHAM (EMA), GB</Name>
+	</City>
+	<City>
+		<Code>EMK</Code>
+		<Name>EMMONAK, US, AK</Name>
+	</City>
+	<City>
+		<Code>ENA</Code>
+		<Name>KENAI, US, AK</Name>
+	</City>
+	<City>
+		<Code>ENS</Code>
+		<Name>ENSCHEDE, NL</Name>
+	</City>
+	<City>
+		<Code>ERF</Code>
+		<Name>ERFURT, DE</Name>
+	</City>
+	<City>
+		<Code>ERI</Code>
+		<Name>ERIE, US, PA</Name>
+	</City>
+	<City>
+		<Code>ESB</Code>
+		<Name>ANKARA (ESB), TR</Name>
+	</City>
+	<City>
+		<Code>ESC</Code>
+		<Name>ESCANABA, US, MI</Name>
+	</City>
+	<City>
+		<Code>ESD</Code>
+		<Name>EASTSOUND, US, WA</Name>
+	</City>
+	<City>
+		<Code>ESE</Code>
+		<Name>ENSENADA, MX</Name>
+	</City>
+	<City>
+		<Code>ESF</Code>
+		<Name>ALEXANDRIA (ESF), US, LA</Name>
+	</City>
+	<City>
+		<Code>ESP</Code>
+		<Name>EAST STROUDSBURG, US, PA</Name>
+	</City>
+	<City>
+		<Code>ESS</Code>
+		<Name>ESSEN, DE</Name>
+	</City>
+	<City>
+		<Code>ETZ</Code>
+		<Name>METZ NANCY, FR</Name>
+	</City>
+	<City>
+		<Code>EUG</Code>
+		<Name>EUGENE, US, OR</Name>
+	</City>
+	<City>
+		<Code>EVE</Code>
+		<Name>HARSTAD-NARVIK, NO</Name>
+	</City>
+	<City>
+		<Code>EVN</Code>
+		<Name>YEREVAN, AM</Name>
+	</City>
+	<City>
+		<Code>EVV</Code>
+		<Name>EVANSVILLE, US, IN</Name>
+	</City>
+	<City>
+		<Code>EWB</Code>
+		<Name>NEW BEDFORD, US, MA</Name>
+	</City>
+	<City>
+		<Code>EWN</Code>
+		<Name>NEW BERN, US, NC</Name>
+	</City>
+	<City>
+		<Code>EWR</Code>
+		<Name>NEW YORK (EWR), US, NJ</Name>
+	</City>
+	<City>
+		<Code>EXI</Code>
+		<Name>EXCURSION INLET, US, AK</Name>
+	</City>
+	<City>
+		<Code>EXT</Code>
+		<Name>EXETER, GB</Name>
+	</City>
+	<City>
+		<Code>EYW</Code>
+		<Name>KEY WEST (EYW), US, FL</Name>
+	</City>
+	<City>
+		<Code>EZE</Code>
+		<Name>BUENOS AIRES (EZE), AR, BA</Name>
+	</City>
+	<City>
+		<Code>FAE</Code>
+		<Name>FAROE ISLANDS, FO</Name>
+	</City>
+	<City>
+		<Code>FAI</Code>
+		<Name>FAIRBANKS (FAI), US, AK</Name>
+	</City>
+	<City>
+		<Code>FAJ</Code>
+		<Name>FAJARDO, PR</Name>
+	</City>
+	<City>
+		<Code>FAO</Code>
+		<Name>FARO, PT</Name>
+	</City>
+	<City>
+		<Code>FAR</Code>
+		<Name>FARGO, US, ND</Name>
+	</City>
+	<City>
+		<Code>FAT</Code>
+		<Name>FRESNO (FAT), US, CA</Name>
+	</City>
+	<City>
+		<Code>FAY</Code>
+		<Name>FAYETTEVILLE (FAY), US, NC</Name>
+	</City>
+	<City>
+		<Code>FCA</Code>
+		<Name>KALISPELL, US, MT</Name>
+	</City>
+	<City>
+		<Code>FCO</Code>
+		<Name>ROME (FCO), IT</Name>
+	</City>
+	<City>
+		<Code>FDF</Code>
+		<Name>FORT DE FRANCE, MQ</Name>
+	</City>
+	<City>
+		<Code>FDH</Code>
+		<Name>FRIEDRICHSHAFEN, DE</Name>
+	</City>
+	<City>
+		<Code>FER</Code>
+		<Name>FERGUSONS GULF, KE</Name>
+	</City>
+	<City>
+		<Code>FFM</Code>
+		<Name>FERGUS FALLS, US, MN</Name>
+	</City>
+	<City>
+		<Code>FHU</Code>
+		<Name>FORT HUACHUCA, US, AZ</Name>
+	</City>
+	<City>
+		<Code>FIC</Code>
+		<Name>FIRE COVE, US, AK</Name>
+	</City>
+	<City>
+		<Code>FID</Code>
+		<Name>FISHERS ISLAND, US, NY</Name>
+	</City>
+	<City>
+		<Code>FIH</Code>
+		<Name>KINSHASA (FIH), CD</Name>
+	</City>
+	<City>
+		<Code>FKB</Code>
+		<Name>KARLSRUHE, DE</Name>
+	</City>
+	<City>
+		<Code>FKL</Code>
+		<Name>FRANKLIN, US, PA</Name>
+	</City>
+	<City>
+		<Code>FLG</Code>
+		<Name>FLAGSTAFF, US, AZ</Name>
+	</City>
+	<City>
+		<Code>FLL</Code>
+		<Name>FT LAUDERDALE (FLL), US, FL</Name>
+	</City>
+	<City>
+		<Code>FLN</Code>
+		<Name>FLORIANOPOLIS, BR, SC</Name>
+	</City>
+	<City>
+		<Code>FLO</Code>
+		<Name>FLORENCE, US, SC</Name>
+	</City>
+	<City>
+		<Code>FLR</Code>
+		<Name>FLORENCE (FLR), IT</Name>
+	</City>
+	<City>
+		<Code>FLT</Code>
+		<Name>FLAT, US, AK</Name>
+	</City>
+	<City>
+		<Code>FMA</Code>
+		<Name>FORMOSA, AR, FO</Name>
+	</City>
+	<City>
+		<Code>FMN</Code>
+		<Name>FARMINGTON, US, NM</Name>
+	</City>
+	<City>
+		<Code>FMO</Code>
+		<Name>MUENSTER, DE</Name>
+	</City>
+	<City>
+		<Code>FMY</Code>
+		<Name>FORT MYERS (FMY), US, FL</Name>
+	</City>
+	<City>
+		<Code>FNC</Code>
+		<Name>FUNCHAL, PT</Name>
+	</City>
+	<City>
+		<Code>FNI</Code>
+		<Name>NIMES, FR</Name>
+	</City>
+	<City>
+		<Code>FNL</Code>
+		<Name>FORT COLLINS LOVE, US, CO</Name>
+	</City>
+	<City>
+		<Code>FNT</Code>
+		<Name>FLINT, US, MI</Name>
+	</City>
+	<City>
+		<Code>FOD</Code>
+		<Name>FORT DODGE, US, IA</Name>
+	</City>
+	<City>
+		<Code>FOE</Code>
+		<Name>TOPEKA (FOE), US, KS</Name>
+	</City>
+	<City>
+		<Code>FOG</Code>
+		<Name>FOGGIA, IT</Name>
+	</City>
+	<City>
+		<Code>FOR</Code>
+		<Name>FORTALEZA, BR, CE</Name>
+	</City>
+	<City>
+		<Code>FPO</Code>
+		<Name>FREEPORT, BS</Name>
+	</City>
+	<City>
+		<Code>FPR</Code>
+		<Name>FORT PIERCE, US, FL</Name>
+	</City>
+	<City>
+		<Code>FRA</Code>
+		<Name>FRANKFURT (FRA), DE</Name>
+	</City>
+	<City>
+		<Code>FRD</Code>
+		<Name>FRIDAY HARBOR, US, WA</Name>
+	</City>
+	<City>
+		<Code>FRG</Code>
+		<Name>FARMINGDALE, US, NY</Name>
+	</City>
+	<City>
+		<Code>FRM</Code>
+		<Name>FAIRMONT, US, MN</Name>
+	</City>
+	<City>
+		<Code>FRO</Code>
+		<Name>FLORO, NO</Name>
+	</City>
+	<City>
+		<Code>FRP</Code>
+		<Name>FRESH WATER BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>FSC</Code>
+		<Name>FIGARI, FR</Name>
+	</City>
+	<City>
+		<Code>FSD</Code>
+		<Name>SIOUX FALLS, US, SD</Name>
+	</City>
+	<City>
+		<Code>FSM</Code>
+		<Name>FORT SMITH, US, AR</Name>
+	</City>
+	<City>
+		<Code>FSP</Code>
+		<Name>ST PIERRE, PM</Name>
+	</City>
+	<City>
+		<Code>FUE</Code>
+		<Name>FUERTEVENTURA, ES</Name>
+	</City>
+	<City>
+		<Code>FWA</Code>
+		<Name>FORT WAYNE (FWA), US, IN</Name>
+	</City>
+	<City>
+		<Code>FYU</Code>
+		<Name>FORT YUKON, US, AK</Name>
+	</City>
+	<City>
+		<Code>FYV</Code>
+		<Name>FAYETTEVILLE (FYV), US, AR</Name>
+	</City>
+	<City>
+		<Code>GAD</Code>
+		<Name>GADSDEN, US, AL</Name>
+	</City>
+	<City>
+		<Code>GAL</Code>
+		<Name>GALENA, US, AK</Name>
+	</City>
+	<City>
+		<Code>GAM</Code>
+		<Name>GAMBELL, US, AK</Name>
+	</City>
+	<City>
+		<Code>GBD</Code>
+		<Name>GREAT BEND, US, KS</Name>
+	</City>
+	<City>
+		<Code>GBL</Code>
+		<Name>GOULBURN ISLAND, AU, NT</Name>
+	</City>
+	<City>
+		<Code>GCC</Code>
+		<Name>GILLETTE, US, WY</Name>
+	</City>
+	<City>
+		<Code>GCI</Code>
+		<Name>GUERNSEY, GB</Name>
+	</City>
+	<City>
+		<Code>GCK</Code>
+		<Name>GARDEN CITY, US, KS</Name>
+	</City>
+	<City>
+		<Code>GCM</Code>
+		<Name>GRAND CAYMAN IS, KY</Name>
+	</City>
+	<City>
+		<Code>GCN</Code>
+		<Name>GRAND CANYON (GCN), US, AZ</Name>
+	</City>
+	<City>
+		<Code>GDL</Code>
+		<Name>GUADALAJARA, MX</Name>
+	</City>
+	<City>
+		<Code>GDT</Code>
+		<Name>GRAND TURK IS, TC</Name>
+	</City>
+	<City>
+		<Code>GDV</Code>
+		<Name>GLENDIVE, US, MT</Name>
+	</City>
+	<City>
+		<Code>GEG</Code>
+		<Name>SPOKANE (GEG), US, WA</Name>
+	</City>
+	<City>
+		<Code>GFK</Code>
+		<Name>GRAND FORKS, US, ND</Name>
+	</City>
+	<City>
+		<Code>GGG</Code>
+		<Name>LONGVIEW, US, TX</Name>
+	</City>
+	<City>
+		<Code>GGW</Code>
+		<Name>GLASGOW, US, MT</Name>
+	</City>
+	<City>
+		<Code>GHB</Code>
+		<Name>GOVERNORS HARBOUR, BS</Name>
+	</City>
+	<City>
+		<Code>GIB</Code>
+		<Name>GIBRALTAR, GI</Name>
+	</City>
+	<City>
+		<Code>GIF</Code>
+		<Name>WINTER HAVEN, US, FL</Name>
+	</City>
+	<City>
+		<Code>GIG</Code>
+		<Name>RIO DE JANEIRO (GIG), BR, RJ</Name>
+	</City>
+	<City>
+		<Code>GJT</Code>
+		<Name>GRAND JUNCTION, US, CO</Name>
+	</City>
+	<City>
+		<Code>GLA</Code>
+		<Name>GLASGOW (GLA), GB</Name>
+	</City>
+	<City>
+		<Code>GLD</Code>
+		<Name>GOODLAND, US, KS</Name>
+	</City>
+	<City>
+		<Code>GLH</Code>
+		<Name>GREENVILLE, US, MS</Name>
+	</City>
+	<City>
+		<Code>GLR</Code>
+		<Name>GAYLORD, US, MI</Name>
+	</City>
+	<City>
+		<Code>GLS</Code>
+		<Name>GALVESTON, US, TX</Name>
+	</City>
+	<City>
+		<Code>GLV</Code>
+		<Name>GOLOVIN, US, AK</Name>
+	</City>
+	<City>
+		<Code>GNB</Code>
+		<Name>LYON (GNB), FR</Name>
+	</City>
+	<City>
+		<Code>GND</Code>
+		<Name>GRENADA, GD</Name>
+	</City>
+	<City>
+		<Code>GNU</Code>
+		<Name>GOODNEWS BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>GNV</Code>
+		<Name>GAINESVILLE, US, FL</Name>
+	</City>
+	<City>
+		<Code>GOA</Code>
+		<Name>GENOA, IT</Name>
+	</City>
+	<City>
+		<Code>GOI</Code>
+		<Name>GOA, IN</Name>
+	</City>
+	<City>
+		<Code>GON</Code>
+		<Name>GROTON, US, CT</Name>
+	</City>
+	<City>
+		<Code>GOT</Code>
+		<Name>GOTHENBURG (GOT), SE</Name>
+	</City>
+	<City>
+		<Code>GPT</Code>
+		<Name>GULFPORT, US, MS</Name>
+	</City>
+	<City>
+		<Code>GPZ</Code>
+		<Name>GRAND RAPIDS, US, MN</Name>
+	</City>
+	<City>
+		<Code>GRB</Code>
+		<Name>GREEN BAY, US, WI</Name>
+	</City>
+	<City>
+		<Code>GRI</Code>
+		<Name>GRAND ISLAND, US, NE</Name>
+	</City>
+	<City>
+		<Code>GRO</Code>
+		<Name>GERONA, ES</Name>
+	</City>
+	<City>
+		<Code>GRQ</Code>
+		<Name>GRONINGEN, NL</Name>
+	</City>
+	<City>
+		<Code>GRR</Code>
+		<Name>GRAND RAPIDS, US, MI</Name>
+	</City>
+	<City>
+		<Code>GRU</Code>
+		<Name>SAO PAULO (GRU), BR, SP</Name>
+	</City>
+	<City>
+		<Code>GRX</Code>
+		<Name>GRANADA, ES</Name>
+	</City>
+	<City>
+		<Code>GRZ</Code>
+		<Name>GRAZ, AT</Name>
+	</City>
+	<City>
+		<Code>GSO</Code>
+		<Name>GREENSBORO, US, NC</Name>
+	</City>
+	<City>
+		<Code>GSP</Code>
+		<Name>GREENVILLE (GSP), US, SC</Name>
+	</City>
+	<City>
+		<Code>GST</Code>
+		<Name>GUSTAVUS, US, AK</Name>
+	</City>
+	<City>
+		<Code>GTF</Code>
+		<Name>GREAT FALLS (GTF), US, MT</Name>
+	</City>
+	<City>
+		<Code>GTR</Code>
+		<Name>COLUMBUS (GTR), US, MS</Name>
+	</City>
+	<City>
+		<Code>GUA</Code>
+		<Name>GUATEMALA CITY, GT</Name>
+	</City>
+	<City>
+		<Code>GUC</Code>
+		<Name>GUNNISON, US, CO</Name>
+	</City>
+	<City>
+		<Code>GUM</Code>
+		<Name>GUAM (GUM), GU</Name>
+	</City>
+	<City>
+		<Code>GUP</Code>
+		<Name>GALLUP, US, NM</Name>
+	</City>
+	<City>
+		<Code>GVA</Code>
+		<Name>GENEVA, CH</Name>
+	</City>
+	<City>
+		<Code>GWT</Code>
+		<Name>WESTERLAND, DE</Name>
+	</City>
+	<City>
+		<Code>GWY</Code>
+		<Name>GALWAY, IE</Name>
+	</City>
+	<City>
+		<Code>GYE</Code>
+		<Name>GUAYAQUIL, EC</Name>
+	</City>
+	<City>
+		<Code>GYN</Code>
+		<Name>GOIANIA, BR, GO</Name>
+	</City>
+	<City>
+		<Code>GYY</Code>
+		<Name>CHICAGO (GYY), US, IN</Name>
+	</City>
+	<City>
+		<Code>HAD</Code>
+		<Name>HALMSTAD, SE</Name>
+	</City>
+	<City>
+		<Code>HAE</Code>
+		<Name>HAVASUPAI, US, AZ</Name>
+	</City>
+	<City>
+		<Code>HAI</Code>
+		<Name>THREE RIVERS, US, MI</Name>
+	</City>
+	<City>
+		<Code>HAJ</Code>
+		<Name>HANOVER, DE</Name>
+	</City>
+	<City>
+		<Code>HAM</Code>
+		<Name>HAMBURG, DE</Name>
+	</City>
+	<City>
+		<Code>HAN</Code>
+		<Name>HANOI, VN</Name>
+	</City>
+	<City>
+		<Code>HAR</Code>
+		<Name>HARRISBURG (HAR), US, PA</Name>
+	</City>
+	<City>
+		<Code>HAU</Code>
+		<Name>HAUGESUND, NO</Name>
+	</City>
+	<City>
+		<Code>HAV</Code>
+		<Name>HAVANA, CU</Name>
+	</City>
+	<City>
+		<Code>HBA</Code>
+		<Name>HOBART, AU, TS</Name>
+	</City>
+	<City>
+		<Code>HBH</Code>
+		<Name>HOBART BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>HCR</Code>
+		<Name>HOLY CROSS, US, AK</Name>
+	</City>
+	<City>
+		<Code>HDB</Code>
+		<Name>HEIDELBERG, DE</Name>
+	</City>
+	<City>
+		<Code>HDN</Code>
+		<Name>HAYDEN, US, CO</Name>
+	</City>
+	<City>
+		<Code>HEL</Code>
+		<Name>HELSINKI (HEL), FI</Name>
+	</City>
+	<City>
+		<Code>HER</Code>
+		<Name>HERAKLION, GR</Name>
+	</City>
+	<City>
+		<Code>HEZ</Code>
+		<Name>NATCHEZ, US, MS</Name>
+	</City>
+	<City>
+		<Code>HFA</Code>
+		<Name>HAIFA, IL</Name>
+	</City>
+	<City>
+		<Code>HFD</Code>
+		<Name>HARTFORD (HFD), US, CT</Name>
+	</City>
+	<City>
+		<Code>HFT</Code>
+		<Name>HAMMERFEST, NO</Name>
+	</City>
+	<City>
+		<Code>HGR</Code>
+		<Name>HAGERSTOWN, US, MD</Name>
+	</City>
+	<City>
+		<Code>HHH</Code>
+		<Name>HILTON HEAD, US, SC</Name>
+	</City>
+	<City>
+		<Code>HIB</Code>
+		<Name>HIBBING, US, MN</Name>
+	</City>
+	<City>
+		<Code>HIJ</Code>
+		<Name>HIROSHIMA (HIJ), JP</Name>
+	</City>
+	<City>
+		<Code>HKG</Code>
+		<Name>HONG KONG, HK</Name>
+	</City>
+	<City>
+		<Code>HKP</Code>
+		<Name>KAANAPALI MAUI, US, HI</Name>
+	</City>
+	<City>
+		<Code>HKT</Code>
+		<Name>PHUKET, TH</Name>
+	</City>
+	<City>
+		<Code>HKY</Code>
+		<Name>HICKORY, US, NC</Name>
+	</City>
+	<City>
+		<Code>HLF</Code>
+		<Name>HULTSFRED, SE</Name>
+	</City>
+	<City>
+		<Code>HLN</Code>
+		<Name>HELENA, US, MT</Name>
+	</City>
+	<City>
+		<Code>HMA</Code>
+		<Name>MALMO (HMA), SE</Name>
+	</City>
+	<City>
+		<Code>HMO</Code>
+		<Name>HERMOSILLO, MX</Name>
+	</City>
+	<City>
+		<Code>HND</Code>
+		<Name>TOKYO (HND), JP</Name>
+	</City>
+	<City>
+		<Code>HNH</Code>
+		<Name>HOONAH, US, AK</Name>
+	</City>
+	<City>
+		<Code>HNL</Code>
+		<Name>HONOLULU (HNL), US, HI</Name>
+	</City>
+	<City>
+		<Code>HNM</Code>
+		<Name>HANA, US, HI</Name>
+	</City>
+	<City>
+		<Code>HNS</Code>
+		<Name>HAINES, US, AK</Name>
+	</City>
+	<City>
+		<Code>HOB</Code>
+		<Name>HOBBS (HOB), US, NM</Name>
+	</City>
+	<City>
+		<Code>HOM</Code>
+		<Name>HOMER, US, AK</Name>
+	</City>
+	<City>
+		<Code>HON</Code>
+		<Name>HURON, US, SD</Name>
+	</City>
+	<City>
+		<Code>HOQ</Code>
+		<Name>HOF, DE</Name>
+	</City>
+	<City>
+		<Code>HOT</Code>
+		<Name>HOT SPRINGS, US, AR</Name>
+	</City>
+	<City>
+		<Code>HOU</Code>
+		<Name>HOUSTON (HOU), US, TX</Name>
+	</City>
+	<City>
+		<Code>HPB</Code>
+		<Name>HOOPER BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>HPN</Code>
+		<Name>WESTCHESTER COUNTY, US, NY</Name>
+	</City>
+	<City>
+		<Code>HPV</Code>
+		<Name>KAUAI ISLAND (HPV), US, HI</Name>
+	</City>
+	<City>
+		<Code>HRE</Code>
+		<Name>HARARE, ZW</Name>
+	</City>
+	<City>
+		<Code>HRL</Code>
+		<Name>HARLINGEN, US, TX</Name>
+	</City>
+	<City>
+		<Code>HRO</Code>
+		<Name>HARRISON, US, AR</Name>
+	</City>
+	<City>
+		<Code>HSH</Code>
+		<Name>LAS VEGAS (HSH), US, NV</Name>
+	</City>
+	<City>
+		<Code>HSI</Code>
+		<Name>HASTINGS, US, NE</Name>
+	</City>
+	<City>
+		<Code>HSL</Code>
+		<Name>HUSLIA, US, AK</Name>
+	</City>
+	<City>
+		<Code>HSP</Code>
+		<Name>HOT SPRINGS, US, VA</Name>
+	</City>
+	<City>
+		<Code>HSV</Code>
+		<Name>HUNTSVILLE (HSV), US, AL</Name>
+	</City>
+	<City>
+		<Code>HTO</Code>
+		<Name>EAST HAMPTON, US, NY</Name>
+	</City>
+	<City>
+		<Code>HTS</Code>
+		<Name>HUNTINGTON, US, WV</Name>
+	</City>
+	<City>
+		<Code>HUF</Code>
+		<Name>TERRE HAUTE, US, IN</Name>
+	</City>
+	<City>
+		<Code>HUS</Code>
+		<Name>HUGHES, US, AK</Name>
+	</City>
+	<City>
+		<Code>HUX</Code>
+		<Name>HUATULCO, MX</Name>
+	</City>
+	<City>
+		<Code>HUY</Code>
+		<Name>HUMBERSIDE, GB</Name>
+	</City>
+	<City>
+		<Code>HVG</Code>
+		<Name>HONNINGSVAG, NO</Name>
+	</City>
+	<City>
+		<Code>HVN</Code>
+		<Name>NEW HAVEN, US, CT</Name>
+	</City>
+	<City>
+		<Code>HVR</Code>
+		<Name>HAVRE, US, MT</Name>
+	</City>
+	<City>
+		<Code>HYA</Code>
+		<Name>HYANNIS, US, MA</Name>
+	</City>
+	<City>
+		<Code>HYG</Code>
+		<Name>HYDABURG, US, AK</Name>
+	</City>
+	<City>
+		<Code>HYL</Code>
+		<Name>HOLLIS, US, AK</Name>
+	</City>
+	<City>
+		<Code>HYS</Code>
+		<Name>HAYS, US, KS</Name>
+	</City>
+	<City>
+		<Code>IAA</Code>
+		<Name>IGARKA, RU</Name>
+	</City>
+	<City>
+		<Code>IAD</Code>
+		<Name>WASHINGTON (IAD), US, DC</Name>
+	</City>
+	<City>
+		<Code>IAH</Code>
+		<Name>HOUSTON (IAH), US, TX</Name>
+	</City>
+	<City>
+		<Code>IAN</Code>
+		<Name>KIANA, US, AK</Name>
+	</City>
+	<City>
+		<Code>IBZ</Code>
+		<Name>IBIZA, ES</Name>
+	</City>
+	<City>
+		<Code>ICL</Code>
+		<Name>CLARINDA, US, IA</Name>
+	</City>
+	<City>
+		<Code>ICN</Code>
+		<Name>SEOUL (ICN), KR</Name>
+	</City>
+	<City>
+		<Code>ICT</Code>
+		<Name>WICHITA (ICT), US, KS</Name>
+	</City>
+	<City>
+		<Code>IDA</Code>
+		<Name>IDAHO FALLS, US, ID</Name>
+	</City>
+	<City>
+		<Code>IEV</Code>
+		<Name>KIEV (IEV), UA</Name>
+	</City>
+	<City>
+		<Code>IFP</Code>
+		<Name>BULLHEAD CITY, US, AZ</Name>
+	</City>
+	<City>
+		<Code>IGA</Code>
+		<Name>INAGUA, BS</Name>
+	</City>
+	<City>
+		<Code>IGG</Code>
+		<Name>IGIUGIG, US, AK</Name>
+	</City>
+	<City>
+		<Code>IGM</Code>
+		<Name>KINGMAN, US, AZ</Name>
+	</City>
+	<City>
+		<Code>IGR</Code>
+		<Name>IGUAZU, AR, MI</Name>
+	</City>
+	<City>
+		<Code>IGU</Code>
+		<Name>IGUASSU FALLS, BR, PR</Name>
+	</City>
+	<City>
+		<Code>ILE</Code>
+		<Name>KILLEEN (ILE), US, TX</Name>
+	</City>
+	<City>
+		<Code>ILG</Code>
+		<Name>WILMINGTON, US, DE</Name>
+	</City>
+	<City>
+		<Code>ILI</Code>
+		<Name>ILIAMNA, US, AK</Name>
+	</City>
+	<City>
+		<Code>ILM</Code>
+		<Name>WILMINGTON, US, NC</Name>
+	</City>
+	<City>
+		<Code>ILY</Code>
+		<Name>ISLAY, GB</Name>
+	</City>
+	<City>
+		<Code>IMO</Code>
+		<Name>ZEMIO, CF</Name>
+	</City>
+	<City>
+		<Code>IMT</Code>
+		<Name>IRON MOUNTAIN, US, MI</Name>
+	</City>
+	<City>
+		<Code>IND</Code>
+		<Name>INDIANAPOLIS, US, IN</Name>
+	</City>
+	<City>
+		<Code>INL</Code>
+		<Name>INTERNATIONAL FALLS, US, MN</Name>
+	</City>
+	<City>
+		<Code>INN</Code>
+		<Name>INNSBRUCK, AT</Name>
+	</City>
+	<City>
+		<Code>INT</Code>
+		<Name>WINSTON SALEM, US, NC</Name>
+	</City>
+	<City>
+		<Code>INV</Code>
+		<Name>INVERNESS, GB</Name>
+	</City>
+	<City>
+		<Code>INZ</Code>
+		<Name>IN SALAH, DZ</Name>
+	</City>
+	<City>
+		<Code>IOA</Code>
+		<Name>IOANNINA, GR</Name>
+	</City>
+	<City>
+		<Code>IOM</Code>
+		<Name>ISLE OF MAN, GB</Name>
+	</City>
+	<City>
+		<Code>IPA</Code>
+		<Name>IPOTA, VU</Name>
+	</City>
+	<City>
+		<Code>IPH</Code>
+		<Name>IPOH, MY</Name>
+	</City>
+	<City>
+		<Code>IPL</Code>
+		<Name>EL CENTRO (IPL), US, CA</Name>
+	</City>
+	<City>
+		<Code>IPT</Code>
+		<Name>WILLIAMSPORT, US, PA</Name>
+	</City>
+	<City>
+		<Code>IRC</Code>
+		<Name>CIRCLE, US, AK</Name>
+	</City>
+	<City>
+		<Code>IRJ</Code>
+		<Name>LA RIOJA, AR, LR</Name>
+	</City>
+	<City>
+		<Code>IRK</Code>
+		<Name>KIRKSVILLE, US, MO</Name>
+	</City>
+	<City>
+		<Code>ISB</Code>
+		<Name>ISLAMABAD, PK</Name>
+	</City>
+	<City>
+		<Code>ISC</Code>
+		<Name>ISLES OF SCILLY (ISC), GB</Name>
+	</City>
+	<City>
+		<Code>ISL</Code>
+		<Name>ISABEL PASS, US, AK</Name>
+	</City>
+	<City>
+		<Code>ISN</Code>
+		<Name>WILLISTON, US, ND</Name>
+	</City>
+	<City>
+		<Code>ISO</Code>
+		<Name>KINSTON, US, NC</Name>
+	</City>
+	<City>
+		<Code>ISP</Code>
+		<Name>ISLIP, US, NY</Name>
+	</City>
+	<City>
+		<Code>IST</Code>
+		<Name>ISTANBUL, TR</Name>
+	</City>
+	<City>
+		<Code>ITH</Code>
+		<Name>ITHACA, US, NY</Name>
+	</City>
+	<City>
+		<Code>ITM</Code>
+		<Name>OSAKA (ITM), JP</Name>
+	</City>
+	<City>
+		<Code>ITO</Code>
+		<Name>HILO, US, HI</Name>
+	</City>
+	<City>
+		<Code>IUS</Code>
+		<Name>INUS, PG</Name>
+	</City>
+	<City>
+		<Code>IWD</Code>
+		<Name>IRONWOOD, US, MI</Name>
+	</City>
+	<City>
+		<Code>IXZ</Code>
+		<Name>PORT BLAIR, IN</Name>
+	</City>
+	<City>
+		<Code>IYK</Code>
+		<Name>INYOKERN, US, CA</Name>
+	</City>
+	<City>
+		<Code>IZM</Code>
+		<Name>IZMIR, TR</Name>
+	</City>
+	<City>
+		<Code>JAC</Code>
+		<Name>JACKSON, US, WY</Name>
+	</City>
+	<City>
+		<Code>JAI</Code>
+		<Name>JAIPUR, IN</Name>
+	</City>
+	<City>
+		<Code>JAN</Code>
+		<Name>JACKSON (JAN), US, MS</Name>
+	</City>
+	<City>
+		<Code>JAX</Code>
+		<Name>JACKSONVILLE (JAX), US, FL</Name>
+	</City>
+	<City>
+		<Code>JBC</Code>
+		<Name>BOSTON (JBC), US, MA</Name>
+	</City>
+	<City>
+		<Code>JBR</Code>
+		<Name>JONESBORO, US, AR</Name>
+	</City>
+	<City>
+		<Code>JCA</Code>
+		<Name>CANNES (JCA), FR</Name>
+	</City>
+	<City>
+		<Code>JED</Code>
+		<Name>JEDDAH, SA</Name>
+	</City>
+	<City>
+		<Code>JER</Code>
+		<Name>JERSEY, GB</Name>
+	</City>
+	<City>
+		<Code>JFK</Code>
+		<Name>NEW YORK (JFK), US, NY</Name>
+	</City>
+	<City>
+		<Code>JFM</Code>
+		<Name>FREMANTLE, AU, WA</Name>
+	</City>
+	<City>
+		<Code>JGC</Code>
+		<Name>GRAND CANYON (JGC), US, AZ</Name>
+	</City>
+	<City>
+		<Code>JHC</Code>
+		<Name>GARDEN CITY, US, NY</Name>
+	</City>
+	<City>
+		<Code>JHM</Code>
+		<Name>KAPALUA, US, HI</Name>
+	</City>
+	<City>
+		<Code>JHW</Code>
+		<Name>JAMESTOWN, US, NY</Name>
+	</City>
+	<City>
+		<Code>JIB</Code>
+		<Name>DJIBOUTI, DJ</Name>
+	</City>
+	<City>
+		<Code>JKG</Code>
+		<Name>JONKOPING, SE</Name>
+	</City>
+	<City>
+		<Code>JKT</Code>
+		<Name>JAKARTA, ID</Name>
+	</City>
+	<City>
+		<Code>JLN</Code>
+		<Name>JOPLIN, US, MO</Name>
+	</City>
+	<City>
+		<Code>JMK</Code>
+		<Name>MYKONOS, GR</Name>
+	</City>
+	<City>
+		<Code>JMS</Code>
+		<Name>JAMESTOWN, US, ND</Name>
+	</City>
+	<City>
+		<Code>JNB</Code>
+		<Name>JOHANNESBURG (JNB), ZA</Name>
+	</City>
+	<City>
+		<Code>JNU</Code>
+		<Name>JUNEAU, US, AK</Name>
+	</City>
+	<City>
+		<Code>JNX</Code>
+		<Name>NAXOS, GR</Name>
+	</City>
+	<City>
+		<Code>JOI</Code>
+		<Name>JOINVILLE, BR, SC</Name>
+	</City>
+	<City>
+		<Code>JPA</Code>
+		<Name>JOAO PESSOA, BR, PB</Name>
+	</City>
+	<City>
+		<Code>JRA</Code>
+		<Name>NEW YORK (JRA), US, NY</Name>
+	</City>
+	<City>
+		<Code>JRE</Code>
+		<Name>NEW YORK (JRE), US, NY</Name>
+	</City>
+	<City>
+		<Code>JSI</Code>
+		<Name>SKIATHOS, GR</Name>
+	</City>
+	<City>
+		<Code>JST</Code>
+		<Name>JOHNSTOWN, US, PA</Name>
+	</City>
+	<City>
+		<Code>JTR</Code>
+		<Name>THIRA, GR</Name>
+	</City>
+	<City>
+		<Code>JUJ</Code>
+		<Name>JUJUY, AR, PJ</Name>
+	</City>
+	<City>
+		<Code>KAE</Code>
+		<Name>KAKE, US, AK</Name>
+	</City>
+	<City>
+		<Code>KAL</Code>
+		<Name>KALTAG, US, AK</Name>
+	</City>
+	<City>
+		<Code>KBC</Code>
+		<Name>BIRCH CREEK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KCC</Code>
+		<Name>COFFMAN COVE, US, AK</Name>
+	</City>
+	<City>
+		<Code>KCG</Code>
+		<Name>CHIGNIK (KCG), US, AK</Name>
+	</City>
+	<City>
+		<Code>KCK</Code>
+		<Name>KANSAS CITY, US, KS</Name>
+	</City>
+	<City>
+		<Code>KCL</Code>
+		<Name>CHIGNIK (KCL), US, AK</Name>
+	</City>
+	<City>
+		<Code>KCQ</Code>
+		<Name>CHIGNIK (KCQ), US, AK</Name>
+	</City>
+	<City>
+		<Code>KEF</Code>
+		<Name>REYKJAVIK (KEF), IS</Name>
+	</City>
+	<City>
+		<Code>KEH</Code>
+		<Name>KENMORE AIR HARBO, US, WA</Name>
+	</City>
+	<City>
+		<Code>KEK</Code>
+		<Name>EKWOK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KEL</Code>
+		<Name>KIEL, DE</Name>
+	</City>
+	<City>
+		<Code>KEM</Code>
+		<Name>KEMI TORNIO, FI</Name>
+	</City>
+	<City>
+		<Code>KFP</Code>
+		<Name>FALSE PASS, US, AK</Name>
+	</City>
+	<City>
+		<Code>KGK</Code>
+		<Name>NEW KOLIGANEK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KGX</Code>
+		<Name>GRAYLING, US, AK</Name>
+	</City>
+	<City>
+		<Code>KIB</Code>
+		<Name>IVANOF BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>KIF</Code>
+		<Name>KINGFISHER LAKE, CA, ON</Name>
+	</City>
+	<City>
+		<Code>KIN</Code>
+		<Name>KINGSTON (KIN), JM</Name>
+	</City>
+	<City>
+		<Code>KIR</Code>
+		<Name>KERRY COUNTY, IE</Name>
+	</City>
+	<City>
+		<Code>KIX</Code>
+		<Name>OSAKA (KIX), JP</Name>
+	</City>
+	<City>
+		<Code>KKA</Code>
+		<Name>KOYUK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KKB</Code>
+		<Name>KITOI BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>KKH</Code>
+		<Name>KONGIGANAK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KKI</Code>
+		<Name>AKIACHAK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KKN</Code>
+		<Name>KIRKENES, NO</Name>
+	</City>
+	<City>
+		<Code>KKU</Code>
+		<Name>EKUK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KLG</Code>
+		<Name>KALSKAG, US, AK</Name>
+	</City>
+	<City>
+		<Code>KLL</Code>
+		<Name>LEVELOCK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KLN</Code>
+		<Name>LARSEN BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>KLR</Code>
+		<Name>KALMAR, SE</Name>
+	</City>
+	<City>
+		<Code>KLT</Code>
+		<Name>KAISERSLAUTERN, DE</Name>
+	</City>
+	<City>
+		<Code>KLU</Code>
+		<Name>KLAGENFURT, AT</Name>
+	</City>
+	<City>
+		<Code>KLW</Code>
+		<Name>KLAWOCK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KLX</Code>
+		<Name>KALAMATA, GR</Name>
+	</City>
+	<City>
+		<Code>KMO</Code>
+		<Name>MANOKOTAK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KMY</Code>
+		<Name>MOSER BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>KNK</Code>
+		<Name>KAKHONAK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KNW</Code>
+		<Name>NEW STUYAHOK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KOA</Code>
+		<Name>KONA, US, HI</Name>
+	</City>
+	<City>
+		<Code>KOI</Code>
+		<Name>KIRKWALL, GB</Name>
+	</City>
+	<City>
+		<Code>KOK</Code>
+		<Name>KOKKOLA PIETARSAA, FI</Name>
+	</City>
+	<City>
+		<Code>KOT</Code>
+		<Name>KOTLIK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KOY</Code>
+		<Name>OLGA BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>KOZ</Code>
+		<Name>OUZINKIE, US, AK</Name>
+	</City>
+	<City>
+		<Code>KPB</Code>
+		<Name>POINT BAKER, US, AK</Name>
+	</City>
+	<City>
+		<Code>KPC</Code>
+		<Name>PORT CLARENCE, US, AK</Name>
+	</City>
+	<City>
+		<Code>KPK</Code>
+		<Name>PARKS, US, AK</Name>
+	</City>
+	<City>
+		<Code>KPN</Code>
+		<Name>KIPNUK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KPR</Code>
+		<Name>PORT WILLIAMS, US, AK</Name>
+	</City>
+	<City>
+		<Code>KPV</Code>
+		<Name>PERRYVILLE, US, AK</Name>
+	</City>
+	<City>
+		<Code>KPY</Code>
+		<Name>PORT BAILEY, US, AK</Name>
+	</City>
+	<City>
+		<Code>KQA</Code>
+		<Name>AKUTAN, US, AK</Name>
+	</City>
+	<City>
+		<Code>KRK</Code>
+		<Name>KRAKOW, PL</Name>
+	</City>
+	<City>
+		<Code>KRN</Code>
+		<Name>KIRUNA, SE</Name>
+	</City>
+	<City>
+		<Code>KRP</Code>
+		<Name>KARUP, DK</Name>
+	</City>
+	<City>
+		<Code>KRS</Code>
+		<Name>KRISTIANSAND, NO</Name>
+	</City>
+	<City>
+		<Code>KSF</Code>
+		<Name>KASSEL, DE</Name>
+	</City>
+	<City>
+		<Code>KSJ</Code>
+		<Name>KASOS ISLAND, GR</Name>
+	</City>
+	<City>
+		<Code>KSM</Code>
+		<Name>SAINT MARYS, US, AK</Name>
+	</City>
+	<City>
+		<Code>KSU</Code>
+		<Name>KRISTIANSUND, NO</Name>
+	</City>
+	<City>
+		<Code>KTB</Code>
+		<Name>THORNE BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>KTM</Code>
+		<Name>KATHMANDU, NP</Name>
+	</City>
+	<City>
+		<Code>KTN</Code>
+		<Name>KETCHIKAN (KTN), US, AK</Name>
+	</City>
+	<City>
+		<Code>KTP</Code>
+		<Name>KINGSTON (KTP), JM</Name>
+	</City>
+	<City>
+		<Code>KTS</Code>
+		<Name>TELLER MISSION, US, AK</Name>
+	</City>
+	<City>
+		<Code>KTW</Code>
+		<Name>KATOWICE, PL</Name>
+	</City>
+	<City>
+		<Code>KTY</Code>
+		<Name>KATUKURUNDA, LK</Name>
+	</City>
+	<City>
+		<Code>KUA</Code>
+		<Name>KUANTAN, MY</Name>
+	</City>
+	<City>
+		<Code>KUK</Code>
+		<Name>KASIGLUK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KUL</Code>
+		<Name>KUALA LUMPUR (KUL), MY</Name>
+	</City>
+	<City>
+		<Code>KUO</Code>
+		<Name>KUOPIO, FI</Name>
+	</City>
+	<City>
+		<Code>KVA</Code>
+		<Name>KAVALA, GR</Name>
+	</City>
+	<City>
+		<Code>KVC</Code>
+		<Name>KING COVE, US, AK</Name>
+	</City>
+	<City>
+		<Code>KVL</Code>
+		<Name>KIVALINA, US, AK</Name>
+	</City>
+	<City>
+		<Code>KWF</Code>
+		<Name>WATERFALL, US, AK</Name>
+	</City>
+	<City>
+		<Code>KWK</Code>
+		<Name>KWIGILLINGOK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KWN</Code>
+		<Name>QUINHAGAK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KWP</Code>
+		<Name>WEST POINT, US, AK</Name>
+	</City>
+	<City>
+		<Code>KWT</Code>
+		<Name>KWETHLUK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KXA</Code>
+		<Name>KASAAN, US, AK</Name>
+	</City>
+	<City>
+		<Code>KYK</Code>
+		<Name>KARLUK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KYL</Code>
+		<Name>KEY LARGO, US, FL</Name>
+	</City>
+	<City>
+		<Code>KYT</Code>
+		<Name>KYAUKTAW, MM</Name>
+	</City>
+	<City>
+		<Code>KYU</Code>
+		<Name>KOYUKUK, US, AK</Name>
+	</City>
+	<City>
+		<Code>KZB</Code>
+		<Name>ZACHAR BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>LAA</Code>
+		<Name>LAMAR, US, CO</Name>
+	</City>
+	<City>
+		<Code>LAD</Code>
+		<Name>LUANDA, AO</Name>
+	</City>
+	<City>
+		<Code>LAF</Code>
+		<Name>LAFAYETTE, US, IN</Name>
+	</City>
+	<City>
+		<Code>LAG</Code>
+		<Name>LA GUAIRA, VE</Name>
+	</City>
+	<City>
+		<Code>LAI</Code>
+		<Name>LANNION, FR</Name>
+	</City>
+	<City>
+		<Code>LAK</Code>
+		<Name>AKLAVIK, CA, NT</Name>
+	</City>
+	<City>
+		<Code>LAL</Code>
+		<Name>LAKELAND, US, FL</Name>
+	</City>
+	<City>
+		<Code>LAM</Code>
+		<Name>LOS ALAMOS, US, NM</Name>
+	</City>
+	<City>
+		<Code>LAN</Code>
+		<Name>LANSING, US, MI</Name>
+	</City>
+	<City>
+		<Code>LAP</Code>
+		<Name>LA PAZ, MX</Name>
+	</City>
+	<City>
+		<Code>LAR</Code>
+		<Name>LARAMIE, US, WY</Name>
+	</City>
+	<City>
+		<Code>LAS</Code>
+		<Name>LAS VEGAS (LAS), US, NV</Name>
+	</City>
+	<City>
+		<Code>LAW</Code>
+		<Name>LAWTON, US, OK</Name>
+	</City>
+	<City>
+		<Code>LAX</Code>
+		<Name>LOS ANGELES (LAX), US, CA</Name>
+	</City>
+	<City>
+		<Code>LBA</Code>
+		<Name>LEEDS, GB</Name>
+	</City>
+	<City>
+		<Code>LBB</Code>
+		<Name>LUBBOCK (LBB), US, TX</Name>
+	</City>
+	<City>
+		<Code>LBC</Code>
+		<Name>HAMBURG (LBC), DE</Name>
+	</City>
+	<City>
+		<Code>LBE</Code>
+		<Name>LATROBE, US, PA</Name>
+	</City>
+	<City>
+		<Code>LBF</Code>
+		<Name>NORTH PLATTE, US, NE</Name>
+	</City>
+	<City>
+		<Code>LBL</Code>
+		<Name>LIBERAL, US, KS</Name>
+	</City>
+	<City>
+		<Code>LCA</Code>
+		<Name>LARNACA, CY</Name>
+	</City>
+	<City>
+		<Code>LCE</Code>
+		<Name>LA CEIBA, HN</Name>
+	</City>
+	<City>
+		<Code>LCG</Code>
+		<Name>LA CORUNA, ES</Name>
+	</City>
+	<City>
+		<Code>LCH</Code>
+		<Name>LAKE CHARLES, US, LA</Name>
+	</City>
+	<City>
+		<Code>LCI</Code>
+		<Name>LACONIA, US, NH</Name>
+	</City>
+	<City>
+		<Code>LCY</Code>
+		<Name>LONDON (LCY), GB</Name>
+	</City>
+	<City>
+		<Code>LDB</Code>
+		<Name>LONDRINA, BR, PR</Name>
+	</City>
+	<City>
+		<Code>LDE</Code>
+		<Name>LOURDES TARBES, FR</Name>
+	</City>
+	<City>
+		<Code>LDN</Code>
+		<Name>LAMIDANDA, NP</Name>
+	</City>
+	<City>
+		<Code>LEB</Code>
+		<Name>LEBANON, US, NH</Name>
+	</City>
+	<City>
+		<Code>LED</Code>
+		<Name>ST PETERSBURG (LED), RU</Name>
+	</City>
+	<City>
+		<Code>LEE</Code>
+		<Name>LEESBURG, US, FL</Name>
+	</City>
+	<City>
+		<Code>LEH</Code>
+		<Name>LE HAVRE, FR</Name>
+	</City>
+	<City>
+		<Code>LEI</Code>
+		<Name>ALMERIA, ES</Name>
+	</City>
+	<City>
+		<Code>LEJ</Code>
+		<Name>LEIPZIG, DE</Name>
+	</City>
+	<City>
+		<Code>LEX</Code>
+		<Name>LEXINGTON (LEX), US, KY</Name>
+	</City>
+	<City>
+		<Code>LFT</Code>
+		<Name>LAFAYETTE, US, LA</Name>
+	</City>
+	<City>
+		<Code>LGA</Code>
+		<Name>NEW YORK (LGA), US, NY</Name>
+	</City>
+	<City>
+		<Code>LGB</Code>
+		<Name>LONG BEACH, US, CA</Name>
+	</City>
+	<City>
+		<Code>LGG</Code>
+		<Name>LIEGE, BE</Name>
+	</City>
+	<City>
+		<Code>LGK</Code>
+		<Name>LANGKAWI, MY</Name>
+	</City>
+	<City>
+		<Code>LGW</Code>
+		<Name>LONDON (LGW), GB</Name>
+	</City>
+	<City>
+		<Code>LHR</Code>
+		<Name>LONDON (LHR), GB</Name>
+	</City>
+	<City>
+		<Code>LHU</Code>
+		<Name>CAPRIVI, NA</Name>
+	</City>
+	<City>
+		<Code>LIG</Code>
+		<Name>LIMOGES, FR</Name>
+	</City>
+	<City>
+		<Code>LIH</Code>
+		<Name>KAUAI ISLAND (LIH), US, HI</Name>
+	</City>
+	<City>
+		<Code>LIJ</Code>
+		<Name>LONG ISLAND, US, AK</Name>
+	</City>
+	<City>
+		<Code>LIL</Code>
+		<Name>LILLE, FR</Name>
+	</City>
+	<City>
+		<Code>LIM</Code>
+		<Name>LIMA, PE</Name>
+	</City>
+	<City>
+		<Code>LIN</Code>
+		<Name>MILAN (LIN), IT</Name>
+	</City>
+	<City>
+		<Code>LIO</Code>
+		<Name>LIMON, CR</Name>
+	</City>
+	<City>
+		<Code>LIR</Code>
+		<Name>LIBERIA, CR</Name>
+	</City>
+	<City>
+		<Code>LIS</Code>
+		<Name>LISBON, PT</Name>
+	</City>
+	<City>
+		<Code>LIT</Code>
+		<Name>LITTLE ROCK, US, AR</Name>
+	</City>
+	<City>
+		<Code>LJU</Code>
+		<Name>LJUBLJANA, SI</Name>
+	</City>
+	<City>
+		<Code>LKE</Code>
+		<Name>SEATTLE (LKE), US, WA</Name>
+	</City>
+	<City>
+		<Code>LKL</Code>
+		<Name>LAKSELV, NO</Name>
+	</City>
+	<City>
+		<Code>LLA</Code>
+		<Name>LULEA, SE</Name>
+	</City>
+	<City>
+		<Code>LMA</Code>
+		<Name>LAKE MINCHUMINA, US, AK</Name>
+	</City>
+	<City>
+		<Code>LMT</Code>
+		<Name>KLAMATH FALLS, US, OR</Name>
+	</City>
+	<City>
+		<Code>LNK</Code>
+		<Name>LINCOLN, US, NE</Name>
+	</City>
+	<City>
+		<Code>LNS</Code>
+		<Name>LANCASTER, US, PA</Name>
+	</City>
+	<City>
+		<Code>LNY</Code>
+		<Name>LANAI CITY, US, HI</Name>
+	</City>
+	<City>
+		<Code>LNZ</Code>
+		<Name>LINZ, AT</Name>
+	</City>
+	<City>
+		<Code>LON</Code>
+		<Name>LONDON, GB</Name>
+	</City>
+	<City>
+		<Code>LPA</Code>
+		<Name>GRAN CANARIA, ES</Name>
+	</City>
+	<City>
+		<Code>LPB</Code>
+		<Name>LA PAZ, BO</Name>
+	</City>
+	<City>
+		<Code>LPI</Code>
+		<Name>LINKOPING, SE</Name>
+	</City>
+	<City>
+		<Code>LPL</Code>
+		<Name>LIVERPOOL, GB</Name>
+	</City>
+	<City>
+		<Code>LPS</Code>
+		<Name>LOPEZ ISLAND, US, WA</Name>
+	</City>
+	<City>
+		<Code>LPW</Code>
+		<Name>LITTLE PORT WALTE, US, AK</Name>
+	</City>
+	<City>
+		<Code>LRD</Code>
+		<Name>LAREDO, US, TX</Name>
+	</City>
+	<City>
+		<Code>LRH</Code>
+		<Name>LA ROCHELLE, FR</Name>
+	</City>
+	<City>
+		<Code>LRM</Code>
+		<Name>LA ROMANA, DO</Name>
+	</City>
+	<City>
+		<Code>LRS</Code>
+		<Name>LEROS, GR</Name>
+	</City>
+	<City>
+		<Code>LRT</Code>
+		<Name>LORIENT, FR</Name>
+	</City>
+	<City>
+		<Code>LSE</Code>
+		<Name>LA CROSSE, US, WI</Name>
+	</City>
+	<City>
+		<Code>LSI</Code>
+		<Name>SHETLAND ISLANDS (LSI), GB</Name>
+	</City>
+	<City>
+		<Code>LST</Code>
+		<Name>LAUNCESTON, AU, TS</Name>
+	</City>
+	<City>
+		<Code>LTN</Code>
+		<Name>LONDON (LTN), GB</Name>
+	</City>
+	<City>
+		<Code>LUG</Code>
+		<Name>LUGANO, CH</Name>
+	</City>
+	<City>
+		<Code>LUK</Code>
+		<Name>CINCINNATI (LUK), US, OH</Name>
+	</City>
+	<City>
+		<Code>LUP</Code>
+		<Name>KALAUPAPA, US, HI</Name>
+	</City>
+	<City>
+		<Code>LUQ</Code>
+		<Name>SAN LUIS, AR, SL</Name>
+	</City>
+	<City>
+		<Code>LUX</Code>
+		<Name>LUXEMBOURG, LU</Name>
+	</City>
+	<City>
+		<Code>LVD</Code>
+		<Name>LIME VILLAGE, US, AK</Name>
+	</City>
+	<City>
+		<Code>LWB</Code>
+		<Name>LEWISBURG, US, WV</Name>
+	</City>
+	<City>
+		<Code>LWK</Code>
+		<Name>SHETLAND ISLANDS (LWK), GB</Name>
+	</City>
+	<City>
+		<Code>LWS</Code>
+		<Name>LEWISTON, US, ID</Name>
+	</City>
+	<City>
+		<Code>LWT</Code>
+		<Name>LEWISTOWN, US, MT</Name>
+	</City>
+	<City>
+		<Code>LYB</Code>
+		<Name>LITTLE CAYMAN, KY</Name>
+	</City>
+	<City>
+		<Code>LYH</Code>
+		<Name>LYNCHBURG, US, VA</Name>
+	</City>
+	<City>
+		<Code>LYR</Code>
+		<Name>LONGYEARBYEN, NO</Name>
+	</City>
+	<City>
+		<Code>LYS</Code>
+		<Name>LYON (LYS), FR</Name>
+	</City>
+	<City>
+		<Code>LYU</Code>
+		<Name>ELY, US, MN</Name>
+	</City>
+	<City>
+		<Code>MAA</Code>
+		<Name>CHENNAI, IN</Name>
+	</City>
+	<City>
+		<Code>MAD</Code>
+		<Name>MADRID (MAD), ES</Name>
+	</City>
+	<City>
+		<Code>MAF</Code>
+		<Name>MIDLAND (MAF), US, TX</Name>
+	</City>
+	<City>
+		<Code>MAH</Code>
+		<Name>MENORCA, ES</Name>
+	</City>
+	<City>
+		<Code>MAN</Code>
+		<Name>MANCHESTER, GB</Name>
+	</City>
+	<City>
+		<Code>MAO</Code>
+		<Name>MANAUS, BR, AM</Name>
+	</City>
+	<City>
+		<Code>MAZ</Code>
+		<Name>MAYAGUEZ, PR</Name>
+	</City>
+	<City>
+		<Code>MBA</Code>
+		<Name>MOMBASA, KE</Name>
+	</City>
+	<City>
+		<Code>MBJ</Code>
+		<Name>MONTEGO BAY, JM</Name>
+	</City>
+	<City>
+		<Code>MBL</Code>
+		<Name>MANISTEE, US, MI</Name>
+	</City>
+	<City>
+		<Code>MBS</Code>
+		<Name>SAGINAW, US, MI</Name>
+	</City>
+	<City>
+		<Code>MBX</Code>
+		<Name>MARIBOR, SI</Name>
+	</City>
+	<City>
+		<Code>MCE</Code>
+		<Name>MERCED (MCE), US, CA</Name>
+	</City>
+	<City>
+		<Code>MCG</Code>
+		<Name>MCGRATH, US, AK</Name>
+	</City>
+	<City>
+		<Code>MCI</Code>
+		<Name>KANSAS CITY (MCI), US, MO</Name>
+	</City>
+	<City>
+		<Code>MCK</Code>
+		<Name>MCCOOK, US, NE</Name>
+	</City>
+	<City>
+		<Code>MCM</Code>
+		<Name>MONTE CARLO, MC</Name>
+	</City>
+	<City>
+		<Code>MCN</Code>
+		<Name>MACON (MCN), US, GA</Name>
+	</City>
+	<City>
+		<Code>MCO</Code>
+		<Name>ORLANDO (MCO), US, FL</Name>
+	</City>
+	<City>
+		<Code>MCT</Code>
+		<Name>MUSCAT, OM</Name>
+	</City>
+	<City>
+		<Code>MCW</Code>
+		<Name>MASON CITY, US, IA</Name>
+	</City>
+	<City>
+		<Code>MCZ</Code>
+		<Name>MACEIO, BR, AL</Name>
+	</City>
+	<City>
+		<Code>MDH</Code>
+		<Name>CARBONDALE, US, IL</Name>
+	</City>
+	<City>
+		<Code>MDQ</Code>
+		<Name>MAR DEL PLATA, AR, BA</Name>
+	</City>
+	<City>
+		<Code>MDT</Code>
+		<Name>HARRISBURG (MDT), US, PA</Name>
+	</City>
+	<City>
+		<Code>MDW</Code>
+		<Name>CHICAGO (MDW), US, IL</Name>
+	</City>
+	<City>
+		<Code>MDZ</Code>
+		<Name>MENDOZA, AR, MD</Name>
+	</City>
+	<City>
+		<Code>MEI</Code>
+		<Name>MERIDIAN, US, MS</Name>
+	</City>
+	<City>
+		<Code>MEL</Code>
+		<Name>MELBOURNE (MEL), AU, VI</Name>
+	</City>
+	<City>
+		<Code>MEM</Code>
+		<Name>MEMPHIS (MEM), US, TN</Name>
+	</City>
+	<City>
+		<Code>MEO</Code>
+		<Name>MANTEO, US, NC</Name>
+	</City>
+	<City>
+		<Code>MES</Code>
+		<Name>MEDAN, ID</Name>
+	</City>
+	<City>
+		<Code>MEX</Code>
+		<Name>MEXICO CITY (MEX), MX</Name>
+	</City>
+	<City>
+		<Code>MFE</Code>
+		<Name>MCALLEN, US, TX</Name>
+	</City>
+	<City>
+		<Code>MFM</Code>
+		<Name>MACAU, MO</Name>
+	</City>
+	<City>
+		<Code>MFR</Code>
+		<Name>MEDFORD, US, OR</Name>
+	</City>
+	<City>
+		<Code>MGA</Code>
+		<Name>MANAGUA, NI</Name>
+	</City>
+	<City>
+		<Code>MGF</Code>
+		<Name>MARINGA, BR, PR</Name>
+	</City>
+	<City>
+		<Code>MGM</Code>
+		<Name>MONTGOMERY (MGM), US, AL</Name>
+	</City>
+	<City>
+		<Code>MGW</Code>
+		<Name>MORGANTOWN, US, WV</Name>
+	</City>
+	<City>
+		<Code>MGY</Code>
+		<Name>DAYTON (MGY), US, OH</Name>
+	</City>
+	<City>
+		<Code>MHE</Code>
+		<Name>MITCHELL, US, SD</Name>
+	</City>
+	<City>
+		<Code>MHG</Code>
+		<Name>MANNHEIM, DE</Name>
+	</City>
+	<City>
+		<Code>MHH</Code>
+		<Name>MARSH HARBOUR, BS</Name>
+	</City>
+	<City>
+		<Code>MHK</Code>
+		<Name>MANHATTAN, US, KS</Name>
+	</City>
+	<City>
+		<Code>MHQ</Code>
+		<Name>MARIEHAMN, FI</Name>
+	</City>
+	<City>
+		<Code>MHT</Code>
+		<Name>MANCHESTER, US, NH</Name>
+	</City>
+	<City>
+		<Code>MIA</Code>
+		<Name>MIAMI (MIA), US, FL</Name>
+	</City>
+	<City>
+		<Code>MID</Code>
+		<Name>MERIDA, MX</Name>
+	</City>
+	<City>
+		<Code>MIE</Code>
+		<Name>MUNCIE, US, IN</Name>
+	</City>
+	<City>
+		<Code>MIL</Code>
+		<Name>MILAN, IT</Name>
+	</City>
+	<City>
+		<Code>MJT</Code>
+		<Name>MYTILENE, GR</Name>
+	</City>
+	<City>
+		<Code>MJV</Code>
+		<Name>MURCIA, ES</Name>
+	</City>
+	<City>
+		<Code>MJX</Code>
+		<Name>TOMS RIVER, US, NJ</Name>
+	</City>
+	<City>
+		<Code>MKC</Code>
+		<Name>KANSAS CITY (MKC), US, MO</Name>
+	</City>
+	<City>
+		<Code>MKE</Code>
+		<Name>MILWAUKEE (MKE), US, WI</Name>
+	</City>
+	<City>
+		<Code>MKG</Code>
+		<Name>MUSKEGON, US, MI</Name>
+	</City>
+	<City>
+		<Code>MKK</Code>
+		<Name>HOOLEHUA, US, HI</Name>
+	</City>
+	<City>
+		<Code>MKL</Code>
+		<Name>JACKSON, US, TN</Name>
+	</City>
+	<City>
+		<Code>MKT</Code>
+		<Name>MANKATO, US, MN</Name>
+	</City>
+	<City>
+		<Code>MLA</Code>
+		<Name>MALTA, MT</Name>
+	</City>
+	<City>
+		<Code>MLB</Code>
+		<Name>MELBOURNE, US, FL</Name>
+	</City>
+	<City>
+		<Code>MLE</Code>
+		<Name>MALE, MV</Name>
+	</City>
+	<City>
+		<Code>MLH</Code>
+		<Name>BASEL MULHOUSE (MLH), FR</Name>
+	</City>
+	<City>
+		<Code>MLI</Code>
+		<Name>MOLINE, US, IL</Name>
+	</City>
+	<City>
+		<Code>MLL</Code>
+		<Name>MARSHALL, US, AK</Name>
+	</City>
+	<City>
+		<Code>MLM</Code>
+		<Name>MORELIA, MX</Name>
+	</City>
+	<City>
+		<Code>MLO</Code>
+		<Name>MILOS, GR</Name>
+	</City>
+	<City>
+		<Code>MLS</Code>
+		<Name>MILES CITY, US, MT</Name>
+	</City>
+	<City>
+		<Code>MLU</Code>
+		<Name>MONROE, US, LA</Name>
+	</City>
+	<City>
+		<Code>MLY</Code>
+		<Name>MANLEY HOT SPRING, US, AK</Name>
+	</City>
+	<City>
+		<Code>MMA</Code>
+		<Name>MALMO, SE</Name>
+	</City>
+	<City>
+		<Code>MME</Code>
+		<Name>TEESSIDE, GB</Name>
+	</City>
+	<City>
+		<Code>MMH</Code>
+		<Name>MAMMOTH LAKES, US, CA</Name>
+	</City>
+	<City>
+		<Code>MMK</Code>
+		<Name>MURMANSK, RU</Name>
+	</City>
+	<City>
+		<Code>MML</Code>
+		<Name>MARSHALL, US, MN</Name>
+	</City>
+	<City>
+		<Code>MMX</Code>
+		<Name>MALMO (MMX), SE</Name>
+	</City>
+	<City>
+		<Code>MNI</Code>
+		<Name>MONTSERRAT, MS</Name>
+	</City>
+	<City>
+		<Code>MNL</Code>
+		<Name>MANILA (MNL), PH</Name>
+	</City>
+	<City>
+		<Code>MNM</Code>
+		<Name>MENOMINEE, US, MI</Name>
+	</City>
+	<City>
+		<Code>MNT</Code>
+		<Name>MINTO, US, AK</Name>
+	</City>
+	<City>
+		<Code>MOB</Code>
+		<Name>MOBILE (MOB), US, AL</Name>
+	</City>
+	<City>
+		<Code>MOD</Code>
+		<Name>MODESTO, US, CA</Name>
+	</City>
+	<City>
+		<Code>MOL</Code>
+		<Name>MOLDE, NO</Name>
+	</City>
+	<City>
+		<Code>MOT</Code>
+		<Name>MINOT (MOT), US, ND</Name>
+	</City>
+	<City>
+		<Code>MOW</Code>
+		<Name>MOSCOW, RU</Name>
+	</City>
+	<City>
+		<Code>MOZ</Code>
+		<Name>MOOREA, PF</Name>
+	</City>
+	<City>
+		<Code>MPB</Code>
+		<Name>MIAMI (MPB), US, FL</Name>
+	</City>
+	<City>
+		<Code>MPL</Code>
+		<Name>MONTPELLIER, FR</Name>
+	</City>
+	<City>
+		<Code>MPM</Code>
+		<Name>MAPUTO, MZ</Name>
+	</City>
+	<City>
+		<Code>MPO</Code>
+		<Name>MT POCONO, US, PA</Name>
+	</City>
+	<City>
+		<Code>MPV</Code>
+		<Name>MONTPELIER, US, VT</Name>
+	</City>
+	<City>
+		<Code>MQT</Code>
+		<Name>MARQUETTE, US, MI</Name>
+	</City>
+	<City>
+		<Code>MRS</Code>
+		<Name>MARSEILLE, FR</Name>
+	</City>
+	<City>
+		<Code>MRU</Code>
+		<Name>MAURITIUS, MU</Name>
+	</City>
+	<City>
+		<Code>MRY</Code>
+		<Name>MONTEREY (MRY), US, CA</Name>
+	</City>
+	<City>
+		<Code>MSA</Code>
+		<Name>MUSKRAT DAM, CA, ON</Name>
+	</City>
+	<City>
+		<Code>MSB</Code>
+		<Name>ST MARTIN (MSB), GP</Name>
+	</City>
+	<City>
+		<Code>MSD</Code>
+		<Name>MT PLEASANT, US, UT</Name>
+	</City>
+	<City>
+		<Code>MSL</Code>
+		<Name>MUSCLE SHOALS, US, AL</Name>
+	</City>
+	<City>
+		<Code>MSN</Code>
+		<Name>MADISON, US, WI</Name>
+	</City>
+	<City>
+		<Code>MSO</Code>
+		<Name>MISSOULA, US, MT</Name>
+	</City>
+	<City>
+		<Code>MSP</Code>
+		<Name>MINNEAPOLIS (MSP), US, MN</Name>
+	</City>
+	<City>
+		<Code>MSS</Code>
+		<Name>MASSENA, US, NY</Name>
+	</City>
+	<City>
+		<Code>MST</Code>
+		<Name>MAASTRICHT, NL</Name>
+	</City>
+	<City>
+		<Code>MSY</Code>
+		<Name>NEW ORLEANS (MSY), US, LA</Name>
+	</City>
+	<City>
+		<Code>MTH</Code>
+		<Name>MARATHON, US, FL</Name>
+	</City>
+	<City>
+		<Code>MTJ</Code>
+		<Name>MONTROSE, US, CO</Name>
+	</City>
+	<City>
+		<Code>MTM</Code>
+		<Name>METLAKATLA, US, AK</Name>
+	</City>
+	<City>
+		<Code>MTO</Code>
+		<Name>MATTOON, US, IL</Name>
+	</City>
+	<City>
+		<Code>MTY</Code>
+		<Name>MONTERREY (MTY), MX</Name>
+	</City>
+	<City>
+		<Code>MUC</Code>
+		<Name>MUNICH (MUC), DE</Name>
+	</City>
+	<City>
+		<Code>MUE</Code>
+		<Name>KAMUELA, US, HI</Name>
+	</City>
+	<City>
+		<Code>MUX</Code>
+		<Name>MULTAN, PK</Name>
+	</City>
+	<City>
+		<Code>MVD</Code>
+		<Name>MONTEVIDEO, UY</Name>
+	</City>
+	<City>
+		<Code>MVN</Code>
+		<Name>MT VERNON, US, IL</Name>
+	</City>
+	<City>
+		<Code>MVW</Code>
+		<Name>MOUNT VERNON, US, WA</Name>
+	</City>
+	<City>
+		<Code>MVY</Code>
+		<Name>MARTHAS VINEYARD, US, MA</Name>
+	</City>
+	<City>
+		<Code>MWA</Code>
+		<Name>MARION, US, IL</Name>
+	</City>
+	<City>
+		<Code>MWH</Code>
+		<Name>MOSES LAKE (MWH), US, WA</Name>
+	</City>
+	<City>
+		<Code>MXP</Code>
+		<Name>MILAN (MXP), IT</Name>
+	</City>
+	<City>
+		<Code>MYR</Code>
+		<Name>MYRTLE BEACH (MYR), US, SC</Name>
+	</City>
+	<City>
+		<Code>MYU</Code>
+		<Name>MEKORYUK, US, AK</Name>
+	</City>
+	<City>
+		<Code>MZO</Code>
+		<Name>MANZANILLO, CU</Name>
+	</City>
+	<City>
+		<Code>MZT</Code>
+		<Name>MAZATLAN, MX</Name>
+	</City>
+	<City>
+		<Code>NAP</Code>
+		<Name>NAPLES, IT</Name>
+	</City>
+	<City>
+		<Code>NAS</Code>
+		<Name>NASSAU (NAS), BS</Name>
+	</City>
+	<City>
+		<Code>NAT</Code>
+		<Name>NATAL, BR, RN</Name>
+	</City>
+	<City>
+		<Code>NBO</Code>
+		<Name>NAIROBI (NBO), KE</Name>
+	</City>
+	<City>
+		<Code>NCE</Code>
+		<Name>NICE, FR</Name>
+	</City>
+	<City>
+		<Code>NCL</Code>
+		<Name>NEWCASTLE, GB</Name>
+	</City>
+	<City>
+		<Code>NCY</Code>
+		<Name>ANNECY, FR</Name>
+	</City>
+	<City>
+		<Code>NEG</Code>
+		<Name>NEGRIL, JM</Name>
+	</City>
+	<City>
+		<Code>NEV</Code>
+		<Name>NEVIS, KN</Name>
+	</City>
+	<City>
+		<Code>NGB</Code>
+		<Name>NINGBO, CN</Name>
+	</City>
+	<City>
+		<Code>NGM</Code>
+		<Name>GUAM (NGM), GU</Name>
+	</City>
+	<City>
+		<Code>NGO</Code>
+		<Name>NAGOYA (NGO), JP</Name>
+	</City>
+	<City>
+		<Code>NGS</Code>
+		<Name>NAGASAKI, JP</Name>
+	</City>
+	<City>
+		<Code>NHA</Code>
+		<Name>NHA TRANG, VN</Name>
+	</City>
+	<City>
+		<Code>NIB</Code>
+		<Name>NIKOLAI, US, AK</Name>
+	</City>
+	<City>
+		<Code>NKG</Code>
+		<Name>NANJING, CN</Name>
+	</City>
+	<City>
+		<Code>NKI</Code>
+		<Name>NAUKITI, US, AK</Name>
+	</City>
+	<City>
+		<Code>NLD</Code>
+		<Name>NUEVO LAREDO, MX</Name>
+	</City>
+	<City>
+		<Code>NLG</Code>
+		<Name>NELSON LAGOON, US, AK</Name>
+	</City>
+	<City>
+		<Code>NME</Code>
+		<Name>NIGHTMUTE, US, AK</Name>
+	</City>
+	<City>
+		<Code>NNK</Code>
+		<Name>NAKNEK, US, AK</Name>
+	</City>
+	<City>
+		<Code>NNL</Code>
+		<Name>NONDALTON, US, AK</Name>
+	</City>
+	<City>
+		<Code>NOC</Code>
+		<Name>KNOCK, IE</Name>
+	</City>
+	<City>
+		<Code>NPH</Code>
+		<Name>NEPHI, US, UT</Name>
+	</City>
+	<City>
+		<Code>NPL</Code>
+		<Name>NEW PLYMOUTH, NZ</Name>
+	</City>
+	<City>
+		<Code>NPR</Code>
+		<Name>NOVO PROGRESSO, BR, PA</Name>
+	</City>
+	<City>
+		<Code>NQN</Code>
+		<Name>NEUQUEN, AR, NE</Name>
+	</City>
+	<City>
+		<Code>NQY</Code>
+		<Name>NEWQUAY, GB</Name>
+	</City>
+	<City>
+		<Code>NRK</Code>
+		<Name>NORRKOPING, SE</Name>
+	</City>
+	<City>
+		<Code>NRT</Code>
+		<Name>TOKYO (NRT), JP</Name>
+	</City>
+	<City>
+		<Code>NTE</Code>
+		<Name>NANTES, FR</Name>
+	</City>
+	<City>
+		<Code>NUE</Code>
+		<Name>NUREMBERG, DE</Name>
+	</City>
+	<City>
+		<Code>NUI</Code>
+		<Name>NUIQSUT, US, AK</Name>
+	</City>
+	<City>
+		<Code>NUL</Code>
+		<Name>NULATO, US, AK</Name>
+	</City>
+	<City>
+		<Code>NUP</Code>
+		<Name>NUNAPITCHUK, US, AK</Name>
+	</City>
+	<City>
+		<Code>NVT</Code>
+		<Name>NAVEGANTES, BR, SC</Name>
+	</City>
+	<City>
+		<Code>NWI</Code>
+		<Name>NORWICH, GB</Name>
+	</City>
+	<City>
+		<Code>NYC</Code>
+		<Name>NEW YORK, US, NY</Name>
+	</City>
+	<City>
+		<Code>NYO</Code>
+		<Name>STOCKHOLM (NYO), SE</Name>
+	</City>
+	<City>
+		<Code>OAJ</Code>
+		<Name>JACKSONVILLE, US, NC</Name>
+	</City>
+	<City>
+		<Code>OAK</Code>
+		<Name>OAKLAND, US, CA</Name>
+	</City>
+	<City>
+		<Code>OAX</Code>
+		<Name>OAXACA, MX</Name>
+	</City>
+	<City>
+		<Code>OBU</Code>
+		<Name>KOBUK, US, AK</Name>
+	</City>
+	<City>
+		<Code>OCA</Code>
+		<Name>OCEAN REEF, US, FL</Name>
+	</City>
+	<City>
+		<Code>OCF</Code>
+		<Name>OCALA, US, FL</Name>
+	</City>
+	<City>
+		<Code>OCH</Code>
+		<Name>NACOGDOCHES, US, TX</Name>
+	</City>
+	<City>
+		<Code>OCJ</Code>
+		<Name>OCHO RIOS, JM</Name>
+	</City>
+	<City>
+		<Code>ODW</Code>
+		<Name>OAK HARBOR, US, WA</Name>
+	</City>
+	<City>
+		<Code>OFK</Code>
+		<Name>NORFOLK, US, NE</Name>
+	</City>
+	<City>
+		<Code>OGG</Code>
+		<Name>KAHULUI, US, HI</Name>
+	</City>
+	<City>
+		<Code>OGS</Code>
+		<Name>OGDENSBURG, US, NY</Name>
+	</City>
+	<City>
+		<Code>OKC</Code>
+		<Name>OKLAHOMA CITY (OKC), US, OK</Name>
+	</City>
+	<City>
+		<Code>OKI</Code>
+		<Name>OKI ISLAND, JP</Name>
+	</City>
+	<City>
+		<Code>OKK</Code>
+		<Name>KOKOMO, US, IN</Name>
+	</City>
+	<City>
+		<Code>OLB</Code>
+		<Name>OLBIA, IT</Name>
+	</City>
+	<City>
+		<Code>OLF</Code>
+		<Name>WOLF POINT, US, MT</Name>
+	</City>
+	<City>
+		<Code>OMA</Code>
+		<Name>OMAHA (OMA), US, NE</Name>
+	</City>
+	<City>
+		<Code>OME</Code>
+		<Name>NOME, US, AK</Name>
+	</City>
+	<City>
+		<Code>ONT</Code>
+		<Name>ONTARIO (ONT), US, CA</Name>
+	</City>
+	<City>
+		<Code>OOL</Code>
+		<Name>GOLD COAST, AU, QL</Name>
+	</City>
+	<City>
+		<Code>OPO</Code>
+		<Name>PORTO, PT</Name>
+	</City>
+	<City>
+		<Code>ORB</Code>
+		<Name>OREBRO, SE</Name>
+	</City>
+	<City>
+		<Code>ORC</Code>
+		<Name>OROCUE, CO</Name>
+	</City>
+	<City>
+		<Code>ORD</Code>
+		<Name>CHICAGO (ORD), US, IL</Name>
+	</City>
+	<City>
+		<Code>ORF</Code>
+		<Name>NORFOLK (ORF), US, VA</Name>
+	</City>
+	<City>
+		<Code>ORH</Code>
+		<Name>WORCESTER, US, MA</Name>
+	</City>
+	<City>
+		<Code>ORK</Code>
+		<Name>CORK, IE</Name>
+	</City>
+	<City>
+		<Code>ORL</Code>
+		<Name>ORLANDO (ORL), US, FL</Name>
+	</City>
+	<City>
+		<Code>ORY</Code>
+		<Name>PARIS (ORY), FR</Name>
+	</City>
+	<City>
+		<Code>OSA</Code>
+		<Name>OSAKA, JP</Name>
+	</City>
+	<City>
+		<Code>OSD</Code>
+		<Name>OSTERSUND, SE</Name>
+	</City>
+	<City>
+		<Code>OSH</Code>
+		<Name>OSHKOSH, US, WI</Name>
+	</City>
+	<City>
+		<Code>OSL</Code>
+		<Name>OSLO (OSL), NO</Name>
+	</City>
+	<City>
+		<Code>OSM</Code>
+		<Name>MOSUL, IQ</Name>
+	</City>
+	<City>
+		<Code>OTG</Code>
+		<Name>WORTHINGTON, US, MN</Name>
+	</City>
+	<City>
+		<Code>OTH</Code>
+		<Name>NORTH BEND, US, OR</Name>
+	</City>
+	<City>
+		<Code>OTM</Code>
+		<Name>OTTUMWA, US, IA</Name>
+	</City>
+	<City>
+		<Code>OTP</Code>
+		<Name>BUCHAREST (OTP), RO</Name>
+	</City>
+	<City>
+		<Code>OTS</Code>
+		<Name>ANACORTES, US, WA</Name>
+	</City>
+	<City>
+		<Code>OTZ</Code>
+		<Name>KOTZEBUE, US, AK</Name>
+	</City>
+	<City>
+		<Code>OUL</Code>
+		<Name>OULU, FI</Name>
+	</City>
+	<City>
+		<Code>OVD</Code>
+		<Name>ASTURIAS, ES</Name>
+	</City>
+	<City>
+		<Code>OWB</Code>
+		<Name>OWENSBORO, US, KY</Name>
+	</City>
+	<City>
+		<Code>OXB</Code>
+		<Name>BISSAU, GW</Name>
+	</City>
+	<City>
+		<Code>OXR</Code>
+		<Name>OXNARD, US, CA</Name>
+	</City>
+	<City>
+		<Code>PAD</Code>
+		<Name>PADERBORN, DE</Name>
+	</City>
+	<City>
+		<Code>PAH</Code>
+		<Name>PADUCAH, US, KY</Name>
+	</City>
+	<City>
+		<Code>PAP</Code>
+		<Name>PORT AU PRINCE, HT</Name>
+	</City>
+	<City>
+		<Code>PAR</Code>
+		<Name>PARIS, FR</Name>
+	</City>
+	<City>
+		<Code>PAS</Code>
+		<Name>PAROS, GR</Name>
+	</City>
+	<City>
+		<Code>PBI</Code>
+		<Name>WEST PALM BEACH (PBI), US, FL</Name>
+	</City>
+	<City>
+		<Code>PBR</Code>
+		<Name>PUERTO BARRIOS, GT</Name>
+	</City>
+	<City>
+		<Code>PCA</Code>
+		<Name>PORTAGE CREEK, US, AK</Name>
+	</City>
+	<City>
+		<Code>PCL</Code>
+		<Name>PUCALLPA, PE</Name>
+	</City>
+	<City>
+		<Code>PCN</Code>
+		<Name>PICTON, NZ</Name>
+	</City>
+	<City>
+		<Code>PDG</Code>
+		<Name>PADANG, ID</Name>
+	</City>
+	<City>
+		<Code>PDL</Code>
+		<Name>PONTA DELGADA AZORES, PT</Name>
+	</City>
+	<City>
+		<Code>PDT</Code>
+		<Name>PENDLETON, US, OR</Name>
+	</City>
+	<City>
+		<Code>PDV</Code>
+		<Name>PLOVDIV, BG</Name>
+	</City>
+	<City>
+		<Code>PDX</Code>
+		<Name>PORTLAND, US, OR</Name>
+	</City>
+	<City>
+		<Code>PEG</Code>
+		<Name>PERUGIA, IT</Name>
+	</City>
+	<City>
+		<Code>PEK</Code>
+		<Name>BEIJING (PEK), CN</Name>
+	</City>
+	<City>
+		<Code>PEN</Code>
+		<Name>PENANG (PEN), MY</Name>
+	</City>
+	<City>
+		<Code>PER</Code>
+		<Name>PERTH, AU, WA</Name>
+	</City>
+	<City>
+		<Code>PFN</Code>
+		<Name>PANAMA CITY (PFN), US, FL</Name>
+	</City>
+	<City>
+		<Code>PFO</Code>
+		<Name>PAPHOS, CY</Name>
+	</City>
+	<City>
+		<Code>PGA</Code>
+		<Name>PAGE, US, AZ</Name>
+	</City>
+	<City>
+		<Code>PGD</Code>
+		<Name>PUNTA GORDA, US, FL</Name>
+	</City>
+	<City>
+		<Code>PGF</Code>
+		<Name>PERPIGNAN, FR</Name>
+	</City>
+	<City>
+		<Code>PGV</Code>
+		<Name>GREENVILLE, US, NC</Name>
+	</City>
+	<City>
+		<Code>PGX</Code>
+		<Name>PERIGUEUX, FR</Name>
+	</City>
+	<City>
+		<Code>PHF</Code>
+		<Name>NEWPORTNEWS HAMPT, US, VA</Name>
+	</City>
+	<City>
+		<Code>PHL</Code>
+		<Name>PHILADELPHIA (PHL), US, PA</Name>
+	</City>
+	<City>
+		<Code>PHX</Code>
+		<Name>PHOENIX (PHX), US, AZ</Name>
+	</City>
+	<City>
+		<Code>PIA</Code>
+		<Name>PEORIA, US, IL</Name>
+	</City>
+	<City>
+		<Code>PIB</Code>
+		<Name>LAUREL (PIB), US, MS</Name>
+	</City>
+	<City>
+		<Code>PIE</Code>
+		<Name>ST PETERSBURG (PIE), US, FL</Name>
+	</City>
+	<City>
+		<Code>PIH</Code>
+		<Name>POCATELLO, US, ID</Name>
+	</City>
+	<City>
+		<Code>PIK</Code>
+		<Name>GLASGOW (PIK), GB</Name>
+	</City>
+	<City>
+		<Code>PIR</Code>
+		<Name>PIERRE, US, SD</Name>
+	</City>
+	<City>
+		<Code>PIT</Code>
+		<Name>PITTSBURGH (PIT), US, PA</Name>
+	</City>
+	<City>
+		<Code>PKB</Code>
+		<Name>PARKERSBURG, US, WV</Name>
+	</City>
+	<City>
+		<Code>PLB</Code>
+		<Name>PLATTSBURGH (PLB), US, NY</Name>
+	</City>
+	<City>
+		<Code>PLH</Code>
+		<Name>PLYMOUTH, GB</Name>
+	</City>
+	<City>
+		<Code>PLK</Code>
+		<Name>BRANSON/POINT LOOKOUT, US, MO</Name>
+	</City>
+	<City>
+		<Code>PLM</Code>
+		<Name>PALEMBANG, ID</Name>
+	</City>
+	<City>
+		<Code>PLN</Code>
+		<Name>PELLSTON, US, MI</Name>
+	</City>
+	<City>
+		<Code>PLS</Code>
+		<Name>PROVIDENCIALES, TC</Name>
+	</City>
+	<City>
+		<Code>PMD</Code>
+		<Name>PALMDALE, US, CA</Name>
+	</City>
+	<City>
+		<Code>PMF</Code>
+		<Name>MILAN (PMF), IT</Name>
+	</City>
+	<City>
+		<Code>PMI</Code>
+		<Name>PALMA MALLORCA, ES</Name>
+	</City>
+	<City>
+		<Code>PMO</Code>
+		<Name>PALERMO, IT</Name>
+	</City>
+	<City>
+		<Code>PMV</Code>
+		<Name>PORLAMAR, VE</Name>
+	</City>
+	<City>
+		<Code>PNA</Code>
+		<Name>PAMPLONA, ES</Name>
+	</City>
+	<City>
+		<Code>PNC</Code>
+		<Name>PONCA CITY, US, OK</Name>
+	</City>
+	<City>
+		<Code>PNK</Code>
+		<Name>PONTIANAK, ID</Name>
+	</City>
+	<City>
+		<Code>PNL</Code>
+		<Name>PANTELLERIA, IT</Name>
+	</City>
+	<City>
+		<Code>PNS</Code>
+		<Name>PENSACOLA (PNS), US, FL</Name>
+	</City>
+	<City>
+		<Code>POA</Code>
+		<Name>PORTO ALEGRE, BR, RS</Name>
+	</City>
+	<City>
+		<Code>POM</Code>
+		<Name>PORT MORESBY, PG</Name>
+	</City>
+	<City>
+		<Code>POP</Code>
+		<Name>PUERTO PLATA, DO</Name>
+	</City>
+	<City>
+		<Code>POR</Code>
+		<Name>PORI, FI</Name>
+	</City>
+	<City>
+		<Code>POS</Code>
+		<Name>PORT OF SPAIN, TT</Name>
+	</City>
+	<City>
+		<Code>POT</Code>
+		<Name>PORT ANTONIO, JM</Name>
+	</City>
+	<City>
+		<Code>POU</Code>
+		<Name>POUGHKEEPSIE, US, NY</Name>
+	</City>
+	<City>
+		<Code>POW</Code>
+		<Name>PORTOROZ, SI</Name>
+	</City>
+	<City>
+		<Code>POZ</Code>
+		<Name>POZNAN, PL</Name>
+	</City>
+	<City>
+		<Code>PPG</Code>
+		<Name>PAGO PAGO, AS</Name>
+	</City>
+	<City>
+		<Code>PPT</Code>
+		<Name>PAPEETE, PF</Name>
+	</City>
+	<City>
+		<Code>PQI</Code>
+		<Name>PRESQUE ISLE, US, ME</Name>
+	</City>
+	<City>
+		<Code>PRC</Code>
+		<Name>PRESCOTT, US, AZ</Name>
+	</City>
+	<City>
+		<Code>PRG</Code>
+		<Name>PRAGUE, CZ</Name>
+	</City>
+	<City>
+		<Code>PSA</Code>
+		<Name>FLORENCE (PSA), IT</Name>
+	</City>
+	<City>
+		<Code>PSC</Code>
+		<Name>PASCO, US, WA</Name>
+	</City>
+	<City>
+		<Code>PSD</Code>
+		<Name>PORT SAID, EG</Name>
+	</City>
+	<City>
+		<Code>PSE</Code>
+		<Name>PONCE, PR</Name>
+	</City>
+	<City>
+		<Code>PSG</Code>
+		<Name>PETERSBURG, US, AK</Name>
+	</City>
+	<City>
+		<Code>PSM</Code>
+		<Name>PORTSMOUTH, US, NH</Name>
+	</City>
+	<City>
+		<Code>PSP</Code>
+		<Name>PALM SPRINGS (PSP), US, CA</Name>
+	</City>
+	<City>
+		<Code>PSR</Code>
+		<Name>PESCARA, IT</Name>
+	</City>
+	<City>
+		<Code>PSS</Code>
+		<Name>POSADAS, AR, MI</Name>
+	</City>
+	<City>
+		<Code>PTP</Code>
+		<Name>POINTE A PITRE, GP</Name>
+	</City>
+	<City>
+		<Code>PTS</Code>
+		<Name>PITTSBURG, US, KS</Name>
+	</City>
+	<City>
+		<Code>PTY</Code>
+		<Name>PANAMA CITY (PTY), PA</Name>
+	</City>
+	<City>
+		<Code>PUB</Code>
+		<Name>PUEBLO, US, CO</Name>
+	</City>
+	<City>
+		<Code>PUF</Code>
+		<Name>PAU, FR</Name>
+	</City>
+	<City>
+		<Code>PUJ</Code>
+		<Name>PUNTA CANA, DO</Name>
+	</City>
+	<City>
+		<Code>PUO</Code>
+		<Name>PRUDHOE BAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>PUQ</Code>
+		<Name>PUNTA ARENAS, CL</Name>
+	</City>
+	<City>
+		<Code>PUS</Code>
+		<Name>BUSAN, KR</Name>
+	</City>
+	<City>
+		<Code>PUT</Code>
+		<Name>PUTTAPARTHI, IN</Name>
+	</City>
+	<City>
+		<Code>PUW</Code>
+		<Name>PULLMAN, US, WA</Name>
+	</City>
+	<City>
+		<Code>PVC</Code>
+		<Name>PROVINCETOWN, US, MA</Name>
+	</City>
+	<City>
+		<Code>PVD</Code>
+		<Name>PROVIDENCE, US, RI</Name>
+	</City>
+	<City>
+		<Code>PVG</Code>
+		<Name>SHANGHAI (PVG), CN</Name>
+	</City>
+	<City>
+		<Code>PVR</Code>
+		<Name>PUERTO VALLARTA, MX</Name>
+	</City>
+	<City>
+		<Code>PWM</Code>
+		<Name>PORTLAND, US, ME</Name>
+	</City>
+	<City>
+		<Code>PZE</Code>
+		<Name>PENZANCE, GB</Name>
+	</City>
+	<City>
+		<Code>QCA</Code>
+		<Name>MAKKAH, SA</Name>
+	</City>
+	<City>
+		<Code>QFB</Code>
+		<Name>FREIBURG, DE</Name>
+	</City>
+	<City>
+		<Code>QKL</Code>
+		<Name>COLOGNE (QKL), DE</Name>
+	</City>
+	<City>
+		<Code>QKN</Code>
+		<Name>KAIROUAN, TN</Name>
+	</City>
+	<City>
+		<Code>QQD</Code>
+		<Name>DOVER RAIL, GB</Name>
+	</City>
+	<City>
+		<Code>QQH</Code>
+		<Name>HARWICH, GB</Name>
+	</City>
+	<City>
+		<Code>QRO</Code>
+		<Name>QUERETARO, MX</Name>
+	</City>
+	<City>
+		<Code>RAO</Code>
+		<Name>RIBEIRAO PRETO, BR, SP</Name>
+	</City>
+	<City>
+		<Code>RAP</Code>
+		<Name>RAPID CITY (RAP), US, SD</Name>
+	</City>
+	<City>
+		<Code>RDD</Code>
+		<Name>REDDING, US, CA</Name>
+	</City>
+	<City>
+		<Code>RDG</Code>
+		<Name>READING, US, PA</Name>
+	</City>
+	<City>
+		<Code>RDM</Code>
+		<Name>REDMOND, US, OR</Name>
+	</City>
+	<City>
+		<Code>RDU</Code>
+		<Name>RALEIGH DURHAM, US, NC</Name>
+	</City>
+	<City>
+		<Code>REC</Code>
+		<Name>RECIFE, BR, PE</Name>
+	</City>
+	<City>
+		<Code>REG</Code>
+		<Name>REGGIO CALABRIA, IT</Name>
+	</City>
+	<City>
+		<Code>REK</Code>
+		<Name>REYKJAVIK, IS</Name>
+	</City>
+	<City>
+		<Code>REL</Code>
+		<Name>TRELEW, AR, CB</Name>
+	</City>
+	<City>
+		<Code>RES</Code>
+		<Name>RESISTENCIA, AR, CH</Name>
+	</City>
+	<City>
+		<Code>REU</Code>
+		<Name>REUS, ES</Name>
+	</City>
+	<City>
+		<Code>RFD</Code>
+		<Name>ROCKFORD (RFD), US, IL</Name>
+	</City>
+	<City>
+		<Code>RGL</Code>
+		<Name>RIO GALLEGOS, AR, SC</Name>
+	</City>
+	<City>
+		<Code>RHI</Code>
+		<Name>RHINELANDER, US, WI</Name>
+	</City>
+	<City>
+		<Code>RHO</Code>
+		<Name>RHODES, GR</Name>
+	</City>
+	<City>
+		<Code>RIC</Code>
+		<Name>RICHMOND, US, VA</Name>
+	</City>
+	<City>
+		<Code>RIO</Code>
+		<Name>RIO DE JANEIRO, BR, RJ</Name>
+	</City>
+	<City>
+		<Code>RIW</Code>
+		<Name>RIVERTON, US, WY</Name>
+	</City>
+	<City>
+		<Code>RIX</Code>
+		<Name>RIGA (RIX), LV</Name>
+	</City>
+	<City>
+		<Code>RKD</Code>
+		<Name>ROCKLAND, US, ME</Name>
+	</City>
+	<City>
+		<Code>RKS</Code>
+		<Name>ROCK SPRINGS, US, WY</Name>
+	</City>
+	<City>
+		<Code>RNB</Code>
+		<Name>RONNEBY, SE</Name>
+	</City>
+	<City>
+		<Code>RNN</Code>
+		<Name>BORNHOLM, DK</Name>
+	</City>
+	<City>
+		<Code>RNO</Code>
+		<Name>RENO, US, NV</Name>
+	</City>
+	<City>
+		<Code>RNS</Code>
+		<Name>RENNES, FR</Name>
+	</City>
+	<City>
+		<Code>ROA</Code>
+		<Name>ROANOKE, US, VA</Name>
+	</City>
+	<City>
+		<Code>ROC</Code>
+		<Name>ROCHESTER, US, NY</Name>
+	</City>
+	<City>
+		<Code>ROM</Code>
+		<Name>ROME, IT</Name>
+	</City>
+	<City>
+		<Code>ROV</Code>
+		<Name>ROSTOV, RU</Name>
+	</City>
+	<City>
+		<Code>ROW</Code>
+		<Name>ROSWELL, US, NM</Name>
+	</City>
+	<City>
+		<Code>RRS</Code>
+		<Name>ROROS, NO</Name>
+	</City>
+	<City>
+		<Code>RSJ</Code>
+		<Name>ROSARIO, US, WA</Name>
+	</City>
+	<City>
+		<Code>RST</Code>
+		<Name>ROCHESTER (RST), US, MN</Name>
+	</City>
+	<City>
+		<Code>RSW</Code>
+		<Name>FORT MYERS (RSW), US, FL</Name>
+	</City>
+	<City>
+		<Code>RTB</Code>
+		<Name>ROATAN, HN</Name>
+	</City>
+	<City>
+		<Code>RTM</Code>
+		<Name>ROTTERDAM, NL</Name>
+	</City>
+	<City>
+		<Code>RUH</Code>
+		<Name>RIYADH, SA</Name>
+	</City>
+	<City>
+		<Code>RUT</Code>
+		<Name>RUTLAND, US, VT</Name>
+	</City>
+	<City>
+		<Code>RWI</Code>
+		<Name>ROCKY MOUNT, US, NC</Name>
+	</City>
+	<City>
+		<Code>RZZ</Code>
+		<Name>ROANOKE RAPIDS, US, NC</Name>
+	</City>
+	<City>
+		<Code>SAB</Code>
+		<Name>SABA ISLAND, AN</Name>
+	</City>
+	<City>
+		<Code>SAC</Code>
+		<Name>SACRAMENTO (SAC), US, CA</Name>
+	</City>
+	<City>
+		<Code>SAF</Code>
+		<Name>SANTA FE, US, NM</Name>
+	</City>
+	<City>
+		<Code>SAL</Code>
+		<Name>SAN SALVADOR, SV</Name>
+	</City>
+	<City>
+		<Code>SAN</Code>
+		<Name>SAN DIEGO (SAN), US, CA</Name>
+	</City>
+	<City>
+		<Code>SAO</Code>
+		<Name>SAO PAULO, BR, SP</Name>
+	</City>
+	<City>
+		<Code>SAP</Code>
+		<Name>SAN PEDRO SULA, HN</Name>
+	</City>
+	<City>
+		<Code>SAT</Code>
+		<Name>SAN ANTONIO (SAT), US, TX</Name>
+	</City>
+	<City>
+		<Code>SAV</Code>
+		<Name>SAVANNAH (SAV), US, GA</Name>
+	</City>
+	<City>
+		<Code>SBA</Code>
+		<Name>SANTA BARBARA (SBA), US, CA</Name>
+	</City>
+	<City>
+		<Code>SBB</Code>
+		<Name>SANTA BARBARA BA, VE</Name>
+	</City>
+	<City>
+		<Code>SBH</Code>
+		<Name>ST BARTHELEMY, GP</Name>
+	</City>
+	<City>
+		<Code>SBN</Code>
+		<Name>SOUTH BEND, US, IN</Name>
+	</City>
+	<City>
+		<Code>SBP</Code>
+		<Name>SAN LUIS OBISPO (SBP), US, CA</Name>
+	</City>
+	<City>
+		<Code>SBS</Code>
+		<Name>STEAMBOAT SPRINGS, US, CO</Name>
+	</City>
+	<City>
+		<Code>SBY</Code>
+		<Name>SALISBURY, US, MD</Name>
+	</City>
+	<City>
+		<Code>SCE</Code>
+		<Name>STATE COLLEGE, US, PA</Name>
+	</City>
+	<City>
+		<Code>SCL</Code>
+		<Name>SANTIAGO (SCL), CL</Name>
+	</City>
+	<City>
+		<Code>SCN</Code>
+		<Name>SAARBRUCKEN (SCN), DE</Name>
+	</City>
+	<City>
+		<Code>SCQ</Code>
+		<Name>SANTIAGO DE COMPOSTELA, ES</Name>
+	</City>
+	<City>
+		<Code>SCR</Code>
+		<Name>SCRANTON (SCR), US, PA</Name>
+	</City>
+	<City>
+		<Code>SCT</Code>
+		<Name>SOCOTRA, YE</Name>
+	</City>
+	<City>
+		<Code>SCU</Code>
+		<Name>SANTIAGO, CU</Name>
+	</City>
+	<City>
+		<Code>SDF</Code>
+		<Name>LOUISVILLE (SDF), US, KY</Name>
+	</City>
+	<City>
+		<Code>SDL</Code>
+		<Name>SUNDSVALL, SE</Name>
+	</City>
+	<City>
+		<Code>SDQ</Code>
+		<Name>SANTO DOMINGO (SDQ), DO</Name>
+	</City>
+	<City>
+		<Code>SDR</Code>
+		<Name>SANTANDER, ES</Name>
+	</City>
+	<City>
+		<Code>SDU</Code>
+		<Name>RIO DE JANEIRO (SDU), BR, RJ</Name>
+	</City>
+	<City>
+		<Code>SDX</Code>
+		<Name>SEDONA, US, AZ</Name>
+	</City>
+	<City>
+		<Code>SDY</Code>
+		<Name>SIDNEY, US, MT</Name>
+	</City>
+	<City>
+		<Code>SDZ</Code>
+		<Name>SHETLAND ISLANDS, GB</Name>
+	</City>
+	<City>
+		<Code>SEA</Code>
+		<Name>SEATTLE (SEA), US, WA</Name>
+	</City>
+	<City>
+		<Code>SEF</Code>
+		<Name>SEBRING, US, FL</Name>
+	</City>
+	<City>
+		<Code>SEL</Code>
+		<Name>SEOUL (SEL), KR</Name>
+	</City>
+	<City>
+		<Code>SEZ</Code>
+		<Name>MAHE ISLAND, SC</Name>
+	</City>
+	<City>
+		<Code>SFB</Code>
+		<Name>ORLANDO (SFB), US, FL</Name>
+	</City>
+	<City>
+		<Code>SFG</Code>
+		<Name>ST MARTIN (SFG), GP</Name>
+	</City>
+	<City>
+		<Code>SFO</Code>
+		<Name>SAN FRANCISCO (SFO), US, CA</Name>
+	</City>
+	<City>
+		<Code>SFT</Code>
+		<Name>SKELLEFTEA, SE</Name>
+	</City>
+	<City>
+		<Code>SFY</Code>
+		<Name>SPRINGFIELD, US, MA</Name>
+	</City>
+	<City>
+		<Code>SGD</Code>
+		<Name>SONDERBORG, DK</Name>
+	</City>
+	<City>
+		<Code>SGF</Code>
+		<Name>SPRINGFIELD, US, MO</Name>
+	</City>
+	<City>
+		<Code>SGN</Code>
+		<Name>HO CHI MINH CITY, VN</Name>
+	</City>
+	<City>
+		<Code>SGU</Code>
+		<Name>SAINT GEORGE, US, UT</Name>
+	</City>
+	<City>
+		<Code>SGY</Code>
+		<Name>SKAGWAY, US, AK</Name>
+	</City>
+	<City>
+		<Code>SGZ</Code>
+		<Name>SONGKHLA, TH</Name>
+	</City>
+	<City>
+		<Code>SHA</Code>
+		<Name>SHANGHAI (SHA), CN</Name>
+	</City>
+	<City>
+		<Code>SHD</Code>
+		<Name>STAUNTON, US, VA</Name>
+	</City>
+	<City>
+		<Code>SHR</Code>
+		<Name>SHERIDAN, US, WY</Name>
+	</City>
+	<City>
+		<Code>SHV</Code>
+		<Name>SHREVEPORT (SHV), US, LA</Name>
+	</City>
+	<City>
+		<Code>SID</Code>
+		<Name>SAL, CV</Name>
+	</City>
+	<City>
+		<Code>SIN</Code>
+		<Name>SINGAPORE (SIN), SG</Name>
+	</City>
+	<City>
+		<Code>SIT</Code>
+		<Name>SITKA, US, AK</Name>
+	</City>
+	<City>
+		<Code>SJC</Code>
+		<Name>SAN JOSE (SJC), US, CA</Name>
+	</City>
+	<City>
+		<Code>SJD</Code>
+		<Name>SAN JOSE CABO, MX</Name>
+	</City>
+	<City>
+		<Code>SJF</Code>
+		<Name>ST JOHN ISLAND, VI</Name>
+	</City>
+	<City>
+		<Code>SJJ</Code>
+		<Name>SARAJEVO, BA</Name>
+	</City>
+	<City>
+		<Code>SJO</Code>
+		<Name>SAN JOSE (SJO), CR</Name>
+	</City>
+	<City>
+		<Code>SJP</Code>
+		<Name>SAO JOSE DO RIO PRETO, BR, SP</Name>
+	</City>
+	<City>
+		<Code>SJT</Code>
+		<Name>SAN ANGELO (SJT), US, TX</Name>
+	</City>
+	<City>
+		<Code>SJU</Code>
+		<Name>SAN JUAN (SJU), PR</Name>
+	</City>
+	<City>
+		<Code>SKB</Code>
+		<Name>ST KITTS, KN</Name>
+	</City>
+	<City>
+		<Code>SKG</Code>
+		<Name>THESSALONIKI, GR</Name>
+	</City>
+	<City>
+		<Code>SKP</Code>
+		<Name>SKOPJE, MK</Name>
+	</City>
+	<City>
+		<Code>SLA</Code>
+		<Name>SALTA, AR, SA</Name>
+	</City>
+	<City>
+		<Code>SLC</Code>
+		<Name>SALT LAKE CITY, US, UT</Name>
+	</City>
+	<City>
+		<Code>SLK</Code>
+		<Name>SARANAC LAKE, US, NY</Name>
+	</City>
+	<City>
+		<Code>SLL</Code>
+		<Name>SALALAH, OM</Name>
+	</City>
+	<City>
+		<Code>SLN</Code>
+		<Name>SALINA, US, KS</Name>
+	</City>
+	<City>
+		<Code>SLP</Code>
+		<Name>SAN LUIS POTOSI, MX</Name>
+	</City>
+	<City>
+		<Code>SLU</Code>
+		<Name>ST LUCIA (SLU), LC</Name>
+	</City>
+	<City>
+		<Code>SLZ</Code>
+		<Name>SAO LUIZ, BR, MA</Name>
+	</City>
+	<City>
+		<Code>SMF</Code>
+		<Name>SACRAMENTO (SMF), US, CA</Name>
+	</City>
+	<City>
+		<Code>SMX</Code>
+		<Name>SANTA MARIA, US, CA</Name>
+	</City>
+	<City>
+		<Code>SNA</Code>
+		<Name>SANTA ANA, US, CA</Name>
+	</City>
+	<City>
+		<Code>SNN</Code>
+		<Name>SHANNON, IE</Name>
+	</City>
+	<City>
+		<Code>SNR</Code>
+		<Name>ST NAZAIRE, FR</Name>
+	</City>
+	<City>
+		<Code>SOF</Code>
+		<Name>SOFIA, BG</Name>
+	</City>
+	<City>
+		<Code>SOG</Code>
+		<Name>SOGNDAL, NO</Name>
+	</City>
+	<City>
+		<Code>SOU</Code>
+		<Name>SOUTHAMPTON, GB</Name>
+	</City>
+	<City>
+		<Code>SPC</Code>
+		<Name>SANTA CRUZ PALMA, ES</Name>
+	</City>
+	<City>
+		<Code>SPI</Code>
+		<Name>SPRINGFIELD, US, IL</Name>
+	</City>
+	<City>
+		<Code>SPS</Code>
+		<Name>WICHITA FALLS (SPS), US, TX</Name>
+	</City>
+	<City>
+		<Code>SPW</Code>
+		<Name>SPENCER, US, IA</Name>
+	</City>
+	<City>
+		<Code>SQI</Code>
+		<Name>STERLING ROCKFALLS, US, IL</Name>
+	</City>
+	<City>
+		<Code>SRG</Code>
+		<Name>SEMARANG, ID</Name>
+	</City>
+	<City>
+		<Code>SRQ</Code>
+		<Name>SARASOTA, US, FL</Name>
+	</City>
+	<City>
+		<Code>SSA</Code>
+		<Name>SALVADOR, BR, BA</Name>
+	</City>
+	<City>
+		<Code>SSH</Code>
+		<Name>SHARM EL SHEIKH, EG</Name>
+	</City>
+	<City>
+		<Code>SSM</Code>
+		<Name>SAULT STE MARIE, US, MI</Name>
+	</City>
+	<City>
+		<Code>SSP</Code>
+		<Name>SILVER PLAINS, AU, QL</Name>
+	</City>
+	<City>
+		<Code>SSZ</Code>
+		<Name>SANTOS, BR, SP</Name>
+	</City>
+	<City>
+		<Code>STC</Code>
+		<Name>SAINT CLOUD, US, MN</Name>
+	</City>
+	<City>
+		<Code>STI</Code>
+		<Name>SANTIAGO, DO</Name>
+	</City>
+	<City>
+		<Code>STL</Code>
+		<Name>ST LOUIS (STL), US, MO</Name>
+	</City>
+	<City>
+		<Code>STN</Code>
+		<Name>LONDON (STN), GB</Name>
+	</City>
+	<City>
+		<Code>STO</Code>
+		<Name>STOCKHOLM, SE</Name>
+	</City>
+	<City>
+		<Code>STR</Code>
+		<Name>STUTTGART, DE</Name>
+	</City>
+	<City>
+		<Code>STS</Code>
+		<Name>SANTA ROSA, US, CA</Name>
+	</City>
+	<City>
+		<Code>STT</Code>
+		<Name>ST THOMAS, VI</Name>
+	</City>
+	<City>
+		<Code>STX</Code>
+		<Name>ST CROIX ISL (STX), VI</Name>
+	</City>
+	<City>
+		<Code>SUA</Code>
+		<Name>STUART, US, FL</Name>
+	</City>
+	<City>
+		<Code>SUB</Code>
+		<Name>SURABAYA, ID</Name>
+	</City>
+	<City>
+		<Code>SUF</Code>
+		<Name>LAMEZIA TERME, IT</Name>
+	</City>
+	<City>
+		<Code>SUX</Code>
+		<Name>SIOUX CITY, US, IA</Name>
+	</City>
+	<City>
+		<Code>SVD</Code>
+		<Name>ST VINCENT, VC</Name>
+	</City>
+	<City>
+		<Code>SVG</Code>
+		<Name>STAVANGER, NO</Name>
+	</City>
+	<City>
+		<Code>SVL</Code>
+		<Name>SAVONLINNA, FI</Name>
+	</City>
+	<City>
+		<Code>SVO</Code>
+		<Name>MOSCOW (SVO), RU</Name>
+	</City>
+	<City>
+		<Code>SVQ</Code>
+		<Name>SEVILLA, ES</Name>
+	</City>
+	<City>
+		<Code>SWD</Code>
+		<Name>SEWARD, US, AK</Name>
+	</City>
+	<City>
+		<Code>SWF</Code>
+		<Name>POUGHKEEPSIE (SWF), US, NY</Name>
+	</City>
+	<City>
+		<Code>SXB</Code>
+		<Name>STRASBOURG, FR</Name>
+	</City>
+	<City>
+		<Code>SXF</Code>
+		<Name>BERLIN (SXF), DE</Name>
+	</City>
+	<City>
+		<Code>SXL</Code>
+		<Name>SLIGO, IE</Name>
+	</City>
+	<City>
+		<Code>SXM</Code>
+		<Name>ST MAARTEN, AN</Name>
+	</City>
+	<City>
+		<Code>SYD</Code>
+		<Name>SYDNEY (SYD), AU, NS</Name>
+	</City>
+	<City>
+		<Code>SYR</Code>
+		<Name>SYRACUSE, US, NY</Name>
+	</City>
+	<City>
+		<Code>SYY</Code>
+		<Name>STORNOWAY, GB</Name>
+	</City>
+	<City>
+		<Code>SZD</Code>
+		<Name>SHEFFIELD, GB</Name>
+	</City>
+	<City>
+		<Code>SZG</Code>
+		<Name>SALZBURG, AT</Name>
+	</City>
+	<City>
+		<Code>SZZ</Code>
+		<Name>SZCZECIN, PL</Name>
+	</City>
+	<City>
+		<Code>TAB</Code>
+		<Name>TOBAGO, TT</Name>
+	</City>
+	<City>
+		<Code>TAM</Code>
+		<Name>TAMPICO, MX</Name>
+	</City>
+	<City>
+		<Code>TBN</Code>
+		<Name>FORT LEONARD WOOD, US, MO</Name>
+	</City>
+	<City>
+		<Code>TCB</Code>
+		<Name>TREASURE CAY, BS</Name>
+	</City>
+	<City>
+		<Code>TCI</Code>
+		<Name>TENERIFE, ES</Name>
+	</City>
+	<City>
+		<Code>TCL</Code>
+		<Name>TUSCALOOSA, US, AL</Name>
+	</City>
+	<City>
+		<Code>TER</Code>
+		<Name>TERCEIRA ISLAND, PT</Name>
+	</City>
+	<City>
+		<Code>TEX</Code>
+		<Name>TELLURIDE, US, CO</Name>
+	</City>
+	<City>
+		<Code>TFN</Code>
+		<Name>TENERIFE (TFN), ES</Name>
+	</City>
+	<City>
+		<Code>TFS</Code>
+		<Name>TENERIFE (TFS), ES</Name>
+	</City>
+	<City>
+		<Code>TGD</Code>
+		<Name>PODGORICA, CS</Name>
+	</City>
+	<City>
+		<Code>TGU</Code>
+		<Name>TEGUCIGALPA, HN</Name>
+	</City>
+	<City>
+		<Code>TGV</Code>
+		<Name>TARGOVISHTE, BG</Name>
+	</City>
+	<City>
+		<Code>THE</Code>
+		<Name>TERESINA, BR, PI</Name>
+	</City>
+	<City>
+		<Code>THF</Code>
+		<Name>BERLIN (THF), DE</Name>
+	</City>
+	<City>
+		<Code>THV</Code>
+		<Name>YORK, US, PA</Name>
+	</City>
+	<City>
+		<Code>TIA</Code>
+		<Name>TIRANA, AL</Name>
+	</City>
+	<City>
+		<Code>TIJ</Code>
+		<Name>TIJUANA, MX</Name>
+	</City>
+	<City>
+		<Code>TKU</Code>
+		<Name>TURKU, FI</Name>
+	</City>
+	<City>
+		<Code>TLH</Code>
+		<Name>TALLAHASSEE, US, FL</Name>
+	</City>
+	<City>
+		<Code>TLL</Code>
+		<Name>TALLINN (TLL), EE</Name>
+	</City>
+	<City>
+		<Code>TLN</Code>
+		<Name>TOULON, FR</Name>
+	</City>
+	<City>
+		<Code>TLS</Code>
+		<Name>TOULOUSE (TLS), FR</Name>
+	</City>
+	<City>
+		<Code>TLV</Code>
+		<Name>TELAVIV YAFO (TLV), IL</Name>
+	</City>
+	<City>
+		<Code>TMP</Code>
+		<Name>TAMPERE, FI</Name>
+	</City>
+	<City>
+		<Code>TMS</Code>
+		<Name>SAO TOME IS, ST</Name>
+	</City>
+	<City>
+		<Code>TNG</Code>
+		<Name>TANGIER, MA</Name>
+	</City>
+	<City>
+		<Code>TOA</Code>
+		<Name>TORRANCE, US, CA</Name>
+	</City>
+	<City>
+		<Code>TOL</Code>
+		<Name>TOLEDO, US, OH</Name>
+	</City>
+	<City>
+		<Code>TOP</Code>
+		<Name>TOPEKA (TOP), US, KS</Name>
+	</City>
+	<City>
+		<Code>TOS</Code>
+		<Name>TROMSO, NO</Name>
+	</City>
+	<City>
+		<Code>TOV</Code>
+		<Name>TORTOLA (TOV), VG</Name>
+	</City>
+	<City>
+		<Code>TPA</Code>
+		<Name>TAMPA (TPA), US, FL</Name>
+	</City>
+	<City>
+		<Code>TPE</Code>
+		<Name>TAIPEI (TPE), TW</Name>
+	</City>
+	<City>
+		<Code>TPL</Code>
+		<Name>TEMPLE, US, TX</Name>
+	</City>
+	<City>
+		<Code>TPS</Code>
+		<Name>TRAPANI, IT</Name>
+	</City>
+	<City>
+		<Code>TRC</Code>
+		<Name>TORREON, MX</Name>
+	</City>
+	<City>
+		<Code>TRD</Code>
+		<Name>TRONDHEIM, NO</Name>
+	</City>
+	<City>
+		<Code>TRF</Code>
+		<Name>OSLO (TRF), NO</Name>
+	</City>
+	<City>
+		<Code>TRI</Code>
+		<Name>BRISTOL/JOHNSON CITY/KIN, US, TN</Name>
+	</City>
+	<City>
+		<Code>TRN</Code>
+		<Name>TURIN, IT</Name>
+	</City>
+	<City>
+		<Code>TRS</Code>
+		<Name>TRIESTE, IT</Name>
+	</City>
+	<City>
+		<Code>TSF</Code>
+		<Name>VENICE (TSF), IT</Name>
+	</City>
+	<City>
+		<Code>TSN</Code>
+		<Name>TIANJIN, CN</Name>
+	</City>
+	<City>
+		<Code>TSV</Code>
+		<Name>TOWNSVILLE, AU, QL</Name>
+	</City>
+	<City>
+		<Code>TUC</Code>
+		<Name>TUCUMAN, AR, TU</Name>
+	</City>
+	<City>
+		<Code>TUF</Code>
+		<Name>TOURS, FR</Name>
+	</City>
+	<City>
+		<Code>TUL</Code>
+		<Name>TULSA (TUL), US, OK</Name>
+	</City>
+	<City>
+		<Code>TUN</Code>
+		<Name>TUNIS, TN</Name>
+	</City>
+	<City>
+		<Code>TUP</Code>
+		<Name>TUPELO, US, MS</Name>
+	</City>
+	<City>
+		<Code>TUS</Code>
+		<Name>TUCSON (TUS), US, AZ</Name>
+	</City>
+	<City>
+		<Code>TVC</Code>
+		<Name>TRAVERSE CITY, US, MI</Name>
+	</City>
+	<City>
+		<Code>TVF</Code>
+		<Name>THIEF RIVER FALLS, US, MN</Name>
+	</City>
+	<City>
+		<Code>TVL</Code>
+		<Name>LAKE TAHOE SOUTH, US, CA</Name>
+	</City>
+	<City>
+		<Code>TWF</Code>
+		<Name>TWIN FALLS, US, ID</Name>
+	</City>
+	<City>
+		<Code>TXK</Code>
+		<Name>TEXARKANA, US, AR</Name>
+	</City>
+	<City>
+		<Code>TXL</Code>
+		<Name>BERLIN (TXL), DE</Name>
+	</City>
+	<City>
+		<Code>TYO</Code>
+		<Name>TOKYO, JP</Name>
+	</City>
+	<City>
+		<Code>TYR</Code>
+		<Name>TYLER, US, TX</Name>
+	</City>
+	<City>
+		<Code>TYS</Code>
+		<Name>KNOXVILLE, US, TN</Name>
+	</City>
+	<City>
+		<Code>UAQ</Code>
+		<Name>SAN JUAN, AR, SJ</Name>
+	</City>
+	<City>
+		<Code>UCA</Code>
+		<Name>UTICA, US, NY</Name>
+	</City>
+	<City>
+		<Code>UDI</Code>
+		<Name>UBERLANDIA, BR, MG</Name>
+	</City>
+	<City>
+		<Code>UIN</Code>
+		<Name>QUINCY, US, IL</Name>
+	</City>
+	<City>
+		<Code>UIO</Code>
+		<Name>QUITO, EC</Name>
+	</City>
+	<City>
+		<Code>UIP</Code>
+		<Name>QUIMPER, FR</Name>
+	</City>
+	<City>
+		<Code>UME</Code>
+		<Name>UMEA, SE</Name>
+	</City>
+	<City>
+		<Code>UNK</Code>
+		<Name>UNALAKLEET, US, AK</Name>
+	</City>
+	<City>
+		<Code>UNT</Code>
+		<Name>UNST SHETLAND IS, GB</Name>
+	</City>
+	<City>
+		<Code>URO</Code>
+		<Name>ROUEN, FR</Name>
+	</City>
+	<City>
+		<Code>USH</Code>
+		<Name>USHUAIA, AR, TF</Name>
+	</City>
+	<City>
+		<Code>USM</Code>
+		<Name>KOH SAMUI, TH</Name>
+	</City>
+	<City>
+		<Code>UST</Code>
+		<Name>ST AUGUSTINE, US, FL</Name>
+	</City>
+	<City>
+		<Code>UVF</Code>
+		<Name>ST LUCIA (UVF), LC</Name>
+	</City>
+	<City>
+		<Code>VAA</Code>
+		<Name>VAASA, FI</Name>
+	</City>
+	<City>
+		<Code>VAP</Code>
+		<Name>VALPARAISO, CL</Name>
+	</City>
+	<City>
+		<Code>VAR</Code>
+		<Name>VARNA, BG</Name>
+	</City>
+	<City>
+		<Code>VBY</Code>
+		<Name>VISBY, SE</Name>
+	</City>
+	<City>
+		<Code>VCE</Code>
+		<Name>VENICE (VCE), IT</Name>
+	</City>
+	<City>
+		<Code>VCT</Code>
+		<Name>VICTORIA, US, TX</Name>
+	</City>
+	<City>
+		<Code>VDS</Code>
+		<Name>VADSO, NO</Name>
+	</City>
+	<City>
+		<Code>VEL</Code>
+		<Name>VERNAL, US, UT</Name>
+	</City>
+	<City>
+		<Code>VER</Code>
+		<Name>VERACRUZ, MX</Name>
+	</City>
+	<City>
+		<Code>VGO</Code>
+		<Name>VIGO, ES</Name>
+	</City>
+	<City>
+		<Code>VIC</Code>
+		<Name>VICENZA, IT</Name>
+	</City>
+	<City>
+		<Code>VIE</Code>
+		<Name>VIENNA (VIE), AT</Name>
+	</City>
+	<City>
+		<Code>VIS</Code>
+		<Name>VISALIA, US, CA</Name>
+	</City>
+	<City>
+		<Code>VIT</Code>
+		<Name>VITORIA, ES</Name>
+	</City>
+	<City>
+		<Code>VIX</Code>
+		<Name>VITORIA, BR, ES</Name>
+	</City>
+	<City>
+		<Code>VLC</Code>
+		<Name>VALENCIA, ES</Name>
+	</City>
+	<City>
+		<Code>VLD</Code>
+		<Name>VALDOSTA (VLD), US, GA</Name>
+	</City>
+	<City>
+		<Code>VLI</Code>
+		<Name>PORT VILA, VU</Name>
+	</City>
+	<City>
+		<Code>VLL</Code>
+		<Name>VALLADOLID, ES</Name>
+	</City>
+	<City>
+		<Code>VNC</Code>
+		<Name>VENICE, US, FL</Name>
+	</City>
+	<City>
+		<Code>VPS</Code>
+		<Name>VALPARAISO (VPS), US, FL</Name>
+	</City>
+	<City>
+		<Code>VRB</Code>
+		<Name>VERO BEACH, US, FL</Name>
+	</City>
+	<City>
+		<Code>VRK</Code>
+		<Name>VARKAUS, FI</Name>
+	</City>
+	<City>
+		<Code>VRN</Code>
+		<Name>VERONA, IT</Name>
+	</City>
+	<City>
+		<Code>VSA</Code>
+		<Name>VILLAHERMOSA, MX</Name>
+	</City>
+	<City>
+		<Code>VST</Code>
+		<Name>VASTERAS, SE</Name>
+	</City>
+	<City>
+		<Code>VVO</Code>
+		<Name>VLADIVOSTOK, RU</Name>
+	</City>
+	<City>
+		<Code>VXO</Code>
+		<Name>VAXJO, SE</Name>
+	</City>
+	<City>
+		<Code>WAS</Code>
+		<Name>WASHINGTON, US, DC</Name>
+	</City>
+	<City>
+		<Code>WAT</Code>
+		<Name>WATERFORD, IE</Name>
+	</City>
+	<City>
+		<Code>WAW</Code>
+		<Name>WARSAW, PL</Name>
+	</City>
+	<City>
+		<Code>WDG</Code>
+		<Name>ENID (WDG), US, OK</Name>
+	</City>
+	<City>
+		<Code>WDH</Code>
+		<Name>WINDHOEK (WDH), NA</Name>
+	</City>
+	<City>
+		<Code>WIC</Code>
+		<Name>WICK, GB</Name>
+	</City>
+	<City>
+		<Code>WLG</Code>
+		<Name>WELLINGTON, NZ</Name>
+	</City>
+	<City>
+		<Code>WRG</Code>
+		<Name>WRANGELL, US, AK</Name>
+	</City>
+	<City>
+		<Code>WRL</Code>
+		<Name>WORLAND, US, WY</Name>
+	</City>
+	<City>
+		<Code>WRO</Code>
+		<Name>WROCLAW, PL</Name>
+	</City>
+	<City>
+		<Code>WST</Code>
+		<Name>WESTERLY, US, RI</Name>
+	</City>
+	<City>
+		<Code>XCH</Code>
+		<Name>CHRISTMAS ISLAND, CX</Name>
+	</City>
+	<City>
+		<Code>XDB</Code>
+		<Name>LILLE (XDB), FR</Name>
+	</City>
+	<City>
+		<Code>XFR</Code>
+		<Name>MALMO (XFR), SE</Name>
+	</City>
+	<City>
+		<Code>XMM</Code>
+		<Name>MONACO MONTE CARLO, MC</Name>
+	</City>
+	<City>
+		<Code>XMN</Code>
+		<Name>XIAMEN, CN</Name>
+	</City>
+	<City>
+		<Code>XNA</Code>
+		<Name>FAYETTEVILLE (XNA), US, AR</Name>
+	</City>
+	<City>
+		<Code>XPC</Code>
+		<Name>PORT CANAVERAL, US, FL</Name>
+	</City>
+	<City>
+		<Code>XRY</Code>
+		<Name>JEREZ DE LA FRONTERA, ES</Name>
+	</City>
+	<City>
+		<Code>XSP</Code>
+		<Name>SINGAPORE (XSP), SG</Name>
+	</City>
+	<City>
+		<Code>XXM</Code>
+		<Name>MJOLBY, SE</Name>
+	</City>
+	<City>
+		<Code>XXX</Code>
+		<Name>FICTITIOUS POINT, ZZ</Name>
+	</City>
+	<City>
+		<Code>YAM</Code>
+		<Name>SAULT STE MARIE, CA, ON</Name>
+	</City>
+	<City>
+		<Code>YBA</Code>
+		<Name>BANFF, CA, AB</Name>
+	</City>
+	<City>
+		<Code>YBC</Code>
+		<Name>BAIE COMEAU, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YBG</Code>
+		<Name>BAGOTVILLE, CA, QU</Name>
+	</City>
+	<City>
+		<Code>YBL</Code>
+		<Name>CAMPBELL RIVER, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YBX</Code>
+		<Name>BLANC SABLON, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YCD</Code>
+		<Name>NANAIMO (YCD), CA, BC</Name>
+	</City>
+	<City>
+		<Code>YCG</Code>
+		<Name>CASTLEGAR, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YCL</Code>
+		<Name>CHARLO, CA, NB</Name>
+	</City>
+	<City>
+		<Code>YCM</Code>
+		<Name>ST CATHARINES, CA, ON</Name>
+	</City>
+	<City>
+		<Code>YDA</Code>
+		<Name>DAWSON CITY, CA, YT</Name>
+	</City>
+	<City>
+		<Code>YDF</Code>
+		<Name>DEER LAKE, CA, NF</Name>
+	</City>
+	<City>
+		<Code>YED</Code>
+		<Name>EDMONTON (YED), CA, AB</Name>
+	</City>
+	<City>
+		<Code>YEG</Code>
+		<Name>EDMONTON (YEG), CA, AL</Name>
+	</City>
+	<City>
+		<Code>YFC</Code>
+		<Name>FREDERICTON, CA, NB</Name>
+	</City>
+	<City>
+		<Code>YFO</Code>
+		<Name>FLIN FLON, CA, MB</Name>
+	</City>
+	<City>
+		<Code>YGK</Code>
+		<Name>KINGSTON, CA, ON</Name>
+	</City>
+	<City>
+		<Code>YGL</Code>
+		<Name>LA GRANDE, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YGP</Code>
+		<Name>GASPE, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YGR</Code>
+		<Name>ILES DE LA MADELE, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YGV</Code>
+		<Name>HAVRE ST PIERRE, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YGW</Code>
+		<Name>KUUJJUARAPIK, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YHD</Code>
+		<Name>DRYDEN, CA, ON</Name>
+	</City>
+	<City>
+		<Code>YHM</Code>
+		<Name>TORONTO (YHM), CA, ON</Name>
+	</City>
+	<City>
+		<Code>YHR</Code>
+		<Name>CHEVERY, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YHZ</Code>
+		<Name>HALIFAX (YHZ), CA, NS</Name>
+	</City>
+	<City>
+		<Code>YJT</Code>
+		<Name>STEPHENVILLE, CA, NL</Name>
+	</City>
+	<City>
+		<Code>YKA</Code>
+		<Name>KAMLOOPS, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YKL</Code>
+		<Name>SCHEFFERVILLE, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YKM</Code>
+		<Name>YAKIMA (YKM), US, WA</Name>
+	</City>
+	<City>
+		<Code>YKN</Code>
+		<Name>YANKTON, US, SD</Name>
+	</City>
+	<City>
+		<Code>YLR</Code>
+		<Name>LEAF RAPIDS, CA, MB</Name>
+	</City>
+	<City>
+		<Code>YLW</Code>
+		<Name>KELOWNA, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YMM</Code>
+		<Name>FORT MCMURRAY, CA, AB</Name>
+	</City>
+	<City>
+		<Code>YMQ</Code>
+		<Name>MONTREAL, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YMT</Code>
+		<Name>CHIBOUGAMAU, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YMX</Code>
+		<Name>MONTREAL (YMX), CA, QU</Name>
+	</City>
+	<City>
+		<Code>YNA</Code>
+		<Name>NATASHQUAN, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YNG</Code>
+		<Name>YOUNGSTOWN WARREN, US, OH</Name>
+	</City>
+	<City>
+		<Code>YNT</Code>
+		<Name>YANTAI, CN</Name>
+	</City>
+	<City>
+		<Code>YOP</Code>
+		<Name>RAINBOW LAKE, CA, AB</Name>
+	</City>
+	<City>
+		<Code>YOW</Code>
+		<Name>OTTAWA (YOW), CA, OT</Name>
+	</City>
+	<City>
+		<Code>YPE</Code>
+		<Name>PEACE RIVER, CA, AB</Name>
+	</City>
+	<City>
+		<Code>YPQ</Code>
+		<Name>PETERBOROUGH, CA, ON</Name>
+	</City>
+	<City>
+		<Code>YPR</Code>
+		<Name>PRINCE RUPERT (YPR), CA, BC</Name>
+	</City>
+	<City>
+		<Code>YQB</Code>
+		<Name>QUEBEC, CA, QU</Name>
+	</City>
+	<City>
+		<Code>YQD</Code>
+		<Name>THE PAS, CA, MB</Name>
+	</City>
+	<City>
+		<Code>YQG</Code>
+		<Name>WINDSOR, CA, OT</Name>
+	</City>
+	<City>
+		<Code>YQL</Code>
+		<Name>LETHBRIDGE, CA, AB</Name>
+	</City>
+	<City>
+		<Code>YQM</Code>
+		<Name>MONCTON, CA, NB</Name>
+	</City>
+	<City>
+		<Code>YQQ</Code>
+		<Name>COMOX, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YQR</Code>
+		<Name>REGINA, CA, SA</Name>
+	</City>
+	<City>
+		<Code>YQT</Code>
+		<Name>THUNDER BAY, CA, OT</Name>
+	</City>
+	<City>
+		<Code>YQU</Code>
+		<Name>GRANDE PRAIRIE, CA, AB</Name>
+	</City>
+	<City>
+		<Code>YQX</Code>
+		<Name>GANDER, CA, NF</Name>
+	</City>
+	<City>
+		<Code>YQY</Code>
+		<Name>SYDNEY, CA, NS</Name>
+	</City>
+	<City>
+		<Code>YQZ</Code>
+		<Name>QUESNEL, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YSB</Code>
+		<Name>SUDBURY, CA, ON</Name>
+	</City>
+	<City>
+		<Code>YSG</Code>
+		<Name>LUTSELKE SNOWDRIFT, CA, NT</Name>
+	</City>
+	<City>
+		<Code>YSJ</Code>
+		<Name>SAINT JOHN, CA, NB</Name>
+	</City>
+	<City>
+		<Code>YTH</Code>
+		<Name>THOMPSON, CA, MB</Name>
+	</City>
+	<City>
+		<Code>YTO</Code>
+		<Name>TORONTO, CA, ON</Name>
+	</City>
+	<City>
+		<Code>YTS</Code>
+		<Name>TIMMINS, CA, ON</Name>
+	</City>
+	<City>
+		<Code>YUL</Code>
+		<Name>MONTREAL (YUL), CA, QU</Name>
+	</City>
+	<City>
+		<Code>YUM</Code>
+		<Name>YUMA (YUM), US, AZ</Name>
+	</City>
+	<City>
+		<Code>YUY</Code>
+		<Name>ROUYN, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YVO</Code>
+		<Name>VAL D'OR, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YVR</Code>
+		<Name>VANCOUVER (YVR), CA, BC</Name>
+	</City>
+	<City>
+		<Code>YWG</Code>
+		<Name>WINNIPEG, CA, MN</Name>
+	</City>
+	<City>
+		<Code>YWL</Code>
+		<Name>WILLIAMS LAKE, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YXC</Code>
+		<Name>CRANBROOK, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YXD</Code>
+		<Name>EDMONTON (YXD), CA, AL</Name>
+	</City>
+	<City>
+		<Code>YXE</Code>
+		<Name>SASKATOON, CA, SA</Name>
+	</City>
+	<City>
+		<Code>YXH</Code>
+		<Name>MEDICINE HAT, CA, AB</Name>
+	</City>
+	<City>
+		<Code>YXJ</Code>
+		<Name>FORT ST JOHN, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YXS</Code>
+		<Name>PRINCE GEORGE, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YXT</Code>
+		<Name>TERRACE, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YXU</Code>
+		<Name>LONDON, CA, OT</Name>
+	</City>
+	<City>
+		<Code>YXY</Code>
+		<Name>WHITEHORSE, CA, YT</Name>
+	</City>
+	<City>
+		<Code>YYC</Code>
+		<Name>CALGARY, CA, AL</Name>
+	</City>
+	<City>
+		<Code>YYD</Code>
+		<Name>SMITHERS, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YYE</Code>
+		<Name>FORT NELSON, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YYF</Code>
+		<Name>PENTICTON, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YYG</Code>
+		<Name>CHARLOTTETOWN, CA, PE</Name>
+	</City>
+	<City>
+		<Code>YYJ</Code>
+		<Name>VICTORIA (YYJ), CA, BC</Name>
+	</City>
+	<City>
+		<Code>YYQ</Code>
+		<Name>CHURCHILL, CA, MB</Name>
+	</City>
+	<City>
+		<Code>YYT</Code>
+		<Name>ST JOHNS, CA, NF</Name>
+	</City>
+	<City>
+		<Code>YYY</Code>
+		<Name>MONT JOLI, CA, QC</Name>
+	</City>
+	<City>
+		<Code>YYZ</Code>
+		<Name>TORONTO (YYZ), CA, OT</Name>
+	</City>
+	<City>
+		<Code>YZF</Code>
+		<Name>YELLOWKNIFE, CA, NT</Name>
+	</City>
+	<City>
+		<Code>YZP</Code>
+		<Name>SANDSPIT, CA, BC</Name>
+	</City>
+	<City>
+		<Code>YZV</Code>
+		<Name>SEPT ILES, CA, QC</Name>
+	</City>
+	<City>
+		<Code>ZAG</Code>
+		<Name>ZAGREB, HR</Name>
+	</City>
+	<City>
+		<Code>ZAZ</Code>
+		<Name>ZARAGOZA, ES</Name>
+	</City>
+	<City>
+		<Code>ZCL</Code>
+		<Name>ZACATECAS, MX</Name>
+	</City>
+	<City>
+		<Code>ZEE</Code>
+		<Name>FULDA, DE</Name>
+	</City>
+	<City>
+		<Code>ZEL</Code>
+		<Name>BELLA BELLA, CA, BC</Name>
+	</City>
+	<City>
+		<Code>ZEU</Code>
+		<Name>GOETTINGEN, DE</Name>
+	</City>
+	<City>
+		<Code>ZGL</Code>
+		<Name>SOUTH GALWAY, AU, QL</Name>
+	</City>
+	<City>
+		<Code>ZHA</Code>
+		<Name>ZHANJIANG, CN</Name>
+	</City>
+	<City>
+		<Code>ZIH</Code>
+		<Name>IXTAPA ZIHUATANEJ, MX</Name>
+	</City>
+	<City>
+		<Code>ZLO</Code>
+		<Name>MANZANILLO, MX</Name>
+	</City>
+	<City>
+		<Code>ZMG</Code>
+		<Name>MAGDEBURG, DE</Name>
+	</City>
+	<City>
+		<Code>ZMI</Code>
+		<Name>NAPLES (ZMI), IT</Name>
+	</City>
+	<City>
+		<Code>ZMM</Code>
+		<Name>ZAMORA, MX</Name>
+	</City>
+	<City>
+		<Code>ZNJ</Code>
+		<Name>HEILBRONN, DE</Name>
+	</City>
+	<City>
+		<Code>ZRH</Code>
+		<Name>ZURICH, CH</Name>
+	</City>
+	<City>
+		<Code>ZRK</Code>
+		<Name>ROCKFORD (ZRK), US, IL</Name>
+	</City>
+	<City>
+		<Code>ZRQ</Code>
+		<Name>ZONE 1 OFF-LINE POINT), CH</Name>
+	</City>
+	<City>
+		<Code>ZSS</Code>
+		<Name>SASSANDRA, CI</Name>
+	</City>
+	<City>
+		<Code>ZTC</Code>
+		<Name>TURIN (ZTC), IT</Name>
+	</City>
+	<City>
+		<Code>ZTH</Code>
+		<Name>ZAKINTHOS IS, GR</Name>
+	</City>
+	<City>
+		<Code>ZTZ</Code>
+		<Name>CHEMNITZ, DE</Name>
+	</City>
+	<City>
+		<Code>ZYR</Code>
+		<Name>BRUSSELS (ZYR), BE</Name>
+	</City>
+</TTWSCruiseCities>

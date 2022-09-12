@@ -1,0 +1,2002 @@
+<TTWSCarTypes>
+	<CarType>
+		<Code>CAN</Code>
+		<Name>COMPACT SPCL AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>CBAN</Code>
+		<Name>COMPACT 2DR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>CBAR</Code>
+		<Name>COMPACT 2DR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CBMN</Code>
+		<Name>COMPACT 2DR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>CBMR</Code>
+		<Name>COMPACT 2DR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CCAN</Code>
+		<Name>COMPACT CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>CCAR</Code>
+		<Name>COMPACT CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CCMN</Code>
+		<Name>COMPACT CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>CCMR</Code>
+		<Name>COMPACT CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CDAN</Code>
+		<Name>COMPACT 4DR CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>CDAR</Code>
+		<Name>COMPACT 4DR CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CDMN</Code>
+		<Name>COMPACT 4DR CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>CDMR</Code>
+		<Name>COMPACT 4DR CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CFAN</Code>
+		<Name>COMPACT 4WD AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>CFAR</Code>
+		<Name>COMPACT 4WD AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CFMN</Code>
+		<Name>COMPACT 4WD MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>CFMR</Code>
+		<Name>COMPACT 4WD MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CJAN</Code>
+		<Name>COMPACT ALL TERR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>CJAR</Code>
+		<Name>COMPACT ALL TERR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CJMN</Code>
+		<Name>COMPACT ALL TERR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>CJMR</Code>
+		<Name>COMPACT ALL TERR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CKAN</Code>
+		<Name>COMPACT TRUCK AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>CKAR</Code>
+		<Name>COMPACT TRUCK AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CKMN</Code>
+		<Name>COMPACT TRUCK MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>CKMR</Code>
+		<Name>COMPACT TRUCK MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CPAN</Code>
+		<Name>COMPACT PICKUP AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>CPAR</Code>
+		<Name>COMPACT PICKUP AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CPMN</Code>
+		<Name>COMPACT PICKUP MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>CPMR</Code>
+		<Name>COMPACT PICKUP MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CSAN</Code>
+		<Name>COMPACT SPORTS AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>CSAR</Code>
+		<Name>COMPACT SPORTS AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CSMN</Code>
+		<Name>COMPACT SPORTS MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>CSMR</Code>
+		<Name>COMPACT SPORTS MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CTAN</Code>
+		<Name>COMPACT CONV AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>CTAR</Code>
+		<Name>COMPACT CONV AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CTMN</Code>
+		<Name>COMPACT CONV MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>CTMR</Code>
+		<Name>COMPACT CONV MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CVAN</Code>
+		<Name>COMPACT VAN AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>CVAR</Code>
+		<Name>COMPACT VAN AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CVMN</Code>
+		<Name>COMPACT VAN MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>CVMR</Code>
+		<Name>COMPACT VAN MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CWAN</Code>
+		<Name>COMPACT WGN AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>CWAR</Code>
+		<Name>COMPACT WGN AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CWMN</Code>
+		<Name>COMPACT WGN MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>CWMR</Code>
+		<Name>COMPACT WGN MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CXAR</Code>
+		<Name>COMPACT SPCL AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>CXMN</Code>
+		<Name>COMPACT SPCL MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>CXMR</Code>
+		<Name>COMPACT SPCL MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EBAN</Code>
+		<Name>ECONOMY 2DR AUTO NO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EBAR</Code>
+		<Name>ECONOMY 2DR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EBMN</Code>
+		<Name>ECONOMY 2DR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>EBMR</Code>
+		<Name>ECONOMY 2DR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ECAN</Code>
+		<Name>ECONOMY CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>ECAR</Code>
+		<Name>ECONOMY CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ECMN</Code>
+		<Name>ECONOMY CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>ECMR</Code>
+		<Name>ECONOMY CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EDAN</Code>
+		<Name>ECONOMY 4DR CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>EDAR</Code>
+		<Name>ECONOMY 4DR CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EDMN</Code>
+		<Name>ECONOMY 4DR CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>EDMR</Code>
+		<Name>ECONOMY 4DR CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EFAN</Code>
+		<Name>ECONOMY 4WD AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>EFAR</Code>
+		<Name>ECONOMY 4WD AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EFMN</Code>
+		<Name>ECONOMY 4WD MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>EFMR</Code>
+		<Name>ECONOMY 4WD MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EJAN</Code>
+		<Name>ECONOMY ALL TERR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>EJAR</Code>
+		<Name>ECONOMY ALL TERR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EJMN</Code>
+		<Name>ECONOMY ALL TERR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>EJMR</Code>
+		<Name>ECONOMY ALL TERR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EKAN</Code>
+		<Name>ECONOMY TRUCK AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>EKAR</Code>
+		<Name>ECONOMY TRUCK AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EKMN</Code>
+		<Name>ECONOMY TRUCK MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>EKMR</Code>
+		<Name>ECONOMY TRUCK MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ELAN</Code>
+		<Name>ECONOMY LIMO AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>ELAR</Code>
+		<Name>ECONOMY LIMO AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ELMN</Code>
+		<Name>ECONOMY LIMO MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>ELMR</Code>
+		<Name>ECONOMY LIMO MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EPAN</Code>
+		<Name>ECONOMY PICKUP AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>EPAR</Code>
+		<Name>ECONOMY PICKUP AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EPMN</Code>
+		<Name>ECONOMY PICKUP MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>EPMR</Code>
+		<Name>ECONOMY PICKUP MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ERAN</Code>
+		<Name>ECONOMY R.V.AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>ERAR</Code>
+		<Name>ECONOMY R.V.AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ERMN</Code>
+		<Name>ECONOMY R.V. MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>ERMR</Code>
+		<Name>ECONOMY R.V. MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ESAN</Code>
+		<Name>ECONOMY SPORTS AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>ESAR</Code>
+		<Name>ECONOMY SPORTS AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ESMN</Code>
+		<Name>ECONOMY SPORTS MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>ESMR</Code>
+		<Name>ECONOMY SPORTS MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ETAN</Code>
+		<Name>ECONOMY CONV AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>ETAR</Code>
+		<Name>ECONOMY CONV AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ETMN</Code>
+		<Name>ECONOMY CONV MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>ETMR</Code>
+		<Name>ECONOMY CONV MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EVAN</Code>
+		<Name>ECONOMY VAN AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>EVAR</Code>
+		<Name>ECONOMY VAN AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EVMN</Code>
+		<Name>ECONOMY VAN MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>EVMR</Code>
+		<Name>ECONOMY VAN MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EWAN</Code>
+		<Name>ECONOMY WAGON AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>EWAR</Code>
+		<Name>ECONOMY WAGON AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EWMN</Code>
+		<Name>ECONOMY WAGON MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>EWMR</Code>
+		<Name>ECONOMY WAGON MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EXAN</Code>
+		<Name>ECONOMY SPCL AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>EXAR</Code>
+		<Name>ECONOMY SPCL AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>EXMN</Code>
+		<Name>ECONOMY SPCL MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>EXMR</Code>
+		<Name>ECONOMY SPCL MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FBAN</Code>
+		<Name>FULL 2DR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FBAR</Code>
+		<Name>FULL 2DR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FBMN</Code>
+		<Name>FULL 2DR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FBMR</Code>
+		<Name>FULL 2DR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FCAN</Code>
+		<Name>FULL SIZE AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FCAR</Code>
+		<Name>FULL SIZE AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FCMN</Code>
+		<Name>FULL SIZE MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FCMR</Code>
+		<Name>FULL SIZE MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FDAN</Code>
+		<Name>FULL 4DR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FDAR</Code>
+		<Name>FULL 4DR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FDMN</Code>
+		<Name>FULL 4DR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FDMR</Code>
+		<Name>FULL 4DR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FFAN</Code>
+		<Name>FULL 4WD AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FFAR</Code>
+		<Name>FULL 4WD AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FFMN</Code>
+		<Name>FULL 4WD MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FFMR</Code>
+		<Name>FULL 4WD MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FJAN</Code>
+		<Name>FULL ALL TERR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FJAR</Code>
+		<Name>FULL ALL TER AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FJMN</Code>
+		<Name>FULL ALL TERR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FJMR</Code>
+		<Name>FULL ALL TERR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FKAN</Code>
+		<Name>FULL SIZE TRUCK AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FKAR</Code>
+		<Name>FULL TRUCK AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FKMN</Code>
+		<Name>FULL SIZE TRUCK MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FKMR</Code>
+		<Name>FULL SIZE TRUCK MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FLAN</Code>
+		<Name>FULL LIMO AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FLAR</Code>
+		<Name>FULL LIMO AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FLMN</Code>
+		<Name>FULL LIMO MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FLMR</Code>
+		<Name>FULL LIMO MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FPAN</Code>
+		<Name>FULL PCKUP AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FPAR</Code>
+		<Name>FULL PCKUP AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FPMN</Code>
+		<Name>FULL PCKUP MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FPMR</Code>
+		<Name>FULL PCKUP MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FRAN</Code>
+		<Name>FULL RV AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FRAR</Code>
+		<Name>FULL RV AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FRMN</Code>
+		<Name>FULL RV MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FRMR</Code>
+		<Name>FULL RV MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FSAN</Code>
+		<Name>FULL SPORTS AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FSAR</Code>
+		<Name>FULL SPORTS AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FSMN</Code>
+		<Name>FULL SPORTS MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FSMR</Code>
+		<Name>FULL SPORTS MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FTAN</Code>
+		<Name>FULL CONV AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FTAR</Code>
+		<Name>FULL CONV AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FTMN</Code>
+		<Name>FULL CONV MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FTMR</Code>
+		<Name>FULL CONV MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FVAN</Code>
+		<Name>FULL VAN AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FVAR</Code>
+		<Name>FULL VAN AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FVMN</Code>
+		<Name>FULL VAN MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FVMR</Code>
+		<Name>FULL VAN MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FWAN</Code>
+		<Name>FULL WAGON AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FWAR</Code>
+		<Name>FULL WAGON AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FWMN</Code>
+		<Name>FULL WAGON MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FWMR</Code>
+		<Name>FULL WAGON MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FXAN</Code>
+		<Name>FULL SPCL AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>FXAR</Code>
+		<Name>FULL SPCL AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>FXMN</Code>
+		<Name>FULL SPCL MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>FXMR</Code>
+		<Name>FULL SPCL MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IBAN</Code>
+		<Name>INTERMEDIATE 2DR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>IBAR</Code>
+		<Name>INTERMEDIATE 2DR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IBMN</Code>
+		<Name>INTERMEDIATE 2DR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>IBMR</Code>
+		<Name>INTERMEDIATE 2DR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ICAN</Code>
+		<Name>INTERMEDIATE CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>ICAR</Code>
+		<Name>INTERMEDIATE CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ICMN</Code>
+		<Name>INTERMEDIATE CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>ICMR</Code>
+		<Name>INTERMEDIATE CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IDAN</Code>
+		<Name>INTERMEDIATE 4DR CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>IDAR</Code>
+		<Name>INTERMEDIATE 4DR CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IDMN</Code>
+		<Name>INTERMEDIATE 4DR CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>IDMR</Code>
+		<Name>INTERMEDIATE 4DR CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IFAN</Code>
+		<Name>INTERMEDIATE 4WD AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>IFAR</Code>
+		<Name>INTERMEDIATE 4WD AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IFMN</Code>
+		<Name>INTERMEDIATE 4WD MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>IFMR</Code>
+		<Name>INTERMEDIATE 4WD MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IJAN</Code>
+		<Name>INTERMEDIATE ALL TERR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>IJAR</Code>
+		<Name>INTERMEDIATE ALL TERR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IJMN</Code>
+		<Name>INTERMEDIATE ALL TERR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>IJMR</Code>
+		<Name>INTERMEDIATE ALL TERR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IKAN</Code>
+		<Name>INTERMEDIATE TRUCK AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>IKAR</Code>
+		<Name>INTERMEDIATE TRUCK AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IKMN</Code>
+		<Name>INTERMEDIATE TRUCK MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>IKMR</Code>
+		<Name>INTERMEDIATE TRUCK MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ILAN</Code>
+		<Name>INTERMEDIATE LIMO AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>ILAR</Code>
+		<Name>INTERMEDIATE LIMO AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ILMN</Code>
+		<Name>INTERMEDIATE LIMO MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>ILMR</Code>
+		<Name>INTERMEDIATE LIMO MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IPAN</Code>
+		<Name>INTERMEDIATE PICKUP AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>IPAR</Code>
+		<Name>INTERMEDIATE PICKUP AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IPMN</Code>
+		<Name>INTERMEDIATE PICKUP MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>IPMR</Code>
+		<Name>INTERMEDIATE PICKUP MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IRAN</Code>
+		<Name>INTERMEDIATE R.V. AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>IRAR</Code>
+		<Name>INTERMEDIATE R.V. AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IRMN</Code>
+		<Name>INTERMEDIATE R.V. MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>IRMR</Code>
+		<Name>INTERMEDIATE R.V. MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ISAN</Code>
+		<Name>INTERMEDIATE SPORTS AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>ISAR</Code>
+		<Name>INTERMEDIATE SPORTS AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ISMN</Code>
+		<Name>INTERMEDIATE SPORTS MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>ISMR</Code>
+		<Name>INTERMEDIATE SPORTS MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ITAN</Code>
+		<Name>INTERMEDIATE CONV AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>ITAR</Code>
+		<Name>INTERMEDIATE CONV AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ITMN</Code>
+		<Name>INTERMEDIATE CONV MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>ITMR</Code>
+		<Name>INTERMEDIATE CONV MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IVAN</Code>
+		<Name>INTERMEDIATE VAN AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>IVAR</Code>
+		<Name>INTERMEDIATE VAN AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IVMN</Code>
+		<Name>INTERMEDIATE VAN MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>IVMR</Code>
+		<Name>INTERMEDIATE VAN MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IWAN</Code>
+		<Name>INTERMEDIATE WAGON AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>IWAR</Code>
+		<Name>INTERMEDIATE WAGON AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IWMN</Code>
+		<Name>INTERMEDIATE WAGON MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>IWMR</Code>
+		<Name>INTERMEDIATE WAGON MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IXAN</Code>
+		<Name>INTERMEDIATE SPCL AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>IXAR</Code>
+		<Name>INTERMEDIATE SPCL AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>IXMN</Code>
+		<Name>INTERMEDIATE SPCL MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>IXMR</Code>
+		<Name>INTERMEDIATE SPCL MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LBAN</Code>
+		<Name>LUXURY 2DR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LBAR</Code>
+		<Name>LUXURY 2DR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LBMN</Code>
+		<Name>LUXURY 2DR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LBMO</Code>
+		<Name>BUS/SURFACE</Name>
+	</CarType>
+	<CarType>
+		<Code>LBMR</Code>
+		<Name>LUXURY 2DR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LCAN</Code>
+		<Name>LUXURY CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LCAR</Code>
+		<Name>LUXURY CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LCMN</Code>
+		<Name>LUXURY CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LCMO</Code>
+		<Name>LUXURY COACH/SURFACE</Name>
+	</CarType>
+	<CarType>
+		<Code>LCMR</Code>
+		<Name>LUXURY CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LDAN</Code>
+		<Name>LUXURY 4DR CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LDAR</Code>
+		<Name>LUXURY 4DR CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LDMN</Code>
+		<Name>LUXURY 4DR CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LDMR</Code>
+		<Name>LUXURY 4DR CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LFAN</Code>
+		<Name>LUXURY 4WD AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LFAR</Code>
+		<Name>LUXURY 4WD AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LFMN</Code>
+		<Name>LUXURY 4WD MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LFMR</Code>
+		<Name>LUXURY 4WD MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LJAN</Code>
+		<Name>LUXURY ALL TERR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LJAR</Code>
+		<Name>LUXURY ALL TERR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LJMN</Code>
+		<Name>LUXURY ALL TERR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LJMR</Code>
+		<Name>LUXURY ALL TERR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LKAN</Code>
+		<Name>LUXURY TRUCK AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LKAR</Code>
+		<Name>LUXURY TRUCK AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LKMN</Code>
+		<Name>LUXURY TRUCK MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LKMR</Code>
+		<Name>LUXURY TRUCK MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LLAN</Code>
+		<Name>LUXURY LIMO AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LLAR</Code>
+		<Name>LUXURY LIMO AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LLMN</Code>
+		<Name>LUXURY LIMO MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LLMO</Code>
+		<Name>SEDAN/SURFACE</Name>
+	</CarType>
+	<CarType>
+		<Code>LLMR</Code>
+		<Name>LUXURY LIMO MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LOMO</Code>
+		<Name>OTHER/SURFACE</Name>
+	</CarType>
+	<CarType>
+		<Code>LPAN</Code>
+		<Name>LUXURY PICKUP AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LPAR</Code>
+		<Name>LUXURY PICKUP AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LPMN</Code>
+		<Name>LUXURY PICKUP MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LPMR</Code>
+		<Name>LUXURY PICKUP MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LRAN</Code>
+		<Name>LUXURY R.V. AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LRAR</Code>
+		<Name>LUXURY R.V. AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LRMN</Code>
+		<Name>LUXURY R.V. MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LRMR</Code>
+		<Name>LUXURY R.V. MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LSAN</Code>
+		<Name>LUXURY SPORTS AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LSAR</Code>
+		<Name>LUXURY SPORTS AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LSMN</Code>
+		<Name>LUXURY SPORTS MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LSMO</Code>
+		<Name>STRETCH LIMO/SURFACE</Name>
+	</CarType>
+	<CarType>
+		<Code>LSMR</Code>
+		<Name>LUXURY SPORTS MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LTAN</Code>
+		<Name>LUXURY CONV AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LTAR</Code>
+		<Name>LUXURY CONV AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LTMN</Code>
+		<Name>LUXURY CONV MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LTMR</Code>
+		<Name>LUXURY CONV MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LVAN</Code>
+		<Name>LUXURY VAN AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LVAR</Code>
+		<Name>LUXURY VAN AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LVMN</Code>
+		<Name>LUXURY VAN MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LVMO</Code>
+		<Name>VAN/SURFACE</Name>
+	</CarType>
+	<CarType>
+		<Code>LVMR</Code>
+		<Name>LUXURY VAN MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LWAN</Code>
+		<Name>LUXURY WAGON AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LWAR</Code>
+		<Name>LUXURY WAGON AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LWMN</Code>
+		<Name>LUXURY WAGON MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LWMR</Code>
+		<Name>LUXURY WAGON MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LXAN</Code>
+		<Name>LUXURY SPCL AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>LXAR</Code>
+		<Name>LUXURY SPCL AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>LXMN</Code>
+		<Name>LUXURY SPCL MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>LXMO</Code>
+		<Name>SUPER STRETCH LIMO/SURFACE</Name>
+	</CarType>
+	<CarType>
+		<Code>LXMR</Code>
+		<Name>LUXURY SPCL MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MBAN</Code>
+		<Name>MINIVAN 2DR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>MBAR</Code>
+		<Name>MINIVAN 2DR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MBMN</Code>
+		<Name>MINIVAN 2DR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>MBMR</Code>
+		<Name>MINIVAN 2DR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MCAN</Code>
+		<Name>MINIVAN CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>MCAR</Code>
+		<Name>MINI CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MCMN</Code>
+		<Name>MINI CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>MCMR</Code>
+		<Name>MINI CAR MAN A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MDAN</Code>
+		<Name>MINI 4DR CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>MDAR</Code>
+		<Name>MINI 4DR CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MDMN</Code>
+		<Name>MINI 4DR CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>MDMR</Code>
+		<Name>MINI 4DR CAR MAN A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MFAN</Code>
+		<Name>MINI 4WD AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>MFAR</Code>
+		<Name>MINI 4WD AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MFMN</Code>
+		<Name>MINI 4WD MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>MFMR</Code>
+		<Name>MINI 4WD MAN A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MJAN</Code>
+		<Name>MINI ALL TERR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>MJAR</Code>
+		<Name>MINI ALL TERR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MJMN</Code>
+		<Name>MINI ALL TERR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>MJMR</Code>
+		<Name>MINI ALL TERR MAN A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MKAN</Code>
+		<Name>MINI TRUCK AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>MKAR</Code>
+		<Name>MINI TRUCK AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MKMN</Code>
+		<Name>MINI TRUCK MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>MKMR</Code>
+		<Name>MINI TRUCK MAN A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MPAN</Code>
+		<Name>MINI PICKUP AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>MPAR</Code>
+		<Name>MINI PICKUP AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MPMN</Code>
+		<Name>MINI PICKUP MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>MPMR</Code>
+		<Name>MINI PICKUP MAN A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MRAN</Code>
+		<Name>MINI R.V. AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>MRAR</Code>
+		<Name>MINI R.V. AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MRMN</Code>
+		<Name>MINI R.V. MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>MRMR</Code>
+		<Name>MINI R.V. MAN A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MSAN</Code>
+		<Name>MINI SPORTS AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>MSAR</Code>
+		<Name>MINI SPORTS AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MSMN</Code>
+		<Name>MINI SPORTS MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>MSMR</Code>
+		<Name>MINI SPORTS MAN A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MTAN</Code>
+		<Name>MINI CONV AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>MTAR</Code>
+		<Name>MINI CONV AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MTMN</Code>
+		<Name>MINI CONV MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>MTMR</Code>
+		<Name>MINI CONV MAN A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MVAN</Code>
+		<Name>MINI VAN AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>MVAR</Code>
+		<Name>MINI VAN AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MVMN</Code>
+		<Name>MINI VAN MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>MVMR</Code>
+		<Name>MINI VAN MAN A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MWAN</Code>
+		<Name>MINI WAGON AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>MWAR</Code>
+		<Name>MINI WAGON AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MWMN</Code>
+		<Name>MINI WAGON MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>MWMR</Code>
+		<Name>MINI WAGON MAN A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MXAN</Code>
+		<Name>MINI SPCL AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>MXAR</Code>
+		<Name>MINI SPCL AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>MXMN</Code>
+		<Name>MINI SPCL MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>MXMR</Code>
+		<Name>MINI SPCL MAN A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PBAN</Code>
+		<Name>PREMIUM 2DR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PBAR</Code>
+		<Name>PREMIUM 2DR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PBMN</Code>
+		<Name>PREMIUM 2DR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PBMR</Code>
+		<Name>PREMIUM 2DR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PCAN</Code>
+		<Name>PREMIUM CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PCAR</Code>
+		<Name>PREMIUM CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PCMN</Code>
+		<Name>PREMIUM CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PCMR</Code>
+		<Name>PREMIUM CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PDAN</Code>
+		<Name>PREMIUM 4DR CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PDAR</Code>
+		<Name>PREMIUM 4DR CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PDMN</Code>
+		<Name>PREMIUM 4DR CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PDMR</Code>
+		<Name>PREMIUM 4DR CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PFAN</Code>
+		<Name>PREMIUM 4WD AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PFAR</Code>
+		<Name>PREMIUM 4WD AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PFMN</Code>
+		<Name>PREMIUM 4WD MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PFMR</Code>
+		<Name>PREMIUM 4WD MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PJAN</Code>
+		<Name>PREMIUM ALL TERR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PJAR</Code>
+		<Name>PREMIUM ALL TERR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PJMN</Code>
+		<Name>PREMIUM ALL TERR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PJMR</Code>
+		<Name>PREMIUM ALL TERR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PKAN</Code>
+		<Name>PREMIUM TRUCK AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PKAR</Code>
+		<Name>PREMIUM TRUCK AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PKMN</Code>
+		<Name>PREMIUM TRUCK MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PKMR</Code>
+		<Name>PREMIUM TRUCK MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PLAN</Code>
+		<Name>PREMIUM LIMO AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PLAR</Code>
+		<Name>PREMIUM LIMO AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PLMN</Code>
+		<Name>PREMIUM LIMO MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PLMR</Code>
+		<Name>PREMIUM LIMO MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PPAN</Code>
+		<Name>PREMIUM PICKUP AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PPAR</Code>
+		<Name>PREMIUM PICKUP AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PPMN</Code>
+		<Name>PREMIUM PICKUP MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PPMR</Code>
+		<Name>PREMIUM PICKUP MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PRAN</Code>
+		<Name>PREMIUM R.V. AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PRAR</Code>
+		<Name>PREMIUM R.V. AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PRMN</Code>
+		<Name>PREMIUM R.V. MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PRMR</Code>
+		<Name>PREMIUM R.V. MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PSAN</Code>
+		<Name>PREMIUM SPORTS AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PSAR</Code>
+		<Name>PREMIUM SPORTS AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PSMN</Code>
+		<Name>PREMIUM SPORTS MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PSMR</Code>
+		<Name>PREMIUM SPORTS MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PTAN</Code>
+		<Name>PREMIUM CONV AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PTAR</Code>
+		<Name>PREMIUM CONV AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PTMN</Code>
+		<Name>PREMIUM CONV MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PTMR</Code>
+		<Name>PREMIUM CONV MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PVAN</Code>
+		<Name>PREMIUM VAN AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PVAR</Code>
+		<Name>PREMIUM VAN AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PVMN</Code>
+		<Name>PREMIUM VAN MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PVMR</Code>
+		<Name>PREMIUM VAN MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PWAN</Code>
+		<Name>PREMIUM WAGON AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PWAR</Code>
+		<Name>PREMIUM WAGON AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PWMN</Code>
+		<Name>PREMIUM WAGON MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PWMR</Code>
+		<Name>PREMIUM WAGON MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PXAN</Code>
+		<Name>PREMIUM SPCL AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>PXAR</Code>
+		<Name>PREMIUM SPCL AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>PXMN</Code>
+		<Name>PREMIUM SPCL MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>PXMR</Code>
+		<Name>PREMIUM SPCL MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SBAN</Code>
+		<Name>STANDARD 2DR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>SBAR</Code>
+		<Name>STANDARD 2DR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SBMN</Code>
+		<Name>STANDARD 2DR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>SBMR</Code>
+		<Name>STANDARD 2DR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SCAN</Code>
+		<Name>STANDARD CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>SCAR</Code>
+		<Name>STANDARD CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SCMN</Code>
+		<Name>STANDARD CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>SCMR</Code>
+		<Name>STANDARD CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SDAN</Code>
+		<Name>STANDARD 4DR CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>SDAR</Code>
+		<Name>STANDARD 4DR CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SDMN</Code>
+		<Name>STANDARD 4DR CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>SDMR</Code>
+		<Name>STANDARD 4DR CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SFAN</Code>
+		<Name>STANDARD 4WD AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>SFAR</Code>
+		<Name>STANDARD 4WD AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SFMN</Code>
+		<Name>STANDARD 4WD MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>SFMR</Code>
+		<Name>STANDARD 4WD MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SJAN</Code>
+		<Name>STANDARD ALL TERR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>SJAR</Code>
+		<Name>STANDARD ALL TERR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SJMN</Code>
+		<Name>STANDARD ALL TERR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>SJMR</Code>
+		<Name>STANDARD ALL TERR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SKAN</Code>
+		<Name>STANDARD TRUCK AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>SKAR</Code>
+		<Name>STANDARD TRUCK AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SKMN</Code>
+		<Name>STANDARD TRUCK MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>SKMR</Code>
+		<Name>STANDARD TRUCK MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SLAN</Code>
+		<Name>STANDARD LIMO AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>SLAR</Code>
+		<Name>STANDARD LIMO AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SLMN</Code>
+		<Name>STANDARD LIMO MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>SLMR</Code>
+		<Name>STANDARD LIMO MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SPAN</Code>
+		<Name>STANDARD PICKUP AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>SPAR</Code>
+		<Name>STANDARD PICKUP AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SPMN</Code>
+		<Name>STANDARD PICKUP MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>SPMR</Code>
+		<Name>STANDARD PICKUP MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SRAN</Code>
+		<Name>STANDARD R.V. AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>SRAR</Code>
+		<Name>STANDARD R.V. AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SRMN</Code>
+		<Name>STANDARD R.V. MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>SRMR</Code>
+		<Name>STANDARD R.V. MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SSAN</Code>
+		<Name>STANDARD SPORTS AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>SSAR</Code>
+		<Name>STANDARD SPORTS AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SSMN</Code>
+		<Name>STANDARD SPORTS MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>SSMR</Code>
+		<Name>STANDARD SPORTS MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>STAN</Code>
+		<Name>STANDARD CONV AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>STAR</Code>
+		<Name>STANDARD CONV AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>STMN</Code>
+		<Name>STANDARD CONV MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>STMR</Code>
+		<Name>STANDARD CONV MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SVAN</Code>
+		<Name>STANDARD VAN AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>SVAR</Code>
+		<Name>STANDARD VAN AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SVMN</Code>
+		<Name>STANDARD VAN MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>SVMR</Code>
+		<Name>STANDARD VAN MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SWAN</Code>
+		<Name>STANDARD WAGON AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>SWAR</Code>
+		<Name>STANDARD WAGON AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SWMN</Code>
+		<Name>STANDARD WAGON MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>SWMR</Code>
+		<Name>STANDARD WAGON MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SXAN</Code>
+		<Name>STANDARD SPCL AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>SXAR</Code>
+		<Name>STANDARD SPCL AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>SXMN</Code>
+		<Name>STANDARD SPCL MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>SXMR</Code>
+		<Name>STANDARD SPCL MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XBAN</Code>
+		<Name>SPECIAL 2DR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XBAR</Code>
+		<Name>SPECIAL 2DR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XBMN</Code>
+		<Name>SPECIAL 2DR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XBMR</Code>
+		<Name>SPECIAL 2DR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XCAN</Code>
+		<Name>SPECIAL CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XCAR</Code>
+		<Name>SPECIAL CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XCMN</Code>
+		<Name>SPECIAL CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XCMR</Code>
+		<Name>SPECIAL CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XDAN</Code>
+		<Name>SPECIAL 4DR CAR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XDAR</Code>
+		<Name>SPECIAL 4DR CAR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XDMN</Code>
+		<Name>SPECIAL 4DR CAR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XDMR</Code>
+		<Name>SPECIAL 4DR CAR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XFAN</Code>
+		<Name>SPECIAL 4WD AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XFAR</Code>
+		<Name>SPECIAL 4WD AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XFMN</Code>
+		<Name>SPECIAL 4WD MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XFMR</Code>
+		<Name>SPECIAL 4WD MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XJAN</Code>
+		<Name>SPECIAL ALL TERR AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XJAR</Code>
+		<Name>SPECIAL ALL TERR AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XJMN</Code>
+		<Name>SPECIAL ALL TERR MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XJMR</Code>
+		<Name>SPECIAL ALL TERR MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XKAN</Code>
+		<Name>SPECIAL TRUCK AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XKAR</Code>
+		<Name>SPECIAL TRUCK AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XKMN</Code>
+		<Name>SPECIAL TRUCK MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XKMR</Code>
+		<Name>SPECIAL TRUCK MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XLAN</Code>
+		<Name>SPECIAL LIMO AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XLAR</Code>
+		<Name>SPECIAL LIMO AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XLMN</Code>
+		<Name>SPECIAL LIMO MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XLMR</Code>
+		<Name>SPECIAL LIMO MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XPAN</Code>
+		<Name>SPECIAL PICKUP AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XPAR</Code>
+		<Name>SPECIAL PICKUP AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XPMN</Code>
+		<Name>SPECIAL PICKUP MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XPMR</Code>
+		<Name>SPECIAL PICKUP MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XRAN</Code>
+		<Name>SPECIAL R.V. AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XRAR</Code>
+		<Name>SPECIAL R.V. AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XRMN</Code>
+		<Name>SPECIAL R.V. MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XRMR</Code>
+		<Name>SPECIAL R.V. MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XSAN</Code>
+		<Name>SPECIAL SPORTS AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XSAR</Code>
+		<Name>SPECIAL SPORTS AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XSMN</Code>
+		<Name>SPECIAL SPORTS MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XSMR</Code>
+		<Name>SPECIAL SPORTS MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XTAN</Code>
+		<Name>SPECIAL CONV AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XTAR</Code>
+		<Name>SPECIAL CONV AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XTMN</Code>
+		<Name>SPECIAL CONV MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XTMR</Code>
+		<Name>SPECIAL CONV MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XVAN</Code>
+		<Name>SPECIAL VAN AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XVAR</Code>
+		<Name>SPECIAL VAN AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XVMN</Code>
+		<Name>SPECIAL VAN MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XVMR</Code>
+		<Name>SPECIAL VAN MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XWAN</Code>
+		<Name>SPECIAL WAGON AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XWAR</Code>
+		<Name>SPECIAL WAGON AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XWMN</Code>
+		<Name>SPECIAL WAGON MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XWMR</Code>
+		<Name>SPECIAL WAGON MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XXAN</Code>
+		<Name>SPECIAL AUTO</Name>
+	</CarType>
+	<CarType>
+		<Code>XXAR</Code>
+		<Name>SPECIAL AUTO A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>XXMN</Code>
+		<Name>SPECIAL MANUAL</Name>
+	</CarType>
+	<CarType>
+		<Code>XXMR</Code>
+		<Name>SPECIAL MANUAL A/C</Name>
+	</CarType>
+	<CarType>
+		<Code>ZZAN</Code>
+		<Name>SPECIAL TEST CAR AUTO</Name>
+	</CarType>
+</TTWSCarTypes>

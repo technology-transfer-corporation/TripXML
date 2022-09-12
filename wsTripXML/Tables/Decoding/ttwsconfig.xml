@@ -1,0 +1,839 @@
+<TTWSConfig>
+	<Providers>
+		<Provider Name="OTA" ID="0" />
+		<Provider Name="Amadeus" ID="1" />
+		<Provider Name="Galileo" ID="2" />
+		<Provider Name="Sabre" ID="3" />
+		<Provider Name="Outrigger" ID="4" />
+		<Provider Name="CanJet" ID="5" />
+	</Providers>
+	<Services>
+		<Service Name="AirServices" ID="0">
+			<Synonym>airservices</Synonym>
+		</Service>
+		<Service Name="HotelServices" ID="1">
+			<Synonym>hotelservices</Synonym>
+		</Service>
+		<Service Name="PNRServices" ID="2">
+			<Synonym>pnrservices</Synonym>
+		</Service>
+		<Service Name="CarServices" ID="3">
+			<Synonym>carservices</Synonym>
+		</Service>
+		<Service Name="TravelServices" ID="4">
+			<Synonym>travelservices</Synonym>
+		</Service>
+	</Services>
+	<OTAMessages>
+		<OTAMessage Name="OTA_AirAvailRQ">
+			<ServiceID>0</ServiceID>
+			<MessageID>0</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_AirLowFareSearchRQ">
+			<ServiceID>0</ServiceID>
+			<MessageID>1</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_AirFlifoRQ">
+			<ServiceID>0</ServiceID>
+			<MessageID>2</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_AirPriceRQ">
+			<ServiceID>0</ServiceID>
+			<MessageID>3</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_AirBookRQ">
+			<ServiceID>2</ServiceID>
+			<MessageID>4</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_HotelAvailRQ">
+			<ServiceID>1</ServiceID>
+			<MessageID>5</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_HotelSearchRQ">
+			<ServiceID>1</ServiceID>
+			<MessageID>6</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_HotelDescriptiveInfoRQ">
+			<ServiceID>1</ServiceID>
+			<MessageID>7</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_AirSeatMapRQ">
+			<ServiceID>0</ServiceID>
+			<MessageID>8</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_CancelRQ">
+			<ServiceID>2</ServiceID>
+			<MessageID>9</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_ReadRQ">
+			<ServiceID>2</ServiceID>
+			<MessageID>10</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_VehAvailRateRQ">
+			<ServiceID>3</ServiceID>
+			<MessageID>11</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_VehLocDetailRQ">
+			<ServiceID>3</ServiceID>
+			<MessageID>12</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_AirRulesRQ">
+			<ServiceID>0</ServiceID>
+			<MessageID>13</MessageID>
+		</OTAMessage>
+		<OTAMessage Name="OTA_TravelItineraryRQ">
+			<ServiceID>4</ServiceID>
+			<MessageID>14</MessageID>
+		</OTAMessage>
+	</OTAMessages>
+	<Messages>
+		<Message Name="AirAvail" ID="0">
+			<DocumentID>0</DocumentID>
+			<DocumentID>1</DocumentID>
+			<DocumentID>2</DocumentID>
+			<DocumentID>3</DocumentID>
+			<DocumentID>4</DocumentID>
+			<DocumentID>5</DocumentID>
+			<DocumentID>59</DocumentID>
+			<DocumentID>60</DocumentID>
+			<DocumentID>61</DocumentID>
+			<DocumentID>62</DocumentID>
+		</Message>
+		<Message Name="LowFare" ID="1">
+			<DocumentID>6</DocumentID>
+			<DocumentID>7</DocumentID>
+		</Message>
+		<Message Name="AirFlifo" ID="2">
+			<DocumentID>41</DocumentID>
+			<DocumentID>42</DocumentID>
+		</Message>
+		<Message Name="AirPrice" ID="3">
+			<DocumentID>43</DocumentID>
+			<DocumentID>44</DocumentID>
+		</Message>
+		<Message Name="PNRBuild" ID="4">
+			<DocumentID>36</DocumentID>
+			<DocumentID>40</DocumentID>
+		</Message>
+		<Message Name="HotelAvail" ID="5">
+			<DocumentID>47</DocumentID>
+			<DocumentID>48</DocumentID>
+		</Message>
+		<Message Name="HotelSearch" ID="6">
+			<DocumentID>51</DocumentID>
+			<DocumentID>52</DocumentID>
+		</Message>
+		<Message Name="HotelInfo" ID="7">
+			<DocumentID>49</DocumentID>
+			<DocumentID>50</DocumentID>
+		</Message>
+		<Message Name="AirSeatMap" ID="8">
+			<DocumentID>55</DocumentID>
+			<DocumentID>56</DocumentID>
+		</Message>
+		<Message Name="PNRCancel" ID="9">
+			<DocumentID>45</DocumentID>
+		</Message>
+		<Message Name="PNRRead" ID="10">
+			<DocumentID>38</DocumentID>
+			<DocumentID>40</DocumentID>
+		</Message>
+		<Message Name="CarAvail" ID="11">
+			<DocumentID>67</DocumentID>
+			<DocumentID>68</DocumentID>
+		</Message>
+		<Message Name="CarInfo" ID="12">
+			<DocumentID>69</DocumentID>
+			<DocumentID>70</DocumentID>
+		</Message>
+		<Message Name="AirRules" ID="13">
+			<DocumentID>71</DocumentID>
+			<DocumentID>72</DocumentID>
+		</Message>
+		<Message Name="TravelBuild" ID="14">
+			<DocumentID>73</DocumentID>
+			<DocumentID>40</DocumentID>
+		</Message>
+	</Messages>
+	<Documents>
+		<Document Name="OTAAirAvailRQ" ID="0">
+			<Schema ProviderID="0">OTA_AirAvailRQ.xml</Schema>
+		</Document>
+		<Document Name="OTAAirAvailRS" ID="1">
+			<Schema ProviderID="0">OTA_AirAvailRS.xml</Schema>
+		</Document>
+		<Document Name="AmadeusAirAvailRQ" ID="2">
+			<Schema ProviderID="1">Amadeus_AirAvailRQ.xml</Schema>
+		</Document>
+		<Document Name="AmadeusAirAvailRS" ID="3">
+			<Schema ProviderID="1">Amadeus_AirAvailRS.xml</Schema>
+		</Document>
+		<Document Name="GalileoAirAvailRQ" ID="4">
+			<Schema ProviderID="2">Galileo_AirAvailRQ.xml</Schema>
+		</Document>
+		<Document Name="GalileoAirAvailRS" ID="5">
+			<Schema ProviderID="2">Galileo_AirAvailRS.xml</Schema>
+		</Document>
+		<Document Name="OTALowFareRQ" ID="6">
+			<Schema ProviderID="0">OTA_LowFareRQ.xml</Schema>
+		</Document>
+		<Document Name="OTALowFareRS" ID="7">
+			<Schema ProviderID="0">OTA_LowFareRS.xml</Schema>
+		</Document>
+		<Document Name="OTA_AirBookRQ" ID="36">
+			<Schema ProviderID="0">OTA_AirBookRQ.xml</Schema>
+		</Document>
+		<Document Name="OTA_AirBookRS" ID="37">
+			<Schema ProviderID="0">OTA_AirBookRS.xml</Schema>
+		</Document>
+		<Document Name="OTA_ReadRQ" ID="38">
+			<Schema ProviderID="0">OTA_ReadRQ.xml</Schema>
+		</Document>
+		<Document Name="OTA_ResRetrieveRS" ID="39">
+			<Schema ProviderID="0">OTA_ResRetrieveRS.xml</Schema>
+		</Document>
+		<Document Name="OTA_TravelItineraryRS" ID="40">
+			<Schema ProviderID="0">OTA_TravelItineraryRS.xml</Schema>
+		</Document>
+		<Document Name="OTAAirFlifoRQ" ID="41">
+			<Schema ProviderID="0">OTA_AirFlifoRQ.xml</Schema>
+		</Document>
+		<Document Name="OTAAirFlifoRS" ID="42">
+			<Schema ProviderID="0">OTA_AirFlifoRS.xml</Schema>
+		</Document>
+		<Document Name="OTAAirPriceRQ" ID="43">
+			<Schema ProviderID="0">OTA_AirPriceRQ.xml</Schema>
+		</Document>
+		<Document Name="OTAAirPriceRS" ID="44">
+			<Schema ProviderID="0">OTA_AirPriceRS.xml</Schema>
+		</Document>
+		<Document Name="OTACancelRQ" ID="45">
+			<Schema ProviderID="0">OTA_CancelRQ.xml</Schema>
+		</Document>
+		<Document Name="OTACancelRS" ID="46">
+			<Schema ProviderID="0">OTA_CancelRS.xml</Schema>
+		</Document>
+		<Document Name="OTAHotelAvailRQ" ID="47">
+			<Schema ProviderID="0">OTA_HotelAvailRQ.xml</Schema>
+		</Document>
+		<Document Name="OTAHotelAvailRS" ID="48">
+			<Schema ProviderID="0">OTA_HotelAvailRS.xml</Schema>
+		</Document>
+		<Document Name="OTAHotelInfoRQ" ID="49">
+			<Schema ProviderID="0">OTA_HotelInfoRQ.xml</Schema>
+		</Document>
+		<Document Name="OTAHotelInfoRS" ID="50">
+			<Schema ProviderID="0">OTA_HotelInfoRS.xml</Schema>
+		</Document>
+		<Document Name="OTAHotelSearchRQ" ID="51">
+			<Schema ProviderID="0">OTA_HotelSearchRQ.xml</Schema>
+		</Document>
+		<Document Name="OTAHotelSearchRS" ID="52">
+			<Schema ProviderID="0">OTA_HotelSearchRS.xml</Schema>
+		</Document>
+		<Document Name="OTAAirSeatMapRQ" ID="55">
+			<Schema ProviderID="0">OTA_AirSeatMapRQ.xml</Schema>
+		</Document>
+		<Document Name="OTAAirSeatMapRS" ID="56">
+			<Schema ProviderID="0">OTA_AirSeatMapRS.xml</Schema>
+		</Document>
+		<Document Name="SabreAirAvailRQ" ID="59">
+			<Schema ProviderID="3">Sabre_AirAvailRQ.xml</Schema>
+		</Document>
+		<Document Name="SabreAirAvailRS" ID="60">
+			<Schema ProviderID="3">Sabre_AirAvailRS.xml</Schema>
+		</Document>
+		<Document Name="CanJetAirAvailRQ" ID="61">
+			<Schema ProviderID="5">CanJet_AirAvailRQ.xml</Schema>
+		</Document>
+		<Document Name="CanJetAirAvailRS" ID="62">
+			<Schema ProviderID="5">CanJet_AirAvailRS.xml</Schema>
+		</Document>
+		<Document Name="OTACarAvailRQ" ID="67">
+			<Schema ProviderID="0">OTA_CarAvailRQ.xml</Schema>
+		</Document>
+		<Document Name="OTACarAvailRS" ID="68">
+			<Schema ProviderID="0">OTA_CarAvailRS.xml</Schema>
+		</Document>
+		<Document Name="OTACarInfoRQ" ID="69">
+			<Schema ProviderID="0">OTA_CarInfoRQ.xml</Schema>
+		</Document>
+		<Document Name="OTACarInfoRS" ID="70">
+			<Schema ProviderID="0">OTA_CarInfoRS.xml</Schema>
+		</Document>
+		<Document Name="OTAAirRulesRQ" ID="71">
+			<Schema ProviderID="0">OTA_AirRulesRQ.xml</Schema>
+		</Document>
+		<Document Name="OTAAirRulesRS" ID="72">
+			<Schema ProviderID="0">OTA_AirRulesRS.xml</Schema>
+		</Document>
+		<Document Name="OTATravelBuildRQ" ID="73">
+			<Schema ProviderID="0">OTA_TravelItineraryRQ.xml</Schema>
+		</Document>
+	</Documents>
+	<Applications>
+		<Application Name="aicAmadeus" ID="0" />
+		<Application Name="aicGalileo" ID="1" />
+		<Application Name="appChannels" ID="2" />
+		<Application Name="wsGalileo" ID="3" />
+		<Application Name="wsAmadeus" ID="4" />
+		<Application Name="wsr" ID="5" />
+		<Application Name="aicSabre" ID="6" />
+		<Application Name="wsSabre" ID="7" />
+		<Application Name="aicCanJet" ID="8" />
+		<Application Name="wsCanJet" ID="9" />
+		<Application Name="aicOutrigger" ID="10" />
+		<Application Name="wsOutrigger" ID="11" />
+	</Applications>
+	<Ports>
+		<Port Name="prtAmadeus" ID="0">
+			<Base>Y</Base>
+			<ApplicationID>0</ApplicationID>
+			<SubKey>aicAmadeus</SubKey>
+			<PortChannels>
+				<ChannelID>0</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileo" ID="1">
+			<Base>Y</Base>
+			<ApplicationID>1</ApplicationID>
+			<SubKey>aicGalileo</SubKey>
+			<PortChannels>
+				<ChannelID>1</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtDispatch" ID="2">
+			<Base>Y</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicDispatch</SubKey>
+			<PortChannels>
+				<ChannelID>2</ChannelID>
+				<ChannelID>3</ChannelID>
+				<ChannelID>16</ChannelID>
+				<ChannelID>17</ChannelID>
+				<ChannelID>42</ChannelID>
+				<ChannelID>43</ChannelID>
+				<ChannelID>44</ChannelID>
+				<ChannelID>45</ChannelID>
+				<ChannelID>46</ChannelID>
+				<ChannelID>47</ChannelID>
+				<ChannelID>52</ChannelID>
+				<ChannelID>60</ChannelID>
+				<ChannelID>61</ChannelID>
+				<ChannelID>69</ChannelID>
+				<ChannelID>71</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtAmadeusAirAvail" ID="4">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicAmadeusAirAvail</SubKey>
+			<PortChannels>
+				<ChannelID>4</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtAmadeusLowFare" ID="5">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicAmadeusLowFare</SubKey>
+			<PortChannels>
+				<ChannelID>5</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoAirAvail" ID="6">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoAirAvail</SubKey>
+			<PortChannels>
+				<ChannelID>6</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoLowFare" ID="7">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoLowFare</SubKey>
+			<PortChannels>
+				<ChannelID>7</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoAirFlifo" ID="8">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoAirFlifo</SubKey>
+			<PortChannels>
+				<ChannelID>24</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoAirPrice" ID="9">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoAirPrice</SubKey>
+			<PortChannels>
+				<ChannelID>27</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoHotelAvail" ID="10">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoHotelAvail</SubKey>
+			<PortChannels>
+				<ChannelID>30</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoHotelInfo" ID="11">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoHotelInfo</SubKey>
+			<PortChannels>
+				<ChannelID>33</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoHotelSearch" ID="12">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoHotelSearch</SubKey>
+			<PortChannels>
+				<ChannelID>36</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoPNRBuild" ID="13">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoPNRBuild</SubKey>
+			<PortChannels>
+				<ChannelID>39</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoPNRCancel" ID="14">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoPNRCancel</SubKey>
+			<PortChannels>
+				<ChannelID>40</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoAirSeatMap" ID="15">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoAirSeatMap</SubKey>
+			<PortChannels>
+				<ChannelID>47</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtSabre" ID="16">
+			<Base>Y</Base>
+			<ApplicationID>6</ApplicationID>
+			<SubKey>aicSabre</SubKey>
+			<PortChannels>
+				<ChannelID>50</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtSabreAirAvail" ID="17">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicSabreAirAvail</SubKey>
+			<PortChannels>
+				<ChannelID>51</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoPNRRead" ID="18">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoPNRRead</SubKey>
+			<PortChannels>
+				<ChannelID>53</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtSabreLowFare" ID="19">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicSabreLowFare</SubKey>
+			<PortChannels>
+				<ChannelID>54</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtCanJet" ID="20">
+			<Base>Y</Base>
+			<ApplicationID>8</ApplicationID>
+			<SubKey>aicCanJet</SubKey>
+			<PortChannels>
+				<ChannelID>55</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtCanJetAirAvail" ID="21">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicCanJetAirAvail</SubKey>
+			<PortChannels>
+				<ChannelID>56</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoCarAvail" ID="22">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoCarAvail</SubKey>
+			<PortChannels>
+				<ChannelID>62</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoCarInfo" ID="23">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoCarInfo</SubKey>
+			<PortChannels>
+				<ChannelID>63</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtAmadeusHotelAvail" ID="24">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicAmadeusHotelAvail</SubKey>
+			<PortChannels>
+				<ChannelID>68</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoAirRules" ID="25">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoAirRules</SubKey>
+			<PortChannels>
+				<ChannelID>70</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtGalileoTravelBuild" ID="26">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicGalileoTravelBuild</SubKey>
+			<PortChannels>
+				<ChannelID>72</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtAmadeusTravelBuild" ID="27">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicAmadeusTravelBuild</SubKey>
+			<PortChannels>
+				<ChannelID>73</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtAmadeusPNRRead" ID="28">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicAmadeusPNRRead</SubKey>
+			<PortChannels>
+				<ChannelID>74</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtAmadeusAirFlifo" ID="29">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicAmadeusAirFlifo</SubKey>
+			<PortChannels>
+				<ChannelID>75</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtSabreAirFlifo" ID="30">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicSabreAirFlifo</SubKey>
+			<PortChannels>
+				<ChannelID>76</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtOutrigger" ID="31">
+			<Base>N</Base>
+			<ApplicationID>10</ApplicationID>
+			<SubKey>aicOutrigger</SubKey>
+			<PortChannels>
+				<ChannelID>77</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtOutriggerHotelAvail" ID="32">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicOutriggerHotelAvail</SubKey>
+			<PortChannels>
+				<ChannelID>78</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtAmadeusCarAvail" ID="33">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicAmadeusCarAvail</SubKey>
+			<PortChannels>
+				<ChannelID>79</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtAmadeusCarInfo" ID="34">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicAmadeusCarInfo</SubKey>
+			<PortChannels>
+				<ChannelID>80</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtAmadeusAirPrice" ID="35">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicAmadeusAirPrice</SubKey>
+			<PortChannels>
+				<ChannelID>81</ChannelID>
+			</PortChannels>
+		</Port>
+		<Port Name="prtAmadeusPNRCancel" ID="36">
+			<Base>N</Base>
+			<ApplicationID>2</ApplicationID>
+			<SubKey>aicAmadeusPNRCancel</SubKey>
+			<PortChannels>
+				<ChannelID>82</ChannelID>
+			</PortChannels>
+		</Port>
+	</Ports>
+	<Channels>
+		<Channel Name="chnaicAmadeus" ID="0">
+			<PortID>0</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>2</InputDocID>
+		</Channel>
+		<Channel Name="chnaicGalileo" ID="1">
+			<PortID>1</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>4</InputDocID>
+		</Channel>
+		<Channel Name="chnAirAvail" ID="2">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>0</InputDocID>
+		</Channel>
+		<Channel Name="chnLowFare" ID="3">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>6</InputDocID>
+		</Channel>
+		<Channel Name="chnAmadeusAirAvail" ID="4">
+			<PortID>4</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>0</InputDocID>
+		</Channel>
+		<Channel Name="chnAmadeusLowFare" ID="5">
+			<PortID>5</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>6</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoAirAvail" ID="6">
+			<PortID>6</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>0</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoLowFare" ID="7">
+			<PortID>7</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>6</InputDocID>
+		</Channel>
+		<Channel Name="chnAirFlifo" ID="16">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>41</InputDocID>
+		</Channel>
+		<Channel Name="chnAirPrice" ID="17">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>43</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoAirFlifo" ID="24">
+			<PortID>8</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>41</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoAirPrice" ID="27">
+			<PortID>9</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>43</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoHotelAvail" ID="30">
+			<PortID>10</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>47</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoHotelInfo" ID="33">
+			<PortID>11</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>49</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoHotelSearch" ID="36">
+			<PortID>12</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>51</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoPNRBuild" ID="39">
+			<PortID>13</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>36</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoPNRCancel" ID="40">
+			<PortID>14</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>45</InputDocID>
+		</Channel>
+		<Channel Name="chnHotelAvail" ID="42">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>47</InputDocID>
+		</Channel>
+		<Channel Name="chnHotelInfo" ID="43">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>49</InputDocID>
+		</Channel>
+		<Channel Name="chnHotelSearch" ID="44">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>51</InputDocID>
+		</Channel>
+		<Channel Name="chnPNRBuild" ID="45">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>36</InputDocID>
+		</Channel>
+		<Channel Name="chnPNRCancel" ID="46">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>45</InputDocID>
+		</Channel>
+		<Channel Name="chnAirSeatMap" ID="47">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>55</InputDocID>
+		</Channel>
+		<Channel Name="chnaicSabre" ID="50">
+			<PortID>16</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>59</InputDocID>
+		</Channel>
+		<Channel Name="chnSabreAirAvail" ID="51">
+			<PortID>17</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>0</InputDocID>
+		</Channel>
+		<Channel Name="chnPNRRead" ID="52">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>38</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoPNRRead" ID="53">
+			<PortID>18</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>38</InputDocID>
+		</Channel>
+		<Channel Name="chnSabreLowFare" ID="54">
+			<PortID>19</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>6</InputDocID>
+		</Channel>
+		<Channel Name="chnaicCanJet" ID="55">
+			<PortID>20</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>61</InputDocID>
+		</Channel>
+		<Channel Name="chnCanJetAirAvail" ID="56">
+			<PortID>21</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>61</InputDocID>
+		</Channel>
+		<Channel Name="chnCarAvail" ID="60">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>67</InputDocID>
+		</Channel>
+		<Channel Name="chnCarInfo" ID="61">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>69</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoCarAvail" ID="62">
+			<PortID>22</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>67</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoCarInfo" ID="63">
+			<PortID>23</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>69</InputDocID>
+		</Channel>
+		<Channel Name="chnAmadeusHotelAvail" ID="68">
+			<PortID>24</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>47</InputDocID>
+		</Channel>
+		<Channel Name="chnAirRules" ID="69">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>71</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoAirRules" ID="70">
+			<PortID>25</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>71</InputDocID>
+		</Channel>
+		<Channel Name="chnTravelBuild" ID="71">
+			<PortID>2</PortID>
+			<ApplicationID>5</ApplicationID>
+			<InputDocID>73</InputDocID>
+		</Channel>
+		<Channel Name="chnGalileoTravelBuild" ID="72">
+			<PortID>26</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>73</InputDocID>
+		</Channel>
+		<Channel Name="chnAmadeusTravelBuild" ID="73">
+			<PortID>27</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>73</InputDocID>
+		</Channel>
+		<Channel Name="chnAmadeusPNRRead" ID="74">
+			<PortID>28</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>38</InputDocID>
+		</Channel>
+		<Channel Name="chnAmadeusAirFlifo" ID="75">
+			<PortID>29</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>41</InputDocID>
+		</Channel>
+		<Channel Name="chnSabresAirFlifo" ID="76">
+			<PortID>30</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>41</InputDocID>
+		</Channel>
+		<Channel Name="chnaicOutrigger" ID="77">
+			<PortID>31</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>2</InputDocID>
+		</Channel>
+		<Channel Name="chnOutriggerHotelAvail" ID="78">
+			<PortID>32</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>47</InputDocID>
+		</Channel>
+		<Channel Name="chnAmadeusCarAvail" ID="79">
+			<PortID>33</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>67</InputDocID>
+		</Channel>
+		<Channel Name="chnAmadeusCarInfo" ID="80">
+			<PortID>34</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>69</InputDocID>
+		</Channel>
+		<Channel Name="chnAmadeusAirPrice" ID="81">
+			<PortID>35</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>43</InputDocID>
+		</Channel>
+		<Channel Name="chnAmadeusPNRCancel" ID="82">
+			<PortID>36</PortID>
+			<ApplicationID>2</ApplicationID>
+			<InputDocID>45</InputDocID>
+		</Channel>
+	</Channels>
+</TTWSConfig>

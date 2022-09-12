@@ -1,0 +1,1762 @@
+<TTWSCruiseAdvisory>
+	<Advisory>
+		<Code>9821</Code>
+		<Name>SUCCESSFUL TRANSACTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9822</Code>
+		<Name>CABIN NOT SUPPORTED FOR THAT FARE. PLEASE CHANGE FARE CODE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9823</Code>
+		<Name>GUEST NOT RECORDED AS PAST PASSENGER, PLEASE SELECT NEW FARE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9824</Code>
+		<Name>SPECIFIED CRUISE LINE DOES NOT OPERATE IN SPECIFIED AREA</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9825</Code>
+		<Name>SPECIFIED SHIP DOES NOT OPERATE AROUND SPECIFIED DATE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9826</Code>
+		<Name>SPECIFIED SHIP DOES NOT OPERATE IN SPECIFIED AREA</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9827</Code>
+		<Name>SPECIFIED SHIP DOES NOT OPERATE IN SPECIFIED AREA AT THIS DATE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9828</Code>
+		<Name>INVALID CRUISE PACKAGE CODE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9829</Code>
+		<Name>TRANSPORTATION CITY NOT AVAILABLE. SELECT FROM ALTERNATE LIST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9830</Code>
+		<Name>SPECIFIED DECK IS INVALID</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9831</Code>
+		<Name>THERE IS NO CABIN FOR THE CABIN PREFERENCES SELECTED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>6700</Code>
+		<Name>PNR PRESENT - PLEASE FINISH OR IGNORE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9832</Code>
+		<Name>DATABASE NOT AVAILABLE, PLEASE RETRY LATER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9665</Code>
+		<Name>NAME ELEMENT DELETED - VERIFY WITH CRUISE -</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9833</Code>
+		<Name>NO CABIN APPLICABLE FOR FARE AND CATEGORY CODE SPECIFIED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9834</Code>
+		<Name>NO CATEGORY APPLICABLE FOR FARE CODE(S) SPECIFIED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9835</Code>
+		<Name>TRANSPORTATION CITY WAIT-LISTED. SELECT FROM ALTERNATE LIST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9666</Code>
+		<Name>NAME UPDATED - UPDATE NAME WITH CRUISE -</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9836</Code>
+		<Name>QUOTA OF SHORE EXCURSIONS FOR THAT BOOKING HAS BEEN REACHED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10007</Code>
+		<Name>CABIN NUMBER INVALID. PLEASE ENTER A NEW CABIN NUMBER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10008</Code>
+		<Name>PLS CONFIRM AIR DEVIATION BY FAX. FOR DETAILS SEE PRODUCT INFO</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9839</Code>
+		<Name>CRUISE SEGMENT SPLIT TO PARENT PNR</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10019</Code>
+		<Name>FARE CODE INVALID</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10020</Code>
+		<Name>FARE CODE INVALID FOR OCCUPANCY REQUESTED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9842</Code>
+		<Name>TRANSPORTATION CITY NOT AVAILABLE. CRUISE ONLY IS APPLIED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9843</Code>
+		<Name>UNABLE TO ACCESS. PLEASE CONTACT AMADEUS HELP DESK</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9844</Code>
+		<Name>FARE CODE SELECTED HAS EXPIRED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9845</Code>
+		<Name>CABIN HAS NOT BEEN RELEASED. PLEASE CALL CRUISE LINE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9846</Code>
+		<Name>REQUESTED SAILING NOT AVAILABLE. PLEASE CHANGE SAILING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9847</Code>
+		<Name>REQUESTED FARE NOT AVAILABLE. PLEASE CHANGE FARE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9848</Code>
+		<Name>REQUESTED CATEGORY NOT AVAILABLE. PLEASE CHANGE CATEGORY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9849</Code>
+		<Name>REQUESTED CABIN NOT AVAILABLE. PLEASE CHANGE CABIN</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9850</Code>
+		<Name>WAITLIST REQUEST HAS BEEN MATCHED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9851</Code>
+		<Name>SELECTED CURRENCY NOT AVAILABLE FOR THAT CRUISE LINE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9852</Code>
+		<Name>CONFLICTING DATE WITH CURRENT POST-PACKAGE. REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9668</Code>
+		<Name>CRU CANNOT BE CANCELLED - VERIFY WITH CRUISE LINE -</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9853</Code>
+		<Name>NO WAITLISTED CATEGORY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>284</Code>
+		<Name>SECURED PNR</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9854</Code>
+		<Name>THERE IS ONLY ONE FARE MATCHING YOUR CRITERIA</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10021</Code>
+		<Name>AFFILIATION NUMBER INVALID</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9856</Code>
+		<Name>FARE NOT COMPATIBLE WITH PRE-PACKAGES. REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9857</Code>
+		<Name>FARE NOT COMPATIBLE WITH POST-PACKAGES. REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9858</Code>
+		<Name>FARE NOT COMPATIBLE WITH SHORE EXCURSIONS. REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9859</Code>
+		<Name>FARE NOT COMPATIBLE WITH CRUISE PACKAGE. REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9937</Code>
+		<Name>POSSIBLE CHANGES IN THE BOOKING PRICE. CHECK PRICING DISPLAY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9860</Code>
+		<Name>FARE NOT COMPATIBLE WITH TRANSPORTATION MODE. REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9861</Code>
+		<Name>CONFLICTING PACKAGE WITH PRE-TRANSFER. REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9862</Code>
+		<Name>CONFLICTING PACKAGE WITH POST-TRANSFER. REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9863</Code>
+		<Name>NO FARE FOR CATEGORY SELECTED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9864</Code>
+		<Name>NO FARE FOR CATEGORY AND CABIN SELECTED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10022</Code>
+		<Name>PRE PACKAGE IS MANDATORY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10023</Code>
+		<Name>POST PACKAGE IS MANDATORY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10024</Code>
+		<Name>INVALID PAST PASSENGER NUMBER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9865</Code>
+		<Name>NO SPECIAL SERVICE FOR THAT SAILING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10025</Code>
+		<Name>ACCESS DENIED. SECURED BOOKING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9866</Code>
+		<Name>CREDIT CARD HAS EXPIRED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9867</Code>
+		<Name>INVALID CREDIT CARD NUMBER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9855</Code>
+		<Name>FOR PRE-PAID EUROPE/ALASKA EXCURSIONS, PLEASE CALL CRUISE LINE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10029</Code>
+		<Name>CORRESPONDING DETAILS/DESCRIPTION NOT AVAILABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10711</Code>
+		<Name>INVALID AGE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9255</Code>
+		<Name>RECORD LOCATOR NOT FOUND</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9868</Code>
+		<Name>FARE NOT COMPATIBLE WITH GUEST AGE. PLEASE CHANGE FARE CODE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9869</Code>
+		<Name>SPECIFIED SAILING NOT FOUND. PLEASE VIEW ALTERNATES</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9870</Code>
+		<Name>END OF TRANSACTION SUCCESSFULLY COMPLETED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9871</Code>
+		<Name>MAXIMUM NUMBER OF GUESTS HAS BEEN REACHED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9872</Code>
+		<Name>MAX OCCUPANCY OF CABIN HAS BEEN REACHED. PLEASE DELETE A GUEST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9873</Code>
+		<Name>MINIMUM NUMBER OF GUESTS HAS BEEN REACHED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9874</Code>
+		<Name>THERE IS NO SAILING FOR THE CRITERIA ENTERED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9875</Code>
+		<Name>THERE IS NO GROUP CORRESPONDING TO THE CRITERIA ENTERED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10656</Code>
+		<Name>SPECIFIED CRUISE LINE DOES NOT OPERATE AROUND SPECIFIED DATE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10657</Code>
+		<Name>CRUISE LINE DOESN'T OPERATE IN THIS AREA AT THIS DATE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10712</Code>
+		<Name>INVALID GENDER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9877</Code>
+		<Name>PLEASE GO CHECK YOUR REGISTRATION CARD</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9878</Code>
+		<Name>NO CRUISE LINE OPERATING IN SPECIFIED REGION FOR THIS DATE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9879</Code>
+		<Name>SELECTED DATE IS A PAST DATE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9880</Code>
+		<Name>SELECTED DATE IS TOO FAR IN THE FUTURE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9881</Code>
+		<Name>SPECIFIED NUMBER OF GUESTS IS TOO HIGH</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10714</Code>
+		<Name>INVALID CITIZENSHIP</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11444</Code>
+		<Name>CITY NOT VALID WITH CURRENT CURRENCY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9882</Code>
+		<Name>THERE IS NO PRE-PACKAGE FOR THE SELECTED DURATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9883</Code>
+		<Name>THERE IS NO POST-PACKAGE FOR THE SELECTED DURATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9884</Code>
+		<Name>CONFLICTING DATE WITH CURRENT PRE-PACKAGE. REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9885</Code>
+		<Name>SELECTED FARE CODE-CATEGORY PAIR HAS EXPIRED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11096</Code>
+		<Name>TRANSPORTATION CITY NOT AVAILABLE. PLEASE REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11097</Code>
+		<Name>TRANSPORTATION CITY WAIT-LISTED. PLEASE REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11098</Code>
+		<Name>MOT MUST BE CRUISE ONLY FOR SELECTED BUS OR C/O TRANSFER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11201</Code>
+		<Name>FOR PRE-PAID SHORE EXCURSIONS WITHIN 30 DAYS, PLS BOOK ON BOARD</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11221</Code>
+		<Name>PLEASE ENTER A TRANSPORTATION CITY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>4</Code>
+		<Name>AGENT NOT SIGNED IN</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9886</Code>
+		<Name>SELECTED CABIN NO LONGER AVAILABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9887</Code>
+		<Name>SELECTED CABIN AND CATEGORY NO LONGER AVAILABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>10035</Code>
+		<Name>CANNOT DELETE-ATTACHED DATA IN USE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11344</Code>
+		<Name>PNR NOT INTEGRATED. PLEASE EOT AND RETRIEVE AGAIN TO CANCEL</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11440</Code>
+		<Name>CRUISE BOOKING CANNOT BE CREATED IN PRACTICE TRAINING MODE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9889</Code>
+		<Name>MAXIMUM NUMBER OF EXCURSIONS HAS BEEN REACHED FOR THAT GUEST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9890</Code>
+		<Name>NO GIFT ITEM AVAILABLE FOR THIS GIFT TYPE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11445</Code>
+		<Name>CURRENCY/CITY PAIR NOT VALID. PLEASE REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11463</Code>
+		<Name>CITY NOT AVAILABLE FOR THIS AGENCY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9891</Code>
+		<Name>CRUISE BOOKING CURRENTLY IN-USE. TRY LATER.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9892</Code>
+		<Name>FARE CODE NOT COMPATIBLE WITH GUEST CITY. REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>2441</Code>
+		<Name>INCORRECT VERSION OF AMADEUS CRUISE. PLEASE UPGRADE YOUR PC</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9893</Code>
+		<Name>PLEASE SPECIFY GIFT QUANTITY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>2447</Code>
+		<Name>GENDER AND TITLE ARE CONFLICTING. PLEASE REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>2465</Code>
+		<Name>CANNOT SELECT A BUS PACKAGE AND A TRANSFER PACKAGE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>2466</Code>
+		<Name>CANNOT SELECT A BUS PACKAGE AND A PRE OR POST PACKAGE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9894</Code>
+		<Name>PLEASE ENTER A CELEBRATION DATE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9895</Code>
+		<Name>PLEASE ENTER A NUMBER OF YEARS.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9896</Code>
+		<Name>PLEASE ENTER GUEST ASSOCIATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>2467</Code>
+		<Name>BUS PACKAGE IS DROPPED DUE TO CONFLICT WITH CRUISE PACKAGE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>2471</Code>
+		<Name>AIR NOT AVAILABLE. CRUISE ONLY IS APPLIED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>2503</Code>
+		<Name>CRUISE LINE SYSTEM IS TEMPORARILY NOT AVAILABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>2518</Code>
+		<Name>A NEW VERSION OF AMADEUS CRUISE IS AVAILABLE FOR THIS CL</Name>
+	</Advisory>
+	<Advisory>
+		<Code>2519</Code>
+		<Name>YOUR CURRENT VERSION OF AMADEUS CRUISE MAY NOT BE CORRECT</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9898</Code>
+		<Name>SPECIAL REQUEST CANNOT BE REMOVED FOR THAT GUEST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9899</Code>
+		<Name>TRANSFER CANNOT BE REMOVED FOR THAT GUEST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9900</Code>
+		<Name>CANCELLATION FEES APPLY ON REMOVAL OF THIS SPECIAL REQUEST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9901</Code>
+		<Name>CANCELLATION FEES APPLY ON REMOVAL OF THIS TRANSFER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9902</Code>
+		<Name>CANCELLATION FEES APPLY ON MODIFICATION OF THIS SAILING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9903</Code>
+		<Name>INVALID GROUP ID</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9904</Code>
+		<Name>CANCELLATION FEES APPLY ON BOOKING CANCELLATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9905</Code>
+		<Name>YOU HAVE CANCELLED THE GIFT ORDER. PLEASE CONFIRM</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9906</Code>
+		<Name>YOU HAVE REDUCED THE QUANTITY FOR THIS GIFT. PLEASE CONFIRM</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9907</Code>
+		<Name>GIFT QUANTITY CANNOT BE REDUCED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11750</Code>
+		<Name>SELECTED SAILING TOO CLOSE TO SET A TA FOR DOCUMENT DELIVERY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9909</Code>
+		<Name>INVALID BOOKING NUMBER.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9910</Code>
+		<Name>NO MATCHING NAME IN THE CRUISE LINE DATABASE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11751</Code>
+		<Name>PLEASE PROVIDE MORE INFO FOR A COMPLETE SIMILAR NAME LIST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9911</Code>
+		<Name>CRUISE BOOKING NOT PROPERLY FILED. CONTACT AMADEUS HELP DESK</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9912</Code>
+		<Name>THERE IS NO SCHEDULE LOADED FOR THAT CRUISE LINE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11752</Code>
+		<Name>REMINDER - SMOKING IS PROHIBITED ON-BOARD</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9913</Code>
+		<Name>YOU ARE NOT REGISTERED FOR THIS CRUISE LINE. PLEASE REGISTER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11753</Code>
+		<Name>THE DEPARTURE CITY CURRENTLY HAS A STATUS OF AIR ON REQUEST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11754</Code>
+		<Name>ONLY AVAILABILITY AND RATES CURRENTLY AVAILABLE ON THE SYSTEM</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11755</Code>
+		<Name>CONFIRMED GUARANTEE MODIFICATION NOT ALLOWED.CONTACT CRUISE LINE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11756</Code>
+		<Name>MANDATORY OVERNIGHT CITY SELECTED IS REQUIRED FOR ALL GUESTS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11757</Code>
+		<Name>SOME SPECIAL SERVICES MAY HAVE BEEN APPLIED TO ALL PASSENGERS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11758</Code>
+		<Name>GUESTS UNDER 21 MUST BE ACCOMPANIED BY A PARENT IN STATEROOM</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11759</Code>
+		<Name>THE CREDIT CARD HAS BEEN DECLINED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11760</Code>
+		<Name>PAYMENT ACCEPTED, PENDING APPROVAL OF THE CREDIT CARD</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11761</Code>
+		<Name>PENALTIES MAY APPLY DUE TO AIR TRANSPORTATION CHANGES</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11762</Code>
+		<Name>SYSTEM TEMPORARILY UNAVAILABLE. CREDIT CARD PAYMENTS NOT APPLIED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11763</Code>
+		<Name>CANNOT DELETE PRE-PAID GRATUITIES WHEN THE BOOKING IS TICKETED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11764</Code>
+		<Name>NO RESERVATION FOUND FOR THIS CONFIRMATION NUMBER. PLEASE CHECK</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11765</Code>
+		<Name>DEPARTURE DATE TOO CLOSE TO ALLOW MODIFICATIONS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11766</Code>
+		<Name>NOT AUTHORIZED TO ACCESS VAX. PLEASE CONTACT THE CRUISE LINE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11767</Code>
+		<Name>UNABLE TO FIND RESERVATION MATCHING THE QUALIFIERS SPECIFIED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11768</Code>
+		<Name>CANNOT DISPLAY CANCELLED BOOKINGS. PLEASE CONTACT CRUISE LINE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11769</Code>
+		<Name>MAX NUMBER OF GUEST AND PACKAGE COMBINATIONS ALLOWED EXCEEDED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11770</Code>
+		<Name>SINGLE OVERNIGHT ROOM APPLIED. REMOVE OPTION FROM GUEST SERVICES</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11771</Code>
+		<Name>PLEASE DELETE EITHER THE PRE OR POST PACKAGE FOR ORLANDO, FL</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11772</Code>
+		<Name>UNMATCHING BOOKED SAILING AND DINING WITH INFO. PLEASE VERIFY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11773</Code>
+		<Name>UNMATCHING REQUESTED SEATING AND DINING WITH PREFERENCE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11774</Code>
+		<Name>ONLY ONE BED SELECTION ALLOWED. DELETE ONE IN GUEST SERVICES</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11775</Code>
+		<Name>NO STATEROOM AVAILABLE IN CATEGORY FOR THE NUMBER OF GUESTS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11776</Code>
+		<Name>CATEGORY NOT AVAILABLE FOR THE NUMBER OF GUESTS IN THIS BOOKING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11777</Code>
+		<Name>PAYMENTS EXCEED THE PRICE OF THE BOOKING. PLEASE VERIFY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11778</Code>
+		<Name>PLEASE ADD REQUIRED PRE-PAID GRATUITIES FOR ALL PASSENGERS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11779</Code>
+		<Name>CREDIT CARD PAYMENTS NOT ACCEPTED FROM THIS AGENCY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11780</Code>
+		<Name>THE PRE/POST PACKAGE(S) YOU REQUESTED IS NO LONGER AVAILABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11781</Code>
+		<Name>TRANSPORTATION NOT APPLICABLE FOR CITY.PLEASE REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11782</Code>
+		<Name>AT LEAST ONE PASSENGER MUST BE 18 YEARS OF AGE OR OLDER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11783</Code>
+		<Name>ONLY ONE PRE AND ONE POST PACKAGE ALLOWED PER PASSENGER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11784</Code>
+		<Name>ONE OR MORE PASSENGERS MUST BOOK A MANDATORY PACKAGE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11785</Code>
+		<Name>THE REQUESTED STATEROOM HAS PREVIOUSLY BEEN CANCELLED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11786</Code>
+		<Name>UNABLE TO PROCESS BECAUSE THE REQUEST HAS INCORRECT DATA</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11787</Code>
+		<Name>THE PRE/POST PACKAGE(S) YOU REQUESTED IS NOT RECOGNIZED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11930</Code>
+		<Name>UNABLE TO PROCESS REQUEST. PLEASE CONTACT YOUR AMADEUS HELP DESK</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11788</Code>
+		<Name>UNABLE TO CONFIRM BOOKING. PLEASE CONTACT CRUISE LINE HELP DESK</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11931</Code>
+		<Name>UNEXPECTED RESPONSE. PLEASE CONTACT YOUR AMADEUS HELP DESK</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11926</Code>
+		<Name>RESERVATION CONFIRMED WITH PREFERRED TA FOR DOCUMENT DELIVERY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11927</Code>
+		<Name>THE REQUESTED FUNCTION IS NOT CURRENTLY SUPPORTED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12109</Code>
+		<Name>A FAX OF THIS CONFIRMATION IS BEING SENT</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12110</Code>
+		<Name>A ROLLAWAY BED WILL BE PROVIDED FOR THE THIRD PASSENGER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12111</Code>
+		<Name>BOOKING WILL BE CANCELLED IF PAYMENT IS NOT APPLIED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12112</Code>
+		<Name>NO MORE UPPER BERTH FOR THIRDS AND FOURTHS ARE AVAILABLE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12113</Code>
+		<Name>NO MESSAGES</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12114</Code>
+		<Name>END OF MESSAGE CATEGORY/TYPE SELECTED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12115</Code>
+		<Name>MESSAGE COUNT COMPLETE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12116</Code>
+		<Name>YOU MAY NOW CREATE BOOKINGS.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12117</Code>
+		<Name>ALL MESSAGES VIEWED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12118</Code>
+		<Name>SOME MESSAGES TO VIEW.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12119</Code>
+		<Name>QUEUE ACCESSED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12120</Code>
+		<Name>UNABLE TO PROCESS ACTION CODE IN MESSAGE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12121</Code>
+		<Name>CATEGORY CODE REQUIRED IN MESSAGE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12122</Code>
+		<Name>USER INACTIVE FOR 15 MINUTES - MESSAGE RETURNED TO QUEUE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12123</Code>
+		<Name>BOOKING HAS NOT BEEN CONVERTED FOR DISPLAY IN CBI.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12124</Code>
+		<Name>REQUIRES ALL BOOKINGS TO BE MADE THROUGH A GSA.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12125</Code>
+		<Name>BOOKING CANNOT BE REINSTATED DUE TO PENALTY ASSIGNED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12126</Code>
+		<Name>BOOKING CANNOT BE REINSTATED WITHIN SEVEN DAYS OF SAILING.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12127</Code>
+		<Name>BOOKING CANNOT BE REINSTATED BECAUSE CABIN IS SGL GUAR.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12128</Code>
+		<Name>BOOKING CANNOT BE REINSTATED BECAUSE CABIN IS SHR GUAR.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12129</Code>
+		<Name>REQUESTED POLICIES NOT RECOGNIZED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12130</Code>
+		<Name>THE SAILING BOOKED AND TRAVEL NUMBER DO NOT MATCH.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12131</Code>
+		<Name>BUS TRANSPORTATION IS NOT AVAILABLE FOR THIS SAILING.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12132</Code>
+		<Name>CATEGORY CANNOT ACCOMMODATE REQUESTED TRANSPORTATION.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12133</Code>
+		<Name>THE CABIN BEDDING YOU SELECTED DOES NOT APPLY.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12134</Code>
+		<Name>THE DINING WITH CONF NUMBER SMOKING PREF DO NOT MATCH.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12135</Code>
+		<Name>THE DINING WITH CONF NUMBER TABLES SIZE DO NOT MATCH.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12136</Code>
+		<Name>THE PASSENGER CITY IS NOT SUPPORTED FOR SAILING OR RATE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12137</Code>
+		<Name>AGENCY NOT ALLOWED TO BOOK THE REQUESTED TRANSPORTATION.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12138</Code>
+		<Name>THE TRANSPORTATION IS NOT AVAILABLE FOR SAILING OR RATE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12139</Code>
+		<Name>THE PASSENGER CITY IS NOT SUPPORTED FOR SAILING OR RATE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12140</Code>
+		<Name>THE TRANSPORTATION IS NOT AVAILABLE FOR CATEGORY.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12141</Code>
+		<Name>CHANGE OF WAIVER/INSURANCE NOT ALLOWED FOR EXISTING PAX.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12142</Code>
+		<Name>DO NOT ACCEPT CHECK PAYMENTS FROM THIS AGENCY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12143</Code>
+		<Name>THE DINING SEATING YOU REQUESTED IS NO LONGER AVAILABLE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12144</Code>
+		<Name>THE BOOKING HAS BEEN CANCELLED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12145</Code>
+		<Name>MAXIMUM CHANGES TO PACKAGE INFORMATION EXCEEDED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12146</Code>
+		<Name>THE DEPOSIT AMOUNT ENTERED WAS LESS THEN THE MINIMUM.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12147</Code>
+		<Name>TRANSPORTATION MODE MUST BE THE SAME FOR ALL PASSENGERS.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12148</Code>
+		<Name>PASSENGER CITY MUST BE THE SAME FOR ALL PASSENGERS.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12149</Code>
+		<Name>ONE OR MORE PRE/POST PACKAGES NOT UPDATED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12150</Code>
+		<Name>CREDIT BACK TELEPHONE NUMBER NOT RECOGNIZED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12151</Code>
+		<Name>ALL PASSENGERS MUST SELECT THE SAME INSURANCE OPTION.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12152</Code>
+		<Name>FIRST PASSENGER CAN NOT BE DELETED FROM THIS BOOKING.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12153</Code>
+		<Name>FIRST AND SECOND PASSENGERS CAN NOT BE DELETED ON BOOKING.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12154</Code>
+		<Name>MAXIMUM NUMBER OF SPECIAL OCCASIONS REQUESTED EXCEEDED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12155</Code>
+		<Name>MAXIMUM NUMBER OF MEDICAL ADVISORIES REQUESTED EXCEEDED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12156</Code>
+		<Name>MAXIMUM NUMBER OF SPECIAL MEALS REQUESTED EXCEEDED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12157</Code>
+		<Name>INSURANCE IS MANDATORY FOR ALL PASSENGERS.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12158</Code>
+		<Name>TRANSPORTATION TYPE NOT SUPPORTED FOR WAITLISTED BOOKINGS.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12159</Code>
+		<Name>CABIN IS ALREADY ON HOLD.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12160</Code>
+		<Name>UNABLE TO ACCESS MESSAGES.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12161</Code>
+		<Name>MESSAGE COUNT INCOMPLETE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12162</Code>
+		<Name>ITR SEGMENT CODE REQUIRED IN MESSAGE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12163</Code>
+		<Name>INCORRECT PRIORITY CODE IN QUEUE MESSAGE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12165</Code>
+		<Name>UNABLE TO MERGE CRUISE SEGMENT INTO SYSTEM.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12166</Code>
+		<Name>PRODUCT NOT FOUND IN SYSTEM.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12167</Code>
+		<Name>INPUT CITY CODE IS GREATER THAN 3 CHARACTERS.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12168</Code>
+		<Name>STATEROOM WILL BE HELD FOR 15 MIN. PLEASE CONTINUE BKING PROCESS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12169</Code>
+		<Name>THIS SAILDATE IS TOO CLOSE TO BOOK. PLEASE CALL CRUISE LINE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12170</Code>
+		<Name>A PASSENGER MUST BE UNDER THE AGE OF 5 YEARS TO SELECT A CRIB</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11953</Code>
+		<Name>AT LEAST ONE PAST PASSENGER NUMBER DOES NOT MATCH NAME</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11954</Code>
+		<Name>NO CABINS WITH HANDICAP FACILITIES ARE AVAILABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11955</Code>
+		<Name>THE DINING WITH CONFIRMATION NUMBER RATES DO NOT MATCH</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12227</Code>
+		<Name>INTERNAL API ERROR</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12228</Code>
+		<Name>INTERNAL SYSTEM ERROR</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12229</Code>
+		<Name>USER GENERIC ERROR</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12231</Code>
+		<Name>CATEGORY CANNOT ACCOMODATE REQUESTED TRANSPORTATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12232</Code>
+		<Name>CABIN BEDDING CANNOT ACCOMODATE REQUESTED NBR OF PAX</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12233</Code>
+		<Name>ALTERNATE ADDRESS IS MISSING. PLEASE CORRECT</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12234</Code>
+		<Name>CANNOT MODIFY BOOKING, CHANGES HAVE TAKEN PLACE SINCE RETRIEVAL</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12235</Code>
+		<Name>CANNOT RETRIEVE BOOKING AS IT WAS BOOKED THROUGH ANOTHER GDS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12236</Code>
+		<Name>STATE CODE IS MANDATORY IN ADDRESS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12237</Code>
+		<Name>ZIP CODE IS MANDATORY IN ADDRESS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12313</Code>
+		<Name>PLEASE ENTER A CURRENCY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12314</Code>
+		<Name>PLEASE ENTER A MODE OF TRANSPORT</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12383</Code>
+		<Name>GROUP OPTION NOT AVAILABLE. PLEASE TRY ANOTHER GROUP.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>1929</Code>
+		<Name>INVALID RECORD LOCATOR</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12535</Code>
+		<Name>INVALID DINING WITH CONFIRMATION NUMBER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12538</Code>
+		<Name>INVALID SHIP CODE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12539</Code>
+		<Name>INVALID PORT CODE FORMAT</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12540</Code>
+		<Name>INVALID DEPARTURE DATE FORMAT</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12541</Code>
+		<Name>INVALID BOOKING STATUS CODE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12537</Code>
+		<Name>PAYMENT TYPE NOT ALLOWED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12551</Code>
+		<Name>INVALID SIGN AREA. PLS SIGN IN AREA A.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12611</Code>
+		<Name>PAYMENT IS LESS THAN REQUIRED MINIMUM PAYMENT. PLEASE RETRY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12614</Code>
+		<Name>SPECIFIED CATEGORY IS INCORRECT OR NO LONGER AVAILABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12615</Code>
+		<Name>SPECIFIED CABIN IS INCORRECT OR NO LONGER AVAILABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12616</Code>
+		<Name>FARE CODE IS INCORRECT, NOT AVAILABLE OR NOT APPLICABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12617</Code>
+		<Name>INCLUSIVE PACKAGE IS INVALID, NOT AVAILABLE OR NOT APPLICABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12618</Code>
+		<Name>SPECIFIED SAILING IS INVALID OR NO LONGER AVAILABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12620</Code>
+		<Name>BOOKING CONFIRMED. THE CREDIT CARD HAS BEEN DECLINED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12626</Code>
+		<Name>NO ON-LINE GUAR CABIN BOOKING AVAILABLE. PLS CONTACT CRUISE LINE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12627</Code>
+		<Name>CABIN NOT SELLABLE AS SINGLE. BOOKING REVISE REJECTED.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12628</Code>
+		<Name>RECORD LOCATOR CREATION FAILURE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12629</Code>
+		<Name>CURRENT PNR IN AAA IS INVALID</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12631</Code>
+		<Name>RECEIVE FROM INFO MISSING IN BOOKINGQUALIFIER TAG</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12632</Code>
+		<Name>RECEIVE FROM INFO INVALID-CHECK PARTYQUALIFIER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12633</Code>
+		<Name>SAILINGDESCRIPTION TAG CONTAINS MORE THAN ONE CRUISE LINE CODE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12634</Code>
+		<Name>SAILINGDESCRIPTION TAG DOES NOT CONTAIN A CRUISE LINE CODE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12635</Code>
+		<Name>SAILINGDESCRIPTION TAG CONTAINS AN INVALID CRUISE LINE CODE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12636</Code>
+		<Name>SAILINGDESCRIPTION TAG MISSING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12637</Code>
+		<Name>SAILINGDESCRIPTION TAG CONTAINS AN INVALID SHIP CODE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12638</Code>
+		<Name>SAILINGDESCRIPTION TAG CONTAINS AN INVALID SAILING DURATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12639</Code>
+		<Name>SAILINGDESCRIPTION TAG CONTAINS AN INVALID SAILING DATE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12640</Code>
+		<Name>SAILINGDESCRIPTION TAG CONTAINS AN INVALID EMBARKATION PORT</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12641</Code>
+		<Name>SAILINGDESCRIPTION TAG CONTAINS AN INVALID DISEMBARKATION PORT</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12642</Code>
+		<Name>PASSENGERINFO TAG CONTAINS NO GUEST LAST NAME</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12643</Code>
+		<Name>PASSENGERINFO TAG CONTAINS NO GUEST FIRST NAME</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12644</Code>
+		<Name>PASSENGERINFO TAG CONTAINS NO GUEST TITLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12645</Code>
+		<Name>PASSENGERINFO TAG MISSING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12646</Code>
+		<Name>CONTACTINFO TAG MISSING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12647</Code>
+		<Name>BOOKING QUALIFIER TAG MISSING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12648</Code>
+		<Name>BOOKING QUALIFIER TAG HAS NO CONFIRMATION NUM</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12649</Code>
+		<Name>BOOKING QUALIFIER TAG HAS NO BOOKING STATUS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12650</Code>
+		<Name>BOOKING QUALIFIER TAG CONTAINS AN INVALID BOOKING STATUS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12651</Code>
+		<Name>BOOKING QUALIFIER TAG HAS PARTYQUALIFIER DIFFERENT FROM 1</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12652</Code>
+		<Name>RESERVATIONCONTROLINFO HAS AN EMPTY OR INVALID RECORD LOCATOR</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12653</Code>
+		<Name>RESERVATIONCONTROLINFO REC LOCATOR DIFFERENT THAN IN THE QUERY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12654</Code>
+		<Name>CRUISE PROVIDER DOES NOT SUPPORT EOT MESSAGE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12730</Code>
+		<Name>SAILING ID OR TOUR CODE REQUIRED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12731</Code>
+		<Name>SAILING ID OR SAILING DATE REQUIRED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12732</Code>
+		<Name>TOUR CODE OR DATE IS NOT VALID</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12655</Code>
+		<Name>CONFIRMATION NUMBER MISSING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12734</Code>
+		<Name>UPGRADE OPTION REQUIRED. PLEASE ADD PRE PACKAGE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12735</Code>
+		<Name>NO PLATINUM INSURANCE FOR INTERNATIONAL AGENTS OR GUESTS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12733</Code>
+		<Name>COMPLIMENTARY UPGRADE MUST BE THE SAME FOR ALL PASSENGERS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12753</Code>
+		<Name>MAXIMUM 2 PASSENGERS PER CABIN ALLOWED FOR THIS SAILING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12755</Code>
+		<Name>MAXIMUM 2 PASSENGERS PER CABIN ALLOWED FOR THIS SAILING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12785</Code>
+		<Name>INCOMPLETE INFORMATION RETURNED BY CRUISE LINE -NO MODIFICATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12772</Code>
+		<Name>THE CRUISE SELECTED REQUIRES AN AIR TRANSPORTATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12773</Code>
+		<Name>THE SAILING REQUESTED DOES NOT OFFER PACKAGES</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12774</Code>
+		<Name>PACKAGE REQUESTED NOT AVAILABLE, PLS DELETE AND SELECT ALTER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12775</Code>
+		<Name>ONE OR MORE PACKAGES COULD NOT BE BOOKED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12805</Code>
+		<Name>YOUR AGENCY STATUS NEEDS TO BE VERIFIED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>7173</Code>
+		<Name>PNR PENDING IN AMADEUS - FINISH OR IGNORE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>4145</Code>
+		<Name>SIMULTANEOUS CHANGES TO PNR IGNORE/RE-RETRIEVE/RE-ENTER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12873</Code>
+		<Name>PNR NOT PRESENT. PLEASE RETRIEVE PNR FIRST.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12874</Code>
+		<Name>BOOKINGREFERENCE TAG CONTAINS INVALID UNIQUEREFERENCE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12875</Code>
+		<Name>SEGMENT IN PNR HAS A CANCEL STATUS.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12876</Code>
+		<Name>RELATIONSHIPGROUP DATA WILL BE LOST IF YOU CONFIRM MODIFICAT</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12877</Code>
+		<Name>DOCUMENTINFOGROUP DATA WILL BE LOST IF YOU CONFIRM MODIFICAT</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12878</Code>
+		<Name>TRANSFERGROUP DATA WILL BE LOST IF YOU CONFIRM MODIFICATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12879</Code>
+		<Name>GIFTGROUP DATA WILL BE LOST IF YOU CONFIRM MODIFICATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12880</Code>
+		<Name>PACKAGEGROUP DATA WILL BE LOST IF YOU CONFIRM MODIFICATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12881</Code>
+		<Name>SPECIALSERVICE DATA WILL BE LOST IF YOU CONFIRM MODIFICATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12915</Code>
+		<Name>NO BOOKING FOUND FOR SPECIFIED CRITERIA</Name>
+	</Advisory>
+	<Advisory>
+		<Code>12931</Code>
+		<Name>MANDATORY PACKAGES HAVE BEEN BOOKED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15567</Code>
+		<Name>BOOKING MADE THROUGH OTHER GDS, REVISE IS NOT ALLOWED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15577</Code>
+		<Name>CABIN CANNOT ACCOMODATE THE PASSENGER'S GENDER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15578</Code>
+		<Name>THIRD AND FOURTH PASSENGERS EXCEED THE MAXIMUM GUARANTEES</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15579</Code>
+		<Name>AT LEAST ONE PASSENGER MUST BE 21 YEARS OF AGE OR OLDER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15580</Code>
+		<Name>MAXIMUM ROOM CAPACITY FOR PRE/POST PACKAGES EXCEEDED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15581</Code>
+		<Name>CABIN CANNOT BE PUT ON HOLD</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15582</Code>
+		<Name>INVALID ALTERNATE ADDRESS. PLEASE CORRECT AND RESUBMIT</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15583</Code>
+		<Name>CRUISE LINE DOES NOT SUPPORT CRUISE TOUR PRICING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15584</Code>
+		<Name>CRUISE LINE DOES NOT SUPPORT GROUP PRICING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15585</Code>
+		<Name>CRUISE LINE DOES NOT SUPPORT SHARE PRICING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15586</Code>
+		<Name>BOOKING CANNOT BE REINSTATED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15587</Code>
+		<Name>CRUISE LINE DOES NOT ALLOW DISPLAY OF PAST BOOKINGS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15588</Code>
+		<Name>DESTINATION OR SHIP MUST BE SELECTED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15589</Code>
+		<Name>REQUIRED GUEST INFORMATION DATA IS MISSING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15590</Code>
+		<Name>CRUISE LINE DOES NOT SUPPORT PRICING OF PAST SAILINGS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15591</Code>
+		<Name>UPGRADES NOT APPLICABLE TO GUARANTEE CABINS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15592</Code>
+		<Name>TRANSPORTATION TYPE REQUESTED IS INVALID</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15593</Code>
+		<Name>PRE-PAID GRATUITIES ARE NOT ALLOWED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15594</Code>
+		<Name>INTERNATIONAL AGENTS OR GUESTS CANNOT HAVE INSURANCE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15595</Code>
+		<Name>INVALID PRICING REQUEST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15596</Code>
+		<Name>BOOKING UNDER PENALTY. PLEASE CANCEL AND REBOOK</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15597</Code>
+		<Name>BOOKING ALREADY TICKETED-CANNOT MODIFY THE ALTERNATE ADDRESS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15598</Code>
+		<Name>CURRENCY NOT SUPPORTED FOR THIS SAILING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15599</Code>
+		<Name>ON LINE TRANSPORTATION NOT AVAILABLE. CONTACT CRUISE LINE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15600</Code>
+		<Name>BOOKING CANNOT BE REINSTATED AS ALREADY ACTIVE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15601</Code>
+		<Name>CONSUMER EXISTS WITH PHONE NB.USE GIVEN ID OR CALL CRUISE LINE.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15602</Code>
+		<Name>SAILINGID IS NOT VALID</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15603</Code>
+		<Name>INVALID AIR CLASS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15604</Code>
+		<Name>CANNOT MAKE CHANGES TO A CANCELLED GUEST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15605</Code>
+		<Name>BOOKED GUESTS ARE MISSING FROM THE REQUEST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15606</Code>
+		<Name>CHANGE BOOKING REQUEST CONTAINS DUPLICATE GUESTS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15607</Code>
+		<Name>INPUT CITY OR COMPLIMENTARY PACKAGE CITY IS INVALID</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15613</Code>
+		<Name>INCOMPLETE RESIDENCE ADDRESS INFORMATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15614</Code>
+		<Name>INCOMPLETE DESTINATION ADDRESS INFORMATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15608</Code>
+		<Name>INVALID PASSPORT OR VISA INFORMATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15609</Code>
+		<Name>INVALID ALIEN OR PERMANENT DOCUMENT INFORMATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15612</Code>
+		<Name>NATIONALITY CHANGE NOT ALLOWED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15611</Code>
+		<Name>CHANGE OF CATEGORY OR CABIN NOT ALLOWED FOR THIS BOOKING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15610</Code>
+		<Name>INVALID HOME PHONE NUMBER</Name>
+	</Advisory>
+	<Advisory>
+		<Code>3326</Code>
+		<Name>INVALID STATE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11715</Code>
+		<Name>INVALID FORMAT - CHECK ZIP CODE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15688</Code>
+		<Name>LOYALTY MEMBERSHIP NEEDED, PLEASE ADD BIRTH DATES OR CHANGE RATE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15691</Code>
+		<Name>SPECIFIED CABIN NOT FOUND. PLEASE VIEW ALTERNATES</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15692</Code>
+		<Name>AIR IS NOT AVAILABLE FROM THE CITY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15693</Code>
+		<Name>INVALID PASSENGER CITY CODE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11913</Code>
+		<Name>INVALID DATE ENTERED FOR DATE OF BIRTH</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15694</Code>
+		<Name>THIS BOOKING IS ON A PAST SAILING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15695</Code>
+		<Name>CURRENCY NOT VALID FOR AGENCY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15696</Code>
+		<Name>PAYMENT CURRENCY MUST BE THE SAME AS BOOKING CURRENCY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15697</Code>
+		<Name>GROUP CONTRACT IS NOT APPLICABLE TO AGENCY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15698</Code>
+		<Name>FARE CODE NOT ENTERED.PLEASE SELECT FARE FROM THE ALTERNATE LIST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15699</Code>
+		<Name>CABIN NOT ENTERED.PLEASE SELECT CABIN FROM THE ALTERNATE LIST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15700</Code>
+		<Name>PAST SAILING, UNABLE TO CANCEL BOOKING.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15701</Code>
+		<Name>MAXIMUM DURATION MUST BE GREATER THAN MINIMUM DURATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15703</Code>
+		<Name>TRANSPORTATION TYPE AND CITY ARE REQUIRED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15720</Code>
+		<Name>REQUIRES LOYALTY MEMBERSHIP. CHECK NAME/BIRTHDATE OR CHANGE RATE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15721</Code>
+		<Name>REVISE NOT ALLOWED BECAUSE THERE IS AN UPGRADE IN THE BOOKING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15722</Code>
+		<Name>CABIN CANNOT ACCOMODATE COT. PLEASE SELECT ANOTHER CABIN</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15752</Code>
+		<Name>THERE IS NO HISTORY FOR THIS BOOKING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15753</Code>
+		<Name>CANNOT RETRIEVE BOOKING HISTORY FOR THIS BOOKING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15754</Code>
+		<Name>INVALID EXPIRATION DATE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15755</Code>
+		<Name>INVALID PAYMENT AMOUNT</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15756</Code>
+		<Name>INVALID UCC PAYMENT CREDIT CARD EXP MONTH</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15758</Code>
+		<Name>DATE OF BIRTH IS REQUIRED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15759</Code>
+		<Name>CREDIT CARD NOT ACCEPTED FOR BOOKING OFFICE/CURRENCY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15856</Code>
+		<Name>INSURANCE IS NOT ALLOWED FOR THIS BOOKING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15857</Code>
+		<Name>BKG CONFIRMED.WARNING:3RD PARTY CR CD. CALL CRUISELINE ACCT DEP.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15858</Code>
+		<Name>WARNING:AGENCY FINANCIAL HOLD. WIRE TRANSFER/CASHIER CHEQUE ONLY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15859</Code>
+		<Name>CREDIT CARD TYPE USED DISALLOWS AMEX BENEFITS FOR BKG</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15860</Code>
+		<Name>BOOKING RETRIEVAL FOR DISPLAY ONLY. NO MODIFICATION PERMITTED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15861</Code>
+		<Name>AGENCY IS NOT ALLOWED TO DISPLAY THIS BOOKING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>11911</Code>
+		<Name>INVALID EXPIRY DATE FOR PASSPORT ELEMENT</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15702</Code>
+		<Name>CREDIT CARD COMPANY NOT SUPPORTED BY THE CRUISE LINE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15862</Code>
+		<Name>DINING WITH BOOKING NUMBER ALREADY LINKED TO EXISTING BOOKING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15864</Code>
+		<Name>TOP UP INSURANCE NOT ALLOWED.TOTAL FARE AMOUNT THRESHOLD NOT MET</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15865</Code>
+		<Name>PACKAGE NOT BOOKED.GUESTS MUST REQUEST THE SAME NO. OF NIGHTS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15874</Code>
+		<Name>BIRTH DATES REQUIRED FOR ALL GUESTS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15875</Code>
+		<Name>NO GROUP MODIFICATIONS ALLOWED, PLEASE CALL CRUISE LINE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15876</Code>
+		<Name>INVALID ADDRESS INFORMATION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15877</Code>
+		<Name>FLIGHTS ARE ON REQUEST BASIS UNTIL CONFIRMED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15878</Code>
+		<Name>FLIGHTS ARE CONFIRMED. PLEASE SEE FLIGHT INFORMATION FOR DETAILS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15879</Code>
+		<Name>AGE CANNOT BE MODIFIED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15880</Code>
+		<Name>GUESTS CANNOT BE ADDED TO BOOKING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15881</Code>
+		<Name>GUESTS CANNOT BE DELETED FROM BOOKING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15882</Code>
+		<Name>NO PASSENGER ADDITIONS OR DELETIONS ALLOWED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15883</Code>
+		<Name>GUEST INFO CANNOT BE MODIFIED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15884</Code>
+		<Name>SAILING TOO CLOSE TO VACATION START DATE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15885</Code>
+		<Name>ALL PASSENGERS MUST HAVE SAME PACKAGE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15886</Code>
+		<Name>GROUP ID CANNOT BE MODIFIED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15887</Code>
+		<Name>CREDIT CARD PAYMENT CURRENCY DIFFERS FROM BOOKING CURRENCY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15888</Code>
+		<Name>BOOKING CANNOT BE MODIFIED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15895</Code>
+		<Name>SPECIFIED CATEGORY NOT FOUND. PLEASE VIEW ALTERNATES</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15896</Code>
+		<Name>SPECIFIED FARE NOT FOUND. PLEASE VIEW ALTERNATES</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15897</Code>
+		<Name>PAYMENT EXTENSION IS NOT APPLICABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15899</Code>
+		<Name>PACKAGE WAITLISTED - AMOUNT NOT INCLUDED WITH INVOICE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15900</Code>
+		<Name>INVALID INSURANCE TYPE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15918</Code>
+		<Name>DINING WITH CROSS-REFERENCES NOT ALLOWED FOR NEW BOOKING</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15928</Code>
+		<Name>PACKAGE DURATION NOT OFFERED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15933</Code>
+		<Name>NO MORE SEARCH RESULTS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15944</Code>
+		<Name>CC PAYMENT CURRENCY IS DIFFERENT FROM RESERVATION CURRENCY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>911</Code>
+		<Name>PROMOTION CODE INVALID</Name>
+	</Advisory>
+	<Advisory>
+		<Code>15997</Code>
+		<Name>TOUR CODE NOT FOUND.</Name>
+	</Advisory>
+	<Advisory>
+		<Code>432</Code>
+		<Name>INVALID CURRENCY CODE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>21610</Code>
+		<Name>FARE NOT COMPATIBLE WITH PAST PASSENGER NUMBER.REFINE SELECTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>21791</Code>
+		<Name>THERE IS NO CABIN FOR THE CABIN PREFERENCES SELECTED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>21827</Code>
+		<Name>REGION IS REQUESTED FOR SAILING AVAILABILITY WITH CRUISE PACKAGE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>21852</Code>
+		<Name>CABIN NOT FOUND</Name>
+	</Advisory>
+	<Advisory>
+		<Code>21942</Code>
+		<Name>ONE OR MORE PRE/POST PACKAGES AUTOMATICALLY ADDED</Name>
+	</Advisory>
+	<Advisory>
+		<Code>21943</Code>
+		<Name>TOUR/PACKAGE MAY NOT BE SUITABLE FOR MOBILITY CHALLENGED GUEST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>21944</Code>
+		<Name>EXCURSIONS MAY NOT BE SUITABLE FOR MOBILITY CHALLENGED GUEST</Name>
+	</Advisory>
+	<Advisory>
+		<Code>22997</Code>
+		<Name>CABIN DOESN'T MATCH DECK OR PREFERENCES. PLEASE VIEW ALTERNATES</Name>
+	</Advisory>
+	<Advisory>
+		<Code>21507</Code>
+		<Name>AIR TRANSPORTATION IS NOT AVAILABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>23023</Code>
+		<Name>MESSAGE CONTENT VALIDATION ERROR</Name>
+	</Advisory>
+	<Advisory>
+		<Code>23371</Code>
+		<Name>UPGRADE OPTION REQUIRED. PLEASE ADD SPECIAL REQUESTS</Name>
+	</Advisory>
+	<Advisory>
+		<Code>23879</Code>
+		<Name>ENTRY NOT AVAILABLE ANY MORE. PLEASE USE AMADEUS CRUISE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>23880</Code>
+		<Name>CABIN CANNOT BE HELD WITH THIS PROVIDER UNTIL END OF TRANSACTION</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9914</Code>
+		<Name>COMMUNICATION CURRENTLY NOT AVAILABLE</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9915</Code>
+		<Name>LOST RESPONSE - RETRY</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9916</Code>
+		<Name>UNABLE TO PROCESS QUERY - PLEASE CONTACT AMADEUS HELP DESK</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9917</Code>
+		<Name>UNABLE TO PROCESS REPLY - PLEASE CONTACT AMADEUS HELP DESK</Name>
+	</Advisory>
+	<Advisory>
+		<Code>9918</Code>
+		<Name>UNSUCCESSFUL TRANSACTION</Name>
+	</Advisory>
+</TTWSCruiseAdvisory>

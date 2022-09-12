@@ -1,0 +1,4157 @@
+<CruiseDB>
+	<CITY>
+		<R cruise="CCL" code="ABE" />
+		<R cruise="CCL" code="ABQ" />
+		<R cruise="CCL" code="AGS" />
+		<R cruise="CCL" code="AHN" />
+		<R cruise="CCL" code="ALB" />
+		<R cruise="CCL" code="ALO" />
+		<R cruise="CCL" code="AMA" />
+		<R cruise="CCL" code="ANC" />
+		<R cruise="CCL" code="ATL" />
+		<R cruise="CCL" code="ATW" />
+		<R cruise="CCL" code="AUS" />
+		<R cruise="CCL" code="AVL" />
+		<R cruise="CCL" code="AVP" />
+		<R cruise="CCL" code="AZO" />
+		<R cruise="CCL" code="BDL" />
+		<R cruise="CCL" code="BGI" />
+		<R cruise="CCL" code="BGM" />
+		<R cruise="CCL" code="BGR" />
+		<R cruise="CCL" code="BHM" />
+		<R cruise="CCL" code="BIL" />
+		<R cruise="CCL" code="BIS" />
+		<R cruise="CCL" code="BNA" />
+		<R cruise="CCL" code="BOI" />
+		<R cruise="CCL" code="BOS" />
+		<R cruise="CCL" code="BPT" />
+		<R cruise="CCL" code="BTM" />
+		<R cruise="CCL" code="BTR" />
+		<R cruise="CCL" code="BTV" />
+		<R cruise="CCL" code="BUF" />
+		<R cruise="CCL" code="BUR" />
+		<R cruise="CCL" code="BWI" />
+		<R cruise="CCL" code="BZN" />
+		<R cruise="CCL" code="CAE" />
+		<R cruise="CCL" code="CAK" />
+		<R cruise="CCL" code="CHA" />
+		<R cruise="CCL" code="CHO" />
+		<R cruise="CCL" code="CHS" />
+		<R cruise="CCL" code="CID" />
+		<R cruise="CCL" code="CLE" />
+		<R cruise="CCL" code="CLT" />
+		<R cruise="CCL" code="CMH" />
+		<R cruise="CCL" code="CMI" />
+		<R cruise="CCL" code="COS" />
+		<R cruise="CCL" code="CRP" />
+		<R cruise="CCL" code="CRW" />
+		<R cruise="CCL" code="CSG" />
+		<R cruise="CCL" code="CVG" />
+		<R cruise="CCL" code="DAY" />
+		<R cruise="CCL" code="DCA" />
+		<R cruise="CCL" code="DEN" />
+		<R cruise="CCL" code="DFW" />
+		<R cruise="CCL" code="DHN" />
+		<R cruise="CCL" code="DLH" />
+		<R cruise="CCL" code="DSM" />
+		<R cruise="CCL" code="DTW" />
+		<R cruise="CCL" code="EAU" />
+		<R cruise="CCL" code="ELM" />
+		<R cruise="CCL" code="ELP" />
+		<R cruise="CCL" code="ERI" />
+		<R cruise="CCL" code="EUG" />
+		<R cruise="CCL" code="EVV" />
+		<R cruise="CCL" code="EWN" />
+		<R cruise="CCL" code="EWR" />
+		<R cruise="CCL" code="FAI" />
+		<R cruise="CCL" code="FAR" />
+		<R cruise="CCL" code="FAT" />
+		<R cruise="CCL" code="FAY" />
+		<R cruise="CCL" code="FLL" />
+		<R cruise="CCL" code="FLO" />
+		<R cruise="CCL" code="FNT" />
+		<R cruise="CCL" code="FSD" />
+		<R cruise="CCL" code="FWA" />
+		<R cruise="CCL" code="GEG" />
+		<R cruise="CCL" code="GFK" />
+		<R cruise="CCL" code="GGG" />
+		<R cruise="CCL" code="GJT" />
+		<R cruise="CCL" code="GNV" />
+		<R cruise="CCL" code="GRB" />
+		<R cruise="CCL" code="GRR" />
+		<R cruise="CCL" code="GSO" />
+		<R cruise="CCL" code="GSP" />
+		<R cruise="CCL" code="GTF" />
+		<R cruise="CCL" code="GTR" />
+		<R cruise="CCL" code="HGR" />
+		<R cruise="CCL" code="HKY" />
+		<R cruise="CCL" code="HLN" />
+		<R cruise="CCL" code="HNL" />
+		<R cruise="CCL" code="HOU" />
+		<R cruise="CCL" code="HPN" />
+		<R cruise="CCL" code="HRL" />
+		<R cruise="CCL" code="HSV" />
+		<R cruise="CCL" code="HTS" />
+		<R cruise="CCL" code="HYA" />
+		<R cruise="CCL" code="IAD" />
+		<R cruise="CCL" code="IAH" />
+		<R cruise="CCL" code="ICT" />
+		<R cruise="CCL" code="ILM" />
+		<R cruise="CCL" code="IND" />
+		<R cruise="CCL" code="ISN" />
+		<R cruise="CCL" code="ISO" />
+		<R cruise="CCL" code="ISP" />
+		<R cruise="CCL" code="ITH" />
+		<R cruise="CCL" code="JAN" />
+		<R cruise="CCL" code="JAX" />
+		<R cruise="CCL" code="JFK" />
+		<R cruise="CCL" code="LAN" />
+		<R cruise="CCL" code="LAS" />
+		<R cruise="CCL" code="LAX" />
+		<R cruise="CCL" code="LBB" />
+		<R cruise="CCL" code="LEX" />
+		<R cruise="CCL" code="LGA" />
+		<R cruise="CCL" code="LIT" />
+		<R cruise="CCL" code="LNK" />
+		<R cruise="CCL" code="LSE" />
+		<R cruise="CCL" code="LYH" />
+		<R cruise="CCL" code="MAF" />
+		<R cruise="CCL" code="MBS" />
+		<R cruise="CCL" code="MCI" />
+		<R cruise="CCL" code="MCO" />
+		<R cruise="CCL" code="MDT" />
+		<R cruise="CCL" code="MEI" />
+		<R cruise="CCL" code="MEM" />
+		<R cruise="CCL" code="MFE" />
+		<R cruise="CCL" code="MFR" />
+		<R cruise="CCL" code="MGM" />
+		<R cruise="CCL" code="MHT" />
+		<R cruise="CCL" code="MIA" />
+		<R cruise="CCL" code="MKE" />
+		<R cruise="CCL" code="MLI" />
+		<R cruise="CCL" code="MLU" />
+		<R cruise="CCL" code="MOB" />
+		<R cruise="CCL" code="MOT" />
+		<R cruise="CCL" code="MSN" />
+		<R cruise="CCL" code="MSO" />
+		<R cruise="CCL" code="MSP" />
+		<R cruise="CCL" code="MSY" />
+		<R cruise="CCL" code="MYR" />
+		<R cruise="CCL" code="OAK" />
+		<R cruise="CCL" code="OKC" />
+		<R cruise="CCL" code="OMA" />
+		<R cruise="CCL" code="ONT" />
+		<R cruise="CCL" code="ORD" />
+		<R cruise="CCL" code="ORF" />
+		<R cruise="CCL" code="PBI" />
+		<R cruise="CCL" code="PDX" />
+		<R cruise="CCL" code="PGV" />
+		<R cruise="CCL" code="PHF" />
+		<R cruise="CCL" code="PHL" />
+		<R cruise="CCL" code="PHX" />
+		<R cruise="CCL" code="PIA" />
+		<R cruise="CCL" code="PIT" />
+		<R cruise="CCL" code="PNS" />
+		<R cruise="CCL" code="PSC" />
+		<R cruise="CCL" code="PSP" />
+		<R cruise="CCL" code="PVD" />
+		<R cruise="CCL" code="PWM" />
+		<R cruise="CCL" code="RAP" />
+		<R cruise="CCL" code="RDM" />
+		<R cruise="CCL" code="RDU" />
+		<R cruise="CCL" code="RFD" />
+		<R cruise="CCL" code="RIC" />
+		<R cruise="CCL" code="RNO" />
+		<R cruise="CCL" code="ROA" />
+		<R cruise="CCL" code="ROC" />
+		<R cruise="CCL" code="RST" />
+		<R cruise="CCL" code="RSW" />
+		<R cruise="CCL" code="SAN" />
+		<R cruise="CCL" code="SAT" />
+		<R cruise="CCL" code="SAV" />
+		<R cruise="CCL" code="SBN" />
+		<R cruise="CCL" code="SBY" />
+		<R cruise="CCL" code="SCE" />
+		<R cruise="CCL" code="SDF" />
+		<R cruise="CCL" code="SEA" />
+		<R cruise="CCL" code="SFO" />
+		<R cruise="CCL" code="SGF" />
+		<R cruise="CCL" code="SHD" />
+		<R cruise="CCL" code="SHV" />
+		<R cruise="CCL" code="SJC" />
+		<R cruise="CCL" code="SJT" />
+		<R cruise="CCL" code="SJU" />
+		<R cruise="CCL" code="SLC" />
+		<R cruise="CCL" code="SMF" />
+		<R cruise="CCL" code="SNA" />
+		<R cruise="CCL" code="STL" />
+		<R cruise="CCL" code="SUX" />
+		<R cruise="CCL" code="SWF" />
+		<R cruise="CCL" code="SYR" />
+		<R cruise="CCL" code="TLH" />
+		<R cruise="CCL" code="TOL" />
+		<R cruise="CCL" code="TPA" />
+		<R cruise="CCL" code="TRI" />
+		<R cruise="CCL" code="TUL" />
+		<R cruise="CCL" code="TUP" />
+		<R cruise="CCL" code="TUS" />
+		<R cruise="CCL" code="TYS" />
+		<R cruise="CCL" code="YEG" />
+		<R cruise="CCL" code="YFC" />
+		<R cruise="CCL" code="YHZ" />
+		<R cruise="CCL" code="YKM" />
+		<R cruise="CCL" code="YLW" />
+		<R cruise="CCL" code="YOW" />
+		<R cruise="CCL" code="YQB" />
+		<R cruise="CCL" code="YQM" />
+		<R cruise="CCL" code="YQQ" />
+		<R cruise="CCL" code="YQR" />
+		<R cruise="CCL" code="YQT" />
+		<R cruise="CCL" code="YQX" />
+		<R cruise="CCL" code="YSJ" />
+		<R cruise="CCL" code="YUL" />
+		<R cruise="CCL" code="YVR" />
+		<R cruise="CCL" code="YWG" />
+		<R cruise="CCL" code="YXE" />
+		<R cruise="CCL" code="YXU" />
+		<R cruise="CCL" code="YYC" />
+		<R cruise="CCL" code="YYG" />
+		<R cruise="CCL" code="YYJ" />
+		<R cruise="CCL" code="YYT" />
+		<R cruise="CCL" code="YYY" />
+		<R cruise="CCL" code="YYZ" />
+		<R cruise="CEL" code="AAL" />
+		<R cruise="CEL" code="AAR" />
+		<R cruise="CEL" code="ABE" />
+		<R cruise="CEL" code="ABQ" />
+		<R cruise="CEL" code="ABY" />
+		<R cruise="CEL" code="ABZ" />
+		<R cruise="CEL" code="ACA" />
+		<R cruise="CEL" code="ACE" />
+		<R cruise="CEL" code="ACT" />
+		<R cruise="CEL" code="ACV" />
+		<R cruise="CEL" code="ACY" />
+		<R cruise="CEL" code="ADB" />
+		<R cruise="CEL" code="ADL" />
+		<R cruise="CEL" code="ADZ" />
+		<R cruise="CEL" code="AES" />
+		<R cruise="CEL" code="AEY" />
+		<R cruise="CEL" code="AGA" />
+		<R cruise="CEL" code="AGB" />
+		<R cruise="CEL" code="AGP" />
+		<R cruise="CEL" code="AGS" />
+		<R cruise="CEL" code="AHN" />
+		<R cruise="CEL" code="AJA" />
+		<R cruise="CEL" code="AKL" />
+		<R cruise="CEL" code="ALB" />
+		<R cruise="CEL" code="ALC" />
+		<R cruise="CEL" code="ALF" />
+		<R cruise="CEL" code="ALO" />
+		<R cruise="CEL" code="ALW" />
+		<R cruise="CEL" code="ALY" />
+		<R cruise="CEL" code="AMA" />
+		<R cruise="CEL" code="AMS" />
+		<R cruise="CEL" code="ANC" />
+		<R cruise="CEL" code="AND" />
+		<R cruise="CEL" code="ANR" />
+		<R cruise="CEL" code="ANU" />
+		<R cruise="CEL" code="AOO" />
+		<R cruise="CEL" code="APF" />
+		<R cruise="CEL" code="ARN" />
+		<R cruise="CEL" code="ASE" />
+		<R cruise="CEL" code="ATH" />
+		<R cruise="CEL" code="ATL" />
+		<R cruise="CEL" code="ATW" />
+		<R cruise="CEL" code="AUA" />
+		<R cruise="CEL" code="AUS" />
+		<R cruise="CEL" code="AVL" />
+		<R cruise="CEL" code="AVP" />
+		<R cruise="CEL" code="AVX" />
+		<R cruise="CEL" code="AXA" />
+		<R cruise="CEL" code="AZO" />
+		<R cruise="CEL" code="BAH" />
+		<R cruise="CEL" code="BCN" />
+		<R cruise="CEL" code="BDA" />
+		<R cruise="CEL" code="BDL" />
+		<R cruise="CEL" code="BDU" />
+		<R cruise="CEL" code="BEB" />
+		<R cruise="CEL" code="BED" />
+		<R cruise="CEL" code="BFD" />
+		<R cruise="CEL" code="BFL" />
+		<R cruise="CEL" code="BFS" />
+		<R cruise="CEL" code="BGI" />
+		<R cruise="CEL" code="BGM" />
+		<R cruise="CEL" code="BGO" />
+		<R cruise="CEL" code="BGR" />
+		<R cruise="CEL" code="BHB" />
+		<R cruise="CEL" code="BHD" />
+		<R cruise="CEL" code="BHM" />
+		<R cruise="CEL" code="BHX" />
+		<R cruise="CEL" code="BIL" />
+		<R cruise="CEL" code="BIO" />
+		<R cruise="CEL" code="BIS" />
+		<R cruise="CEL" code="BJX" />
+		<R cruise="CEL" code="BKK" />
+		<R cruise="CEL" code="BKW" />
+		<R cruise="CEL" code="BLF" />
+		<R cruise="CEL" code="BLI" />
+		<R cruise="CEL" code="BLL" />
+		<R cruise="CEL" code="BLQ" />
+		<R cruise="CEL" code="BMI" />
+		<R cruise="CEL" code="BNA" />
+		<R cruise="CEL" code="BNE" />
+		<R cruise="CEL" code="BOD" />
+		<R cruise="CEL" code="BOG" />
+		<R cruise="CEL" code="BOI" />
+		<R cruise="CEL" code="BOM" />
+		<R cruise="CEL" code="BOO" />
+		<R cruise="CEL" code="BOS" />
+		<R cruise="CEL" code="BPT" />
+		<R cruise="CEL" code="BQN" />
+		<R cruise="CEL" code="BRD" />
+		<R cruise="CEL" code="BRE" />
+		<R cruise="CEL" code="BRS" />
+		<R cruise="CEL" code="BRU" />
+		<R cruise="CEL" code="BSL" />
+		<R cruise="CEL" code="BTM" />
+		<R cruise="CEL" code="BTR" />
+		<R cruise="CEL" code="BTV" />
+		<R cruise="CEL" code="BUD" />
+		<R cruise="CEL" code="BUF" />
+		<R cruise="CEL" code="BUR" />
+		<R cruise="CEL" code="BWI" />
+		<R cruise="CEL" code="BZN" />
+		<R cruise="CEL" code="CAE" />
+		<R cruise="CEL" code="CAI" />
+		<R cruise="CEL" code="CAK" />
+		<R cruise="CEL" code="CAN" />
+		<R cruise="CEL" code="CBE" />
+		<R cruise="CEL" code="CCS" />
+		<R cruise="CEL" code="CDG" />
+		<R cruise="CEL" code="CEQ" />
+		<R cruise="CEL" code="CER" />
+		<R cruise="CEL" code="CFU" />
+		<R cruise="CEL" code="CGN" />
+		<R cruise="CEL" code="CHA" />
+		<R cruise="CEL" code="CHI" />
+		<R cruise="CEL" code="CHO" />
+		<R cruise="CEL" code="CHS" />
+		<R cruise="CEL" code="CIC" />
+		<R cruise="CEL" code="CID" />
+		<R cruise="CEL" code="CKB" />
+		<R cruise="CEL" code="CLE" />
+		<R cruise="CEL" code="CLL" />
+		<R cruise="CEL" code="CLT" />
+		<R cruise="CEL" code="CLW" />
+		<R cruise="CEL" code="CMB" />
+		<R cruise="CEL" code="CMH" />
+		<R cruise="CEL" code="CMI" />
+		<R cruise="CEL" code="CMN" />
+		<R cruise="CEL" code="COK" />
+		<R cruise="CEL" code="COS" />
+		<R cruise="CEL" code="COU" />
+		<R cruise="CEL" code="CPH" />
+		<R cruise="CEL" code="CPR" />
+		<R cruise="CEL" code="CPT" />
+		<R cruise="CEL" code="CRP" />
+		<R cruise="CEL" code="CRW" />
+		<R cruise="CEL" code="CSG" />
+		<R cruise="CEL" code="CTG" />
+		<R cruise="CEL" code="CUN" />
+		<R cruise="CEL" code="CUR" />
+		<R cruise="CEL" code="CVG" />
+		<R cruise="CEL" code="CWA" />
+		<R cruise="CEL" code="CWL" />
+		<R cruise="CEL" code="CYS" />
+		<R cruise="CEL" code="CZM" />
+		<R cruise="CEL" code="DAB" />
+		<R cruise="CEL" code="DAD" />
+		<R cruise="CEL" code="DAN" />
+		<R cruise="CEL" code="DAY" />
+		<R cruise="CEL" code="DBQ" />
+		<R cruise="CEL" code="DBV" />
+		<R cruise="CEL" code="DCA" />
+		<R cruise="CEL" code="DEL" />
+		<R cruise="CEL" code="DEN" />
+		<R cruise="CEL" code="DFW" />
+		<R cruise="CEL" code="DLH" />
+		<R cruise="CEL" code="DOM" />
+		<R cruise="CEL" code="DPS" />
+		<R cruise="CEL" code="DRO" />
+		<R cruise="CEL" code="DRS" />
+		<R cruise="CEL" code="DSM" />
+		<R cruise="CEL" code="DTM" />
+		<R cruise="CEL" code="DTW" />
+		<R cruise="CEL" code="DUB" />
+		<R cruise="CEL" code="DUJ" />
+		<R cruise="CEL" code="DUR" />
+		<R cruise="CEL" code="DUS" />
+		<R cruise="CEL" code="DXB" />
+		<R cruise="CEL" code="EAT" />
+		<R cruise="CEL" code="EAU" />
+		<R cruise="CEL" code="EDI" />
+		<R cruise="CEL" code="EGE" />
+		<R cruise="CEL" code="EIS" />
+		<R cruise="CEL" code="EKA" />
+		<R cruise="CEL" code="ELM" />
+		<R cruise="CEL" code="ELP" />
+		<R cruise="CEL" code="EMA" />
+		<R cruise="CEL" code="ERF" />
+		<R cruise="CEL" code="ERI" />
+		<R cruise="CEL" code="ESC" />
+		<R cruise="CEL" code="ESE" />
+		<R cruise="CEL" code="EUG" />
+		<R cruise="CEL" code="EVE" />
+		<R cruise="CEL" code="EVV" />
+		<R cruise="CEL" code="EWB" />
+		<R cruise="CEL" code="EWN" />
+		<R cruise="CEL" code="EWR" />
+		<R cruise="CEL" code="EXT" />
+		<R cruise="CEL" code="EYW" />
+		<R cruise="CEL" code="EZE" />
+		<R cruise="CEL" code="FAE" />
+		<R cruise="CEL" code="FAI" />
+		<R cruise="CEL" code="FAR" />
+		<R cruise="CEL" code="FAT" />
+		<R cruise="CEL" code="FAY" />
+		<R cruise="CEL" code="FCA" />
+		<R cruise="CEL" code="FCO" />
+		<R cruise="CEL" code="FDF" />
+		<R cruise="CEL" code="FDH" />
+		<R cruise="CEL" code="FLG" />
+		<R cruise="CEL" code="FLL" />
+		<R cruise="CEL" code="FLO" />
+		<R cruise="CEL" code="FLR" />
+		<R cruise="CEL" code="FMO" />
+		<R cruise="CEL" code="FMY" />
+		<R cruise="CEL" code="FNC" />
+		<R cruise="CEL" code="FNL" />
+		<R cruise="CEL" code="FNT" />
+		<R cruise="CEL" code="FOD" />
+		<R cruise="CEL" code="FPO" />
+		<R cruise="CEL" code="FPR" />
+		<R cruise="CEL" code="FRA" />
+		<R cruise="CEL" code="FSD" />
+		<R cruise="CEL" code="FSM" />
+		<R cruise="CEL" code="FWA" />
+		<R cruise="CEL" code="FYV" />
+		<R cruise="CEL" code="GCC" />
+		<R cruise="CEL" code="GCI" />
+		<R cruise="CEL" code="GCM" />
+		<R cruise="CEL" code="GDL" />
+		<R cruise="CEL" code="GDT" />
+		<R cruise="CEL" code="GEG" />
+		<R cruise="CEL" code="GFK" />
+		<R cruise="CEL" code="GIB" />
+		<R cruise="CEL" code="GIG" />
+		<R cruise="CEL" code="GJT" />
+		<R cruise="CEL" code="GLA" />
+		<R cruise="CEL" code="GND" />
+		<R cruise="CEL" code="GNV" />
+		<R cruise="CEL" code="GOA" />
+		<R cruise="CEL" code="GOI" />
+		<R cruise="CEL" code="GOT" />
+		<R cruise="CEL" code="GPT" />
+		<R cruise="CEL" code="GRB" />
+		<R cruise="CEL" code="GRR" />
+		<R cruise="CEL" code="GRU" />
+		<R cruise="CEL" code="GSO" />
+		<R cruise="CEL" code="GSP" />
+		<R cruise="CEL" code="GTF" />
+		<R cruise="CEL" code="GTR" />
+		<R cruise="CEL" code="GUA" />
+		<R cruise="CEL" code="GUC" />
+		<R cruise="CEL" code="GUM" />
+		<R cruise="CEL" code="GVA" />
+		<R cruise="CEL" code="HAJ" />
+		<R cruise="CEL" code="HAM" />
+		<R cruise="CEL" code="HAU" />
+		<R cruise="CEL" code="HDN" />
+		<R cruise="CEL" code="HEL" />
+		<R cruise="CEL" code="HFA" />
+		<R cruise="CEL" code="HFD" />
+		<R cruise="CEL" code="HFT" />
+		<R cruise="CEL" code="HGR" />
+		<R cruise="CEL" code="HHH" />
+		<R cruise="CEL" code="HKG" />
+		<R cruise="CEL" code="HKP" />
+		<R cruise="CEL" code="HKT" />
+		<R cruise="CEL" code="HKY" />
+		<R cruise="CEL" code="HLN" />
+		<R cruise="CEL" code="HNL" />
+		<R cruise="CEL" code="HNS" />
+		<R cruise="CEL" code="HOU" />
+		<R cruise="CEL" code="HPN" />
+		<R cruise="CEL" code="HRL" />
+		<R cruise="CEL" code="HSV" />
+		<R cruise="CEL" code="HTS" />
+		<R cruise="CEL" code="HUY" />
+		<R cruise="CEL" code="HVG" />
+		<R cruise="CEL" code="HVN" />
+		<R cruise="CEL" code="HYA" />
+		<R cruise="CEL" code="IAD" />
+		<R cruise="CEL" code="IAH" />
+		<R cruise="CEL" code="ICT" />
+		<R cruise="CEL" code="IDA" />
+		<R cruise="CEL" code="IGU" />
+		<R cruise="CEL" code="ILE" />
+		<R cruise="CEL" code="ILM" />
+		<R cruise="CEL" code="IMT" />
+		<R cruise="CEL" code="IND" />
+		<R cruise="CEL" code="INL" />
+		<R cruise="CEL" code="INV" />
+		<R cruise="CEL" code="IOM" />
+		<R cruise="CEL" code="ISL" />
+		<R cruise="CEL" code="ISO" />
+		<R cruise="CEL" code="ISP" />
+		<R cruise="CEL" code="IST" />
+		<R cruise="CEL" code="ITH" />
+		<R cruise="CEL" code="ITO" />
+		<R cruise="CEL" code="IWD" />
+		<R cruise="CEL" code="IXZ" />
+		<R cruise="CEL" code="IYK" />
+		<R cruise="CEL" code="JAC" />
+		<R cruise="CEL" code="JAN" />
+		<R cruise="CEL" code="JAX" />
+		<R cruise="CEL" code="JCA" />
+		<R cruise="CEL" code="JER" />
+		<R cruise="CEL" code="JFK" />
+		<R cruise="CEL" code="JHW" />
+		<R cruise="CEL" code="JIB" />
+		<R cruise="CEL" code="JLN" />
+		<R cruise="CEL" code="JMK" />
+		<R cruise="CEL" code="JNB" />
+		<R cruise="CEL" code="JNU" />
+		<R cruise="CEL" code="JST" />
+		<R cruise="CEL" code="KEL" />
+		<R cruise="CEL" code="KIN" />
+		<R cruise="CEL" code="KKN" />
+		<R cruise="CEL" code="KLX" />
+		<R cruise="CEL" code="KOA" />
+		<R cruise="CEL" code="KRP" />
+		<R cruise="CEL" code="KRS" />
+		<R cruise="CEL" code="KSU" />
+		<R cruise="CEL" code="KTN" />
+		<R cruise="CEL" code="KUL" />
+		<R cruise="CEL" code="KYL" />
+		<R cruise="CEL" code="LAG" />
+		<R cruise="CEL" code="LAN" />
+		<R cruise="CEL" code="LAS" />
+		<R cruise="CEL" code="LAX" />
+		<R cruise="CEL" code="LBA" />
+		<R cruise="CEL" code="LBB" />
+		<R cruise="CEL" code="LBE" />
+		<R cruise="CEL" code="LCE" />
+		<R cruise="CEL" code="LCG" />
+		<R cruise="CEL" code="LEB" />
+		<R cruise="CEL" code="LED" />
+		<R cruise="CEL" code="LEH" />
+		<R cruise="CEL" code="LEJ" />
+		<R cruise="CEL" code="LEX" />
+		<R cruise="CEL" code="LFT" />
+		<R cruise="CEL" code="LGA" />
+		<R cruise="CEL" code="LGB" />
+		<R cruise="CEL" code="LGW" />
+		<R cruise="CEL" code="LHR" />
+		<R cruise="CEL" code="LIH" />
+		<R cruise="CEL" code="LIM" />
+		<R cruise="CEL" code="LIN" />
+		<R cruise="CEL" code="LIO" />
+		<R cruise="CEL" code="LIS" />
+		<R cruise="CEL" code="LIT" />
+		<R cruise="CEL" code="LKL" />
+		<R cruise="CEL" code="LLA" />
+		<R cruise="CEL" code="LNK" />
+		<R cruise="CEL" code="LNS" />
+		<R cruise="CEL" code="LPA" />
+		<R cruise="CEL" code="LPB" />
+		<R cruise="CEL" code="LPL" />
+		<R cruise="CEL" code="LRD" />
+		<R cruise="CEL" code="LRH" />
+		<R cruise="CEL" code="LRM" />
+		<R cruise="CEL" code="LSE" />
+		<R cruise="CEL" code="LSI" />
+		<R cruise="CEL" code="LUX" />
+		<R cruise="CEL" code="LWK" />
+		<R cruise="CEL" code="LWS" />
+		<R cruise="CEL" code="LYH" />
+		<R cruise="CEL" code="LYS" />
+		<R cruise="CEL" code="MAD" />
+		<R cruise="CEL" code="MAF" />
+		<R cruise="CEL" code="MAN" />
+		<R cruise="CEL" code="MBA" />
+		<R cruise="CEL" code="MBJ" />
+		<R cruise="CEL" code="MBS" />
+		<R cruise="CEL" code="MCI" />
+		<R cruise="CEL" code="MCN" />
+		<R cruise="CEL" code="MCO" />
+		<R cruise="CEL" code="MCW" />
+		<R cruise="CEL" code="MDT" />
+		<R cruise="CEL" code="MDW" />
+		<R cruise="CEL" code="MEI" />
+		<R cruise="CEL" code="MEL" />
+		<R cruise="CEL" code="MEM" />
+		<R cruise="CEL" code="MEX" />
+		<R cruise="CEL" code="MFE" />
+		<R cruise="CEL" code="MFR" />
+		<R cruise="CEL" code="MGM" />
+		<R cruise="CEL" code="MGW" />
+		<R cruise="CEL" code="MHT" />
+		<R cruise="CEL" code="MIA" />
+		<R cruise="CEL" code="MID" />
+		<R cruise="CEL" code="MKE" />
+		<R cruise="CEL" code="MKG" />
+		<R cruise="CEL" code="MKK" />
+		<R cruise="CEL" code="MLA" />
+		<R cruise="CEL" code="MLB" />
+		<R cruise="CEL" code="MLI" />
+		<R cruise="CEL" code="MLU" />
+		<R cruise="CEL" code="MMA" />
+		<R cruise="CEL" code="MME" />
+		<R cruise="CEL" code="MMH" />
+		<R cruise="CEL" code="MMX" />
+		<R cruise="CEL" code="MNI" />
+		<R cruise="CEL" code="MNL" />
+		<R cruise="CEL" code="MOB" />
+		<R cruise="CEL" code="MOD" />
+		<R cruise="CEL" code="MOL" />
+		<R cruise="CEL" code="MOT" />
+		<R cruise="CEL" code="MPL" />
+		<R cruise="CEL" code="MRS" />
+		<R cruise="CEL" code="MRY" />
+		<R cruise="CEL" code="MSB" />
+		<R cruise="CEL" code="MSL" />
+		<R cruise="CEL" code="MSN" />
+		<R cruise="CEL" code="MSO" />
+		<R cruise="CEL" code="MSP" />
+		<R cruise="CEL" code="MSS" />
+		<R cruise="CEL" code="MSY" />
+		<R cruise="CEL" code="MTJ" />
+		<R cruise="CEL" code="MTY" />
+		<R cruise="CEL" code="MUC" />
+		<R cruise="CEL" code="MXP" />
+		<R cruise="CEL" code="MYR" />
+		<R cruise="CEL" code="MZT" />
+		<R cruise="CEL" code="NAP" />
+		<R cruise="CEL" code="NAS" />
+		<R cruise="CEL" code="NCE" />
+		<R cruise="CEL" code="NCL" />
+		<R cruise="CEL" code="NGB" />
+		<R cruise="CEL" code="NGM" />
+		<R cruise="CEL" code="NGS" />
+		<R cruise="CEL" code="NHA" />
+		<R cruise="CEL" code="NKG" />
+		<R cruise="CEL" code="NPL" />
+		<R cruise="CEL" code="NQY" />
+		<R cruise="CEL" code="NRK" />
+		<R cruise="CEL" code="NRT" />
+		<R cruise="CEL" code="NTE" />
+		<R cruise="CEL" code="NUE" />
+		<R cruise="CEL" code="NWI" />
+		<R cruise="CEL" code="NYC" />
+		<R cruise="CEL" code="OAJ" />
+		<R cruise="CEL" code="OAK" />
+		<R cruise="CEL" code="OCJ" />
+		<R cruise="CEL" code="OGG" />
+		<R cruise="CEL" code="OGS" />
+		<R cruise="CEL" code="OKC" />
+		<R cruise="CEL" code="OLB" />
+		<R cruise="CEL" code="OMA" />
+		<R cruise="CEL" code="ONT" />
+		<R cruise="CEL" code="ORD" />
+		<R cruise="CEL" code="ORF" />
+		<R cruise="CEL" code="ORH" />
+		<R cruise="CEL" code="ORK" />
+		<R cruise="CEL" code="ORY" />
+		<R cruise="CEL" code="OSA" />
+		<R cruise="CEL" code="OSL" />
+		<R cruise="CEL" code="OTH" />
+		<R cruise="CEL" code="OXR" />
+		<R cruise="CEL" code="PAD" />
+		<R cruise="CEL" code="PAH" />
+		<R cruise="CEL" code="PAP" />
+		<R cruise="CEL" code="PBI" />
+		<R cruise="CEL" code="PDX" />
+		<R cruise="CEL" code="PEK" />
+		<R cruise="CEL" code="PEN" />
+		<R cruise="CEL" code="PER" />
+		<R cruise="CEL" code="PFN" />
+		<R cruise="CEL" code="PGD" />
+		<R cruise="CEL" code="PGV" />
+		<R cruise="CEL" code="PHF" />
+		<R cruise="CEL" code="PHL" />
+		<R cruise="CEL" code="PHX" />
+		<R cruise="CEL" code="PIA" />
+		<R cruise="CEL" code="PIB" />
+		<R cruise="CEL" code="PIE" />
+		<R cruise="CEL" code="PIH" />
+		<R cruise="CEL" code="PIK" />
+		<R cruise="CEL" code="PIT" />
+		<R cruise="CEL" code="PLB" />
+		<R cruise="CEL" code="PLH" />
+		<R cruise="CEL" code="PLN" />
+		<R cruise="CEL" code="PLS" />
+		<R cruise="CEL" code="PMI" />
+		<R cruise="CEL" code="PMV" />
+		<R cruise="CEL" code="PNS" />
+		<R cruise="CEL" code="POP" />
+		<R cruise="CEL" code="POR" />
+		<R cruise="CEL" code="POS" />
+		<R cruise="CEL" code="POT" />
+		<R cruise="CEL" code="PPG" />
+		<R cruise="CEL" code="PSC" />
+		<R cruise="CEL" code="PSD" />
+		<R cruise="CEL" code="PSE" />
+		<R cruise="CEL" code="PSM" />
+		<R cruise="CEL" code="PSP" />
+		<R cruise="CEL" code="PTP" />
+		<R cruise="CEL" code="PTY" />
+		<R cruise="CEL" code="PUB" />
+		<R cruise="CEL" code="PUJ" />
+		<R cruise="CEL" code="PUW" />
+		<R cruise="CEL" code="PVD" />
+		<R cruise="CEL" code="PVR" />
+		<R cruise="CEL" code="PWM" />
+		<R cruise="CEL" code="QQD" />
+		<R cruise="CEL" code="QQH" />
+		<R cruise="CEL" code="RAP" />
+		<R cruise="CEL" code="RDD" />
+		<R cruise="CEL" code="RDG" />
+		<R cruise="CEL" code="RDM" />
+		<R cruise="CEL" code="RDU" />
+		<R cruise="CEL" code="REC" />
+		<R cruise="CEL" code="REG" />
+		<R cruise="CEL" code="REK" />
+		<R cruise="CEL" code="RFD" />
+		<R cruise="CEL" code="RHI" />
+		<R cruise="CEL" code="RHO" />
+		<R cruise="CEL" code="RIC" />
+		<R cruise="CEL" code="RIW" />
+		<R cruise="CEL" code="RKS" />
+		<R cruise="CEL" code="RNO" />
+		<R cruise="CEL" code="ROA" />
+		<R cruise="CEL" code="ROC" />
+		<R cruise="CEL" code="RRS" />
+		<R cruise="CEL" code="RST" />
+		<R cruise="CEL" code="RSW" />
+		<R cruise="CEL" code="RTB" />
+		<R cruise="CEL" code="RWI" />
+		<R cruise="CEL" code="SAN" />
+		<R cruise="CEL" code="SAT" />
+		<R cruise="CEL" code="SAV" />
+		<R cruise="CEL" code="SBA" />
+		<R cruise="CEL" code="SBH" />
+		<R cruise="CEL" code="SBN" />
+		<R cruise="CEL" code="SBP" />
+		<R cruise="CEL" code="SBS" />
+		<R cruise="CEL" code="SBY" />
+		<R cruise="CEL" code="SCE" />
+		<R cruise="CEL" code="SCL" />
+		<R cruise="CEL" code="SDF" />
+		<R cruise="CEL" code="SDQ" />
+		<R cruise="CEL" code="SEA" />
+		<R cruise="CEL" code="SEL" />
+		<R cruise="CEL" code="SFB" />
+		<R cruise="CEL" code="SFO" />
+		<R cruise="CEL" code="SFY" />
+		<R cruise="CEL" code="SGF" />
+		<R cruise="CEL" code="SGN" />
+		<R cruise="CEL" code="SGY" />
+		<R cruise="CEL" code="SGZ" />
+		<R cruise="CEL" code="SHA" />
+		<R cruise="CEL" code="SHR" />
+		<R cruise="CEL" code="SHV" />
+		<R cruise="CEL" code="SIN" />
+		<R cruise="CEL" code="SIT" />
+		<R cruise="CEL" code="SJC" />
+		<R cruise="CEL" code="SJD" />
+		<R cruise="CEL" code="SJJ" />
+		<R cruise="CEL" code="SJO" />
+		<R cruise="CEL" code="SJT" />
+		<R cruise="CEL" code="SJU" />
+		<R cruise="CEL" code="SKB" />
+		<R cruise="CEL" code="SLC" />
+		<R cruise="CEL" code="SLK" />
+		<R cruise="CEL" code="SLL" />
+		<R cruise="CEL" code="SLU" />
+		<R cruise="CEL" code="SMF" />
+		<R cruise="CEL" code="SNA" />
+		<R cruise="CEL" code="SNN" />
+		<R cruise="CEL" code="SNR" />
+		<R cruise="CEL" code="SOG" />
+		<R cruise="CEL" code="SOU" />
+		<R cruise="CEL" code="SPC" />
+		<R cruise="CEL" code="SPI" />
+		<R cruise="CEL" code="SPW" />
+		<R cruise="CEL" code="SRG" />
+		<R cruise="CEL" code="SRQ" />
+		<R cruise="CEL" code="SSH" />
+		<R cruise="CEL" code="SSZ" />
+		<R cruise="CEL" code="STL" />
+		<R cruise="CEL" code="STN" />
+		<R cruise="CEL" code="STR" />
+		<R cruise="CEL" code="STS" />
+		<R cruise="CEL" code="STT" />
+		<R cruise="CEL" code="STX" />
+		<R cruise="CEL" code="SUB" />
+		<R cruise="CEL" code="SUX" />
+		<R cruise="CEL" code="SVG" />
+		<R cruise="CEL" code="SVO" />
+		<R cruise="CEL" code="SWD" />
+		<R cruise="CEL" code="SWF" />
+		<R cruise="CEL" code="SXB" />
+		<R cruise="CEL" code="SXM" />
+		<R cruise="CEL" code="SYD" />
+		<R cruise="CEL" code="SYR" />
+		<R cruise="CEL" code="TAB" />
+		<R cruise="CEL" code="TEX" />
+		<R cruise="CEL" code="TFN" />
+		<R cruise="CEL" code="TFS" />
+		<R cruise="CEL" code="THF" />
+		<R cruise="CEL" code="TLH" />
+		<R cruise="CEL" code="TLL" />
+		<R cruise="CEL" code="TLS" />
+		<R cruise="CEL" code="TLV" />
+		<R cruise="CEL" code="TNG" />
+		<R cruise="CEL" code="TOL" />
+		<R cruise="CEL" code="TOS" />
+		<R cruise="CEL" code="TPA" />
+		<R cruise="CEL" code="TPE" />
+		<R cruise="CEL" code="TRC" />
+		<R cruise="CEL" code="TRD" />
+		<R cruise="CEL" code="TRF" />
+		<R cruise="CEL" code="TRI" />
+		<R cruise="CEL" code="TRN" />
+		<R cruise="CEL" code="TSF" />
+		<R cruise="CEL" code="TSN" />
+		<R cruise="CEL" code="TUL" />
+		<R cruise="CEL" code="TUP" />
+		<R cruise="CEL" code="TUS" />
+		<R cruise="CEL" code="TVL" />
+		<R cruise="CEL" code="TWF" />
+		<R cruise="CEL" code="TXK" />
+		<R cruise="CEL" code="TXL" />
+		<R cruise="CEL" code="TYO" />
+		<R cruise="CEL" code="TYR" />
+		<R cruise="CEL" code="TYS" />
+		<R cruise="CEL" code="UIN" />
+		<R cruise="CEL" code="UIO" />
+		<R cruise="CEL" code="URO" />
+		<R cruise="CEL" code="USM" />
+		<R cruise="CEL" code="UVF" />
+		<R cruise="CEL" code="VBY" />
+		<R cruise="CEL" code="VCE" />
+		<R cruise="CEL" code="VCT" />
+		<R cruise="CEL" code="VGO" />
+		<R cruise="CEL" code="VIE" />
+		<R cruise="CEL" code="VLD" />
+		<R cruise="CEL" code="VNC" />
+		<R cruise="CEL" code="VPS" />
+		<R cruise="CEL" code="VST" />
+		<R cruise="CEL" code="VXO" />
+		<R cruise="CEL" code="WAS" />
+		<R cruise="CEL" code="WRG" />
+		<R cruise="CEL" code="XMN" />
+		<R cruise="CEL" code="XPC" />
+		<R cruise="CEL" code="YBG" />
+		<R cruise="CEL" code="YCG" />
+		<R cruise="CEL" code="YDF" />
+		<R cruise="CEL" code="YEG" />
+		<R cruise="CEL" code="YFC" />
+		<R cruise="CEL" code="YHZ" />
+		<R cruise="CEL" code="YKM" />
+		<R cruise="CEL" code="YMX" />
+		<R cruise="CEL" code="YNG" />
+		<R cruise="CEL" code="YNT" />
+		<R cruise="CEL" code="YOW" />
+		<R cruise="CEL" code="YQB" />
+		<R cruise="CEL" code="YQG" />
+		<R cruise="CEL" code="YQM" />
+		<R cruise="CEL" code="YQR" />
+		<R cruise="CEL" code="YQT" />
+		<R cruise="CEL" code="YQY" />
+		<R cruise="CEL" code="YSJ" />
+		<R cruise="CEL" code="YUL" />
+		<R cruise="CEL" code="YUM" />
+		<R cruise="CEL" code="YVR" />
+		<R cruise="CEL" code="YWG" />
+		<R cruise="CEL" code="YXD" />
+		<R cruise="CEL" code="YXE" />
+		<R cruise="CEL" code="YYC" />
+		<R cruise="CEL" code="YYG" />
+		<R cruise="CEL" code="YYJ" />
+		<R cruise="CEL" code="YYT" />
+		<R cruise="CEL" code="YYZ" />
+		<R cruise="CEL" code="ZAG" />
+		<R cruise="CEL" code="ZHA" />
+		<R cruise="CEL" code="ZIH" />
+		<R cruise="CEL" code="ZMI" />
+		<R cruise="CEL" code="ZRH" />
+		<R cruise="CEL" code="ZRK" />
+		<R cruise="CST" code="ABE" />
+		<R cruise="CST" code="ABQ" />
+		<R cruise="CST" code="ABZ" />
+		<R cruise="CST" code="ACE" />
+		<R cruise="CST" code="AEP" />
+		<R cruise="CST" code="AES" />
+		<R cruise="CST" code="AGB" />
+		<R cruise="CST" code="AGP" />
+		<R cruise="CST" code="AGS" />
+		<R cruise="CST" code="AHO" />
+		<R cruise="CST" code="AIY" />
+		<R cruise="CST" code="AJA" />
+		<R cruise="CST" code="ALB" />
+		<R cruise="CST" code="ALC" />
+		<R cruise="CST" code="AMA" />
+		<R cruise="CST" code="AMD" />
+		<R cruise="CST" code="AMS" />
+		<R cruise="CST" code="ANU" />
+		<R cruise="CST" code="AOI" />
+		<R cruise="CST" code="ARN" />
+		<R cruise="CST" code="ASU" />
+		<R cruise="CST" code="ATH" />
+		<R cruise="CST" code="ATL" />
+		<R cruise="CST" code="AUS" />
+		<R cruise="CST" code="AVL" />
+		<R cruise="CST" code="AVN" />
+		<R cruise="CST" code="AVP" />
+		<R cruise="CST" code="AZO" />
+		<R cruise="CST" code="BAU" />
+		<R cruise="CST" code="BCN" />
+		<R cruise="CST" code="BDL" />
+		<R cruise="CST" code="BDS" />
+		<R cruise="CST" code="BEL" />
+		<R cruise="CST" code="BER" />
+		<R cruise="CST" code="BES" />
+		<R cruise="CST" code="BFS" />
+		<R cruise="CST" code="BGM" />
+		<R cruise="CST" code="BGO" />
+		<R cruise="CST" code="BGR" />
+		<R cruise="CST" code="BGY" />
+		<R cruise="CST" code="BHD" />
+		<R cruise="CST" code="BHI" />
+		<R cruise="CST" code="BHM" />
+		<R cruise="CST" code="BHX" />
+		<R cruise="CST" code="BHZ" />
+		<R cruise="CST" code="BIA" />
+		<R cruise="CST" code="BIO" />
+		<R cruise="CST" code="BIQ" />
+		<R cruise="CST" code="BLQ" />
+		<R cruise="CST" code="BNA" />
+		<R cruise="CST" code="BNI" />
+		<R cruise="CST" code="BOD" />
+		<R cruise="CST" code="BOI" />
+		<R cruise="CST" code="BOO" />
+		<R cruise="CST" code="BOS" />
+		<R cruise="CST" code="BRC" />
+		<R cruise="CST" code="BRE" />
+		<R cruise="CST" code="BRI" />
+		<R cruise="CST" code="BRN" />
+		<R cruise="CST" code="BRS" />
+		<R cruise="CST" code="BRU" />
+		<R cruise="CST" code="BSB" />
+		<R cruise="CST" code="BSL" />
+		<R cruise="CST" code="BTR" />
+		<R cruise="CST" code="BTV" />
+		<R cruise="CST" code="BUD" />
+		<R cruise="CST" code="BUE" />
+		<R cruise="CST" code="BUF" />
+		<R cruise="CST" code="BZR" />
+		<R cruise="CST" code="CAE" />
+		<R cruise="CST" code="CAG" />
+		<R cruise="CST" code="CAK" />
+		<R cruise="CST" code="CCS" />
+		<R cruise="CST" code="CDG" />
+		<R cruise="CST" code="CFE" />
+		<R cruise="CST" code="CGD" />
+		<R cruise="CST" code="CGN" />
+		<R cruise="CST" code="CHA" />
+		<R cruise="CST" code="CHP" />
+		<R cruise="CST" code="CHS" />
+		<R cruise="CST" code="CID" />
+		<R cruise="CST" code="CLE" />
+		<R cruise="CST" code="CLT" />
+		<R cruise="CST" code="CLY" />
+		<R cruise="CST" code="CMH" />
+		<R cruise="CST" code="CMI" />
+		<R cruise="CST" code="CNQ" />
+		<R cruise="CST" code="COR" />
+		<R cruise="CST" code="COS" />
+		<R cruise="CST" code="COU" />
+		<R cruise="CST" code="CPH" />
+		<R cruise="CST" code="CRD" />
+		<R cruise="CST" code="CRP" />
+		<R cruise="CST" code="CRV" />
+		<R cruise="CST" code="CRW" />
+		<R cruise="CST" code="CSG" />
+		<R cruise="CST" code="CTA" />
+		<R cruise="CST" code="CUN" />
+		<R cruise="CST" code="CVG" />
+		<R cruise="CST" code="CWB" />
+		<R cruise="CST" code="CWL" />
+		<R cruise="CST" code="DAY" />
+		<R cruise="CST" code="DCA" />
+		<R cruise="CST" code="DEN" />
+		<R cruise="CST" code="DFW" />
+		<R cruise="CST" code="DIJ" />
+		<R cruise="CST" code="DKR" />
+		<R cruise="CST" code="DLH" />
+		<R cruise="CST" code="DRS" />
+		<R cruise="CST" code="DSM" />
+		<R cruise="CST" code="DTM" />
+		<R cruise="CST" code="DTW" />
+		<R cruise="CST" code="DUS" />
+		<R cruise="CST" code="EAS" />
+		<R cruise="CST" code="EDI" />
+		<R cruise="CST" code="EGC" />
+		<R cruise="CST" code="ELP" />
+		<R cruise="CST" code="EMA" />
+		<R cruise="CST" code="ERF" />
+		<R cruise="CST" code="ERI" />
+		<R cruise="CST" code="ESS" />
+		<R cruise="CST" code="ETZ" />
+		<R cruise="CST" code="EVV" />
+		<R cruise="CST" code="EWR" />
+		<R cruise="CST" code="EZE" />
+		<R cruise="CST" code="FAT" />
+		<R cruise="CST" code="FCO" />
+		<R cruise="CST" code="FDH" />
+		<R cruise="CST" code="FKB" />
+		<R cruise="CST" code="FLL" />
+		<R cruise="CST" code="FLN" />
+		<R cruise="CST" code="FLR" />
+		<R cruise="CST" code="FMA" />
+		<R cruise="CST" code="FMO" />
+		<R cruise="CST" code="FNI" />
+		<R cruise="CST" code="FNT" />
+		<R cruise="CST" code="FOR" />
+		<R cruise="CST" code="FRA" />
+		<R cruise="CST" code="FSD" />
+		<R cruise="CST" code="FWA" />
+		<R cruise="CST" code="GCI" />
+		<R cruise="CST" code="GEG" />
+		<R cruise="CST" code="GIG" />
+		<R cruise="CST" code="GLA" />
+		<R cruise="CST" code="GNB" />
+		<R cruise="CST" code="GOA" />
+		<R cruise="CST" code="GRB" />
+		<R cruise="CST" code="GRO" />
+		<R cruise="CST" code="GRR" />
+		<R cruise="CST" code="GRU" />
+		<R cruise="CST" code="GRX" />
+		<R cruise="CST" code="GRZ" />
+		<R cruise="CST" code="GSO" />
+		<R cruise="CST" code="GSP" />
+		<R cruise="CST" code="GVA" />
+		<R cruise="CST" code="GYN" />
+		<R cruise="CST" code="HAJ" />
+		<R cruise="CST" code="HAM" />
+		<R cruise="CST" code="HER" />
+		<R cruise="CST" code="HOQ" />
+		<R cruise="CST" code="HRL" />
+		<R cruise="CST" code="HSV" />
+		<R cruise="CST" code="HUY" />
+		<R cruise="CST" code="HVN" />
+		<R cruise="CST" code="IAD" />
+		<R cruise="CST" code="IAH" />
+		<R cruise="CST" code="IBZ" />
+		<R cruise="CST" code="ICT" />
+		<R cruise="CST" code="IGR" />
+		<R cruise="CST" code="IND" />
+		<R cruise="CST" code="INN" />
+		<R cruise="CST" code="INV" />
+		<R cruise="CST" code="IRJ" />
+		<R cruise="CST" code="ISP" />
+		<R cruise="CST" code="IST" />
+		<R cruise="CST" code="JAN" />
+		<R cruise="CST" code="JAX" />
+		<R cruise="CST" code="JCA" />
+		<R cruise="CST" code="JER" />
+		<R cruise="CST" code="JFK" />
+		<R cruise="CST" code="JOI" />
+		<R cruise="CST" code="JUJ" />
+		<R cruise="CST" code="KLT" />
+		<R cruise="CST" code="KSF" />
+		<R cruise="CST" code="LAN" />
+		<R cruise="CST" code="LAS" />
+		<R cruise="CST" code="LAX" />
+		<R cruise="CST" code="LBA" />
+		<R cruise="CST" code="LBB" />
+		<R cruise="CST" code="LCA" />
+		<R cruise="CST" code="LCG" />
+		<R cruise="CST" code="LCY" />
+		<R cruise="CST" code="LDB" />
+		<R cruise="CST" code="LEI" />
+		<R cruise="CST" code="LEJ" />
+		<R cruise="CST" code="LEX" />
+		<R cruise="CST" code="LFT" />
+		<R cruise="CST" code="LGA" />
+		<R cruise="CST" code="LGW" />
+		<R cruise="CST" code="LHR" />
+		<R cruise="CST" code="LIG" />
+		<R cruise="CST" code="LIL" />
+		<R cruise="CST" code="LIN" />
+		<R cruise="CST" code="LIS" />
+		<R cruise="CST" code="LIT" />
+		<R cruise="CST" code="LNK" />
+		<R cruise="CST" code="LNS" />
+		<R cruise="CST" code="LNZ" />
+		<R cruise="CST" code="LON" />
+		<R cruise="CST" code="LPA" />
+		<R cruise="CST" code="LRT" />
+		<R cruise="CST" code="LUG" />
+		<R cruise="CST" code="LUQ" />
+		<R cruise="CST" code="LUX" />
+		<R cruise="CST" code="LYS" />
+		<R cruise="CST" code="MAD" />
+		<R cruise="CST" code="MAF" />
+		<R cruise="CST" code="MAH" />
+		<R cruise="CST" code="MAN" />
+		<R cruise="CST" code="MBS" />
+		<R cruise="CST" code="MCI" />
+		<R cruise="CST" code="MCO" />
+		<R cruise="CST" code="MCZ" />
+		<R cruise="CST" code="MDQ" />
+		<R cruise="CST" code="MDT" />
+		<R cruise="CST" code="MDW" />
+		<R cruise="CST" code="MDZ" />
+		<R cruise="CST" code="MEM" />
+		<R cruise="CST" code="MFE" />
+		<R cruise="CST" code="MGM" />
+		<R cruise="CST" code="MHG" />
+		<R cruise="CST" code="MHT" />
+		<R cruise="CST" code="MIA" />
+		<R cruise="CST" code="MIL" />
+		<R cruise="CST" code="MKE" />
+		<R cruise="CST" code="MLH" />
+		<R cruise="CST" code="MLI" />
+		<R cruise="CST" code="MME" />
+		<R cruise="CST" code="MOB" />
+		<R cruise="CST" code="MPL" />
+		<R cruise="CST" code="MRS" />
+		<R cruise="CST" code="MRU" />
+		<R cruise="CST" code="MSN" />
+		<R cruise="CST" code="MSP" />
+		<R cruise="CST" code="MSY" />
+		<R cruise="CST" code="MUC" />
+		<R cruise="CST" code="MUX" />
+		<R cruise="CST" code="MVD" />
+		<R cruise="CST" code="MXP" />
+		<R cruise="CST" code="NAP" />
+		<R cruise="CST" code="NAT" />
+		<R cruise="CST" code="NCE" />
+		<R cruise="CST" code="NCL" />
+		<R cruise="CST" code="NQN" />
+		<R cruise="CST" code="NQY" />
+		<R cruise="CST" code="NTE" />
+		<R cruise="CST" code="NUE" />
+		<R cruise="CST" code="NVT" />
+		<R cruise="CST" code="NWI" />
+		<R cruise="CST" code="NYC" />
+		<R cruise="CST" code="NYO" />
+		<R cruise="CST" code="OAK" />
+		<R cruise="CST" code="OKC" />
+		<R cruise="CST" code="OLB" />
+		<R cruise="CST" code="OMA" />
+		<R cruise="CST" code="ONT" />
+		<R cruise="CST" code="OPO" />
+		<R cruise="CST" code="ORD" />
+		<R cruise="CST" code="ORF" />
+		<R cruise="CST" code="ORH" />
+		<R cruise="CST" code="ORL" />
+		<R cruise="CST" code="ORY" />
+		<R cruise="CST" code="OSL" />
+		<R cruise="CST" code="OVD" />
+		<R cruise="CST" code="PAD" />
+		<R cruise="CST" code="PAR" />
+		<R cruise="CST" code="PBI" />
+		<R cruise="CST" code="PDX" />
+		<R cruise="CST" code="PEG" />
+		<R cruise="CST" code="PGF" />
+		<R cruise="CST" code="PHL" />
+		<R cruise="CST" code="PHX" />
+		<R cruise="CST" code="PIA" />
+		<R cruise="CST" code="PIT" />
+		<R cruise="CST" code="PLH" />
+		<R cruise="CST" code="PMF" />
+		<R cruise="CST" code="PMI" />
+		<R cruise="CST" code="PMO" />
+		<R cruise="CST" code="PNA" />
+		<R cruise="CST" code="PNS" />
+		<R cruise="CST" code="POA" />
+		<R cruise="CST" code="PSA" />
+		<R cruise="CST" code="PSR" />
+		<R cruise="CST" code="PSS" />
+		<R cruise="CST" code="PTP" />
+		<R cruise="CST" code="PUF" />
+		<R cruise="CST" code="PUJ" />
+		<R cruise="CST" code="PUQ" />
+		<R cruise="CST" code="PVD" />
+		<R cruise="CST" code="PWM" />
+		<R cruise="CST" code="QFB" />
+		<R cruise="CST" code="RAO" />
+		<R cruise="CST" code="RDU" />
+		<R cruise="CST" code="REC" />
+		<R cruise="CST" code="REG" />
+		<R cruise="CST" code="REK" />
+		<R cruise="CST" code="REL" />
+		<R cruise="CST" code="RES" />
+		<R cruise="CST" code="RGL" />
+		<R cruise="CST" code="RHO" />
+		<R cruise="CST" code="RIC" />
+		<R cruise="CST" code="RIO" />
+		<R cruise="CST" code="RNO" />
+		<R cruise="CST" code="RNS" />
+		<R cruise="CST" code="ROA" />
+		<R cruise="CST" code="ROC" />
+		<R cruise="CST" code="ROM" />
+		<R cruise="CST" code="RST" />
+		<R cruise="CST" code="SAN" />
+		<R cruise="CST" code="SAO" />
+		<R cruise="CST" code="SAT" />
+		<R cruise="CST" code="SAV" />
+		<R cruise="CST" code="SBN" />
+		<R cruise="CST" code="SCL" />
+		<R cruise="CST" code="SCQ" />
+		<R cruise="CST" code="SDF" />
+		<R cruise="CST" code="SDQ" />
+		<R cruise="CST" code="SDR" />
+		<R cruise="CST" code="SEA" />
+		<R cruise="CST" code="SEZ" />
+		<R cruise="CST" code="SFO" />
+		<R cruise="CST" code="SGF" />
+		<R cruise="CST" code="SHV" />
+		<R cruise="CST" code="SJC" />
+		<R cruise="CST" code="SJP" />
+		<R cruise="CST" code="SJU" />
+		<R cruise="CST" code="SLA" />
+		<R cruise="CST" code="SLC" />
+		<R cruise="CST" code="SLZ" />
+		<R cruise="CST" code="SMF" />
+		<R cruise="CST" code="SNA" />
+		<R cruise="CST" code="SSA" />
+		<R cruise="CST" code="SSZ" />
+		<R cruise="CST" code="STL" />
+		<R cruise="CST" code="STN" />
+		<R cruise="CST" code="STO" />
+		<R cruise="CST" code="STR" />
+		<R cruise="CST" code="SUF" />
+		<R cruise="CST" code="SVQ" />
+		<R cruise="CST" code="SWF" />
+		<R cruise="CST" code="SXB" />
+		<R cruise="CST" code="SXM" />
+		<R cruise="CST" code="SYR" />
+		<R cruise="CST" code="SZD" />
+		<R cruise="CST" code="SZG" />
+		<R cruise="CST" code="SZZ" />
+		<R cruise="CST" code="TCI" />
+		<R cruise="CST" code="TFN" />
+		<R cruise="CST" code="TFS" />
+		<R cruise="CST" code="THE" />
+		<R cruise="CST" code="THF" />
+		<R cruise="CST" code="TLH" />
+		<R cruise="CST" code="TLN" />
+		<R cruise="CST" code="TLS" />
+		<R cruise="CST" code="TOL" />
+		<R cruise="CST" code="TPA" />
+		<R cruise="CST" code="TRF" />
+		<R cruise="CST" code="TRN" />
+		<R cruise="CST" code="TRS" />
+		<R cruise="CST" code="TSF" />
+		<R cruise="CST" code="TUC" />
+		<R cruise="CST" code="TUL" />
+		<R cruise="CST" code="TUS" />
+		<R cruise="CST" code="TXL" />
+		<R cruise="CST" code="TYS" />
+		<R cruise="CST" code="UAQ" />
+		<R cruise="CST" code="UIP" />
+		<R cruise="CST" code="USH" />
+		<R cruise="CST" code="VCE" />
+		<R cruise="CST" code="VGO" />
+		<R cruise="CST" code="VIE" />
+		<R cruise="CST" code="VIX" />
+		<R cruise="CST" code="VLC" />
+		<R cruise="CST" code="VLL" />
+		<R cruise="CST" code="VRN" />
+		<R cruise="CST" code="XDB" />
+		<R cruise="CST" code="XRY" />
+		<R cruise="CST" code="XSP" />
+		<R cruise="CST" code="YEG" />
+		<R cruise="CST" code="YOW" />
+		<R cruise="CST" code="YUL" />
+		<R cruise="CST" code="YVR" />
+		<R cruise="CST" code="YWG" />
+		<R cruise="CST" code="YYC" />
+		<R cruise="CST" code="YYZ" />
+		<R cruise="CST" code="ZAZ" />
+		<R cruise="CST" code="ZEE" />
+		<R cruise="CST" code="ZEU" />
+		<R cruise="CST" code="ZMG" />
+		<R cruise="CST" code="ZNJ" />
+		<R cruise="CST" code="ZRH" />
+		<R cruise="CST" code="ZTC" />
+		<R cruise="CST" code="ZTZ" />
+		<R cruise="HAL" code="ABE" />
+		<R cruise="HAL" code="ABQ" />
+		<R cruise="HAL" code="ACA" />
+		<R cruise="HAL" code="AGS" />
+		<R cruise="HAL" code="AHN" />
+		<R cruise="HAL" code="ALB" />
+		<R cruise="HAL" code="ALO" />
+		<R cruise="HAL" code="AMA" />
+		<R cruise="HAL" code="ANC" />
+		<R cruise="HAL" code="APF" />
+		<R cruise="HAL" code="ATL" />
+		<R cruise="HAL" code="ATW" />
+		<R cruise="HAL" code="AUS" />
+		<R cruise="HAL" code="AVL" />
+		<R cruise="HAL" code="AVP" />
+		<R cruise="HAL" code="AZO" />
+		<R cruise="HAL" code="BCT" />
+		<R cruise="HAL" code="BDL" />
+		<R cruise="HAL" code="BGI" />
+		<R cruise="HAL" code="BGM" />
+		<R cruise="HAL" code="BGR" />
+		<R cruise="HAL" code="BHM" />
+		<R cruise="HAL" code="BIL" />
+		<R cruise="HAL" code="BIS" />
+		<R cruise="HAL" code="BNA" />
+		<R cruise="HAL" code="BOI" />
+		<R cruise="HAL" code="BOS" />
+		<R cruise="HAL" code="BPT" />
+		<R cruise="HAL" code="BTM" />
+		<R cruise="HAL" code="BTR" />
+		<R cruise="HAL" code="BTV" />
+		<R cruise="HAL" code="BUF" />
+		<R cruise="HAL" code="BUR" />
+		<R cruise="HAL" code="BWI" />
+		<R cruise="HAL" code="BZN" />
+		<R cruise="HAL" code="CAE" />
+		<R cruise="HAL" code="CAK" />
+		<R cruise="HAL" code="CHA" />
+		<R cruise="HAL" code="CHO" />
+		<R cruise="HAL" code="CHS" />
+		<R cruise="HAL" code="CID" />
+		<R cruise="HAL" code="CLE" />
+		<R cruise="HAL" code="CLT" />
+		<R cruise="HAL" code="CLW" />
+		<R cruise="HAL" code="CMH" />
+		<R cruise="HAL" code="CMI" />
+		<R cruise="HAL" code="COS" />
+		<R cruise="HAL" code="CPH" />
+		<R cruise="HAL" code="CRP" />
+		<R cruise="HAL" code="CRW" />
+		<R cruise="HAL" code="CSG" />
+		<R cruise="HAL" code="CVG" />
+		<R cruise="HAL" code="DAB" />
+		<R cruise="HAL" code="DAY" />
+		<R cruise="HAL" code="DCA" />
+		<R cruise="HAL" code="DEN" />
+		<R cruise="HAL" code="DFW" />
+		<R cruise="HAL" code="DHN" />
+		<R cruise="HAL" code="DLH" />
+		<R cruise="HAL" code="DSM" />
+		<R cruise="HAL" code="DTW" />
+		<R cruise="HAL" code="EAU" />
+		<R cruise="HAL" code="ELM" />
+		<R cruise="HAL" code="ELP" />
+		<R cruise="HAL" code="ERI" />
+		<R cruise="HAL" code="EUG" />
+		<R cruise="HAL" code="EVV" />
+		<R cruise="HAL" code="EWN" />
+		<R cruise="HAL" code="EWR" />
+		<R cruise="HAL" code="FAI" />
+		<R cruise="HAL" code="FAR" />
+		<R cruise="HAL" code="FAT" />
+		<R cruise="HAL" code="FAY" />
+		<R cruise="HAL" code="FCO" />
+		<R cruise="HAL" code="FLL" />
+		<R cruise="HAL" code="FLO" />
+		<R cruise="HAL" code="FMY" />
+		<R cruise="HAL" code="FNT" />
+		<R cruise="HAL" code="FPR" />
+		<R cruise="HAL" code="FSD" />
+		<R cruise="HAL" code="FWA" />
+		<R cruise="HAL" code="GEG" />
+		<R cruise="HAL" code="GFK" />
+		<R cruise="HAL" code="GGG" />
+		<R cruise="HAL" code="GIF" />
+		<R cruise="HAL" code="GJT" />
+		<R cruise="HAL" code="GNV" />
+		<R cruise="HAL" code="GRB" />
+		<R cruise="HAL" code="GRR" />
+		<R cruise="HAL" code="GSO" />
+		<R cruise="HAL" code="GSP" />
+		<R cruise="HAL" code="GTF" />
+		<R cruise="HAL" code="GTR" />
+		<R cruise="HAL" code="HGR" />
+		<R cruise="HAL" code="HKG" />
+		<R cruise="HAL" code="HKY" />
+		<R cruise="HAL" code="HLN" />
+		<R cruise="HAL" code="HNL" />
+		<R cruise="HAL" code="HOU" />
+		<R cruise="HAL" code="HPN" />
+		<R cruise="HAL" code="HRL" />
+		<R cruise="HAL" code="HSV" />
+		<R cruise="HAL" code="HTS" />
+		<R cruise="HAL" code="HYA" />
+		<R cruise="HAL" code="IAD" />
+		<R cruise="HAL" code="IAH" />
+		<R cruise="HAL" code="ICT" />
+		<R cruise="HAL" code="ILM" />
+		<R cruise="HAL" code="IND" />
+		<R cruise="HAL" code="ISN" />
+		<R cruise="HAL" code="ISO" />
+		<R cruise="HAL" code="ISP" />
+		<R cruise="HAL" code="ITH" />
+		<R cruise="HAL" code="JAN" />
+		<R cruise="HAL" code="JAX" />
+		<R cruise="HAL" code="JFK" />
+		<R cruise="HAL" code="LAL" />
+		<R cruise="HAL" code="LAN" />
+		<R cruise="HAL" code="LAS" />
+		<R cruise="HAL" code="LAX" />
+		<R cruise="HAL" code="LBB" />
+		<R cruise="HAL" code="LEE" />
+		<R cruise="HAL" code="LEX" />
+		<R cruise="HAL" code="LGA" />
+		<R cruise="HAL" code="LIM" />
+		<R cruise="HAL" code="LIS" />
+		<R cruise="HAL" code="LIT" />
+		<R cruise="HAL" code="LNK" />
+		<R cruise="HAL" code="LSE" />
+		<R cruise="HAL" code="LYH" />
+		<R cruise="HAL" code="MAF" />
+		<R cruise="HAL" code="MBS" />
+		<R cruise="HAL" code="MCI" />
+		<R cruise="HAL" code="MCO" />
+		<R cruise="HAL" code="MDT" />
+		<R cruise="HAL" code="MEI" />
+		<R cruise="HAL" code="MEM" />
+		<R cruise="HAL" code="MFE" />
+		<R cruise="HAL" code="MFR" />
+		<R cruise="HAL" code="MGM" />
+		<R cruise="HAL" code="MHT" />
+		<R cruise="HAL" code="MIA" />
+		<R cruise="HAL" code="MKE" />
+		<R cruise="HAL" code="MLB" />
+		<R cruise="HAL" code="MLI" />
+		<R cruise="HAL" code="MLU" />
+		<R cruise="HAL" code="MOB" />
+		<R cruise="HAL" code="MOT" />
+		<R cruise="HAL" code="MSN" />
+		<R cruise="HAL" code="MSO" />
+		<R cruise="HAL" code="MSP" />
+		<R cruise="HAL" code="MSY" />
+		<R cruise="HAL" code="MYR" />
+		<R cruise="HAL" code="OAK" />
+		<R cruise="HAL" code="OCF" />
+		<R cruise="HAL" code="OKC" />
+		<R cruise="HAL" code="OMA" />
+		<R cruise="HAL" code="ONT" />
+		<R cruise="HAL" code="ORD" />
+		<R cruise="HAL" code="ORF" />
+		<R cruise="HAL" code="OSA" />
+		<R cruise="HAL" code="PBI" />
+		<R cruise="HAL" code="PDX" />
+		<R cruise="HAL" code="PGV" />
+		<R cruise="HAL" code="PHF" />
+		<R cruise="HAL" code="PHL" />
+		<R cruise="HAL" code="PHX" />
+		<R cruise="HAL" code="PIA" />
+		<R cruise="HAL" code="PIE" />
+		<R cruise="HAL" code="PIT" />
+		<R cruise="HAL" code="PNS" />
+		<R cruise="HAL" code="PPT" />
+		<R cruise="HAL" code="PSC" />
+		<R cruise="HAL" code="PSP" />
+		<R cruise="HAL" code="PVD" />
+		<R cruise="HAL" code="PWM" />
+		<R cruise="HAL" code="QQH" />
+		<R cruise="HAL" code="RAP" />
+		<R cruise="HAL" code="RDM" />
+		<R cruise="HAL" code="RDU" />
+		<R cruise="HAL" code="RFD" />
+		<R cruise="HAL" code="RIC" />
+		<R cruise="HAL" code="RIO" />
+		<R cruise="HAL" code="RNO" />
+		<R cruise="HAL" code="ROA" />
+		<R cruise="HAL" code="ROC" />
+		<R cruise="HAL" code="RST" />
+		<R cruise="HAL" code="RSW" />
+		<R cruise="HAL" code="RTM" />
+		<R cruise="HAL" code="RWI" />
+		<R cruise="HAL" code="RZZ" />
+		<R cruise="HAL" code="SAN" />
+		<R cruise="HAL" code="SAT" />
+		<R cruise="HAL" code="SAV" />
+		<R cruise="HAL" code="SBN" />
+		<R cruise="HAL" code="SBY" />
+		<R cruise="HAL" code="SCE" />
+		<R cruise="HAL" code="SDF" />
+		<R cruise="HAL" code="SEA" />
+		<R cruise="HAL" code="SEF" />
+		<R cruise="HAL" code="SFO" />
+		<R cruise="HAL" code="SGF" />
+		<R cruise="HAL" code="SHD" />
+		<R cruise="HAL" code="SHV" />
+		<R cruise="HAL" code="SJC" />
+		<R cruise="HAL" code="SJT" />
+		<R cruise="HAL" code="SJU" />
+		<R cruise="HAL" code="SLC" />
+		<R cruise="HAL" code="SMF" />
+		<R cruise="HAL" code="SNA" />
+		<R cruise="HAL" code="SRQ" />
+		<R cruise="HAL" code="STL" />
+		<R cruise="HAL" code="SUA" />
+		<R cruise="HAL" code="SUX" />
+		<R cruise="HAL" code="SWF" />
+		<R cruise="HAL" code="SYR" />
+		<R cruise="HAL" code="TLH" />
+		<R cruise="HAL" code="TOL" />
+		<R cruise="HAL" code="TPA" />
+		<R cruise="HAL" code="TRI" />
+		<R cruise="HAL" code="TUL" />
+		<R cruise="HAL" code="TUP" />
+		<R cruise="HAL" code="TUS" />
+		<R cruise="HAL" code="TYS" />
+		<R cruise="HAL" code="UST" />
+		<R cruise="HAL" code="VAP" />
+		<R cruise="HAL" code="VNC" />
+		<R cruise="HAL" code="VRB" />
+		<R cruise="HAL" code="XPC" />
+		<R cruise="HAL" code="YEG" />
+		<R cruise="HAL" code="YFC" />
+		<R cruise="HAL" code="YHZ" />
+		<R cruise="HAL" code="YKM" />
+		<R cruise="HAL" code="YLW" />
+		<R cruise="HAL" code="YMQ" />
+		<R cruise="HAL" code="YOW" />
+		<R cruise="HAL" code="YQB" />
+		<R cruise="HAL" code="YQM" />
+		<R cruise="HAL" code="YQQ" />
+		<R cruise="HAL" code="YQR" />
+		<R cruise="HAL" code="YQT" />
+		<R cruise="HAL" code="YQX" />
+		<R cruise="HAL" code="YSJ" />
+		<R cruise="HAL" code="YUL" />
+		<R cruise="HAL" code="YVR" />
+		<R cruise="HAL" code="YWG" />
+		<R cruise="HAL" code="YXE" />
+		<R cruise="HAL" code="YXU" />
+		<R cruise="HAL" code="YYC" />
+		<R cruise="HAL" code="YYG" />
+		<R cruise="HAL" code="YYJ" />
+		<R cruise="HAL" code="YYT" />
+		<R cruise="HAL" code="YYY" />
+		<R cruise="HAL" code="YYZ" />
+		<R cruise="NCL" code="AAL" />
+		<R cruise="NCL" code="AAR" />
+		<R cruise="NCL" code="ABE" />
+		<R cruise="NCL" code="ABI" />
+		<R cruise="NCL" code="ABQ" />
+		<R cruise="NCL" code="ABZ" />
+		<R cruise="NCL" code="ACT" />
+		<R cruise="NCL" code="AGS" />
+		<R cruise="NCL" code="ALB" />
+		<R cruise="NCL" code="AMA" />
+		<R cruise="NCL" code="ANC" />
+		<R cruise="NCL" code="ARN" />
+		<R cruise="NCL" code="ATL" />
+		<R cruise="NCL" code="ATW" />
+		<R cruise="NCL" code="AUS" />
+		<R cruise="NCL" code="AVL" />
+		<R cruise="NCL" code="AVP" />
+		<R cruise="NCL" code="AZO" />
+		<R cruise="NCL" code="BDA" />
+		<R cruise="NCL" code="BDL" />
+		<R cruise="NCL" code="BFL" />
+		<R cruise="NCL" code="BGM" />
+		<R cruise="NCL" code="BGR" />
+		<R cruise="NCL" code="BHD" />
+		<R cruise="NCL" code="BHM" />
+		<R cruise="NCL" code="BHX" />
+		<R cruise="NCL" code="BIL" />
+		<R cruise="NCL" code="BIS" />
+		<R cruise="NCL" code="BLL" />
+		<R cruise="NCL" code="BNA" />
+		<R cruise="NCL" code="BOI" />
+		<R cruise="NCL" code="BOS" />
+		<R cruise="NCL" code="BRE" />
+		<R cruise="NCL" code="BRN" />
+		<R cruise="NCL" code="BRS" />
+		<R cruise="NCL" code="BTR" />
+		<R cruise="NCL" code="BTV" />
+		<R cruise="NCL" code="BUF" />
+		<R cruise="NCL" code="BUR" />
+		<R cruise="NCL" code="BWI" />
+		<R cruise="NCL" code="BZN" />
+		<R cruise="NCL" code="CAE" />
+		<R cruise="NCL" code="CAK" />
+		<R cruise="NCL" code="CGN" />
+		<R cruise="NCL" code="CHA" />
+		<R cruise="NCL" code="CHS" />
+		<R cruise="NCL" code="CID" />
+		<R cruise="NCL" code="CLE" />
+		<R cruise="NCL" code="CLT" />
+		<R cruise="NCL" code="CMH" />
+		<R cruise="NCL" code="CMI" />
+		<R cruise="NCL" code="COS" />
+		<R cruise="NCL" code="COU" />
+		<R cruise="NCL" code="CPH" />
+		<R cruise="NCL" code="CPR" />
+		<R cruise="NCL" code="CRP" />
+		<R cruise="NCL" code="CRW" />
+		<R cruise="NCL" code="CSG" />
+		<R cruise="NCL" code="CVG" />
+		<R cruise="NCL" code="CWL" />
+		<R cruise="NCL" code="DAY" />
+		<R cruise="NCL" code="DCA" />
+		<R cruise="NCL" code="DEN" />
+		<R cruise="NCL" code="DFW" />
+		<R cruise="NCL" code="DLH" />
+		<R cruise="NCL" code="DRS" />
+		<R cruise="NCL" code="DSM" />
+		<R cruise="NCL" code="DTM" />
+		<R cruise="NCL" code="DTW" />
+		<R cruise="NCL" code="DUB" />
+		<R cruise="NCL" code="DUS" />
+		<R cruise="NCL" code="EDI" />
+		<R cruise="NCL" code="ELP" />
+		<R cruise="NCL" code="ERI" />
+		<R cruise="NCL" code="EUG" />
+		<R cruise="NCL" code="EVV" />
+		<R cruise="NCL" code="EWN" />
+		<R cruise="NCL" code="EWR" />
+		<R cruise="NCL" code="EZE" />
+		<R cruise="NCL" code="FAR" />
+		<R cruise="NCL" code="FAT" />
+		<R cruise="NCL" code="FAY" />
+		<R cruise="NCL" code="FCA" />
+		<R cruise="NCL" code="FCO" />
+		<R cruise="NCL" code="FDH" />
+		<R cruise="NCL" code="FLL" />
+		<R cruise="NCL" code="FMO" />
+		<R cruise="NCL" code="FNT" />
+		<R cruise="NCL" code="FRA" />
+		<R cruise="NCL" code="FSD" />
+		<R cruise="NCL" code="FWA" />
+		<R cruise="NCL" code="GCI" />
+		<R cruise="NCL" code="GEG" />
+		<R cruise="NCL" code="GFK" />
+		<R cruise="NCL" code="GLA" />
+		<R cruise="NCL" code="GOT" />
+		<R cruise="NCL" code="GRB" />
+		<R cruise="NCL" code="GRR" />
+		<R cruise="NCL" code="GRU" />
+		<R cruise="NCL" code="GRZ" />
+		<R cruise="NCL" code="GSO" />
+		<R cruise="NCL" code="GSP" />
+		<R cruise="NCL" code="GTF" />
+		<R cruise="NCL" code="GVA" />
+		<R cruise="NCL" code="HAJ" />
+		<R cruise="NCL" code="HAM" />
+		<R cruise="NCL" code="HAU" />
+		<R cruise="NCL" code="HEL" />
+		<R cruise="NCL" code="HGR" />
+		<R cruise="NCL" code="HLN" />
+		<R cruise="NCL" code="HNL" />
+		<R cruise="NCL" code="HOU" />
+		<R cruise="NCL" code="HRL" />
+		<R cruise="NCL" code="HSV" />
+		<R cruise="NCL" code="HTS" />
+		<R cruise="NCL" code="HUY" />
+		<R cruise="NCL" code="IAD" />
+		<R cruise="NCL" code="IAH" />
+		<R cruise="NCL" code="ICT" />
+		<R cruise="NCL" code="ILM" />
+		<R cruise="NCL" code="IND" />
+		<R cruise="NCL" code="INN" />
+		<R cruise="NCL" code="INV" />
+		<R cruise="NCL" code="IOM" />
+		<R cruise="NCL" code="IPL" />
+		<R cruise="NCL" code="ISP" />
+		<R cruise="NCL" code="JAN" />
+		<R cruise="NCL" code="JAX" />
+		<R cruise="NCL" code="JER" />
+		<R cruise="NCL" code="JFK" />
+		<R cruise="NCL" code="JKG" />
+		<R cruise="NCL" code="JLN" />
+		<R cruise="NCL" code="KLU" />
+		<R cruise="NCL" code="KOA" />
+		<R cruise="NCL" code="KRP" />
+		<R cruise="NCL" code="KRS" />
+		<R cruise="NCL" code="LAN" />
+		<R cruise="NCL" code="LAS" />
+		<R cruise="NCL" code="LAX" />
+		<R cruise="NCL" code="LBA" />
+		<R cruise="NCL" code="LBB" />
+		<R cruise="NCL" code="LEJ" />
+		<R cruise="NCL" code="LEX" />
+		<R cruise="NCL" code="LFT" />
+		<R cruise="NCL" code="LGA" />
+		<R cruise="NCL" code="LGW" />
+		<R cruise="NCL" code="LHR" />
+		<R cruise="NCL" code="LIH" />
+		<R cruise="NCL" code="LIM" />
+		<R cruise="NCL" code="LIT" />
+		<R cruise="NCL" code="LNK" />
+		<R cruise="NCL" code="LNZ" />
+		<R cruise="NCL" code="LSE" />
+		<R cruise="NCL" code="LYH" />
+		<R cruise="NCL" code="MAF" />
+		<R cruise="NCL" code="MAN" />
+		<R cruise="NCL" code="MBS" />
+		<R cruise="NCL" code="MCI" />
+		<R cruise="NCL" code="MCO" />
+		<R cruise="NCL" code="MDT" />
+		<R cruise="NCL" code="MDW" />
+		<R cruise="NCL" code="MEM" />
+		<R cruise="NCL" code="MEX" />
+		<R cruise="NCL" code="MFE" />
+		<R cruise="NCL" code="MFR" />
+		<R cruise="NCL" code="MGM" />
+		<R cruise="NCL" code="MHT" />
+		<R cruise="NCL" code="MIA" />
+		<R cruise="NCL" code="MKE" />
+		<R cruise="NCL" code="MLI" />
+		<R cruise="NCL" code="MLU" />
+		<R cruise="NCL" code="MMA" />
+		<R cruise="NCL" code="MME" />
+		<R cruise="NCL" code="MOB" />
+		<R cruise="NCL" code="MOT" />
+		<R cruise="NCL" code="MSN" />
+		<R cruise="NCL" code="MSO" />
+		<R cruise="NCL" code="MSP" />
+		<R cruise="NCL" code="MSY" />
+		<R cruise="NCL" code="MUC" />
+		<R cruise="NCL" code="MXP" />
+		<R cruise="NCL" code="MYR" />
+		<R cruise="NCL" code="NCL" />
+		<R cruise="NCL" code="NRT" />
+		<R cruise="NCL" code="NUE" />
+		<R cruise="NCL" code="NWI" />
+		<R cruise="NCL" code="OAK" />
+		<R cruise="NCL" code="OGG" />
+		<R cruise="NCL" code="OKC" />
+		<R cruise="NCL" code="OKK" />
+		<R cruise="NCL" code="OMA" />
+		<R cruise="NCL" code="ONT" />
+		<R cruise="NCL" code="ORD" />
+		<R cruise="NCL" code="ORF" />
+		<R cruise="NCL" code="OSL" />
+		<R cruise="NCL" code="PAD" />
+		<R cruise="NCL" code="PBI" />
+		<R cruise="NCL" code="PDX" />
+		<R cruise="NCL" code="PFN" />
+		<R cruise="NCL" code="PHF" />
+		<R cruise="NCL" code="PHL" />
+		<R cruise="NCL" code="PHX" />
+		<R cruise="NCL" code="PIA" />
+		<R cruise="NCL" code="PIT" />
+		<R cruise="NCL" code="PNS" />
+		<R cruise="NCL" code="PSP" />
+		<R cruise="NCL" code="PVD" />
+		<R cruise="NCL" code="PWM" />
+		<R cruise="NCL" code="RDD" />
+		<R cruise="NCL" code="RDU" />
+		<R cruise="NCL" code="RIC" />
+		<R cruise="NCL" code="RNN" />
+		<R cruise="NCL" code="RNO" />
+		<R cruise="NCL" code="ROA" />
+		<R cruise="NCL" code="ROC" />
+		<R cruise="NCL" code="RST" />
+		<R cruise="NCL" code="RSW" />
+		<R cruise="NCL" code="SAN" />
+		<R cruise="NCL" code="SAT" />
+		<R cruise="NCL" code="SAV" />
+		<R cruise="NCL" code="SBA" />
+		<R cruise="NCL" code="SBN" />
+		<R cruise="NCL" code="SBP" />
+		<R cruise="NCL" code="SBY" />
+		<R cruise="NCL" code="SCL" />
+		<R cruise="NCL" code="SCN" />
+		<R cruise="NCL" code="SDF" />
+		<R cruise="NCL" code="SEA" />
+		<R cruise="NCL" code="SFO" />
+		<R cruise="NCL" code="SGD" />
+		<R cruise="NCL" code="SGF" />
+		<R cruise="NCL" code="SHV" />
+		<R cruise="NCL" code="SJC" />
+		<R cruise="NCL" code="SLC" />
+		<R cruise="NCL" code="SMF" />
+		<R cruise="NCL" code="SNA" />
+		<R cruise="NCL" code="SNN" />
+		<R cruise="NCL" code="SPI" />
+		<R cruise="NCL" code="STL" />
+		<R cruise="NCL" code="STO" />
+		<R cruise="NCL" code="STR" />
+		<R cruise="NCL" code="SVG" />
+		<R cruise="NCL" code="SWF" />
+		<R cruise="NCL" code="SYR" />
+		<R cruise="NCL" code="SZG" />
+		<R cruise="NCL" code="TLH" />
+		<R cruise="NCL" code="TOL" />
+		<R cruise="NCL" code="TPA" />
+		<R cruise="NCL" code="TRF" />
+		<R cruise="NCL" code="TRI" />
+		<R cruise="NCL" code="TUL" />
+		<R cruise="NCL" code="TUS" />
+		<R cruise="NCL" code="TXL" />
+		<R cruise="NCL" code="TYS" />
+		<R cruise="NCL" code="VIE" />
+		<R cruise="NCL" code="VST" />
+		<R cruise="NCL" code="YEG" />
+		<R cruise="NCL" code="YHZ" />
+		<R cruise="NCL" code="YOW" />
+		<R cruise="NCL" code="YQB" />
+		<R cruise="NCL" code="YQM" />
+		<R cruise="NCL" code="YQR" />
+		<R cruise="NCL" code="YQT" />
+		<R cruise="NCL" code="YSJ" />
+		<R cruise="NCL" code="YUL" />
+		<R cruise="NCL" code="YVR" />
+		<R cruise="NCL" code="YWG" />
+		<R cruise="NCL" code="YXE" />
+		<R cruise="NCL" code="YYC" />
+		<R cruise="NCL" code="YYG" />
+		<R cruise="NCL" code="YYT" />
+		<R cruise="NCL" code="YYZ" />
+		<R cruise="NCL" code="ZRH" />
+		<R cruise="PCL" code="ABE" />
+		<R cruise="PCL" code="ABQ" />
+		<R cruise="PCL" code="ABZ" />
+		<R cruise="PCL" code="ACA" />
+		<R cruise="PCL" code="AGS" />
+		<R cruise="PCL" code="AKL" />
+		<R cruise="PCL" code="ALB" />
+		<R cruise="PCL" code="AMA" />
+		<R cruise="PCL" code="AMM" />
+		<R cruise="PCL" code="AMS" />
+		<R cruise="PCL" code="ANC" />
+		<R cruise="PCL" code="ANU" />
+		<R cruise="PCL" code="APF" />
+		<R cruise="PCL" code="ATH" />
+		<R cruise="PCL" code="ATL" />
+		<R cruise="PCL" code="AUA" />
+		<R cruise="PCL" code="AUS" />
+		<R cruise="PCL" code="AVL" />
+		<R cruise="PCL" code="AVP" />
+		<R cruise="PCL" code="BBQ" />
+		<R cruise="PCL" code="BCN" />
+		<R cruise="PCL" code="BCT" />
+		<R cruise="PCL" code="BDA" />
+		<R cruise="PCL" code="BDL" />
+		<R cruise="PCL" code="BDR" />
+		<R cruise="PCL" code="BER" />
+		<R cruise="PCL" code="BFS" />
+		<R cruise="PCL" code="BGI" />
+		<R cruise="PCL" code="BGM" />
+		<R cruise="PCL" code="BGR" />
+		<R cruise="PCL" code="BHD" />
+		<R cruise="PCL" code="BHM" />
+		<R cruise="PCL" code="BHX" />
+		<R cruise="PCL" code="BIL" />
+		<R cruise="PCL" code="BIS" />
+		<R cruise="PCL" code="BKK" />
+		<R cruise="PCL" code="BNA" />
+		<R cruise="PCL" code="BOG" />
+		<R cruise="PCL" code="BOI" />
+		<R cruise="PCL" code="BOM" />
+		<R cruise="PCL" code="BOS" />
+		<R cruise="PCL" code="BRN" />
+		<R cruise="PCL" code="BRS" />
+		<R cruise="PCL" code="BRU" />
+		<R cruise="PCL" code="BTF" />
+		<R cruise="PCL" code="BTR" />
+		<R cruise="PCL" code="BTV" />
+		<R cruise="PCL" code="BUD" />
+		<R cruise="PCL" code="BUE" />
+		<R cruise="PCL" code="BUF" />
+		<R cruise="PCL" code="BWI" />
+		<R cruise="PCL" code="BZN" />
+		<R cruise="PCL" code="CAE" />
+		<R cruise="PCL" code="CAK" />
+		<R cruise="PCL" code="CCS" />
+		<R cruise="PCL" code="CHA" />
+		<R cruise="PCL" code="CHS" />
+		<R cruise="PCL" code="CID" />
+		<R cruise="PCL" code="CLE" />
+		<R cruise="PCL" code="CLT" />
+		<R cruise="PCL" code="CLW" />
+		<R cruise="PCL" code="CMB" />
+		<R cruise="PCL" code="CMH" />
+		<R cruise="PCL" code="COS" />
+		<R cruise="PCL" code="CPH" />
+		<R cruise="PCL" code="CPT" />
+		<R cruise="PCL" code="CRP" />
+		<R cruise="PCL" code="CRW" />
+		<R cruise="PCL" code="CUN" />
+		<R cruise="PCL" code="CUR" />
+		<R cruise="PCL" code="CVG" />
+		<R cruise="PCL" code="CWL" />
+		<R cruise="PCL" code="CZM" />
+		<R cruise="PCL" code="DAB" />
+		<R cruise="PCL" code="DAY" />
+		<R cruise="PCL" code="DCA" />
+		<R cruise="PCL" code="DEN" />
+		<R cruise="PCL" code="DFW" />
+		<R cruise="PCL" code="DSM" />
+		<R cruise="PCL" code="DTW" />
+		<R cruise="PCL" code="DUB" />
+		<R cruise="PCL" code="DVN" />
+		<R cruise="PCL" code="EDI" />
+		<R cruise="PCL" code="EIS" />
+		<R cruise="PCL" code="ELP" />
+		<R cruise="PCL" code="EMA" />
+		<R cruise="PCL" code="ENS" />
+		<R cruise="PCL" code="ERI" />
+		<R cruise="PCL" code="ESE" />
+		<R cruise="PCL" code="EUG" />
+		<R cruise="PCL" code="EVV" />
+		<R cruise="PCL" code="EWR" />
+		<R cruise="PCL" code="FAI" />
+		<R cruise="PCL" code="FAR" />
+		<R cruise="PCL" code="FAT" />
+		<R cruise="PCL" code="FCO" />
+		<R cruise="PCL" code="FDF" />
+		<R cruise="PCL" code="FLL" />
+		<R cruise="PCL" code="FNT" />
+		<R cruise="PCL" code="FPR" />
+		<R cruise="PCL" code="FSD" />
+		<R cruise="PCL" code="FWA" />
+		<R cruise="PCL" code="GCI" />
+		<R cruise="PCL" code="GCM" />
+		<R cruise="PCL" code="GDL" />
+		<R cruise="PCL" code="GEG" />
+		<R cruise="PCL" code="GFK" />
+		<R cruise="PCL" code="GIB" />
+		<R cruise="PCL" code="GIF" />
+		<R cruise="PCL" code="GIG" />
+		<R cruise="PCL" code="GLA" />
+		<R cruise="PCL" code="GND" />
+		<R cruise="PCL" code="GOA" />
+		<R cruise="PCL" code="GON" />
+		<R cruise="PCL" code="GRB" />
+		<R cruise="PCL" code="GRR" />
+		<R cruise="PCL" code="GSO" />
+		<R cruise="PCL" code="GSP" />
+		<R cruise="PCL" code="GTF" />
+		<R cruise="PCL" code="GUA" />
+		<R cruise="PCL" code="HEL" />
+		<R cruise="PCL" code="HKG" />
+		<R cruise="PCL" code="HLN" />
+		<R cruise="PCL" code="HNL" />
+		<R cruise="PCL" code="HRL" />
+		<R cruise="PCL" code="HSV" />
+		<R cruise="PCL" code="HVN" />
+		<R cruise="PCL" code="IAD" />
+		<R cruise="PCL" code="IAH" />
+		<R cruise="PCL" code="ICT" />
+		<R cruise="PCL" code="ILG" />
+		<R cruise="PCL" code="ILM" />
+		<R cruise="PCL" code="IND" />
+		<R cruise="PCL" code="INV" />
+		<R cruise="PCL" code="IOM" />
+		<R cruise="PCL" code="ISP" />
+		<R cruise="PCL" code="IST" />
+		<R cruise="PCL" code="JAN" />
+		<R cruise="PCL" code="JAX" />
+		<R cruise="PCL" code="JER" />
+		<R cruise="PCL" code="JFK" />
+		<R cruise="PCL" code="JKT" />
+		<R cruise="PCL" code="KUL" />
+		<R cruise="PCL" code="LAN" />
+		<R cruise="PCL" code="LAS" />
+		<R cruise="PCL" code="LAX" />
+		<R cruise="PCL" code="LBA" />
+		<R cruise="PCL" code="LBB" />
+		<R cruise="PCL" code="LED" />
+		<R cruise="PCL" code="LEE" />
+		<R cruise="PCL" code="LEX" />
+		<R cruise="PCL" code="LGA" />
+		<R cruise="PCL" code="LGW" />
+		<R cruise="PCL" code="LHR" />
+		<R cruise="PCL" code="LIM" />
+		<R cruise="PCL" code="LIS" />
+		<R cruise="PCL" code="LIT" />
+		<R cruise="PCL" code="LNK" />
+		<R cruise="PCL" code="LON" />
+		<R cruise="PCL" code="LUX" />
+		<R cruise="PCL" code="LYH" />
+		<R cruise="PCL" code="MAF" />
+		<R cruise="PCL" code="MAN" />
+		<R cruise="PCL" code="MAO" />
+		<R cruise="PCL" code="MBA" />
+		<R cruise="PCL" code="MBJ" />
+		<R cruise="PCL" code="MBS" />
+		<R cruise="PCL" code="MCI" />
+		<R cruise="PCL" code="MCM" />
+		<R cruise="PCL" code="MCO" />
+		<R cruise="PCL" code="MDT" />
+		<R cruise="PCL" code="MEM" />
+		<R cruise="PCL" code="MEX" />
+		<R cruise="PCL" code="MFE" />
+		<R cruise="PCL" code="MFR" />
+		<R cruise="PCL" code="MGM" />
+		<R cruise="PCL" code="MHT" />
+		<R cruise="PCL" code="MIA" />
+		<R cruise="PCL" code="MKE" />
+		<R cruise="PCL" code="MLA" />
+		<R cruise="PCL" code="MLB" />
+		<R cruise="PCL" code="MLI" />
+		<R cruise="PCL" code="MLU" />
+		<R cruise="PCL" code="MME" />
+		<R cruise="PCL" code="MNL" />
+		<R cruise="PCL" code="MOB" />
+		<R cruise="PCL" code="MSN" />
+		<R cruise="PCL" code="MSO" />
+		<R cruise="PCL" code="MSP" />
+		<R cruise="PCL" code="MSY" />
+		<R cruise="PCL" code="MYR" />
+		<R cruise="PCL" code="NAS" />
+		<R cruise="PCL" code="NCE" />
+		<R cruise="PCL" code="NCL" />
+		<R cruise="PCL" code="NQY" />
+		<R cruise="PCL" code="NYC" />
+		<R cruise="PCL" code="OAK" />
+		<R cruise="PCL" code="OCF" />
+		<R cruise="PCL" code="OKC" />
+		<R cruise="PCL" code="OMA" />
+		<R cruise="PCL" code="ONT" />
+		<R cruise="PCL" code="ORD" />
+		<R cruise="PCL" code="ORF" />
+		<R cruise="PCL" code="ORH" />
+		<R cruise="PCL" code="OSA" />
+		<R cruise="PCL" code="OSL" />
+		<R cruise="PCL" code="OTP" />
+		<R cruise="PCL" code="PAR" />
+		<R cruise="PCL" code="PBI" />
+		<R cruise="PCL" code="PCL" />
+		<R cruise="PCL" code="PDX" />
+		<R cruise="PCL" code="PHL" />
+		<R cruise="PCL" code="PHX" />
+		<R cruise="PCL" code="PIA" />
+		<R cruise="PCL" code="PIE" />
+		<R cruise="PCL" code="PIT" />
+		<R cruise="PCL" code="PLH" />
+		<R cruise="PCL" code="PNS" />
+		<R cruise="PCL" code="POS" />
+		<R cruise="PCL" code="PPT" />
+		<R cruise="PCL" code="PRG" />
+		<R cruise="PCL" code="PTP" />
+		<R cruise="PCL" code="PTY" />
+		<R cruise="PCL" code="PVD" />
+		<R cruise="PCL" code="PWM" />
+		<R cruise="PCL" code="QQD" />
+		<R cruise="PCL" code="RDG" />
+		<R cruise="PCL" code="RDU" />
+		<R cruise="PCL" code="REK" />
+		<R cruise="PCL" code="RIC" />
+		<R cruise="PCL" code="RIX" />
+		<R cruise="PCL" code="RNO" />
+		<R cruise="PCL" code="ROA" />
+		<R cruise="PCL" code="ROC" />
+		<R cruise="PCL" code="ROM" />
+		<R cruise="PCL" code="RST" />
+		<R cruise="PCL" code="RSW" />
+		<R cruise="PCL" code="RUH" />
+		<R cruise="PCL" code="SAL" />
+		<R cruise="PCL" code="SAN" />
+		<R cruise="PCL" code="SAT" />
+		<R cruise="PCL" code="SAV" />
+		<R cruise="PCL" code="SBN" />
+		<R cruise="PCL" code="SCL" />
+		<R cruise="PCL" code="SCT" />
+		<R cruise="PCL" code="SDF" />
+		<R cruise="PCL" code="SDQ" />
+		<R cruise="PCL" code="SEA" />
+		<R cruise="PCL" code="SEF" />
+		<R cruise="PCL" code="SEL" />
+		<R cruise="PCL" code="SFO" />
+		<R cruise="PCL" code="SFY" />
+		<R cruise="PCL" code="SGF" />
+		<R cruise="PCL" code="SHV" />
+		<R cruise="PCL" code="SIN" />
+		<R cruise="PCL" code="SJC" />
+		<R cruise="PCL" code="SJO" />
+		<R cruise="PCL" code="SJU" />
+		<R cruise="PCL" code="SLC" />
+		<R cruise="PCL" code="SMF" />
+		<R cruise="PCL" code="SNA" />
+		<R cruise="PCL" code="SRQ" />
+		<R cruise="PCL" code="STL" />
+		<R cruise="PCL" code="STN" />
+		<R cruise="PCL" code="STO" />
+		<R cruise="PCL" code="STT" />
+		<R cruise="PCL" code="SUA" />
+		<R cruise="PCL" code="SUX" />
+		<R cruise="PCL" code="SVD" />
+		<R cruise="PCL" code="SXM" />
+		<R cruise="PCL" code="SYD" />
+		<R cruise="PCL" code="SYR" />
+		<R cruise="PCL" code="TGU" />
+		<R cruise="PCL" code="THV" />
+		<R cruise="PCL" code="TLH" />
+		<R cruise="PCL" code="TLV" />
+		<R cruise="PCL" code="TOL" />
+		<R cruise="PCL" code="TOV" />
+		<R cruise="PCL" code="TPA" />
+		<R cruise="PCL" code="TPE" />
+		<R cruise="PCL" code="TRI" />
+		<R cruise="PCL" code="TSN" />
+		<R cruise="PCL" code="TUL" />
+		<R cruise="PCL" code="TUS" />
+		<R cruise="PCL" code="TYO" />
+		<R cruise="PCL" code="TYS" />
+		<R cruise="PCL" code="UIO" />
+		<R cruise="PCL" code="UNK" />
+		<R cruise="PCL" code="UST" />
+		<R cruise="PCL" code="UVF" />
+		<R cruise="PCL" code="VAP" />
+		<R cruise="PCL" code="VAR" />
+		<R cruise="PCL" code="VCE" />
+		<R cruise="PCL" code="VNC" />
+		<R cruise="PCL" code="VRB" />
+		<R cruise="PCL" code="WAS" />
+		<R cruise="PCL" code="WAW" />
+		<R cruise="PCL" code="YEG" />
+		<R cruise="PCL" code="YHZ" />
+		<R cruise="PCL" code="YOW" />
+		<R cruise="PCL" code="YQB" />
+		<R cruise="PCL" code="YQR" />
+		<R cruise="PCL" code="YUL" />
+		<R cruise="PCL" code="YVR" />
+		<R cruise="PCL" code="YWG" />
+		<R cruise="PCL" code="YXE" />
+		<R cruise="PCL" code="YXU" />
+		<R cruise="PCL" code="YYC" />
+		<R cruise="PCL" code="YYJ" />
+		<R cruise="PCL" code="YYZ" />
+		<R cruise="RCC" code="AAL" />
+		<R cruise="RCC" code="AAR" />
+		<R cruise="RCC" code="ABE" />
+		<R cruise="RCC" code="ABQ" />
+		<R cruise="RCC" code="ABY" />
+		<R cruise="RCC" code="ABZ" />
+		<R cruise="RCC" code="ACA" />
+		<R cruise="RCC" code="ACE" />
+		<R cruise="RCC" code="ACT" />
+		<R cruise="RCC" code="ACV" />
+		<R cruise="RCC" code="ACY" />
+		<R cruise="RCC" code="ADB" />
+		<R cruise="RCC" code="ADL" />
+		<R cruise="RCC" code="ADZ" />
+		<R cruise="RCC" code="AES" />
+		<R cruise="RCC" code="AEY" />
+		<R cruise="RCC" code="AGA" />
+		<R cruise="RCC" code="AGB" />
+		<R cruise="RCC" code="AGP" />
+		<R cruise="RCC" code="AGS" />
+		<R cruise="RCC" code="AHN" />
+		<R cruise="RCC" code="AJA" />
+		<R cruise="RCC" code="AKL" />
+		<R cruise="RCC" code="ALB" />
+		<R cruise="RCC" code="ALC" />
+		<R cruise="RCC" code="ALF" />
+		<R cruise="RCC" code="ALO" />
+		<R cruise="RCC" code="ALW" />
+		<R cruise="RCC" code="ALY" />
+		<R cruise="RCC" code="AMA" />
+		<R cruise="RCC" code="AMS" />
+		<R cruise="RCC" code="ANC" />
+		<R cruise="RCC" code="AND" />
+		<R cruise="RCC" code="ANR" />
+		<R cruise="RCC" code="ANU" />
+		<R cruise="RCC" code="AOO" />
+		<R cruise="RCC" code="APF" />
+		<R cruise="RCC" code="ARN" />
+		<R cruise="RCC" code="ASE" />
+		<R cruise="RCC" code="ATH" />
+		<R cruise="RCC" code="ATL" />
+		<R cruise="RCC" code="ATW" />
+		<R cruise="RCC" code="AUA" />
+		<R cruise="RCC" code="AUS" />
+		<R cruise="RCC" code="AVL" />
+		<R cruise="RCC" code="AVP" />
+		<R cruise="RCC" code="AVX" />
+		<R cruise="RCC" code="AXA" />
+		<R cruise="RCC" code="AZO" />
+		<R cruise="RCC" code="BAH" />
+		<R cruise="RCC" code="BCN" />
+		<R cruise="RCC" code="BDA" />
+		<R cruise="RCC" code="BDL" />
+		<R cruise="RCC" code="BDU" />
+		<R cruise="RCC" code="BEB" />
+		<R cruise="RCC" code="BED" />
+		<R cruise="RCC" code="BFD" />
+		<R cruise="RCC" code="BFL" />
+		<R cruise="RCC" code="BFS" />
+		<R cruise="RCC" code="BGI" />
+		<R cruise="RCC" code="BGM" />
+		<R cruise="RCC" code="BGO" />
+		<R cruise="RCC" code="BGR" />
+		<R cruise="RCC" code="BHB" />
+		<R cruise="RCC" code="BHD" />
+		<R cruise="RCC" code="BHM" />
+		<R cruise="RCC" code="BHX" />
+		<R cruise="RCC" code="BIL" />
+		<R cruise="RCC" code="BIO" />
+		<R cruise="RCC" code="BIS" />
+		<R cruise="RCC" code="BJX" />
+		<R cruise="RCC" code="BKK" />
+		<R cruise="RCC" code="BKW" />
+		<R cruise="RCC" code="BLF" />
+		<R cruise="RCC" code="BLI" />
+		<R cruise="RCC" code="BLL" />
+		<R cruise="RCC" code="BLQ" />
+		<R cruise="RCC" code="BMI" />
+		<R cruise="RCC" code="BNA" />
+		<R cruise="RCC" code="BNE" />
+		<R cruise="RCC" code="BOD" />
+		<R cruise="RCC" code="BOG" />
+		<R cruise="RCC" code="BOI" />
+		<R cruise="RCC" code="BOM" />
+		<R cruise="RCC" code="BOO" />
+		<R cruise="RCC" code="BOS" />
+		<R cruise="RCC" code="BPT" />
+		<R cruise="RCC" code="BQN" />
+		<R cruise="RCC" code="BRD" />
+		<R cruise="RCC" code="BRE" />
+		<R cruise="RCC" code="BRS" />
+		<R cruise="RCC" code="BRU" />
+		<R cruise="RCC" code="BSL" />
+		<R cruise="RCC" code="BTM" />
+		<R cruise="RCC" code="BTR" />
+		<R cruise="RCC" code="BTV" />
+		<R cruise="RCC" code="BUD" />
+		<R cruise="RCC" code="BUF" />
+		<R cruise="RCC" code="BUR" />
+		<R cruise="RCC" code="BWI" />
+		<R cruise="RCC" code="BZN" />
+		<R cruise="RCC" code="CAE" />
+		<R cruise="RCC" code="CAI" />
+		<R cruise="RCC" code="CAK" />
+		<R cruise="RCC" code="CAN" />
+		<R cruise="RCC" code="CBE" />
+		<R cruise="RCC" code="CCS" />
+		<R cruise="RCC" code="CDG" />
+		<R cruise="RCC" code="CEQ" />
+		<R cruise="RCC" code="CER" />
+		<R cruise="RCC" code="CFU" />
+		<R cruise="RCC" code="CGN" />
+		<R cruise="RCC" code="CHA" />
+		<R cruise="RCC" code="CHI" />
+		<R cruise="RCC" code="CHO" />
+		<R cruise="RCC" code="CHS" />
+		<R cruise="RCC" code="CIC" />
+		<R cruise="RCC" code="CID" />
+		<R cruise="RCC" code="CKB" />
+		<R cruise="RCC" code="CLE" />
+		<R cruise="RCC" code="CLL" />
+		<R cruise="RCC" code="CLT" />
+		<R cruise="RCC" code="CLW" />
+		<R cruise="RCC" code="CMB" />
+		<R cruise="RCC" code="CMH" />
+		<R cruise="RCC" code="CMI" />
+		<R cruise="RCC" code="CMN" />
+		<R cruise="RCC" code="COK" />
+		<R cruise="RCC" code="COS" />
+		<R cruise="RCC" code="COU" />
+		<R cruise="RCC" code="CPH" />
+		<R cruise="RCC" code="CPR" />
+		<R cruise="RCC" code="CPT" />
+		<R cruise="RCC" code="CRP" />
+		<R cruise="RCC" code="CRW" />
+		<R cruise="RCC" code="CSG" />
+		<R cruise="RCC" code="CTG" />
+		<R cruise="RCC" code="CUN" />
+		<R cruise="RCC" code="CUR" />
+		<R cruise="RCC" code="CVG" />
+		<R cruise="RCC" code="CWA" />
+		<R cruise="RCC" code="CWL" />
+		<R cruise="RCC" code="CYS" />
+		<R cruise="RCC" code="CZM" />
+		<R cruise="RCC" code="DAB" />
+		<R cruise="RCC" code="DAD" />
+		<R cruise="RCC" code="DAN" />
+		<R cruise="RCC" code="DAY" />
+		<R cruise="RCC" code="DBQ" />
+		<R cruise="RCC" code="DBV" />
+		<R cruise="RCC" code="DCA" />
+		<R cruise="RCC" code="DEL" />
+		<R cruise="RCC" code="DEN" />
+		<R cruise="RCC" code="DFW" />
+		<R cruise="RCC" code="DLH" />
+		<R cruise="RCC" code="DOM" />
+		<R cruise="RCC" code="DPS" />
+		<R cruise="RCC" code="DRO" />
+		<R cruise="RCC" code="DRS" />
+		<R cruise="RCC" code="DSM" />
+		<R cruise="RCC" code="DTM" />
+		<R cruise="RCC" code="DTW" />
+		<R cruise="RCC" code="DUB" />
+		<R cruise="RCC" code="DUJ" />
+		<R cruise="RCC" code="DUR" />
+		<R cruise="RCC" code="DUS" />
+		<R cruise="RCC" code="DXB" />
+		<R cruise="RCC" code="EAT" />
+		<R cruise="RCC" code="EAU" />
+		<R cruise="RCC" code="EDI" />
+		<R cruise="RCC" code="EGE" />
+		<R cruise="RCC" code="EIS" />
+		<R cruise="RCC" code="EKA" />
+		<R cruise="RCC" code="ELM" />
+		<R cruise="RCC" code="ELP" />
+		<R cruise="RCC" code="EMA" />
+		<R cruise="RCC" code="ERF" />
+		<R cruise="RCC" code="ERI" />
+		<R cruise="RCC" code="ESC" />
+		<R cruise="RCC" code="ESE" />
+		<R cruise="RCC" code="EUG" />
+		<R cruise="RCC" code="EVE" />
+		<R cruise="RCC" code="EVV" />
+		<R cruise="RCC" code="EWB" />
+		<R cruise="RCC" code="EWN" />
+		<R cruise="RCC" code="EWR" />
+		<R cruise="RCC" code="EXT" />
+		<R cruise="RCC" code="EYW" />
+		<R cruise="RCC" code="EZE" />
+		<R cruise="RCC" code="FAE" />
+		<R cruise="RCC" code="FAI" />
+		<R cruise="RCC" code="FAR" />
+		<R cruise="RCC" code="FAT" />
+		<R cruise="RCC" code="FAY" />
+		<R cruise="RCC" code="FCA" />
+		<R cruise="RCC" code="FCO" />
+		<R cruise="RCC" code="FDF" />
+		<R cruise="RCC" code="FDH" />
+		<R cruise="RCC" code="FLG" />
+		<R cruise="RCC" code="FLL" />
+		<R cruise="RCC" code="FLO" />
+		<R cruise="RCC" code="FLR" />
+		<R cruise="RCC" code="FMO" />
+		<R cruise="RCC" code="FMY" />
+		<R cruise="RCC" code="FNC" />
+		<R cruise="RCC" code="FNL" />
+		<R cruise="RCC" code="FNT" />
+		<R cruise="RCC" code="FOD" />
+		<R cruise="RCC" code="FPO" />
+		<R cruise="RCC" code="FPR" />
+		<R cruise="RCC" code="FRA" />
+		<R cruise="RCC" code="FSD" />
+		<R cruise="RCC" code="FSM" />
+		<R cruise="RCC" code="FWA" />
+		<R cruise="RCC" code="FYV" />
+		<R cruise="RCC" code="GCC" />
+		<R cruise="RCC" code="GCI" />
+		<R cruise="RCC" code="GCM" />
+		<R cruise="RCC" code="GDL" />
+		<R cruise="RCC" code="GDT" />
+		<R cruise="RCC" code="GEG" />
+		<R cruise="RCC" code="GFK" />
+		<R cruise="RCC" code="GIB" />
+		<R cruise="RCC" code="GIG" />
+		<R cruise="RCC" code="GJT" />
+		<R cruise="RCC" code="GLA" />
+		<R cruise="RCC" code="GLS" />
+		<R cruise="RCC" code="GND" />
+		<R cruise="RCC" code="GNV" />
+		<R cruise="RCC" code="GOA" />
+		<R cruise="RCC" code="GOI" />
+		<R cruise="RCC" code="GOT" />
+		<R cruise="RCC" code="GPT" />
+		<R cruise="RCC" code="GRB" />
+		<R cruise="RCC" code="GRR" />
+		<R cruise="RCC" code="GRU" />
+		<R cruise="RCC" code="GSO" />
+		<R cruise="RCC" code="GSP" />
+		<R cruise="RCC" code="GTF" />
+		<R cruise="RCC" code="GTR" />
+		<R cruise="RCC" code="GUA" />
+		<R cruise="RCC" code="GUC" />
+		<R cruise="RCC" code="GUM" />
+		<R cruise="RCC" code="GVA" />
+		<R cruise="RCC" code="HAJ" />
+		<R cruise="RCC" code="HAM" />
+		<R cruise="RCC" code="HAU" />
+		<R cruise="RCC" code="HDN" />
+		<R cruise="RCC" code="HEL" />
+		<R cruise="RCC" code="HFA" />
+		<R cruise="RCC" code="HFD" />
+		<R cruise="RCC" code="HFT" />
+		<R cruise="RCC" code="HGR" />
+		<R cruise="RCC" code="HHH" />
+		<R cruise="RCC" code="HKG" />
+		<R cruise="RCC" code="HKP" />
+		<R cruise="RCC" code="HKT" />
+		<R cruise="RCC" code="HKY" />
+		<R cruise="RCC" code="HLN" />
+		<R cruise="RCC" code="HNL" />
+		<R cruise="RCC" code="HNS" />
+		<R cruise="RCC" code="HOU" />
+		<R cruise="RCC" code="HPN" />
+		<R cruise="RCC" code="HRL" />
+		<R cruise="RCC" code="HSV" />
+		<R cruise="RCC" code="HTS" />
+		<R cruise="RCC" code="HUY" />
+		<R cruise="RCC" code="HVG" />
+		<R cruise="RCC" code="HVN" />
+		<R cruise="RCC" code="HYA" />
+		<R cruise="RCC" code="IAD" />
+		<R cruise="RCC" code="IAH" />
+		<R cruise="RCC" code="ICT" />
+		<R cruise="RCC" code="IDA" />
+		<R cruise="RCC" code="IGU" />
+		<R cruise="RCC" code="ILE" />
+		<R cruise="RCC" code="ILM" />
+		<R cruise="RCC" code="IMT" />
+		<R cruise="RCC" code="IND" />
+		<R cruise="RCC" code="INL" />
+		<R cruise="RCC" code="INV" />
+		<R cruise="RCC" code="IOM" />
+		<R cruise="RCC" code="ISL" />
+		<R cruise="RCC" code="ISO" />
+		<R cruise="RCC" code="ISP" />
+		<R cruise="RCC" code="IST" />
+		<R cruise="RCC" code="ITH" />
+		<R cruise="RCC" code="ITO" />
+		<R cruise="RCC" code="IWD" />
+		<R cruise="RCC" code="IXZ" />
+		<R cruise="RCC" code="IYK" />
+		<R cruise="RCC" code="JAC" />
+		<R cruise="RCC" code="JAN" />
+		<R cruise="RCC" code="JAX" />
+		<R cruise="RCC" code="JCA" />
+		<R cruise="RCC" code="JER" />
+		<R cruise="RCC" code="JFK" />
+		<R cruise="RCC" code="JHW" />
+		<R cruise="RCC" code="JIB" />
+		<R cruise="RCC" code="JLN" />
+		<R cruise="RCC" code="JMK" />
+		<R cruise="RCC" code="JNB" />
+		<R cruise="RCC" code="JNU" />
+		<R cruise="RCC" code="JST" />
+		<R cruise="RCC" code="KEL" />
+		<R cruise="RCC" code="KIN" />
+		<R cruise="RCC" code="KKN" />
+		<R cruise="RCC" code="KLX" />
+		<R cruise="RCC" code="KOA" />
+		<R cruise="RCC" code="KRP" />
+		<R cruise="RCC" code="KRS" />
+		<R cruise="RCC" code="KSU" />
+		<R cruise="RCC" code="KTN" />
+		<R cruise="RCC" code="KUL" />
+		<R cruise="RCC" code="KYL" />
+		<R cruise="RCC" code="LAG" />
+		<R cruise="RCC" code="LAN" />
+		<R cruise="RCC" code="LAS" />
+		<R cruise="RCC" code="LAX" />
+		<R cruise="RCC" code="LBA" />
+		<R cruise="RCC" code="LBB" />
+		<R cruise="RCC" code="LBE" />
+		<R cruise="RCC" code="LCE" />
+		<R cruise="RCC" code="LCG" />
+		<R cruise="RCC" code="LEB" />
+		<R cruise="RCC" code="LED" />
+		<R cruise="RCC" code="LEH" />
+		<R cruise="RCC" code="LEJ" />
+		<R cruise="RCC" code="LEX" />
+		<R cruise="RCC" code="LFT" />
+		<R cruise="RCC" code="LGA" />
+		<R cruise="RCC" code="LGB" />
+		<R cruise="RCC" code="LGW" />
+		<R cruise="RCC" code="LHR" />
+		<R cruise="RCC" code="LIH" />
+		<R cruise="RCC" code="LIM" />
+		<R cruise="RCC" code="LIN" />
+		<R cruise="RCC" code="LIO" />
+		<R cruise="RCC" code="LIS" />
+		<R cruise="RCC" code="LIT" />
+		<R cruise="RCC" code="LKL" />
+		<R cruise="RCC" code="LLA" />
+		<R cruise="RCC" code="LNK" />
+		<R cruise="RCC" code="LNS" />
+		<R cruise="RCC" code="LPA" />
+		<R cruise="RCC" code="LPB" />
+		<R cruise="RCC" code="LPL" />
+		<R cruise="RCC" code="LRD" />
+		<R cruise="RCC" code="LRH" />
+		<R cruise="RCC" code="LRM" />
+		<R cruise="RCC" code="LSE" />
+		<R cruise="RCC" code="LSI" />
+		<R cruise="RCC" code="LUX" />
+		<R cruise="RCC" code="LWK" />
+		<R cruise="RCC" code="LWS" />
+		<R cruise="RCC" code="LYH" />
+		<R cruise="RCC" code="LYS" />
+		<R cruise="RCC" code="MAD" />
+		<R cruise="RCC" code="MAF" />
+		<R cruise="RCC" code="MAN" />
+		<R cruise="RCC" code="MBA" />
+		<R cruise="RCC" code="MBJ" />
+		<R cruise="RCC" code="MBS" />
+		<R cruise="RCC" code="MCI" />
+		<R cruise="RCC" code="MCN" />
+		<R cruise="RCC" code="MCO" />
+		<R cruise="RCC" code="MCW" />
+		<R cruise="RCC" code="MDT" />
+		<R cruise="RCC" code="MDW" />
+		<R cruise="RCC" code="MEI" />
+		<R cruise="RCC" code="MEL" />
+		<R cruise="RCC" code="MEM" />
+		<R cruise="RCC" code="MEX" />
+		<R cruise="RCC" code="MFE" />
+		<R cruise="RCC" code="MFR" />
+		<R cruise="RCC" code="MGM" />
+		<R cruise="RCC" code="MGW" />
+		<R cruise="RCC" code="MHT" />
+		<R cruise="RCC" code="MIA" />
+		<R cruise="RCC" code="MID" />
+		<R cruise="RCC" code="MKE" />
+		<R cruise="RCC" code="MKG" />
+		<R cruise="RCC" code="MKK" />
+		<R cruise="RCC" code="MLA" />
+		<R cruise="RCC" code="MLB" />
+		<R cruise="RCC" code="MLI" />
+		<R cruise="RCC" code="MLU" />
+		<R cruise="RCC" code="MMA" />
+		<R cruise="RCC" code="MME" />
+		<R cruise="RCC" code="MMH" />
+		<R cruise="RCC" code="MMX" />
+		<R cruise="RCC" code="MNI" />
+		<R cruise="RCC" code="MNL" />
+		<R cruise="RCC" code="MOB" />
+		<R cruise="RCC" code="MOD" />
+		<R cruise="RCC" code="MOL" />
+		<R cruise="RCC" code="MOT" />
+		<R cruise="RCC" code="MPL" />
+		<R cruise="RCC" code="MRS" />
+		<R cruise="RCC" code="MRY" />
+		<R cruise="RCC" code="MSB" />
+		<R cruise="RCC" code="MSL" />
+		<R cruise="RCC" code="MSN" />
+		<R cruise="RCC" code="MSO" />
+		<R cruise="RCC" code="MSP" />
+		<R cruise="RCC" code="MSS" />
+		<R cruise="RCC" code="MSY" />
+		<R cruise="RCC" code="MTJ" />
+		<R cruise="RCC" code="MTY" />
+		<R cruise="RCC" code="MUC" />
+		<R cruise="RCC" code="MXP" />
+		<R cruise="RCC" code="MYR" />
+		<R cruise="RCC" code="MZT" />
+		<R cruise="RCC" code="NAP" />
+		<R cruise="RCC" code="NAS" />
+		<R cruise="RCC" code="NCE" />
+		<R cruise="RCC" code="NCL" />
+		<R cruise="RCC" code="NGB" />
+		<R cruise="RCC" code="NGM" />
+		<R cruise="RCC" code="NGS" />
+		<R cruise="RCC" code="NHA" />
+		<R cruise="RCC" code="NKG" />
+		<R cruise="RCC" code="NPL" />
+		<R cruise="RCC" code="NQY" />
+		<R cruise="RCC" code="NRK" />
+		<R cruise="RCC" code="NRT" />
+		<R cruise="RCC" code="NTE" />
+		<R cruise="RCC" code="NUE" />
+		<R cruise="RCC" code="NWI" />
+		<R cruise="RCC" code="NYC" />
+		<R cruise="RCC" code="OAJ" />
+		<R cruise="RCC" code="OAK" />
+		<R cruise="RCC" code="OCJ" />
+		<R cruise="RCC" code="OGG" />
+		<R cruise="RCC" code="OGS" />
+		<R cruise="RCC" code="OKC" />
+		<R cruise="RCC" code="OLB" />
+		<R cruise="RCC" code="OMA" />
+		<R cruise="RCC" code="ONT" />
+		<R cruise="RCC" code="ORD" />
+		<R cruise="RCC" code="ORF" />
+		<R cruise="RCC" code="ORH" />
+		<R cruise="RCC" code="ORK" />
+		<R cruise="RCC" code="ORY" />
+		<R cruise="RCC" code="OSA" />
+		<R cruise="RCC" code="OSL" />
+		<R cruise="RCC" code="OTH" />
+		<R cruise="RCC" code="OXR" />
+		<R cruise="RCC" code="PAD" />
+		<R cruise="RCC" code="PAH" />
+		<R cruise="RCC" code="PAP" />
+		<R cruise="RCC" code="PBI" />
+		<R cruise="RCC" code="PCN" />
+		<R cruise="RCC" code="PDX" />
+		<R cruise="RCC" code="PEK" />
+		<R cruise="RCC" code="PEN" />
+		<R cruise="RCC" code="PER" />
+		<R cruise="RCC" code="PFN" />
+		<R cruise="RCC" code="PGD" />
+		<R cruise="RCC" code="PGV" />
+		<R cruise="RCC" code="PHF" />
+		<R cruise="RCC" code="PHL" />
+		<R cruise="RCC" code="PHX" />
+		<R cruise="RCC" code="PIA" />
+		<R cruise="RCC" code="PIB" />
+		<R cruise="RCC" code="PIE" />
+		<R cruise="RCC" code="PIH" />
+		<R cruise="RCC" code="PIK" />
+		<R cruise="RCC" code="PIT" />
+		<R cruise="RCC" code="PLB" />
+		<R cruise="RCC" code="PLH" />
+		<R cruise="RCC" code="PLN" />
+		<R cruise="RCC" code="PLS" />
+		<R cruise="RCC" code="PMI" />
+		<R cruise="RCC" code="PMV" />
+		<R cruise="RCC" code="PNS" />
+		<R cruise="RCC" code="POP" />
+		<R cruise="RCC" code="POR" />
+		<R cruise="RCC" code="POS" />
+		<R cruise="RCC" code="POT" />
+		<R cruise="RCC" code="PPG" />
+		<R cruise="RCC" code="PSC" />
+		<R cruise="RCC" code="PSD" />
+		<R cruise="RCC" code="PSE" />
+		<R cruise="RCC" code="PSM" />
+		<R cruise="RCC" code="PSP" />
+		<R cruise="RCC" code="PTP" />
+		<R cruise="RCC" code="PTY" />
+		<R cruise="RCC" code="PUB" />
+		<R cruise="RCC" code="PUJ" />
+		<R cruise="RCC" code="PUW" />
+		<R cruise="RCC" code="PVD" />
+		<R cruise="RCC" code="PVR" />
+		<R cruise="RCC" code="PWM" />
+		<R cruise="RCC" code="QQD" />
+		<R cruise="RCC" code="QQH" />
+		<R cruise="RCC" code="RAP" />
+		<R cruise="RCC" code="RDD" />
+		<R cruise="RCC" code="RDG" />
+		<R cruise="RCC" code="RDM" />
+		<R cruise="RCC" code="RDU" />
+		<R cruise="RCC" code="REC" />
+		<R cruise="RCC" code="REG" />
+		<R cruise="RCC" code="REK" />
+		<R cruise="RCC" code="RFD" />
+		<R cruise="RCC" code="RHI" />
+		<R cruise="RCC" code="RHO" />
+		<R cruise="RCC" code="RIC" />
+		<R cruise="RCC" code="RIW" />
+		<R cruise="RCC" code="RKS" />
+		<R cruise="RCC" code="RNO" />
+		<R cruise="RCC" code="ROA" />
+		<R cruise="RCC" code="ROC" />
+		<R cruise="RCC" code="RRS" />
+		<R cruise="RCC" code="RST" />
+		<R cruise="RCC" code="RSW" />
+		<R cruise="RCC" code="RTB" />
+		<R cruise="RCC" code="RWI" />
+		<R cruise="RCC" code="SAN" />
+		<R cruise="RCC" code="SAT" />
+		<R cruise="RCC" code="SAV" />
+		<R cruise="RCC" code="SBA" />
+		<R cruise="RCC" code="SBH" />
+		<R cruise="RCC" code="SBN" />
+		<R cruise="RCC" code="SBP" />
+		<R cruise="RCC" code="SBS" />
+		<R cruise="RCC" code="SBY" />
+		<R cruise="RCC" code="SCE" />
+		<R cruise="RCC" code="SCL" />
+		<R cruise="RCC" code="SDF" />
+		<R cruise="RCC" code="SDQ" />
+		<R cruise="RCC" code="SEA" />
+		<R cruise="RCC" code="SEL" />
+		<R cruise="RCC" code="SFB" />
+		<R cruise="RCC" code="SFO" />
+		<R cruise="RCC" code="SFY" />
+		<R cruise="RCC" code="SGF" />
+		<R cruise="RCC" code="SGN" />
+		<R cruise="RCC" code="SGY" />
+		<R cruise="RCC" code="SGZ" />
+		<R cruise="RCC" code="SHA" />
+		<R cruise="RCC" code="SHR" />
+		<R cruise="RCC" code="SHV" />
+		<R cruise="RCC" code="SIN" />
+		<R cruise="RCC" code="SIT" />
+		<R cruise="RCC" code="SJC" />
+		<R cruise="RCC" code="SJD" />
+		<R cruise="RCC" code="SJJ" />
+		<R cruise="RCC" code="SJO" />
+		<R cruise="RCC" code="SJT" />
+		<R cruise="RCC" code="SJU" />
+		<R cruise="RCC" code="SKB" />
+		<R cruise="RCC" code="SLC" />
+		<R cruise="RCC" code="SLK" />
+		<R cruise="RCC" code="SLL" />
+		<R cruise="RCC" code="SLU" />
+		<R cruise="RCC" code="SMF" />
+		<R cruise="RCC" code="SNA" />
+		<R cruise="RCC" code="SNN" />
+		<R cruise="RCC" code="SNR" />
+		<R cruise="RCC" code="SOG" />
+		<R cruise="RCC" code="SOU" />
+		<R cruise="RCC" code="SPC" />
+		<R cruise="RCC" code="SPI" />
+		<R cruise="RCC" code="SPW" />
+		<R cruise="RCC" code="SRG" />
+		<R cruise="RCC" code="SRQ" />
+		<R cruise="RCC" code="SSH" />
+		<R cruise="RCC" code="SSZ" />
+		<R cruise="RCC" code="STL" />
+		<R cruise="RCC" code="STN" />
+		<R cruise="RCC" code="STR" />
+		<R cruise="RCC" code="STS" />
+		<R cruise="RCC" code="STT" />
+		<R cruise="RCC" code="STX" />
+		<R cruise="RCC" code="SUB" />
+		<R cruise="RCC" code="SUX" />
+		<R cruise="RCC" code="SVG" />
+		<R cruise="RCC" code="SVO" />
+		<R cruise="RCC" code="SWD" />
+		<R cruise="RCC" code="SWF" />
+		<R cruise="RCC" code="SXB" />
+		<R cruise="RCC" code="SXM" />
+		<R cruise="RCC" code="SYD" />
+		<R cruise="RCC" code="SYR" />
+		<R cruise="RCC" code="TAB" />
+		<R cruise="RCC" code="TEX" />
+		<R cruise="RCC" code="TFN" />
+		<R cruise="RCC" code="TFS" />
+		<R cruise="RCC" code="THF" />
+		<R cruise="RCC" code="TLH" />
+		<R cruise="RCC" code="TLL" />
+		<R cruise="RCC" code="TLS" />
+		<R cruise="RCC" code="TLV" />
+		<R cruise="RCC" code="TNG" />
+		<R cruise="RCC" code="TOL" />
+		<R cruise="RCC" code="TOS" />
+		<R cruise="RCC" code="TPA" />
+		<R cruise="RCC" code="TPE" />
+		<R cruise="RCC" code="TRC" />
+		<R cruise="RCC" code="TRD" />
+		<R cruise="RCC" code="TRF" />
+		<R cruise="RCC" code="TRI" />
+		<R cruise="RCC" code="TRN" />
+		<R cruise="RCC" code="TSF" />
+		<R cruise="RCC" code="TSN" />
+		<R cruise="RCC" code="TUL" />
+		<R cruise="RCC" code="TUP" />
+		<R cruise="RCC" code="TUS" />
+		<R cruise="RCC" code="TVL" />
+		<R cruise="RCC" code="TWF" />
+		<R cruise="RCC" code="TXK" />
+		<R cruise="RCC" code="TXL" />
+		<R cruise="RCC" code="TYO" />
+		<R cruise="RCC" code="TYR" />
+		<R cruise="RCC" code="TYS" />
+		<R cruise="RCC" code="UIN" />
+		<R cruise="RCC" code="UIO" />
+		<R cruise="RCC" code="URO" />
+		<R cruise="RCC" code="USM" />
+		<R cruise="RCC" code="UVF" />
+		<R cruise="RCC" code="VBY" />
+		<R cruise="RCC" code="VCE" />
+		<R cruise="RCC" code="VCT" />
+		<R cruise="RCC" code="VGO" />
+		<R cruise="RCC" code="VIE" />
+		<R cruise="RCC" code="VLD" />
+		<R cruise="RCC" code="VNC" />
+		<R cruise="RCC" code="VPS" />
+		<R cruise="RCC" code="VST" />
+		<R cruise="RCC" code="VXO" />
+		<R cruise="RCC" code="WAS" />
+		<R cruise="RCC" code="WRG" />
+		<R cruise="RCC" code="XMN" />
+		<R cruise="RCC" code="XPC" />
+		<R cruise="RCC" code="YBG" />
+		<R cruise="RCC" code="YCG" />
+		<R cruise="RCC" code="YDF" />
+		<R cruise="RCC" code="YEG" />
+		<R cruise="RCC" code="YFC" />
+		<R cruise="RCC" code="YHZ" />
+		<R cruise="RCC" code="YKM" />
+		<R cruise="RCC" code="YMX" />
+		<R cruise="RCC" code="YNG" />
+		<R cruise="RCC" code="YNT" />
+		<R cruise="RCC" code="YOW" />
+		<R cruise="RCC" code="YQB" />
+		<R cruise="RCC" code="YQG" />
+		<R cruise="RCC" code="YQM" />
+		<R cruise="RCC" code="YQR" />
+		<R cruise="RCC" code="YQT" />
+		<R cruise="RCC" code="YQY" />
+		<R cruise="RCC" code="YSJ" />
+		<R cruise="RCC" code="YUL" />
+		<R cruise="RCC" code="YUM" />
+		<R cruise="RCC" code="YVR" />
+		<R cruise="RCC" code="YWG" />
+		<R cruise="RCC" code="YXD" />
+		<R cruise="RCC" code="YXE" />
+		<R cruise="RCC" code="YYC" />
+		<R cruise="RCC" code="YYG" />
+		<R cruise="RCC" code="YYJ" />
+		<R cruise="RCC" code="YYT" />
+		<R cruise="RCC" code="YYZ" />
+		<R cruise="RCC" code="ZAG" />
+		<R cruise="RCC" code="ZHA" />
+		<R cruise="RCC" code="ZIH" />
+		<R cruise="RCC" code="ZMI" />
+		<R cruise="RCC" code="ZRH" />
+		<R cruise="RCC" code="ZRK" />
+		<R cruise="SBN" code="ABE" />
+		<R cruise="SBN" code="ABQ" />
+		<R cruise="SBN" code="ADL" />
+		<R cruise="SBN" code="AGB" />
+		<R cruise="SBN" code="AGS" />
+		<R cruise="SBN" code="AKL" />
+		<R cruise="SBN" code="ALB" />
+		<R cruise="SBN" code="AMA" />
+		<R cruise="SBN" code="AMS" />
+		<R cruise="SBN" code="ATL" />
+		<R cruise="SBN" code="AUS" />
+		<R cruise="SBN" code="AVP" />
+		<R cruise="SBN" code="BDL" />
+		<R cruise="SBN" code="BFS" />
+		<R cruise="SBN" code="BGM" />
+		<R cruise="SBN" code="BHM" />
+		<R cruise="SBN" code="BHX" />
+		<R cruise="SBN" code="BIL" />
+		<R cruise="SBN" code="BNA" />
+		<R cruise="SBN" code="BNE" />
+		<R cruise="SBN" code="BOI" />
+		<R cruise="SBN" code="BOS" />
+		<R cruise="SBN" code="BRE" />
+		<R cruise="SBN" code="BRU" />
+		<R cruise="SBN" code="BSL" />
+		<R cruise="SBN" code="BTR" />
+		<R cruise="SBN" code="BUF" />
+		<R cruise="SBN" code="BUR" />
+		<R cruise="SBN" code="BWI" />
+		<R cruise="SBN" code="CAE" />
+		<R cruise="SBN" code="CDG" />
+		<R cruise="SBN" code="CGN" />
+		<R cruise="SBN" code="CHA" />
+		<R cruise="SBN" code="CHC" />
+		<R cruise="SBN" code="CHS" />
+		<R cruise="SBN" code="CID" />
+		<R cruise="SBN" code="CLE" />
+		<R cruise="SBN" code="CLT" />
+		<R cruise="SBN" code="CMH" />
+		<R cruise="SBN" code="CRP" />
+		<R cruise="SBN" code="CVG" />
+		<R cruise="SBN" code="DAY" />
+		<R cruise="SBN" code="DEN" />
+		<R cruise="SBN" code="DFW" />
+		<R cruise="SBN" code="DRS" />
+		<R cruise="SBN" code="DRW" />
+		<R cruise="SBN" code="DSM" />
+		<R cruise="SBN" code="DTM" />
+		<R cruise="SBN" code="DTW" />
+		<R cruise="SBN" code="DUB" />
+		<R cruise="SBN" code="DUS" />
+		<R cruise="SBN" code="ELP" />
+		<R cruise="SBN" code="EWR" />
+		<R cruise="SBN" code="FAT" />
+		<R cruise="SBN" code="FDH" />
+		<R cruise="SBN" code="FLL" />
+		<R cruise="SBN" code="FMO" />
+		<R cruise="SBN" code="FMY" />
+		<R cruise="SBN" code="FRA" />
+		<R cruise="SBN" code="GEG" />
+		<R cruise="SBN" code="GLA" />
+		<R cruise="SBN" code="GRR" />
+		<R cruise="SBN" code="GRZ" />
+		<R cruise="SBN" code="GSO" />
+		<R cruise="SBN" code="GVA" />
+		<R cruise="SBN" code="HAJ" />
+		<R cruise="SBN" code="HAM" />
+		<R cruise="SBN" code="HNL" />
+		<R cruise="SBN" code="HSV" />
+		<R cruise="SBN" code="IAD" />
+		<R cruise="SBN" code="IAH" />
+		<R cruise="SBN" code="ICT" />
+		<R cruise="SBN" code="IND" />
+		<R cruise="SBN" code="INN" />
+		<R cruise="SBN" code="JAN" />
+		<R cruise="SBN" code="JAX" />
+		<R cruise="SBN" code="JFK" />
+		<R cruise="SBN" code="KEL" />
+		<R cruise="SBN" code="KLU" />
+		<R cruise="SBN" code="LAS" />
+		<R cruise="SBN" code="LAX" />
+		<R cruise="SBN" code="LBB" />
+		<R cruise="SBN" code="LEJ" />
+		<R cruise="SBN" code="LEX" />
+		<R cruise="SBN" code="LGA" />
+		<R cruise="SBN" code="LGW" />
+		<R cruise="SBN" code="LHR" />
+		<R cruise="SBN" code="LIT" />
+		<R cruise="SBN" code="LNZ" />
+		<R cruise="SBN" code="LON" />
+		<R cruise="SBN" code="MAF" />
+		<R cruise="SBN" code="MAN" />
+		<R cruise="SBN" code="MCI" />
+		<R cruise="SBN" code="MCO" />
+		<R cruise="SBN" code="MDT" />
+		<R cruise="SBN" code="MEL" />
+		<R cruise="SBN" code="MEM" />
+		<R cruise="SBN" code="MFE" />
+		<R cruise="SBN" code="MIA" />
+		<R cruise="SBN" code="MKE" />
+		<R cruise="SBN" code="MLI" />
+		<R cruise="SBN" code="MOB" />
+		<R cruise="SBN" code="MSN" />
+		<R cruise="SBN" code="MSP" />
+		<R cruise="SBN" code="MSY" />
+		<R cruise="SBN" code="MUC" />
+		<R cruise="SBN" code="NUE" />
+		<R cruise="SBN" code="OKC" />
+		<R cruise="SBN" code="OMA" />
+		<R cruise="SBN" code="ONT" />
+		<R cruise="SBN" code="OOL" />
+		<R cruise="SBN" code="ORD" />
+		<R cruise="SBN" code="ORF" />
+		<R cruise="SBN" code="PAD" />
+		<R cruise="SBN" code="PBI" />
+		<R cruise="SBN" code="PDX" />
+		<R cruise="SBN" code="PER" />
+		<R cruise="SBN" code="PHL" />
+		<R cruise="SBN" code="PHX" />
+		<R cruise="SBN" code="PIT" />
+		<R cruise="SBN" code="PNS" />
+		<R cruise="SBN" code="PSP" />
+		<R cruise="SBN" code="PWM" />
+		<R cruise="SBN" code="RAP" />
+		<R cruise="SBN" code="RDU" />
+		<R cruise="SBN" code="RIC" />
+		<R cruise="SBN" code="RNO" />
+		<R cruise="SBN" code="ROA" />
+		<R cruise="SBN" code="ROC" />
+		<R cruise="SBN" code="RST" />
+		<R cruise="SBN" code="SAN" />
+		<R cruise="SBN" code="SAT" />
+		<R cruise="SBN" code="SAV" />
+		<R cruise="SBN" code="SDF" />
+		<R cruise="SBN" code="SEA" />
+		<R cruise="SBN" code="SFO" />
+		<R cruise="SBN" code="SGF" />
+		<R cruise="SBN" code="SHV" />
+		<R cruise="SBN" code="SJC" />
+		<R cruise="SBN" code="SLC" />
+		<R cruise="SBN" code="SMF" />
+		<R cruise="SBN" code="SRQ" />
+		<R cruise="SBN" code="STL" />
+		<R cruise="SBN" code="STN" />
+		<R cruise="SBN" code="STR" />
+		<R cruise="SBN" code="SYD" />
+		<R cruise="SBN" code="SYR" />
+		<R cruise="SBN" code="SZG" />
+		<R cruise="SBN" code="TLH" />
+		<R cruise="SBN" code="TOL" />
+		<R cruise="SBN" code="TPA" />
+		<R cruise="SBN" code="TUL" />
+		<R cruise="SBN" code="TUS" />
+		<R cruise="SBN" code="TXL" />
+		<R cruise="SBN" code="TYS" />
+		<R cruise="SBN" code="VIE" />
+		<R cruise="SBN" code="WLG" />
+		<R cruise="SBN" code="YEG" />
+		<R cruise="SBN" code="YHZ" />
+		<R cruise="SBN" code="YOW" />
+		<R cruise="SBN" code="YQR" />
+		<R cruise="SBN" code="YSG" />
+		<R cruise="SBN" code="YUL" />
+		<R cruise="SBN" code="YVR" />
+		<R cruise="SBN" code="YWG" />
+		<R cruise="SBN" code="YXE" />
+		<R cruise="SBN" code="YYC" />
+		<R cruise="SBN" code="YYJ" />
+		<R cruise="SBN" code="YYZ" />
+		<R cruise="SBN" code="ZRH" />
+		<R cruise="WSC" code="ABE" />
+		<R cruise="WSC" code="ABQ" />
+		<R cruise="WSC" code="AGS" />
+		<R cruise="WSC" code="AHN" />
+		<R cruise="WSC" code="ALB" />
+		<R cruise="WSC" code="ALO" />
+		<R cruise="WSC" code="AMA" />
+		<R cruise="WSC" code="ANC" />
+		<R cruise="WSC" code="APF" />
+		<R cruise="WSC" code="ATL" />
+		<R cruise="WSC" code="ATW" />
+		<R cruise="WSC" code="AUS" />
+		<R cruise="WSC" code="AVL" />
+		<R cruise="WSC" code="AVP" />
+		<R cruise="WSC" code="AZO" />
+		<R cruise="WSC" code="BCT" />
+		<R cruise="WSC" code="BDL" />
+		<R cruise="WSC" code="BGI" />
+		<R cruise="WSC" code="BGM" />
+		<R cruise="WSC" code="BGR" />
+		<R cruise="WSC" code="BHM" />
+		<R cruise="WSC" code="BIL" />
+		<R cruise="WSC" code="BIS" />
+		<R cruise="WSC" code="BNA" />
+		<R cruise="WSC" code="BOI" />
+		<R cruise="WSC" code="BOS" />
+		<R cruise="WSC" code="BPT" />
+		<R cruise="WSC" code="BTM" />
+		<R cruise="WSC" code="BTR" />
+		<R cruise="WSC" code="BTV" />
+		<R cruise="WSC" code="BUF" />
+		<R cruise="WSC" code="BUR" />
+		<R cruise="WSC" code="BWI" />
+		<R cruise="WSC" code="BZN" />
+		<R cruise="WSC" code="CAE" />
+		<R cruise="WSC" code="CAK" />
+		<R cruise="WSC" code="CHA" />
+		<R cruise="WSC" code="CHO" />
+		<R cruise="WSC" code="CHS" />
+		<R cruise="WSC" code="CID" />
+		<R cruise="WSC" code="CLE" />
+		<R cruise="WSC" code="CLT" />
+		<R cruise="WSC" code="CLW" />
+		<R cruise="WSC" code="CMH" />
+		<R cruise="WSC" code="CMI" />
+		<R cruise="WSC" code="COS" />
+		<R cruise="WSC" code="CRP" />
+		<R cruise="WSC" code="CRW" />
+		<R cruise="WSC" code="CSG" />
+		<R cruise="WSC" code="CVG" />
+		<R cruise="WSC" code="DAB" />
+		<R cruise="WSC" code="DAY" />
+		<R cruise="WSC" code="DCA" />
+		<R cruise="WSC" code="DEN" />
+		<R cruise="WSC" code="DFW" />
+		<R cruise="WSC" code="DHN" />
+		<R cruise="WSC" code="DLH" />
+		<R cruise="WSC" code="DSM" />
+		<R cruise="WSC" code="DTW" />
+		<R cruise="WSC" code="EAU" />
+		<R cruise="WSC" code="ELM" />
+		<R cruise="WSC" code="ELP" />
+		<R cruise="WSC" code="ERI" />
+		<R cruise="WSC" code="EUG" />
+		<R cruise="WSC" code="EVV" />
+		<R cruise="WSC" code="EWN" />
+		<R cruise="WSC" code="EWR" />
+		<R cruise="WSC" code="FAI" />
+		<R cruise="WSC" code="FAR" />
+		<R cruise="WSC" code="FAT" />
+		<R cruise="WSC" code="FAY" />
+		<R cruise="WSC" code="FLL" />
+		<R cruise="WSC" code="FLO" />
+		<R cruise="WSC" code="FMY" />
+		<R cruise="WSC" code="FNT" />
+		<R cruise="WSC" code="FPR" />
+		<R cruise="WSC" code="FSD" />
+		<R cruise="WSC" code="FWA" />
+		<R cruise="WSC" code="GEG" />
+		<R cruise="WSC" code="GFK" />
+		<R cruise="WSC" code="GGG" />
+		<R cruise="WSC" code="GIF" />
+		<R cruise="WSC" code="GJT" />
+		<R cruise="WSC" code="GNV" />
+		<R cruise="WSC" code="GRB" />
+		<R cruise="WSC" code="GRR" />
+		<R cruise="WSC" code="GSO" />
+		<R cruise="WSC" code="GSP" />
+		<R cruise="WSC" code="GTF" />
+		<R cruise="WSC" code="GTR" />
+		<R cruise="WSC" code="HGR" />
+		<R cruise="WSC" code="HKY" />
+		<R cruise="WSC" code="HLN" />
+		<R cruise="WSC" code="HNL" />
+		<R cruise="WSC" code="HOU" />
+		<R cruise="WSC" code="HPN" />
+		<R cruise="WSC" code="HRL" />
+		<R cruise="WSC" code="HSV" />
+		<R cruise="WSC" code="HTS" />
+		<R cruise="WSC" code="HYA" />
+		<R cruise="WSC" code="IAD" />
+		<R cruise="WSC" code="IAH" />
+		<R cruise="WSC" code="ICT" />
+		<R cruise="WSC" code="ILM" />
+		<R cruise="WSC" code="IND" />
+		<R cruise="WSC" code="ISN" />
+		<R cruise="WSC" code="ISO" />
+		<R cruise="WSC" code="ISP" />
+		<R cruise="WSC" code="ITH" />
+		<R cruise="WSC" code="JAN" />
+		<R cruise="WSC" code="JAX" />
+		<R cruise="WSC" code="JFK" />
+		<R cruise="WSC" code="LAL" />
+		<R cruise="WSC" code="LAN" />
+		<R cruise="WSC" code="LAS" />
+		<R cruise="WSC" code="LAX" />
+		<R cruise="WSC" code="LBB" />
+		<R cruise="WSC" code="LEE" />
+		<R cruise="WSC" code="LEX" />
+		<R cruise="WSC" code="LGA" />
+		<R cruise="WSC" code="LIT" />
+		<R cruise="WSC" code="LNK" />
+		<R cruise="WSC" code="LSE" />
+		<R cruise="WSC" code="LYH" />
+		<R cruise="WSC" code="MAF" />
+		<R cruise="WSC" code="MBS" />
+		<R cruise="WSC" code="MCI" />
+		<R cruise="WSC" code="MCO" />
+		<R cruise="WSC" code="MDT" />
+		<R cruise="WSC" code="MEI" />
+		<R cruise="WSC" code="MEM" />
+		<R cruise="WSC" code="MFE" />
+		<R cruise="WSC" code="MFR" />
+		<R cruise="WSC" code="MGM" />
+		<R cruise="WSC" code="MHT" />
+		<R cruise="WSC" code="MIA" />
+		<R cruise="WSC" code="MKE" />
+		<R cruise="WSC" code="MLB" />
+		<R cruise="WSC" code="MLI" />
+		<R cruise="WSC" code="MLU" />
+		<R cruise="WSC" code="MOB" />
+		<R cruise="WSC" code="MOT" />
+		<R cruise="WSC" code="MSN" />
+		<R cruise="WSC" code="MSO" />
+		<R cruise="WSC" code="MSP" />
+		<R cruise="WSC" code="MSY" />
+		<R cruise="WSC" code="MYR" />
+		<R cruise="WSC" code="OAK" />
+		<R cruise="WSC" code="OCF" />
+		<R cruise="WSC" code="OKC" />
+		<R cruise="WSC" code="OMA" />
+		<R cruise="WSC" code="ONT" />
+		<R cruise="WSC" code="ORD" />
+		<R cruise="WSC" code="ORF" />
+		<R cruise="WSC" code="PBI" />
+		<R cruise="WSC" code="PDX" />
+		<R cruise="WSC" code="PGV" />
+		<R cruise="WSC" code="PHF" />
+		<R cruise="WSC" code="PHL" />
+		<R cruise="WSC" code="PHX" />
+		<R cruise="WSC" code="PIA" />
+		<R cruise="WSC" code="PIE" />
+		<R cruise="WSC" code="PIT" />
+		<R cruise="WSC" code="PNS" />
+		<R cruise="WSC" code="PSC" />
+		<R cruise="WSC" code="PSP" />
+		<R cruise="WSC" code="PVD" />
+		<R cruise="WSC" code="PWM" />
+		<R cruise="WSC" code="RAP" />
+		<R cruise="WSC" code="RDM" />
+		<R cruise="WSC" code="RDU" />
+		<R cruise="WSC" code="RFD" />
+		<R cruise="WSC" code="RIC" />
+		<R cruise="WSC" code="RNO" />
+		<R cruise="WSC" code="ROA" />
+		<R cruise="WSC" code="ROC" />
+		<R cruise="WSC" code="RST" />
+		<R cruise="WSC" code="RSW" />
+		<R cruise="WSC" code="SAN" />
+		<R cruise="WSC" code="SAT" />
+		<R cruise="WSC" code="SAV" />
+		<R cruise="WSC" code="SBN" />
+		<R cruise="WSC" code="SBY" />
+		<R cruise="WSC" code="SCE" />
+		<R cruise="WSC" code="SDF" />
+		<R cruise="WSC" code="SEA" />
+		<R cruise="WSC" code="SEF" />
+		<R cruise="WSC" code="SFO" />
+		<R cruise="WSC" code="SGF" />
+		<R cruise="WSC" code="SHD" />
+		<R cruise="WSC" code="SHV" />
+		<R cruise="WSC" code="SJC" />
+		<R cruise="WSC" code="SJT" />
+		<R cruise="WSC" code="SJU" />
+		<R cruise="WSC" code="SLC" />
+		<R cruise="WSC" code="SMF" />
+		<R cruise="WSC" code="SNA" />
+		<R cruise="WSC" code="SRQ" />
+		<R cruise="WSC" code="STL" />
+		<R cruise="WSC" code="SUA" />
+		<R cruise="WSC" code="SUX" />
+		<R cruise="WSC" code="SWF" />
+		<R cruise="WSC" code="SYR" />
+		<R cruise="WSC" code="TLH" />
+		<R cruise="WSC" code="TOL" />
+		<R cruise="WSC" code="TPA" />
+		<R cruise="WSC" code="TRI" />
+		<R cruise="WSC" code="TUL" />
+		<R cruise="WSC" code="TUP" />
+		<R cruise="WSC" code="TUS" />
+		<R cruise="WSC" code="TYS" />
+		<R cruise="WSC" code="UST" />
+		<R cruise="WSC" code="VNC" />
+		<R cruise="WSC" code="VRB" />
+		<R cruise="WSC" code="YEG" />
+		<R cruise="WSC" code="YFC" />
+		<R cruise="WSC" code="YHZ" />
+		<R cruise="WSC" code="YKM" />
+		<R cruise="WSC" code="YLW" />
+		<R cruise="WSC" code="YOW" />
+		<R cruise="WSC" code="YQB" />
+		<R cruise="WSC" code="YQM" />
+		<R cruise="WSC" code="YQQ" />
+		<R cruise="WSC" code="YQR" />
+		<R cruise="WSC" code="YQT" />
+		<R cruise="WSC" code="YQX" />
+		<R cruise="WSC" code="YSJ" />
+		<R cruise="WSC" code="YUL" />
+		<R cruise="WSC" code="YVR" />
+		<R cruise="WSC" code="YWG" />
+		<R cruise="WSC" code="YXE" />
+		<R cruise="WSC" code="YXU" />
+		<R cruise="WSC" code="YYC" />
+		<R cruise="WSC" code="YYG" />
+		<R cruise="WSC" code="YYJ" />
+		<R cruise="WSC" code="YYT" />
+		<R cruise="WSC" code="YYY" />
+		<R cruise="WSC" code="YYZ" />
+	</CITY>
+	<CURRENCY>
+		<R cruise="CCL" code="USD" />
+		<R cruise="CEL" code="ATS" />
+		<R cruise="CEL" code="BEF" />
+		<R cruise="CEL" code="CAD" />
+		<R cruise="CEL" code="CHF" />
+		<R cruise="CEL" code="DEM" />
+		<R cruise="CEL" code="DKK" />
+		<R cruise="CEL" code="ESP" />
+		<R cruise="CEL" code="EUR" />
+		<R cruise="CEL" code="FIM" />
+		<R cruise="CEL" code="FRF" />
+		<R cruise="CEL" code="GBP" />
+		<R cruise="CEL" code="GRD" />
+		<R cruise="CEL" code="IEP" />
+		<R cruise="CEL" code="ITL" />
+		<R cruise="CEL" code="LUF" />
+		<R cruise="CEL" code="NLG" />
+		<R cruise="CEL" code="NOK" />
+		<R cruise="CEL" code="PTE" />
+		<R cruise="CEL" code="SEK" />
+		<R cruise="CEL" code="USD" />
+		<R cruise="CST" code="ARS" />
+		<R cruise="CST" code="AUD" />
+		<R cruise="CST" code="BRL" />
+		<R cruise="CST" code="CAD" />
+		<R cruise="CST" code="CHF" />
+		<R cruise="CST" code="CRC" />
+		<R cruise="CST" code="EUR" />
+		<R cruise="CST" code="GBP" />
+		<R cruise="CST" code="INR" />
+		<R cruise="CST" code="ISK" />
+		<R cruise="CST" code="JPY" />
+		<R cruise="CST" code="MTL" />
+		<R cruise="CST" code="MXN" />
+		<R cruise="CST" code="NOK" />
+		<R cruise="CST" code="SEK" />
+		<R cruise="CST" code="SGD" />
+		<R cruise="CST" code="USD" />
+		<R cruise="HAL" code="CAD" />
+		<R cruise="HAL" code="USD" />
+		<R cruise="NCL" code="CAD" />
+		<R cruise="NCL" code="CHF" />
+		<R cruise="NCL" code="DKK" />
+		<R cruise="NCL" code="EUR" />
+		<R cruise="NCL" code="GBP" />
+		<R cruise="NCL" code="NOK" />
+		<R cruise="NCL" code="SEK" />
+		<R cruise="NCL" code="USD" />
+		<R cruise="NCL" code="ZAR" />
+		<R cruise="PCL" code="CAD" />
+		<R cruise="PCL" code="EUR" />
+		<R cruise="PCL" code="GBP" />
+		<R cruise="PCL" code="USD" />
+		<R cruise="RCC" code="ATS" />
+		<R cruise="RCC" code="BEF" />
+		<R cruise="RCC" code="CAD" />
+		<R cruise="RCC" code="CHF" />
+		<R cruise="RCC" code="DEM" />
+		<R cruise="RCC" code="DKK" />
+		<R cruise="RCC" code="ESP" />
+		<R cruise="RCC" code="EUR" />
+		<R cruise="RCC" code="FIM" />
+		<R cruise="RCC" code="FRF" />
+		<R cruise="RCC" code="GBP" />
+		<R cruise="RCC" code="GRD" />
+		<R cruise="RCC" code="IEP" />
+		<R cruise="RCC" code="ITL" />
+		<R cruise="RCC" code="LUF" />
+		<R cruise="RCC" code="NLG" />
+		<R cruise="RCC" code="NOK" />
+		<R cruise="RCC" code="PTE" />
+		<R cruise="RCC" code="SEK" />
+		<R cruise="RCC" code="USD" />
+		<R cruise="SBN" code="AUD" />
+		<R cruise="SBN" code="CAD" />
+		<R cruise="SBN" code="CHF" />
+		<R cruise="SBN" code="EUR" />
+		<R cruise="SBN" code="GBP" />
+		<R cruise="SBN" code="USD" />
+		<R cruise="WSC" code="CAD" />
+		<R cruise="WSC" code="USD" />
+	</CURRENCY>
+	<MOT>
+		<R cruise="CCL" code="A" />
+		<R cruise="CCL" code="C" />
+		<R cruise="CEL" code="A" />
+		<R cruise="CEL" code="C" />
+		<R cruise="CST" code="A" />
+		<R cruise="CST" code="B" />
+		<R cruise="CST" code="C" />
+		<R cruise="HAL" code="A" />
+		<R cruise="HAL" code="B" />
+		<R cruise="HAL" code="C" />
+		<R cruise="NCL" code="A" />
+		<R cruise="NCL" code="B" />
+		<R cruise="NCL" code="C" />
+		<R cruise="NCL" code="R" />
+		<R cruise="PCL" code="C" />
+		<R cruise="PCL" code="F" />
+		<R cruise="PCL" code="O" />
+		<R cruise="PCL" code="T" />
+		<R cruise="RCC" code="A" />
+		<R cruise="RCC" code="C" />
+		<R cruise="SBN" code="C" />
+		<R cruise="SBN" code="F" />
+		<R cruise="SBN" code="O" />
+		<R cruise="SBN" code="T" />
+		<R cruise="WSC" code="A" />
+		<R cruise="WSC" code="B" />
+		<R cruise="WSC" code="C" />
+	</MOT>
+	<SHIP>
+		<R cruise="CCL" code="CE" />
+		<R cruise="CCL" code="CQ" />
+		<R cruise="CCL" code="DE" />
+		<R cruise="CCL" code="EC" />
+		<R cruise="CCL" code="EL" />
+		<R cruise="CCL" code="FA" />
+		<R cruise="CCL" code="FS" />
+		<R cruise="CCL" code="GL" />
+		<R cruise="CCL" code="HO" />
+		<R cruise="CCL" code="IM" />
+		<R cruise="CCL" code="IS" />
+		<R cruise="CCL" code="JU" />
+		<R cruise="CCL" code="LE" />
+		<R cruise="CCL" code="LI" />
+		<R cruise="CCL" code="MI" />
+		<R cruise="CCL" code="PA" />
+		<R cruise="CCL" code="PR" />
+		<R cruise="CCL" code="SE" />
+		<R cruise="CCL" code="SP" />
+		<R cruise="CCL" code="TI" />
+		<R cruise="CCL" code="VA" />
+		<R cruise="CCL" code="VI" />
+		<R cruise="CEL" code="CN" />
+		<R cruise="CEL" code="CS" />
+		<R cruise="CEL" code="GL" />
+		<R cruise="CEL" code="HZ" />
+		<R cruise="CEL" code="IN" />
+		<R cruise="CEL" code="ML" />
+		<R cruise="CEL" code="MR" />
+		<R cruise="CEL" code="SM" />
+		<R cruise="CEL" code="XP" />
+		<R cruise="CEL" code="ZN" />
+		<R cruise="CST" code="AL" />
+		<R cruise="CST" code="AT" />
+		<R cruise="CST" code="CL" />
+		<R cruise="CST" code="EU" />
+		<R cruise="CST" code="FO" />
+		<R cruise="CST" code="MA" />
+		<R cruise="CST" code="MD" />
+		<R cruise="CST" code="MG" />
+		<R cruise="CST" code="RO" />
+		<R cruise="CST" code="TR" />
+		<R cruise="CST" code="VI" />
+		<R cruise="HAL" code="AM" />
+		<R cruise="HAL" code="MA" />
+		<R cruise="HAL" code="NO" />
+		<R cruise="HAL" code="OS" />
+		<R cruise="HAL" code="PR" />
+		<R cruise="HAL" code="RT" />
+		<R cruise="HAL" code="RY" />
+		<R cruise="HAL" code="SA" />
+		<R cruise="HAL" code="VE" />
+		<R cruise="HAL" code="VO" />
+		<R cruise="HAL" code="WE" />
+		<R cruise="HAL" code="ZA" />
+		<R cruise="HAL" code="ZU" />
+		<R cruise="NCL" code="AL" />
+		<R cruise="NCL" code="AM" />
+		<R cruise="NCL" code="CR" />
+		<R cruise="NCL" code="DA" />
+		<R cruise="NCL" code="DR" />
+		<R cruise="NCL" code="HA" />
+		<R cruise="NCL" code="JE" />
+		<R cruise="NCL" code="MA" />
+		<R cruise="NCL" code="SP" />
+		<R cruise="NCL" code="ST" />
+		<R cruise="NCL" code="SU" />
+		<R cruise="NCL" code="WI" />
+		<R cruise="PCL" code="AP" />
+		<R cruise="PCL" code="CB" />
+		<R cruise="PCL" code="CO" />
+		<R cruise="PCL" code="CP" />
+		<R cruise="PCL" code="DI" />
+		<R cruise="PCL" code="DP" />
+		<R cruise="PCL" code="GP" />
+		<R cruise="PCL" code="IP" />
+		<R cruise="PCL" code="KP" />
+		<R cruise="PCL" code="NP" />
+		<R cruise="PCL" code="PA" />
+		<R cruise="PCL" code="RP" />
+		<R cruise="PCL" code="SA" />
+		<R cruise="PCL" code="SP" />
+		<R cruise="PCL" code="TA" />
+		<R cruise="PCL" code="TP" />
+		<R cruise="PCL" code="ZP" />
+		<R cruise="RCC" code="AD" />
+		<R cruise="RCC" code="BR" />
+		<R cruise="RCC" code="EN" />
+		<R cruise="RCC" code="EX" />
+		<R cruise="RCC" code="FR" />
+		<R cruise="RCC" code="GR" />
+		<R cruise="RCC" code="JW" />
+		<R cruise="RCC" code="LG" />
+		<R cruise="RCC" code="MA" />
+		<R cruise="RCC" code="MJ" />
+		<R cruise="RCC" code="MN" />
+		<R cruise="RCC" code="NE" />
+		<R cruise="RCC" code="NV" />
+		<R cruise="RCC" code="RD" />
+		<R cruise="RCC" code="RH" />
+		<R cruise="RCC" code="SP" />
+		<R cruise="RCC" code="SR" />
+		<R cruise="RCC" code="SS" />
+		<R cruise="RCC" code="VI" />
+		<R cruise="RCC" code="VY" />
+		<R cruise="SBN" code="LG" />
+		<R cruise="SBN" code="PR" />
+		<R cruise="SBN" code="SP" />
+		<R cruise="WSC" code="SP" />
+		<R cruise="WSC" code="ST" />
+		<R cruise="WSC" code="SU" />
+	</SHIP>
+	<PROFILE>
+		<R cruise="CCL" code="ageGroupPrefForDiningSupported" value="false" />
+		<R cruise="CCL" code="affiliationNumberSupported" value="false" />
+		<R cruise="CCL" code="agentCreditNumberSupported" value="true" />
+		<R cruise="CCL" code="airDeviationSupported" value="false" />
+		<R cruise="CCL" code="bookingLockedUponRetrieval" value="false" />
+		<R cruise="CCL" code="crossReferencingAirSupported" value="false" />
+		<R cruise="CCL" code="crossReferencingBackToBackSupported" value="false" />
+		<R cruise="CCL" code="crossReferencingInvoiceSupported" value="false" />
+		<R cruise="CCL" code="crossReferencingTourSupported" value="false" />
+		<R cruise="CCL" code="currencyRequiredFareAvailabilityRequest" value="true" />
+		<R cruise="CCL" code="defaultSailingDuration" value="7" />
+		<R cruise="CCL" code="defaultNumberInParty" value="2" />
+		<R cruise="CCL" code="depositRequiredForAirDeviation" value="false" />
+		<R cruise="CCL" code="diningAtPassengerLevel" value="false" />
+		<R cruise="CCL" code="diningTableSizeOptionSupported" value="false" />
+		<R cruise="CCL" code="diningRoomOptionSupported" value="false" />
+		<R cruise="CCL" code="diningWithSupported" value="true" />
+		<R cruise="CCL" code="extendedPaymentSupported" value="false" />
+		<R cruise="CCL" code="fareCodeAtPassengerLevel" value="false" />
+		<R cruise="CCL" code="firstNameFieldLength" value="10" />
+		<R cruise="CCL" code="groupIndicatorOnSailAvlSupported" value="true" />
+		<R cruise="CCL" code="inclusiveFilteringSupportedForSailAvl" value="false" />
+		<R cruise="CCL" code="insuranceAtPassengerLevel" value="true" />
+		<R cruise="CCL" code="faxCanBeSpecified" value="false" />
+		<R cruise="CCL" code="languageOptionSupported" value="true" />
+		<R cruise="CCL" code="lastNameFieldLength" value="15" />
+		<R cruise="CCL" code="maxNumberOfPackagesAllowedPerCabin" value="5" />
+		<R cruise="CCL" code="maxNumberOfPrePackagesAllowedPerGuest" value="1" />
+		<R cruise="CCL" code="maxNumberOfShoreExcursionsAllowedPerBooking" value="0" />
+		<R cruise="CCL" code="maxGuestPerCabin" value="5" />
+		<R cruise="CCL" code="MOTMustBeAirForAirDeviationToBeSupported" value="false" />
+		<R cruise="CCL" code="guestCitySupported" value="true" />
+		<R cruise="CCL" code="guestTitleRequired" value="true" />
+		<R cruise="CCL" code="pastGuestIndicatorSupported" value="true" />
+		<R cruise="CCL" code="shipSideSupported" value="true" />
+		<R cruise="CCL" code="specialServiceRemarkFieldLength" value="15" />
+		<R cruise="CCL" code="maxSpecialOccasionGuest" value="5" />
+		<R cruise="CCL" code="maxSpecialOccasionBooking" value="25" />
+		<R cruise="CCL" code="maxSpecialRequestGuest" value="5" />
+		<R cruise="CCL" code="maxSpecialRequestBooking" value="25" />
+		<R cruise="CCL" code="maxSpecialServicesGuest" value="5" />
+		<R cruise="CCL" code="maxSpecialServicesBooking" value="25" />
+		<R cruise="CCL" code="paxAssociationOnGiftSupported" value="false" />
+		<R cruise="CCL" code="loyaltyNumberSupported" value="false" />
+		<R cruise="CCL" code="specialServiceListSupported" value="true" />
+		<R cruise="CCL" code="creditCardFromDateList" value="false" />
+		<R cruise="CCL" code="billAddMandOnCC" value="false" />
+		<R cruise="CCL" code="shoreExcursionSupported" value="false" />
+		<R cruise="CCL" code="maxNumberOfCabinHeld" value="1" />
+		<R cruise="CCL" code="packageDurationFieldMandatory" value="false" />
+		<R cruise="CCL" code="crossReferencingPostSupported" value="false" />
+		<R cruise="CCL" code="crossReferencingPrePackageSupported" value="false" />
+		<R cruise="CCL" code="maxNumberOfPostPackagesAllowedPerGuest" value="1" />
+		<R cruise="CCL" code="crossReferencingBookingSupported" value="false" />
+		<R cruise="CCL" code="refreshIndicator" value="true" />
+		<R cruise="CCL" code="docTitleSupported" value="false" />
+		<R cruise="CCL" code="transferLinkedToCruiseOnlyMOT" value="false" />
+		<R cruise="CCL" code="matchFareSupported" value="true" />
+		<R cruise="CCL" code="cabinHoldExpirationDelay" value="15" />
+		<R cruise="CCL" code="cityNameLength" value="20" />
+		<R cruise="CCL" code="streetAddressLength" value="60" />
+		<R cruise="CCL" code="phoneNumberLength" value="16" />
+		<R cruise="CCL" code="postalCodeLength" value="11" />
+		<R cruise="CCL" code="passportNumberLength" value="33" />
+		<R cruise="CCL" code="alienNumberLength" value="15" />
+		<R cruise="CCL" code="emailAddressLength" value="50" />
+		<R cruise="CCL" code="emergencyContactInformation" value="&quot;CP&quot;" />
+		<R cruise="CCL" code="transferSupported" value="false" />
+		<R cruise="CCL" code="bookingHistorySupported" value="true" />
+		<R cruise="CCL" code="paxValidationSupported" value="false" />
+		<R cruise="CCL" code="paxBirthDateSupported" value="true" />
+		<R cruise="CCL" code="groupCodeOnFastSellSupported" value="false" />
+		<R cruise="CCL" code="maxNumberOfFaresInCatAvl" value="4" />
+		<R cruise="CCL" code="addressValidationSupported" value="false" />
+		<R cruise="CCL" code="addressLine1Length" value="30" />
+		<R cruise="CCL" code="addressLine2Length" value="30" />
+		<R cruise="CCL" code="durationRangeSupportedFindSailing" value="true" />
+		<R cruise="CCL" code="promotionCodeSupportedFindSailing" value="false" />
+		<R cruise="CCL" code="guestAgesSupportedFindSailing" value="false" />
+		<R cruise="CCL" code="pastPassengerNumberSupportedFindSailing" value="false" />
+		<R cruise="CEL" code="ageGroupPrefForDiningSupported" value="true" />
+		<R cruise="CEL" code="affiliationNumberSupported" value="true" />
+		<R cruise="CEL" code="agentCreditNumberSupported" value="true" />
+		<R cruise="CEL" code="airDeviationSupported" value="true" />
+		<R cruise="CEL" code="bookingLockedUponRetrieval" value="true" />
+		<R cruise="CEL" code="crossReferencingAirSupported" value="false" />
+		<R cruise="CEL" code="crossReferencingBackToBackSupported" value="true" />
+		<R cruise="CEL" code="crossReferencingInvoiceSupported" value="false" />
+		<R cruise="CEL" code="crossReferencingTourSupported" value="false" />
+		<R cruise="CEL" code="currencyRequiredFareAvailabilityRequest" value="true" />
+		<R cruise="CEL" code="defaultSailingDuration" value="7" />
+		<R cruise="CEL" code="defaultNumberInParty" value="2" />
+		<R cruise="CEL" code="depositRequiredForAirDeviation" value="false" />
+		<R cruise="CEL" code="diningAtPassengerLevel" value="true" />
+		<R cruise="CEL" code="diningTableSizeOptionSupported" value="true" />
+		<R cruise="CEL" code="diningRoomOptionSupported" value="false" />
+		<R cruise="CEL" code="diningWithSupported" value="true" />
+		<R cruise="CEL" code="extendedPaymentSupported" value="true" />
+		<R cruise="CEL" code="fareCodeAtPassengerLevel" value="false" />
+		<R cruise="CEL" code="firstNameFieldLength" value="14" />
+		<R cruise="CEL" code="groupIndicatorOnSailAvlSupported" value="true" />
+		<R cruise="CEL" code="inclusiveFilteringSupportedForSailAvl" value="false" />
+		<R cruise="CEL" code="insuranceAtPassengerLevel" value="false" />
+		<R cruise="CEL" code="faxCanBeSpecified" value="true" />
+		<R cruise="CEL" code="languageOptionSupported" value="false" />
+		<R cruise="CEL" code="lastNameFieldLength" value="18" />
+		<R cruise="CEL" code="maxNumberOfPackagesAllowedPerCabin" value="8" />
+		<R cruise="CEL" code="maxNumberOfPrePackagesAllowedPerGuest" value="1" />
+		<R cruise="CEL" code="maxNumberOfShoreExcursionsAllowedPerBooking" value="99" />
+		<R cruise="CEL" code="maxGuestPerCabin" value="4" />
+		<R cruise="CEL" code="MOTMustBeAirForAirDeviationToBeSupported" value="true" />
+		<R cruise="CEL" code="guestCitySupported" value="false" />
+		<R cruise="CEL" code="guestTitleRequired" value="true" />
+		<R cruise="CEL" code="pastGuestIndicatorSupported" value="true" />
+		<R cruise="CEL" code="shipSideSupported" value="false" />
+		<R cruise="CEL" code="specialServiceRemarkFieldLength" value="15" />
+		<R cruise="CEL" code="maxSpecialOccasionGuest" value="99" />
+		<R cruise="CEL" code="maxSpecialOccasionBooking" value="99" />
+		<R cruise="CEL" code="maxSpecialRequestGuest" value="99" />
+		<R cruise="CEL" code="maxSpecialRequestBooking" value="99" />
+		<R cruise="CEL" code="maxSpecialServicesGuest" value="99" />
+		<R cruise="CEL" code="maxSpecialServicesBooking" value="99" />
+		<R cruise="CEL" code="paxAssociationOnGiftSupported" value="true" />
+		<R cruise="CEL" code="loyaltyNumberSupported" value="false" />
+		<R cruise="CEL" code="specialServiceListSupported" value="true" />
+		<R cruise="CEL" code="creditCardFromDateList" value="true" />
+		<R cruise="CEL" code="billAddMandOnCC" value="false" />
+		<R cruise="CEL" code="shoreExcursionSupported" value="true" />
+		<R cruise="CEL" code="maxNumberOfCabinHeld" value="3" />
+		<R cruise="CEL" code="packageDurationFieldMandatory" value="false" />
+		<R cruise="CEL" code="crossReferencingPostSupported" value="false" />
+		<R cruise="CEL" code="crossReferencingPrePackageSupported" value="false" />
+		<R cruise="CEL" code="maxNumberOfPostPackagesAllowedPerGuest" value="1" />
+		<R cruise="CEL" code="crossReferencingBookingSupported" value="true" />
+		<R cruise="CEL" code="refreshIndicator" value="true" />
+		<R cruise="CEL" code="docTitleSupported" value="false" />
+		<R cruise="CEL" code="transferLinkedToCruiseOnlyMOT" value="true" />
+		<R cruise="CEL" code="matchFareSupported" value="true" />
+		<R cruise="CEL" code="cabinHoldExpirationDelay" value="15" />
+		<R cruise="CEL" code="cityNameLength" value="15" />
+		<R cruise="CEL" code="streetAddressLength" value="50" />
+		<R cruise="CEL" code="phoneNumberLength" value="19" />
+		<R cruise="CEL" code="postalCodeLength" value="9" />
+		<R cruise="CEL" code="passportNumberLength" value="15" />
+		<R cruise="CEL" code="alienNumberLength" value="15" />
+		<R cruise="CEL" code="emailAddressLength" value="35" />
+		<R cruise="CEL" code="emergencyContactInformation" value="&quot;E&quot;" />
+		<R cruise="CEL" code="transferSupported" value="true" />
+		<R cruise="CEL" code="bookingHistorySupported" value="true" />
+		<R cruise="CEL" code="paxValidationSupported" value="true" />
+		<R cruise="CEL" code="paxBirthDateSupported" value="true" />
+		<R cruise="CEL" code="groupCodeOnFastSellSupported" value="false" />
+		<R cruise="CEL" code="maxNumberOfFaresInCatAvl" value="2" />
+		<R cruise="CEL" code="addressValidationSupported" value="false" />
+		<R cruise="CEL" code="addressLine1Length" value="25" />
+		<R cruise="CEL" code="addressLine2Length" value="25" />
+		<R cruise="CEL" code="durationRangeSupportedFindSailing" value="false" />
+		<R cruise="CEL" code="promotionCodeSupportedFindSailing" value="false" />
+		<R cruise="CEL" code="guestAgesSupportedFindSailing" value="false" />
+		<R cruise="CEL" code="pastPassengerNumberSupportedFindSailing" value="false" />
+		<R cruise="CST" code="ageGroupPrefForDiningSupported" value="false" />
+		<R cruise="CST" code="affiliationNumberSupported" value="false" />
+		<R cruise="CST" code="agentCreditNumberSupported" value="false" />
+		<R cruise="CST" code="airDeviationSupported" value="false" />
+		<R cruise="CST" code="bookingLockedUponRetrieval" value="true" />
+		<R cruise="CST" code="crossReferencingAirSupported" value="false" />
+		<R cruise="CST" code="crossReferencingBackToBackSupported" value="false" />
+		<R cruise="CST" code="crossReferencingInvoiceSupported" value="false" />
+		<R cruise="CST" code="crossReferencingTourSupported" value="false" />
+		<R cruise="CST" code="currencyRequiredFareAvailabilityRequest" value="false" />
+		<R cruise="CST" code="defaultSailingDuration" value="7" />
+		<R cruise="CST" code="defaultNumberInParty" value="2" />
+		<R cruise="CST" code="depositRequiredForAirDeviation" value="false" />
+		<R cruise="CST" code="diningAtPassengerLevel" value="true" />
+		<R cruise="CST" code="diningTableSizeOptionSupported" value="true" />
+		<R cruise="CST" code="diningRoomOptionSupported" value="true" />
+		<R cruise="CST" code="diningWithSupported" value="false" />
+		<R cruise="CST" code="extendedPaymentSupported" value="false" />
+		<R cruise="CST" code="fareCodeAtPassengerLevel" value="false" />
+		<R cruise="CST" code="firstNameFieldLength" value="15" />
+		<R cruise="CST" code="groupIndicatorOnSailAvlSupported" value="false" />
+		<R cruise="CST" code="inclusiveFilteringSupportedForSailAvl" value="false" />
+		<R cruise="CST" code="insuranceAtPassengerLevel" value="true" />
+		<R cruise="CST" code="faxCanBeSpecified" value="false" />
+		<R cruise="CST" code="languageOptionSupported" value="false" />
+		<R cruise="CST" code="lastNameFieldLength" value="20" />
+		<R cruise="CST" code="maxNumberOfPackagesAllowedPerCabin" value="99" />
+		<R cruise="CST" code="maxNumberOfPrePackagesAllowedPerGuest" value="9" />
+		<R cruise="CST" code="maxNumberOfShoreExcursionsAllowedPerBooking" value="99" />
+		<R cruise="CST" code="maxGuestPerCabin" value="6" />
+		<R cruise="CST" code="MOTMustBeAirForAirDeviationToBeSupported" value="false" />
+		<R cruise="CST" code="guestCitySupported" value="false" />
+		<R cruise="CST" code="guestTitleRequired" value="true" />
+		<R cruise="CST" code="pastGuestIndicatorSupported" value="false" />
+		<R cruise="CST" code="shipSideSupported" value="false" />
+		<R cruise="CST" code="specialServiceRemarkFieldLength" value="15" />
+		<R cruise="CST" code="maxSpecialOccasionGuest" value="99" />
+		<R cruise="CST" code="maxSpecialOccasionBooking" value="99" />
+		<R cruise="CST" code="maxSpecialRequestGuest" value="99" />
+		<R cruise="CST" code="maxSpecialRequestBooking" value="99" />
+		<R cruise="CST" code="maxSpecialServicesGuest" value="99" />
+		<R cruise="CST" code="maxSpecialServicesBooking" value="99" />
+		<R cruise="CST" code="paxAssociationOnGiftSupported" value="false" />
+		<R cruise="CST" code="loyaltyNumberSupported" value="false" />
+		<R cruise="CST" code="specialServiceListSupported" value="false" />
+		<R cruise="CST" code="creditCardFromDateList" value="false" />
+		<R cruise="CST" code="billAddMandOnCC" value="true" />
+		<R cruise="CST" code="shoreExcursionSupported" value="true" />
+		<R cruise="CST" code="maxNumberOfCabinHeld" value="1" />
+		<R cruise="CST" code="packageDurationFieldMandatory" value="false" />
+		<R cruise="CST" code="crossReferencingPostSupported" value="false" />
+		<R cruise="CST" code="crossReferencingPrePackageSupported" value="false" />
+		<R cruise="CST" code="maxNumberOfPostPackagesAllowedPerGuest" value="9" />
+		<R cruise="CST" code="crossReferencingBookingSupported" value="false" />
+		<R cruise="CST" code="refreshIndicator" value="true" />
+		<R cruise="CST" code="docTitleSupported" value="false" />
+		<R cruise="CST" code="transferLinkedToCruiseOnlyMOT" value="false" />
+		<R cruise="CST" code="matchFareSupported" value="true" />
+		<R cruise="CST" code="cabinHoldExpirationDelay" value="15" />
+		<R cruise="CST" code="cityNameLength" value="25" />
+		<R cruise="CST" code="streetAddressLength" value="50" />
+		<R cruise="CST" code="phoneNumberLength" value="19" />
+		<R cruise="CST" code="postalCodeLength" value="9" />
+		<R cruise="CST" code="passportNumberLength" value="15" />
+		<R cruise="CST" code="alienNumberLength" value="0" />
+		<R cruise="CST" code="emailAddressLength" value="35" />
+		<R cruise="CST" code="emergencyContactInformation" value="&quot;N&quot;" />
+		<R cruise="CST" code="transferSupported" value="false" />
+		<R cruise="CST" code="bookingHistorySupported" value="false" />
+		<R cruise="CST" code="paxValidationSupported" value="false" />
+		<R cruise="CST" code="paxBirthDateSupported" value="true" />
+		<R cruise="CST" code="groupCodeOnFastSellSupported" value="false" />
+		<R cruise="CST" code="maxNumberOfFaresInCatAvl" value="4" />
+		<R cruise="CST" code="addressValidationSupported" value="false" />
+		<R cruise="CST" code="addressLine1Length" value="25" />
+		<R cruise="CST" code="addressLine2Length" value="25" />
+		<R cruise="CST" code="durationRangeSupportedFindSailing" value="false" />
+		<R cruise="CST" code="promotionCodeSupportedFindSailing" value="false" />
+		<R cruise="CST" code="guestAgesSupportedFindSailing" value="false" />
+		<R cruise="CST" code="pastPassengerNumberSupportedFindSailing" value="false" />
+		<R cruise="HAL" code="ageGroupPrefForDiningSupported" value="false" />
+		<R cruise="HAL" code="affiliationNumberSupported" value="false" />
+		<R cruise="HAL" code="agentCreditNumberSupported" value="false" />
+		<R cruise="HAL" code="airDeviationSupported" value="false" />
+		<R cruise="HAL" code="bookingLockedUponRetrieval" value="false" />
+		<R cruise="HAL" code="crossReferencingAirSupported" value="false" />
+		<R cruise="HAL" code="crossReferencingBackToBackSupported" value="false" />
+		<R cruise="HAL" code="crossReferencingInvoiceSupported" value="false" />
+		<R cruise="HAL" code="crossReferencingTourSupported" value="false" />
+		<R cruise="HAL" code="currencyRequiredFareAvailabilityRequest" value="true" />
+		<R cruise="HAL" code="defaultSailingDuration" value="7" />
+		<R cruise="HAL" code="defaultNumberInParty" value="2" />
+		<R cruise="HAL" code="depositRequiredForAirDeviation" value="false" />
+		<R cruise="HAL" code="diningAtPassengerLevel" value="false" />
+		<R cruise="HAL" code="diningTableSizeOptionSupported" value="false" />
+		<R cruise="HAL" code="diningRoomOptionSupported" value="false" />
+		<R cruise="HAL" code="diningWithSupported" value="true" />
+		<R cruise="HAL" code="extendedPaymentSupported" value="false" />
+		<R cruise="HAL" code="fareCodeAtPassengerLevel" value="false" />
+		<R cruise="HAL" code="firstNameFieldLength" value="10" />
+		<R cruise="HAL" code="groupIndicatorOnSailAvlSupported" value="false" />
+		<R cruise="HAL" code="inclusiveFilteringSupportedForSailAvl" value="true" />
+		<R cruise="HAL" code="insuranceAtPassengerLevel" value="true" />
+		<R cruise="HAL" code="faxCanBeSpecified" value="false" />
+		<R cruise="HAL" code="languageOptionSupported" value="false" />
+		<R cruise="HAL" code="lastNameFieldLength" value="20" />
+		<R cruise="HAL" code="maxNumberOfPackagesAllowedPerCabin" value="5" />
+		<R cruise="HAL" code="maxNumberOfPrePackagesAllowedPerGuest" value="3" />
+		<R cruise="HAL" code="maxNumberOfShoreExcursionsAllowedPerBooking" value="0" />
+		<R cruise="HAL" code="maxGuestPerCabin" value="4" />
+		<R cruise="HAL" code="MOTMustBeAirForAirDeviationToBeSupported" value="false" />
+		<R cruise="HAL" code="guestCitySupported" value="true" />
+		<R cruise="HAL" code="guestTitleRequired" value="true" />
+		<R cruise="HAL" code="pastGuestIndicatorSupported" value="true" />
+		<R cruise="HAL" code="shipSideSupported" value="false" />
+		<R cruise="HAL" code="specialServiceRemarkFieldLength" value="15" />
+		<R cruise="HAL" code="maxSpecialOccasionGuest" value="50" />
+		<R cruise="HAL" code="maxSpecialOccasionBooking" value="99" />
+		<R cruise="HAL" code="maxSpecialRequestGuest" value="50" />
+		<R cruise="HAL" code="maxSpecialRequestBooking" value="99" />
+		<R cruise="HAL" code="maxSpecialServicesGuest" value="50" />
+		<R cruise="HAL" code="maxSpecialServicesBooking" value="99" />
+		<R cruise="HAL" code="paxAssociationOnGiftSupported" value="false" />
+		<R cruise="HAL" code="loyaltyNumberSupported" value="false" />
+		<R cruise="HAL" code="specialServiceListSupported" value="true" />
+		<R cruise="HAL" code="creditCardFromDateList" value="false" />
+		<R cruise="HAL" code="billAddMandOnCC" value="false" />
+		<R cruise="HAL" code="shoreExcursionSupported" value="false" />
+		<R cruise="HAL" code="maxNumberOfCabinHeld" value="1" />
+		<R cruise="HAL" code="packageDurationFieldMandatory" value="false" />
+		<R cruise="HAL" code="crossReferencingPostSupported" value="false" />
+		<R cruise="HAL" code="crossReferencingPrePackageSupported" value="false" />
+		<R cruise="HAL" code="maxNumberOfPostPackagesAllowedPerGuest" value="2" />
+		<R cruise="HAL" code="crossReferencingBookingSupported" value="false" />
+		<R cruise="HAL" code="refreshIndicator" value="false" />
+		<R cruise="HAL" code="docTitleSupported" value="false" />
+		<R cruise="HAL" code="transferLinkedToCruiseOnlyMOT" value="false" />
+		<R cruise="HAL" code="matchFareSupported" value="false" />
+		<R cruise="HAL" code="cabinHoldExpirationDelay" value="15" />
+		<R cruise="HAL" code="cityNameLength" value="20" />
+		<R cruise="HAL" code="streetAddressLength" value="25" />
+		<R cruise="HAL" code="phoneNumberLength" value="10" />
+		<R cruise="HAL" code="postalCodeLength" value="9" />
+		<R cruise="HAL" code="passportNumberLength" value="16" />
+		<R cruise="HAL" code="alienNumberLength" value="15" />
+		<R cruise="HAL" code="emailAddressLength" value="60" />
+		<R cruise="HAL" code="emergencyContactInformation" value="&quot;N&quot;" />
+		<R cruise="HAL" code="transferSupported" value="false" />
+		<R cruise="HAL" code="bookingHistorySupported" value="true" />
+		<R cruise="HAL" code="paxValidationSupported" value="false" />
+		<R cruise="HAL" code="paxBirthDateSupported" value="false" />
+		<R cruise="HAL" code="groupCodeOnFastSellSupported" value="true" />
+		<R cruise="HAL" code="maxNumberOfFaresInCatAvl" value="2" />
+		<R cruise="HAL" code="addressValidationSupported" value="false" />
+		<R cruise="HAL" code="addressLine1Length" value="25" />
+		<R cruise="HAL" code="addressLine2Length" value="25" />
+		<R cruise="HAL" code="durationRangeSupportedFindSailing" value="false" />
+		<R cruise="HAL" code="promotionCodeSupportedFindSailing" value="false" />
+		<R cruise="HAL" code="guestAgesSupportedFindSailing" value="false" />
+		<R cruise="HAL" code="pastPassengerNumberSupportedFindSailing" value="false" />
+		<R cruise="NCL" code="ageGroupPrefForDiningSupported" value="false" />
+		<R cruise="NCL" code="affiliationNumberSupported" value="false" />
+		<R cruise="NCL" code="agentCreditNumberSupported" value="true" />
+		<R cruise="NCL" code="airDeviationSupported" value="false" />
+		<R cruise="NCL" code="bookingLockedUponRetrieval" value="false" />
+		<R cruise="NCL" code="crossReferencingAirSupported" value="false" />
+		<R cruise="NCL" code="crossReferencingBackToBackSupported" value="false" />
+		<R cruise="NCL" code="crossReferencingInvoiceSupported" value="false" />
+		<R cruise="NCL" code="crossReferencingTourSupported" value="false" />
+		<R cruise="NCL" code="currencyRequiredFareAvailabilityRequest" value="true" />
+		<R cruise="NCL" code="defaultSailingDuration" value="7" />
+		<R cruise="NCL" code="defaultNumberInParty" value="2" />
+		<R cruise="NCL" code="depositRequiredForAirDeviation" value="true" />
+		<R cruise="NCL" code="diningAtPassengerLevel" value="true" />
+		<R cruise="NCL" code="diningTableSizeOptionSupported" value="false" />
+		<R cruise="NCL" code="diningRoomOptionSupported" value="false" />
+		<R cruise="NCL" code="diningWithSupported" value="false" />
+		<R cruise="NCL" code="extendedPaymentSupported" value="true" />
+		<R cruise="NCL" code="fareCodeAtPassengerLevel" value="true" />
+		<R cruise="NCL" code="firstNameFieldLength" value="25" />
+		<R cruise="NCL" code="groupIndicatorOnSailAvlSupported" value="true" />
+		<R cruise="NCL" code="inclusiveFilteringSupportedForSailAvl" value="false" />
+		<R cruise="NCL" code="insuranceAtPassengerLevel" value="true" />
+		<R cruise="NCL" code="faxCanBeSpecified" value="false" />
+		<R cruise="NCL" code="languageOptionSupported" value="false" />
+		<R cruise="NCL" code="lastNameFieldLength" value="25" />
+		<R cruise="NCL" code="maxNumberOfPackagesAllowedPerCabin" value="16" />
+		<R cruise="NCL" code="maxNumberOfPrePackagesAllowedPerGuest" value="1" />
+		<R cruise="NCL" code="maxNumberOfShoreExcursionsAllowedPerBooking" value="0" />
+		<R cruise="NCL" code="maxGuestPerCabin" value="8" />
+		<R cruise="NCL" code="MOTMustBeAirForAirDeviationToBeSupported" value="true" />
+		<R cruise="NCL" code="guestCitySupported" value="false" />
+		<R cruise="NCL" code="guestTitleRequired" value="true" />
+		<R cruise="NCL" code="pastGuestIndicatorSupported" value="true" />
+		<R cruise="NCL" code="shipSideSupported" value="true" />
+		<R cruise="NCL" code="specialServiceRemarkFieldLength" value="0" />
+		<R cruise="NCL" code="maxSpecialOccasionGuest" value="99" />
+		<R cruise="NCL" code="maxSpecialOccasionBooking" value="99" />
+		<R cruise="NCL" code="maxSpecialRequestGuest" value="99" />
+		<R cruise="NCL" code="maxSpecialRequestBooking" value="99" />
+		<R cruise="NCL" code="maxSpecialServicesGuest" value="99" />
+		<R cruise="NCL" code="maxSpecialServicesBooking" value="99" />
+		<R cruise="NCL" code="paxAssociationOnGiftSupported" value="false" />
+		<R cruise="NCL" code="loyaltyNumberSupported" value="false" />
+		<R cruise="NCL" code="specialServiceListSupported" value="true" />
+		<R cruise="NCL" code="creditCardFromDateList" value="false" />
+		<R cruise="NCL" code="billAddMandOnCC" value="true" />
+		<R cruise="NCL" code="shoreExcursionSupported" value="false" />
+		<R cruise="NCL" code="maxNumberOfCabinHeld" value="3" />
+		<R cruise="NCL" code="packageDurationFieldMandatory" value="true" />
+		<R cruise="NCL" code="crossReferencingPostSupported" value="false" />
+		<R cruise="NCL" code="crossReferencingPrePackageSupported" value="false" />
+		<R cruise="NCL" code="maxNumberOfPostPackagesAllowedPerGuest" value="1" />
+		<R cruise="NCL" code="crossReferencingBookingSupported" value="false" />
+		<R cruise="NCL" code="refreshIndicator" value="false" />
+		<R cruise="NCL" code="docTitleSupported" value="true" />
+		<R cruise="NCL" code="transferLinkedToCruiseOnlyMOT" value="false" />
+		<R cruise="NCL" code="matchFareSupported" value="false" />
+		<R cruise="NCL" code="cabinHoldExpirationDelay" value="15" />
+		<R cruise="NCL" code="cityNameLength" value="25" />
+		<R cruise="NCL" code="streetAddressLength" value="50" />
+		<R cruise="NCL" code="phoneNumberLength" value="19" />
+		<R cruise="NCL" code="postalCodeLength" value="9" />
+		<R cruise="NCL" code="passportNumberLength" value="15" />
+		<R cruise="NCL" code="alienNumberLength" value="15" />
+		<R cruise="NCL" code="emailAddressLength" value="35" />
+		<R cruise="NCL" code="emergencyContactInformation" value="&quot;CP&quot;" />
+		<R cruise="NCL" code="transferSupported" value="false" />
+		<R cruise="NCL" code="bookingHistorySupported" value="true" />
+		<R cruise="NCL" code="paxValidationSupported" value="false" />
+		<R cruise="NCL" code="paxBirthDateSupported" value="true" />
+		<R cruise="NCL" code="groupCodeOnFastSellSupported" value="true" />
+		<R cruise="NCL" code="maxNumberOfFaresInCatAvl" value="4" />
+		<R cruise="NCL" code="addressValidationSupported" value="true" />
+		<R cruise="NCL" code="addressLine1Length" value="64" />
+		<R cruise="NCL" code="addressLine2Length" value="64" />
+		<R cruise="NCL" code="durationRangeSupportedFindSailing" value="false" />
+		<R cruise="NCL" code="promotionCodeSupportedFindSailing" value="false" />
+		<R cruise="NCL" code="guestAgesSupportedFindSailing" value="false" />
+		<R cruise="NCL" code="pastPassengerNumberSupportedFindSailing" value="false" />
+		<R cruise="PCL" code="ageGroupPrefForDiningSupported" value="false" />
+		<R cruise="PCL" code="affiliationNumberSupported" value="true" />
+		<R cruise="PCL" code="agentCreditNumberSupported" value="false" />
+		<R cruise="PCL" code="airDeviationSupported" value="false" />
+		<R cruise="PCL" code="bookingLockedUponRetrieval" value="false" />
+		<R cruise="PCL" code="crossReferencingAirSupported" value="false" />
+		<R cruise="PCL" code="crossReferencingBackToBackSupported" value="false" />
+		<R cruise="PCL" code="crossReferencingInvoiceSupported" value="false" />
+		<R cruise="PCL" code="crossReferencingTourSupported" value="false" />
+		<R cruise="PCL" code="currencyRequiredFareAvailabilityRequest" value="true" />
+		<R cruise="PCL" code="defaultSailingDuration" value="7" />
+		<R cruise="PCL" code="defaultNumberInParty" value="2" />
+		<R cruise="PCL" code="depositRequiredForAirDeviation" value="true" />
+		<R cruise="PCL" code="diningAtPassengerLevel" value="false" />
+		<R cruise="PCL" code="diningTableSizeOptionSupported" value="true" />
+		<R cruise="PCL" code="diningRoomOptionSupported" value="false" />
+		<R cruise="PCL" code="diningWithSupported" value="true" />
+		<R cruise="PCL" code="extendedPaymentSupported" value="false" />
+		<R cruise="PCL" code="fareCodeAtPassengerLevel" value="false" />
+		<R cruise="PCL" code="firstNameFieldLength" value="12" />
+		<R cruise="PCL" code="groupIndicatorOnSailAvlSupported" value="true" />
+		<R cruise="PCL" code="inclusiveFilteringSupportedForSailAvl" value="true" />
+		<R cruise="PCL" code="insuranceAtPassengerLevel" value="true" />
+		<R cruise="PCL" code="faxCanBeSpecified" value="false" />
+		<R cruise="PCL" code="languageOptionSupported" value="false" />
+		<R cruise="PCL" code="lastNameFieldLength" value="16" />
+		<R cruise="PCL" code="maxNumberOfPackagesAllowedPerCabin" value="4" />
+		<R cruise="PCL" code="maxNumberOfPrePackagesAllowedPerGuest" value="1" />
+		<R cruise="PCL" code="maxNumberOfShoreExcursionsAllowedPerBooking" value="20" />
+		<R cruise="PCL" code="maxGuestPerCabin" value="4" />
+		<R cruise="PCL" code="MOTMustBeAirForAirDeviationToBeSupported" value="true" />
+		<R cruise="PCL" code="guestCitySupported" value="true" />
+		<R cruise="PCL" code="guestTitleRequired" value="true" />
+		<R cruise="PCL" code="pastGuestIndicatorSupported" value="true" />
+		<R cruise="PCL" code="shipSideSupported" value="true" />
+		<R cruise="PCL" code="specialServiceRemarkFieldLength" value="10" />
+		<R cruise="PCL" code="maxSpecialOccasionGuest" value="2" />
+		<R cruise="PCL" code="maxSpecialOccasionBooking" value="2" />
+		<R cruise="PCL" code="maxSpecialRequestGuest" value="5" />
+		<R cruise="PCL" code="maxSpecialRequestBooking" value="20" />
+		<R cruise="PCL" code="maxSpecialServicesGuest" value="7" />
+		<R cruise="PCL" code="maxSpecialServicesBooking" value="20" />
+		<R cruise="PCL" code="paxAssociationOnGiftSupported" value="true" />
+		<R cruise="PCL" code="loyaltyNumberSupported" value="false" />
+		<R cruise="PCL" code="specialServiceListSupported" value="true" />
+		<R cruise="PCL" code="creditCardFromDateList" value="false" />
+		<R cruise="PCL" code="billAddMandOnCC" value="true" />
+		<R cruise="PCL" code="shoreExcursionSupported" value="false" />
+		<R cruise="PCL" code="maxNumberOfCabinHeld" value="3" />
+		<R cruise="PCL" code="packageDurationFieldMandatory" value="false" />
+		<R cruise="PCL" code="crossReferencingPostSupported" value="false" />
+		<R cruise="PCL" code="crossReferencingPrePackageSupported" value="false" />
+		<R cruise="PCL" code="maxNumberOfPostPackagesAllowedPerGuest" value="1" />
+		<R cruise="PCL" code="crossReferencingBookingSupported" value="false" />
+		<R cruise="PCL" code="refreshIndicator" value="false" />
+		<R cruise="PCL" code="docTitleSupported" value="false" />
+		<R cruise="PCL" code="transferLinkedToCruiseOnlyMOT" value="false" />
+		<R cruise="PCL" code="matchFareSupported" value="false" />
+		<R cruise="PCL" code="cabinHoldExpirationDelay" value="10" />
+		<R cruise="PCL" code="cityNameLength" value="17" />
+		<R cruise="PCL" code="streetAddressLength" value="30" />
+		<R cruise="PCL" code="phoneNumberLength" value="14" />
+		<R cruise="PCL" code="postalCodeLength" value="10" />
+		<R cruise="PCL" code="passportNumberLength" value="15" />
+		<R cruise="PCL" code="alienNumberLength" value="10" />
+		<R cruise="PCL" code="emailAddressLength" value="50" />
+		<R cruise="PCL" code="emergencyContactInformation" value="&quot;CEP&quot;" />
+		<R cruise="PCL" code="transferSupported" value="true" />
+		<R cruise="PCL" code="bookingHistorySupported" value="true" />
+		<R cruise="PCL" code="paxValidationSupported" value="true" />
+		<R cruise="PCL" code="paxBirthDateSupported" value="true" />
+		<R cruise="PCL" code="groupCodeOnFastSellSupported" value="false" />
+		<R cruise="PCL" code="maxNumberOfFaresInCatAvl" value="2" />
+		<R cruise="PCL" code="addressValidationSupported" value="true" />
+		<R cruise="PCL" code="addressLine1Length" value="64" />
+		<R cruise="PCL" code="addressLine2Length" value="32" />
+		<R cruise="PCL" code="durationRangeSupportedFindSailing" value="false" />
+		<R cruise="PCL" code="promotionCodeSupportedFindSailing" value="false" />
+		<R cruise="PCL" code="guestAgesSupportedFindSailing" value="false" />
+		<R cruise="PCL" code="pastPassengerNumberSupportedFindSailing" value="false" />
+		<R cruise="RCC" code="ageGroupPrefForDiningSupported" value="true" />
+		<R cruise="RCC" code="affiliationNumberSupported" value="true" />
+		<R cruise="RCC" code="agentCreditNumberSupported" value="true" />
+		<R cruise="RCC" code="airDeviationSupported" value="true" />
+		<R cruise="RCC" code="bookingLockedUponRetrieval" value="true" />
+		<R cruise="RCC" code="crossReferencingAirSupported" value="false" />
+		<R cruise="RCC" code="crossReferencingBackToBackSupported" value="true" />
+		<R cruise="RCC" code="crossReferencingInvoiceSupported" value="false" />
+		<R cruise="RCC" code="crossReferencingTourSupported" value="false" />
+		<R cruise="RCC" code="currencyRequiredFareAvailabilityRequest" value="true" />
+		<R cruise="RCC" code="defaultSailingDuration" value="7" />
+		<R cruise="RCC" code="defaultNumberInParty" value="2" />
+		<R cruise="RCC" code="depositRequiredForAirDeviation" value="false" />
+		<R cruise="RCC" code="diningAtPassengerLevel" value="true" />
+		<R cruise="RCC" code="diningTableSizeOptionSupported" value="true" />
+		<R cruise="RCC" code="diningRoomOptionSupported" value="false" />
+		<R cruise="RCC" code="diningWithSupported" value="true" />
+		<R cruise="RCC" code="extendedPaymentSupported" value="true" />
+		<R cruise="RCC" code="fareCodeAtPassengerLevel" value="false" />
+		<R cruise="RCC" code="firstNameFieldLength" value="14" />
+		<R cruise="RCC" code="groupIndicatorOnSailAvlSupported" value="true" />
+		<R cruise="RCC" code="inclusiveFilteringSupportedForSailAvl" value="false" />
+		<R cruise="RCC" code="insuranceAtPassengerLevel" value="false" />
+		<R cruise="RCC" code="faxCanBeSpecified" value="true" />
+		<R cruise="RCC" code="languageOptionSupported" value="false" />
+		<R cruise="RCC" code="lastNameFieldLength" value="18" />
+		<R cruise="RCC" code="maxNumberOfPackagesAllowedPerCabin" value="8" />
+		<R cruise="RCC" code="maxNumberOfPrePackagesAllowedPerGuest" value="1" />
+		<R cruise="RCC" code="maxNumberOfShoreExcursionsAllowedPerBooking" value="99" />
+		<R cruise="RCC" code="maxGuestPerCabin" value="4" />
+		<R cruise="RCC" code="MOTMustBeAirForAirDeviationToBeSupported" value="true" />
+		<R cruise="RCC" code="guestCitySupported" value="false" />
+		<R cruise="RCC" code="guestTitleRequired" value="true" />
+		<R cruise="RCC" code="pastGuestIndicatorSupported" value="true" />
+		<R cruise="RCC" code="shipSideSupported" value="false" />
+		<R cruise="RCC" code="specialServiceRemarkFieldLength" value="15" />
+		<R cruise="RCC" code="maxSpecialOccasionGuest" value="99" />
+		<R cruise="RCC" code="maxSpecialOccasionBooking" value="99" />
+		<R cruise="RCC" code="maxSpecialRequestGuest" value="99" />
+		<R cruise="RCC" code="maxSpecialRequestBooking" value="99" />
+		<R cruise="RCC" code="maxSpecialServicesGuest" value="99" />
+		<R cruise="RCC" code="maxSpecialServicesBooking" value="99" />
+		<R cruise="RCC" code="paxAssociationOnGiftSupported" value="true" />
+		<R cruise="RCC" code="loyaltyNumberSupported" value="false" />
+		<R cruise="RCC" code="specialServiceListSupported" value="true" />
+		<R cruise="RCC" code="creditCardFromDateList" value="true" />
+		<R cruise="RCC" code="billAddMandOnCC" value="false" />
+		<R cruise="RCC" code="shoreExcursionSupported" value="true" />
+		<R cruise="RCC" code="maxNumberOfCabinHeld" value="3" />
+		<R cruise="RCC" code="packageDurationFieldMandatory" value="false" />
+		<R cruise="RCC" code="crossReferencingPostSupported" value="false" />
+		<R cruise="RCC" code="crossReferencingPrePackageSupported" value="false" />
+		<R cruise="RCC" code="maxNumberOfPostPackagesAllowedPerGuest" value="1" />
+		<R cruise="RCC" code="crossReferencingBookingSupported" value="true" />
+		<R cruise="RCC" code="refreshIndicator" value="true" />
+		<R cruise="RCC" code="docTitleSupported" value="false" />
+		<R cruise="RCC" code="transferLinkedToCruiseOnlyMOT" value="true" />
+		<R cruise="RCC" code="matchFareSupported" value="true" />
+		<R cruise="RCC" code="cabinHoldExpirationDelay" value="15" />
+		<R cruise="RCC" code="cityNameLength" value="15" />
+		<R cruise="RCC" code="streetAddressLength" value="50" />
+		<R cruise="RCC" code="phoneNumberLength" value="19" />
+		<R cruise="RCC" code="postalCodeLength" value="9" />
+		<R cruise="RCC" code="passportNumberLength" value="15" />
+		<R cruise="RCC" code="alienNumberLength" value="15" />
+		<R cruise="RCC" code="emailAddressLength" value="35" />
+		<R cruise="RCC" code="emergencyContactInformation" value="&quot;E&quot;" />
+		<R cruise="RCC" code="transferSupported" value="true" />
+		<R cruise="RCC" code="bookingHistorySupported" value="true" />
+		<R cruise="RCC" code="paxValidationSupported" value="true" />
+		<R cruise="RCC" code="paxBirthDateSupported" value="true" />
+		<R cruise="RCC" code="groupCodeOnFastSellSupported" value="false" />
+		<R cruise="RCC" code="maxNumberOfFaresInCatAvl" value="2" />
+		<R cruise="RCC" code="addressValidationSupported" value="false" />
+		<R cruise="RCC" code="addressLine1Length" value="25" />
+		<R cruise="RCC" code="addressLine2Length" value="25" />
+		<R cruise="RCC" code="durationRangeSupportedFindSailing" value="false" />
+		<R cruise="RCC" code="promotionCodeSupportedFindSailing" value="false" />
+		<R cruise="RCC" code="guestAgesSupportedFindSailing" value="false" />
+		<R cruise="RCC" code="pastPassengerNumberSupportedFindSailing" value="false" />
+		<R cruise="SBN" code="ageGroupPrefForDiningSupported" value="false" />
+		<R cruise="SBN" code="affiliationNumberSupported" value="false" />
+		<R cruise="SBN" code="agentCreditNumberSupported" value="false" />
+		<R cruise="SBN" code="airDeviationSupported" value="false" />
+		<R cruise="SBN" code="bookingLockedUponRetrieval" value="false" />
+		<R cruise="SBN" code="crossReferencingAirSupported" value="false" />
+		<R cruise="SBN" code="crossReferencingBackToBackSupported" value="false" />
+		<R cruise="SBN" code="crossReferencingInvoiceSupported" value="false" />
+		<R cruise="SBN" code="crossReferencingTourSupported" value="false" />
+		<R cruise="SBN" code="currencyRequiredFareAvailabilityRequest" value="true" />
+		<R cruise="SBN" code="defaultSailingDuration" value="7" />
+		<R cruise="SBN" code="defaultNumberInParty" value="2" />
+		<R cruise="SBN" code="depositRequiredForAirDeviation" value="false" />
+		<R cruise="SBN" code="diningAtPassengerLevel" value="false" />
+		<R cruise="SBN" code="diningTableSizeOptionSupported" value="false" />
+		<R cruise="SBN" code="diningRoomOptionSupported" value="false" />
+		<R cruise="SBN" code="diningWithSupported" value="true" />
+		<R cruise="SBN" code="extendedPaymentSupported" value="false" />
+		<R cruise="SBN" code="fareCodeAtPassengerLevel" value="false" />
+		<R cruise="SBN" code="firstNameFieldLength" value="15" />
+		<R cruise="SBN" code="groupIndicatorOnSailAvlSupported" value="true" />
+		<R cruise="SBN" code="inclusiveFilteringSupportedForSailAvl" value="false" />
+		<R cruise="SBN" code="insuranceAtPassengerLevel" value="true" />
+		<R cruise="SBN" code="faxCanBeSpecified" value="false" />
+		<R cruise="SBN" code="languageOptionSupported" value="false" />
+		<R cruise="SBN" code="lastNameFieldLength" value="18" />
+		<R cruise="SBN" code="maxNumberOfPackagesAllowedPerCabin" value="99" />
+		<R cruise="SBN" code="maxNumberOfPrePackagesAllowedPerGuest" value="9" />
+		<R cruise="SBN" code="maxNumberOfShoreExcursionsAllowedPerBooking" value="99" />
+		<R cruise="SBN" code="maxGuestPerCabin" value="2" />
+		<R cruise="SBN" code="MOTMustBeAirForAirDeviationToBeSupported" value="false" />
+		<R cruise="SBN" code="guestCitySupported" value="false" />
+		<R cruise="SBN" code="guestTitleRequired" value="true" />
+		<R cruise="SBN" code="pastGuestIndicatorSupported" value="true" />
+		<R cruise="SBN" code="shipSideSupported" value="true" />
+		<R cruise="SBN" code="specialServiceRemarkFieldLength" value="25" />
+		<R cruise="SBN" code="maxSpecialOccasionGuest" value="50" />
+		<R cruise="SBN" code="maxSpecialOccasionBooking" value="99" />
+		<R cruise="SBN" code="maxSpecialRequestGuest" value="50" />
+		<R cruise="SBN" code="maxSpecialRequestBooking" value="99" />
+		<R cruise="SBN" code="maxSpecialServicesGuest" value="50" />
+		<R cruise="SBN" code="maxSpecialServicesBooking" value="99" />
+		<R cruise="SBN" code="paxAssociationOnGiftSupported" value="false" />
+		<R cruise="SBN" code="loyaltyNumberSupported" value="false" />
+		<R cruise="SBN" code="specialServiceListSupported" value="true" />
+		<R cruise="SBN" code="creditCardFromDateList" value="false" />
+		<R cruise="SBN" code="billAddMandOnCC" value="false" />
+		<R cruise="SBN" code="shoreExcursionSupported" value="false" />
+		<R cruise="SBN" code="maxNumberOfCabinHeld" value="1" />
+		<R cruise="SBN" code="packageDurationFieldMandatory" value="false" />
+		<R cruise="SBN" code="crossReferencingPostSupported" value="false" />
+		<R cruise="SBN" code="crossReferencingPrePackageSupported" value="false" />
+		<R cruise="SBN" code="maxNumberOfPostPackagesAllowedPerGuest" value="9" />
+		<R cruise="SBN" code="crossReferencingBookingSupported" value="false" />
+		<R cruise="SBN" code="refreshIndicator" value="true" />
+		<R cruise="SBN" code="docTitleSupported" value="false" />
+		<R cruise="SBN" code="transferLinkedToCruiseOnlyMOT" value="false" />
+		<R cruise="SBN" code="matchFareSupported" value="false" />
+		<R cruise="SBN" code="cabinHoldExpirationDelay" value="15" />
+		<R cruise="SBN" code="cityNameLength" value="25" />
+		<R cruise="SBN" code="streetAddressLength" value="50" />
+		<R cruise="SBN" code="phoneNumberLength" value="19" />
+		<R cruise="SBN" code="postalCodeLength" value="9" />
+		<R cruise="SBN" code="passportNumberLength" value="12" />
+		<R cruise="SBN" code="alienNumberLength" value="0" />
+		<R cruise="SBN" code="emailAddressLength" value="0" />
+		<R cruise="SBN" code="emergencyContactInformation" value="&quot;CP&quot;" />
+		<R cruise="SBN" code="transferSupported" value="false" />
+		<R cruise="SBN" code="bookingHistorySupported" value="true" />
+		<R cruise="SBN" code="paxValidationSupported" value="false" />
+		<R cruise="SBN" code="paxBirthDateSupported" value="true" />
+		<R cruise="SBN" code="groupCodeOnFastSellSupported" value="false" />
+		<R cruise="SBN" code="maxNumberOfFaresInCatAvl" value="2" />
+		<R cruise="SBN" code="addressValidationSupported" value="false" />
+		<R cruise="SBN" code="addressLine1Length" value="35" />
+		<R cruise="SBN" code="addressLine2Length" value="35" />
+		<R cruise="SBN" code="durationRangeSupportedFindSailing" value="false" />
+		<R cruise="SBN" code="promotionCodeSupportedFindSailing" value="false" />
+		<R cruise="SBN" code="guestAgesSupportedFindSailing" value="false" />
+		<R cruise="SBN" code="pastPassengerNumberSupportedFindSailing" value="false" />
+		<R cruise="WSC" code="ageGroupPrefForDiningSupported" value="false" />
+		<R cruise="WSC" code="affiliationNumberSupported" value="false" />
+		<R cruise="WSC" code="agentCreditNumberSupported" value="false" />
+		<R cruise="WSC" code="airDeviationSupported" value="false" />
+		<R cruise="WSC" code="bookingLockedUponRetrieval" value="false" />
+		<R cruise="WSC" code="crossReferencingAirSupported" value="false" />
+		<R cruise="WSC" code="crossReferencingBackToBackSupported" value="false" />
+		<R cruise="WSC" code="crossReferencingInvoiceSupported" value="false" />
+		<R cruise="WSC" code="crossReferencingTourSupported" value="false" />
+		<R cruise="WSC" code="currencyRequiredFareAvailabilityRequest" value="true" />
+		<R cruise="WSC" code="defaultSailingDuration" value="7" />
+		<R cruise="WSC" code="defaultNumberInParty" value="2" />
+		<R cruise="WSC" code="depositRequiredForAirDeviation" value="false" />
+		<R cruise="WSC" code="diningAtPassengerLevel" value="false" />
+		<R cruise="WSC" code="diningTableSizeOptionSupported" value="false" />
+		<R cruise="WSC" code="diningRoomOptionSupported" value="false" />
+		<R cruise="WSC" code="diningWithSupported" value="true" />
+		<R cruise="WSC" code="extendedPaymentSupported" value="false" />
+		<R cruise="WSC" code="fareCodeAtPassengerLevel" value="false" />
+		<R cruise="WSC" code="firstNameFieldLength" value="10" />
+		<R cruise="WSC" code="groupIndicatorOnSailAvlSupported" value="false" />
+		<R cruise="WSC" code="inclusiveFilteringSupportedForSailAvl" value="false" />
+		<R cruise="WSC" code="insuranceAtPassengerLevel" value="true" />
+		<R cruise="WSC" code="faxCanBeSpecified" value="false" />
+		<R cruise="WSC" code="languageOptionSupported" value="false" />
+		<R cruise="WSC" code="lastNameFieldLength" value="20" />
+		<R cruise="WSC" code="maxNumberOfPackagesAllowedPerCabin" value="3" />
+		<R cruise="WSC" code="maxNumberOfPrePackagesAllowedPerGuest" value="1" />
+		<R cruise="WSC" code="maxNumberOfShoreExcursionsAllowedPerBooking" value="0" />
+		<R cruise="WSC" code="maxGuestPerCabin" value="3" />
+		<R cruise="WSC" code="MOTMustBeAirForAirDeviationToBeSupported" value="false" />
+		<R cruise="WSC" code="guestCitySupported" value="true" />
+		<R cruise="WSC" code="guestTitleRequired" value="true" />
+		<R cruise="WSC" code="pastGuestIndicatorSupported" value="true" />
+		<R cruise="WSC" code="shipSideSupported" value="false" />
+		<R cruise="WSC" code="specialServiceRemarkFieldLength" value="15" />
+		<R cruise="WSC" code="maxSpecialOccasionGuest" value="50" />
+		<R cruise="WSC" code="maxSpecialOccasionBooking" value="99" />
+		<R cruise="WSC" code="maxSpecialRequestGuest" value="50" />
+		<R cruise="WSC" code="maxSpecialRequestBooking" value="99" />
+		<R cruise="WSC" code="maxSpecialServicesGuest" value="50" />
+		<R cruise="WSC" code="maxSpecialServicesBooking" value="99" />
+		<R cruise="WSC" code="paxAssociationOnGiftSupported" value="false" />
+		<R cruise="WSC" code="loyaltyNumberSupported" value="false" />
+		<R cruise="WSC" code="specialServiceListSupported" value="true" />
+		<R cruise="WSC" code="creditCardFromDateList" value="false" />
+		<R cruise="WSC" code="billAddMandOnCC" value="false" />
+		<R cruise="WSC" code="shoreExcursionSupported" value="false" />
+		<R cruise="WSC" code="maxNumberOfCabinHeld" value="1" />
+		<R cruise="WSC" code="packageDurationFieldMandatory" value="false" />
+		<R cruise="WSC" code="crossReferencingPostSupported" value="false" />
+		<R cruise="WSC" code="crossReferencingPrePackageSupported" value="false" />
+		<R cruise="WSC" code="maxNumberOfPostPackagesAllowedPerGuest" value="1" />
+		<R cruise="WSC" code="crossReferencingBookingSupported" value="false" />
+		<R cruise="WSC" code="refreshIndicator" value="false" />
+		<R cruise="WSC" code="docTitleSupported" value="false" />
+		<R cruise="WSC" code="transferLinkedToCruiseOnlyMOT" value="false" />
+		<R cruise="WSC" code="matchFareSupported" value="false" />
+		<R cruise="WSC" code="cabinHoldExpirationDelay" value="15" />
+		<R cruise="WSC" code="cityNameLength" value="20" />
+		<R cruise="WSC" code="streetAddressLength" value="25" />
+		<R cruise="WSC" code="phoneNumberLength" value="10" />
+		<R cruise="WSC" code="postalCodeLength" value="9" />
+		<R cruise="WSC" code="passportNumberLength" value="16" />
+		<R cruise="WSC" code="alienNumberLength" value="15" />
+		<R cruise="WSC" code="emailAddressLength" value="60" />
+		<R cruise="WSC" code="emergencyContactInformation" value="&quot;N&quot;" />
+		<R cruise="WSC" code="transferSupported" value="false" />
+		<R cruise="WSC" code="bookingHistorySupported" value="false" />
+		<R cruise="WSC" code="paxValidationSupported" value="false" />
+		<R cruise="WSC" code="paxBirthDateSupported" value="false" />
+		<R cruise="WSC" code="groupCodeOnFastSellSupported" value="true" />
+		<R cruise="WSC" code="maxNumberOfFaresInCatAvl" value="2" />
+		<R cruise="WSC" code="addressValidationSupported" value="false" />
+		<R cruise="WSC" code="addressLine1Length" value="25" />
+		<R cruise="WSC" code="addressLine2Length" value="25" />
+		<R cruise="WSC" code="durationRangeSupportedFindSailing" value="false" />
+		<R cruise="WSC" code="promotionCodeSupportedFindSailing" value="false" />
+		<R cruise="WSC" code="guestAgesSupportedFindSailing" value="false" />
+		<R cruise="WSC" code="pastPassengerNumberSupportedFindSailing" value="false" />
+	</PROFILE>
+</CruiseDB>

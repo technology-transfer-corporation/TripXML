@@ -1,0 +1,953 @@
+<TTWSEquipments>
+	<!-- ================================================================== -->
+	<!-- TTWSEquipments.xml 																-->
+	<!-- ================================================================== -->
+	<!-- Date: 22 Jan 2012 - Rastko	added codes 388	, 77L							-->
+	<!-- Date: 30 Aig 2011 - Rastko	added code BUS									-->
+	<!-- Date: 01 Dec 2006 - Rastko														-->
+	<!-- ================================================================== -->
+	<Equipment>
+		<Code>100</Code>
+		<Name>FOKKER 100 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>141</Code>
+		<Name>BRITISH AEROSPACE 146-100 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>142</Code>
+		<Name>BRITISH AEROSPACE 146-200 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>143</Code>
+		<Name>BRITISH AEROSPACE 146-300 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>146</Code>
+		<Name>BRITISH AEROSPACE 146-100/200/300 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>310</Code>
+		<Name>AIRBUS INDUSTRIE 310 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>312</Code>
+		<Name>AIRBUS INDUSTRIE A310-200 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>313</Code>
+		<Name>AIRBUS INDUSTRIE A310-300 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>318</Code>
+		<Name>AIRBUS INDUSTRIE A318 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>319</Code>
+		<Name>AIRBUS INDUSTRIE A319 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>320</Code>
+		<Name>AIRBUS INDUSTRIE A320-100/200 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>321</Code>
+		<Name>AIRBUS INDUSTRIE A321 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>32S</Code>
+		<Name>AIRBUS INDUSTRIE A318/A319/A320/A321 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>330</Code>
+		<Name>AIRBUS INDUSTRIE A330 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>332</Code>
+		<Name>AIRBUS INDUSTRIE A330-200 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>333</Code>
+		<Name>AIRBUS INDUSTRIE A330-300 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>340</Code>
+		<Name>AIRBUS INDUSTRIE A340 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>342</Code>
+		<Name>AIRBUS INDUSTRIE A340-200 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>343</Code>
+		<Name>AIRBUS INDUSTRIE A340-300 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>345</Code>
+		<Name>AIRBUS INDUSTRIE A340-500 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>346</Code>
+		<Name>AIRBUS INDUSTRIE A340-600 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>380</Code>
+		<Name>AIRBUS INDUSTRIE A380 JET 480-656</Name>
+	</Equipment>
+	<Equipment>
+		<Code>388</Code>
+		<Name>AIRBUS INDUSTRIE A380-800 JET 480-656</Name>
+	</Equipment>
+	<Equipment>
+		<Code>707</Code>
+		<Name>BOEING 707/720B JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>70M</Code>
+		<Name>BOEING 707 MIXED CONFIG JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>717</Code>
+		<Name>BOEING 717 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>722</Code>
+		<Name>BOEING 727-200 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>727</Code>
+		<Name>BOEING 727-100/200/200 ADVANCED JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>72A</Code>
+		<Name>BOEING 727-200 ADVANCED JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>72M</Code>
+		<Name>BOEING 727-100 MIXED CONFIGURATION JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>72S</Code>
+		<Name>BOEING 727-200/200 ADVANCED JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>732</Code>
+		<Name>BOEING 737-200 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>733</Code>
+		<Name>BOEING 737-300 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>734</Code>
+		<Name>BOEING 737-400 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>735</Code>
+		<Name>BOEING 737-500 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>736</Code>
+		<Name>BOEING 737-600 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>737</Code>
+		<Name>BOEING 737 ALL SERIES PASSENGER JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>738</Code>
+		<Name>BOEING 737-800 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>739</Code>
+		<Name>BOEING 737-900 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>73A</Code>
+		<Name>BOEING 737-200 ADVANCED JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>73G</Code>
+		<Name>BOEING 737-700 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>73H</Code>
+		<Name>BOEING 737-800 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>73M</Code>
+		<Name>BOEING 737-200 MIXED CONFIGURATION JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>73S</Code>
+		<Name>BOEING 737-200/200 ADVANCED JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>73W</Code>
+		<Name>BOEING 737-700 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>741</Code>
+		<Name>BOEING 747-100 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>742</Code>
+		<Name>BOEING 747-200 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>743</Code>
+		<Name>BOEING 747-300 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>744</Code>
+		<Name>BOEING 747-400 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>747</Code>
+		<Name>BOEING 747 ALL SERIES PASSENGER JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>74D</Code>
+		<Name>BOEING 747-300 MIXED CONFIGURATION JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>74E</Code>
+		<Name>BOEING 747-400 MIXED CONFIGURATION JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>74L</Code>
+		<Name>BOEING 747SP JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>74M</Code>
+		<Name>BOEING 747-200/300/400 MIX CONFIG JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>752</Code>
+		<Name>BOEING 757-200 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>753</Code>
+		<Name>BOEING 757-300 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>757</Code>
+		<Name>BOEING 757-200/300 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>762</Code>
+		<Name>BOEING 767-200/200ER JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>763</Code>
+		<Name>BOEING 767-300/300ER JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>764</Code>
+		<Name>BOEING 767-400 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>767</Code>
+		<Name>BOEING 767-200/300 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>772</Code>
+		<Name>BOEING 777-200 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>773</Code>
+		<Name>BOEING 777-300 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>777</Code>
+		<Name>BOEING 777-200/300 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>77L</Code>
+		<Name>BOEING 777-200LR JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>77W</Code>
+		<Name>BOEING 777-300/300ER JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AB3</Code>
+		<Name>AIRBUS INDUSTRIE A300 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AB4</Code>
+		<Name>AIRBUS INDUSTRIE A300-B2/B4/C4 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AB6</Code>
+		<Name>AIRBUS INDUSTRIE A300-600/600C JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>ACD</Code>
+		<Name>ROCKWELL AERO COMMANDER TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AGH</Code>
+		<Name>AGUSTA A 109A HELICOPTER</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AN4</Code>
+		<Name>ANTONOV AN-24 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AN6</Code>
+		<Name>ANTONOV AN-26/30/32 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AN6</Code>
+		<Name>ANTONOV AN-26/30/32 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AN6</Code>
+		<Name>ANTONOV AN-26/30/32 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AN7</Code>
+		<Name>ANTONOV AN-72/74 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AR1</Code>
+		<Name>AVRO RJ100 AVROLINER JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AR7</Code>
+		<Name>AVRO RJ70 AVROLINER JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AR8</Code>
+		<Name>AVRO RJ85 AVROLINER JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>ARJ</Code>
+		<Name>AVRO RJ AVROLINER RJ70/85/100 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AT4</Code>
+		<Name>AEROSPATIALE/ALENIA ATR 42-300/320 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>AT7</Code>
+		<Name>AEROSPATIALE/ALENIA ATR 72 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>ATP</Code>
+		<Name>BRITISH AEROSPACE ATP TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>ATR</Code>
+		<Name>AEROSPATIALE/ALENIA ATR42/72 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>B11</Code>
+		<Name>BRITISH AEROSPACE (BAC) 1-11 (ALL) JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>B14</Code>
+		<Name>BRITISH AEROSPACE (BAC) 1-11 400/475 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>B15</Code>
+		<Name>BRITISH AEROSPACE (BAC) 1-11 500 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>B72</Code>
+		<Name>BOEING 720/720B (707-020/020B) JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>BE1</Code>
+		<Name>BEECHCRAFT 1900/1900C/1900D TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>BE2</Code>
+		<Name>BEECHCRAFT PIST</Name>
+	</Equipment>
+	<Equipment>
+		<Code>BE9</Code>
+		<Name>BEECHCRAFT C99 AIRLINER TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>BEC</Code>
+		<Name>BEECHCRAFT (LIGHT AIRCRAFT) TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>BEH</Code>
+		<Name>BEECHCRAFT 1900D TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>BES</Code>
+		<Name>BEECHCRAFT 1900/1900C TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>BH2</Code>
+		<Name>BELL HELICOPTERS HELICOPTER</Name>
+	</Equipment>
+	<Equipment>
+		<Code>BNI</Code>
+		<Name>PILATUS BRITTEN-NORMAN B ISLANDER TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>BNT</Code>
+		<Name>PILATUS BRITTEN-NORMAN MK3 TRISLAN TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CCJ</Code>
+		<Name>CANADAIR CHALLENGER JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CD2</Code>
+		<Name>GOVERNMENT AIRCRAFT N22B/N24A TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CHG</Code>
+		<Name>CHANGE OF GAUGE</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CL4</Code>
+		<Name>CANADAIR CL-44 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CN2</Code>
+		<Name>CESSNA STATIONAIR 206 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CNA</Code>
+		<Name>CESSNA (LIGHT AIRCRAFT) TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CNJ</Code>
+		<Name>CESSNA CITATION JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CNT</Code>
+		<Name>CESSNA STATIONAIR 20 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CR1</Code>
+		<Name>CANADAIR REGIONAL JET 100/200 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CR2</Code>
+		<Name>CANADAIR REGIONAL JET 200 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CR7</Code>
+		<Name>CANADAIR REGIONAL JET 700 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CR9</Code>
+		<Name>CANADAIR REGIONAL JET 900 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CRJ</Code>
+		<Name>CANADAIR REGIONAL JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CRV</Code>
+		<Name>AEROSPATIALE SE.210 CARAVELLE JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CS2</Code>
+		<Name>CASA C-212/NC-212 AVIOCAR TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CS5</Code>
+		<Name>CASA CN-235 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CVR</Code>
+		<Name>CONVAIR 240-640 SERIES TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>CWC</Code>
+		<Name>CURTISS C-46 COMMANDO TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>C09</Code>
+		<Name>MCDONNELL DOUGLAS D09 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>D10</Code>
+		<Name>MCDONNELL DOUGLAS DC-10 ALL SERIES JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>D1C</Code>
+		<Name>MC DONNELL DOUGLAS DC-10-30/40 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>D1M</Code>
+		<Name>MC DONNELL DOUGLAS DC-10 MIXED CONF JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>D28</Code>
+		<Name>FAIRCHILD DORNIER 228 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>D38</Code>
+		<Name>FAIRCHILD DORNIER 328 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>D8S</Code>
+		<Name>MC DONNELL DOUGLAS DC-8 60/70 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>D93</Code>
+		<Name>MC DONNELL DOUGLAS DC-9-30 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>D95</Code>
+		<Name>MC DONNELL DOUGLAS DC-9-50 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>D9S</Code>
+		<Name>MC DONNELL DOUGLAS DC-9 30/40/50 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DAM</Code>
+		<Name>DASSAULT-BREGUET MERCURE JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DC3</Code>
+		<Name>MDC DOUGLAS DC-3 PIST</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DC6</Code>
+		<Name>MDC DOUGLAS DC-6A/B PIST</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DC8</Code>
+		<Name>MCDONNELL DOUGLAS DC-8 ALL SERIES JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DC9</Code>
+		<Name>MC DONNELL DOUGLAS DC-9 (ALL SERIES) JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DF2</Code>
+		<Name>DASSAULT-BREGUET MYSTERE-FALCON 10/20 JET JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DH1</Code>
+		<Name>DE HAVILLAND DHC-8 100 SERIES TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DH2</Code>
+		<Name>DE HAVILLAND DHC-8 200 SERIES TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DH3</Code>
+		<Name>DE HAVILLAND DHC-8 SERIES 300 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DH4</Code>
+		<Name>DE HAVILLAND DHC-8 400 SERIES TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DH7</Code>
+		<Name>DE HAVILLAND DHC-7 DASH 7 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DH8</Code>
+		<Name>DE HAVILLAND DHC-8 DASH 8 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DHB</Code>
+		<Name>DE HAVILLAND DHC-2 TURBO-BEAVER TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DHC</Code>
+		<Name>DE HAVILLAND DHC-4 CARIBOU TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DHH</Code>
+		<Name>BRITISH AEROSPACE HERON TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DHL</Code>
+		<Name>DE HAVILLAND DHC-3 TURBO OTTER TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DHM</Code>
+		<Name>DE HAVILLAND DHC-7 MIXED CONFIG TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DHO</Code>
+		<Name>DE HAVILLAND DHC-3 OTTER TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DHP</Code>
+		<Name>DE HAVILLAND DHC-2 BEAVER PIST</Name>
+	</Equipment>
+	<Equipment>
+		<Code>DHT</Code>
+		<Name>DE HAVILLAND DHC-6 TWIN OTTER TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>E70</Code>
+		<Name>EMBRAER 170 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>E75</Code>
+		<Name>EMBRAER 175 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>E90</Code>
+		<Name>EMBRAER 190 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>EM2</Code>
+		<Name>EMBRAER EMB-120 BRASILIA TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>EMB</Code>
+		<Name>EMBRAER EMB-110 BANDEIRANTE TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>EQV</Code>
+		<Name>CHANGE OF EQUIPMENT - ALL CODES N/A </Name>
+	</Equipment>
+	<Equipment>
+		<Code>ER3</Code>
+		<Name>EMBRAER RJ135 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>ER4</Code>
+		<Name>EMBRAER RJ145 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>ERD</Code>
+		<Name>EMBRAER RJ140 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>ERJ</Code>
+		<Name>EMBRAER RJ135/140/145 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>E95</Code>
+		<Name>EMBRAER 195 JET 106-116</Name>
+	</Equipment>
+	<Equipment>
+		<Code>EMJ</Code>
+		<Name>EMBRAER RJ170/190 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>F24</Code>
+		<Name>FOKKER F28-4000 FELLOWSHIP JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>F27</Code>
+		<Name>FOKKER F27 FRIENDSHIP/FAIRCHILD TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>F28</Code>
+		<Name>FOKKER F28FELLOWSHIP ALL SERIES JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>F50</Code>
+		<Name>FOKKER 50 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>F70</Code>
+		<Name>FOKKER 70 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>FK7</Code>
+		<Name>FAIRCHILD INDUSTRIES FH-227 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>FRJ</Code>
+		<Name>FAIRCHILD 328JET JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>GRG</Code>
+		<Name>GRUMMAN G-21 GOOSE PIST</Name>
+	</Equipment>
+	<Equipment>
+		<Code>GRM</Code>
+		<Name>GRUMMAN G-73 MALLARD TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>GRS</Code>
+		<Name>GULFSTREAM (GRUMMAN) G-159 G-I TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>HOV</Code>
+		<Name>HOVERC 81 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>HPH</Code>
+		<Name>BRITISH AERO(HANDLEY PAGE) HERALD TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>HS7</Code>
+		<Name>BRITISH AERO(HAWKER SIDDELEY) 748 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>ICE</Code>
+		<Name>INTER-CITY EXPRESS SURFACE</Name>
+	</Equipment>
+	<Equipment>
+		<Code>IL6</Code>
+		<Name>ILYUSHIN IL-62/62M/62MK JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>IL8</Code>
+		<Name>ILYUSHIN IL-18 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>IL9</Code>
+		<Name>ILYUSHIN IL-96 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>ILW</Code>
+		<Name>ILYUSHIN IL-86 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>J31</Code>
+		<Name>BRITISH AEROSPACE JETSTREAM 31 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>J32</Code>
+		<Name>BRITISH AEROSPACE JETSTREAM 32 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>J41</Code>
+		<Name>BRITISH AEROSPACE JETSTREAM 41 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>JET</Code>
+		<Name>UNDEFINED JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>L10</Code>
+		<Name>LOCKHEED L-1011 TRISTAR ALL SERIES JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>L15</Code>
+		<Name>LOCKHEED L-1011-500 TRISTAR JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>L4T</Code>
+		<Name>LET L410 TURBOLET TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>LOE</Code>
+		<Name>LOCKHEED L-188 ELECTRA TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>LOM</Code>
+		<Name>LOCKHEED L-188 MIXED CONFIG TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>M11</Code>
+		<Name>MC DONNELL DOUGLAS MD-11 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>M1M</Code>
+		<Name>MCDONNELL DOUGLAS MD-11 MIXED CONF JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>M80</Code>
+		<Name>MCDONNELL DOUGLAS MD-80 ALL SERIES JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>M81</Code>
+		<Name>MC DONNELL DOUGLAS MD-81 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>M82</Code>
+		<Name>MC DONNELL DOUGLAS MD-82 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>M83</Code>
+		<Name>MC DONNELL DOUGLAS MD-83 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>M87</Code>
+		<Name>MC DONNELL DOUGLAS MD-87 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>M88</Code>
+		<Name>MC DONNELL DOUGLAS MD-88 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>M90</Code>
+		<Name>MC DONNELL DOUGLAS MD-90 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>MD9</Code>
+		<Name>MCDONNELL DOUGLAS 900 EXPLORER HELICOPTER</Name>
+	</Equipment>
+	<Equipment>
+		<Code>MIH</Code>
+		<Name>MIL MI-8 HELICOPTER</Name>
+	</Equipment>
+	<Equipment>
+		<Code>MTL</Code>
+		<Name>METROLINER (TRAIN) TRAIN</Name>
+	</Equipment>
+	<Equipment>
+		<Code>MU2</Code>
+		<Name>MITSUBISHI MU-2/MARQUISE/SOLIT TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>NDC</Code>
+		<Name>AEROSPATIALE SN601 CORVETTE JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>NDE</Code>
+		<Name>AEROSPATIALE AS350/355 ECUREUIL HELICOPTER</Name>
+	</Equipment>
+	<Equipment>
+		<Code>NDE</Code>
+		<Name>AEROSPATIALE AS350/355 ECUREUIL HELICOPTER</Name>
+	</Equipment>
+	<Equipment>
+		<Code>NDH</Code>
+		<Name>AEROSPATIALE SA 365 DAUPHIN 2 HELICOPTER</Name>
+	</Equipment>
+	<Equipment>
+		<Code>PA1</Code>
+		<Name>PIPER T-1020/1040 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>PA2</Code>
+		<Name>PIPER LIGHT AIRCRAFT PIST</Name>
+	</Equipment>
+	<Equipment>
+		<Code>PAG</Code>
+		<Name>PIPER (LIGHT AIRCRAFT) TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>PL2</Code>
+		<Name>PILATUS PC-12 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>PL6</Code>
+		<Name>PILATUS PC-6 TURBO-PORTER TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>PN6</Code>
+		<Name>PARTENAVIA P.68 VICTOR TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>S20</Code>
+		<Name>SAAB 2000 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>S58</Code>
+		<Name>SIKORSKY S-58T HELICOPTER</Name>
+	</Equipment>
+	<Equipment>
+		<Code>S61</Code>
+		<Name>SIKORSKY S-61 HELICOPTER</Name>
+	</Equipment>
+	<Equipment>
+		<Code>S76</Code>
+		<Name>SIKORSKY S-76 HELICOPTER</Name>
+	</Equipment>
+	<Equipment>
+		<Code>S80</Code>
+		<Name>MC DONNELL DOUGLAS SUPER 80 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>SF3</Code>
+		<Name>SAAB SF340A/340B TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>SH3</Code>
+		<Name>SHORTS 330 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>SH6</Code>
+		<Name>SHORTS 360 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>SHS</Code>
+		<Name>SHORTS SKYVAN TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>SSC</Code>
+		<Name>CONCORDE AEROSPATIALE/BRITISH AERO JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>SWM</Code>
+		<Name>FAIRCHILD(SWEARINGEN) METRO/MERLIN TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>TAT</Code>
+		<Name>AUTO TRAIN FOR CARS</Name>
+	</Equipment>
+	<Equipment>
+		<Code>TCM</Code>
+		<Name>COMMUTER TRAIN TRAIN</Name>
+	</Equipment>
+	<Equipment>
+		<Code>TEE</Code>
+		<Name>TRANS-EUROPE EXPRESS TRAIN</Name>
+	</Equipment>
+	<Equipment>
+		<Code>TGV</Code>
+		<Name>TGV (HIGH SPEED TRAIN) TRAIN</Name>
+	</Equipment>
+	<Equipment>
+		<Code>THS</Code>
+		<Name>HIGH SPEED TRAIN TRAIN</Name>
+	</Equipment>
+	<Equipment>
+		<Code>THT</Code>
+		<Name>HOTEL TRAIN TRAIN</Name>
+	</Equipment>
+	<Equipment>
+		<Code>TIC</Code>
+		<Name>INTERCITY TRAIN TRAIN</Name>
+	</Equipment>
+	<Equipment>
+		<Code>TRD</Code>
+		<Name>BRITISH AERO(HAWKER SIDDELEY)TRIDENT JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>TRN</Code>
+		<Name>TRAIN SURFACE TRAIN</Name>
+	</Equipment>
+	<Equipment>
+		<Code>TSL</Code>
+		<Name>SLEEPER TRAIN TRAIN</Name>
+	</Equipment>
+	<Equipment>
+		<Code>TU3</Code>
+		<Name>TUPOLEV TU-134 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>TU5</Code>
+		<Name>TUPOLEV TU-154 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>VCV</Code>
+		<Name>BRITISH AERO(BAC-VICKERS)VISCOUNT TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>WLH</Code>
+		<Name>WESTLAND 30 HELICOPTER</Name>
+	</Equipment>
+	<Equipment>
+		<Code>YK2</Code>
+		<Name>YAKOVLEV YAK-42 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>YK4</Code>
+		<Name>YAKOVLEV YAK-40 JET</Name>
+	</Equipment>
+	<Equipment>
+		<Code>YS1</Code>
+		<Name>NAMC YS-11 TURBOPROP</Name>
+	</Equipment>
+	<Equipment>
+		<Code>BUS</Code>
+		<Name>BUS</Name>
+	</Equipment>
+</TTWSEquipments>

@@ -1,0 +1,7 @@
+Session ID,REF,Carrier,Flight Number,Board, Off,Departure,Date Stamp,Time Stamp,Office,O&D,Context,Pax,Class,Status,Fare Basis,Error Message
+,1,QF,16,LAX,BNE,05/18/2010,2010-18-02,8:40:16 AM,LAS1S210D,LAX-BNE,,1,O,
+,,QF,611,BNE,MEL,05/22/2010,,,,BNE-MEL,,1,O,
+,,QF,675,MEL,ADL,05/24/2010,,,,MEL-ADL,,1,O,
+,,QF,736,ADL,SYD,05/27/2010,,,,ADL-SYD,,1,O,
+,,QF,141,SYD,AKL,05/29/2010,,,,SYD-LAX,,1,O,
+,,QF,25,AKL,LAX,05/29/2010,,,,,,1,O,

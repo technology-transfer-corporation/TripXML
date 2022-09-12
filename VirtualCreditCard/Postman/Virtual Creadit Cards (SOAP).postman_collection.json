@@ -1,0 +1,163 @@
+{
+	"info": {
+		"_postman_id": "b2aed143-7361-40a3-b582-47ac6e6200f8",
+		"name": "Virtual Creadit Cards (SOAP)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get VCC List",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <Header>\r\n        <TripXML xmlns=\"http://tripxml.downtowntravel.com/wsVirtualCreditCard\">\r\n            <userName>DTT</userName>\r\n            <password>tr@v3l</password>\r\n            <compressed>false</compressed>\r\n        </TripXML>\r\n    </Header>\r\n    <Body>\r\n        <ListVirtualCards xmlns=\"http://tripxml.downtowntravel.com/wsVirtualCreditCard\">\r\n            <!-- Optional -->\r\n            <PAY_ListVirtualCardsRQ>\r\n                <!-- Optional -->\r\n                <POS>\r\n                        <Source PseudoCityCode=\"NYC1S211F\">\r\n                            <RequestorID Type=\"21\" ID=\"DTT\" />\r\n                        </Source>\r\n                        <TPA_Extensions>\r\n                            <Provider>\r\n                                <Name>Amadeus</Name>\r\n                                <System>Production</System>\r\n                                <Userid>Amadeus</Userid>\r\n                                <Password>tr@v3l</Password>\r\n                            </Provider>\r\n                        </TPA_Extensions>\r\n                    </POS>\r\n                <ConversationID>2XU7BZS7WJ5SB1RZALZHBVIPZR|0IGLDAW2BP|1</ConversationID>\r\n                    <SubType >Credit</SubType>\r\n                    <CurrencyCode >USD</CurrencyCode>\r\n            </PAY_ListVirtualCardsRQ>\r\n        </ListVirtualCards>\r\n    </Body>\r\n</Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://ukraine/TripXML/wsVirtualCreditCard.asmx",
+					"protocol": "http",
+					"host": [
+						"ukraine"
+					],
+					"path": [
+						"TripXML",
+						"wsVirtualCreditCard.asmx"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get VCC Details",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <Header>\r\n        <TripXML xmlns=\"http://tripxml.downtowntravel.com/wsVirtualCreditCard\">\r\n            <userName>DTT</userName>\r\n            <password>tr@v3l</password>\r\n            <compressed>false</compressed>\r\n        </TripXML>\r\n    </Header>\r\n    <Body>\r\n        <GetVirtualCardDetails xmlns=\"http://tripxml.downtowntravel.com/wsVirtualCreditCard\">\r\n            <!-- Optional -->\r\n            <PAY_GetVirtualCardDetailsRQ>\r\n                    <POS>\r\n                        <Source PseudoCityCode=\"NYC1S211F\">\r\n                            <RequestorID Type=\"21\" ID=\"DTT\" />\r\n                        </Source>\r\n                        <TPA_Extensions>\r\n                            <Provider>\r\n                                <Name>Amadeus</Name>\r\n                                <System>Production</System>\r\n                                <Userid>Amadeus</Userid>\r\n                                <Password>tr@v3l</Password>\r\n                            </Provider>\r\n                        </TPA_Extensions>\r\n                    </POS>\r\n                <ConversationID>2XU7BZS7WJ5SB1RZALZHBVIPZR|0IGLDAW2BP|1</ConversationID>\r\n                <References>\r\n                    <Reference Type=\"External\">MCLFR12CJ33J7R5QVR</Reference>\r\n                    <Reference Type=\"Amadeus\">222EW8RT</Reference>\r\n                </References>\r\n            </PAY_GetVirtualCardDetailsRQ>\r\n        </GetVirtualCardDetails>\r\n    </Body>\r\n</Envelope>"
+				},
+				"url": {
+					"raw": "http://ukraine/TripXML/wsVirtualCreditCard.asmx",
+					"protocol": "http",
+					"host": [
+						"ukraine"
+					],
+					"path": [
+						"TripXML",
+						"wsVirtualCreditCard.asmx"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create VCC",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <Header>\r\n        <TripXML xmlns=\"http://tripxml.downtowntravel.com/wsVirtualCreditCard\">\r\n            <userName>DTT</userName>\r\n            <password>tr@v3l</password>\r\n            <compressed>false</compressed>\r\n        </TripXML>\r\n    </Header>\r\n    <Body>\r\n        <GenerateVirtualCard xmlns=\"http://tripxml.downtowntravel.com/wsVirtualCreditCard\">\r\n            <PAY_GenerateVirtualCardRQ xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"0\">\r\n                <POS>\r\n                    <Source PseudoCityCode=\"NYC1S211F\">\r\n                    <RequestorID Type=\"21\" ID=\"DTT\" />\r\n                    </Source>\r\n                    <TPA_Extensions>\r\n                    <Provider>\r\n                        <Name>Amadeus</Name>\r\n                        <System>Production</System>\r\n                        <Userid>Amadeus</Userid>\r\n                        <Password>tr@v3l</Password>\r\n                    </Provider>\r\n                    </TPA_Extensions>\r\n                </POS>\r\n                <ConversationID>KVFLPII7Q7K926ESUL37ABZD4|0N8FMKQT3T|1</ConversationID>\r\n                <VirtualCard CardName=\"Downtown Travel\" SubType=\"CREDIT\" ReturnCVV=\"true\" Amount=\"600\" DecimalPlaces=\"2\" CurrencyCode=\"USD\">\r\n                    <Limitations>\r\n                    <AllowedTransactions Maximum=\"1\" />\r\n                    <ValidityPeriod EndDate=\"2022-01-12\" />\r\n                    </Limitations>\r\n                </VirtualCard>\r\n                <ReportingInfo>\r\n                    <AdditionalInfo CodeContext=\"CardInfo\" Code=\"PNR\">TTC223</AdditionalInfo>\r\n                    <AdditionalInfo CodeContext=\"CardInfo\" Code=\"AI AN\">212481TEST</AdditionalInfo>\r\n                    <AdditionalInfo CodeContext=\"CardInfo\" Code=\"PAXNAME\">Downtown Travel</AdditionalInfo>\r\n                </ReportingInfo>\r\n                </PAY_GenerateVirtualCardRQ>\r\n        </GenerateVirtualCard>\r\n    </Body>\r\n</Envelope>"
+				},
+				"url": {
+					"raw": "http://ukraine/TripXML/wsVirtualCreditCard.asmx",
+					"protocol": "http",
+					"host": [
+						"ukraine"
+					],
+					"path": [
+						"TripXML",
+						"wsVirtualCreditCard.asmx"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete VCC",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    <Header>\r\n        <TripXML xmlns=\"http://tripxml.downtowntravel.com/wsVirtualCreditCard\">\r\n            <userName>DTT</userName>\r\n            <password>tr@v3l</password>\r\n            <compressed>false</compressed>\r\n        </TripXML>\r\n    </Header>\r\n    <Body>\r\n        <DeleteVirtualCard xmlns=\"http://tripxml.downtowntravel.com/wsVirtualCreditCard\">\r\n            <!-- Optional -->\r\n            <PAY_DeleteVirtualCardRQ xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"0\">\r\n            <POS>\r\n                <Source PseudoCityCode=\"NYC1S211F\">\r\n                <RequestorID Type=\"21\" ID=\"DTT\" />\r\n                </Source>\r\n                <TPA_Extensions>\r\n                <Provider>\r\n                    <Name>Amadeus</Name>\r\n                    <System>Production</System>\r\n                    <Userid>Amadeus</Userid>\r\n                    <Password>tr@v3l</Password>\r\n                </Provider>\r\n                </TPA_Extensions>\r\n            </POS>\r\n            <ConversationID>V8MYY9GLZL5M25AO1LDVSAT8E|0IHB0PCUDR|2</ConversationID>\r\n            <References>\r\n                <Reference Type=\"External\">1WC9DHVBFHCYDT4D4R</Reference>\r\n                <Reference Type=\"Amadeus\">222EW9TU</Reference>\r\n            </References>\r\n            <Reason Label=\"T-Robot\">No Longer Needed</Reason>\r\n            </PAY_DeleteVirtualCardRQ>\r\n        </DeleteVirtualCard>\r\n    </Body>\r\n</Envelope>"
+				},
+				"url": {
+					"raw": "http://ukraine/TripXML/wsVirtualCreditCard.asmx",
+					"protocol": "http",
+					"host": [
+						"ukraine"
+					],
+					"path": [
+						"TripXML",
+						"wsVirtualCreditCard.asmx"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CC Lookup (BINLIST)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept-Version",
+						"value": "3"
+					}
+				],
+				"url": {
+					"raw": "https://lookup.binlist.net/46357600",
+					"protocol": "https",
+					"host": [
+						"lookup",
+						"binlist",
+						"net"
+					],
+					"path": [
+						"46357600"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

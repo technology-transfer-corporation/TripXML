@@ -1,0 +1,13 @@
+<Config Domain="dtt.com" Trace="true" Log="true">
+  <Validate In="true" Out="true" />
+  <FeaturedProvider>Sabre-53UG</FeaturedProvider>
+  <Provider Name="Worldspan">
+    <System Name="Test">
+      <PCC Code="VJV" Name="ticket">
+        <Username>downtowntrvl</Username>
+        <Password>downtowntrvl0000</Password>
+        <Profile>8YQTKT</Profile>
+      </PCC>
+    </System>
+  </Provider>
+</Config>
