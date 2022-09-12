@@ -10,7 +10,7 @@ using System.Globalization;
 using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Xsl;
+using static TripXMLMain.modCore.enAmadeusWSSchema;
 
 namespace AmadeusWS
 {
@@ -43,12 +43,10 @@ namespace AmadeusWS
         private string SendRequestSegment(AmadeusWSAdapter ttAA, string request, string segment, string soapAction, string nameSpace)
         {
             string strResponse = "";
-            if (string.IsNullOrEmpty(Version))
-                Version = $"v03_";
 
             if (!string.IsNullOrEmpty(request))
             {
-                CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSService", $"***** {segment} *****", "", ttProviderSystems.LogUUID);
+
                 Message += request;
                 strResponse = SendGDSMessage(ttAA, request, soapAction, nameSpace, segment);
                 Message += strResponse;
@@ -71,11 +69,6 @@ namespace AmadeusWS
                 else if (strResponse.Contains("<Warning"))
                 {
                     Warnings += strResponse;
-                    strResponse = "";
-                }
-                else
-                {
-                    strResponse = nativeResp;
                 }
             }
 
@@ -317,7 +310,7 @@ namespace AmadeusWS
                     // Send Air elements 
                     if (Air)
                     {
-                        strResponse = SendRequestSegment(ttAA, strAir, "Air", ttProviderSystems.AmadeusWSSchema.Air_SellFromRecommendation, ttProviderSystems.AmadeusWSSchema.Air_SellFromRecommendationReply);
+                        strResponse = SendRequestSegment(ttAA, strAir, "Air", ttProviderSystems.AmadeusWSSchema[Air_SellFromRecommendation], ttProviderSystems.AmadeusWSSchema[Air_SellFromRecommendationReply]);
 
                         // Fatal Error 
                         if (!string.IsNullOrEmpty(strResponse))
@@ -338,7 +331,7 @@ namespace AmadeusWS
                     //--------------------------------------------------
 
                     // Send Mandatory elements 
-                    strResponse = SendRequestSegment(ttAA, strMandatory, "MultiElements", ttProviderSystems.AmadeusWSSchema.PNR_AddMultiElements, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
+                    strResponse = SendRequestSegment(ttAA, strMandatory, "MultiElements", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
 
                     // Get the native response multi elements 
                     XmlDocument oDocResp = new XmlDocument();
@@ -401,7 +394,7 @@ namespace AmadeusWS
                                 if (oRoot.SelectSingleNode("ValuePricer") != null)
                                 {
                                     strValuePricer = oRoot.SelectSingleNode("ValuePricer").InnerXml;
-                                    strResponse = SendRequestSegment(ttAA, strValuePricer, "ValuePricer", ttProviderSystems.AmadeusWSSchema.Command_Cryptic, ttProviderSystems.AmadeusWSSchema.Command_CrypticReply);
+                                    strResponse = SendRequestSegment(ttAA, strValuePricer, "ValuePricer", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
 
                                     // Fatal Error 
                                     if (strResponse.Length > 0)
@@ -431,7 +424,7 @@ namespace AmadeusWS
                                 else if ((oRoot.SelectSingleNode("SSRs") != null))
                                 {
                                     string strSSRs = oRoot.SelectSingleNode("SSRs").InnerXml;
-                                    strResponse = SendRequestSegment(ttAA, strSSRs, "SSRs", ttProviderSystems.AmadeusWSSchema.PNR_AddMultiElements, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
+                                    strResponse = SendRequestSegment(ttAA, strSSRs, "SSRs", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
 
                                     //Potencially we can do this.
                                     //strResponse = SendAddMultiElements(ttAA, strSSRs, "SSRs");
@@ -487,7 +480,7 @@ namespace AmadeusWS
                             {
                                 strFqtv = oNodeFQTV.OuterXml.Substring(0, oNodeFQTV.OuterXml.IndexOf("/P"));
                                 strFqtv += $"/P{oPax.InnerText}{oNodeFQTV.OuterXml.Substring(oNodeFQTV.OuterXml.IndexOf("/P") + 3)}";
-                                strResponse = SendRequestSegment(ttAA, strFqtv, "FQTV", ttProviderSystems.AmadeusWSSchema.Command_Cryptic, ttProviderSystems.AmadeusWSSchema.Command_CrypticReply);
+                                strResponse = SendRequestSegment(ttAA, strFqtv, "FQTV", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
 
                                 // Fatal Error 
                                 if (strResponse.Length > 0)
@@ -558,7 +551,7 @@ namespace AmadeusWS
                         strCars = strCars.Replace("<value>X</value>", $"<value>{oNodeResp.InnerText}</value>");
 
                         if (!string.IsNullOrEmpty(strCarsAvail))
-                            strResponse = SendRequestSegment(ttAA, strCarsAvail, "CarAvail", ttProviderSystems.AmadeusWSSchema.Car_SingleAvailability, ttProviderSystems.AmadeusWSSchema.Car_SingleAvailabilityReply);
+                            strResponse = SendRequestSegment(ttAA, strCarsAvail, "CarAvail", ttProviderSystems.AmadeusWSSchema[Car_SingleAvailability], ttProviderSystems.AmadeusWSSchema[Car_SingleAvailabilityReply]);
 
                         if (strResponse.Length == 0)
                         {
@@ -582,7 +575,7 @@ namespace AmadeusWS
                                     strCars = strCars.Replace("<rateType />", $"<rateType>{oNodeCar.InnerText}</rateType>");
                             }
 
-                            strResponse = SendRequestSegment(ttAA, strCars, "CarSell", ttProviderSystems.AmadeusWSSchema.Car_Sell, ttProviderSystems.AmadeusWSSchema.Car_SellReply);
+                            strResponse = SendRequestSegment(ttAA, strCars, "CarSell", ttProviderSystems.AmadeusWSSchema[Car_Sell], ttProviderSystems.AmadeusWSSchema[Car_SellReply]);
                         }
 
                         if (strResponse.Length > 0)
@@ -643,10 +636,10 @@ namespace AmadeusWS
                                 }
 
                                 if (!string.IsNullOrEmpty(strHotelAvail))
-                                    strResponse = SendRequestSegment(ttAA, strHotelAvail, "HotelAvail2", ttProviderSystems.AmadeusWSSchema.Hotel_MultiSingleAvailability, ttProviderSystems.AmadeusWSSchema.Hotel_MultiSingleAvailability);
+                                    strResponse = SendRequestSegment(ttAA, strHotelAvail, "HotelAvail2", ttProviderSystems.AmadeusWSSchema[Hotel_MultiSingleAvailability], ttProviderSystems.AmadeusWSSchema[Hotel_MultiSingleAvailability]);
 
                                 if (!string.IsNullOrEmpty(strHotelAvail))
-                                    strResponse = SendRequestSegment(ttAA, strHotels, "HotelSell2", ttProviderSystems.AmadeusWSSchema.Hotel_Sell, ttProviderSystems.AmadeusWSSchema.Hotel_SellReply);
+                                    strResponse = SendRequestSegment(ttAA, strHotels, "HotelSell2", ttProviderSystems.AmadeusWSSchema[Hotel_Sell], ttProviderSystems.AmadeusWSSchema[Hotel_SellReply]);
 
                                 if (strResponse.Length > 0)
                                 {
@@ -699,12 +692,12 @@ namespace AmadeusWS
 
                                 if (!string.IsNullOrEmpty(strHotelAvail))
                                 {
-                                    strResponse = SendRequestSegment(ttAA, strHotelAvail, "HotelAvail", ttProviderSystems.AmadeusWSSchema.Hotel_SingleAvailability, ttProviderSystems.AmadeusWSSchema.Hotel_SingleAvailabilityReply);
+                                    strResponse = SendRequestSegment(ttAA, strHotelAvail, "HotelAvail", ttProviderSystems.AmadeusWSSchema[Hotel_SingleAvailability], ttProviderSystems.AmadeusWSSchema[Hotel_SingleAvailabilityReply]);
                                 }
 
                                 if (!string.IsNullOrEmpty(strHotelAvail))
                                 {
-                                    strResponse = SendRequestSegment(ttAA, strHotels, "HotelSell", ttProviderSystems.AmadeusWSSchema.Hotel_Sell, ttProviderSystems.AmadeusWSSchema.Hotel_SellReply);
+                                    strResponse = SendRequestSegment(ttAA, strHotels, "HotelSell", ttProviderSystems.AmadeusWSSchema[Hotel_Sell], ttProviderSystems.AmadeusWSSchema[Hotel_SellReply]);
                                 }
 
                                 if (strResponse.Length > 0)
@@ -729,8 +722,8 @@ namespace AmadeusWS
                             string strPricing = oNodePrice.InnerXml;
 
                             strResponse = strPricing.Contains("<Command_Cryptic>")
-                                ? SendRequestSegment(ttAA, strPricing, "Price", ttProviderSystems.AmadeusWSSchema.Command_Cryptic, ttProviderSystems.AmadeusWSSchema.Command_CrypticReply)
-                                : SendRequestSegment(ttAA, strPricing, "Price", ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithBookingClass, ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithBookingClassReply);
+                                ? SendRequestSegment(ttAA, strPricing, "Price", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply])
+                                : SendRequestSegment(ttAA, strPricing, "Price", ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClass], ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClassReply]);
 
                             oDocResp.LoadXml(nativeResp);
                             oRootResp = oDocResp.DocumentElement;
@@ -789,7 +782,7 @@ namespace AmadeusWS
                                 }
 
                                 strStorePrice += "</Ticket_CreateTSTFromPricing>";
-                                strResponse = SendRequestSegment(ttAA, strStorePrice, "StorePrice", ttProviderSystems.AmadeusWSSchema.Ticket_CreateTSTFromPricing, ttProviderSystems.AmadeusWSSchema.Ticket_CreateTSTFromPricingReply);
+                                strResponse = SendRequestSegment(ttAA, strStorePrice, "StorePrice", ttProviderSystems.AmadeusWSSchema[Ticket_CreateTSTFromPricing], ttProviderSystems.AmadeusWSSchema[Ticket_CreateTSTFromPricingReply]);
                             }
                         }
                     }
@@ -809,10 +802,10 @@ namespace AmadeusWS
                             string strEXC = oNodeExchange.InnerXml;
                             strEXC = strEXC.Replace("/Tnn", "/T" + exch.ToString());
 
-                            strResponse = SendRequestSegment(ttAA, strEXC, "Exchange", ttProviderSystems.AmadeusWSSchema.Command_Cryptic, ttProviderSystems.AmadeusWSSchema.Command_CrypticReply);
+                            strResponse = SendRequestSegment(ttAA, strEXC, "Exchange", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
                         }
                         string strMSCC = oNodeMSCC.InnerXml;
-                        strResponse = SendRequestSegment(ttAA, strMSCC, "Exchange", ttProviderSystems.AmadeusWSSchema.Command_Cryptic, ttProviderSystems.AmadeusWSSchema.Command_CrypticReply);
+                        strResponse = SendRequestSegment(ttAA, strMSCC, "Exchange", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_Cryptic]);
                     }
 
                     // Send End Transaction Request 
@@ -1624,7 +1617,7 @@ namespace AmadeusWS
                                 strCMD = strCMD.Replace("LTKT", $"L{strTktLine}");
 
                                 strResponse = SendCommandCryptically(ttAA, strCMD);
-                                //strResponse = ttAA.SendMessage(strCMD, "", ttProviderSystems.AmadeusWSSchema.Command_Cryptic, ConversationID);
+                                //strResponse = ttAA.SendMessage(strCMD, "", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ConversationID);
                                 Message += strResponse;
 
                                 var oDocTicket = new XmlDocument();
@@ -2435,7 +2428,7 @@ namespace AmadeusWS
                         oDocTemp.LoadXml(strRequest);
                         oRootTemp = oDocTemp.DocumentElement;
 
-                        var strErrorResp = SendRequestSegment(ttAA, oRootTemp.SelectSingleNode("Cancel").InnerXml, "Delete", ttProviderSystems.AmadeusWSSchema.PNR_Cancel, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
+                        string strErrorResp = SendRequestSegment(ttAA, oRootTemp.SelectSingleNode("Cancel").InnerXml, "Delete", ttProviderSystems.AmadeusWSSchema[PNR_Cancel], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
                         strNativePNRReply = nativeResp.Replace("PNR_Reply", "PNR_RetrieveByRecLocReply");
 
                         //******************** 
@@ -2454,7 +2447,7 @@ namespace AmadeusWS
                             }
                         }
 
-                        strErrorResp = SendRequestSegment(ttAA, oRootTemp.SelectSingleNode("RF").InnerXml, "ReceivedFrom", ttProviderSystems.AmadeusWSSchema.PNR_AddMultiElements, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
+                        strErrorResp = SendRequestSegment(ttAA, oRootTemp.SelectSingleNode("RF").InnerXml, "ReceivedFrom", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
                     }
 
                     XmlElement oRootResp = null;
@@ -2486,7 +2479,7 @@ namespace AmadeusWS
 
                             if (!string.IsNullOrEmpty(strSegments))
                             {
-                                strResponse = SendRequestSegment(ttAA, strSegments, "Air", ttProviderSystems.AmadeusWSSchema.Air_SellFromRecommendation, ttProviderSystems.AmadeusWSSchema.Air_SellFromRecommendationReply);
+                                strResponse = SendRequestSegment(ttAA, strSegments, "Air", ttProviderSystems.AmadeusWSSchema[Air_SellFromRecommendation], ttProviderSystems.AmadeusWSSchema[Air_SellFromRecommendationReply]);
                                 // Fatal Error 
                                 if (strResponse.Length > 0)
                                 {
@@ -2497,7 +2490,7 @@ namespace AmadeusWS
                                 if (oRootTemp.SelectSingleNode("MCT") != null)
                                 {
                                     string strMCT = oRootTemp.SelectSingleNode("MCT").InnerXml;
-                                    strResponse = SendRequestSegment(ttAA, strMCT, "MCT", ttProviderSystems.AmadeusWSSchema.Command_Cryptic, ttProviderSystems.AmadeusWSSchema.Command_CrypticReply);
+                                    strResponse = SendRequestSegment(ttAA, strMCT, "MCT", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
 
                                     // Fatal Error 
                                     if (strResponse.Length > 0)
@@ -2511,7 +2504,7 @@ namespace AmadeusWS
                             if (oRootTemp.SelectSingleNode("CrypticCommand") != null)
                             {
                                 string strCryptic = oRootTemp.SelectSingleNode("CrypticCommand").InnerXml;
-                                strResponse = SendRequestSegment(ttAA, strCryptic, "FO", ttProviderSystems.AmadeusWSSchema.Command_Cryptic, ttProviderSystems.AmadeusWSSchema.Command_CrypticReply);
+                                strResponse = SendRequestSegment(ttAA, strCryptic, "FO", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
 
                                 // Fatal Error 
                                 if (strResponse.Length > 0)
@@ -2556,7 +2549,7 @@ namespace AmadeusWS
                                 foreach (XmlNode nd in tstRoot.SelectNodes("fareList"))
                                 {
                                     strValidateAfterBeforeTmp = strValidateAfterBefore.Replace("Tx", $"T{ifareList}");
-                                    strResponse = SendRequestSegment(ttAA, strValidateAfterBeforeTmp, "ValidBeforeAfter", ttProviderSystems.AmadeusWSSchema.Command_Cryptic, ttProviderSystems.AmadeusWSSchema.Command_CrypticReply);
+                                    strResponse = SendRequestSegment(ttAA, strValidateAfterBeforeTmp, "ValidBeforeAfter", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
 
                                     // Fatal Error 
                                     if (strResponse.Length > 0)
@@ -2579,7 +2572,7 @@ namespace AmadeusWS
                             if (oRootTemp.SelectSingleNode("MultiElements") != null)
                             {
                                 string strMultiElements = oRootTemp.SelectSingleNode("MultiElements").InnerXml;
-                                strResponse = SendRequestSegment(ttAA, strMultiElements, "MultiElements", ttProviderSystems.AmadeusWSSchema.PNR_AddMultiElements, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
+                                strResponse = SendRequestSegment(ttAA, strMultiElements, "MultiElements", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
 
                                 // Fatal Error 
                                 if (strResponse.Length > 0)
@@ -2591,7 +2584,7 @@ namespace AmadeusWS
 
                             else
                             {
-                                strResponse = SendRequestSegment(ttAA, strRF, "ReceivedFrom", ttProviderSystems.AmadeusWSSchema.PNR_AddMultiElements, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
+                                strResponse = SendRequestSegment(ttAA, strRF, "ReceivedFrom", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
                             }
 
                             strNativePNRReply = nativeResp;
@@ -2623,11 +2616,11 @@ namespace AmadeusWS
                         {
                             //strErrorResp = SendRequestSegment(oNodeResp1.OuterXml, "Modify");
                             if (oNodeResp1.OuterXml.StartsWith("<Command_Cryptic"))
-                                strResponse = SendRequestSegment(ttAA, oNodeResp1.OuterXml, "PNR", ttProviderSystems.AmadeusWSSchema.Command_Cryptic, ttProviderSystems.AmadeusWSSchema.Command_CrypticReply);
+                                strResponse = SendRequestSegment(ttAA, oNodeResp1.OuterXml, "PNR", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
                             else if (oNodeResp1.OuterXml.StartsWith("<PNR_Cancel"))
-                                strResponse = SendRequestSegment(ttAA, oNodeResp1.OuterXml, "PNR", ttProviderSystems.AmadeusWSSchema.PNR_Cancel, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
+                                strResponse = SendRequestSegment(ttAA, oNodeResp1.OuterXml, "PNR", ttProviderSystems.AmadeusWSSchema[PNR_Cancel], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
                             else if (oNodeResp1.OuterXml.StartsWith("<PNR_AddMultiElements"))
-                                strResponse = SendRequestSegment(ttAA, oNodeResp1.OuterXml, "PNRModifyAddSeg", ttProviderSystems.AmadeusWSSchema.PNR_AddMultiElements, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
+                                strResponse = SendRequestSegment(ttAA, oNodeResp1.OuterXml, "PNRModifyAddSeg", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
 
 
                             //******************** 
@@ -2796,17 +2789,12 @@ namespace AmadeusWS
                 // Retrieve existing PNR * 
                 //**************************** 
                 strErrEvent = "Error Transforming OTA PNRRead Request.";
-                var argListPPWBC = new XsltArgumentList();
+                
 
                 //******************************************** 
                 //* Get Amadeus Native PNR Retrieve response * 
                 //******************************************** 
                 Message = "<PNR_Retrieve><retrievalFacts><retrieve><type>1</type></retrieve></retrievalFacts></PNR_Retrieve>";
-                if (ttProviderSystems.PriceBookingVersion != null)
-                {
-                    argListPPWBC.AddParam("PPWBCVersion", "", ttProviderSystems.PriceBookingVersion);
-                }
-
                 string strNativePNRReply = SendRetrievePNR(ttAA);
                 strNativePNRReply = strNativePNRReply.Replace("PNR_Reply", "PNR_RetrieveByRecLocReply");
                 Message += strNativePNRReply;
@@ -2819,10 +2807,9 @@ namespace AmadeusWS
 
                 XmlDocument oDocTemp = null;
                 XmlElement oRootTemp = null;
-                
+                string strErrorResp = "";
                 if (oRoot.SelectSingleNode("Position/Element[@Operation='delete']") != null)
                 {
-                    string strErrorResp = "";
                     //******************************** 
                     //* Build PNR Retrieve xml msg * 
                     //******************************** 
@@ -2844,7 +2831,7 @@ namespace AmadeusWS
                     oDocTemp.LoadXml(strRequest);
                     oRootTemp = oDocTemp.DocumentElement;
 
-                    strErrorResp = SendRequestSegment(ttAA, oRootTemp.SelectSingleNode("Cancel").InnerXml, "Delete", ttProviderSystems.AmadeusWSSchema.PNR_Cancel, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
+                    strErrorResp = SendRequestSegment(ttAA, oRootTemp.SelectSingleNode("Cancel").InnerXml, "Delete", ttProviderSystems.AmadeusWSSchema[PNR_Cancel], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
                     strNativePNRReply = nativeResp.Replace("PNR_Reply", "PNR_RetrieveByRecLocReply");
 
                     //******************** 
@@ -2863,7 +2850,7 @@ namespace AmadeusWS
                         }
                     }
 
-                    strErrorResp = SendRequestSegment(ttAA, oRootTemp.SelectSingleNode("RF").InnerXml, "ReceivedFrom", ttProviderSystems.AmadeusWSSchema.PNR_AddMultiElements, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
+                    strErrorResp = SendRequestSegment(ttAA, oRootTemp.SelectSingleNode("RF").InnerXml, "ReceivedFrom", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
 
                     oDocTemp = null;
                 }
@@ -2904,7 +2891,7 @@ namespace AmadeusWS
 
                         if (!string.IsNullOrEmpty(strSegments))
                         {
-                            strResponse = SendRequestSegment(ttAA, strSegments, "Air", ttProviderSystems.AmadeusWSSchema.Air_SellFromRecommendation, ttProviderSystems.AmadeusWSSchema.Air_SellFromRecommendationReply);
+                            strResponse = SendRequestSegment(ttAA, strSegments, "Air", ttProviderSystems.AmadeusWSSchema[Air_SellFromRecommendation], ttProviderSystems.AmadeusWSSchema[Air_SellFromRecommendationReply]);
                             // Fatal Error 
                             if (strResponse.Length > 0)
                             {
@@ -2915,7 +2902,7 @@ namespace AmadeusWS
                             if (oRootTemp.SelectSingleNode("MCT") != null)
                             {
                                 string strMCT = oRootTemp.SelectSingleNode("MCT").InnerXml;
-                                strResponse = SendRequestSegment(ttAA, strMCT, "MCT", ttProviderSystems.AmadeusWSSchema.Command_Cryptic, ttProviderSystems.AmadeusWSSchema.Command_CrypticReply);
+                                strResponse = SendRequestSegment(ttAA, strMCT, "MCT", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
 
                                 // Fatal Error 
                                 if (strResponse.Length > 0)
@@ -2935,14 +2922,13 @@ namespace AmadeusWS
                             // The below given line's second string parameter was diffrence in loacl code
                             //***************************************************************************
 
-                            strResponse = SendRequestSegment(ttAA, strMultiElements, "MultiElementsInsert", ttProviderSystems.AmadeusWSSchema.PNR_AddMultiElements, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
+                            strResponse = SendRequestSegment(ttAA, strMultiElements, "MultiElementsInsert", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
 
                             // Fatal Error 
                             //***************************************************
                             // Following if condition was diffrent in local code
                             //***************************************************
-                            //During remarks Update we are getting back PNR Reply with normal PNR data.
-                            if (strResponse.Length > 0 && !strResponse.StartsWith("<PNR_Reply>") && !strResponse.Contains("IS WAIT LIST"))
+                            if (strResponse.Length > 0 && !strResponse.Contains("IS WAIT LIST"))
                             {
                                 strResponse = BuildOTAResponse(strResponse);
                                 return strResponse;
@@ -2952,7 +2938,7 @@ namespace AmadeusWS
                         }
                         else
                         {
-                            strResponse = SendRequestSegment(ttAA, strRF, "ReceivedFrom", ttProviderSystems.AmadeusWSSchema.PNR_AddMultiElements, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
+                            strResponse = SendRequestSegment(ttAA, strRF, "ReceivedFrom", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
                         }
 
                         strNativePNRReply = nativeResp.Replace("PNR_Reply", "PNR_RetrieveByRecLocReply");
@@ -2972,6 +2958,7 @@ namespace AmadeusWS
                 // Modify PNR - Modify elements * 
                 //******************************* 
                 strErrEvent = "Modify PNR - Modify elements Error.";
+
                 if (oRoot.SelectSingleNode("Position/Element[@Operation='modify']") != null)
                 {
                     //******************************** 
@@ -2985,7 +2972,7 @@ namespace AmadeusWS
                     oDocResp = new XmlDocument();
                     oDocResp.LoadXml(strRequest);
                     oRootResp = oDocResp.DocumentElement;
-                    string strErrorResp = string.Empty;
+
                     //************************************** 
                     //* Send Amadeus Native Delete Request * 
                     //************************************** 
@@ -2993,15 +2980,15 @@ namespace AmadeusWS
                     {
                         if (oNodeResp1.OuterXml.Contains("Command_Cryptic"))
                         {
-                            strErrorResp = SendRequestSegment(ttAA, oNodeResp1.OuterXml, "Air", ttProviderSystems.AmadeusWSSchema.Command_Cryptic, ttProviderSystems.AmadeusWSSchema.Command_Cryptic);
+                            strErrorResp = SendRequestSegment(ttAA, oNodeResp1.OuterXml, "Air", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_Cryptic]);
                         }
                         else if (oNodeResp1.OuterXml.Contains("PNR_Cancel"))
                         {
-                            strErrorResp = SendRequestSegment(ttAA, oNodeResp1.OuterXml, "Air", ttProviderSystems.AmadeusWSSchema.PNR_Cancel, ttProviderSystems.AmadeusWSSchema.PNR_Cancel);
+                            strErrorResp = SendRequestSegment(ttAA, oNodeResp1.OuterXml, "Air", ttProviderSystems.AmadeusWSSchema[PNR_Cancel], ttProviderSystems.AmadeusWSSchema[PNR_Cancel]);
                         }
                         else
                         {
-                            strErrorResp = SendRequestSegment(ttAA, oNodeResp1.OuterXml, "Air", ttProviderSystems.AmadeusWSSchema.PNR_AddMultiElements, ttProviderSystems.AmadeusWSSchema.PNR_AddMultiElements);
+                            strErrorResp = SendRequestSegment(ttAA, oNodeResp1.OuterXml, "Air", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements]);
                         }
 
                         //******************** 
@@ -3009,26 +2996,21 @@ namespace AmadeusWS
                         //******************** 
                         if (strErrorResp.Length > 0)
                         {
-                            if (strErrorResp.Contains("<Error"))
+                            if (strErrorResp.IndexOf("<Error") >= 0)
                             {
                                 // Fatal Error 
                                 return BuildOTAResponse(strErrorResp);
                             }
-                            else if (strErrorResp.Contains("<Warning>"))
+                            else if (strErrorResp.IndexOf("<Warning>") >= 0)
                             {
                                 Warnings += strErrorResp;
-                            }
-                            else if (strErrorResp.Contains("INVALID ACCOUNT NUMBER"))
-                            {
-                                Errors += BuildErrorNode("INVALID ACCOUNT NUMBER");
                             }
                         }
 
                     }
-
                 }
 
-                strResponse =  SendRetrievePNR(ttAA);
+                strResponse = SendRetrievePNR(ttAA);
                 Message += strResponse;
                 native += $"{strRequest}{strResponse}";
                 //strResponse = strNativePNRReply;

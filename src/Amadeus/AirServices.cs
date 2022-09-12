@@ -6,6 +6,7 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections.Generic;
+using static TripXMLMain.modCore.enAmadeusWSSchema;
 
 namespace AmadeusWS
 {
@@ -4119,7 +4120,7 @@ namespace AmadeusWS
                     {
                         OTAPriceTotal[fareindex] = "<OTA_AirPriceRS Version=\"2003.2\"><Errors><Error Type=\"Amadeus\" Code=\"911\">NO FARE FOR BOOKING CODE-TRY OTHER PRICING OPTIONS</Error></Errors></OTA_AirPriceRS>";
                         OTAReqTotal[fareindex] = req;
-                        avTempResponse = avTempResponse.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema.Fare_InformativeBestPricingWithoutPNRReply}\"", "");
+                        avTempResponse = avTempResponse.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[Fare_InformativeBestPricingWithoutPNRReply]}\"", "");
 
                         avTempResponseTotal[fareindex] = avTempResponse;
 

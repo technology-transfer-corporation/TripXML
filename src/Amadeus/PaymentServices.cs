@@ -3,6 +3,7 @@ using TripXMLMain;
 using System.Text;
 using System;
 using System.Globalization;
+using static TripXMLMain.modCore.enAmadeusWSSchema;
 
 namespace AmadeusWS
 {
@@ -709,7 +710,7 @@ namespace AmadeusWS
                         // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                         strResponse = strRequest.Contains("Command_Cryptic")
                                 ? SendCommandCryptically(ttAA, strRequest)
-                                : SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema.QueueMode_ProcessQueue, ttProviderSystems.AmadeusWSSchema.QueueMode_ProcessQueueReply);
+                                : SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema[QueueMode_ProcessQueue], ttProviderSystems.AmadeusWSSchema[QueueMode_ProcessQueueReply]);
 
 
                         if (strResponse.Contains("|Session|"))
@@ -718,7 +719,7 @@ namespace AmadeusWS
                             //Try update SessionID and reRun previos command.
                             strResponse = strRequest.Contains("Command_Cryptic")
                                 ? SendCommandCryptically(ttAA, strRequest)
-                                : SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema.QueueMode_ProcessQueue, ttProviderSystems.AmadeusWSSchema.QueueMode_ProcessQueueReply);
+                                : SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema[QueueMode_ProcessQueue], ttProviderSystems.AmadeusWSSchema[QueueMode_ProcessQueueReply]);
                         }
                     }
 

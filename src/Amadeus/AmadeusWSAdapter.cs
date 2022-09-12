@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Linq;
+using static TripXMLMain.modCore.enAmadeusWSSchema;
 
 public class AmadeusWSAdapter
 {
@@ -282,7 +283,7 @@ public class AmadeusWSAdapter
             oHttpWebClient.TracerID = TracerID;
             oHttpWebClient.SoapAction = AmadeusWSAction;
 
-            if (ttProviderSystems.ProxyURL != "")
+            if (!string.IsNullOrEmpty(ttProviderSystems.ProxyURL))
             {
                 oHttpWebClient.ServiceURL = ttProviderSystems.ProxyURL;
                 ServicePointManager.ServerCertificateValidationCallback = TrustAllCertificatesCallback;
@@ -716,7 +717,7 @@ public class AmadeusWSAdapter
                  */
                 body = "<Command_Cryptic><messageAction><messageFunctionDetails><messageFunction>M</messageFunction></messageFunctionDetails></messageAction><longTextString><textStringDetails>DDNYC</textStringDetails></longTextString></Command_Cryptic>";
                 Soap4Session session = new Soap4Session(TransactionStatusCode.Start);
-                var resp = SendMessagesoap4(body, "", $"http://webservices.amadeus.com/ {ttProviderSystems.Profile} /{ttProviderSystems.AmadeusWSSchema.Command_Cryptic}", ref session);
+                var resp = SendMessagesoap4(body, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema[Command_Cryptic]}", ref session);
                 session.StatusCode = TransactionStatusCode.InSeries;
                 return string.IsNullOrEmpty(session.SecurityToken) ? session.SecurityToken : session.ToString();
             }
