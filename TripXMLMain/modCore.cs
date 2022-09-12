@@ -46,7 +46,7 @@ namespace TripXMLMain
         }
 
         public struct TripXMLProviderSystems
-        {
+        {            
             public string UserID;
             public string System;
             public string URL;
@@ -62,7 +62,7 @@ namespace TripXMLMain
             public string ProfileTicketing;
             public string Origin;
             public bool Trace;
-            public OpenType[] OpenTypes;
+            public List<OpenType> OpenTypes;
             public string BLFile;
             public bool AggFilter;
             public bool RebookNextFlight;
@@ -109,6 +109,68 @@ namespace TripXMLMain
             public string Language;
             public bool SabreFareSearch;
             public string AdVShop;
+
+            public TripXMLProviderSystems()
+            {
+                UserID = String.Empty;
+                System = String.Empty;
+                URL = String.Empty;
+                Port = String.Empty;
+                PCC = String.Empty;
+                AAAPCC = String.Empty;
+                AmadeusTrace = false;
+                UserName = String.Empty;
+                Password = String.Empty;
+                Profile = String.Empty;
+                ProfileXML = String.Empty;
+                ProfileCryptic = String.Empty;
+                ProfileTicketing = String.Empty;
+                Origin = String.Empty;
+                Trace = false;
+                OpenTypes = new List<OpenType>();
+                BLFile = String.Empty;
+                AggFilter = false;
+                RebookNextFlight = false;
+                RebookPassive = false;
+                FareMessage = String.Empty;
+                SaveInDB = String.Empty;
+                LogNative = false;
+                AmadeusWS = false;
+                AmadeusWSSchema = new Dictionary<enAmadeusWSSchema, string>();
+                ProviderSession = new ProviderSession();
+                GPass = String.Empty;
+                GReqID = String.Empty;
+                SessionPool = false;
+                Provider = String.Empty;
+                SOAP2 = false;
+                SOAP4 = false;
+                SOAP4URL = String.Empty;
+                SOAPAction = String.Empty;
+                SoapHeader = enSOAPHeaderType.SOAP2;
+                GetStoredFares = false;
+                AddLog = false;
+                CheckBookedFare = false;
+                NoOfLowFareFlights = String.Empty;
+                HotelMedia = false;
+                SendEmailToAgency = false;
+                CreateInRHAdmin = false;
+                LFPLight = false;
+                CouponStatus = false;
+                AddLFPStat = false;
+                ProxyURL = String.Empty;
+                HotelVersion = String.Empty;
+                LogUUID = String.Empty;
+                SourceMarket = String.Empty;
+                CarVersion = String.Empty;
+                MiniRules = false;
+                AirPriceVersion = String.Empty;
+                SeatMapVersion = String.Empty;
+                PriceBookingVersion = String.Empty;
+                ShowTestHotels = String.Empty;
+                Language = String.Empty;
+                SabreFareSearch = false;
+                AdVShop = String.Empty;
+            }
         }
 
         public struct ProviderSession

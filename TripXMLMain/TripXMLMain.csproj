@@ -594,9 +594,6 @@
     <Reference Include="Galileo_TimeDiffRQ">
       <HintPath>Xsl\Galileo\Galileo_TimeDiffRQ.dll</HintPath>
     </Reference>
-    <Reference Include="Galileo_TimeDiffRS">
-      <HintPath>Xsl\Galileo\Galileo_TimeDiffRS.dll</HintPath>
-    </Reference>
     <Reference Include="Galileo_TravelBuild1RQ">
       <HintPath>Xsl\Galileo\Galileo_TravelBuild1RQ.dll</HintPath>
     </Reference>

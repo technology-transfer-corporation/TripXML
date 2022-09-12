@@ -70,7 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TripXMLMain\TripXMLMain.csproj">
-      <Project>{C9D99008-6B09-0FB3-2941-AC1BB23825FA}</Project>
+      <Project>{c9d99008-6b09-0fb3-2941-ac1bb23825fa}</Project>
       <Name>TripXMLMain</Name>
     </ProjectReference>
   </ItemGroup>
