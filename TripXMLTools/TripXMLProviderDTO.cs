@@ -64,7 +64,7 @@ namespace TripXMLTools
         public string SOAPType { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public object Profile { get; set; }
+        public List<Profile> Profiles { get; set; }
         public List<Wsdlschema> Wsdlschemas { get; set; }
         public List<OpenType> OpenTypes { get; set; }
     }
@@ -78,6 +78,15 @@ namespace TripXMLTools
         public string CurrencyCode { get; set; }
         public string LanguageCode { get; set; }
         public string TravelAgentID { get; set; }
+    }
+
+    public class Profile
+    {
+        public string Origin { get; set; }
+        public string Text { get; set; }
+        public string Tkt { get; set; }
+        public string Cryptic { get; set; }
+        public string XML { get; set; }
     }
 
     public class WsdlschemaObject

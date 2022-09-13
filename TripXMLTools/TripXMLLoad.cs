@@ -95,7 +95,7 @@ namespace TripXMLTools
                 var user = UsersObject.Find(p => p.Username == credentials.UserID && p.Password == credentials.Password);
                 var provider = user.ProviderUsers.FirstOrDefault(u => u.Provider.System.Environment == credentials.System
                     && u.Provider.Name == credentials.Providers[0].Name);
-                var providerPcc = provider.Provider.PCCs[0];
+                var providerPcc = provider.Provider.PCCs.FindAll(p=> p.Code.Equals(credentials.Providers[0].PCC)).FirstOrDefault();
 
                 switch (credentials.Providers[0].Name)
                 {
@@ -122,7 +122,7 @@ namespace TripXMLTools
                 ttProviderSystem.System = credentials.System;
                 ttProviderSystem.Provider = provider.Provider.Name;
                 ttProviderSystem.UserID = credentials.UserID;
-                ttProviderSystem.Profile = "1ASIWDWTMBD";
+                ttProviderSystem.Profile = providerPcc.Profiles.FirstOrDefault().Text;
                 ttProviderSystem.Password = providerPcc.Password;
                 ttProviderSystem.UserName = providerPcc.Username;
                 ttProviderSystem.SOAP2 = providerPcc.SOAPType.Equals("SOAP2");
