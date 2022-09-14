@@ -96,7 +96,8 @@ namespace Travelport
                     ? ""
                     : oRoot.SelectSingleNode("POS/TPA_Extensions/ConversationID").InnerText;
 
-                branch = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
+                //branch = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
+                branch = ProviderSystems.Profile;
 
                 if (oRoot.HasAttribute("Target"))
                 {
@@ -155,11 +156,7 @@ namespace Travelport
                 oReqDoc.LoadXml(Request);
                 XmlElement oRoot = oReqDoc.DocumentElement;
 
-                if (!string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText))
-                {
-                    pcc = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
-                    branch = ProviderSystems.Profile;
-                }
+                branch = ProviderSystems.Profile;
 
                 if (oRoot.HasAttribute("Target"))
                 {
@@ -209,11 +206,12 @@ namespace Travelport
                 if (string.IsNullOrEmpty(token))
                     throw new Exception("ConversationID is missing in the Request.");
 
-                if (!string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText))
-                {
-                    pcc = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
-                    branch = ProviderSystems.Profile;
-                }
+                //if (!string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText))
+                //{
+                //    pcc = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
+                //    branch = ProviderSystems.Profile;
+                //}
+                branch = ProviderSystems.Profile;
 
                 //****************************
                 // Close Session with Token  *

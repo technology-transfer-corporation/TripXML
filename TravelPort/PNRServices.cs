@@ -36,7 +36,7 @@ namespace Travelport
                 var recordLocator = oRoot.SelectSingleNode("UniqueID/@ID") != null
                     ? oRoot.SelectSingleNode("UniqueID/@ID").Value
                     : string.Empty;
-
+                                
                 if (oRoot.HasAttribute("Target"))
                 {
                     switch (oRoot.Attributes["Target"].Value)
@@ -64,7 +64,7 @@ namespace Travelport
 
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-
+                
                 //*******************************************************************************
                 // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                 //******************************************************************************* 
@@ -85,26 +85,7 @@ namespace Travelport
                     {
                         // GDS locator does not exist as UR, so import it
                         strResponse = ttTP.SendMessage(strImport, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-                    }
-                    //------------------------------------------------------------
-                    // It appears that no need for any prior manipulations with message
-                    //------------------------------------------------------------
-                    //else
-                    //{
-                    //    // get UR locator and retrieve it
-                    //    XmlDocument otaDoc = new XmlDocument();
-                    //    otaDoc.LoadXml(strResponse);
-                    //    var otaElement = otaDoc.DocumentElement;
-
-                    //    var nsmgr = new XmlNamespaceManager(otaDoc.NameTable);
-                    //    nsmgr.AddNamespace("un", "http://www.travelport.com/schema/universal_v27_0");
-
-                    //    var strURRecLoc = otaElement.SelectSingleNode("un:UniversalRecordSearchResult/@UniversalRecordLocatorCode", nsmgr).InnerText;
-
-                    //    strRetrieve = strRetrieve.Replace(strProviderRecLoc, strURRecLoc);
-
-                    //    strResponse = ttTP.SendMessage(strRetrieve, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-                    //}
+                    }                    
                 }
 
                 //strResponse = strResponse.Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.TravelportSchema.PNR_RetrieveByRecLocReply + "\"", "");
@@ -155,6 +136,8 @@ namespace Travelport
                     ? oRoot.SelectSingleNode("UniqueID/@ID").Value
                     : string.Empty;
 
+                branch = ProviderSystems.Profile;
+
                 if (oRoot.HasAttribute("Target"))
                 {
                     switch (oRoot.Attributes["Target"].Value)
@@ -170,9 +153,7 @@ namespace Travelport
                             break;
                     }
                 }
-
-                branch = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
-
+                                
                 //*******************************************************************************
                 // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                 //******************************************************************************* 
@@ -258,6 +239,10 @@ namespace Travelport
                 oDoc.LoadXml(Request);
                 XmlElement oRoot = oDoc.DocumentElement;
 
+                
+                branch = ProviderSystems.Profile;
+                
+
                 if (oRoot.HasAttribute("Target"))
                 {
                     switch (oRoot.Attributes["Target"].Value)
@@ -274,8 +259,6 @@ namespace Travelport
                     }
                 }
 
-                branch = oDoc.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
-
                 var ttProviderSystems = ProviderSystems;
                 //*******************************************************************************
                 // Send Transformed Request to the TravelPort Adapter and Getting Native Response  *
@@ -283,7 +266,6 @@ namespace Travelport
 
                 var ttTP = SetAdapter(ttProviderSystems);
                 bool inSession = SetConversationID(ttTP);
-                var strToReplace = "";
 
                 if (Request.IndexOf("ListQueue") != -1)
                 {
