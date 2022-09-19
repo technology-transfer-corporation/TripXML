@@ -4,11 +4,12 @@ using System.Text;
 using System;
 using System.Data;
 using System.Security.Cryptography;
-using Microsoft.Web.Services3.Security.Tokens;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Linq;
+
+//using Microsoft.Web.Services3.Security.Tokens;
 
 public class AmadeusWSAdapter
 {
@@ -184,32 +185,31 @@ public class AmadeusWSAdapter
         return header.ToString();
     }
 
-    private string CreateNonce(out string created)
-    {
-        try
-        {
-            var shaPwd1 = new SHA1Managed();
-            byte[] pwd = shaPwd1.ComputeHash(Encoding.UTF8.GetBytes(ttProviderSystems.Password.Substring(2)));
-
-            var unToken = new UsernameToken(ttProviderSystems.UserName, Convert.ToBase64String(pwd), PasswordOption.SendHashed);
-            var document = new XmlDocument();
-            XmlElement token = unToken.GetXml(document);
-            XmlNodeList nonces = token.GetElementsByTagName("Nonce", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
-            if (nonces.Count == 0 || nonces.Count > 1)
-                throw new Exception("Invalid UsernameToken");
-            XmlAttribute encodingType = document.CreateAttribute("EncodingType");
-            encodingType.Value = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary";
-            nonces[0].Attributes.Append(encodingType);
-            created = token.GetElementsByTagName("Created", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd").Item(0).InnerText;
-            return nonces[0].InnerText;
-        }
-        catch (Exception ex)
-        {
-            created = "";
-            addLog($"<M>{ex.Message}</M><Send/>", ttProviderSystems.UserID);
-            return "";
-        }
-    }
+    //private string CreateNonce(out string created)
+    //{
+    //    try
+    //    {
+    //        var shaPwd1 = new SHA1Managed();
+    //        byte[] pwd = shaPwd1.ComputeHash(Encoding.UTF8.GetBytes(ttProviderSystems.Password.Substring(2)));
+    //        var unToken = new UsernameToken(ttProviderSystems.UserName, Convert.ToBase64String(pwd), PasswordOption.SendHashed);
+    //        var document = new XmlDocument();
+    //        XmlElement token = unToken.GetXml(document);
+    //        XmlNodeList nonces = token.GetElementsByTagName("Nonce", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
+    //        if (nonces.Count == 0 || nonces.Count > 1)
+    //            throw new Exception("Invalid UsernameToken");
+    //        XmlAttribute encodingType = document.CreateAttribute("EncodingType");
+    //        encodingType.Value = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary";
+    //        nonces[0].Attributes.Append(encodingType);
+    //        created = token.GetElementsByTagName("Created", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd").Item(0).InnerText;
+    //        return nonces[0].InnerText;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        created = "";
+    //        addLog($"<M>{ex.Message}</M><Send/>", ttProviderSystems.UserID);
+    //        return "";
+    //    }
+    //}
 
     private void AuthenticationCore(out string nonce, out string created, out string digest)
     {
