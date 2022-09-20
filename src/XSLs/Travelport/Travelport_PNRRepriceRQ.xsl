@@ -6,6 +6,7 @@
 	================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 
+	Date: 20 Sep 2022 - Kobelev - RePrice with stored fare request fix for multiple PTCs.
 	Date: 09 Sep 2022 - Kobelev - Use of PNR Brand Data vs. Brand Data from Request.
 	Date: 19 Aug 2022 - Kobelev - Implamented Conversation ID.
 	Date: 16 Mar 2022 - Kobelev - Branded Fare in Request	
@@ -95,8 +96,8 @@
 				<air:AirPricingModifiers CurrencyType="USD" ProhibitAdvancePurchaseFares="false" ProhibitNonRefundableFares="true" ProhibitRestrictedFares="false" FaresIndicator="PublicAndPrivateFares" ProhibitMaxStayFares="false" ProhibitMinStayFares="false" AccountCodeFaresOnly="false" />
 			</xsl:if>
 
-			<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/common:BookingTraveler"/>
-			<!--<xsl:call-template name="passanger_air"/>-->
+			<!--<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/common:BookingTraveler"/>-->
+			<xsl:call-template name="passanger_air"/>
 
 			<xsl:if test="../StoredFare/BrandedFares">
 				<air:AirPricingCommand/>
@@ -286,6 +287,19 @@
 
 	<xsl:template name="passanger_air">
 		<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/common:BookingTraveler"/>
+		
+		<xsl:choose>
+			<xsl:when test="../StoredFare[PassengerType/@Code]/BrandedFares and ../@StoreFare='true'">
+				<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[@PricingType='StoredFare'][1]" mode="brandFare">
+					<xsl:with-param name="ptc" select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo/air:PassengerType[1]/@Code" />
+				</xsl:apply-templates>
+			</xsl:when>
+			<xsl:when test="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[@PricingType='StoredFare'][1]/air:FareInfo/air:Brand and ../@StoreFare='true'">
+				<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[@PricingType='StoredFare'][1]" mode="brandFare">
+					<xsl:with-param name="ptc" select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo/air:PassengerType[1]/@Code" />
+				</xsl:apply-templates>
+			</xsl:when>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="common:BookingTraveler">
@@ -302,7 +316,8 @@
 			<!-- @TravelerType -->
 		</common:SearchPassenger>
 		<!-- -->
-		<xsl:choose>
+
+		<!--<xsl:choose>
 			<xsl:when test="../../../../StoredFare[PassengerType/@Code]/BrandedFares and ../../../../@StoreFare='true'">
 				<xsl:apply-templates select="../air:AirReservation/air:AirPricingInfo[air:PassengerType/@BookingTravelerRef=$key]" mode="brandFare">
 					<xsl:with-param name="ptc" select="$ptc" />
@@ -313,12 +328,11 @@
 					<xsl:with-param name="ptc" select="$ptc" />
 				</xsl:apply-templates>
 			</xsl:when>
-			<!--
+			
 			<xsl:otherwise>
 				<air:AirPricingCommand/>
 			</xsl:otherwise>
-			-->
-		</xsl:choose>
-
+			
+		</xsl:choose>-->
 	</xsl:template>
 </xsl:stylesheet>
