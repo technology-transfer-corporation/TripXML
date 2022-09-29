@@ -1412,7 +1412,7 @@ namespace AmadeusWS
                                         strFareType = "/R";
                                 }
 
-                                List<Tuple<string, string>> ffList;
+                                List<Tuple<string, string, string>> ffList;
                                 // Blocked check
                                 //if (!GetPricingOptionsTST.Contains(">PFF<"))
                                 if (!Request.Contains("BrandedFares") || Request.Replace(" ", "").Contains("<BrandedFares/>"))
@@ -1420,71 +1420,124 @@ namespace AmadeusWS
                                 else
                                     ffList = GetFareFamilyFXX(Request, strPNRReplay, oRootStored);
 
+                                var saveResp = string.Empty;
+                                var retry_count = 0;
                                 string strHistFareRS;
                                 string strEndTransaction;
-                                foreach (var ff in ffList)
+                                foreach (var ff in ffList.FindAll(x => !string.IsNullOrEmpty(x.Item2)))
                                 {
-                                    var fxOpt = System.Text.RegularExpressions.Regex.Replace(ff.Item2, @"\/ZO-0\*[A-Z0-9.,]*", "");
-                                    strHistFareRS = SendCommandCryptically(ttAA, $"FXX{strFareType}{fxOpt}");
-                                    if (!string.IsNullOrEmpty(ff.Item1))
+                                    retry_count = 3;
+                                    do
                                     {
-                                        var fxxResp = strHistFareRS.Split(new[] { '\r', '\n' }).ToList();
-                                        var sIdx = fxxResp.FindIndex(x => x.StartsWith("LAST"));//one pax
-                                        if (sIdx > 0)
+                                        var fxOpt = System.Text.RegularExpressions.Regex.Replace(ff.Item2, @"\/ZO-0\*[A-Z0-9.,]*", "");
+                                        strHistFareRS = SendCommandCryptically(ttAA, $"FXX{strFareType}{fxOpt}");
+                                        if (!string.IsNullOrEmpty(ff.Item1) &&
+                                            ffList.FindAll(x => !string.IsNullOrEmpty(x.Item2)).Count == ffList.Count)
                                         {
-                                            fxxResp = fxxResp.GetRange(sIdx, fxxResp.Count - sIdx);
-                                            sIdx = fxxResp.FindIndex(x => string.IsNullOrEmpty(x));
-                                            fxxResp = fxxResp.GetRange(sIdx, fxxResp.Count - sIdx);
-                                            sIdx = fxxResp.FindIndex(x => x.Trim().StartsWith("USD"));
-                                            var sAmount = fxxResp[sIdx].Split(new[] { ' ' },
-                                                StringSplitOptions.RemoveEmptyEntries)[1];
-                                            var tAmount = oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{ff.Item1}']/fareDataInformation/fareDataSupInformation[(fareDataQualifier='E' and fareCurrency='USD') or (fareDataQualifier='B' and fareCurrency='USD')]/fareAmount") == null
-                                                ? "0.00"
-                                                : oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{ff.Item1}']/fareDataInformation/fareDataSupInformation[(fareDataQualifier='E' and fareCurrency='USD') or (fareDataQualifier='B' and fareCurrency='USD')]/fareAmount").InnerText;
-                                            if (sAmount != tAmount)
-                                                throw new Exception("ADULTS AND KIDS - DIFFERENT FARE FAMILIES. ISSUE MANUALLY");
-                                        }
-                                        else if (fxxResp.FindIndex(x => x.Trim().StartsWith("PASSENGER")) > 0)//several pax
-                                        {
-                                            sIdx = fxxResp.FindIndex(x => x.Trim().StartsWith("PASSENGER"));
-                                            fxxResp = fxxResp.GetRange(sIdx + 1, fxxResp.Count - (sIdx + 1));
-                                            sIdx = fxxResp.FindIndex(string.IsNullOrEmpty);
-                                            fxxResp = fxxResp.GetRange(0, sIdx);
-                                            var bfList = fxxResp.Select(s => s.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Reverse().Skip(2).First()).Select(x => new { FXXAmount = x, IsPresent = false }).ToList();
-                                            foreach (var iTst in ff.Item1.Split(','))
+                                            var fxxResp = strHistFareRS.Split(new[] { '\r', '\n' }).ToList();
+                                            var sIdx = fxxResp.FindIndex(x => x.StartsWith("LAST"));//one pax
+                                            if (sIdx > 0)
                                             {
-                                                var tAmount = oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{iTst}']/fareDataInformation/fareDataSupInformation[(fareDataQualifier='E' and fareCurrency='USD') or (fareDataQualifier='B' and fareCurrency='USD')]/fareAmount") == null
+                                                fxxResp = fxxResp.GetRange(sIdx, fxxResp.Count - sIdx);
+                                                sIdx = fxxResp.FindIndex(x => string.IsNullOrEmpty(x));
+                                                fxxResp = fxxResp.GetRange(sIdx, fxxResp.Count - sIdx);
+                                                sIdx = fxxResp.FindIndex(x => x.Trim().StartsWith("USD"));
+                                                var sAmount = fxxResp[sIdx].Split(new[] { ' ' },
+                                                    StringSplitOptions.RemoveEmptyEntries)[1];
+                                                var tAmount = oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{ff.Item1}']/fareDataInformation/fareDataSupInformation[(fareDataQualifier='E' and fareCurrency='USD') or (fareDataQualifier='B' and fareCurrency='USD')]/fareAmount") == null
                                                     ? "0.00"
-                                                    : oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{iTst}']/fareDataInformation/fareDataSupInformation[(fareDataQualifier='E' and fareCurrency='USD') or (fareDataQualifier='B' and fareCurrency='USD')]/fareAmount").InnerText;
-                                                if (!bfList.Select(x => x.FXXAmount).Contains(tAmount))
+                                                    : oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{ff.Item1}']/fareDataInformation/fareDataSupInformation[(fareDataQualifier='E' and fareCurrency='USD') or (fareDataQualifier='B' and fareCurrency='USD')]/fareAmount").InnerText;
+                                                if (sAmount != tAmount)
                                                     throw new Exception("ADULTS AND KIDS - DIFFERENT FARE FAMILIES. ISSUE MANUALLY");
-                                                else
-                                                {
-                                                    bfList = bfList.Select(x => new { x.FXXAmount, IsPresent = x.IsPresent || x.FXXAmount.Equals(tAmount) }).ToList();
-                                                }
                                             }
-                                            if (bfList.Any(x => !x.IsPresent))
-                                                throw new Exception("ADULTS AND KIDS - DIFFERENT FARE FAMILIES. ISSUE MANUALLY");
+                                            else if (fxxResp.FindIndex(x => x.Trim().StartsWith("PASSENGER")) > 0)//several pax
+                                            {
+                                                sIdx = fxxResp.FindIndex(x => x.Trim().StartsWith("PASSENGER"));
+                                                fxxResp = fxxResp.GetRange(sIdx + 1, fxxResp.Count - (sIdx + 1));
+                                                sIdx = fxxResp.FindIndex(string.IsNullOrEmpty);
+                                                fxxResp = fxxResp.GetRange(0, sIdx);
+                                                var bfList = fxxResp.Select(s => s.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Reverse().Skip(2).First()).Select(x => new { FXXAmount = x, IsPresent = false }).ToList();
+
+                                                foreach (var iTst in ff.Item1.Split(','))
+                                                {
+                                                    var tAmount = oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{iTst}']/fareDataInformation/fareDataSupInformation[(fareDataQualifier='E' and fareCurrency='USD') or (fareDataQualifier='B' and fareCurrency='USD')]/fareAmount") == null
+                                                        ? "0.00"
+                                                        : oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{iTst}']/fareDataInformation/fareDataSupInformation[(fareDataQualifier='E' and fareCurrency='USD') or (fareDataQualifier='B' and fareCurrency='USD')]/fareAmount").InnerText;
+                                                    if (!bfList.Select(x => x.FXXAmount).Contains(tAmount))
+                                                        throw new Exception("ADULTS AND KIDS - DIFFERENT FARE FAMILIES. ISSUE MANUALLY");
+                                                    else
+                                                    {
+                                                        bfList = bfList.Select(x => new { x.FXXAmount, IsPresent = x.IsPresent || x.FXXAmount.Equals(tAmount) }).ToList();
+                                                    }
+                                                }
+                                                if (bfList.Any(x => !x.IsPresent))
+                                                    throw new Exception("ADULTS AND KIDS - DIFFERENT FARE FAMILIES. ISSUE MANUALLY");
+                                            }
                                         }
-                                    }
-                                    strHistFareRS = SendCommandCryptically(ttAA, "FR");
-                                    strEndTransaction = "<PNR_AddMultiElements><pnrActions><optionCode>11</optionCode></pnrActions><dataElementsMaster><marker1/><dataElementsIndiv><elementManagementData><segmentName>RF</segmentName></elementManagementData><freetextData><freetextDetail><subjectQualifier>3</subjectQualifier><type>P22</type></freetextDetail><longFreetext>TRIPXML</longFreetext></freetextData></dataElementsIndiv></dataElementsMaster></PNR_AddMultiElements>";
-                                    SendAddMultiElements(ttAA, strEndTransaction);
+                                        strHistFareRS = SendCommandCryptically(ttAA, "FR");
+                                        strEndTransaction = "<PNR_AddMultiElements><pnrActions><optionCode>11</optionCode></pnrActions><dataElementsMaster><marker1/><dataElementsIndiv><elementManagementData><segmentName>RF</segmentName></elementManagementData><freetextData><freetextDetail><subjectQualifier>3</subjectQualifier><type>P22</type></freetextDetail><longFreetext>TRIPXML</longFreetext></freetextData></dataElementsIndiv></dataElementsMaster></PNR_AddMultiElements>";
+                                        saveResp = SendAddMultiElements(ttAA, strEndTransaction);
+                                        if (saveResp.Contains("MISSING SSR CTCM MOBILE OR SSR CTCE EMAIL OR SSR CTCR NON-CONSENT"))
+                                        {
+                                            saveResp = SendAddMultiElements(ttAA, strEndTransaction);
+                                        }
+                                        if (!saveResp.Contains("<freeText>SIMULTANEOUS CHANGES TO PNR - USE WRA/RT TO PRINT OR IGNORE"))
+                                            break;
+                                    } while (retry_count-- > 0);
                                 }
 
                                 var tktDesTooLong = false;
-                                foreach (var ff in ffList)
+                                retry_count = 3;
+                                do
                                 {
-                                    strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{ff.Item2}");
-                                    if (strHistFareRS.Contains("TICKET DESIGNATOR TOO LONG TO PROCESS"))
+                                    var isTktDesInTst = false;
+                                    var tsts = oRootReq.SelectNodes("//StoredFare").Cast<XmlNode>().Select(x => x.Attributes["RPH"].InnerText);
+                                    foreach (var item in tsts)
                                     {
-                                        var fxOpt = System.Text.RegularExpressions.Regex.Replace(ff.Item2, @"\/ZO-0\*[A-Z0-9.,]*", "");
-                                        strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{fxOpt}");
-                                        tktDesTooLong = true;
+                                        var tkdes = oRootStored.SelectNodes($"fareList[fareReference/uniqueReference = '{item}']/segmentInformation/fareQualifier/fareBasisDetails/ticketDesignator");
+                                        if (tkdes.Count > 0)
+                                        {
+                                            isTktDesInTst = true;
+                                            break;
+                                        }
                                     }
-                                }
-                                strEndTransaction = "<PNR_AddMultiElements><pnrActions><optionCode>11</optionCode></pnrActions><dataElementsMaster><marker1/><dataElementsIndiv><elementManagementData><segmentName>RF</segmentName></elementManagementData><freetextData><freetextDetail><subjectQualifier>3</subjectQualifier><type>P22</type></freetextDetail><longFreetext>TRIPXML</longFreetext></freetextData></dataElementsIndiv></dataElementsMaster></PNR_AddMultiElements>";
-                                SendAddMultiElements(ttAA, strEndTransaction);
+                                    if (isTktDesInTst && ffList.All(f => !string.IsNullOrEmpty(f.Item3)))
+                                    {
+
+                                        foreach (var ff in ffList)
+                                        {
+                                            strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{ff.Item3}");
+                                            if (strHistFareRS.Contains("TICKET DESIGNATOR TOO LONG TO PROCESS"))
+                                            {
+                                                var fxOpt = System.Text.RegularExpressions.Regex.Replace(ff.Item3, @"\/ZO-0\*[A-Z0-9.,]*", "");
+                                                strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{fxOpt}");
+                                                tktDesTooLong = true;
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (var ff in ffList.FindAll(x => !string.IsNullOrEmpty(x.Item2)))
+                                        {
+
+                                            strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{ff.Item2}");
+                                            if (strHistFareRS.Contains("TICKET DESIGNATOR TOO LONG TO PROCESS"))
+                                            {
+                                                var fxOpt = System.Text.RegularExpressions.Regex.Replace(ff.Item2, @"\/ZO-0\*[A-Z0-9.,]*", "");
+                                                strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{fxOpt}");
+                                                tktDesTooLong = true;
+                                            }
+                                        }
+                                    }
+                                    strEndTransaction = "<PNR_AddMultiElements><pnrActions><optionCode>11</optionCode></pnrActions><dataElementsMaster><marker1/><dataElementsIndiv><elementManagementData><segmentName>RF</segmentName></elementManagementData><freetextData><freetextDetail><subjectQualifier>3</subjectQualifier><type>P22</type></freetextDetail><longFreetext>TRIPXML</longFreetext></freetextData></dataElementsIndiv></dataElementsMaster></PNR_AddMultiElements>";
+                                    saveResp = SendAddMultiElements(ttAA, strEndTransaction);
+                                    if (saveResp.Contains("MISSING SSR CTCM MOBILE OR SSR CTCE EMAIL OR SSR CTCR NON-CONSENT"))
+                                    {
+                                        saveResp = SendAddMultiElements(ttAA, strEndTransaction);
+                                    }
+                                    if (!saveResp.Contains("<freeText>SIMULTANEOUS CHANGES TO PNR - USE WRA/RT TO PRINT OR IGNORE"))
+                                        break;
+                                } while (retry_count-- > 0);
 
                                 if (tktDesTooLong)
                                 {
@@ -1503,58 +1556,73 @@ namespace AmadeusWS
                                             fnode.SelectSingleNode("elementManagementItinerary/lineNumber").InnerText);
                                     }
 
-                                    foreach (XmlNode reqNode in oRootReq.SelectNodes("//StoredFare"))
+                                    retry_count = 3;
+                                    do
                                     {
-                                        var tstRPH = reqNode.Attributes["RPH"].Value;
-                                        var paxType = oRootStored?.SelectSingleNode(
-                                            $"fareList[fareReference/uniqueReference = '{tstRPH}']/paxSegReference/refDetails/refQualifier").InnerText;
-                                        var paxNum = oRootStored?.SelectSingleNode(
-                                            $"fareList[fareReference/uniqueReference = '{tstRPH}']/paxSegReference/refDetails/refNumber").InnerText;
-
-                                        var nTstRPH = nRootStored?.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxNum}' and paxSegReference/refDetails/refQualifier = '{paxType}']/fareReference/uniqueReference").InnerText;
-                                        var oSegmentNodes = nRootStored?.SelectNodes($"fareList[fareReference/uniqueReference = '{nTstRPH}']/segmentInformation");
-                                        var tktNode = oSegmentNodes[0].SelectSingleNode("fareQualifier/fareBasisDetails/ticketDesignator");
-                                        var ticketDes = reqNode.SelectSingleNode($"FareSegments/AirSegments").Attributes["TicketDesignator"] != null ?
-                                            reqNode.SelectSingleNode($"FareSegments/AirSegments").Attributes["TicketDesignator"].Value : string.Empty;
-                                        var farebasis = $"{oSegmentNodes[0].SelectSingleNode("fareQualifier/fareBasisDetails/primaryCode").InnerText}{oSegmentNodes[0].SelectSingleNode("fareQualifier/fareBasisDetails/fareBasisCode").InnerText}";
-                                        var fbSegList = string.Empty;
-                                        string updRequest;
-                                        string strUpdTicketDes;
-                                        foreach (XmlNode segNode in oSegmentNodes)
+                                        foreach (XmlNode reqNode in oRootReq.SelectNodes("//StoredFare"))
                                         {
-                                            var segNum = segNode.SelectSingleNode("segmentReference/refDetails[refQualifier='S']/refNumber").InnerText;
-                                            var segTD = string.Empty;
-                                            if (reqNode.SelectSingleNode($"FareSegments/AirSegments[@RPH='{flSegMap[segNum]}']").Attributes["TicketDesignator"] != null)
-                                            {
-                                                segTD = reqNode.SelectSingleNode($"FareSegments/AirSegments[@RPH='{flSegMap[segNum]}']").Attributes["TicketDesignator"].Value;
-                                            }
-                                            else
-                                                continue;
-                                            //if (tktNode != null && tktNode.InnerText.Equals(ticketDes))
-                                            //    continue;
+                                            var tstRPH = reqNode.Attributes["RPH"].Value;
+                                            var paxType = oRootStored?.SelectSingleNode(
+                                                $"fareList[fareReference/uniqueReference = '{tstRPH}']/paxSegReference/refDetails/refQualifier").InnerText;
+                                            var paxNum = oRootStored?.SelectSingleNode(
+                                                $"fareList[fareReference/uniqueReference = '{tstRPH}']/paxSegReference/refDetails/refNumber").InnerText;
 
-                                            if (segNode.SelectSingleNode("fareQualifier") == null)
-                                                continue;
-                                            var segFB = $"{segNode.SelectSingleNode("fareQualifier/fareBasisDetails/primaryCode").InnerText}{segNode.SelectSingleNode("fareQualifier/fareBasisDetails/fareBasisCode").InnerText}";
-                                            if (farebasis.Equals(segFB) && ticketDes.Equals(segTD))
-                                                fbSegList += $",{segNode.SelectSingleNode("sequenceInformation/sequenceSection/sequenceNumber").InnerText}";
-                                            else
+                                            var nTstRPH = nRootStored?.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxNum}' and paxSegReference/refDetails/refQualifier = '{paxType}']/fareReference/uniqueReference").InnerText;
+                                            var oSegmentNodes = nRootStored?.SelectNodes($"fareList[fareReference/uniqueReference = '{nTstRPH}']/segmentInformation");
+                                            var tktNode = oSegmentNodes[0].SelectSingleNode("fareQualifier/fareBasisDetails/ticketDesignator");
+                                            var ticketDes = reqNode.SelectSingleNode($"FareSegments/AirSegments").Attributes["TicketDesignator"] != null ?
+                                                reqNode.SelectSingleNode($"FareSegments/AirSegments").Attributes["TicketDesignator"].Value : string.Empty;
+                                            var farebasis = $"{oSegmentNodes[0].SelectSingleNode("fareQualifier/fareBasisDetails/primaryCode").InnerText}{oSegmentNodes[0].SelectSingleNode("fareQualifier/fareBasisDetails/fareBasisCode").InnerText}";
+                                            var fbSegList = string.Empty;
+                                            string updRequest;
+                                            string strUpdTicketDes;
+                                            foreach (XmlNode segNode in oSegmentNodes)
+                                            {
+                                                if (segNode.SelectSingleNode("connexInformation/connecDetails/routingInformation") != null &&
+                                                    segNode.SelectSingleNode("connexInformation/connecDetails/routingInformation").InnerText.Equals("ARNK"))
+                                                    continue;
+
+                                                var segNum = segNode.SelectSingleNode("segmentReference/refDetails[refQualifier='S']/refNumber").InnerText;
+                                                var segTD = string.Empty;
+                                                if (reqNode.SelectSingleNode($"FareSegments/AirSegments[@RPH='{flSegMap[segNum]}']").Attributes["TicketDesignator"] != null)
+                                                {
+                                                    segTD = reqNode.SelectSingleNode($"FareSegments/AirSegments[@RPH='{flSegMap[segNum]}']").Attributes["TicketDesignator"].Value;
+                                                    var nSegTD = segNode.SelectSingleNode("fareQualifier/fareBasisDetails/ticketDesignator").InnerText;
+                                                    if (nSegTD != null && segTD.Equals(nSegTD))
+                                                        continue;
+                                                }
+                                                else
+                                                    continue;
+
+                                                if (segNode.SelectSingleNode("fareQualifier") == null)
+                                                    continue;
+                                                var segFB = $"{segNode.SelectSingleNode("fareQualifier/fareBasisDetails/primaryCode").InnerText}{segNode.SelectSingleNode("fareQualifier/fareBasisDetails/fareBasisCode").InnerText}";
+                                                if (farebasis.Equals(segFB) && ticketDes.Equals(segTD))
+                                                    fbSegList += $",{segNode.SelectSingleNode("sequenceInformation/sequenceSection/sequenceNumber").InnerText}";
+                                                else
+                                                {
+                                                    updRequest = $"TTI/T{nTstRPH}/L{fbSegList.TrimStart(',')}{(fbSegList.TrimStart(',').Contains(",") ? "x" : string.Empty)}/B{farebasis} {ticketDes}";
+                                                    strUpdTicketDes = SendCommandCryptically(ttAA, updRequest);
+                                                    farebasis = segFB;
+                                                    ticketDes = segTD;
+                                                    fbSegList = $",{segNode.SelectSingleNode("sequenceInformation/sequenceSection/sequenceNumber").InnerText}";
+                                                }
+                                            }
+                                            if (!string.IsNullOrEmpty(fbSegList))
                                             {
                                                 updRequest = $"TTI/T{nTstRPH}/L{fbSegList.TrimStart(',')}{(fbSegList.TrimStart(',').Contains(",") ? "x" : string.Empty)}/B{farebasis} {ticketDes}";
                                                 strUpdTicketDes = SendCommandCryptically(ttAA, updRequest);
-                                                farebasis = segFB;
-                                                ticketDes = segTD;
-                                                fbSegList = $",{segNode.SelectSingleNode("sequenceInformation/sequenceSection/sequenceNumber").InnerText}";
                                             }
                                         }
-                                        if (!string.IsNullOrEmpty(fbSegList))
+                                        strEndTransaction = "<PNR_AddMultiElements><pnrActions><optionCode>11</optionCode></pnrActions><dataElementsMaster><marker1/><dataElementsIndiv><elementManagementData><segmentName>RF</segmentName></elementManagementData><freetextData><freetextDetail><subjectQualifier>3</subjectQualifier><type>P22</type></freetextDetail><longFreetext>TRIPXML</longFreetext></freetextData></dataElementsIndiv></dataElementsMaster></PNR_AddMultiElements>";
+                                        saveResp = SendAddMultiElements(ttAA, strEndTransaction);
+                                        if (saveResp.Contains("MISSING SSR CTCM MOBILE OR SSR CTCE EMAIL OR SSR CTCR NON-CONSENT"))
                                         {
-                                            updRequest = $"TTI/T{nTstRPH}/L{fbSegList.TrimStart(',')}{(fbSegList.TrimStart(',').Contains(",") ? "x" : string.Empty)}/B{farebasis} {ticketDes}";
-                                            strUpdTicketDes = SendCommandCryptically(ttAA, updRequest);
+                                            saveResp = SendAddMultiElements(ttAA, strEndTransaction);
                                         }
-                                    }
-                                    strEndTransaction = "<PNR_AddMultiElements><pnrActions><optionCode>11</optionCode></pnrActions><dataElementsMaster><marker1/><dataElementsIndiv><elementManagementData><segmentName>RF</segmentName></elementManagementData><freetextData><freetextDetail><subjectQualifier>3</subjectQualifier><type>P22</type></freetextDetail><longFreetext>TRIPXML</longFreetext></freetextData></dataElementsIndiv></dataElementsMaster></PNR_AddMultiElements>";
-                                    SendAddMultiElements(ttAA, strEndTransaction);
+                                        if (!saveResp.Contains("<freeText>SIMULTANEOUS CHANGES TO PNR - USE WRA/RT TO PRINT OR IGNORE"))
+                                            break;
+                                    } while (retry_count-- > 0);
                                 }
 
                                 strResponseTST = SendDisplayTST(ttAA);
@@ -1629,13 +1697,19 @@ namespace AmadeusWS
                                     strZap = $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>ZAP</pricingOptionKey></pricingOptionKey><penDisInformation><discountPenaltyQualifier>ZAP</discountPenaltyQualifier><discountPenaltyDetails><function>700</function><amountType>{discQualif}</amountType><amount>{strDiscount}</amount>{strTktDes}</discountPenaltyDetails></penDisInformation></pricingOptionGroup>";
                                 }
 
+                                var excludeFFopts = false;
                                 foreach (var xmlFareFamily in sXmlFareFamily)
                                 {
-                                    string strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{xmlFareFamily}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{(xmlFareFamily.Contains($">{strFareType}<") ? "" : $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>")}{strZap}</Fare_PricePNRWithBookingClass>";
-                                    strResponseReprice += FilterPricePNRWithBookingClassResponseByPax(SendPricePNRWithBookingClass(ttAA, strRepriceRQ), xmlFareFamily);
+                                    string strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{(excludeFFopts ? "" : xmlFareFamily)}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{(xmlFareFamily.Contains($">{strFareType}<") ? "" : $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>")}{strZap}</Fare_PricePNRWithBookingClass>";
+                                    var respReprice = SendPricePNRWithBookingClass(ttAA, strRepriceRQ);
+                                    if (respReprice != null && respReprice.Contains("NO VALID FARE/RULE COMBINATIONS FOR PRICING"))
+                                    {
+                                        excludeFFopts = true;
+                                        strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{(excludeFFopts ? "" : xmlFareFamily)}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{(xmlFareFamily.Contains($">{strFareType}<") ? "" : $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>")}{strZap}</Fare_PricePNRWithBookingClass>";
+                                        respReprice = SendPricePNRWithBookingClass(ttAA, strRepriceRQ);
+                                    }
+                                    strResponseReprice += FilterPricePNRWithBookingClassResponseByPax(respReprice, xmlFareFamily);
                                 }
-                                //string strAddress =$"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClass]}";
-                                //strResponseReprice = strResponse =ttAA.SendMessage(strRepriceRQ, "", strAddress, conversationID);
                                 strResponseReprice = strResponseReprice.Replace(@"</Fare_PricePNRWithBookingClassReply><Fare_PricePNRWithBookingClassReply>", "");
                                 strResponseReprice = strResponseReprice.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithLowerFaresReply]}\"", "");
                                 strResponseReprice = strResponseReprice.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClassReply]}\"", "");
@@ -2307,13 +2381,13 @@ namespace AmadeusWS
             return docRS.InnerXml;
         }
 
-        private List<Tuple<string, string>> GetFareFamilyFXX(string request, string pnrRead, XmlElement oRootStored)
+        private List<Tuple<string, string, string>> GetFareFamilyFXX(string request, string pnrRead, XmlElement oRootStored)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(request);
             XmlElement root = doc.DocumentElement;
 
-            var res = new List<Tuple<string, string>>();
+            var res = new List<Tuple<string, string, string>>();
 
             XmlNodeList nodes = root.SelectNodes("//StoredFare");
 
@@ -2328,7 +2402,7 @@ namespace AmadeusWS
             }
 
             var segCount = pnr.DocumentElement
-                .SelectNodes("//originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AIR']")
+                .SelectNodes("//originDestinationDetails/itineraryInfo[travelProduct/productDetails/identification != 'ARNK']")
                 .Count;
 
             List<Tuple<string, List<Tuple<string, string, string>>>> paxFareSegs =
@@ -2371,6 +2445,7 @@ namespace AmadeusWS
                 }
             }
 
+            var combRes = new List<Tuple<string, string, string>>();
             paxFareSegs.ForEach(pfs => pfs.Item2.RemoveAll(p => p.Item2 == "T"));
             var paxFareSegsGrouped = new List<Tuple<string, List<Tuple<string, string, string>>>>();
             paxFareSegsGrouped = paxFareSegs;
@@ -2391,7 +2466,7 @@ namespace AmadeusWS
                     foreach (var item in grpTd)
                         tdes += $"/ZO-0*{item.Key}.{string.Join(",", paxFareSegsGrouped.First().Item2.FindAll(x => x.Item2 == "TD" && x.Item1 == item.Key).Select(x => x.Item3))}";
                 }
-                res.Add(new Tuple<string, string>("", $"/FF-{paxFareSegsGrouped.First().Item2.First(x => x.Item2 == "S").Item1}{tdes}"));
+                combRes.Add(new Tuple<string, string, string>("", $"/FF-{paxFareSegsGrouped.First().Item2.First(x => x.Item2 == "S").Item1}{tdes}", ""));
             }
             else
             {
@@ -2422,8 +2497,35 @@ namespace AmadeusWS
                         tRes.Add($"/P{string.Join(",", psg.SelectMany(x => x.Item2).Where(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}{(isInf ? "/INF" : "")}" +
                             $"{(psg.SelectMany(x => x.Item2).Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}{(tRes.Count.Equals(0) ? segs + tdes : "")}");
                     }
-                    res.Add(new Tuple<string, string>(string.Join(",", psg.Select(x => x.Item1)), string.Join("/", tRes)));
+                    combRes.Add(new Tuple<string, string, string>(string.Join(",", psg.Select(x => x.Item1)), string.Join("/", tRes), ""));
                 }
+            }
+            foreach (var psg in paxFareSegsGrouped)
+            {
+                var segs = psg.Item2.FindAll(p => p.Item2.StartsWith("S")).TrueForAll(s => s.Item1.Equals(psg.Item2.First().Item1)) && psg.Item2.FindAll(p => p.Item2.StartsWith("S")).Count.Equals(segCount) ?
+                $"/FF-{psg.Item2.First(x => x.Item2 == "S").Item1}" :
+                    $"{string.Join("", psg.Item2.FindAll(p => p.Item2.StartsWith("S")).SelectMany(s => $"/FF{s.Item3}-{s.Item1}"))}";
+
+                string tdes = "";
+                var grpTd = psg.Item2.FindAll(x => x.Item2 == "TD").GroupBy(x => x.Item1);
+                if (grpTd.Count().Equals(1))
+                    tdes = grpTd.Select(x => $"/ZO-0*{x.Key}").First();
+                else
+                {
+                    foreach (var item in grpTd)
+                        tdes += $"/ZO-0*{item.Key}.{string.Join(",", psg.Item2.FindAll(x => x.Item2 == "TD" && x.Item1 == item.Key).Select(x => x.Item3))}";
+                }
+
+                List<string> tRes = new List<string>();
+                {
+                    var isInf = psg.Item2.Equals("PI");
+                    res.Add(new Tuple<string, string, string>("", "", $"/P{string.Join(",", psg.Item2.Where(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}{(isInf ? "/INF" : "")}" +
+                        $"{(psg.Item2.Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}{(tRes.Count.Equals(0) ? segs + tdes : "")}"));
+                }
+            }
+            for (int i = 0; i < combRes.Count; i++)
+            {
+                res[i] = new Tuple<string, string, string>(combRes[i].Item1, combRes[i].Item2, res[i].Item3);
             }
 
             return res;
@@ -2466,7 +2568,7 @@ namespace AmadeusWS
             return res;
         }
 
-        private List<Tuple<string, string>> GetPricingOptionsFXX(string request, string tstResp, string pnrRead, XmlElement oRootStored)
+        private List<Tuple<string, string, string>> GetPricingOptionsFXX(string request, string tstResp, string pnrRead, XmlElement oRootStored)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(request);
@@ -2480,7 +2582,7 @@ namespace AmadeusWS
             //if (tstResp.Contains(">PFF<"))
             //    return new List<Tuple<string, string>> { new Tuple<string, string>("", "") };
 
-            var res = new List<Tuple<string, string>>();
+            var res = new List<Tuple<string, string, string>>();
 
             XmlNodeList nodes = root.SelectNodes("//StoredFare");
 
@@ -2560,22 +2662,27 @@ namespace AmadeusWS
                                 ? tktDes[item.Attributes["TicketDesignator"].Value] + "," + item.Attributes["RPH"].Value
                                 : item.Attributes["RPH"].Value;
                     }
-                    tRes.Add(string.Join("/", fbCodes.Select(x => $"A{x.Value}-{x.Key}")));
+                    var fbOpt = string.Join("/", fbCodes.Where(x => !string.IsNullOrEmpty(x.Key)).Select(x => $"A{x.Value}-{x.Key}"));
+                    if (!string.IsNullOrEmpty(fbOpt.Trim(' ')))
+                        tRes.Add(fbOpt);
                     if (tktDes.Any())
                     {
                         tRes.Add(string.Join("/", tktDes.Select(x => $"ZO-0*{x.Key}.{x.Value}")));
                     }
                     tRes.Add($"P{string.Join(",", ps.Item2.FindAll(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}");
-                    res.Add(new Tuple<string, string>(ps.Item1, string.Join("/", tRes).Replace("/,", ",").TrimEnd('/')));
+                    res.Add(new Tuple<string, string, string>(ps.Item1, string.Join("/", tRes).Replace("/,", ",").TrimEnd('/'), ""));
                     tRes = new List<string>();
                 }
             }
-            if (res.TrueForAll(r => System.Text.RegularExpressions.Regex.Replace(r.Item2, @"\/(P\d+|PAX|PI|INF)", "")
-                            .Equals(System.Text.RegularExpressions.Regex.Replace(res.First().Item2, @"\/(P\d+|PAX|PI|INF)", ""))))
+
+            if (res.TrueForAll(r => System.Text.RegularExpressions.Regex.Replace(r.Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", "")
+                            .Equals(System.Text.RegularExpressions.Regex.Replace(res.First().Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", ""))))
             {
-                var combRes = System.Text.RegularExpressions.Regex.Replace(res.First().Item2, @"\/(P\d+|PAX|PI|INF)", "");
-                res.Clear();
-                res.Add(new Tuple<string, string>("", combRes));
+                var combRes = System.Text.RegularExpressions.Regex.Replace(res.First().Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", "");
+                res = res.Select(x => x = new Tuple<string, string, string>(x.Item1, "", x.Item2)).ToList();
+                res[0] = new Tuple<string, string, string>(res.First().Item1, combRes, res.First().Item3);
+                //res.Clear();
+                //res.Add(new Tuple<string, string, string>("", combRes, ""));
             }
             return res;
         }
