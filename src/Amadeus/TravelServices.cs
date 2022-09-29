@@ -956,7 +956,7 @@ namespace AmadeusWS
                 {
                     throw ex;
                 }
-                
+
 
                 //**************************************************************************** 
                 // Add Previous Errors and Warnings To Amadeus Native End Transact Response * 
@@ -972,7 +972,7 @@ namespace AmadeusWS
                     strEchoToken = $"<EchoToken>{oRootReq.Attributes.GetNamedItem("EchoToken").Value}</EchoToken>";
                 }
 
-                strResponse = strResponse.Replace("</PNR_RetrieveByRecLocReply>", $"{Errors}{ Warnings}{strResponseTST}{strEchoToken}{strRTSVC}{Request}</PNR_RetrieveByRecLocReply>");
+                strResponse = strResponse.Replace("</PNR_RetrieveByRecLocReply>", $"{Errors}{Warnings}{strResponseTST}{strEchoToken}{strRTSVC}{Request}</PNR_RetrieveByRecLocReply>");
 
                 //***************************************************************** 
                 // Transform Native Amadeus TravelBuild Response into OTA Response * 
@@ -1013,7 +1013,7 @@ namespace AmadeusWS
                     TripXMLTools.TripXMLLog.LogMessage("TravelBuild", ref msg, RequestTime, ResponseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
                 }
 
-                
+
             }
             catch (Exception exx)
             {
@@ -1294,7 +1294,7 @@ namespace AmadeusWS
                     //***************************************************************
 
                     if (!string.IsNullOrEmpty(strFareNumber))
-                        strTicket = strTicket.Replace("</textStringDetails>", $"/T{ strFareNumber }</textStringDetails>");
+                        strTicket = strTicket.Replace("</textStringDetails>", $"/T{strFareNumber}</textStringDetails>");
 
                     strResponse = strTicket.StartsWith("<DocIssuance_IssueTicket>")
                         ? SendIssueTicket(ttAA, strTicket)
@@ -1404,7 +1404,7 @@ namespace AmadeusWS
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
 
-                var ttAA = SetAdapter();                
+                var ttAA = SetAdapter();
                 bool inSession = SetConversationID(ttAA);
 
                 var oDoc = new XmlDocument();
@@ -2081,7 +2081,7 @@ namespace AmadeusWS
                     }
                 }
 
-                
+
 
                 if (ttProviderSystems.LogNative)
                 {
@@ -2155,7 +2155,7 @@ namespace AmadeusWS
                 //************************************************************************** 
                 try
                 {
-                    strResponseTST = inSession 
+                    strResponseTST = inSession
                         ? strResponseTST.Replace("</Ticket_DisplayTSTReply>", $"{strPNRReply}<ConversationID>{ConversationID}</ConversationID></Ticket_DisplayTSTReply>")
                         : strResponseTST.Replace("</Ticket_DisplayTSTReply>", $"{strPNRReply}</Ticket_DisplayTSTReply>");
 
@@ -2378,7 +2378,7 @@ namespace AmadeusWS
                 //********************* 
                 DateTime RequestTime = DateTime.Now;
                 string strResponseTST = "";
-                
+
                 XmlDocument otaDoc = new XmlDocument();
                 otaDoc.LoadXml(Request);
                 XmlElement otaElement = otaDoc.DocumentElement;
@@ -2789,7 +2789,7 @@ namespace AmadeusWS
                 // Retrieve existing PNR * 
                 //**************************** 
                 strErrEvent = "Error Transforming OTA PNRRead Request.";
-                
+
 
                 //******************************************** 
                 //* Get Amadeus Native PNR Retrieve response * 
@@ -2996,12 +2996,12 @@ namespace AmadeusWS
                         //******************** 
                         if (strErrorResp.Length > 0)
                         {
-                            if (strErrorResp.IndexOf("<Error") >= 0)
+                            if (strErrorResp.Contains("<Error"))
                             {
                                 // Fatal Error 
                                 return BuildOTAResponse(strErrorResp);
                             }
-                            else if (strErrorResp.IndexOf("<Warning>") >= 0)
+                            else if (strErrorResp.Contains("<Warning>"))
                             {
                                 Warnings += strErrorResp;
                             }
@@ -3056,7 +3056,7 @@ namespace AmadeusWS
                 // Add Previous Errors and Warnings To Amadeus Native End Transact Response * 
                 //**************************************************************************** 
                 strNativePNRReply = strResponse.Replace("</PNR_Reply>", $"{Errors}{Warnings}{strResponseTST}{GetPricingOptionsTST}{strRequest}</PNR_Reply>");
-                
+
                 //***************************************************************** 
                 // Transform Native Amadeus TravelBuild Response into OTA Response * 
                 //***************************************************************** 
@@ -3064,7 +3064,7 @@ namespace AmadeusWS
                 {
                     strErrEvent = "AmadeusWS_PNRReadRS.xsl Error.";
                     Version = "v03";//strRequest.Contains("v03") ? "v03_" : "v04_";
-                    
+
                     strNativePNRReply = inSession
                         ? strNativePNRReply.Replace("</PNR_Reply>", $"<ConversationID>{ConversationID}</ConversationID></PNR_Reply>")
                         : strNativePNRReply;

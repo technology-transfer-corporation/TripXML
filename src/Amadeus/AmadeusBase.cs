@@ -415,7 +415,23 @@ namespace AmadeusWS
         }
 
         /// <summary>
-        /// This method will either get SessionID from Request or will set new SessionID.
+        /// Return formated error for PNR display
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        protected string BuildErrorNode(string message)
+        {
+            try
+            {
+                return $"<Error>{message}</Error>";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error Building OTA Response.\r\n{ex.Message}");
+            }
+        }
+
+        /// <summary>        /// This method will either get SessionID from Request or will set new SessionID.
         /// </summary>
         /// <param name="ttAA">GDS Adapter</param>
         /// <returns>returns flag wether conversation in session or not.</returns>
