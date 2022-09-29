@@ -11,6 +11,7 @@ using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using static TripXMLMain.modCore.enAmadeusWSSchema;
+using System.Xml.Xsl;
 
 namespace AmadeusWS
 {
@@ -43,10 +44,12 @@ namespace AmadeusWS
         private string SendRequestSegment(AmadeusWSAdapter ttAA, string request, string segment, string soapAction, string nameSpace)
         {
             string strResponse = "";
+            if (string.IsNullOrEmpty(Version))
+                Version = $"v03_";
 
             if (!string.IsNullOrEmpty(request))
             {
-
+                CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSService", $"***** {segment} *****", "", ttProviderSystems.LogUUID);
                 Message += request;
                 strResponse = SendGDSMessage(ttAA, request, soapAction, nameSpace, segment);
                 Message += strResponse;
@@ -65,10 +68,11 @@ namespace AmadeusWS
                 if (strResponse.Contains("<Error"))
                 {
                     Errors += strResponse;
+                    strResponse = "";
                 }
-                else if (strResponse.Contains("<Warning"))
+                else
                 {
-                    Warnings += strResponse;
+                    strResponse = nativeResp;
                 }
             }
 
@@ -2789,12 +2793,17 @@ namespace AmadeusWS
                 // Retrieve existing PNR * 
                 //**************************** 
                 strErrEvent = "Error Transforming OTA PNRRead Request.";
-
+                var argListPPWBC = new XsltArgumentList();
 
                 //******************************************** 
                 //* Get Amadeus Native PNR Retrieve response * 
                 //******************************************** 
                 Message = "<PNR_Retrieve><retrievalFacts><retrieve><type>1</type></retrieve></retrievalFacts></PNR_Retrieve>";
+                if (ttProviderSystems.PriceBookingVersion != null)
+                {
+                    argListPPWBC.AddParam("PPWBCVersion", "", ttProviderSystems.PriceBookingVersion);
+                }
+
                 string strNativePNRReply = SendRetrievePNR(ttAA);
                 strNativePNRReply = strNativePNRReply.Replace("PNR_Reply", "PNR_RetrieveByRecLocReply");
                 Message += strNativePNRReply;
@@ -2928,7 +2937,8 @@ namespace AmadeusWS
                             //***************************************************
                             // Following if condition was diffrent in local code
                             //***************************************************
-                            if (strResponse.Length > 0 && !strResponse.Contains("IS WAIT LIST"))
+                            //During remarks Update we are getting back PNR Reply with normal PNR data.
+                            if (strResponse.Length > 0 && !strResponse.StartsWith("<PNR_Reply>") && !strResponse.Contains("IS WAIT LIST"))
                             {
                                 strResponse = BuildOTAResponse(strResponse);
                                 return strResponse;
@@ -3004,6 +3014,10 @@ namespace AmadeusWS
                             else if (strErrorResp.Contains("<Warning>"))
                             {
                                 Warnings += strErrorResp;
+                            }
+                            else if (strErrorResp.Contains("INVALID ACCOUNT NUMBER"))
+                            {
+                                Errors += BuildErrorNode("INVALID ACCOUNT NUMBER");
                             }
                         }
 
