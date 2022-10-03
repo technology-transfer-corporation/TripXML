@@ -266,8 +266,12 @@ namespace Sabre
 
                     if (ttProviderSystems.AAAPCC != ttProviderSystems.PCC)
                     {
-                        string strAAA = "<ContextChangeRQ  xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"  Version=\"2.0.3\"><ChangeAAA PseudoCityCode=\"";
-                        strAAA += $"{ttProviderSystems.AAAPCC}\"/></ContextChangeRQ>";
+                        string strAAA = "<ContextChangeRQ  xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" " +
+                            "xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" " +
+                            "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"  " +
+                            "ReturnHostCommand=\"false\" " +
+                            "Version=\"2.0.3\"><ChangeAAA PseudoCityCode=\"" +
+                            $"{ttProviderSystems.AAAPCC}\"/></ContextChangeRQ>";
                         string strResponse = SendMessage(strAAA, "ChangeAAA", "ContextChangeLLSRQ", securityToken);
                     }
                 }
