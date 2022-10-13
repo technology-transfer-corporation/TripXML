@@ -46,7 +46,7 @@
 			<xsl:when test="OTA_AirPriceRS/Error != ''">
 				<Errors>
 					<Error>
-						<xsl:attribute name="Type">Sabre</xsl:attribute>
+						<xsl:attribute name="Type">Travelport</xsl:attribute>
 						<xsl:attribute name="Code">E</xsl:attribute>
 						<xsl:value-of select="OTA_AirPriceRS/Error"/>
 					</Error>
@@ -55,7 +55,7 @@
 			<xsl:when test="Errors/Error != ''">
 				<Errors>
 					<Error>
-						<xsl:attribute name="Type">Sabre</xsl:attribute>
+						<xsl:attribute name="Type">Travelport</xsl:attribute>
 						<xsl:attribute name="Code">
 							<xsl:choose>
 								<xsl:when test="Errors/Error/@ErrorCode!= ''">
