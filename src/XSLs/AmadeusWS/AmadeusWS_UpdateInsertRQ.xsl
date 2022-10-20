@@ -4,6 +4,7 @@
 	================================================================== 
 	AmadeusWS_UpdateInsertRQ.xsl 												       
 	================================================================== 
+	Date: 20 Oct 2022 - Kobelev - Historical remark passing one letter catigorizer 
 	Date: 31 Mar 2022 - Kobelev - fixed Passemger Reference 	    
 	Date: 21 Jul 2018 - Samokhvalov - fixed Special Remarks:Endorsment - Infant association 	    
 	Date: 07 Feb 2015 - Rastko - added support for air passive segments 	    
@@ -1145,7 +1146,7 @@
 					<remarks>
 						<type>RM</type>
 						<category>
-							<xsl:value-of select="@RemarkType"/>
+							<xsl:value-of select="substring(@RemarkType,1,1)"/>
 						</category>
 						<freetext>
 							<xsl:value-of select="Text"/>
@@ -1313,7 +1314,7 @@
 							<remarks>
 								<type>RI</type>
 								<category>
-									<xsl:value-of select="@RemarkType"/>
+									<xsl:value-of select="substring(@RemarkType, 1,1)"/>
 								</category>
 								<freetext>
 									<xsl:value-of select="Text"/>
