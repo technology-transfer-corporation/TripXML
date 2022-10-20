@@ -5,11 +5,13 @@
 				xmlns:universal="http://www.travelport.com/schema/universal_v50_0"
 				xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" version="1.0"
 				xmlns:msxsl="urn:schemas-microsoft-com:xslt"
+				xmlns:passive="http://www.travelport.com/schema/passive_v50_0"
 				xmlns:ttVB="urn:ttVB">
 	<!-- 
 	================================================================== 
 	v03_Travelport_PNRReadRS.xsl 									
 	==================================================================
+	Date: 20 Oct 2022 - Kobelev - Retention line display
 	Date: 09 Sep 2022 - Kobelev - ARNK display fixed for PNRs without ARNK
 	Date: 07 Sep 2022 - Kobelev - ARNK display fixed
 	Date: 07 Sep 2022 - Samokhvalov - ARNK segments added
@@ -158,24 +160,25 @@
 											<xsl:apply-templates select="air:AirReservation/air:AirSegment" mode="Air"/>
 										</xsl:otherwise>
 									</xsl:choose>
-
+									<xsl:if test="passive:PassiveReservation">										
+										<xsl:apply-templates select="passive:PassiveReservation" mode="Other"/>
+									</xsl:if>
+									
+									<!-- This is looks like Amadeus code -->									
 									<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CCR']" mode="Car"/>
 									<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CU']" mode="Car"/>
 									<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='HHL']" mode="Hotel"/>
 									<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='HU']" mode="Hotel"/>
-									<!-- This is looks like Amadeus code -->
 									<xsl:if test="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='RU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='SUR'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TRN'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CRU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TU']">
 										<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TRN']" mode="Train"/>
 										<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CRU']" mode="Cruise"/>
 										<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TU']" mode="Tour"/>
-										<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='RU']" mode="Other"/>
 										<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AU']" mode="Taxi"/>
 										<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='SUR']" mode="Land"/>
 									</xsl:if>
 
 									<xsl:if test="air:AirReservation/air:AirPricingInfo">
 										<ItemPricing>
-
 											<xsl:call-template name="AirPricingInfo">
 												<xsl:with-param name="ref" select="$refKey"/>
 											</xsl:call-template>
@@ -899,9 +902,12 @@
 
 		<Item>
 
+			<!--
 			<xsl:attribute name="Status">
 				<xsl:value-of select="@Status"/>
 			</xsl:attribute>
+			-->
+			
 			<xsl:attribute name="ItinSeqNumber">
 				<xsl:value-of select="@TravelOrder"/>
 			</xsl:attribute>
@@ -1042,7 +1048,7 @@
 				<Arnk />
 			</TPA_Extensions>
 		</Item>
-	</xsl:template>
+	</xsl:template>	
 	<!--************************************************************************************-->
 	<!--			Hotel Segs   						   					    -->
 	<!--************************************************************************************-->
@@ -3642,62 +3648,57 @@
 	<!-- ********************************************************************************	-->
 	<!-- Miscellaneous other,  Air Taxi, Land, Sea, Rail, Car and hotel               -->
 	<!-- ********************************************************************************* -->
-	<xsl:template match="itineraryInfo" mode="Other">
+	<xsl:template match="passive:PassiveReservation" mode="Other">
 		<!--General Segment in OTA -->
 		<!-- Other Segments -->
 		<Item>
 			<xsl:attribute name="Status">
-				<xsl:value-of select="relatedProduct/status"/>
+				<xsl:value-of select="passive:PassiveSegment/@Status"/>
 			</xsl:attribute>
 			<xsl:attribute name="ItinSeqNumber">
-				<xsl:value-of select="elementManagementItinerary[reference/qualifier='ST']/lineNumber"/>
+				<xsl:value-of select="passive:PassiveSegment/@ProviderSegmentOrder"/>
 			</xsl:attribute>
 			<General>
-				<xsl:attribute name="Start">
-					<xsl:text>20</xsl:text>
-					<xsl:value-of select="substring(travelProduct/product/depDate,5,2)"/>
-					<xsl:text>-</xsl:text>
-					<xsl:value-of select="substring(travelProduct/product/depDate,3,2)"/>
-					<xsl:text>-</xsl:text>
-					<xsl:value-of select="substring(travelProduct/product/depDate,1,2)"/>
+				<xsl:attribute name="Start">					
+					<xsl:value-of select="substring-before(passive:PassiveSegment/@StartDate,'T')"/>					
 				</xsl:attribute>
-				<xsl:if test="travelProduct/product/arrDate != ''">
+				<xsl:if test="passive:PassiveSegment/@EndDate != ''">
 					<xsl:attribute name="End">
-						<xsl:text>20</xsl:text>
-						<xsl:value-of select="substring(travelProduct/product/arrDate,5,2)"/>
-						<xsl:text>-</xsl:text>
-						<xsl:value-of select="substring(travelProduct/product/arrDate,3,2)"/>
-						<xsl:text>-</xsl:text>
-						<xsl:value-of select="substring(travelProduct/product/arrDate,1,2)"/>
+						<xsl:value-of select="substring-before(passive:PassiveSegment/@EndDate,'T')"/>
 					</xsl:attribute>
 				</xsl:if>
 				<Description>
-					<xsl:choose>
-						<xsl:when test="elementManagementItinerary/segmentName = 'RU'">Miscellaneous</xsl:when>
-					</xsl:choose>
-					<xsl:if test="travelProduct/boardpointDetail/cityCode !=''">
+					<xsl:value-of select="passive:PassiveSegment/@SegmentType" />						
+					<xsl:if test="passive:PassiveSegment/@CityCode !=''">
 						<xsl:text> - Board point: </xsl:text>
-						<xsl:value-of select="travelProduct/boardpointDetail/cityCode"/>
+						<xsl:value-of select="passive:PassiveSegment/@CityCode"/>
 					</xsl:if>
-					<xsl:if test="itineraryFreetext/longFreetext!=''">
+					<xsl:if test="passive:PassiveRemark/passive:Text!=''">
 						<xsl:text> - </xsl:text>
-						<xsl:value-of select="itineraryFreetext/longFreetext"/>
+						<xsl:value-of select="passive:PassiveRemark/passive:Text"/>
 					</xsl:if>
 				</Description>
 				<TPA_Extensions>
 					<xsl:attribute name="Status">
-						<xsl:value-of select="relatedProduct/status"/>
+						<xsl:value-of select="passive:PassiveSegment/@Status"/>
 					</xsl:attribute>
 					<xsl:attribute name="NumberInParty">
-						<xsl:value-of select="relatedProduct/quantity"/>
+						<xsl:value-of select="count(common_v50_0:BookingTravelerRef)"/>
 					</xsl:attribute>
 					<Vendor>
 						<xsl:attribute name="Code">
-							<xsl:value-of select="travelProduct/companyDetail/identification"/>
+							<xsl:value-of select="passive:PassiveSegment/@SupplierCode"/>
 						</xsl:attribute>
 					</Vendor>
 					<OriginCityCode>
-						<xsl:value-of select="travelProduct/boardpointDetail/cityCode"/>
+						<xsl:choose>
+							<xsl:when test="travelProduct/boardpointDetail/cityCode">
+								<xsl:value-of select="travelProduct/boardpointDetail/cityCode"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>None</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>						
 					</OriginCityCode>
 				</TPA_Extensions>
 			</General>

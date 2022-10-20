@@ -3564,7 +3564,7 @@ End Function
 		<xsl:variable name="tkt" select="TkNum" />
 		<xsl:variable name="tktType">
 			<xsl:choose>
-				<xsl:when test="../../PNR_DH_INF/Line[@TicketNumber=$tkt]">
+				<xsl:when test="contains(../../PNR_DH_INF/Line[@TicketNumber=$tkt], 'VOID')">
 					<xsl:text>V</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
