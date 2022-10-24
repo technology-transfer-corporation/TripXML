@@ -6,9 +6,6 @@ Imports System.Threading
 Imports System.Net
 Imports TripXMLMain.modCore
 Imports PaymentServices
-Imports System.Text
-Imports System.Web
-Imports System.Data
 
 Namespace wsTravelTalk
 
@@ -80,7 +77,11 @@ Namespace wsTravelTalk
 
             Try
                 If isDefault Then
-                    ttCredential = GetTravelTalkDefaultCredential(strRequest, ttServiceID)
+                    If ttServiceID.Equals(78) Then
+                        ttCredential = GetTravelTalkDefaultTravelportCredential(strRequest, ttServiceID, ttCredential)
+                    Else
+                        ttCredential = GetTravelTalkDefaultAmadeusCredential(strRequest, ttServiceID)
+                    End If
                 Else
                     ttCredential = GetTravelTalkCredential(strRequest, ttServiceID)
                 End If
@@ -357,7 +358,86 @@ Namespace wsTravelTalk
 
 #Region " Authentication "
 
-        Public Function GetTravelTalkDefaultCredential(ByRef strRequest As String, ByVal ttServiceID As Integer) As TravelTalkCredential
+        Public Function GetTravelTalkDefaultTravelportCredential(ByRef strRequest As String, ByVal ttServiceID As Integer, ByVal ttOldCredential As TravelTalkCredential) As TravelTalkCredential
+            Dim ttCredential As TravelTalkCredential = Nothing
+            Dim oReqDoc As XmlDocument
+            Dim oRoot As XmlElement
+            Dim oNodePOS As XmlNode
+            Dim i As Integer
+            Dim count As Integer
+            Dim customErr As Boolean = False
+            Dim strError As String
+            Dim sb As StringBuilder = New StringBuilder()
+
+            strRequest = strRequest.Replace("URL=""""", sb.Append("URL=""").Append(HttpContext.Current.Request.UserHostName).Append("""").ToString())
+            sb.Remove(0, sb.Length())
+
+            Try
+                oReqDoc = New XmlDocument
+                oReqDoc.LoadXml(strRequest)
+                oRoot = oReqDoc.DocumentElement
+            Catch ex As Exception
+                Throw New Exception(sb.Append("Error Loading Request XML Document.").Append(ex.Message).ToString())
+            End Try
+
+            Try
+                If Not oRoot.HasChildNodes Then
+                    customErr = True
+                    Throw New Exception(sb.Append("Invalid or empty request.").Append(vbNewLine).Append(strRequest).ToString())
+                End If
+
+                oNodePOS = oRoot.SelectSingleNode("POS")
+
+                If oNodePOS Is Nothing Then
+                    customErr = True
+                    Throw New Exception("POS node element is missing or not valid.")
+                End If
+
+                If oNodePOS.SelectSingleNode("Source/RequestorID/@ID") Is Nothing Then
+                    customErr = True
+                    Throw New Exception("RequestorID is missing or not valid.")
+                End If
+
+                With ttCredential
+                    .RequestorID = oNodePOS.SelectSingleNode("Source/RequestorID").Attributes("ID").Value
+                    .System = oNodePOS.SelectSingleNode("TPA_Extensions/Provider/System").InnerText
+                    .UserID = "Travelport"
+                    .Password = oNodePOS.SelectSingleNode("TPA_Extensions/Provider/Password").InnerText
+
+                    If .UserID = "FlightSite" And Not (strRequest.Contains("<VendorPref Code=")) And (ttServiceID = 6 Or ttServiceID = 7) Then
+                        strRequest = strRequest.Replace("<System>", "<Name>Amadeus</Name><System>")
+                        oReqDoc.LoadXml(strRequest)
+                        oRoot = oReqDoc.DocumentElement
+                        oNodePOS = oRoot.SelectSingleNode("POS")
+                    End If
+
+                    count = oNodePOS.SelectNodes("TPA_Extensions/Provider/Name").Count - 1
+
+                    ReDim .Providers(count)
+
+                    For i = 0 To count
+                        .Providers(i).PCC = ""
+                    Next
+
+                    .Providers(0).PCC = ttOldCredential.Providers(0).PCC
+                    .Providers(0).Name = "Travelport"
+
+                    oNodePOS = oNodePOS.SelectSingleNode("TPA_Extensions/Provider")
+                End With
+            Catch ex As Exception
+                If customErr Then
+                    strError = ex.Message
+                Else
+                    strError = "Error Loading User Credentials. POS node is missing or incomplete."
+                End If
+                Throw New Exception(strError)
+            End Try
+
+            Return ttCredential
+
+        End Function
+
+        Public Function GetTravelTalkDefaultAmadeusCredential(ByRef strRequest As String, ByVal ttServiceID As Integer) As TravelTalkCredential
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim oReqDoc As XmlDocument
             Dim oRoot As XmlElement
@@ -1828,18 +1908,14 @@ Namespace wsTravelTalk
                     .Request = strRequest
 
                     Select Case Service
-                        'Case ttServices.TravelBuild
-                        '    If Version = "v04" Then
-                        '        strResponse = .TravelBuild_V4
-                        '    Else
-                        '        strResponse = .TravelBuild 'for testing only
-                        '    End If
-                        'Case ttServices.IssueTicket
-                        '    strResponse = .IssueTicket()
-                        'Case ttServices.IssueTicketSessioned
-                        '    strResponse = .IssueTicketSessioned()
-                        'Case ttServices.Update
-                        '    strResponse = .Update()
+                        Case ttServices.TravelBuild
+                            strResponse = .TravelBuild() 'for testing only
+                        Case ttServices.IssueTicket
+                            'strResponse = .IssueTicket
+                        Case ttServices.IssueTicketSessioned
+                            'strResponse = .IssueTicketSessioned
+                        Case ttServices.Update
+                            'strResponse = .Update()
                         Case ttServices.UpdateSessioned
                             strResponse = .UpdateSessioned()
                         Case Else
