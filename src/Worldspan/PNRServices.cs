@@ -808,8 +808,7 @@ namespace Worldspan
 
                     foreach (XmlNode currentONode in oRoot)
                     {
-                        oNode = currentONode;
-                        ttWA.SendCryptic(oNode.InnerText);
+                        ttWA.SendCryptic(currentONode.InnerText);
                     }
                     ttWA.CloseSession();
                     inSession = false;
