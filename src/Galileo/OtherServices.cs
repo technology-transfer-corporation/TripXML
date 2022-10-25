@@ -358,10 +358,9 @@ namespace Galileo
                 {
                     throw new Exception("Native Message is missing in the Request.");
                 }
-                else
-                {
-                    Request = oRoot.SelectSingleNode("Native").InnerXml;
-                }
+                
+                Request = oRoot.SelectSingleNode("Native").InnerXml;
+                string ConversationID = oRoot.SelectSingleNode("POS/TPA_Extensions/ConversationID").InnerText;
 
                 // ***************************************************************************
                 // Send Native Request to the Galileo Adapter and Getting Native Response   *
