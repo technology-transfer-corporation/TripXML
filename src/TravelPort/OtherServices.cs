@@ -12,7 +12,6 @@ namespace Travelport
             string strResponse = "";
             try
             {
-                string ConversationID = "";
                 string strRequest = Request;
                 XmlDocument oReqDoc = new XmlDocument();
                 oReqDoc.LoadXml(strRequest);
@@ -20,7 +19,8 @@ namespace Travelport
 
                 if (oRoot.SelectSingleNode("Native") == null)
                     throw new Exception("Native Message is missing in the Request.");
-                
+
+                string ConversationID = oRoot.SelectSingleNode("POS/TPA_Extensions/ConversationID").InnerText;
                 strRequest = oRoot.SelectSingleNode("Native").InnerXml;            
 
             // *******************************************************************************
@@ -179,22 +179,15 @@ namespace Travelport
                             break;
                     }
                 }                
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Invalid Request.\r\n{ex.Message}");
-            }
-
-            try
-            {                
+                           
                 TravelPortWSAdapter ttGA = SetAdapter(ProviderSystems);
                 // Create Session and Get Sesson Token
-                string Token = ttGA.CreateTerminalSession(branch, host);
+                string token = ttGA.CreateTerminalSession(branch, host);
                 
                 // Build Response.
-                string strResponse = Token.Length == 36 
-                        ? $"<SessionCreateRS Version='1.001'><Success/><ConversationID>{Token}</ConversationID></SessionCreateRS>"
-                        : Token;
+                string strResponse = token.Length == 36 
+                        ? $"<SessionCreateRS Version='1.001'><Success/><ConversationID>{token}</ConversationID></SessionCreateRS>"
+                        : token;
                 return strResponse;
             }
             catch (Exception ex)
@@ -211,12 +204,16 @@ namespace Travelport
                 oReqDoc.LoadXml(Request);
                 XmlElement oRoot = oReqDoc.DocumentElement;
 
-                string Token = oRoot.SelectSingleNode("POS/TPA_Extensions/ConversationID").InnerText;
-                string branchID = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
-
-
-                if (string.IsNullOrEmpty(Token))
+                string token = oRoot.SelectSingleNode("POS/TPA_Extensions/ConversationID").InnerText;
+                
+                if (string.IsNullOrEmpty(token))
                     throw new Exception("ConversationID is missing in the Request.");
+
+                if (!string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText))
+                {
+                    pcc = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
+                    branch = ProviderSystems.Profile;
+                }
 
                 //****************************
                 // Close Session with Token  *
@@ -238,7 +235,7 @@ namespace Travelport
                 }
 
                 TravelPortWSAdapter ttGA = SetAdapter(ProviderSystems); 
-                string strResponse = ttGA.CloseTerminalSession(branchID, host, Token);
+                string strResponse = ttGA.CloseTerminalSession(branch, host, token);
 
                 strResponse = string.IsNullOrEmpty(strResponse)
                     ? "<SessionCloseRS Version=\"1.001\"><Success/></SessionCloseRS>"

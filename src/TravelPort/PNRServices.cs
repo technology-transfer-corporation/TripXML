@@ -145,6 +145,13 @@ namespace Travelport
             var oDoc = new XmlDocument();
             try
             {
+                branch = ProviderSystems.Profile;
+                TravelPortWSAdapter ttTP = SetAdapter(ProviderSystems);
+
+                if (!Request.Contains("<RequestorID Type=\"21\" Instance"))
+                    Request = Request.Replace("RequestorID Type=\"21\" ", $"RequestorID Type=\"21\" Instance=\"{branch}\" ");
+                Request = Request.Replace("</StoredFare>", $"</StoredFare><UUID>{ProviderSystems.LogUUID}</UUID> ");
+
                 string strRequest = SetRequest("Travelport_PNRRepriceRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
@@ -170,23 +177,17 @@ namespace Travelport
                             break;
                     }
                 }
-
-                branch = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
-
+                
                 //*******************************************************************************
                 // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                 //******************************************************************************* 
-
                 string strRetrieve;
-
-                modCore.TripXMLProviderSystems ttProviderSystems = ProviderSystems;
-                TravelPortWSAdapter ttTP = SetAdapter(ttProviderSystems);
+                
                 bool inSession = SetConversationID(ttTP);
-
-                ttTP = new TravelPortWSAdapter(ttProviderSystems);
                 ttTP.TracerID = ConversationID;
+                
 
-                // send retrieve universal record (UR)
+                // send retrieve universal record (UR)                
                 strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.UniversalRecordService);
 
                 strRetrieve = strResponse;
@@ -194,18 +195,26 @@ namespace Travelport
                 if (strResponse.Contains("universal:UniversalRecord LocatorCode="))
                 {
                     // create and send pricing message
-                    strRequest = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{strResponse}</Response></OTA_PNRRepriceRQ>");
-                    strResponse = CoreLib.TransformXML(strRequest, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
-                    strResponse = ttTP.SendMessage(strResponse, TravelPortWSAdapter.enRequestType.AirService);
-                    strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{strResponse}</universal:UniversalRecordRetrieveRsp>");
-
-                    if (Request.Contains("StoreFare='true'"))
+                    strRequest = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{strResponse}</Response></OTA_PNRRepriceRQ>");                    
+                    var airRQ = CoreLib.TransformXML(strRequest, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
+                    var airRS = ttTP.SendMessage(airRQ, TravelPortWSAdapter.enRequestType.AirService);
+                    strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{airRS}</universal:UniversalRecordRetrieveRsp>");
+                    //TODO: Add call to XSLT in order to modify with TourCode, Endorsemenet and Commission
+                    if (Request.Contains("StoreFare=\"true\""))
                     {
                         // store new pricing in UR
-                        strRequest = Request.Replace("</OTA_PNRRepriceRQ>", $"<NewPrice>{strResponse}</NewPrice></OTA_PNRRepriceRQ>");
-                        strResponse = CoreLib.TransformXML(strRequest, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
-                        strResponse = ttTP.SendMessage(strResponse, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-                        strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{strResponse}</universal:UniversalRecordRetrieveRsp>");
+                        var modRQ = strRequest.Replace("</OTA_PNRRepriceRQ>", $"<NewPrice>{airRS}</NewPrice></OTA_PNRRepriceRQ>");
+                        modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);                        
+                        var modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                        strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
+
+                        //if (oRoot.SelectNodes("StoredFare[TourCode or Endorsement]").Count > 0)
+                        //{
+                        //    modRQ = strRequest.Replace("</OTA_PNRRepriceRQ>", $"<UpdatePrice>{airRS}</UpdatePrice></OTA_PNRRepriceRQ>");
+                        //    modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
+                        //    modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                        //    strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
+                        //}
                     }
                 }
 
@@ -229,7 +238,7 @@ namespace Travelport
                 {
                     if (!inSession)
                     {
-                        ttTP.CloseTerminalSession(branch, host, ConversationID);
+                        ttTP.CloseTerminalSession(branch, host, ttTP.TracerID);
                         ConversationID = string.Empty;
                     }
                 }
