@@ -1675,9 +1675,7 @@ namespace AmadeusWS
                                     strDiscount = oNode1.SelectSingleNode("Discount/@Percent").InnerXml;
 
                                     if (strDiscount.Contains("."))
-                                    {
                                         strDiscount = strDiscount.Substring(0, strDiscount.IndexOf("."));
-                                    }
 
                                     discQualif = "708"; // percent discount
                                 }
