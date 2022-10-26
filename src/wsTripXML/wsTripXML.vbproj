@@ -104,7 +104,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="PaymentServices, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PaymentServices.1.0.21\lib\net48\PaymentServices.dll</HintPath>
+      <HintPath>..\packages\PaymentServices.1.0.22\lib\net48\PaymentServices.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=106.15.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.15.0\lib\net452\RestSharp.dll</HintPath>
@@ -976,7 +976,6 @@
     </Compile>
     <Compile Include="GetFareRules.aspx.vb">
       <DependentUpon>GetFareRules.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -989,7 +988,6 @@
     </Compile>
     <Compile Include="RulesResult.aspx.vb">
       <DependentUpon>RulesResult.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <None Include="My Project\PublishProfiles\DTT.pubxml" />
     <None Include="My Project\PublishProfiles\LocalDeployment.pubxml" />
