@@ -11,6 +11,7 @@
 	================================================================== 
 	v03_Travelport_PNRReadRS.xsl 									
 	==================================================================
+	Date: 28 Oct 2022 - Kobelev - Different Fare Quote for different PTC
 	Date: 20 Oct 2022 - Kobelev - Retention line display
 	Date: 09 Sep 2022 - Kobelev - ARNK display fixed for PNRs without ARNK
 	Date: 07 Sep 2022 - Kobelev - ARNK display fixed
@@ -28,6 +29,7 @@
 	<xsl:output omit-xml-declaration="yes"/>
 
 	<xsl:key name="conCarr" match="//universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo/air:FareInfo/air:Brand/@Carrier" use="." />
+	<xsl:key name="priceGroups" match="//universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo/@AirPricingInfoGroup" use="."/>
 
 	<xsl:variable name="loop">
 		<xsl:choose>
@@ -48,7 +50,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="//universal:UniversalRecordRetrieveRsp/universal:ProviderReservationInfo/@ProviderCode"/>
-			</xsl:otherwise>			
+			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
 
@@ -155,7 +157,10 @@
 						</CustomerInfos>
 						<ItineraryInfo>
 							<xsl:variable name="refKey" select="air:AirReservation/common_v50_0:ProviderReservationInfoRef/@Key" />
-							<xsl:if test="air:AirReservation/air:AirSegment | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CCR'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='HHL'] | originDestinationDetails/itineraryInf[elementManagementItinerary/segmentName='HU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='RU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AU'] | 	originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='SUR'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TRN'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CRU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TU']">
+							<!-- 
+							| originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CCR'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='HHL'] | originDestinationDetails/itineraryInf[elementManagementItinerary/segmentName='HU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='RU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AU'] | 	originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='SUR'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TRN'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CRU'] | originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='TU']
+							-->
+							<xsl:if test="air:AirReservation/air:AirSegment">
 								<ReservationItems>
 									<xsl:choose>
 										<xsl:when test="common_v50_0:ProviderARNKSegment">
@@ -171,7 +176,8 @@
 										<xsl:apply-templates select="passive:PassiveReservation" mode="Other"/>
 									</xsl:if>
 
-									<!-- This is looks like Amadeus code -->
+									<!-- This is looks like Amadeus code 
+									
 									<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CCR']" mode="Car"/>
 									<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='CU']" mode="Car"/>
 									<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='HHL']" mode="Hotel"/>
@@ -183,14 +189,20 @@
 										<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AU']" mode="Taxi"/>
 										<xsl:apply-templates select="originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='SUR']" mode="Land"/>
 									</xsl:if>
-
+								    -->
 									<xsl:if test="air:AirReservation/air:AirPricingInfo">
-										<ItemPricing>
-											<xsl:call-template name="AirPricingInfo">
-												<xsl:with-param name="ref" select="$refKey"/>
-											</xsl:call-template>
-										</ItemPricing>
+										<xsl:variable name="price" select="air:AirReservation" />
+										<xsl:for-each select="air:AirReservation/air:AirPricingInfo/@AirPricingInfoGroup[generate-id() = generate-id(key('priceGroups',.)[1])]">
+											<xsl:variable name="group" select="." />
+											<ItemPricing>
+												<xsl:apply-templates select="$price" mode="price" >
+													<xsl:with-param name="ref" select="$refKey"/>
+													<xsl:with-param name="group" select="$group"/>
+												</xsl:apply-templates>
+											</ItemPricing>
+										</xsl:for-each>
 									</xsl:if>
+									<!-- $price/air:AirPricingInfo[@AirPricingInfoGroup = $group] -->
 								</ReservationItems>
 							</xsl:if>
 
@@ -328,9 +340,11 @@
 	 Pricing Response     	                                    
 	************************************************************** 
 	-->
-	<xsl:template name="AirPricingInfo">
+	<xsl:template match="air:AirReservation" mode="price">
 		<xsl:param name="ref"/>
-		<xsl:variable name="priceGroup">
+		<xsl:param name="group"/>
+
+		<!--<xsl:variable name="priceGroup">
 			<xsl:choose>
 				<xsl:when test="air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @PricingType = 'TicketRecord']">
 					<xsl:value-of select="air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @PricingType = 'TicketRecord'][last()]/@AirPricingInfoGroup"/>
@@ -342,18 +356,18 @@
 					<xsl:value-of select="air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @PricingType = 'StoredFare']/@AirPricingInfoGroup"/>
 				</xsl:otherwise>
 			</xsl:choose>
+		</xsl:variable>-->
 
-		</xsl:variable>
 		<AirFareInfo>
 			<xsl:attribute name="PricingSource">
 				<xsl:choose>
-					<xsl:when test="$provider='1P' and contains(air:AirReservation/air:AirPricingInfo[1]/air:ActionDetails/@Text, '.SR')">Private</xsl:when>
-					<xsl:when test="$provider='1G' and air:AirReservation/air:AirPricingInfo[1]/@FareCalculationInd != 'G'">Private</xsl:when>
+					<xsl:when test="$provider='1P' and contains(air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $group][1]/air:ActionDetails/@Text, '.SR')">Private</xsl:when>
+					<xsl:when test="$provider='1G' and air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $group][1]/@FareCalculationInd[1] != 'G'">Private</xsl:when>
 					<xsl:otherwise>Published</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
 			<xsl:variable name="bf">
-				<xsl:apply-templates select="air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $priceGroup][1]" mode="totalbase">
+				<xsl:apply-templates select="air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $group][1]" mode="totalbase">
 					<xsl:with-param name="sum">0</xsl:with-param>
 					<xsl:with-param name="pos">1</xsl:with-param>
 					<xsl:with-param name="loop">
@@ -361,8 +375,11 @@
 					</xsl:with-param>
 				</xsl:apply-templates>
 			</xsl:variable>
+			<!--
+			air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $priceGroup][1]
+			-->
 			<xsl:variable name="tf">
-				<xsl:apply-templates select="air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $priceGroup][1]" mode="totalprice">
+				<xsl:apply-templates select="air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $group][1]" mode="totalprice">
 					<xsl:with-param name="sum">0</xsl:with-param>
 					<xsl:with-param name="pos">1</xsl:with-param>
 					<xsl:with-param name="loop">
@@ -371,7 +388,7 @@
 				</xsl:apply-templates>
 			</xsl:variable>
 			<xsl:variable name="Taxf">
-				<xsl:apply-templates select="air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $priceGroup][1]" mode="totalTax">
+				<xsl:apply-templates select="air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $group][1]" mode="totalTax">
 					<xsl:with-param name="sum">0</xsl:with-param>
 					<xsl:with-param name="pos">1</xsl:with-param>
 					<xsl:with-param name="loop">
@@ -380,12 +397,11 @@
 				</xsl:apply-templates>
 			</xsl:variable>
 			<xsl:variable name="curt">
-				<xsl:value-of select="substring(air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $priceGroup]/@BasePrice,1,3)"/>
+				<xsl:value-of select="substring(air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $group][1]/@BasePrice,1,3)"/>
 			</xsl:variable>
 			<xsl:variable name="dect">
-				<xsl:value-of select="string-length(substring-after(substring(air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = 2]/@BasePrice,4),'.'))"/>
+				<xsl:value-of select="string-length(substring-after(substring(air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $group][1]/@BasePrice,4),'.'))"/>
 			</xsl:variable>
-
 			<ItinTotalFare>
 				<BaseFare>
 					<xsl:attribute name="Amount">
@@ -437,7 +453,7 @@
 				</TotalFare>
 			</ItinTotalFare>
 			<PTC_FareBreakdowns>
-				<xsl:apply-templates select="air:AirReservation/air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $priceGroup]"/>
+				<xsl:apply-templates select="air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $group]"/>
 			</PTC_FareBreakdowns>
 		</AirFareInfo>
 	</xsl:template>
