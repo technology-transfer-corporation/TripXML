@@ -63,7 +63,7 @@ Namespace wsTravelTalk
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
             Dim validateXSDOut As Boolean
             Dim startTime As Date
-            Dim uuid As String
+            Dim uuid As String = String.Empty
 
             Try
                 startTime = Now

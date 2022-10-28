@@ -779,7 +779,6 @@ Namespace wsTravelTalk
             Dim sb As StringBuilder = New StringBuilder()
 
             oRoot = oDoc.DocumentElement
-
             oNode = oRoot.SelectSingleNode(sb.Append("Customer[@RequestorID='").Append(ttCredential.RequestorID).Append("']").ToString())
             sb.Remove(0, sb.Length())
 

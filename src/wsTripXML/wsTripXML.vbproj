@@ -976,6 +976,7 @@
     </Compile>
     <Compile Include="GetFareRules.aspx.vb">
       <DependentUpon>GetFareRules.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -988,6 +989,7 @@
     </Compile>
     <Compile Include="RulesResult.aspx.vb">
       <DependentUpon>RulesResult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <None Include="My Project\PublishProfiles\DTT.pubxml" />
     <None Include="My Project\PublishProfiles\LocalDeployment.pubxml" />
