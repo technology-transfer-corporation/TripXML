@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 20 Sep 2022 - Kobelev - VOIDed tickets display.
   Date: 28 Jul 2022 - Kobelev - PNR Read with unmasked CC
   Date: 19 Jul 2022 - Samokhvalov - QueueRead - Pax Type Fixes
   Date: 08 Jul 2022 - Samokhvalov - Controlling Carrier Remark reworked. Added GI to Air Segments.
@@ -555,7 +556,7 @@
 												<!--</Item>-->
 											</xsl:for-each>
 										</xsl:when>
-										<xsl:otherwise>
+										<xsl:when test='ItineraryInfo/ReservationItems/Item/FlightSegment/FareBasis/@Code'>
 											<!--<xsl:for-each select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus][*//@SegmentNumber!='0'][last()]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/FlightSegment">-->
 											<xsl:for-each select="ItineraryInfo/ReservationItems/Item">
 												<xsl:sort data-type="number" order="ascending" select="FlightSegment/@SegmentNumber"/>
@@ -632,6 +633,67 @@
 													</xsl:choose>
 													<!--</Item>-->
 												</xsl:if>
+											</xsl:for-each>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:for-each select="ItineraryInfo/ReservationItems/Item">
+												<!--<Item>-->
+
+												<xsl:variable name="ItinSeqNumber">
+													<xsl:value-of select="@RPH"/>
+												</xsl:variable>
+												<xsl:variable name="sqCount">
+													<xsl:value-of select='count(FlightSegment)'/>
+												</xsl:variable>
+												<xsl:variable name="tFltNum">
+													<xsl:value-of select='format-number(FlightSegment/@FlightNumber,"#000")'/>
+												</xsl:variable>
+												<xsl:variable name="fltNum">
+													<xsl:choose>
+														<xsl:when test="FlightSegment[@FlightNumber = $tFltNum]">
+															<xsl:value-of select='$tFltNum'/>
+														</xsl:when>
+														<xsl:otherwise>
+															<xsl:value-of select='format-number(@FlightNumber,"#0000")'/>
+														</xsl:otherwise>
+													</xsl:choose>
+
+												</xsl:variable>
+												<xsl:variable name="segNum">
+													<xsl:value-of select='format-number(FlightSegment/@SegmentNumber,"#0000")'/>
+												</xsl:variable>
+												<xsl:variable name="originLoc">
+													<xsl:value-of select="FlightSegment/OriginLocation/@LocationCode"/>
+												</xsl:variable>
+
+												<!--<Air>-->
+												<xsl:choose>
+													<xsl:when test="$sqCount &lt; 2">
+														<xsl:apply-templates select="." mode="FillAirSegment">
+															<xsl:with-param name="parmFlightNumber" select='$fltNum'/>
+															<xsl:with-param name="parmSegNumber" select='$ItinSeqNumber'/>
+															<xsl:with-param name="parmOriginLocationCode" select="OriginLocation/@LocationCode[1]"/>
+														</xsl:apply-templates>
+													</xsl:when>
+													<xsl:otherwise>
+														<Item>
+															<xsl:attribute name="ItinSeqNumber">
+																<xsl:value-of select="format-number(FlightSegment/@SegmentNumber,'#0')"/>
+															</xsl:attribute>
+															<Air>
+																<xsl:apply-templates select='.' mode="FillAirSegmentStopOver">
+																	<xsl:with-param name="parmFlightNumber" select='$fltNum'/>
+																	<xsl:with-param name="parmOriginLocationCode" select="OriginLocation/@LocationCode[1]"/>
+																	<xsl:with-param name="parmSegmentNumber" select='$ItinSeqNumber'/>
+																	<!--  -->
+																</xsl:apply-templates>
+															</Air>
+														</Item>
+													</xsl:otherwise>
+												</xsl:choose>
+												<!--</Air>-->
+
+												<!--</Item>-->
 											</xsl:for-each>
 										</xsl:otherwise>
 									</xsl:choose>
@@ -804,16 +866,25 @@
 					<xsl:with-param name="LostText" select="../SabreCommandLLSRS/Response[contains(.,'SALES AUDIT REPORT')]"/>
 				</xsl:call-template>
 			</xsl:variable>
-			<xsl:if test="ItineraryInfo/Ticketing[@eTicketNumber!=''] or $dqb!=''">
-				<TPA_Extensions>
-					<IssuedTickets>
-						<xsl:apply-templates select="ItineraryInfo/Ticketing[@eTicketNumber !='']" mode="IssuedTicket"/>
-						<xsl:if test="$dqb!=''">
-							<xsl:copy-of select="$dqb"/>
-						</xsl:if>
-					</IssuedTickets>
-				</TPA_Extensions>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="ItineraryInfo/Ticketing[@eTicketNumber!=''] or $dqb!=''">
+					<TPA_Extensions>
+						<IssuedTickets>
+							<xsl:apply-templates select="ItineraryInfo/Ticketing[@eTicketNumber !='']" mode="IssuedTicket"/>
+							<xsl:if test="$dqb!=''">
+								<xsl:copy-of select="$dqb"/>
+							</xsl:if>
+						</IssuedTickets>
+					</TPA_Extensions>
+				</xsl:when>
+				<xsl:otherwise>
+					<TPA_Extensions>
+						<IssuedTickets>
+							<xsl:apply-templates select="ItineraryInfo/Ticketing[@eTicketNumber !='']" mode="IssuedTicket"/>
+						</IssuedTickets>
+					</TPA_Extensions>
+				</xsl:otherwise>
+			</xsl:choose>
 		</ItineraryInfo>
 		<!--******************************************************-->
 		<!--			Form of Payment                               -->
@@ -1154,11 +1225,11 @@
 														</xsl:otherwise>
 													</xsl:choose>
 												</xsl:attribute>
-												
+
 												<xsl:attribute name="CardNumber">
 													<xsl:value-of select="$card"/>
 												</xsl:attribute>
-											
+
 											</PaymentCard>
 										</xsl:when>
 										<xsl:otherwise>
@@ -1249,254 +1320,268 @@
 	<!-- Issued Tickets Elements 	                               		-->
 	<!-- ************************************************************** -->
 	<xsl:template match="Ticketing" mode="IssuedTicket">
+		<xsl:choose>
+			<xsl:when test="@RPH!=''">
+				<xsl:variable name="elems">
+					<xsl:call-template name="tokenizeString">
+						<xsl:with-param name="list" select="@eTicketNumber"/>
+						<xsl:with-param name="delimiter" select="' '"/>
+					</xsl:call-template>
+				</xsl:variable>
 
-		<xsl:if test="@RPH!=''">
-			<xsl:variable name="elems">
-				<xsl:call-template name="tokenizeString">
-					<xsl:with-param name="list" select="@eTicketNumber"/>
-					<xsl:with-param name="delimiter" select="' '"/>
-				</xsl:call-template>
-			</xsl:variable>
+				<xsl:variable name="tkn">
+					<xsl:choose>
+						<xsl:when  test="contains(substring-before(msxsl:node-set($elems)/elem[2], '-'), '/')">
+							<xsl:value-of select="substring-before(substring-before(msxsl:node-set($elems)/elem[2], '-'), '/')" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="substring-before(msxsl:node-set($elems)/elem[2], '-')"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
 
-			<xsl:variable name="tkn">
+				<xsl:variable name="subtkt">
+					<xsl:choose>
+						<xsl:when  test="contains(substring-before(msxsl:node-set($elems)/elem[2], '-'), '/')">
+							<xsl:variable name="lst" select="substring-after(substring-before(msxsl:node-set($elems)/elem[2], '-'), '/')" />
+							<xsl:value-of select="concat(substring( $tkn, 1, string-length($tkn) - string-length($lst)), $lst)" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$tkn"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+
+				<xsl:variable name="mco">
+					<xsl:choose>
+						<xsl:when test="../../AccountingInfo/DocumentInfo/Document[@Number=substring($tkn,4)] and ../../AccountingInfo/TicketingInfo/OriginalTicketNumber=$tkn">MCO</xsl:when>
+						<xsl:when test="substring($tkn, 1,3) = 890">MCO</xsl:when>
+						<xsl:when test="substring(@eTicketNumber, 1,2) = 'TK'">MCO</xsl:when>
+						<xsl:otherwise>EX</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+
 				<xsl:choose>
-					<xsl:when  test="contains(substring-before(msxsl:node-set($elems)/elem[2], '-'), '/')">
-						<xsl:value-of select="substring-before(substring-before(msxsl:node-set($elems)/elem[2], '-'), '/')" />
+					<xsl:when test="$mco='MCO'">
+						<ExchangeDocument>
+							<xsl:attribute name="TravelerRefNumberRPHList">
+								<xsl:variable name="rph">
+									<xsl:value-of select="format-number(@RPH,'000')-1"/>
+								</xsl:variable>
+								<xsl:choose>
+									<xsl:when test="PersonName/@NameNumber">
+										<xsl:variable name="paxRPH">
+											<xsl:call-template name="rphFormat">
+												<xsl:with-param name="rn" select="PersonName/@NameNumber"/>
+											</xsl:call-template>
+										</xsl:variable>
+										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+									</xsl:when>
+									<xsl:when test="../../AccountingInfo[DocumentInfo/Document/@Number=substring($tkn,4)]/PersonName/@NameNumber">
+										<xsl:variable name="paxRPH">
+											<xsl:call-template name="rphFormat">
+												<xsl:with-param name="rn" select="../../AccountingInfo[DocumentInfo/Document/@Number=substring($tkn,4)]/PersonName/@NameNumber"/>
+											</xsl:call-template>
+										</xsl:variable>
+										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="$rph"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:attribute>
+							<xsl:value-of select="concat('MCO', substring(@eTicketNumber,3))"/>
+						</ExchangeDocument>
+					</xsl:when>
+					<xsl:when test="../../AccountingInfo/TicketingInfo/OriginalTicketNumber = $tkn">
+						<ExchangeDocument>
+							<xsl:attribute name="TravelerRefNumberRPHList">
+								<xsl:variable name="rph">
+									<xsl:value-of select="format-number(@RPH,'000')-1"/>
+								</xsl:variable>
+								<xsl:choose>
+									<xsl:when test="PersonName/@NameNumber">
+										<xsl:variable name="paxRPH">
+											<xsl:call-template name="rphFormat">
+												<xsl:with-param name="rn" select="PersonName/@NameNumber"/>
+											</xsl:call-template>
+										</xsl:variable>
+										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+									</xsl:when>
+									<xsl:when test="../../AccountingInfo/DocumentInfo/Document[@Number=substring($tkn,4)]">
+										<xsl:variable name="paxRPH">
+											<xsl:call-template name="rphFormat">
+												<xsl:with-param name="rn" select="../../AccountingInfo[DocumentInfo/Document/@Number=substring($tkn,4)]/PersonName/@NameNumber"/>
+											</xsl:call-template>
+										</xsl:variable>
+										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="format-number(@RPH,'0')-1"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:attribute>
+							<xsl:value-of select="concat('EX', substring(@eTicketNumber,3))"/>
+						</ExchangeDocument>
+					</xsl:when>
+					<xsl:when test="//AccountingInfo/Text[contains(text(),$tkn)]">
+						<ExchangeDocument>
+							<xsl:attribute name="TravelerRefNumberRPHList">
+								<xsl:variable name="rph">
+									<xsl:value-of select="format-number(@RPH,'000')-1"/>
+								</xsl:variable>
+								<xsl:choose>
+									<xsl:when test="PersonName/@NameNumber">
+										<xsl:variable name="paxRPH">
+											<xsl:call-template name="rphFormat">
+												<xsl:with-param name="rn" select="PersonName/@NameNumber"/>
+											</xsl:call-template>
+										</xsl:variable>
+										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+									</xsl:when>
+									<xsl:when test="../../AccountingInfo/DocumentInfo/Document[@Number=substring($tkn,4)]">
+										<xsl:variable name="paxRPH">
+											<xsl:call-template name="rphFormat">
+												<xsl:with-param name="rn" select="../../AccountingInfo[DocumentInfo/Document/@Number=substring($tkn,4)]/PersonName/@NameNumber"/>
+											</xsl:call-template>
+										</xsl:variable>
+										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="format-number(@RPH,'0')-1"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:attribute>
+							<xsl:value-of select="concat('EX', substring(@eTicketNumber,3))"/>
+						</ExchangeDocument>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="substring-before(msxsl:node-set($elems)/elem[2], '-')"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
+						<IssuedTicket>
+							<xsl:attribute name="TravelerRefNumberRPHList">
+								<xsl:variable name="rph">
+									<xsl:value-of select="format-number(@RPH,'000')-1"/>
+								</xsl:variable>
+								<xsl:choose>
+									<xsl:when test="../../SpecialServiceInfo/Service[@RPH=$rph]">
+										<xsl:variable name="paxRPH" select="../../SpecialServiceInfo/Service[@RPH=$rph]/PersonName/@NameNumber" />
+										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+									</xsl:when>
+									<xsl:when test="PersonName/@NameNumbe">
+										<xsl:variable name="paxRPH">
+											<xsl:call-template name="rphFormat">
+												<xsl:with-param name="rn" select="PersonName/@NameNumbe"/>
+											</xsl:call-template>
+										</xsl:variable>
+										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+									</xsl:when>
+									<xsl:when test="../../AccountingInfo/DocumentInfo/Document[@Number=substring($tkn,4)]">
+										<xsl:variable name="paxRPH">
+											<xsl:call-template name="rphFormat">
+												<xsl:with-param name="rn" select="../../AccountingInfo[DocumentInfo/Document/@Number=substring($tkn,4)]/PersonName/@NameNumber"/>
+											</xsl:call-template>
+										</xsl:variable>
+										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+									</xsl:when>
+									<xsl:when test="../../SpecialServiceInfo/Service[contains(Text, $tkn)]">
+										<xsl:variable name="paxRPH" select="../../SpecialServiceInfo/Service[contains(Text, $tkn)]/PersonName/@NameNumber" />
+										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="format-number(@RPH,'0')-1"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:attribute>
 
-			<xsl:variable name="subtkt">
-				<xsl:choose>
-					<xsl:when  test="contains(substring-before(msxsl:node-set($elems)/elem[2], '-'), '/')">
-						<xsl:variable name="lst" select="substring-after(substring-before(msxsl:node-set($elems)/elem[2], '-'), '/')" />
-						<xsl:value-of select="concat(substring( $tkn, 1, string-length($tkn) - string-length($lst)), $lst)" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="$tkn"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
+							<xsl:if test="string-length($tkn) > 0">
+								<xsl:variable name="fltRPH">
+									<xsl:for-each select="../../SpecialServiceInfo/Service[(contains(Text, $tkn) or contains(Text, $subtkt))and @SSR_Type='TKNE']">
+										<!-- Get City Pair  -->
+										<xsl:variable name="cityPair" select="substring(substring-after(Text, 'HK1 '), 1, 6)" />
+										<xsl:variable name="from" select="substring($cityPair, 1, 3)" />
+										<xsl:variable name="to" select="substring($cityPair, 4, 3)" />
+										<xsl:variable name="flightNum" select="format-number(../../ItineraryInfo/ReservationItems/Item[FlightSegment/OriginLocation/@LocationCode=$from and FlightSegment/DestinationLocation/@LocationCode=$to]/FlightSegment/@FlightNumber, '#0')" />
 
-			<xsl:variable name="mco">
-				<xsl:choose>
-					<xsl:when test="../../AccountingInfo/DocumentInfo/Document[@Number=substring($tkn,4)] and ../../AccountingInfo/TicketingInfo/OriginalTicketNumber=$tkn">MCO</xsl:when>
-					<xsl:when test="substring($tkn, 1,3) = 890">MCO</xsl:when>
-					<xsl:when test="substring(@eTicketNumber, 1,2) = 'TK'">MCO</xsl:when>
-					<xsl:otherwise>EX</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-
-			<xsl:choose>
-				<xsl:when test="$mco='MCO'">
-					<ExchangeDocument>
-						<xsl:attribute name="TravelerRefNumberRPHList">
-							<xsl:variable name="rph">
-								<xsl:value-of select="format-number(@RPH,'000')-1"/>
-							</xsl:variable>
-							<xsl:choose>
-								<xsl:when test="PersonName/@NameNumber">
-									<xsl:variable name="paxRPH">
-										<xsl:call-template name="rphFormat">
-											<xsl:with-param name="rn" select="PersonName/@NameNumber"/>
-										</xsl:call-template>
-									</xsl:variable>
-									<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
-								</xsl:when>
-								<xsl:when test="../../AccountingInfo[DocumentInfo/Document/@Number=substring($tkn,4)]/PersonName/@NameNumber">
-									<xsl:variable name="paxRPH">
-										<xsl:call-template name="rphFormat">
-											<xsl:with-param name="rn" select="../../AccountingInfo[DocumentInfo/Document/@Number=substring($tkn,4)]/PersonName/@NameNumber"/>
-										</xsl:call-template>
-									</xsl:variable>
-									<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="$rph"/>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:attribute>
-						<xsl:value-of select="concat('MCO', substring(@eTicketNumber,3))"/>
-					</ExchangeDocument>
-				</xsl:when>
-				<xsl:when test="../../AccountingInfo/TicketingInfo/OriginalTicketNumber = $tkn">
-					<ExchangeDocument>
-						<xsl:attribute name="TravelerRefNumberRPHList">
-							<xsl:variable name="rph">
-								<xsl:value-of select="format-number(@RPH,'000')-1"/>
-							</xsl:variable>
-							<xsl:choose>
-								<xsl:when test="PersonName/@NameNumber">
-									<xsl:variable name="paxRPH">
-										<xsl:call-template name="rphFormat">
-											<xsl:with-param name="rn" select="PersonName/@NameNumber"/>
-										</xsl:call-template>
-									</xsl:variable>
-									<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
-								</xsl:when>
-								<xsl:when test="../../AccountingInfo/DocumentInfo/Document[@Number=substring($tkn,4)]">
-									<xsl:variable name="paxRPH">
-										<xsl:call-template name="rphFormat">
-											<xsl:with-param name="rn" select="../../AccountingInfo[DocumentInfo/Document/@Number=substring($tkn,4)]/PersonName/@NameNumber"/>
-										</xsl:call-template>
-									</xsl:variable>
-									<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="format-number(@RPH,'0')-1"/>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:attribute>
-						<xsl:value-of select="concat('EX', substring(@eTicketNumber,3))"/>
-					</ExchangeDocument>
-				</xsl:when>
-				<xsl:when test="//AccountingInfo/Text[contains(text(),$tkn)]">
-					<ExchangeDocument>
-						<xsl:attribute name="TravelerRefNumberRPHList">
-							<xsl:variable name="rph">
-								<xsl:value-of select="format-number(@RPH,'000')-1"/>
-							</xsl:variable>
-							<xsl:choose>
-								<xsl:when test="PersonName/@NameNumber">
-									<xsl:variable name="paxRPH">
-										<xsl:call-template name="rphFormat">
-											<xsl:with-param name="rn" select="PersonName/@NameNumber"/>
-										</xsl:call-template>
-									</xsl:variable>
-									<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
-								</xsl:when>
-								<xsl:when test="../../AccountingInfo/DocumentInfo/Document[@Number=substring($tkn,4)]">
-									<xsl:variable name="paxRPH">
-										<xsl:call-template name="rphFormat">
-											<xsl:with-param name="rn" select="../../AccountingInfo[DocumentInfo/Document/@Number=substring($tkn,4)]/PersonName/@NameNumber"/>
-										</xsl:call-template>
-									</xsl:variable>
-									<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="format-number(@RPH,'0')-1"/>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:attribute>
-						<xsl:value-of select="concat('EX', substring(@eTicketNumber,3))"/>
-					</ExchangeDocument>
-				</xsl:when>
-				<xsl:otherwise>
-					<IssuedTicket>
-						<xsl:attribute name="TravelerRefNumberRPHList">
-							<xsl:variable name="rph">
-								<xsl:value-of select="format-number(@RPH,'000')-1"/>
-							</xsl:variable>
-							<xsl:choose>
-								<xsl:when test="../../SpecialServiceInfo/Service[@RPH=$rph]">
-									<xsl:variable name="paxRPH" select="../../SpecialServiceInfo/Service[@RPH=$rph]/PersonName/@NameNumber" />
-									<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
-								</xsl:when>
-								<xsl:when test="PersonName/@NameNumbe">
-									<xsl:variable name="paxRPH">
-										<xsl:call-template name="rphFormat">
-											<xsl:with-param name="rn" select="PersonName/@NameNumbe"/>
-										</xsl:call-template>
-									</xsl:variable>
-									<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
-								</xsl:when>
-								<xsl:when test="../../AccountingInfo/DocumentInfo/Document[@Number=substring($tkn,4)]">
-									<xsl:variable name="paxRPH">
-										<xsl:call-template name="rphFormat">
-											<xsl:with-param name="rn" select="../../AccountingInfo[DocumentInfo/Document/@Number=substring($tkn,4)]/PersonName/@NameNumber"/>
-										</xsl:call-template>
-									</xsl:variable>
-									<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
-								</xsl:when>
-								<xsl:when test="../../SpecialServiceInfo/Service[contains(Text, $tkn)]">
-									<xsl:variable name="paxRPH" select="../../SpecialServiceInfo/Service[contains(Text, $tkn)]/PersonName/@NameNumber" />
-									<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="format-number(@RPH,'0')-1"/>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:attribute>
-
-						<xsl:if test="string-length($tkn) > 0">
-							<xsl:variable name="fltRPH">
-								<xsl:for-each select="../../SpecialServiceInfo/Service[(contains(Text, $tkn) or contains(Text, $subtkt))and @SSR_Type='TKNE']">
-									<!-- Get City Pair  -->
-									<xsl:variable name="cityPair" select="substring(substring-after(Text, 'HK1 '), 1, 6)" />
-									<xsl:variable name="from" select="substring($cityPair, 1, 3)" />
-									<xsl:variable name="to" select="substring($cityPair, 4, 3)" />
-									<xsl:variable name="flightNum" select="format-number(../../ItineraryInfo/ReservationItems/Item[FlightSegment/OriginLocation/@LocationCode=$from and FlightSegment/DestinationLocation/@LocationCode=$to]/FlightSegment/@FlightNumber, '#0')" />
-
-									<!--
+										<!--
                   <xsl:variable name="fltRPH" select="../../../ItineraryInfo/ReservationItems/Item[FlightSegment/OriginLocation/@LocationCode=$from and FlightSegment/DestinationLocation/@LocationCode=$to]/@RPH" />
                    <xsl:variable name="fltRPH" select="format-number(../../../FareFamily/PriceQuoteInfo/Details/SegmentInfo[Flight/Departure/CityCode=$from and Flight/MarketingFlight/@number=$flightNum]/@number, '#0')"/>
                   -->
 
 
-									<xsl:variable name="itemNum">
-										<xsl:value-of select="format-number(@SegmentNumber,'#0')"/>
-									</xsl:variable>
-									<xsl:variable name="sqCount">
-										<xsl:value-of select="count(../../ItineraryInfo/ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')])"/>
-									</xsl:variable>
-									<xsl:choose>
-										<xsl:when test="$sqCount > 1">
-											<xsl:value-of select="format-number(../../ItineraryInfo/ReservationItems/Item[@RPH=$itemNum]/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')]/@SegmentNumber[not(../preceding-sibling::FlightSegment/@SegmentNumber = .)],'#0')"/>
-										</xsl:when>
-										<xsl:when test="../../ItineraryInfo/ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')]">
-											<xsl:value-of select="format-number(../../ItineraryInfo/ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')]/@SegmentNumber[not(../preceding-sibling::FlightSegment/@SegmentNumber = .)],'#0')"/>
-											<xsl:if test="FareBasis/@Code='VOID'">
-												<xsl:value-of select="format-number(@SegmentNumber,'#0')"/>
-											</xsl:if>
-										</xsl:when>
-										<xsl:when test="FareBasis/@Code='VOID'">
+										<xsl:variable name="itemNum">
 											<xsl:value-of select="format-number(@SegmentNumber,'#0')"/>
-										</xsl:when>
-									</xsl:choose>
-									<!--
+										</xsl:variable>
+										<xsl:variable name="sqCount">
+											<xsl:value-of select="count(../../ItineraryInfo/ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')])"/>
+										</xsl:variable>
+										<xsl:choose>
+											<xsl:when test="$sqCount > 1">
+												<xsl:value-of select="format-number(../../ItineraryInfo/ReservationItems/Item[@RPH=$itemNum]/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')]/@SegmentNumber[not(../preceding-sibling::FlightSegment/@SegmentNumber = .)],'#0')"/>
+											</xsl:when>
+											<xsl:when test="../../ItineraryInfo/ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')]">
+												<xsl:value-of select="format-number(../../ItineraryInfo/ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')]/@SegmentNumber[not(../preceding-sibling::FlightSegment/@SegmentNumber = .)],'#0')"/>
+												<xsl:if test="FareBasis/@Code='VOID'">
+													<xsl:value-of select="format-number(@SegmentNumber,'#0')"/>
+												</xsl:if>
+											</xsl:when>
+											<xsl:when test="FareBasis/@Code='VOID'">
+												<xsl:value-of select="format-number(@SegmentNumber,'#0')"/>
+											</xsl:when>
+										</xsl:choose>
+										<!--
                   <xsl:variable name="fltRPH" select="format-number(../../../DisplayPriceQuoteRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/FlightSegment[OriginLocation/@LocationCode=$from and @FlightNumber=$flightNum]/@RPH, '#0')"/>
                   -->
-									<xsl:text> </xsl:text>
-								</xsl:for-each>
-							</xsl:variable>
+										<xsl:text> </xsl:text>
+									</xsl:for-each>
+								</xsl:variable>
 
-							<xsl:if test="string-length($fltRPH) > 0">
-								<xsl:attribute name="FlightRefNumberRPHList">
-									<xsl:call-template name="string-trim">
-										<xsl:with-param name="string" select="$fltRPH" />
-									</xsl:call-template>
-								</xsl:attribute>
+								<xsl:if test="string-length($fltRPH) > 0">
+									<xsl:attribute name="FlightRefNumberRPHList">
+										<xsl:call-template name="string-trim">
+											<xsl:with-param name="string" select="$fltRPH" />
+										</xsl:call-template>
+									</xsl:attribute>
+								</xsl:if>
+
 							</xsl:if>
 
-						</xsl:if>
+							<xsl:variable name="tkt">
+								<xsl:choose>
+									<xsl:when test="../../ItineraryInfo/Ticketing[contains(@eTicketNumber,$tkn) and contains(@eTicketNumber,'VOID')]/@eTicketNumber">
+										<xsl:value-of select="../../ItineraryInfo/Ticketing[contains(@eTicketNumber,$tkn) and contains(@eTicketNumber,'VOID')]/@eTicketNumber"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="@eTicketNumber"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:variable>
 
-						<xsl:variable name="tkt">
 							<xsl:choose>
-								<xsl:when test="../../ItineraryInfo/Ticketing[contains(@eTicketNumber,$tkn) and contains(@eTicketNumber,'VOID')]/@eTicketNumber">
-									<xsl:value-of select="../../ItineraryInfo/Ticketing[contains(@eTicketNumber,$tkn) and contains(@eTicketNumber,'VOID')]/@eTicketNumber"/>
+								<xsl:when test="starts-with($tkt, 'MV')">
+									<xsl:value-of select="concat('EMD', ' ', $tkt)"/>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:value-of select="@eTicketNumber"/>
+									<xsl:value-of select="$tkt"/>
 								</xsl:otherwise>
 							</xsl:choose>
+
+						</IssuedTicket>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:otherwise>
+				<IssuedTicket>
+					<xsl:attribute name="TravelerRefNumberRPHList">
+						<xsl:variable name="paxRPH">
+							<xsl:call-template name="rphFormat">
+								<xsl:with-param name="rn" select="PersonName/@NameNumber"/>
+							</xsl:call-template>
 						</xsl:variable>
-
-						<xsl:choose>
-							<xsl:when test="starts-with($tkt, 'MV')">
-								<xsl:value-of select="concat('EMD', ' ', $tkt)"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="$tkt"/>
-							</xsl:otherwise>
-						</xsl:choose>
-
-					</IssuedTicket>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:if>
+						<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+					</xsl:attribute>
+					<xsl:value-of select="@eTicketNumber"/>
+				</IssuedTicket>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<!-- ************************************************************** -->
@@ -4905,7 +4990,7 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:if test="string-length($cardNum) >= 8 and string-length(Text) > 15">
-							
+
 							<xsl:variable name="card">
 								<xsl:choose>
 									<xsl:when test="contains(Text, 'XXXX')">
@@ -4926,7 +5011,7 @@
 										<xsl:value-of select="Text"/>
 									</xsl:otherwise>
 								</xsl:choose>
-							</xsl:variable>		
+							</xsl:variable>
 
 							<PaymentCard>
 								<xsl:attribute name="CardCode">

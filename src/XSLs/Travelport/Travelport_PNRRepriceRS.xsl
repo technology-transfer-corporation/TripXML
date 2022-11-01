@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:air="http://www.travelport.com/schema/air_v50_0" xmlns:common_v50_0="http://www.travelport.com/schema/common_v50_0" xmlns:universal="http://www.travelport.com/schema/universal_v50_0" xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:air="http://www.travelport.com/schema/air_v50_0" xmlns:common_v50_0="http://www.travelport.com/schema/common_v50_0" xmlns:universal="http://www.travelport.com/schema/universal_v50_0" xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/" xmlns:msxsl="urn:schemas-microsoft-com:xslt"  version="1.0">
 	<!-- 
 	==================================================================
 	Travelport_PNRRepriceRS.xsl 										
 	================================================================== 
+	Date: 18 Oct 2022 - Kobelev - Price Quote number referenced correctly.
+	Date: 17 Oct 2022 - Kobelev - Multy Travelers in one PTC.
 	Date: 09 Sep 2022 - Kobelev - Return some information on at least original price even if there was error during reprice.
 	Date: 30 Aug 2022 - Kobelev - Total Display and Price info Display corrected.
 	Date: 19 Aug 2022 - Kobelev - Implamented Conversation ID.
@@ -46,7 +48,7 @@
 			<xsl:when test="OTA_AirPriceRS/Error != ''">
 				<Errors>
 					<Error>
-						<xsl:attribute name="Type">Sabre</xsl:attribute>
+						<xsl:attribute name="Type">Travelport</xsl:attribute>
 						<xsl:attribute name="Code">E</xsl:attribute>
 						<xsl:value-of select="OTA_AirPriceRS/Error"/>
 					</Error>
@@ -55,7 +57,7 @@
 			<xsl:when test="Errors/Error != ''">
 				<Errors>
 					<Error>
-						<xsl:attribute name="Type">Sabre</xsl:attribute>
+						<xsl:attribute name="Type">Travelport</xsl:attribute>
 						<xsl:attribute name="Code">
 							<xsl:choose>
 								<xsl:when test="Errors/Error/@ErrorCode!= ''">
@@ -74,7 +76,7 @@
 						<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord" mode="second"/>
 					</PricedItineraries>
 				</xsl:if>
-				
+
 			</xsl:when>
 			<xsl:otherwise>
 				<Success/>
@@ -132,19 +134,31 @@
 	<xsl:template name="AirPricingInfo">
 		<xsl:param name="fare"/>
 		<xsl:param name="sn"/>
+		<xsl:variable name="price">
+			<xsl:choose>
+				<xsl:when test="air:AirReservation/air:AirPricingInfo[1]/@PricingMethod">
+					<xsl:value-of select="air:AirReservation/air:AirPricingInfo[1]/@PricingMethod"/> 	
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="../../../universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[1]/@PricingMethod"/>
+			</xsl:otherwise>
+			</xsl:choose>
+		
+		</xsl:variable>
 		<PricedItinerary>
 			<xsl:attribute name="SequenceNumber">
 				<xsl:value-of select="$sn"/>
 			</xsl:attribute>
-			<xsl:apply-templates select="air:AirReservation"/>
-			<xsl:apply-templates select="air:AirPricingSolution"/>
+			<xsl:apply-templates select="air:AirReservation" />							
+			<xsl:apply-templates select="air:AirPricingSolution[air:AirPricingInfo/@PricingMethod=$price]" />
 		</PricedItinerary>
 	</xsl:template>
 	<xsl:template match="air:AirReservation | air:AirPricingSolution">
+		<xsl:param name="price"/>
 		<AirItineraryPricingInfo>
 			<xsl:attribute name="PricingSource">
 				<xsl:choose>
-					<xsl:when test="fareList[1]/pricingInformation/tstInformation/tstIndicator = 'B'">Private</xsl:when>
+					<xsl:when test="air:AirPricingInfo[1]/@PricingMethod = 'GuaranteedUsingAirlinePrivateFare'">Private</xsl:when>
 					<xsl:otherwise>Published</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
@@ -170,7 +184,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-
 			<xsl:variable name="tf">
 				<xsl:choose>
 					<xsl:when test="air:AirPricingInfo[@PricingType='StoredFareQuote']">
@@ -191,8 +204,8 @@
 							<xsl:with-param name="pos">1</xsl:with-param>
 						</xsl:apply-templates>
 					</xsl:otherwise>
-				</xsl:choose>			
-				
+				</xsl:choose>
+
 			</xsl:variable>
 			<xsl:variable name="Taxf">
 				<xsl:choose>
@@ -270,47 +283,81 @@
 				</TotalFare>
 			</ItinTotalFare>
 
+			<xsl:variable name="key">
+				<xsl:value-of select="position()"/>
+			</xsl:variable>
+
 			<PTC_FareBreakdowns>
 				<xsl:choose>
 					<xsl:when test="air:AirPricingInfo[@PricingType='StoredFareQuote']">
-						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFareQuote']"/>
+						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFareQuote']">
+							<xsl:with-param name="key" select="$key" />						
+						</xsl:apply-templates>
 					</xsl:when>
 					<xsl:when test="air:AirPricingInfo[@PricingType='StoredFare']">
-						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFare']"/>
+						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFare']">
+							<xsl:with-param name="key" select="$key" />						
+						</xsl:apply-templates>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:apply-templates select="air:AirPricingInfo"/>
+						<xsl:apply-templates select="air:AirPricingInfo">
+							<xsl:with-param name="key" select="$key" />						
+						</xsl:apply-templates>
+						
 					</xsl:otherwise>
 				</xsl:choose>
 			</PTC_FareBreakdowns>
 		</AirItineraryPricingInfo>
 	</xsl:template>
 	<xsl:template match="air:AirPricingInfo">
+		<xsl:param name="key" />
+		<xsl:variable name="pnr">
+			<xsl:choose>
+				<xsl:when test="../../../../universal:UniversalRecordRetrieveRsp/universal:UniversalRecord">
+					<xsl:copy-of select="../../../../universal:UniversalRecordRetrieveRsp/universal:UniversalRecord"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:copy-of select="../../../../universal:UniversalRecord"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
 		<PTC_FareBreakdown>
+			<xsl:variable name="pos" select="position()" />
 			<xsl:attribute name="RPH">
-				<xsl:value-of select="position()"/>
+				<xsl:value-of select="concat($key, '.', $pos)"/>
 			</xsl:attribute>
+
 			<xsl:attribute name="PricingSource">
 				<xsl:choose>
-					<xsl:when test="pricingInformation/tstInformation/tstIndicator = 'B'">Private</xsl:when>
+					<xsl:when test="@PricingMethod = 'GuaranteedUsingAirlinePrivateFare'">Private</xsl:when>
 					<xsl:otherwise>Published</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-			<xsl:attribute name="TravelerRefNumberRPHList">
-				<xsl:for-each select="air:PassengerType">
+			<xsl:variable name="ptc" select="air:PassengerType/@Code" />
+			<xsl:variable name="ptcs">
+				<xsl:choose>
+					<xsl:when test="air:PassengerType/@BookingTravelerRef">
+						<xsl:copy-of select="air:PassengerType"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:copy-of select="msxsl:node-set($pnr)/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code=$ptc]/air:PassengerType"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
 
+			<xsl:attribute name="TravelerRefNumberRPHList">
+				<xsl:for-each select="msxsl:node-set($ptcs)/air:PassengerType">
 					<xsl:variable name="paxref">
 						<xsl:choose>
 							<xsl:when test="@BookingTravelerRef">
 								<xsl:value-of select="@BookingTravelerRef"/>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="position()"/>
+								<xsl:value-of select="$pos"/>
 							</xsl:otherwise>
 						</xsl:choose>
-
 					</xsl:variable>
-
 					<xsl:if test="position() > 1">
 						<xsl:text> </xsl:text>
 					</xsl:if>
@@ -318,6 +365,7 @@
 						<xsl:when test="@BookingTravelerRef">
 							<xsl:call-template name="paxNumber">
 								<xsl:with-param name="key" select="$paxref" />
+								<xsl:with-param name="pnr" select="$pnr" />
 							</xsl:call-template>
 						</xsl:when>
 						<xsl:otherwise>
@@ -327,6 +375,7 @@
 					<!--<xsl:value-of select="../../../common_v50_0:BookingTraveler[@Key=$paxref]/@Key"/>-->
 				</xsl:for-each>
 			</xsl:attribute>
+
 			<xsl:attribute name="FlightRefNumberRPHList">
 				<xsl:for-each select="air:BookingInfo">
 					<xsl:variable name="segref">
@@ -1383,7 +1432,7 @@
 		<xsl:variable name="tot">
 			<xsl:value-of select="translate(substring(@TotalPrice,4),'.','') * $nopt"/>
 		</xsl:variable>
-		
+
 		<xsl:variable name="pq" select="@PricingType" />
 
 		<xsl:choose>
@@ -1421,12 +1470,13 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:otherwise>
-		</xsl:choose>		
-		
+		</xsl:choose>
+
 	</xsl:template>
 	<xsl:template name="paxNumber">
 		<xsl:param name="key" />
-		<xsl:for-each select="../../../common_v50_0:BookingTraveler">
+		<xsl:param name="pnr" />
+		<xsl:for-each select="msxsl:node-set($pnr)/universal:UniversalRecord/common_v50_0:BookingTraveler">
 			<xsl:if test="@Key = $key">
 				<xsl:value-of select="position()"/>
 			</xsl:if>
