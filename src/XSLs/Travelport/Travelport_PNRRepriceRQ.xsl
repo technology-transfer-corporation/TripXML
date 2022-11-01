@@ -91,9 +91,14 @@
 				<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirSegment"/>
 			</air:AirItinerary>
 
-			<xsl:if test="../StoredFare/BrandedFares">
-				<air:AirPricingModifiers CurrencyType="USD" ProhibitAdvancePurchaseFares="false" ProhibitNonRefundableFares="true" ProhibitRestrictedFares="false" FaresIndicator="PublicAndPrivateFares" ProhibitMaxStayFares="false" ProhibitMinStayFares="false" AccountCodeFaresOnly="false" />
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="../StoredFare/BrandedFares">
+					<air:AirPricingModifiers CurrencyType="USD" ProhibitAdvancePurchaseFares="false" ProhibitNonRefundableFares="true" ProhibitRestrictedFares="false" FaresIndicator="PublicAndPrivateFares" ProhibitMaxStayFares="false" ProhibitMinStayFares="false" AccountCodeFaresOnly="false" />
+				</xsl:when>
+				<xsl:when test="../StoredFare/@FareType = 'Private'">
+					<air:AirPricingModifiers FaresIndicator="PrivateFaresOnly"/>
+				</xsl:when>
+			</xsl:choose>
 
 			<xsl:apply-templates select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/common:BookingTraveler"/>
 			<!--<xsl:call-template name="passanger_air"/>-->
@@ -236,7 +241,7 @@
 					<xsl:variable name="bn" select="../../../../../StoredFare[PassengerType/@Code=$ptc]/BrandedFares/FareFamily" />
 					<xsl:for-each select="../air:AirSegment">
 						<xsl:variable name="pos" select="position()" />
-						<air:AirSegmentPricingModifiers>							
+						<air:AirSegmentPricingModifiers>
 							<xsl:attribute name="AirSegmentRef">
 								<xsl:value-of select="@Key"/>
 							</xsl:attribute>
@@ -251,7 +256,7 @@
 								</air:BookingCode>
 							</air:PermittedBookingCodes>
 						</air:AirSegmentPricingModifiers>
-					</xsl:for-each>					
+					</xsl:for-each>
 				</xsl:when>
 				<xsl:when test="air:FareInfo/air:Brand">
 					<!--Brand Information from PNR Object-->
