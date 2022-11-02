@@ -7,6 +7,7 @@
 	================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 
+	Date: 02 Nov 2022 - Samokhvalov - AirPricingModifiers (Pub/Nego Price) added
 	Date: 28 Oct 2022 - Kobelev - AirPricing Groupping via AirPricingInfoGroup
 	Date: 06 Oct 2022 - Kobelev - Commissions / Endoursments /TourCode
 	Date: 06 Oct 2022 - Kobelev - BookingTraveler for UniversalModifyCmd
@@ -283,6 +284,16 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		<!--<xsl:if test="not (../StoredFare[PassengerType/@Code]/BrandedFares or $pnr/air:AirReservation/air:AirPricingInfo[@PricingType='StoredFare'][1]/air:FareInfo/air:Brand or $pnr/air:AirReservation/air:AirPricingInfo[@PricingType='TicketRecord'][1]/air:FareInfo/air:Brand)">-->
+			<xsl:choose>
+				<xsl:when test="../StoredFare/@FareType = 'Private'">
+					<air:AirPricingModifiers FaresIndicator="PrivateFaresOnly"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<air:AirPricingModifiers FaresIndicator="PublicFaresOnly"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		<!--</xsl:if>-->
 		<xsl:if test="$action='price'">
 			<xsl:apply-templates select="$pnr/common_v50_0:BookingTraveler"/>
 		</xsl:if>
