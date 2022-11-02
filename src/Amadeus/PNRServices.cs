@@ -1501,7 +1501,7 @@ namespace AmadeusWS
                                             break;
                                         }
                                     }
-                                    if (isTktDesInTst && ffList.All(f => !string.IsNullOrEmpty(f.Item3)))
+                                    if (!bPrivate && isTktDesInTst && ffList.All(f => !string.IsNullOrEmpty(f.Item3)))
                                     {
                                         foreach (var ff in ffList)
                                         {
