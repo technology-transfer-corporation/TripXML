@@ -79,10 +79,14 @@ Namespace wsTravelTalk
 
                         ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
                         strResponse = SendPNRRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-                    Case "Worldspan", "Galileo"
-                        Dim ttDefProvider As New TripXMLProviderSystems()
-                        PreServiceRequest(strRequest, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, UUID, "", True)
-                        strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, strRequest)
+                    Case "Galileo"
+                        strResponse = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                    Case "Worldspan"
+                        ', "Galileo"
+                        'Dim ttDefProvider As New TripXMLProviderSystems()
+                        'PreServiceRequest(strRequest, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, UUID, "", True)
+                        'strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, strRequest)
+                        strResponse = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest)
                     Case "Travelport"
                         strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttProviderSystems, strRequest)
                     Case Else
