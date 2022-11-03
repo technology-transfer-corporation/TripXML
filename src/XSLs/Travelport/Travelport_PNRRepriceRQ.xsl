@@ -284,7 +284,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<!--<xsl:if test="not (../StoredFare[PassengerType/@Code]/BrandedFares or $pnr/air:AirReservation/air:AirPricingInfo[@PricingType='StoredFare'][1]/air:FareInfo/air:Brand or $pnr/air:AirReservation/air:AirPricingInfo[@PricingType='TicketRecord'][1]/air:FareInfo/air:Brand)">-->
+		<!--
+		<xsl:if test="not (../StoredFare[PassengerType/@Code]/BrandedFares or $pnr/air:AirReservation/air:AirPricingInfo[@PricingType='StoredFare'][1]/air:FareInfo/air:Brand or $pnr/air:AirReservation/air:AirPricingInfo[@PricingType='TicketRecord'][1]/air:FareInfo/air:Brand)">
 			<xsl:choose>
 				<xsl:when test="../StoredFare/@FareType = 'Private'">
 					<air:AirPricingModifiers FaresIndicator="PrivateFaresOnly"/>
@@ -293,7 +294,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 					<air:AirPricingModifiers FaresIndicator="PublicFaresOnly"/>
 				</xsl:otherwise>
 			</xsl:choose>
-		<!--</xsl:if>-->
+		</xsl:if>
+		-->
 		<xsl:if test="$action='price'">
 			<xsl:apply-templates select="$pnr/common_v50_0:BookingTraveler"/>
 		</xsl:if>
@@ -548,6 +550,16 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 							<xsl:attribute name="BrandTier">
 								<xsl:value-of select="$bn[@RPH=$pos]/@Code"/>
 							</xsl:attribute>
+							<xsl:attribute name="FaresIndicator">
+								<xsl:choose>
+									<xsl:when test="../../../../../StoredFare/@FareType = 'Private'">
+										<xsl:text>PrivateFaresOnly</xsl:text>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:text>PublicFaresOnly</xsl:text>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:attribute>
 							<air:PermittedBookingCodes>
 								<air:BookingCode>
 									<xsl:attribute name="Code">
@@ -594,6 +606,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 		<xsl:variable name="pos" select="position()"/>
 		<xsl:variable name="pnr" select="../../../../../Response/universal:UniversalRecordRetrieveRsp/universal:UniversalRecord" />
 		<xsl:variable name="ptc" select="air:PassengerType/@Code" />
+		<xsl:variable name="storedFare" select="../../../../../StoredFare[PassengerType/@Code = $ptc]"/>
 		<xsl:variable name="comCount" select="count(../../../../../StoredFare[Markup])"/>
 		<xsl:variable name="group">
 			<xsl:choose>
@@ -687,8 +700,24 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 							<xsl:value-of select="@Amount"/>
 						</xsl:attribute>
 						<xsl:attribute name="NegotiatedFare">
-							<xsl:value-of select="@NegotiatedFare"/>
+							<xsl:choose>
+								<xsl:when test="$storedFare/@FareType = 'Private'">
+									<xsl:text>true</xsl:text>
+								</xsl:when>
+								<xsl:when test="$storedFare/@FareType = 'Published'">
+									<xsl:text>false</xsl:text>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="@NegotiatedFare"/>
+								</xsl:otherwise>
+							</xsl:choose>
+
 						</xsl:attribute>
+						<xsl:if test="$storedFare/@FareType = 'Private'">
+							<xsl:attribute name="PrivateFare">
+								<xsl:text>PrivateFare</xsl:text>
+							</xsl:attribute>
+						</xsl:if>
 						<air:FareRuleKey>
 							<xsl:attribute name="FareInfoRef">
 								<xsl:value-of select="air:FareRuleKey/@FareInfoRef"/>
