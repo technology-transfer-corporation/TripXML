@@ -7,6 +7,7 @@
 	================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 
+	Date: 04 Nov 2022 - Kobelev - AirPricingModifiers (Pub/Nego Price) updated. Generalized ADT- JWA, CHD - JWC, INF - JWB
 	Date: 02 Nov 2022 - Samokhvalov - AirPricingModifiers (Pub/Nego Price) added
 	Date: 28 Oct 2022 - Kobelev - AirPricing Groupping via AirPricingInfoGroup
 	Date: 06 Oct 2022 - Kobelev - Commissions / Endoursments /TourCode
@@ -502,7 +503,21 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 
 	<xsl:template match="common_v50_0:BookingTraveler">
 		<xsl:variable name="key" select="@Key" />
-		<xsl:variable name="ptc" select="../air:AirReservation/air:AirPricingInfo/air:PassengerType[@BookingTravelerRef=$key]/@Code" />
+		<xsl:variable name="optc" select="../air:AirReservation/air:AirPricingInfo/air:PassengerType[@BookingTravelerRef=$key]/@Code" />
+		<xsl:variable name="ptc">
+			<xsl:choose>
+				<xsl:when test="//StoredFare/@FareType = 'Private'">
+					<xsl:call-template name="private_ptc" >
+						<xsl:with-param name="optc" select="$optc"/>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$optc"/>
+				</xsl:otherwise>
+			</xsl:choose>
+
+		</xsl:variable>
+
 		<common_v50_0:SearchPassenger>
 			<xsl:attribute name="BookingTravelerRef">
 				<xsl:value-of select="@Key"/>
@@ -538,9 +553,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 		<air:AirPricingCommand>
 			<!--<xsl:variable name="bn" select="air:FareInfo/air:Brand[1]/@BrandID" />-->
 			<xsl:choose>
-				<xsl:when test="../../../../../StoredFare[PassengerType/@Code=$ptc]/BrandedFares/FareFamily">
+				<xsl:when test="//StoredFare[PassengerType/@Code=$ptc[1]]/BrandedFares/FareFamily">
 					<!--Brand Information from Request Object-->
-					<xsl:variable name="bn" select="../../../../../StoredFare[PassengerType/@Code=$ptc]/BrandedFares/FareFamily" />
+					<xsl:variable name="bn" select="//StoredFare[PassengerType/@Code=$ptc[1]]/BrandedFares/FareFamily" />
 					<xsl:for-each select="../air:AirSegment">
 						<xsl:variable name="pos" select="position()" />
 						<air:AirSegmentPricingModifiers>
@@ -552,7 +567,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 							</xsl:attribute>
 							<xsl:attribute name="FaresIndicator">
 								<xsl:choose>
-									<xsl:when test="../../../../../StoredFare/@FareType = 'Private'">
+									<xsl:when test="//StoredFare/@FareType = 'Private'">
 										<xsl:text>PrivateFaresOnly</xsl:text>
 									</xsl:when>
 									<xsl:otherwise>
@@ -560,6 +575,11 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 									</xsl:otherwise>
 								</xsl:choose>
 							</xsl:attribute>
+							<xsl:if test="//StoredFare[PassengerType/@Code=$ptc[1]]/FareSegments">
+								<xsl:attribute name="FareBasisCode">
+									<xsl:value-of select="//StoredFare[PassengerType/@Code=$ptc[1]]/FareSegments/AirSegments[@RPH=$pos]"/>
+								</xsl:attribute>
+							</xsl:if>
 							<air:PermittedBookingCodes>
 								<air:BookingCode>
 									<xsl:attribute name="Code">
@@ -567,6 +587,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 									</xsl:attribute>
 								</air:BookingCode>
 							</air:PermittedBookingCodes>
+
 						</air:AirSegmentPricingModifiers>
 					</xsl:for-each>
 				</xsl:when>
@@ -599,6 +620,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			</xsl:choose>
 
 		</air:AirPricingCommand>
+
 	</xsl:template>
 
 	<xsl:template match="air:AirPricingInfo" mode="brandFareStore">
@@ -877,5 +899,40 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 				<air:DocumentOptions SuppressItineraryRemarks="false"/>
 			</air:TicketingModifiers>
 		</air:AirPricingTicketingModifiers>
+	</xsl:template>
+	<xsl:template name="private_ptc">
+		<xsl:param name="optc"/>
+		<xsl:choose>
+			<xsl:when test="$optc='JCB'">
+				<xsl:text>JWA</xsl:text>
+			</xsl:when>
+			<xsl:when test="$optc='ADT'">
+				<xsl:text>JWA</xsl:text>
+			</xsl:when>
+			<xsl:when test="$optc='WEB'">
+				<xsl:text>JWA</xsl:text>
+			</xsl:when>
+			<xsl:when test="$optc='ITX'">
+				<xsl:text>JWA</xsl:text>
+			</xsl:when>
+			<xsl:when test="$optc='CHD'">
+				<xsl:text>JWC</xsl:text>
+			</xsl:when>
+			<xsl:when test="$optc='CNN'">
+				<xsl:text>JWC</xsl:text>
+			</xsl:when>
+			<xsl:when test="$optc='WBC'">
+				<xsl:text>JWC</xsl:text>
+			</xsl:when>
+			<xsl:when test="$optc='JNN'">
+				<xsl:text>JWB</xsl:text>
+			</xsl:when>
+			<xsl:when test="$optc='INF'">
+				<xsl:text>JWB</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$optc"/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>
