@@ -408,7 +408,6 @@ namespace Galileo
                 }
 
                 strResponse = strResponse.Replace("<", "&lt;").Replace(">", "&gt;");
-
                 CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Receive from Galileo", strResponse, ProviderSystems.LogUUID);
             }
             catch (Exception ex)
@@ -416,6 +415,7 @@ namespace Galileo
                 string errText = ex.Message;
                 int ind;
                 ind = errText.IndexOf("HRESULT:");
+
                 if (ind != -1)
                 {
                     errText = $"Data invalid in Galileo request. Exception: {errText.Substring(ind + 9, 10)}";
@@ -435,7 +435,6 @@ namespace Galileo
                 }
 
                 CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Galileo exception error", errText, ProviderSystems.LogUUID);
-
                 throw new Exception(errText, ex);
             }
 

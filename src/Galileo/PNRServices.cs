@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -49,6 +50,12 @@ namespace Galileo
                 string strDisplayHI = GetHistory(ConversationID, ttGA);
                 strResponse = strResponse.Replace("</PNRBFManagement_53>", $"{strDisplayHI}<ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
                 #endregion
+
+                #region Read Ticket History of PNR throught *HTI
+                string displayHTI = GetTicketHistory(ConversationID, ttGA);
+                strResponse = strResponse.Replace("</PNRBFManagement_53>", $"{displayHTI}</PNRBFManagement_53>");
+                #endregion
+                
 
                 #region Transform Native Worldspan PNRRead Response into OTA Response
 
@@ -424,8 +431,8 @@ namespace Galileo
                 //if (string.IsNullOrEmpty(Version))
                 Version = "";
 
-                string strRequest = SetRequest("Galileo_QueueReadRQ.xsl");
-                if (string.IsNullOrEmpty(strRequest))
+                string _request = SetRequest("Galileo_QueueReadRQ.xsl");
+                if (string.IsNullOrEmpty(_request))
                     throw new Exception("Transformation produced empty xml.");
 
                 // *******************************************************************************
@@ -437,40 +444,34 @@ namespace Galileo
 
                 try
                 {
-                    if (strRequest.Contains("<Action>Q</Action>"))
-                    {
-                        queueAccess = true;
-                    }
-                    else
-                    {
-                        if (strRequest.Contains("<Action>QR</Action>"))
-                        {
-                            queueRemove = true;
-                        }
-                        else if (strRequest.Contains("<Cryptic>I</Cryptic>"))
-                        {
-                            queueKeep = true;
-                        }
-
-                    }
+                    queueAccess = _request.Contains("<Action>Q</Action>");
+                    queueRemove = _request.Contains("<Action>QR</Action>");
+                    queueKeep = _request.Contains("<Cryptic>I</Cryptic>");
 
                     // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
                     strResponse = queueKeep
                         ? ttGA.SendCrypticMessage("I", ConversationID)
-                        : ttGA.SendMessage(strRequest, ConversationID);
+                        : ttGA.SendMessage(_request, ConversationID);
 
                     // Check PNR or Errors in Native Response
                     if (queueAccess & strResponse.Contains("<PNRBFRetrieve>") | queueKeep | queueRemove & strResponse.Contains("<PNRBFRetrieve>"))
                     {
 
                         // Send PNR Redisplay
-                        strRequest = "<PNRBFManagement_53><PNRBFRetrieveMods><CurrentPNR/></PNRBFRetrieveMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
-                        strResponse = ttGA.SendMessage(strRequest, ConversationID);
+                        _request = "<PNRBFManagement_53><PNRBFRetrieveMods><CurrentPNR/></PNRBFRetrieveMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
+                        strResponse = ttGA.SendMessage(_request, ConversationID);
 
                         #region Read History of PNR throught *HI
                         string strDisplayHI = GetHistory(ConversationID, ttGA);
                         strResponse = strResponse.Replace("</PNRBFManagement_53>", $"{strDisplayHI}</PNRBFManagement_53>");
                         #endregion
+
+
+                        #region Read Ticket History of PNR throught *HTI
+                        string displayHTI = GetTicketHistory(ConversationID, ttGA);
+                        strResponse = strResponse.Replace("</PNRBFManagement_53>", $"{displayHTI}</PNRBFManagement_53>");
+                        #endregion
+
 
                         // Transform PNR Read
                         var tagToReplace = strResponse.Contains("</PNRBFManagement_53>")
@@ -540,13 +541,14 @@ namespace Galileo
         private string GetHistory(string conversationID, GalileoAdapter ttGA)
         {
             var sbH = new StringBuilder("<PNR_HI_INF>");
+            var lstLines = new List<string>();
             try
             {
                 string strDisplayHI = ttGA.SendCrypticMessage("*HI", conversationID);
                 string strScreen = strDisplayHI.Replace("\r", "\r\n");
                 strScreen = strScreen.Replace("\r", "\r\n");
                 strDisplayHI = FormatGalileo(strScreen);
-                var lstLines = strDisplayHI.Split(new[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                lstLines = strDisplayHI.Split(new[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
                 // Conduct Move Bottom (MB)
                 if (lstLines.Last().Contains(")&gt;"))
@@ -586,6 +588,76 @@ namespace Galileo
             finally
             {
                 sbH.Append("</PNR_HI_INF>");
+            }
+
+            //if(lstLines.FindAll(l=> l.Contains("XK") || l.Contains("AFQ")).Count() > 0)
+            //    sbH.Append(GetTicketHistory(lstLines.FindAll(l => l.Contains("XK")))); //|| l.Contains("AFQ")
+
+            return sbH.ToString();
+        }
+
+        private string GetTicketHistory(string conversationID, GalileoAdapter ttGA)
+        {
+            
+            try
+            {
+                string strDisplayHI = ttGA.SendCrypticMessage("*HTI", conversationID);
+                string strScreen = strDisplayHI.Replace("\r", "\r\n");
+                strScreen = strScreen.Replace("\r", "\r\n");
+                strDisplayHI = FormatGalileo(strScreen);
+                var lstLines = strDisplayHI.Split(new[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                // Conduct Move Bottom (MB)
+                if (lstLines.Last().Contains(")&gt;"))
+                {
+                    string strDHMore = ttGA.SendCrypticMessage("MB", conversationID);
+                    var lstMoreLines = strDHMore.Split(new[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    foreach (string line in lstMoreLines)
+                    {
+                        if (!lstLines.Contains(line))
+                        {
+                            lstLines.Add(line);
+                        }
+                    }
+                }
+
+                var sbH = new StringBuilder();
+                sbH.Append(GetTicketHistory(lstLines.FindAll(l => l.Contains("XK"))));
+                return sbH.ToString();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        private string GetTicketHistory(List<string> lstLines)
+        {
+            var sbH = new StringBuilder("<PNR_DH_INF>");
+            try
+            {
+
+                // XK MOROZ/MARK-/0827854509002/-USD/876.48/ET /VOID
+                
+                foreach (string line in lstLines)
+                {
+                    var strline = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                    if (!string.IsNullOrEmpty(strline))
+                    {
+                        var elems = strline.Split(new[] { "-", " ", "/" }, StringSplitOptions.None).ToList();
+                        string tkt = elems[4].Trim();
+                        if(!string.IsNullOrEmpty(tkt))
+                            sbH.Append($"<Line TicketNumber='{tkt}'>{line}</Line>");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sbH.Append($"<Line Error=true>{ex.Message}</Line>");
+            }
+            finally
+            {
+                sbH.Append("</PNR_DH_INF>");
             }
 
             return sbH.ToString();
