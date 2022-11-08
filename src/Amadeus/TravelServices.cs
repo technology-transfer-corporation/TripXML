@@ -2780,6 +2780,8 @@ namespace AmadeusWS
                 otaDoc.LoadXml(Request);
                 otaElement = otaDoc.DocumentElement;
 
+                var strErrMess = string.Empty;
+
                 var strRequest = SetRequest("");
                 XmlDocument oDoc = new XmlDocument();
                 oDoc.LoadXml(strRequest);
@@ -2940,8 +2942,13 @@ namespace AmadeusWS
                             //During remarks Update we are getting back PNR Reply with normal PNR data.
                             if (strResponse.Length > 0 && !strResponse.StartsWith("<PNR_Reply>") && !strResponse.Contains("IS WAIT LIST"))
                             {
-                                strResponse = BuildOTAResponse(strResponse);
-                                return strResponse;
+                                if (strResponse.Contains("<Error"))
+                                    strErrMess = strResponse;
+                                else
+                                {
+                                    strResponse = BuildOTAResponse(strResponse);
+                                    return strResponse;
+                                }
                             }
                             else
                                 strResponse = "";
@@ -3069,6 +3076,8 @@ namespace AmadeusWS
                 //**************************************************************************** 
                 // Add Previous Errors and Warnings To Amadeus Native End Transact Response * 
                 //**************************************************************************** 
+                if (!string.IsNullOrEmpty(strErrMess))
+                    Errors += strErrMess;
                 strNativePNRReply = strResponse.Replace("</PNR_Reply>", $"{Errors}{Warnings}{strResponseTST}{GetPricingOptionsTST}{strRequest}</PNR_Reply>");
 
                 //***************************************************************** 

@@ -1501,7 +1501,7 @@ namespace AmadeusWS
                                             break;
                                         }
                                     }
-                                    if (isTktDesInTst && ffList.All(f => !string.IsNullOrEmpty(f.Item3)))
+                                    if (!bPrivate && isTktDesInTst && ffList.All(f => !string.IsNullOrEmpty(f.Item3)))
                                     {
 
                                         foreach (var ff in ffList)
@@ -1674,9 +1674,7 @@ namespace AmadeusWS
                                     strDiscount = oNode1.SelectSingleNode("Discount/@Percent").InnerXml;
 
                                     if (strDiscount.Contains("."))
-                                    {
                                         strDiscount = strDiscount.Substring(0, strDiscount.IndexOf("."));
-                                    }
 
                                     discQualif = "708"; // percent discount
                                 }

@@ -4,12 +4,13 @@ using System.Text;
 using System;
 using System.Data;
 using System.Security.Cryptography;
-using Microsoft.Web.Services3.Security.Tokens;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Linq;
 using static TripXMLMain.modCore.enAmadeusWSSchema;
+
+//using Microsoft.Web.Services3.Security.Tokens;
 
 public class AmadeusWSAdapter
 {
@@ -185,32 +186,31 @@ public class AmadeusWSAdapter
         return header.ToString();
     }
 
-    private string CreateNonce(out string created)
-    {
-        try
-        {
-            var shaPwd1 = new SHA1Managed();
-            byte[] pwd = shaPwd1.ComputeHash(Encoding.UTF8.GetBytes(ttProviderSystems.Password.Substring(2)));
-
-            var unToken = new UsernameToken(ttProviderSystems.UserName, Convert.ToBase64String(pwd), PasswordOption.SendHashed);
-            var document = new XmlDocument();
-            XmlElement token = unToken.GetXml(document);
-            XmlNodeList nonces = token.GetElementsByTagName("Nonce", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
-            if (nonces.Count == 0 || nonces.Count > 1)
-                throw new Exception("Invalid UsernameToken");
-            XmlAttribute encodingType = document.CreateAttribute("EncodingType");
-            encodingType.Value = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary";
-            nonces[0].Attributes.Append(encodingType);
-            created = token.GetElementsByTagName("Created", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd").Item(0).InnerText;
-            return nonces[0].InnerText;
-        }
-        catch (Exception ex)
-        {
-            created = "";
-            addLog($"<M>{ex.Message}</M><Send/>", ttProviderSystems.UserID);
-            return "";
-        }
-    }
+    //private string CreateNonce(out string created)
+    //{
+    //    try
+    //    {
+    //        var shaPwd1 = new SHA1Managed();
+    //        byte[] pwd = shaPwd1.ComputeHash(Encoding.UTF8.GetBytes(ttProviderSystems.Password.Substring(2)));
+    //        var unToken = new UsernameToken(ttProviderSystems.UserName, Convert.ToBase64String(pwd), PasswordOption.SendHashed);
+    //        var document = new XmlDocument();
+    //        XmlElement token = unToken.GetXml(document);
+    //        XmlNodeList nonces = token.GetElementsByTagName("Nonce", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
+    //        if (nonces.Count == 0 || nonces.Count > 1)
+    //            throw new Exception("Invalid UsernameToken");
+    //        XmlAttribute encodingType = document.CreateAttribute("EncodingType");
+    //        encodingType.Value = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary";
+    //        nonces[0].Attributes.Append(encodingType);
+    //        created = token.GetElementsByTagName("Created", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd").Item(0).InnerText;
+    //        return nonces[0].InnerText;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        created = "";
+    //        addLog($"<M>{ex.Message}</M><Send/>", ttProviderSystems.UserID);
+    //        return "";
+    //    }
+    //}
 
     private void AuthenticationCore(out string nonce, out string created, out string digest)
     {
@@ -728,7 +728,7 @@ public class AmadeusWSAdapter
 
                 body = $"<Security_Authenticate><userIdentifier><originIdentification><sourceOffice>{ttProviderSystems.PCC}</sourceOffice></originIdentification>" +
                 $"<originatorTypeCode>U</originatorTypeCode><originator>{ttProviderSystems.UserName}</originator></userIdentifier><dutyCode><dutyCodeDetails><referenceQualifier>DUT</referenceQualifier><referenceIdentifier>SU</referenceIdentifier></dutyCodeDetails></dutyCode>" +
-                $"<systemDetails><organizationDetails><organizationId>{ttProviderSystems.Origin}</organizationId></organizationDetails></systemDetails>" +
+                $"<systemDetails><organizationDetails><organizationId>{ttProviderSystems.Profile.Origin}</organizationId></organizationDetails></systemDetails>" +
                 $"<passwordInfo><dataLength>{length}</dataLength><dataType>E</dataType><binaryData>{password}</binaryData></passwordInfo></Security_Authenticate>";
 
                 DateTime requesttime = DateTime.Now;
@@ -776,8 +776,8 @@ public class AmadeusWSAdapter
             string password = ttProviderSystems.Password.Substring(2);
 
             string body = $"<Security_Authenticate><userIdentifier><originIdentification><sourceOffice>{ttProviderSystems.PCC}</sourceOffice></originIdentification>" +
-            $"<originatorTypeCode>U</originatorTypeCode><originator>{ ttProviderSystems.UserName}</originator></userIdentifier><dutyCode><dutyCodeDetails><referenceQualifier>DUT</referenceQualifier><referenceIdentifier>SU</referenceIdentifier></dutyCodeDetails></dutyCode>" +
-            $"<systemDetails><organizationDetails><organizationId>{ ttProviderSystems.Origin}</organizationId></organizationDetails></systemDetails>" +
+            $"<originatorTypeCode>U</originatorTypeCode><originator>{ttProviderSystems.UserName}</originator></userIdentifier><dutyCode><dutyCodeDetails><referenceQualifier>DUT</referenceQualifier><referenceIdentifier>SU</referenceIdentifier></dutyCodeDetails></dutyCode>" +
+            $"<systemDetails><organizationDetails><organizationId>{ttProviderSystems.Profile.Origin}</organizationId></organizationDetails></systemDetails>" +
             $"<passwordInfo><dataLength>{length}</dataLength><dataType>E</dataType><binaryData>{password}</binaryData></passwordInfo></Security_Authenticate>";
 
             DateTime requesttime = DateTime.Now;
@@ -802,7 +802,7 @@ public class AmadeusWSAdapter
 
     public void CreateSessionV2()
     {
-        modCore.IsCreating = true;        
+        modCore.IsCreating = true;
         CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Create Session", "", ttProviderSystems.LogUUID);
         try
         {
@@ -811,7 +811,7 @@ public class AmadeusWSAdapter
             string password = ttProviderSystems.Password.Substring(2);
             string body = $"<Security_Authenticate><userIdentifier><originIdentification><sourceOffice>{ttProviderSystems.PCC}</sourceOffice></originIdentification>" +
             $"<originatorTypeCode>U</originatorTypeCode><originator>{ttProviderSystems.UserName}</originator></userIdentifier><dutyCode><dutyCodeDetails><referenceQualifier>DUT</referenceQualifier><referenceIdentifier>SU</referenceIdentifier></dutyCodeDetails></dutyCode>" +
-            $"<systemDetails><organizationDetails><organizationId>{ttProviderSystems.Origin}</organizationId></organizationDetails></systemDetails>" +
+            $"<systemDetails><organizationDetails><organizationId>{ttProviderSystems.Profile.Origin}</organizationId></organizationDetails></systemDetails>" +
             $"<passwordInfo><dataLength>{length}</dataLength><dataType>E</dataType><binaryData>{password}</binaryData></passwordInfo></Security_Authenticate>";
 
             DateTime requesttime = DateTime.Now;
@@ -834,7 +834,7 @@ public class AmadeusWSAdapter
             {
                 CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", newSessionID, "", ttProviderSystems.LogUUID);
                 var oDa = new cDA("ConnectionString");
-                oDa.InsertNewSession(newSessionID, 1, ttProviderSystems.Provider, CreatedTime, DateTime.Now, ttProviderSystems.GReqID, ttProviderSystems.UserID, "Active", 'N', 'N', ttProviderSystems.URL, "B2", isInitialBlock, ttProviderSystems.PCC, ttProviderSystems.Profile, ttProviderSystems.System, ttProviderSystems.GPass);
+                oDa.InsertNewSession(newSessionID, 1, ttProviderSystems.Provider, CreatedTime, DateTime.Now, ttProviderSystems.GReqID, ttProviderSystems.UserID, "Active", 'N', 'N', ttProviderSystems.URL, "B2", isInitialBlock, ttProviderSystems.PCC, ttProviderSystems.Profile.Text, ttProviderSystems.System, ttProviderSystems.GPass);
                 oDa.Dispose();
             }
         }
@@ -854,20 +854,20 @@ public class AmadeusWSAdapter
         CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Create Session", "", ttProviderSystems.LogUUID);
         try
         {
-            DateTime CreatedTime = DateTime.Now;            
+            DateTime CreatedTime = DateTime.Now;
             string length = ttProviderSystems.Password.Substring(0, 2);
             string password = ttProviderSystems.Password.Substring(2);
-            string body = $"<Security_Authenticate><userIdentifier><originIdentification><sourceOffice>{ttProviderSystems.PCC}</sourceOffice></originIdentification>" + 
+            string body = $"<Security_Authenticate><userIdentifier><originIdentification><sourceOffice>{ttProviderSystems.PCC}</sourceOffice></originIdentification>" +
             $"<originatorTypeCode>U</originatorTypeCode><originator>{ttProviderSystems.UserName}</originator></userIdentifier><dutyCode><dutyCodeDetails><referenceQualifier>DUT</referenceQualifier><referenceIdentifier>SU</referenceIdentifier></dutyCodeDetails></dutyCode>" +
-            $"<systemDetails><organizationDetails><organizationId>{ ttProviderSystems.Origin}</organizationId></organizationDetails></systemDetails>" +
+            $"<systemDetails><organizationDetails><organizationId>{ttProviderSystems.Profile.Origin}</organizationId></organizationDetails></systemDetails>" +
             $"<passwordInfo><dataLength>{length}</dataLength><dataType>E</dataType><binaryData>{password}</binaryData></passwordInfo></Security_Authenticate>";
 
             DateTime reqesttime = DateTime.Now;
 
-            newSessionID = isSOAP2 
+            newSessionID = isSOAP2
                 ? SendSOAP2(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSLQ_06_1_1A")
                 : Send(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSLQ_06_1_1A");
-            
+
             DateTime responsetime = DateTime.Now;
 
             // ****************************************
@@ -886,7 +886,7 @@ public class AmadeusWSAdapter
 
             CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", newSessionID, "", ttProviderSystems.LogUUID);
             var oDa = new cDA("ConnectionString");
-            oDa.InsertNewSession(newSessionID.Substring(0, newSessionID.Length - 1) + "2", 2, ttProviderSystems.Provider, CreatedTime, DateTime.Now, ttProviderSystems.GReqID, ttProviderSystems.UserID, "Active", 'N', 'N', ttProviderSystems.URL, "B2", isInitialBlock, ttProviderSystems.PCC, ttProviderSystems.Profile, ttProviderSystems.System, ttProviderSystems.GPass);
+            oDa.InsertNewSession(newSessionID.Substring(0, newSessionID.Length - 1) + "2", 2, ttProviderSystems.Provider, CreatedTime, DateTime.Now, ttProviderSystems.GReqID, ttProviderSystems.UserID, "Active", 'N', 'N', ttProviderSystems.URL, "B2", isInitialBlock, ttProviderSystems.PCC, ttProviderSystems.Profile.Text, ttProviderSystems.System, ttProviderSystems.GPass);
             oDa.Dispose();
             modCore.IsCreating = false;
             string SessionID = newSessionID;
@@ -898,7 +898,7 @@ public class AmadeusWSAdapter
         }
         finally
         {
-            modCore.IsCreating = false;            
+            modCore.IsCreating = false;
         }
     }
 
@@ -1087,7 +1087,7 @@ public class AmadeusWSAdapter
                     intSession -= 1;
                     sessionID = ttProviderSystems.SOAP2
                         ? $"{sessionid[0]}|{sessionid[1]}|{intSession}"
-                        : $"{sessionid[0]}|{intSession}";                    
+                        : $"{sessionid[0]}|{intSession}";
                 }
 
                 if (sessionID != null)
@@ -1138,7 +1138,7 @@ public class AmadeusWSAdapter
 
         try
         {
-            
+
             if (sessionID.Length == 0)
             {
                 CloseThisSession = true;
