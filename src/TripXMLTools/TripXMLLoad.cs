@@ -123,12 +123,15 @@ namespace TripXMLTools
                 ttProviderSystem.System = credentials.System;
                 ttProviderSystem.Provider = provider.Provider.Name;
                 ttProviderSystem.UserID = credentials.UserID;
-                ttProviderSystem.Profile = "1ASIWDWTMBD";
                 ttProviderSystem.Password = providerPcc.Password;
                 ttProviderSystem.UserName = providerPcc.Username;
                 ttProviderSystem.SOAP2 = providerPcc.SOAPType.Equals("SOAP2");
                 ttProviderSystem.SOAP4 = !ttProviderSystem.SOAP2;
-                ttProviderSystem.Origin = "NMC-US";
+                ttProviderSystem.Profile.Origin = providerPcc.Profile.Origin;
+                ttProviderSystem.Profile.Xml = providerPcc.Profile.Xml;
+                ttProviderSystem.Profile.Text = providerPcc.Profile.Text;
+                ttProviderSystem.Profile.Cryptic = providerPcc.Profile.Cryptic;
+                ttProviderSystem.Profile.Ticketing = providerPcc.Profile.Ticketing;
                 ttProviderSystem.GReqID = Requestor;
                 ttProviderSystem.AggFilter = true;
                 ttProviderSystem.FareMessage = "VP";
@@ -232,7 +235,7 @@ namespace TripXMLTools
         public class Hotelamenity : DecodingBase { }
         public class Hotelarea : DecodingBase { }
         public class Hotelroom : DecodingBase { }
-        public class Hotelsubtitle : DecodingBase {}
+        public class Hotelsubtitle : DecodingBase { }
         public class Hotel : DecodingBase { }
 
         public abstract class DecodingBase

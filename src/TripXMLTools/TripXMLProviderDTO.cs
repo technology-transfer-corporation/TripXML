@@ -55,6 +55,15 @@ namespace TripXMLTools
         public string Environment { get; set; }
     }
 
+
+    public class ProfileStruct
+    {
+        public string Ticketing;
+        public string Origin;
+        public string Cryptic;
+        public string Xml;
+        public string Text;
+    }
     public class Pcc
     {
         public int Id { get; set; }
@@ -64,7 +73,8 @@ namespace TripXMLTools
         public string SOAPType { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public object Profile { get; set; }
+        //public object Profile { get; set; }
+        public ProfileStruct Profile { get; set; }
         public List<Wsdlschema> Wsdlschemas { get; set; }
         public List<OpenType> OpenTypes { get; set; }
     }
@@ -88,7 +98,7 @@ namespace TripXMLTools
     public class Wsdlschema
     {
         public string Name { get; set; }
-        public string Version { get; set; }        
+        public string Version { get; set; }
     }
 
 
