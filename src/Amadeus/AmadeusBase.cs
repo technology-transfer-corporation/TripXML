@@ -498,8 +498,8 @@ namespace AmadeusWS
                 CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSService", methodRQ, "", ttProviderSystems.LogUUID);
 
                 var response = ttProviderSystems.SessionPool
-                    ? ttAA.SendMessageV3(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{methodRQ}", ConversationID).Replace($" xmlns=\"http://xml.amadeus.com/{methodRS}\"", "")
-                    : ttAA.SendMessage(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{methodRQ}", ConversationID).Replace($" xmlns=\"http://xml.amadeus.com/{methodRS}\"", "");
+                    ? ttAA.SendMessageV3(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{methodRQ}", ConversationID).Replace($" xmlns=\"http://xml.amadeus.com/{methodRS}\"", "")
+                    : ttAA.SendMessage(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{methodRQ}", ConversationID).Replace($" xmlns=\"http://xml.amadeus.com/{methodRS}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
 
                 CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSService", methodRS, response, ttProviderSystems.LogUUID);
@@ -527,7 +527,7 @@ namespace AmadeusWS
         {
             try
             {
-                //var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema.PNR_Retrieve}", ConversationID)
+                //var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema.PNR_Retrieve}", ConversationID)
                 //    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "")
                 //    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply1]}\"", "");
                 //ConversationID = UpdateSessionID(ConversationID);
@@ -545,7 +545,7 @@ namespace AmadeusWS
         {
             try
             {
-                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema[PNR_Cancel]}", ConversationID)
+                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_Cancel]}", ConversationID)
                     .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "")
                     .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply1]}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
@@ -587,7 +587,7 @@ namespace AmadeusWS
         {
             try
             {
-                var response = ttAA.SendMessage(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements]}", ConversationID)
+                var response = ttAA.SendMessage(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements]}", ConversationID)
                     .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "")
                     .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply1]}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
@@ -834,7 +834,7 @@ namespace AmadeusWS
         {
             try
             {
-                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema[PNR_Split]}", ConversationID);
+                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_Split]}", ConversationID);
                 response = response.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "");
                 response = response.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply1]}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
