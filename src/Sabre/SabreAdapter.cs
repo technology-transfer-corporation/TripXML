@@ -325,7 +325,7 @@ namespace Sabre
                     
                 }
 
-                oDa.InsertNewSession(SecurityToken, 1, ttProviderSystems.Provider, createdTime, DateTime.Now, ttProviderSystems.UserName, ttProviderSystems.UserID, "Active", 'N', 'N', ttProviderSystems.URL, BlockID, IsInitialBlock, ttProviderSystems.PCC, ttProviderSystems.Profile, ttProviderSystems.System, ttProviderSystems.GPass);
+                oDa.InsertNewSession(SecurityToken, 1, ttProviderSystems.Provider, createdTime, DateTime.Now, ttProviderSystems.UserName, ttProviderSystems.UserID, "Active", 'N', 'N', ttProviderSystems.URL, BlockID, IsInitialBlock, ttProviderSystems.PCC, ttProviderSystems.Profile.Text, ttProviderSystems.System, ttProviderSystems.GPass);
                 modCore.IsCreating = false;
             }
             catch (Exception ex)
