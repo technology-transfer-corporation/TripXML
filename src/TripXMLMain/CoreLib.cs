@@ -89,7 +89,6 @@ namespace TripXMLMain
                 _traceSend.Start();
             }
 
-            var sb = new StringBuilder();
             try
             {
                 strItem = strItem.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "");
@@ -100,56 +99,71 @@ namespace TripXMLMain
                 strItem = strItem.Replace("<?xml version=\"1.0\"   encoding=\"ISO-8859-1\"  standalone=\"yes\" ?>", "");
                 strItem = strItem.Replace("xmlns = \"\"", "");
 
-                byte[] sendBytes;
-                if (userID is object)
-                {
-                }
-                else
-                {
-                    userID = "";
-                }
+                userID = userID ?? "";                
 
-                sb.Append("<").Append(strFile).Append("><Text>").Append(strText).Append("</Text><UUID>").Append(strUUID).Append("</UUID><Item>").Append(strItem).Append("</Item><UserID>").Append(userID).Append("</UserID></").Append(strFile).Append(">");
+                var msg = $"<{strFile}><Text>{strText}</Text><UUID>{strUUID}</UUID><Item>{strItem}</Item><UserID>{userID}</UserID></{strFile}>";
                 if (_senderQueue.Count < 50)
-                    _senderQueue.Add(sb.ToString());
+                    _senderQueue.Add(msg);
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error: {ex.Message}");
             }
         }
 
         private static void TraceSender()
         {
-            WebSocket wsClient;
-            wsClient = new WebSocket($"ws://localhost:3070/Trace");
+            try
+            {
+                var msg = _senderQueue.Take();
+                TraceSender("ws://localhost:3070/Trace", msg);
+                //TraceSender("ws://localhost:8111/Trace", msg);
+            }
+            catch (Exception)
+            {
+                throw;
+            }            
+        }
+
+        private static void TraceSender(string pathTrace, string messsage)
+        {
+            var wsClient = new WebSocket(pathTrace);
+
             while (true)
             {
                 var reconnect = false;
-                string msg = string.Empty;
+                
                 try
                 {
-                    msg = _senderQueue.Take();
+                    messsage = _senderQueue.Take();
                     if (wsClient.ReadyState != WebSocketState.Open) wsClient.Connect();
                     if (wsClient.ReadyState == WebSocketState.Connecting)
                         Thread.Sleep(1000);
-                    wsClient.Send(msg);
+                    wsClient.Send(messsage);
                 }
                 catch
                 {
                     reconnect = true;
                 }
+                finally
+                {
+                    wsClient.Close();
+                }
+
                 if (reconnect)
                     try
                     {
-                        wsClient.Close();
                         if (wsClient.ReadyState != WebSocketState.Open) wsClient.Connect();
                         if (wsClient.ReadyState == WebSocketState.Connecting)
                             Thread.Sleep(1000);
-                        wsClient.Send(msg);
+                        wsClient.Send(messsage);
                     }
                     catch { }
+                    finally
+                    {
+                        wsClient.Close();
+                    }
             }
-            wsClient.Close();
         }
 
         static byte[] Compress(byte[] data)
