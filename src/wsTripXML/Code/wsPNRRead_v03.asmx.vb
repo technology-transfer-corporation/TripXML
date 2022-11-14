@@ -390,6 +390,8 @@ Namespace wsTravelTalk
             Return ServiceRequest(xmlRequest, ttServices.PNRRead)
         End Function
 
+
+
 #End Region
 
     End Class

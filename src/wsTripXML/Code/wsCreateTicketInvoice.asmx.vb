@@ -1,11 +1,5 @@
 ﻿Imports System.Web.Services
-Imports System.Web.Services.Protocols
 Imports System.ComponentModel
-Imports TripXMLMain
-Imports AdminTools
-Imports System.Xml
-Imports System.IO
-Imports System.Configuration
 
 Namespace wsTravelTalk
 

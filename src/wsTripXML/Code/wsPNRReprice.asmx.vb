@@ -52,8 +52,8 @@ Namespace wsTravelTalk
 #Region " Process Service Request All GDS "
         Private ReadOnly sb As StringBuilder = New StringBuilder()
 
-        Private Function StoredFareServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
-            Dim strResponse As String = ""
+        Private Function StoredFareServiceRequest(ByVal request As String, ByVal ttServiceID As Integer, Optional ByVal sessionID As String = "") As String
+            Dim response As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
             Dim validateXSDOut As Boolean
@@ -63,13 +63,13 @@ Namespace wsTravelTalk
             Try
                 startTime = Now
 
-                PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, startTime, ttServiceID, Server.MachineName, UUID)
+                PreServiceRequest(request, Application, ttCredential, ttProviderSystems, startTime, ttServiceID, Server.MachineName, UUID)
                 validateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
                 sb.Remove(0, sb.Length())
 
                 Select Case ttCredential.Providers(0).Name
                     Case "AmadeusWS"
-                        strResponse = SendPNRRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendPNRRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, request)
                     Case "Sabre"
                         If ttProviderSystems.System Is Nothing Then
                             FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers(0).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers(0).Name)
@@ -78,31 +78,34 @@ Namespace wsTravelTalk
                         End If
 
                         ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
-                        strResponse = SendPNRRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-                    Case "Galileo"
-                        strResponse = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-                    Case "Worldspan"
-                        ', "Galileo"
-                        'Dim ttDefProvider As New TripXMLProviderSystems()
-                        'PreServiceRequest(strRequest, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, UUID, "", True)
-                        'strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, strRequest)
-                        strResponse = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendPNRRequestSabre(ttServiceID, ttCredential, ttProviderSystems, request)
+                    Case "Worldspan", "Galileo"
+                        Dim ttDefProvider As New TripXMLProviderSystems()
+
+                        If Not String.IsNullOrEmpty(sessionID) Then
+                            request = request.Replace(sessionID, "")
+                        End If
+
+                        PreServiceRequest(request, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, UUID, "", True)
+                        response = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, request)
+                        response = response.Replace("</OTA_PNRRepriceRS>", $"<ConversationID>{sessionID}</ConversationID></OTA_PNRRepriceRS>")
+
                     Case "Travelport"
-                        strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttProviderSystems, request)
                     Case Else
                         Throw New Exception(sb.Append("Provider ").Append(ttCredential.Providers(0).Name).Append(" Not Currently Supported.").ToString())
                 End Select
 
-                PostServiceRequest(strResponse, validateXSDOut, ttServiceID, ttCredential.UserID)
+                PostServiceRequest(response, validateXSDOut, ttServiceID, ttCredential.UserID)
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(ttServiceID, ex.Message, ttCredential.Providers(0).Name)
+                response = FormatErrorMessage(ttServiceID, ex.Message, ttCredential.Providers(0).Name)
             Finally
-                LogResponse(strResponse, ttCredential, startTime, ttServiceID, Server.MachineName, UUID)
-                If Trace Then CoreLib.SendTrace(ttCredential.UserID, "wsPNRReprice", "============= OTA Response ============= ", strResponse, UUID)
+                LogResponse(response, ttCredential, startTime, ttServiceID, Server.MachineName, UUID)
+                If Trace Then CoreLib.SendTrace(ttCredential.UserID, "wsPNRReprice", "============= OTA Response ============= ", response, UUID)
             End Try
 
-            Return strResponse
+            Return response
         End Function
 
         Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
@@ -170,9 +173,10 @@ Namespace wsTravelTalk
             oSerializer.Serialize(oWriter, OTA_PNRRepriceRQ)
             Dim xmlMessage As String = oWriter.ToString
             xmlMessage = xmlMessage.Replace(" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""", "")
+            Dim sid As String = OTA_PNRRepriceRQ.ConversationID
 
             'If OTA_PNRRepriceRQ.StoreFare Then
-            xmlMessage = StoredFareServiceRequest(xmlMessage, ttServices.PNRReprice)
+            xmlMessage = StoredFareServiceRequest(xmlMessage, ttServices.PNRReprice, sid)
             'Else
             '    xmlMessage = ServiceRequest(xmlMessage, ttServices.PNRReprice)
             'End If
