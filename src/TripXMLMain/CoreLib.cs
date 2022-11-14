@@ -2,19 +2,18 @@
 using System.IO;
 using System.IO.Compression;
 using System.Net.Mail;
-using System.Net.Sockets;
-using System.Net.WebSockets;
 using System.Text;
 using System.Xml;
 using System.Threading;
 using System.Collections.Concurrent;
-using WebSocketSharp;
 using WebSocket = WebSocketSharp.WebSocket;
 using WebSocketState = WebSocketSharp.WebSocketState;
-using System.Runtime.Remoting.Messaging;
 
 namespace TripXMLMain
 {
+    /// <summary>
+    /// Tracing and othe communicational methods
+    /// </summary>
     public class CoreLib
     {
         private static BlockingCollection<string> _senderQueue = new BlockingCollection<string>();
@@ -444,7 +443,9 @@ namespace TripXMLMain
         #endregion
 
     }
-
+    /// <summary>
+    /// Sending Email asynch
+    /// </summary>
     public class SendEmailAsynch
     {
         private delegate void StartSearch_Delegate();
