@@ -81,7 +81,7 @@ namespace TripXMLMain
 
         #region  Send Trace 
 
-        public static void SendTrace(string userID, string strFile, string strText, string strItem, string strUUID)
+        public static void SendTrace(string userID, string file, string text, string item, string UUID)
         {
             if (_traceSend == null)
             {
@@ -91,17 +91,17 @@ namespace TripXMLMain
 
             try
             {
-                strItem = strItem.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "");
-                strItem = strItem.Replace("<?xml version='1.0' encoding='utf-8'?>", "");
-                strItem = strItem.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>", "");
-                strItem = strItem.Replace("<?xml version=\"1.0\"  encoding=\"ISO-8859-1\" standalone=\"yes\" ?>", "");
-                strItem = strItem.Replace("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"  standalone=\"yes\"?>", "");
-                strItem = strItem.Replace("<?xml version=\"1.0\"   encoding=\"ISO-8859-1\"  standalone=\"yes\" ?>", "");
-                strItem = strItem.Replace("xmlns = \"\"", "");
+                item = item.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "");
+                item = item.Replace("<?xml version='1.0' encoding='utf-8'?>", "");
+                item = item.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>", "");
+                item = item.Replace("<?xml version=\"1.0\"  encoding=\"ISO-8859-1\" standalone=\"yes\" ?>", "");
+                item = item.Replace("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"  standalone=\"yes\"?>", "");
+                item = item.Replace("<?xml version=\"1.0\"   encoding=\"ISO-8859-1\"  standalone=\"yes\" ?>", "");
+                item = item.Replace("xmlns = \"\"", "");
 
                 userID = userID ?? "";                
 
-                var msg = $"<{strFile}><Text>{strText}</Text><UUID>{strUUID}</UUID><Item>{strItem}</Item><UserID>{userID}</UserID></{strFile}>";
+                var msg = $"<{file}><Text>{text}</Text><UUID>{UUID}</UUID><Item>{item}</Item><UserID>{userID}</UserID></{file}>";
                 if (_senderQueue.Count < 50)
                     _senderQueue.Add(msg);
             }
