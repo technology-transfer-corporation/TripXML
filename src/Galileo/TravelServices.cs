@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Xml;
 using TripXMLMain;
@@ -1446,7 +1448,7 @@ namespace Galileo
 
         public string UpdateSessioned()
         {
-            string strResponse = "";
+            string response = "";
             try
             {
                 var RequestTime = DateTime.Now;
@@ -1525,6 +1527,13 @@ namespace Galileo
                         {
                             string strMultiElements = oRootTemp.SelectSingleNode("MultiElements").InnerXml;
                             nativePNRReply = ttGA.SendMessage(strMultiElements, ConversationID);
+
+                            if (nativePNRReply.Contains("SIMULTANEOUS CHANGES TO BOOKING FILE"))
+                            {
+                                HandleSimChanges(ttGA, ConversationID);
+                                nativePNRReply = ttGA.SendMessage(strMultiElements, ConversationID);
+                            }
+
                             if (nativePNRReply.Contains("CHECK CONTINUITY SEGMENT"))
                                 nativePNRReply = ttGA.SendMessage(strEndTransaction, ConversationID);
 
@@ -1532,12 +1541,12 @@ namespace Galileo
                         }
                     }
 
-                    strResponse = nativePNRReply;
-                    message = $"{strEndTransaction}\r\n{strResponse}";
-                    strResponse = ttGA.SendMessage(strCurrentPNR, ConversationID);
+                    response = nativePNRReply;
+                    message = $"{strEndTransaction}\r\n{response}";
+                    response = ttGA.SendMessage(strCurrentPNR, ConversationID);
 
                     var oDocResp = new XmlDocument();
-                    oDocResp.LoadXml(strResponse);
+                    oDocResp.LoadXml(response);
                     var oRootResp = oDocResp.DocumentElement;
                     var oNodeResp = oRootResp.SelectSingleNode("EndTransaction/EndTransactResponse/RecLoc");
                     if (oNodeResp != null)
@@ -1548,15 +1557,15 @@ namespace Galileo
                             // Send Retreive Request
                             string strRTV = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr/><CodeCheck/><RecLoc>{RecordLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods>" +
                             "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
-                            strResponse = ttGA.SendMessage(strRTV, ConversationID);
-                            message = $"{strRTV}\r\n{strResponse}";
+                            response = ttGA.SendMessage(strRTV, ConversationID);
+                            message = $"{strRTV}\r\n{response}";
                         }
                     }
 
                     // ****************************************************************************
                     // Add Previous Errors and Warnings To Galileo Native End Transact Response   *
                     // ****************************************************************************
-                    nativePNRReply = strResponse;
+                    nativePNRReply = response;
                     oDocResp = null;
                 }
 
@@ -1569,21 +1578,24 @@ namespace Galileo
                     Version = string.IsNullOrEmpty(Version) ? "v03_" : Version;
 
                     nativePNRReply = inSession
-                        ? strResponse.Replace("</PNRBFManagement_53>", $"<ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>")
-                        : strResponse;
+                        ? response.Replace("</PNRBFManagement_53>", $"<ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>")
+                        : response;
 
                     //CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response", strResponse, ProviderSystems.LogUUID);
-                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", $"Final response size for version {Version}", strResponse.Length.ToString(CultureInfo.InvariantCulture), ProviderSystems.LogUUID);
-                    if (nativePNRReply.Length > 5500)
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", nativePNRReply.Substring(0, nativePNRReply.Length / 2), ProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II", nativePNRReply.Substring(nativePNRReply.Length / 2), ProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse, ProviderSystems.LogUUID);
-                    }
-                    strResponse = CoreLib.TransformXML(nativePNRReply, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", $"Final response size for version {Version}", response.Length.ToString(CultureInfo.InvariantCulture), ProviderSystems.LogUUID);
+                    
+
+                    //if (response.Length > 1499)
+                    //{
+                    //    var chunks = CoreLib.SplitBy(response, 1499).ToList();
+                    //    chunks.ForEach(c => CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", $"Final response {chunks.IndexOf(c)}", c, ProviderSystems.LogUUID));
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", response, ProviderSystems.LogUUID);
+                    //}
+
+                    response = CoreLib.TransformXML(nativePNRReply, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
 
                     if (ProviderSystems.LogNative)
                         TripXMLTools.TripXMLLog.LogMessage("Update", ref message, RequestTime, DateTime.Now, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
@@ -1605,14 +1617,36 @@ namespace Galileo
             catch (Exception exx)
             {
                 AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.Update, exx.Message, ProviderSystems, "");
+                response = modCore.FormatErrorMessage(modCore.ttServices.Update, exx.Message, ProviderSystems, "");
             }
             finally
             {
                 GC.Collect();
             }
 
-            return strResponse;
+            return response;
+        }
+
+        private void HandleSimChanges(GalileoAdapter ttGA, string conversationID)
+        {
+            try
+            {
+                var cmds = new List<string> { "*R", "IR" };                
+                var replay = ttGA.SendCrypticMessage("*R", conversationID);
+                if (replay.Contains("IGNORE BEFORE PROCEEDING"))
+                {
+                    replay = ttGA.SendCrypticMessage("IR", conversationID);
+                }
+                else
+                {
+                    replay = ttGA.SendCrypticMessage("R.T", conversationID);
+                    replay = ttGA.SendCrypticMessage("ER", conversationID);
+                }                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to Handle SIM CHANGES. Error: {ex.Message}");
+            }            
         }
 
         public string VoidTicket()
