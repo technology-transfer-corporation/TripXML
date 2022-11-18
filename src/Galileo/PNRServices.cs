@@ -236,9 +236,7 @@ namespace Galileo
 
                     if (!bStoreFare)
                     {
-
                         string strRepriceReq = CoreLib.TransformXML(strReadResp.Replace("</PNRBFManagement_53>", $"{Request}</PNRBFManagement_53>"), XslPath, $"{Version}Galileo_PNRRePriceRQ.xsl");
-
                         string strRepriceResp;
                         if (strRepriceReq.Contains("Error Type=\"Galileo\""))
                         {
@@ -254,19 +252,15 @@ namespace Galileo
                                 strRepriceResp = strRepriceResp.Replace("<OTA_AirPriceRS Version=\"2.4.0\">", "").Replace("</OTA_AirPriceRS>", "");
                             }
                         }
-
-
-
                         response = strReadResp.Replace("</PNRBFManagement_53>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS><ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
-                        CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", response, ProviderSystems.LogUUID);
+                        //CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", response, ProviderSystems.LogUUID);
                     }
                     else
                     {
                         string strRePriceRQ = strReadResp.Replace("</PNRBFManagement_53>", $"{Request}</PNRBFManagement_53>");
                         string strRepriceStoreReq = CoreLib.TransformXML(strRePriceRQ, XslPath, $"{Version}Galileo_PNRRePriceRQ.xsl");
-
                         string strRepriceResp = ttGA.SendMessage(strRepriceStoreReq, ConversationID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", strRepriceResp, ProviderSystems.LogUUID);
+                        //CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", strRepriceResp, ProviderSystems.LogUUID);
 
                         #region Save PNR
 
