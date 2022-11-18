@@ -178,15 +178,15 @@ namespace Sabre
                     // Transform Native Sabre PNRRead Response into OTA Response   *
                     // ***************************************************************** 
                     CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response size", strResponse.Length.ToString(), ProviderSystems.LogUUID);
-                    if (strResponse.Length > 5500)
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse, ProviderSystems.LogUUID);
-                    }
+                    //if (strResponse.Length > 5500)
+                    //{
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", strResponse, ProviderSystems.LogUUID);
+                    //}
 
 
                     strResponse = strResponse.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
@@ -889,15 +889,15 @@ namespace Sabre
 
 
                     // CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response", sb.Append("<TravelItineraryReadRS><OTA_AirPriceRS>").Append(strRepriceResp).Append("</OTA_AirPriceRS>").Append(ConversationID).Append("</TravelItineraryReadRS>").ToString(), ProviderSystems.LogUUID)
-                    if (strResponse.Length > 5500)
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response I", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response I", strResponse, ProviderSystems.LogUUID);
-                    }
+                    //if (strResponse.Length > 5500)
+                    //{
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response", strResponse, ProviderSystems.LogUUID);
+                    //}
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRRepriceRS.xsl");
                     CoreLib.SendTrace(ProviderSystems.UserID, "strResponse", "Final strResponse", strResponse, ProviderSystems.LogUUID);
@@ -1323,15 +1323,15 @@ namespace Sabre
                         if (inSession)
                             strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
 
-                        if (strResponse.Length > 1500)
-                        {
-                            CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response I", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                            CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                        }
-                        else
-                        {
-                            CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response I", strResponse, ProviderSystems.LogUUID);
-                        }
+                        //if (strResponse.Length > 1500)
+                        //{
+                        //    CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                        //    CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                        //}
+                        //else
+                        //{
+                        CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response", strResponse, ProviderSystems.LogUUID);
+                        //}
 
                         strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRReadRS.xsl");
 
