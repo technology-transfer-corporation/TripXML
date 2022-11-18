@@ -634,19 +634,18 @@ namespace Worldspan
                 // ***************************************************************** 
                 try
                 {
-                    if (strResponse.Length > 1500)
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I",
-                            strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)),
-                            ProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II",
-                            strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse,
-                            ProviderSystems.LogUUID);
-                    }
+                    //if (strResponse.Length > 1500)
+                    //{
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response",
+                    //        strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)),
+                    //        ProviderSystems.LogUUID);
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II",
+                    //        strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    //}
+                    //else
+                    //{
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", strResponse, ProviderSystems.LogUUID);
+                    //}
 
                     var strToReplace = "</DPW8>";
 
@@ -959,19 +958,18 @@ namespace Worldspan
                     if (inSession)
                         strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
 
-                    if (strResponse.Length > 1500)
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response I",
-                            strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)),
-                            ProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response II",
-                            strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response I", strResponse,
-                            ProviderSystems.LogUUID);
-                    }
+                    //if (strResponse.Length > 1500)
+                    //{
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response",
+                    //        strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)),
+                    //        ProviderSystems.LogUUID);
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response II",
+                    //        strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response", strResponse, ProviderSystems.LogUUID);
+                    //}
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Worldspan_PNRRepriceRS.xsl");
 

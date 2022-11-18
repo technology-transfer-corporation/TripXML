@@ -598,19 +598,15 @@ namespace Worldspan
                     strErrEvent = "Worldspan_PNRReadRS.xsl Error.";
                     Version = "v03";
                     CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response size", strResponse.Length.ToString(), ProviderSystems.LogUUID);
-                    if (strResponse.Length > 3500)
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I",
-                            strResponse.Substring(0, (int) Math.Round(strResponse.Length / 2d)),
-                            ProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II",
-                            strResponse.Substring((int) Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse,
-                            ProviderSystems.LogUUID);
-                    }
+                    //if (strResponse.Length > 3500)
+                    //{
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response",strResponse.Substring(0, (int) Math.Round(strResponse.Length / 2d)),ProviderSystems.LogUUID);
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II",strResponse.Substring((int) Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", strResponse, ProviderSystems.LogUUID);
+                    //}
                     
                     if (inSession)
                         strResponse = strResponse.Replace("<ConversationID>NONE</ConversationID>", $"<ConversationID>{ConversationID}</ConversationID>");
