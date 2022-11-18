@@ -805,15 +805,15 @@ namespace AmadeusWS
 
                         CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead",
                             $"Final response size for version {Version}", strResponse.Length.ToString(CultureInfo.InvariantCulture), ttProviderSystems.LogUUID);
-                        if (strResponse.Length > 5500)
-                        {
-                            CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response I", strResponse.Substring(0, strResponse.Length / 2), ttProviderSystems.LogUUID);
-                            CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring(strResponse.Length / 2), ttProviderSystems.LogUUID);
-                        }
-                        else
-                        {
-                            CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response I", strResponse, ttProviderSystems.LogUUID);
-                        }
+                        //if (strResponse.Length > 5500)
+                        //{
+                        //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response", strResponse.Substring(0, strResponse.Length / 2), ttProviderSystems.LogUUID);
+                        //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring(strResponse.Length / 2), ttProviderSystems.LogUUID);
+                        //}
+                        //else
+                        //{
+                        CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response", strResponse, ttProviderSystems.LogUUID);
+                        //}
 
                         strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
 

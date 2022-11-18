@@ -3097,15 +3097,15 @@ namespace AmadeusWS
                         : strNativePNRReply;
 
                     CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", String.Format("Final response size for version {0}", Version), strResponse.Length.ToString(CultureInfo.InvariantCulture), ttProviderSystems.LogUUID);
-                    if (strNativePNRReply.Length > 5500)
-                    {
-                        CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response I", strNativePNRReply.Substring(0, strNativePNRReply.Length / 2), ttProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response II", strNativePNRReply.Substring(strNativePNRReply.Length / 2), ttProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response I", strResponse, ttProviderSystems.LogUUID);
-                    }
+                    //if (strNativePNRReply.Length > 5500)
+                    //{
+                    //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response", strNativePNRReply.Substring(0, strNativePNRReply.Length / 2), ttProviderSystems.LogUUID);
+                    //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response II", strNativePNRReply.Substring(strNativePNRReply.Length / 2), ttProviderSystems.LogUUID);
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response", strResponse, ttProviderSystems.LogUUID);
+                    //}
 
                     strResponse = CoreLib.TransformXML(strNativePNRReply, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
                 }

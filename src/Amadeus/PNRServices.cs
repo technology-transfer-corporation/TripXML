@@ -268,15 +268,15 @@ namespace AmadeusWS
                     strResponse = strResponse.Replace(strToReplace, $"{GetPricingOptionsTST}{strToReplace}");
 
                 CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response size", strResponse.Length.ToString(CultureInfo.InvariantCulture), ttProviderSystems.LogUUID);
-                if (strResponse.Length > 5500)
-                {
-                    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response I", strResponse.Substring(0, strResponse.Length / 2), ttProviderSystems.LogUUID);
-                    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring(strResponse.Length / 2), ttProviderSystems.LogUUID);
-                }
-                else
-                {
-                    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response I", strResponse, ttProviderSystems.LogUUID);
-                }
+                //if (strResponse.Length > 5500)
+                //{
+                //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response", strResponse.Substring(0, strResponse.Length / 2), ttProviderSystems.LogUUID);
+                //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring(strResponse.Length / 2), ttProviderSystems.LogUUID);
+                //}
+                //else
+                //{
+                CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response", strResponse, ttProviderSystems.LogUUID);
+                //}
 
 
                 // check if fare rule requested to be returned
@@ -1179,15 +1179,15 @@ namespace AmadeusWS
                         if (inSession)
                             strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
 
-                        if (strResponse.Length > 5500)
-                        {
-                            CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response I", strResponse.Substring(0, strResponse.Length / 2), ttProviderSystems.LogUUID);
-                            CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring(strResponse.Length / 2), ttProviderSystems.LogUUID);
-                        }
-                        else
-                        {
-                            CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response I", strResponse, ttProviderSystems.LogUUID);
-                        }
+                        //if (strResponse.Length > 5500)
+                        //{
+                        //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response", strResponse.Substring(0, strResponse.Length / 2), ttProviderSystems.LogUUID);
+                        //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring(strResponse.Length / 2), ttProviderSystems.LogUUID);
+                        //}
+                        //else
+                        //{
+                        CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response", strResponse, ttProviderSystems.LogUUID);
+                        //}
 
                         strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
 
@@ -2291,15 +2291,15 @@ namespace AmadeusWS
                     if (inSession)
                         strPNRReplay = strPNRReplay.Replace("</PNR_RetrieveByRecLocReply>", $"{strResponseTST}{strResponseReprice}{Request}<ConversationID>{ConversationID}</ConversationID></PNR_RetrieveByRecLocReply>");
 
-                    if (strPNRReplay.Length > 5500)
-                    {
-                        CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response I", strPNRReplay.Substring(0, (int)Math.Round(strPNRReplay.Length / 2d)), ttProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response II", strPNRReplay.Substring((int)Math.Round(strPNRReplay.Length / 2d)), ttProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response I", strPNRReplay, ttProviderSystems.LogUUID);
-                    }
+                    //if (strPNRReplay.Length > 5500)
+                    //{
+                    //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response", strPNRReplay.Substring(0, (int)Math.Round(strPNRReplay.Length / 2d)), ttProviderSystems.LogUUID);
+                    //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response II", strPNRReplay.Substring((int)Math.Round(strPNRReplay.Length / 2d)), ttProviderSystems.LogUUID);
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response", strPNRReplay, ttProviderSystems.LogUUID);
+                    //}
 
                     //CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response", strPNRReplay, ttProviderSystems.LogUUID);
                     strResponse = CoreLib.TransformXML(strPNRReplay, XslPath, $"{Version}AmadeusWS_PNRRepriceRS.xsl");
