@@ -9,6 +9,7 @@ using System.Collections.Concurrent;
 using WebSocket = WebSocketSharp.WebSocket;
 using WebSocketState = WebSocketSharp.WebSocketState;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace TripXMLMain
 {
@@ -101,7 +102,7 @@ namespace TripXMLMain
 
                 userID = userID ?? "";                
 
-                var msg = $"<{file}><Text>{text}</Text><UUID>{UUID}</UUID><Item>{item}</Item><UserID>{userID}</UserID></{file}>";
+                var msg = $"<{file}><Server>{ConfigurationManager.AppSettings["ServerGuid"]}</Server><Text>{text}</Text><UUID>{UUID}</UUID><Item>{item}</Item><UserID>{userID}</UserID></{file}>";
                 if (_senderQueue.Count < 50)
                     _senderQueue.Add(msg);
             }
@@ -115,8 +116,9 @@ namespace TripXMLMain
         {
             try
             {
+                //TraceSender(new string[] { "ws://localhost:3070/Trace", ConfigurationManager.AppSettings["TraceServerUrl"] }, msg);
+                //TraceSender(new string[] { "ws://localhost:3070/Trace", "ws://localhost:8111/Trace" });
                 TraceSender("ws://localhost:3070/Trace");
-                //TraceSender("ws://localhost:8111/Trace", msg);
             }
             catch (Exception)
             {
@@ -124,23 +126,29 @@ namespace TripXMLMain
             }            
         }
 
-        private static void TraceSender(string pathTrace)
+        private static void TraceSender(string[] paths)
         {
-            var wsClient = new WebSocket(pathTrace);
+            List<WebSocket> webSockets = new List<WebSocket>();
 
-            try
+            foreach (string path in paths)
             {
-                while (true)
+                WebSocket ws = new WebSocket(path);
+                webSockets.Add(ws);
+            }
+
+            while (true)
+            {
+                var reconnect = false;
+                string message = _senderQueue.Take();
+
+                foreach (WebSocket wsClient in webSockets)
                 {
-                    var reconnect = false;
-                    var messsage = string.Empty;
                     try
                     {
-                        messsage = _senderQueue.Take();
                         if (wsClient.ReadyState != WebSocketState.Open) wsClient.Connect();
                         if (wsClient.ReadyState == WebSocketState.Connecting)
                             Thread.Sleep(1000);
-                        wsClient.Send(messsage);
+                        wsClient.Send(message);
                     }
                     catch
                     {
@@ -148,19 +156,51 @@ namespace TripXMLMain
                     }
 
                     if (reconnect)
+                    {
                         try
                         {
                             if (wsClient.ReadyState != WebSocketState.Open) wsClient.Connect();
                             if (wsClient.ReadyState == WebSocketState.Connecting)
                                 Thread.Sleep(1000);
-                            wsClient.Send(messsage);
+                            wsClient.Send(message);
                         }
                         catch { }
+                    }
                 }
             }
-            finally
+        }
+
+        private static void TraceSender(string pathTrace)
+        {
+            var wsClient = new WebSocket(pathTrace);
+
+            while (true)
             {
-                wsClient.Close();
+                var reconnect = false;
+                
+                string message = _senderQueue.Take();
+                try
+                {
+                     
+                    if (wsClient.ReadyState != WebSocketState.Open) wsClient.Connect();
+                    if (wsClient.ReadyState == WebSocketState.Connecting)
+                        Thread.Sleep(1000);
+                    wsClient.Send(message);
+                }
+                catch
+                {
+                    reconnect = true;
+                }
+
+                if (reconnect)
+                    try
+                    {
+                        if (wsClient.ReadyState != WebSocketState.Open) wsClient.Connect();
+                        if (wsClient.ReadyState == WebSocketState.Connecting)
+                            Thread.Sleep(1000);
+                        wsClient.Send(message);
+                    }
+                    catch {}
             }
         }
 
