@@ -8,13 +8,14 @@ using System.Threading;
 using System.Collections.Concurrent;
 using WebSocket = WebSocketSharp.WebSocket;
 using WebSocketState = WebSocketSharp.WebSocketState;
+using System.Collections.Generic;
 
 namespace TripXMLMain
 {
     /// <summary>
     /// Tracing and othe communicational methods
     /// </summary>
-    public class CoreLib
+    public static class CoreLib
     {
         private static BlockingCollection<string> _senderQueue = new BlockingCollection<string>();
         private static Thread _traceSend;
@@ -114,8 +115,7 @@ namespace TripXMLMain
         {
             try
             {
-                var msg = _senderQueue.Take();
-                TraceSender("ws://localhost:3070/Trace", msg);
+                TraceSender("ws://localhost:3070/Trace");
                 //TraceSender("ws://localhost:8111/Trace", msg);
             }
             catch (Exception)
@@ -124,44 +124,43 @@ namespace TripXMLMain
             }            
         }
 
-        private static void TraceSender(string pathTrace, string messsage)
+        private static void TraceSender(string pathTrace)
         {
             var wsClient = new WebSocket(pathTrace);
 
-            while (true)
+            try
             {
-                var reconnect = false;
-                
-                try
+                while (true)
                 {
-                    messsage = _senderQueue.Take();
-                    if (wsClient.ReadyState != WebSocketState.Open) wsClient.Connect();
-                    if (wsClient.ReadyState == WebSocketState.Connecting)
-                        Thread.Sleep(1000);
-                    wsClient.Send(messsage);
-                }
-                catch
-                {
-                    reconnect = true;
-                }
-                finally
-                {
-                    wsClient.Close();
-                }
-
-                if (reconnect)
+                    var reconnect = false;
+                    var messsage = string.Empty;
                     try
                     {
+                        messsage = _senderQueue.Take();
                         if (wsClient.ReadyState != WebSocketState.Open) wsClient.Connect();
                         if (wsClient.ReadyState == WebSocketState.Connecting)
                             Thread.Sleep(1000);
                         wsClient.Send(messsage);
                     }
-                    catch { }
-                    finally
+                    catch
                     {
-                        wsClient.Close();
+                        reconnect = true;
                     }
+
+                    if (reconnect)
+                        try
+                        {
+                            if (wsClient.ReadyState != WebSocketState.Open) wsClient.Connect();
+                            if (wsClient.ReadyState == WebSocketState.Connecting)
+                                Thread.Sleep(1000);
+                            wsClient.Send(messsage);
+                        }
+                        catch { }
+                }
+            }
+            finally
+            {
+                wsClient.Close();
             }
         }
 
@@ -173,6 +172,21 @@ namespace TripXMLMain
                 zipStream.Write(data, 0, data.Length);
                 zipStream.Close();
                 return compressedStream.ToArray();
+            }
+        }
+
+
+        public static IEnumerable<string> SplitBy(this string str, int chunkLength)
+        {
+            if (string.IsNullOrEmpty(str)) throw new ArgumentException();
+            if (chunkLength < 1) throw new ArgumentException();
+
+            for (int i = 0; i < str.Length; i += chunkLength)
+            {
+                if (chunkLength + i > str.Length)
+                    chunkLength = str.Length - i;
+
+                yield return str.Substring(i, chunkLength);
             }
         }
 
