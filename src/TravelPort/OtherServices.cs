@@ -158,7 +158,7 @@ namespace Travelport
                 if (!string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText))
                 { 
                     pcc = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
-                    branch = ProviderSystems.Profile;
+                    branch = ProviderSystems.Profile.Text;
                 }
 
                 if (oRoot.HasAttribute("Target"))
@@ -212,7 +212,7 @@ namespace Travelport
                 if (!string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText))
                 {
                     pcc = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
-                    branch = ProviderSystems.Profile;
+                    branch = ProviderSystems.Profile.Text;
                 }
 
                 //****************************

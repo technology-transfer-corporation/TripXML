@@ -62,10 +62,6 @@
       <Project>{c9d99008-6b09-0fb3-2941-ac1bb23825fa}</Project>
       <Name>TripXMLMain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TripXMLTools\TripXMLTools.csproj">
-      <Project>{B362F5BF-5F86-4997-9EF4-067C8E3DB74E}</Project>
-      <Name>TripXMLTools</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />

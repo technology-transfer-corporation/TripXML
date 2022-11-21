@@ -65,7 +65,7 @@ namespace Travelport
             CoreLib.SendTrace(userID, "ttGalileoService", "Record Locator", recordLocator, string.Empty);
             return recordLocator;
         }
-        
+
         protected string FormatTravelport(string strDisplay, string id = "")
         {
             string display = "";
@@ -107,7 +107,7 @@ namespace Travelport
                     if (oNodeSPL == null)
                     {
                         var oElem = otaElement?.GetElementsByTagName("ConversationID");
-                        oNodeSPL = oElem is {  Count: > 0 } ? oElem[0] : null;
+                        oNodeSPL = oElem is { Count: > 0 } ? oElem[0] : null;
                     }
 
                     if (oNodeSPL != null)
@@ -166,7 +166,7 @@ namespace Travelport
                     }
 
                     return true;
-                }               
+                }
 
                 return false;
             }
@@ -176,7 +176,7 @@ namespace Travelport
             }
             finally
             {
-                if (ConversationID.Contains(ProviderSystems.Profile))
+                if (ConversationID.Contains(ProviderSystems.Profile.Text))
                     ttTP.TracerID = ConversationID;
             }
         }
