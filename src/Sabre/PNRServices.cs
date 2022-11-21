@@ -620,6 +620,24 @@ namespace Sabre
                             validatingCarrier = oRootResp.SelectSingleNode("TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote[MiscInformation/SignatureLine/@Status='ACTIVE']/PricedItinerary/@ValidatingCarrier").InnerText;
                         }
                     }
+                    if (oDoc.SelectSingleNode("//StoredFare/Markup") != null &&
+                        oRootResp.SelectSingleNode("//PriceQuote[last()]/PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/BaseFare/@CurrencyCode") != null &&
+                        !oRootResp.SelectSingleNode("//PriceQuote[last()]/PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/BaseFare/@CurrencyCode").InnerText.Equals("USD"))
+                    {
+                        var cur = oRootResp.SelectSingleNode("//PriceQuote[last()]/PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/BaseFare/@CurrencyCode").InnerText;
+                        var convDoc = new XmlDocument();
+                        foreach (XmlNode makrupNode in oDoc.SelectNodes("//StoredFare/Markup"))
+                        {
+                            var amount = makrupNode.Attributes["Amount"].Value;
+                            string strConv = $"<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>DC¥USD{amount}/{cur}</HostCommand></Request></SabreCommandLLSRQ>";
+                            var convResp = ttSA.SendMessage(strConv, $"DC¥USD{amount}/{cur}", "SabreCommandLLSRQ", ConversationID);
+                            convDoc.LoadXml(convResp);
+                            var conAmount = convDoc.DocumentElement.SelectSingleNode("//Response").InnerText.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Last()
+                                .Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Skip(1).First();
+                            strPriceCombined = strPriceCombined.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount}");
+                            strPrice = strPrice.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount}");
+                        }
+                    }
 
                     if (oRootResp.SelectSingleNode("TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote") is null)
                     {
@@ -868,10 +886,9 @@ namespace Sabre
 
                         if (strResponse.Contains("*WARNING EDITS*") | strResponse.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strResponse.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED") | strResponse.Contains("END OR IGNORE PNR") | strResponse.Contains("INCORRECT TIME LIMIT - VERIFY  *PQ  DATE"))
                         {
-                            ttSA.SendMessage(strER, "ER", "SabreCommandLLSRQ", ConversationID);
+                            strResponse = ttSA.SendMessage(strER, "ER", "SabreCommandLLSRQ", ConversationID);
                         }
                     }
-
 
 
                     // *****************************************************************
