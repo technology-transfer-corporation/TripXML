@@ -30,11 +30,11 @@ namespace Worldspan
                     throw new Exception("Transformation produced empty xml.");
 
                 var ttProviderSystems = ProviderSystems;
-                ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
+                //ttProviderSystems.Profile = ProviderSystems.Profile.Cryptic;
                 // *******************************************************************************
                 // Send Transformed Request to the Worldspan Adapter and Getting Native Response  *
                 // ******************************************************************************* 
-                var ttWA = SetAdapter(ttProviderSystems);
+                var ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Cryptic);
                 bool inSession = SetConversationID(ttWA);
                 var strToReplace = "";
 
@@ -142,8 +142,8 @@ namespace Worldspan
             try
             {
                 var ttProviderSystems = ProviderSystems;
-                ttProviderSystems.Profile = ProviderSystems.ProfileXML;
-                var ttWA = SetAdapter(ttProviderSystems);
+                //ttProviderSystems.Profile = ProviderSystems.Profile.Xml;
+                var ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Xml);
                 string strRequest = SetRequest("Worldspan_PNRReadRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
@@ -202,8 +202,8 @@ namespace Worldspan
                         catch { }
 
                         // send to ticket
-                        ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
-                        ttWA = SetAdapter(ttProviderSystems);
+                        //ttProviderSystems.Profile = ProviderSystems.Profile.Cryptic;
+                        ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Cryptic);
                         inSession = SetConversationID(ttWA);
                         // CoreLib.SendTrace(ProviderSystems.UserID, "WorldspanCommand", "4*", "", ProviderSystems.LogUUID)
                         //ttWA.ConversationID = ConversationID;
@@ -667,7 +667,8 @@ namespace Worldspan
                     {
                         ttWA.CloseSession(ConversationID);
                         ConversationID = string.Empty;
-                        ttProviderSystems.Profile = ProviderSystems.ProfileXML;
+                        //TODO: Recheck
+                        //ttProviderSystems.Profile = ProviderSystems.Profile.Xml;
                     }
                 }
 
@@ -800,8 +801,8 @@ namespace Worldspan
                 if (Request.Contains("Markup"))
                 {
                     #region Apply Markups
-                    ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
-                    ttWA = SetAdapter(ttProviderSystems);
+                    //ttProviderSystems.Profile = ProviderSystems.Profile.Cryptic;
+                    ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Cryptic);
                     inSession = SetConversationID(ttWA);
                     oDoc.LoadXml(strRequest);
                     oRoot = oDoc.DocumentElement;
@@ -815,15 +816,15 @@ namespace Worldspan
                     #endregion
 
                     #region ReRead PNR
-                    ttProviderSystems.Profile = ProviderSystems.ProfileXML;
-                    ttWA = SetAdapter(ttProviderSystems);
+                    //ttProviderSystems.Profile = ProviderSystems.Profile.Xml;
+                    ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Xml);
                     recordLocator = oRoot.SelectSingleNode("ScreenEntry[1]").InnerXml.Substring(1);
                     strResponse = ttWA.SendMessage($"<DPC8><MSG_VERSION>8</MSG_VERSION><REC_LOC>{recordLocator}</REC_LOC><ETR_INF>Y</ETR_INF><ALL_PNR_INF>Y</ALL_PNR_INF><PRC_INF>Y</PRC_INF></DPC8>");
                     #endregion
 
                     #region 4*
-                    ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
-                    ttWA = SetAdapter(ttProviderSystems);
+                    //ttProviderSystems.Profile = ProviderSystems.Profile.Cryptic;
+                    ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Cryptic);
                     inSession = SetConversationID(ttWA);
                     string pnr = ttWA.SendCryptic($"*{recordLocator}");
                     bool bEMD = pnr.Contains("**  ELECTRONIC MISC DOCUMENT LIST  **  >EMDL");
@@ -932,8 +933,8 @@ namespace Worldspan
                 }
                 else
                 {
-                    ttProviderSystems.Profile = ProviderSystems.ProfileXML;
-                    ttWA = SetAdapter(ttProviderSystems);
+                    //ttProviderSystems.Profile = ProviderSystems.Profile.Xml;
+                    ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Xml);
                     inSession = false; //SetConversationID(ttWA);
                     strResponse = ttWA.SendMessage(strRequest);
                     strResponse = strResponse.Replace("xmlns=\"http://www.opentravel.org/OTA_RS/2003/05\" ", "");
@@ -1033,8 +1034,8 @@ namespace Worldspan
                     // Bug 999 - T-robot Worldspan - 4PQC after each call of repricing with change of stored fare
                     if (bStoredFare)
                     {
-                        ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
-                        ttWA = SetAdapter(ttProviderSystems);
+                        //ttProviderSystems.Profile = ProviderSystems.Profile.Cryptic;
+                        ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Cryptic);
                         SetConversationID(ttWA);
                         ttWA.SendCryptic($"*{recordLocator}");
 

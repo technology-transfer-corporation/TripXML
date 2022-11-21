@@ -13,7 +13,7 @@ namespace Worldspan
     {
         private string mstrVersion = "";
         private string mstrXslPath = "";
-        
+
 
         public string ConversationID { get; set; }
 
@@ -40,7 +40,7 @@ namespace Worldspan
         public WorldspanBase()
         {
             ProviderSystems = new modCore.TripXMLProviderSystems();
-            ConversationID = $"|{ProviderSystems.Profile}";
+            ConversationID = $"|{ProviderSystems.Profile.Xml}";
         }
 
         public static string GetRecordLocatorFromNative(string nativeResponse, string userID)
@@ -78,10 +78,9 @@ namespace Worldspan
             return string.IsNullOrEmpty(id) ? $"<Screen>{display}</Screen>" : $"<Screen><Line>{id}</Line>{display}</Screen>";
         }
 
-        protected WorldspanAdapter SetAdapter(modCore.TripXMLProviderSystems ttpSystems)
+        protected WorldspanAdapter SetAdapter(modCore.TripXMLProviderSystems ttpSystems, modCore.ProfileType profileType = modCore.ProfileType.Xml)
         {
-            ProviderSystems = ttpSystems;
-            var tt = new WorldspanAdapter(ProviderSystems); //string.IsNullOrEmpty(version) ? new WorldspanAdapter(arg_ProviderSystems) : new WorldspanAdapter(arg_ProviderSystems, version);
+            var tt = new WorldspanAdapter(ttpSystems, profileType); //string.IsNullOrEmpty(version) ? new WorldspanAdapter(arg_ProviderSystems) : new WorldspanAdapter(arg_ProviderSystems, version);
             return tt;
         }
 
@@ -93,8 +92,8 @@ namespace Worldspan
                 var otaDoc = new XmlDocument();
                 otaDoc.LoadXml(Request);
                 var otaElement = otaDoc.DocumentElement;
-                
-                ConversationID = otaElement != null && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value != null 
+
+                ConversationID = otaElement != null && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value != null
                     ? $"{otaElement.Attributes["EchoToken"].Value}|{ProviderSystems.Profile}"
                     : $"|{ProviderSystems.Profile}";
 
@@ -113,7 +112,7 @@ namespace Worldspan
                         ConversationID = oNodeSPL.InnerText;
                     }
                 }
-                
+
                 #endregion
 
                 Request = Request.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "").Replace("<?xml version=\"1.0\"?>", "");
@@ -155,7 +154,7 @@ namespace Worldspan
 
                 if (oNodeSPL != null)
                 {
-                    ConversationID = oNodeSPL.InnerText.ToUpper().Replace("NONE","");
+                    ConversationID = oNodeSPL.InnerText.ToUpper().Replace("NONE", "");
                 }
 
                 var token = ConversationID.Split(new[] { "|" }, StringSplitOptions.None);
@@ -181,9 +180,9 @@ namespace Worldspan
             {
                 throw new Exception($"Error Creating Session.\r\n{ex.Message}");
             }
-            finally 
+            finally
             {
-                if(ConversationID.Contains(ProviderSystems.Profile))
+                if (ConversationID.Contains(ttWA.Profile/*ProviderSystems.Profile.Text*/))
                     ttWA.ConversationID = ConversationID;
             }
         }

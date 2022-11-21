@@ -13,7 +13,7 @@ namespace Worldspan
         public string TravelBuild()
         {
             string strResponse;
-            
+
             // *******************************************************************
             // Transform OTA Travel Build Request into Native Worldspan Request *
             // ******************************************************************* 
@@ -28,7 +28,7 @@ namespace Worldspan
 
                 CoreLib.SendTrace(ProviderSystems.UserID, "ttWorldspanService", "OTA Transformed Request", strRequest,
                     ProviderSystems.LogUUID);
-                
+
 
                 // *************************
                 // Get Multiple Requests  *
@@ -39,8 +39,8 @@ namespace Worldspan
                 var strBPC = oRoot.SelectSingleNode("TTBPC").InnerXml;
                 var strRMC = oRoot.SelectSingleNode("TTRMC") != null ? oRoot.SelectSingleNode("TTRMC").InnerXml : "";
                 var strUPC = oRoot.SelectSingleNode("TTUPC") != null ? oRoot.SelectSingleNode("TTUPC").InnerXml : "";
-                    
-                
+
+
                 // *******************************************************************************
                 // Send Transformed Request to the Worldspan Adapter and Getting Native Response*
                 // ******************************************************************************* 
@@ -178,7 +178,7 @@ namespace Worldspan
                     // *******************************************************************
                     // * Transform OTA Modify Request into Worldspan Native Insert Request *
                     // *******************************************************************
-                    
+
                     var strRequest = $"<UpdateInsert>{Request}</UpdateInsert>";
                     strRequest = CoreLib.TransformXML(strRequest, XslPath, $"{Version}Worldspan_UpdateInsertRQ.xsl");
 
@@ -190,7 +190,7 @@ namespace Worldspan
                     var strRMC = oRootTemp.SelectSingleNode("TTRMC").InnerXml;
                     strResponse = ttWA.SendMessage(strRMC);
                 }
-                
+
                 // ********************
                 // Send retrieve PNR *
                 // ******************** 
@@ -209,7 +209,7 @@ namespace Worldspan
                 CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response size", strResponse.Length.ToString(), ProviderSystems.LogUUID);
                 CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", strResponse, ProviderSystems.LogUUID);
                 strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Worldspan_PNRReadRS.xsl");
-                
+
             }
             catch (Exception exx)
             {
@@ -230,9 +230,9 @@ namespace Worldspan
                     throw new Exception("Transformation produced empty xml.");
 
                 modCore.TripXMLProviderSystems ttProviderSystems = ProviderSystems;
-                ttProviderSystems.Profile = ProviderSystems.ProfileTicketing;
-                
-                var ttWA = SetAdapter(ttProviderSystems);
+                //ttProviderSystems.Profile = ProviderSystems.Profile.Ticketing;
+
+                var ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Ticketing);
                 bool inSession = false; //SetConversationID(ttWA);
 
                 strResponse = ttWA.SendMessage(strRequest);
@@ -253,8 +253,8 @@ namespace Worldspan
                         // retrieve PNR
                         var strDPC = $"<DPC8><MSG_VERSION>8</MSG_VERSION><REC_LOC>{pnrNum}</REC_LOC><ETR_INF>Y</ETR_INF><ALL_PNR_INF>Y</ALL_PNR_INF><PRC_INF>Y</PRC_INF></DPC8>";
 
-                        ttProviderSystems.Profile = ProviderSystems.ProfileXML;
-                        ttWA = SetAdapter(ttProviderSystems);
+                        //ttProviderSystems.Profile = ProviderSystems.Profile.Xml;
+                        ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Xml);
                         strResponse = ttWA.SendMessage(strDPC, "");
                         strResponse = strResponse.Replace("xmlns=\"http://www.opentravel.org/OTA_RS/2003/05\"", "");
                         strResponse = CoreLib.TransformXML(strResponse, XslPath, "v03_Worldspan_PNRReadRS.xsl");
@@ -289,8 +289,8 @@ namespace Worldspan
                             : $"EZEI#DI{diNumber}{strComm}#NC";
 
                         // send to ticket
-                        ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
-                        ttWA = SetAdapter(ttProviderSystems);
+                        //ttProviderSystems.Profile = ProviderSystems.Profile.Cryptic;
+                        ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Cryptic);
                         inSession = SetConversationID(ttWA);
                         ttWA.SendCryptic($"*{pnrNum}");
                         strResponse = ttWA.SendCryptic(strTkt);
@@ -316,20 +316,21 @@ namespace Worldspan
                             // &gt;
                             // 2GXIYP::HOST Rep ------------------------------------------ 
                             // -- Retrive all ticketing information ----------------------
-                            if (ttProviderSystems.Profile != ProviderSystems.ProfileCryptic)
+                            if (ttWA.Profile != ProviderSystems.Profile.Cryptic)
+                            //if (ttProviderSystems.Profile != ProviderSystems.Profile.Cryptic)
                             {
-                                ttProviderSystems.Profile = ProviderSystems.ProfileCryptic;
-                                ttWA = SetAdapter(ttProviderSystems);
+                                //ttProviderSystems.Profile = ProviderSystems.Profile.Cryptic;
+                                ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Cryptic);
                                 inSession = SetConversationID(ttWA);
-                            }    
+                            }
 
                             ttWA.SendCryptic($"*{pnrNum}");
                             strResponse = ttWA.SendCryptic($"*DI{diNumber}");
-                            List<string> strDIRes = strResponse.Split(new[] { "<Screen>","<Line>", "</Screen>","</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                            List<string> strDIRes = strResponse.Split(new[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
                             foreach (string cmd in strDIRes)
                             {
                                 ttWA.SendCryptic(cmd, pnrNum, "");
-                            }                            
+                            }
                             ttWA.SendCryptic("ER", pnrNum, "");
                             strResponse = strResponse.Replace("<Screen>", $"<Screen><Line>{pnrNum}</Line>");
                             // -----------------------------------------------------------
@@ -366,7 +367,7 @@ namespace Worldspan
         public string UpdateSessioned()
         {
             string strResponse = "";
-         
+
             try
             {
                 string strRequest = Request;
@@ -380,7 +381,7 @@ namespace Worldspan
                 var oDocTemp = new XmlDocument();
                 oDoc.LoadXml(Request);
                 var oRoot = oDoc.DocumentElement;
-                
+
                 // *******************************
                 // Modify PNR - Insert elements *
                 // ******************************* 
@@ -425,10 +426,10 @@ namespace Worldspan
                     // ********************************
                     // * Build PNR Retrieve xml msg   * 
                     // ********************************
-                    
+
                     strRequest = $"<UpdateDelete>{Request}</UpdateDelete>";
                     strRequest = CoreLib.TransformXML(strRequest, XslPath, $"{Version}Worldspan_UpdateDeleteRQ.xsl");
-                    
+
                     // **************************************
                     // * Send Worldspan Native Delete Request *
                     // **************************************
@@ -437,7 +438,7 @@ namespace Worldspan
                     var strUPC = oRootTemp.SelectSingleNode("TTUPC").InnerXml;
                     strResponse = ttWA.SendMessage(strUPC);
                 }
-                
+
                 // ********************
                 // Send retrieve PNR *
                 // ******************** 
@@ -445,10 +446,10 @@ namespace Worldspan
                 {
                     //Check for correct object usage
                     var strDPC = oRootTemp.SelectSingleNode("TTDPC").InnerXml;
-                    
+
                     strResponse = ttWA.SendMessage(strDPC);
-                    
-                    
+
+
                 }
 
                 // *******************************************************************************
@@ -458,10 +459,10 @@ namespace Worldspan
                 try
                 {
                     var tripXmlProviderSystems = ProviderSystems;
-                    tripXmlProviderSystems.Profile = ProviderSystems.ProfileCryptic;
-                    ttWA = SetAdapter(tripXmlProviderSystems);
+                    //tripXmlProviderSystems.Profile = ProviderSystems.Profile.Cryptic;
+                    ttWA = SetAdapter(tripXmlProviderSystems, modCore.ProfileType.Cryptic);
                     inSession = SetConversationID(ttWA);
-                    
+
                     if (!string.IsNullOrEmpty(strResponse) & !strResponse.Contains("no session configured with name ") &
                         !strResponse.Contains("NO BRIDGE BRANCH") & !strResponse.Contains("SECURED PNR"))
                     {
@@ -475,7 +476,7 @@ namespace Worldspan
                             oDoc.LoadXml(Request);
                             oRoot = oDoc.DocumentElement;
                             var pnrNum = oRoot.SelectSingleNode("UniqueID/@ID").InnerText;
-                            
+
                             // CoreLib.SendTrace(ttProviderSystems.UserID, "WorldspanCommand", "4*", "", ttProviderSystems.LogUUID)
                             string pRead = ttWA.SendCryptic($"*{pnrNum}");
 
@@ -488,14 +489,14 @@ namespace Worldspan
 
                                 string str4Display = ttWA.SendCryptic("4*");
                                 var lstLines = str4Display
-                                    .Split(new string[] {"<Screen>", "<Line>", "</Screen>", "</Line>"},
+                                    .Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
                                         StringSplitOptions.RemoveEmptyEntries).ToList();
                                 // Conduct Move Down (MD)
                                 if (lstLines.Last().Contains(")&gt;"))
                                 {
                                     string str4More = ttWA.SendCryptic("MD");
                                     var lstMoreLines = str4More
-                                        .Split(new string[] {"<Screen>", "<Line>", "</Screen>", "</Line>"},
+                                        .Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
                                             StringSplitOptions.RemoveEmptyEntries).ToList();
                                     foreach (string line in lstMoreLines)
                                     {
@@ -586,7 +587,8 @@ namespace Worldspan
                                 ConversationID = "";
                             }
 
-                            tripXmlProviderSystems.Profile = ProviderSystems.ProfileXML;
+                            //TODO: Recheck
+                            //tripXmlProviderSystems.Profile = ProviderSystems.Profile.Xml;
                             ProviderSystems = tripXmlProviderSystems;
                         }
                         // End If
@@ -601,17 +603,17 @@ namespace Worldspan
                     if (strResponse.Length > 3500)
                     {
                         CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I",
-                            strResponse.Substring(0, (int) Math.Round(strResponse.Length / 2d)),
+                            strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)),
                             ProviderSystems.LogUUID);
                         CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II",
-                            strResponse.Substring((int) Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                            strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
                     }
                     else
                     {
                         CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse,
                             ProviderSystems.LogUUID);
                     }
-                    
+
                     if (inSession)
                         strResponse = strResponse.Replace("<ConversationID>NONE</ConversationID>", $"<ConversationID>{ConversationID}</ConversationID>");
 
@@ -639,22 +641,22 @@ namespace Worldspan
         }
 
         /// <summary>
-    /// Credit Card Authorization Process
-    /// </summary>
-    /// <returns></returns>
+        /// Credit Card Authorization Process
+        /// </summary>
+        /// <returns></returns>
         public string Authorization()
         {
             string strResponse;
             try
             {
 
-                string strRequest = SetRequest( "Worldspan_AuthorizationRQ.xsl");
+                string strRequest = SetRequest("Worldspan_AuthorizationRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
 
                 modCore.TripXMLProviderSystems ttProviderSystems = ProviderSystems;
-                ttProviderSystems.Profile = ProviderSystems.ProfileXML;
-                WorldspanAdapter ttWA = SetAdapter(ttProviderSystems);
+                //ttProviderSystems.Profile = ProviderSystems.Profile.Xml;
+                WorldspanAdapter ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Xml);
 
                 strResponse = ttWA.SendMessage(strRequest);
                 strResponse = strResponse.Replace("xmlns=\"http://www.opentravel.org/OTA_RS/2003/05\"", "");

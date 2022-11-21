@@ -12,11 +12,11 @@ namespace Worldspan
         {
             Request = "";
         }
-        
+
         public string AirPrice()
         {
             string strResponse;
-            
+
             // *****************************************************************
             // Transform OTA AirPrice Request into Native Worldspan Request     *
             // ***************************************************************** 
@@ -30,9 +30,9 @@ namespace Worldspan
                 // *******************************************************************************
                 // Send Transformed Request to the Worldspan Adapter and Getting Native Response  *
                 // ******************************************************************************* 
-                var ttWA = SetAdapter(ProviderSystems); 
+                var ttWA = SetAdapter(ProviderSystems);
                 strResponse = ttWA.SendMessage(strRequest);
-                
+
 
                 // **********************************************************************
                 // Transform Native Worldspan AirPrice Response into OTA Response   *
@@ -40,7 +40,7 @@ namespace Worldspan
                 try
                 {
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Worldspan_AirPriceRS.xsl");
-                    
+
                     if (strResponse.Contains("<Success"))
                     {
                         var oDoc = new XmlDocument();
@@ -105,7 +105,7 @@ namespace Worldspan
                 strRequest = SetRequest("Worldspan_AirRulesRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-                
+
                 // *******************************************************************************
                 // Send Transformed Request to the Worldspan Adapter and Getting Native Response*
                 // ******************************************************************************* 
@@ -118,7 +118,7 @@ namespace Worldspan
                 try
                 {
                     if (strResponse.Contains("</FRW3>"))
-                        strResponse = strResponse.Replace("</FRW3>",  $"{strRuleReqInfo}</FRW3>");
+                        strResponse = strResponse.Replace("</FRW3>", $"{strRuleReqInfo}</FRW3>");
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Worldspan_AirRulesRS.xsl");
                 }
@@ -137,7 +137,7 @@ namespace Worldspan
 
         public string AirSeatMap()
         {
-            
+
             string strResponse;
 
             // *****************************************************************
@@ -183,7 +183,7 @@ namespace Worldspan
             // ************************************
             try
             {
-                
+
                 List<string> arLocations = new List<string>();
                 var oDoc = new XmlDocument();
                 oDoc.LoadXml(Request);
@@ -196,7 +196,7 @@ namespace Worldspan
                         arLocations.Add(currentONode.SelectSingleNode("DestinationLocation").Attributes["LocationCode"].Value);
                     }
                 }
-                
+
                 // *****************************************************************
                 // Transform OTA LowFare Request into Native Worldspan Request     *
                 // ***************************************************************** 
@@ -209,7 +209,7 @@ namespace Worldspan
                 // ******************************************************************************* 
                 var ttWA = SetAdapter(ProviderSystems);
                 strResponse = ttWA.SendMessage(strRequest);
-                
+
 
                 // ************************************************************************
                 // calculate year in all dates and arrival date based on change of day   *
@@ -227,7 +227,7 @@ namespace Worldspan
                         {
                             var oNodeResp = currentONodeResp;
                             var dtDepartureDate = Convert.ToDateTime($"{oNodeResp.SelectSingleNode("FLI_DAT")?.InnerText}{DateTime.Now.Year}");
-                            
+
                             if (DateTime.Now.DayOfYear > dtDepartureDate.DayOfYear)
                             {
                                 dtDepartureDate = dtDepartureDate.AddYears(1);
@@ -282,7 +282,7 @@ namespace Worldspan
                         foreach (XmlNode oNodeFlight in oNodeResp.SelectNodes("FLI_INF"))
                         {
                             XmlNode oNode = null;
-                            j ++;
+                            j++;
                             if (blnNewOD)
                             {
                                 oNode = oDoc.CreateNode(XmlNodeType.Element, "", "OriginDestination", "");
@@ -374,8 +374,8 @@ namespace Worldspan
                 // Send Transformed Request to the Worldspan Adapter and Getting Native Response  *
                 // ******************************************************************************* 
                 modCore.TripXMLProviderSystems ttProviderSystems = ProviderSystems;
-                ttProviderSystems.Profile = ProviderSystems.ProfileXML;
-                var ttWA = SetAdapter(ttProviderSystems);
+                //ttProviderSystems.Profile = ProviderSystems.Profile.Xml;
+                var ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Xml);
                 strResponse = ttWA.SendMessage(strRequest);
 
                 // ************************************************************************
@@ -450,7 +450,7 @@ namespace Worldspan
                         foreach (XmlNode oNodeFlight in oNodeResp.SelectNodes("FLI_INF"))
                         {
                             XmlNode oNode = null;
-                            j ++;
+                            j++;
                             if (blnNewOD)
                                 oNode = oDoc.CreateNode(XmlNodeType.Element, "", "OriginDestination", "");
 
@@ -513,7 +513,7 @@ namespace Worldspan
         public string FareDisplay()
         {
             string strResponse;
-            
+
             // *****************************************************************
             // Transform OTA FareDisplay Request into Native Worldspan Request     *
             // ***************************************************************** 
@@ -527,9 +527,9 @@ namespace Worldspan
                 // *******************************************************************************
                 // Send Transformed Request to the Worldspan Adapter and Getting Native Response  *
                 // ******************************************************************************* 
-                var ttWA = SetAdapter(ProviderSystems); 
+                var ttWA = SetAdapter(ProviderSystems);
                 strResponse = ttWA.SendMessage(strRequest);
-                
+
                 // ****************************************************************
                 // Add OriginDestinationInformation Request to Native Response   *
                 // ****************************************************************

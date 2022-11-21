@@ -11,11 +11,31 @@ namespace Worldspan
     {
         private modCore.TripXMLProviderSystems ttProviderSystems;
         public string ConversationID = "";
+        public string Profile { get; private set; }
 
-        public WorldspanAdapter(modCore.TripXMLProviderSystems providerSystems)
+        public string GetProfileByType(modCore.ProfileStruct ps, modCore.ProfileType pt)
+        {
+            switch (pt)
+            {
+                case modCore.ProfileType.Ticketing:
+                    return ps.Ticketing;
+                case modCore.ProfileType.Origin:
+                    return ps.Origin;
+                case modCore.ProfileType.Cryptic:
+                    return ps.Cryptic;
+                case modCore.ProfileType.Text:
+                    return ps.Text;
+                case modCore.ProfileType.Xml:
+                    return ps.Xml;
+            }
+            return null;
+        }
+
+        public WorldspanAdapter(modCore.TripXMLProviderSystems providerSystems, modCore.ProfileType profileType)
         {
             ttProviderSystems = providerSystems;
-            ConversationID = $"|{providerSystems.Profile}";
+            Profile = GetProfileByType(providerSystems.Profile, profileType);
+            ConversationID = $"|{Profile}";
         }
 
         private string Send(string body, string token, string uuid)
@@ -30,10 +50,10 @@ namespace Worldspan
                     var withBlock = ttProviderSystems;
                     strHeader = "<t:Transaction xmlns:t=\"xxs\"><tc>" +
                                 $"<iden u=\"{withBlock.UserName}\" p=\"{withBlock.Password}\"/>" +
-                                $"<provider session=\"{withBlock.Profile}\" pcc=\"{withBlock.PCC}\">Worldspan</provider></tc></t:Transaction>";
+                                $"<provider session=\"{Profile}\" pcc=\"{withBlock.PCC}\">Worldspan</provider></tc></t:Transaction>";
 
                 }
-                
+
                 var withBlock1 = oHttpWebClient;
                 withBlock1.SoapAction = ttProviderSystems.SOAPAction;
                 withBlock1.ServiceURL = ttProviderSystems.URL;
@@ -41,7 +61,7 @@ namespace Worldspan
                 withBlock1.Body = body;
                 withBlock1.Header = strHeader;
                 var strResponse = withBlock1.SendHttpRequest(ttProviderSystems.UserID, token, uuid);
-                
+
 
                 // Get Response From Soap
 
@@ -52,7 +72,7 @@ namespace Worldspan
                         intStart = strResponse.IndexOf("CONTEXT", StringComparison.Ordinal) + 8;
                         intLength = strResponse.IndexOf("</CONTEXT>", StringComparison.Ordinal) - strResponse.IndexOf("CONTEXT", StringComparison.Ordinal) - 8;
                     }
-                    
+
                 }
                 else
                 {
@@ -81,9 +101,9 @@ namespace Worldspan
 
                     if (!strResponse.Contains($"<{strNode}>"))
                         return "";
-                    
+
                     intStart = strResponse.IndexOf($"<{strNode}>", StringComparison.Ordinal) + strNode.Length + 2;
-                    
+
                     intLength = strResponse.IndexOf($"</{strNode}>", StringComparison.Ordinal) - intStart;
                 }
 
@@ -105,10 +125,10 @@ namespace Worldspan
                 var withBlock = ttProviderSystems;
                 var strHeader = "<t:Transaction xmlns:t=\"xxs\"><tc>" +
                                 $"<iden u=\"{withBlock.UserName}\" p=\"{withBlock.Password}\"/>" +
-                                $"<provider session=\"{withBlock.Profile}\" pcc=\"{withBlock.PCC}\">Worldspan</provider></tc></t:Transaction>";
-            
+                                $"<provider session=\"{Profile}\" pcc=\"{withBlock.PCC}\">Worldspan</provider></tc></t:Transaction>";
+
                 var token = ConversationID.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-                
+
                 var withBlock1 = oHttpWebClient;
                 withBlock1.SoapAction = ttProviderSystems.SOAPAction;
                 withBlock1.ServiceURL = ttProviderSystems.URL;
@@ -116,7 +136,7 @@ namespace Worldspan
                 withBlock1.Body = body;
                 withBlock1.Header = strHeader;
                 var strResponse = withBlock1.SendHttpRequest(ttProviderSystems.UserID, token[0], uuid);
-                
+
 
                 // Get Response From Soap
 
@@ -158,7 +178,7 @@ namespace Worldspan
                         return "";
                     }
 
-                    
+
                     intStart = strResponse.IndexOf($"<{strNode}>", StringComparison.Ordinal) + strNode.Length + 2;
                     intLength = strResponse.IndexOf($"<{strNode}>", StringComparison.Ordinal) - intStart;
                 }
@@ -169,7 +189,7 @@ namespace Worldspan
             {
                 throw new Exception($"Error Sending Request to Worldspan.\r\n{ex.Message}");
             }
-            
+
         }
 
         public string SendCryptic(string entry, string conversationID, string rocordLocator = "", string uuid = "")
@@ -181,12 +201,12 @@ namespace Worldspan
                 {
                     var withBlock = ttProviderSystems;
                     strHeader = "<t:Transaction xmlns:t=\"xxs\"><tc>" +
-                    $"<iden u=\"{withBlock.UserName}\" p=\"{withBlock.Password}\"/>" + 
-                    $"<provider session=\"{withBlock.Profile}\" pcc=\"{withBlock.PCC}\">Worldspan</provider></tc></t:Transaction>";
+                    $"<iden u=\"{withBlock.UserName}\" p=\"{withBlock.Password}\"/>" +
+                    $"<provider session=\"{Profile}\" pcc=\"{withBlock.PCC}\">Worldspan</provider></tc></t:Transaction>";
                 }
 
                 var body = $"<OTA_ScreenTextRQ Version=\"1\" xmlns=\"http://www.opentravel.org/OTA/2003/05\"><ScreenEntry>{entry}</ScreenEntry></OTA_ScreenTextRQ>";
-                
+
                 if (string.IsNullOrEmpty(uuid) & !string.IsNullOrEmpty(ttProviderSystems.LogUUID))
                 {
                     uuid = ttProviderSystems.LogUUID;
@@ -248,8 +268,8 @@ namespace Worldspan
                 //    strHeader = "<t:Transaction xmlns:t='xxs'><tc>" + $"<iden u='{withBlock.UserName}' p='{withBlock.Password}'/>" + $"<provider session='{withBlock.Profile}' pcc='{withBlock.PCC}'>Worldspan</provider></tc></t:Transaction>";
                 //}
 
-                string body = entry.Contains("OTA_ScreenTextRQ") 
-                    ? entry 
+                string body = entry.Contains("OTA_ScreenTextRQ")
+                    ? entry
                     : $"<OTA_ScreenTextRQ Version=\"1\" xmlns=\"http://www.opentravel.org/OTA/2003/05\"><ScreenEntry>{entry}</ScreenEntry></OTA_ScreenTextRQ>";
 
                 if (string.IsNullOrEmpty(uuid) & !string.IsNullOrEmpty(ttProviderSystems.LogUUID))
@@ -289,7 +309,7 @@ namespace Worldspan
                         var oDoc = new XmlDocument();
                         oDoc.LoadXml(strResponse);
                         var oRoot = oDoc.DocumentElement;
-                        strResponse = formatWorldspan($"{oRoot.GetElementsByTagName("Error")[0].Attributes["ShortText"].InnerText.Trim()}") ;
+                        strResponse = formatWorldspan($"{oRoot.GetElementsByTagName("Error")[0].Attributes["ShortText"].InnerText.Trim()}");
                     }
                 }
                 else
@@ -297,7 +317,7 @@ namespace Worldspan
                     strResponse = strResponse.Substring(strResponse.IndexOf("<TextData>", StringComparison.Ordinal) + 10, strResponse.IndexOf("</TextData>", StringComparison.Ordinal) - strResponse.IndexOf("<TextData>", StringComparison.Ordinal) - 10);
                     string strScreen = strResponse.Replace("&gt;", "").Replace("\r", "\r\n").Replace("\n", "\r\n");
                     strResponse = formatWorldspan(strScreen, rocordLocator);
-                    
+
                 }
 
                 CoreLib.SendTrace(ttProviderSystems.UserID, "Cryptic", entry, strResponse, ttProviderSystems.LogUUID);
@@ -318,7 +338,7 @@ namespace Worldspan
                     : conversationID.Split(new[] { '|' }, StringSplitOptions.None);
 
                 var strResponse = Send(message, token[0], ttProviderSystems.LogUUID);
-                if (strResponse.Contains($"no session pool configured with name {ttProviderSystems.ProfileXML}") || strResponse.Contains($"no session pool configured with name {ttProviderSystems.ProfileTicketing}"))
+                if (strResponse.Contains($"no session pool configured with name {ttProviderSystems.Profile.Xml}") || strResponse.Contains($"no session pool configured with name {ttProviderSystems.Profile.Ticketing}"))
                 {
                     strResponse = Send(message, token[0], ttProviderSystems.LogUUID);
                 }
@@ -339,7 +359,8 @@ namespace Worldspan
             {
                 body = "<ns1:GetProviderSession xmlns:ns1=\"xxs\"><OPTIONS/></ns1:GetProviderSession>";
                 string token = Send(body, "", ttProviderSystems.LogUUID);
-                ConversationID = $"{token}|{ttProviderSystems.Profile}";
+                //ConversationID = $"{token}|{ttProviderSystems.Profile}";
+                ConversationID = $"{token}|{Profile}";
 
                 // Write a procedure that will write a Log file with information on just opened session for SPLUNK
                 var trace = new JObject(new JProperty("Provider", ttProviderSystems.Provider), new JProperty("ID", ConversationID), new JProperty("Type", "Open"), new JProperty("User", ttProviderSystems.UserID), new JProperty("UUID", ttProviderSystems.LogUUID), new JProperty("TimeStamp", DateTime.Now));
@@ -372,7 +393,7 @@ namespace Worldspan
             {
                 throw new Exception($"Error Closing Session Request to Worldspan.\r\n{ex.Message}");
             }
-            
+
         }
 
         public string CloseSession()
@@ -394,9 +415,9 @@ namespace Worldspan
             {
                 throw new Exception($"Error Closing Session Request to Worldspan.\r\n{ex.Message}");
             }
-            
+
         }
-                
+
         private string formatWorldspan(string strDisplay, string id = "")
         {
             string display = "";
