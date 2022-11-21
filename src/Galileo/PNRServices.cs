@@ -12,7 +12,7 @@ namespace Galileo
 
         public string PNRRead()
         {
-            string strResponse;
+            string response;
 
             // *****************************************************************
             // Transform OTA PNRRead Request into Native Galileo Request     *
@@ -40,20 +40,20 @@ namespace Galileo
 
 
                 // CoreLib.SendTrace(ProviderSystems.UserID, "Galileo", "PNR Read Request", strRequest, ProviderSystems.LogUUID)
-                strResponse = ttGA.SendMessage(strRequest, ConversationID);
-                var strMessage = $"{strRequest}\r\n{strResponse}";
+                response = ttGA.SendMessage(strRequest, ConversationID);
+                var strMessage = $"{strRequest}\r\n{response}";
 
 
                 #endregion
 
                 #region Read History of PNR throught *HI
                 string strDisplayHI = GetHistory(ConversationID, ttGA);
-                strResponse = strResponse.Replace("</PNRBFManagement_53>", $"{strDisplayHI}<ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
+                response = response.Replace("</PNRBFManagement_53>", $"{strDisplayHI}<ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
                 #endregion
 
                 #region Read Ticket History of PNR throught *HTI
                 string displayHTI = GetTicketHistory(ConversationID, ttGA);
-                strResponse = strResponse.Replace("</PNRBFManagement_53>", $"{displayHTI}</PNRBFManagement_53>");
+                response = response.Replace("</PNRBFManagement_53>", $"{displayHTI}</PNRBFManagement_53>");
                 #endregion
                 
 
@@ -61,24 +61,24 @@ namespace Galileo
 
                 try
                 {
-                    if (strResponse.Length > 1500)
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse, ProviderSystems.LogUUID);
-                    }
-
-                    var tagToReplace = strResponse.Contains("</PNRBFManagement_17>")
+                    //if (response.Length > 1500)
+                    //{
+                    //    var chunks = CoreLib.SplitBy(response, 1500).ToList();
+                    //    chunks.ForEach(c => CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", $"Final response {chunks.IndexOf(c)}", c, ProviderSystems.LogUUID));
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", response, ProviderSystems.LogUUID);
+                    //}
+                    
+                    var tagToReplace = response.Contains("</PNRBFManagement_17>")
                         ? "</PNRBFManagement_17>"
                         : "</PNRBFManagement_53>";
 
                     if (inSession)
-                        strResponse = strResponse.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
+                        response = response.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
 
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
+                    response = CoreLib.TransformXML(response, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
                 }
                 catch (Exception ex)
                 {
@@ -102,10 +102,10 @@ namespace Galileo
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, ex.Message, ProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, ex.Message, ProviderSystems);
             }
 
-            return strResponse;
+            return response;
         }
 
         public string PNRCancel()
@@ -202,7 +202,7 @@ namespace Galileo
 
         public string PNRReprice()
         {
-            string strResponse;
+            string response;
             try
             {
                 bool bStoreFare = false;
@@ -236,9 +236,7 @@ namespace Galileo
 
                     if (!bStoreFare)
                     {
-
                         string strRepriceReq = CoreLib.TransformXML(strReadResp.Replace("</PNRBFManagement_53>", $"{Request}</PNRBFManagement_53>"), XslPath, $"{Version}Galileo_PNRRePriceRQ.xsl");
-
                         string strRepriceResp;
                         if (strRepriceReq.Contains("Error Type=\"Galileo\""))
                         {
@@ -254,19 +252,15 @@ namespace Galileo
                                 strRepriceResp = strRepriceResp.Replace("<OTA_AirPriceRS Version=\"2.4.0\">", "").Replace("</OTA_AirPriceRS>", "");
                             }
                         }
-
-
-
-                        strResponse = strReadResp.Replace("</PNRBFManagement_53>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS><ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
-                        CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", strResponse, ProviderSystems.LogUUID);
+                        response = strReadResp.Replace("</PNRBFManagement_53>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS><ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
+                        //CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", response, ProviderSystems.LogUUID);
                     }
                     else
                     {
                         string strRePriceRQ = strReadResp.Replace("</PNRBFManagement_53>", $"{Request}</PNRBFManagement_53>");
                         string strRepriceStoreReq = CoreLib.TransformXML(strRePriceRQ, XslPath, $"{Version}Galileo_PNRRePriceRQ.xsl");
-
                         string strRepriceResp = ttGA.SendMessage(strRepriceStoreReq, ConversationID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", strRepriceResp, ProviderSystems.LogUUID);
+                        //CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", strRepriceResp, ProviderSystems.LogUUID);
 
                         #region Save PNR
 
@@ -280,7 +274,7 @@ namespace Galileo
 
                         #endregion
 
-                        strResponse = strReadResp.Replace("</PNRBFManagement_53>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS><ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
+                        response = strReadResp.Replace("</PNRBFManagement_53>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS><ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
                     }
                 }
                 catch (Exception ex)
@@ -292,24 +286,24 @@ namespace Galileo
                 #region Transform Native Sabre PNRRead Response into OTA Response
                 try
                 {
-                    if (strResponse.Length > 5500)
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "Final response I", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "Final response I", strResponse, ProviderSystems.LogUUID);
-                    }
+                    //if (response.Length > 1499)
+                    //{
+                    //    var chunks = CoreLib.SplitBy(response, 1499).ToList();
+                    //    chunks.ForEach(c => CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", $"Final response {chunks.IndexOf(c)}", c, ProviderSystems.LogUUID));
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", response, ProviderSystems.LogUUID);
+                    //}
 
-                    var tagToReplace = strResponse.Contains("</PNRBFManagement_17>")
+                    var tagToReplace = response.Contains("</PNRBFManagement_17>")
                         ? "</PNRBFManagement_17>"
                         : "</PNRBFManagement_53>";
 
                     if (inSession)
-                        strResponse = strResponse.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
+                        response = response.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
 
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_PNRRepriceRS.xsl");
+                    response = CoreLib.TransformXML(response, XslPath, $"{Version}Galileo_PNRRepriceRS.xsl");
                 }
                 catch (Exception ex)
                 {
@@ -327,10 +321,10 @@ namespace Galileo
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
             }
 
-            return strResponse;
+            return response;
         }
 
         public string Queue()
@@ -662,5 +656,6 @@ namespace Galileo
 
             return sbH.ToString();
         }
+
     }
 }

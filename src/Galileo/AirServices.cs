@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using TripXMLMain;
@@ -23,7 +24,7 @@ namespace Galileo
 
         public string AirAvail()
         {
-            string strResponse;
+            string response;
 
             // *****************************************************************
             // Transform OTA AirAvail Request into Native Galileo Request     *
@@ -43,7 +44,7 @@ namespace Galileo
 
                 GalileoAdapter ttGA = SetAdapter();
                 bool inSession = SetConversationID(ttGA);
-                strResponse = ttGA.SendMessage(strRequest);
+                response = ttGA.SendMessage(strRequest);
 
                 // *****************************************************************
                 // Transform Native Galileo AirAvail Response into OTA Response   *
@@ -51,17 +52,17 @@ namespace Galileo
 
                 try
                 {
-                    if (strResponse.Length > 1500)
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse, ProviderSystems.LogUUID);
-                    }
+                    //if (response.Length > 1499)
+                    //{
+                    //    var chunks = CoreLib.SplitBy(response, 1499).ToList();
+                    //    chunks.ForEach(c => CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", $"Final response {chunks.IndexOf(c)}", c, ProviderSystems.LogUUID));
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", response, ProviderSystems.LogUUID);
+                    //}
 
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_AirAvailRS.xsl");
+                    response = CoreLib.TransformXML(response, XslPath, $"{Version}Galileo_AirAvailRS.xsl");
                 }
                 catch (Exception ex)
                 {
@@ -78,10 +79,10 @@ namespace Galileo
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.AirAvail, ex.Message, ProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.AirAvail, ex.Message, ProviderSystems);
             }
 
-            return strResponse;
+            return response;
 
         }
 
