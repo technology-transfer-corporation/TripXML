@@ -17,6 +17,12 @@ namespace Sabre
 
         public string Request { get; set; }
 
+        public string Warnings { get; set; }
+
+        public string Errors { get; set; }
+
+        public string Message { get; set; }
+
         public modCore.TripXMLProviderSystems ProviderSystems
         {
             get => providerSystems;
