@@ -140,10 +140,56 @@ namespace TripXMLTools
                 ttProviderSystem.ProxyURL = "";
                 ttProviderSystem.BLFile = "";
                 ttProviderSystem.System = provider.Provider.System.Environment;
+                //Default Values
+                ttProviderSystem.GetStoredFares = true;
+                ttProviderSystem.CheckBookedFare = false;
+                ttProviderSystem.AmadeusTrace = false;
+                ttProviderSystem.RebookNextFlight = false;
+                ttProviderSystem.LogNative = false;
+                ttProviderSystem.SessionPool = false;
+                ttProviderSystem.AddLog = false;
+                ttProviderSystem.HotelMedia = false;
+                ttProviderSystem.SendEmailToAgency = false;
+                ttProviderSystem.CreateInRHAdmin = false;
+                ttProviderSystem.LFPLight = false;
+                ttProviderSystem.CouponStatus = false;
+                ttProviderSystem.AddLFPStat = false;
+
+
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        public static string EncodeValue(DecodingType type, string code)
+        {
+            if (DecodingTables == null)
+                GetDecodingTables();
+
+            switch (type)
+            {
+                case DecodingType.Airline:
+                    return DecodingTables.Airlines.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.Airport:
+                    return DecodingTables.Airports.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.Equipment:
+                    return DecodingTables.Equipments.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.CreditCard:
+                    return DecodingTables.Creditcards.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.Hotel:
+                    return DecodingTables.Hotels.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.HotelAmenity:
+                    return DecodingTables.Hotelamenity.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.HotelArea:
+                    return DecodingTables.Hotelarea.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.HotelRoom:
+                    return DecodingTables.Hotelrooms.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.HotelSubtitle:
+                    return DecodingTables.Hotelsubtitle.FirstOrDefault(c => c.Name == code)?.Code;
+                default:
+                    return string.Empty;
             }
         }
 
