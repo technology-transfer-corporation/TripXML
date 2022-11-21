@@ -178,15 +178,15 @@ namespace Sabre
                     // Transform Native Sabre PNRRead Response into OTA Response   *
                     // ***************************************************************** 
                     CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response size", strResponse.Length.ToString(), ProviderSystems.LogUUID);
-                    if (strResponse.Length > 5500)
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response I", strResponse, ProviderSystems.LogUUID);
-                    }
+                    //if (strResponse.Length > 5500)
+                    //{
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", strResponse, ProviderSystems.LogUUID);
+                    //}
 
 
                     strResponse = strResponse.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
@@ -906,15 +906,15 @@ namespace Sabre
 
 
                     // CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response", sb.Append("<TravelItineraryReadRS><OTA_AirPriceRS>").Append(strRepriceResp).Append("</OTA_AirPriceRS>").Append(ConversationID).Append("</TravelItineraryReadRS>").ToString(), ProviderSystems.LogUUID)
-                    if (strResponse.Length > 5500)
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response I", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                    }
-                    else
-                    {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response I", strResponse, ProviderSystems.LogUUID);
-                    }
+                    //if (strResponse.Length > 5500)
+                    //{
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response", strResponse, ProviderSystems.LogUUID);
+                    //}
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRRepriceRS.xsl");
                     CoreLib.SendTrace(ProviderSystems.UserID, "strResponse", "Final strResponse", strResponse, ProviderSystems.LogUUID);
@@ -1052,7 +1052,7 @@ namespace Sabre
 
         public string QueueRead()
         {
-            string strResponse = "";
+            string response = "";
 
             // *****************************************************************
             // Transform OTA QueueRead Request into Native Sabre Request     *
@@ -1132,70 +1132,68 @@ namespace Sabre
                     {
                         if (strRequest.Contains("QueueAccessRQ"))
                         {
-                            strResponse = ttSA.SendMessage(strRequest, "QueueAccessRQ", "QueueAccessLLSRQ", ConversationID);
-                            CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "strResponse", strResponse, ProviderSystems.LogUUID);
+                            response = ttSA.SendMessage(strRequest, "QueueAccessRQ", "QueueAccessLLSRQ", ConversationID);
+                            CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "strResponse", response, ProviderSystems.LogUUID);
                         }
                         else if (strRequest.Contains("SabreCommandLLSRQ"))
                         {
-                            strResponse = ttSA.SendMessage(strRequest, "SabreCommandLLSRQ", "SabreCommandLLSRQ", ConversationID);
+                            response = ttSA.SendMessage(strRequest, "SabreCommandLLSRQ", "SabreCommandLLSRQ", ConversationID);
                         }
                     }
 
                     // Check PNR or Errors in Native Response
-                    if (strResponse.StartsWith("<Error"))
+                    if (response.StartsWith("<Error"))
                     {
-                        strResponse = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, strResponse, "Sabre", "", false, "v03");
-                        CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Error response", strResponse, ProviderSystems.LogUUID);
+                        response = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, response, "Sabre", "", false, "v03");
+                        CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Error response", response, ProviderSystems.LogUUID);
                         if (strMessage == "AccessQueue")
                         {
                             inSession = false;
                         }
                         else
                         {
-                            strResponse = strResponse.Replace("</OTA_TravelItineraryRS>", $"<ConversationID>{ConversationID}</ConversationID></OTA_TravelItineraryRS>");
+                            response = response.Replace("</OTA_TravelItineraryRS>", $"<ConversationID>{ConversationID}</ConversationID></OTA_TravelItineraryRS>");
                         }
 
-                        return strResponse;
+                        return response;
                     }
 
-                    if (strMessage == "Redisplay" | strMessage == "AccessQueue" & (strResponse.Contains("TKT/TIME LIMIT") | strResponse.Contains("<UniqueID ID=")) | strMessage == "ItemOnQueue" & (strResponse.Contains("TKT/TIME LIMIT") | strResponse.Contains("RECEIVED FROM -") | strResponse.Contains("<UniqueID ID=")))
+                    if (strMessage == "Redisplay" | strMessage == "AccessQueue" & (response.Contains("TKT/TIME LIMIT") | response.Contains("<UniqueID ID=")) | strMessage == "ItemOnQueue" & (response.Contains("TKT/TIME LIMIT") | response.Contains("RECEIVED FROM -") | response.Contains("<UniqueID ID=")))
                     {
-                        string strWarning = strResponse.Contains("QUEUE CYCLE COMPLETE") ? "<Warning Type=\"Sabre\">QUEUE CYCLE COMPLETE</Warning>" : "";
+                        string strWarning = response.Contains("QUEUE CYCLE COMPLETE") ? "<Warning Type=\"Sabre\">QUEUE CYCLE COMPLETE</Warning>" : "";
 
                         // Send PNR Redisplay
                         strRequest = "<TravelItineraryReadRQ Version=\"3.6.0\" xmlns=\"http://services.sabre.com/res/tir/v3_6\"><MessagingDetails><SubjectAreas><SubjectArea>FULL</SubjectArea></SubjectAreas></MessagingDetails></TravelItineraryReadRQ>";
-                        strResponse = ttSA.SendMessage(strRequest, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
-                        strResponse = strResponse.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
-                        if (strResponse.Contains("Error") && !strResponse.Contains("Success"))
+                        response = ttSA.SendMessage(strRequest, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
+                        response = response.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
+                        if (response.Contains("Error") && !response.Contains("Success"))
                         {
                             ttSA.CloseSession(ConversationID);
                             ConversationID = null;
-                            strResponse = CoreLib.GetNodeInnerText(strResponse, "Message", false);
+                            response = CoreLib.GetNodeInnerText(response, "Message", false);
 
-                            strResponse = string.IsNullOrEmpty(strResponse)
+                            response = string.IsNullOrEmpty(response)
                                 ? "Cannot read PNR from queue"
-                                : strResponse.Contains("NEED PNR")
+                                : response.Contains("NEED PNR")
                                     ? "SELECTED QUEUE WAS EMPTY"
-                                    : strResponse;
+                                    : response;
 
 
                             // Ignore current PNR
                             string strER = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>I</HostCommand></Request></SabreCommandLLSRQ>";
                             ttSA.SendMessage(strER, "I", "SabreCommandLLSRQ", ConversationID);
-                            strResponse = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, strResponse, ProviderSystems);
-                            return strResponse;
+                            response = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, response, ProviderSystems);
+                            return response;
                         }
 
                         cryptic = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>*PQS</HostCommand></Request></SabreCommandLLSRQ>";
                         CoreLib.SendTrace(ProviderSystems.UserID, "SabreCommand", "*PQS", "", ProviderSystems.LogUUID);
                         cryptic = ttSA.SendMessage(cryptic, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
-
-                        strResponse = strResponse.Replace("</TravelItineraryReadRS>", $"{cryptic}</TravelItineraryReadRS>");
-
+                        response = response.Replace("</TravelItineraryReadRS>", $"{cryptic}</TravelItineraryReadRS>");
                         string strFaretype = "<DisplayPriceQuoteRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.5.2\"><AirItineraryPricingInfo><Record/></AirItineraryPricingInfo></DisplayPriceQuoteRQ>";
                         CoreLib.SendTrace(ProviderSystems.UserID, "FareType", "PD", strFaretype, ProviderSystems.LogUUID);
                         strFaretype = ttSA.SendMessage(strFaretype, "FareType", "DisplayPriceQuoteLLSRQ", ConversationID);
-                        strResponse = strResponse.Replace("</TravelItineraryReadRS>", $"{strFaretype}</TravelItineraryReadRS>");
+                        response = response.Replace("</TravelItineraryReadRS>", $"{strFaretype}</TravelItineraryReadRS>");
 
 
                         #region *H
@@ -1255,7 +1253,7 @@ namespace Sabre
                         }
 
                         sbH.Append("</PNR_HDK>");
-                        strResponse = strResponse.Replace("</TravelItineraryReadRS>", $"{sbH}</TravelItineraryReadRS>");
+                        response = response.Replace("</TravelItineraryReadRS>", $"{sbH}</TravelItineraryReadRS>");
 
                         #endregion
 
@@ -1279,7 +1277,7 @@ namespace Sabre
                                 strTickets = strTickets.Replace("<DailySalesReportRS Version=\"2.0.0\">", "").Replace("</DailySalesReportRS>", "");
                                 strTickets = "<DailySalesReportRS>" + strTickets + "</DailySalesReportRS>";
                                 oDocPNR = new XmlDocument();
-                                oDocPNR.LoadXml(strResponse);
+                                oDocPNR.LoadXml(response);
                                 oRootPNR = oDocPNR.DocumentElement;
                                 strPNR = oRootPNR.SelectSingleNode("TravelItinerary/ItineraryRef/@ID").InnerText;
                                 oDocTkt.LoadXml(strTickets);
@@ -1290,13 +1288,13 @@ namespace Sabre
                                     int iVoidTkt = oRootTkt.SelectNodes($"SalesReport/IssuanceData[@ItineraryRef='{strPNR}'][@IndicatorOne!='']").Count;
                                     if (iVoidTkt != oNodesIssued.Count)
                                     {
-                                        strResponse = strResponse.Replace("</TravelItineraryReadRS>", "<Ticketed/></TravelItineraryReadRS>");
+                                        response = response.Replace("</TravelItineraryReadRS>", "<Ticketed/></TravelItineraryReadRS>");
                                     }
                                 }
                             }
                             catch (Exception ex)
                             {
-                                CoreLib.SendTrace(ProviderSystems.UserID, "DailySalesReportRS", string.Format("ERROR:{0}", ex.Message), strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                                CoreLib.SendTrace(ProviderSystems.UserID, "DailySalesReportRS", string.Format("ERROR:{0}", ex.Message), response.Substring(0, (int)Math.Round(response.Length / 2d)), ProviderSystems.LogUUID);
                             }
                         }
 
@@ -1316,7 +1314,7 @@ namespace Sabre
                                 dqbResponse = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>DQB*</HostCommand></Request></SabreCommandLLSRQ>";
                                 CoreLib.SendTrace(ProviderSystems.UserID, "SabreCommand", "DQB*", "", ProviderSystems.LogUUID);
                                 dqbResponse = ttSA.SendMessage(dqbResponse, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
-                                strResponse = strResponse.Replace("</TravelItineraryReadRS>", $"{dqbResponse}</TravelItineraryReadRS>");
+                                response = response.Replace("</TravelItineraryReadRS>", $"{dqbResponse}</TravelItineraryReadRS>");
                             }
                             else
                             {
@@ -1329,28 +1327,24 @@ namespace Sabre
                         }
 
                         // Transform PNR Read
-                        if (Version != "v04_")
-                        {
-                            Version = "v03";
-                        }
-
-                        inSession = strResponse.Contains("<Errors>") ? false : true;
+                        Version = Version != "v04_" ? "v03" : Version;
+                        inSession = response.Contains("<Errors>") ? false : true;
 
                         var strToReplace = "</TravelItineraryReadRS>";
                         if (inSession)
-                            strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
+                            response = response.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
 
-                        if (strResponse.Length > 1500)
-                        {
-                            CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response I", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                            CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
-                        }
-                        else
-                        {
-                            CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response I", strResponse, ProviderSystems.LogUUID);
-                        }
+                        //if (strResponse.Length > 1500)
+                        //{
+                        //    CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                        //    CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response II", strResponse.Substring((int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
+                        //}
+                        //else
+                        //{
+                        CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response", response, ProviderSystems.LogUUID);
+                        //}
 
-                        strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRReadRS.xsl");
+                        response = CoreLib.TransformXML(response, XslPath, $"{Version}Sabre_PNRReadRS.xsl");
 
 
                     }
@@ -1361,25 +1355,25 @@ namespace Sabre
                             case "AccessQueue":
                                 {
                                     inSession = false;
-                                    strResponse = CoreLib.GetNodeInnerText(strResponse, "Message", false);
-                                    if (string.IsNullOrEmpty(strResponse))
+                                    response = CoreLib.GetNodeInnerText(response, "Message", false);
+                                    if (string.IsNullOrEmpty(response))
                                     {
-                                        strResponse = "Cannot read PNR from queue";
+                                        response = "Cannot read PNR from queue";
                                     }
 
-                                    strResponse = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, strResponse, ProviderSystems);
+                                    response = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, response, ProviderSystems);
                                     break;
                                 }
 
                             case "ExitQueue":
                                 {
-                                    strResponse = CoreLib.GetNodeInnerText(strResponse, "Response", false);
-                                    if (strResponse.Contains("Q/TTL"))
+                                    response = CoreLib.GetNodeInnerText(response, "Response", false);
+                                    if (response.Contains("Q/TTL"))
                                     {
                                         inSession = false;
                                     }
 
-                                    strResponse = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, strResponse, ProviderSystems);
+                                    response = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, response, ProviderSystems);
                                     if (!string.IsNullOrEmpty(ConversationID) & !string.IsNullOrEmpty(ConversationID))
                                     {
                                         inSession = false;
@@ -1390,17 +1384,17 @@ namespace Sabre
 
                             case "ItemOnQueue":
                                 {
-                                    strResponse = strResponse.Replace("В?", "");
-                                    strResponse = CoreLib.GetNodeInnerText(strResponse, "Response", false);
-                                    if (strResponse.Contains("IGNORED - OFF QUEUE"))
+                                    response = response.Replace("В?", "");
+                                    response = CoreLib.GetNodeInnerText(response, "Response", false);
+                                    if (response.Contains("IGNORED - OFF QUEUE"))
                                     {
-                                        strResponse = $"<OTA_TravelItineraryRS Version=\"1.000\"><Success/><Warnings><Warning Type=\"Queue\">{strResponse}</Warning></Warnings></OTA_TravelItineraryRS>";
+                                        response = $"<OTA_TravelItineraryRS Version=\"1.000\"><Success/><Warnings><Warning Type=\"Queue\">{response}</Warning></Warnings></OTA_TravelItineraryRS>";
                                         inSession = false;
                                     }
                                     else
                                     {
-                                        strResponse = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, strResponse, ProviderSystems);
-                                        strResponse = strResponse.Replace("</OTA_TravelItineraryRS>", $"<ConversationID>{ConversationID}</ConversationID></OTA_TravelItineraryRS>");
+                                        response = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, response, ProviderSystems);
+                                        response = response.Replace("</OTA_TravelItineraryRS>", $"<ConversationID>{ConversationID}</ConversationID></OTA_TravelItineraryRS>");
                                     }
 
                                     break;
@@ -1408,7 +1402,7 @@ namespace Sabre
                         }
                     }
 
-                    CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response size", strResponse.Length.ToString(), ProviderSystems.LogUUID);
+                    CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response size", response.Length.ToString(), ProviderSystems.LogUUID);
                 }
                 catch (Exception ex)
                 {
@@ -1426,10 +1420,10 @@ namespace Sabre
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, ex.Message, ProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, ex.Message, ProviderSystems);
             }
 
-            return strResponse;
+            return response;
 
         }
 

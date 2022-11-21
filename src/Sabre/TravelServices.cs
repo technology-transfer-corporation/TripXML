@@ -7,12 +7,6 @@ namespace Sabre
 {
     public class TravelServices : SabreBase
     {
-        public string Warnings { get; set; }
-
-        public string Errors { get; set; }
-
-        public string Message { get; set; }
-
         private string strNative = "";
 
         public string TravelBuild()
