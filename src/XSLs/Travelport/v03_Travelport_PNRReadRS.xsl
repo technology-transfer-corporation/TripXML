@@ -780,9 +780,20 @@
 			<xsl:variable name="ref">
 				<xsl:value-of select="@Key"/>
 			</xsl:variable>
+			<xsl:variable name="ptc">
+				<xsl:choose>
+					<xsl:when test="@TravelerType">
+						<xsl:value-of select="@TravelerType"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="../air:AirReservation[common_v50_0:BookingTravelerRef/@Key=$ref]/air:AirPricingInfo/air:PassengerType[@BookingTravelerRef=$ref]/@Code"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+
 			<Customer>
 				<!-- CHD07OCT10 -->
-				<xsl:if test="contains(common_v50_0:NameRemark/common_v50_0:RemarkData, 'CHD') or contains(common_v50_0:NameRemark/common_v50_0:RemarkData, 'INF')">
+				<xsl:if test="substring($ptc, 1, 1) = 'C' or substring($ptc, 1, 1) = 'I'">
 					<xsl:attribute name="BirthDate">
 						<xsl:call-template name="bdt">
 							<xsl:with-param name="bdt">
@@ -794,6 +805,9 @@
 									<xsl:when test="contains(common_v50_0:NameRemark/common_v50_0:RemarkData, 'CHD')">
 										<xsl:value-of select="substring-after(common_v50_0:NameRemark/common_v50_0:RemarkData, 'CHD')" />
 									</xsl:when>
+									<xsl:when test="contains(common_v50_0:NameRemark/common_v50_0:RemarkData, 'P-')">
+										<xsl:value-of select="substring-after(common_v50_0:NameRemark/common_v50_0:RemarkData, '-')" />
+									</xsl:when>
 									<xsl:otherwise>
 										<xsl:value-of select="common_v50_0:NameRemark/common_v50_0:RemarkData" />
 									</xsl:otherwise>
@@ -803,18 +817,8 @@
 					</xsl:attribute>
 				</xsl:if>
 				<PersonName>
-					<xsl:variable name="ptc">
-						<xsl:choose>
-							<xsl:when test="@TravelerType">
-								<xsl:value-of select="@TravelerType"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="../air:AirReservation[common_v50_0:BookingTravelerRef/@Key=$ref]/air:AirPricingInfo/air:PassengerType[@BookingTravelerRef=$ref]/@Code"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:variable>
-					<xsl:attribute name="NameType">
 
+					<xsl:attribute name="NameType">
 						<xsl:choose>
 							<xsl:when test="$ptc = 'AA'">ADT</xsl:when>
 							<xsl:when test="$ptc = 'AD'">ADT</xsl:when>
@@ -4237,38 +4241,53 @@
 
 	<xsl:template name="bdt">
 		<xsl:param name="bdt" />
-		<xsl:variable name="bd">
-			<xsl:choose>
-				<xsl:when test="string-length($bdt) > 7">
-					<xsl:value-of select="substring($bdt,string-length($bdt) - 6,7)"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="$bdt"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
 		<xsl:choose>
-			<xsl:when test="substring($bd,6,2) > 89">19</xsl:when>
-			<xsl:otherwise>20</xsl:otherwise>
+			<xsl:when test="string-length(substring($bdt, 2,2))=2">
+				<xsl:call-template name="bdt_years">
+					<xsl:with-param name="bdt" select="substring($bdt, 2,2)" />
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:variable name="bd">
+					<xsl:choose>
+						<xsl:when test="string-length($bdt) > 7">
+							<xsl:value-of select="substring($bdt,string-length($bdt) - 6,7)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$bdt"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:choose>
+					<xsl:when test="substring($bd,6,2) > 89">19</xsl:when>
+					<xsl:otherwise>20</xsl:otherwise>
+				</xsl:choose>
+				<xsl:value-of select="substring($bd,6,2)" />
+				<xsl:text>-</xsl:text>
+				<xsl:choose>
+					<xsl:when test="substring($bd,3,3) = 'JAN'">01</xsl:when>
+					<xsl:when test="substring($bd,3,3) = 'FEB'">02</xsl:when>
+					<xsl:when test="substring($bd,3,3) = 'MAR'">03</xsl:when>
+					<xsl:when test="substring($bd,3,3) = 'APR'">04</xsl:when>
+					<xsl:when test="substring($bd,3,3) = 'MAY'">05</xsl:when>
+					<xsl:when test="substring($bd,3,3) = 'JUN'">06</xsl:when>
+					<xsl:when test="substring($bd,3,3) = 'JUL'">07</xsl:when>
+					<xsl:when test="substring($bd,3,3) = 'AUG'">08</xsl:when>
+					<xsl:when test="substring($bd,3,3) = 'SEP'">09</xsl:when>
+					<xsl:when test="substring($bd,3,3) = 'OCT'">10</xsl:when>
+					<xsl:when test="substring($bd,3,3) = 'NOV'">11</xsl:when>
+					<xsl:when test="substring($bd,3,3) = 'DEC'">12</xsl:when>
+				</xsl:choose>
+				<xsl:text>-</xsl:text>
+				<xsl:value-of select="substring($bd,1,2)" />
+			</xsl:otherwise>
 		</xsl:choose>
-		<xsl:value-of select="substring($bd,6,2)" />
-		<xsl:text>-</xsl:text>
-		<xsl:choose>
-			<xsl:when test="substring($bd,3,3) = 'JAN'">01</xsl:when>
-			<xsl:when test="substring($bd,3,3) = 'FEB'">02</xsl:when>
-			<xsl:when test="substring($bd,3,3) = 'MAR'">03</xsl:when>
-			<xsl:when test="substring($bd,3,3) = 'APR'">04</xsl:when>
-			<xsl:when test="substring($bd,3,3) = 'MAY'">05</xsl:when>
-			<xsl:when test="substring($bd,3,3) = 'JUN'">06</xsl:when>
-			<xsl:when test="substring($bd,3,3) = 'JUL'">07</xsl:when>
-			<xsl:when test="substring($bd,3,3) = 'AUG'">08</xsl:when>
-			<xsl:when test="substring($bd,3,3) = 'SEP'">09</xsl:when>
-			<xsl:when test="substring($bd,3,3) = 'OCT'">10</xsl:when>
-			<xsl:when test="substring($bd,3,3) = 'NOV'">11</xsl:when>
-			<xsl:when test="substring($bd,3,3) = 'DEC'">12</xsl:when>
-		</xsl:choose>
-		<xsl:text>-</xsl:text>
-		<xsl:value-of select="substring($bd,1,2)" />
+	</xsl:template>
+
+	<xsl:template name="bdt_years">
+		<xsl:param name="bdt" />
+		<xsl:variable name="curr" select="ttVB:GetBirthDate($bdt)" />
+		<xsl:value-of select="$curr" />
 	</xsl:template>
 
 	<xsl:variable name="whitespace" select="'&#09;&#10;&#13; '" />
@@ -4375,6 +4394,10 @@
                 Return p_startDate
             End If
 
+        End Function
+		
+		Function GetBirthDate(ByVal age As String) As String
+            Return DateTime.Now.AddYears(Convert.ToInt32(age) * -1).ToString("yyyy-MM-d")
         End Function
 ]]>
 	</msxsl:script>

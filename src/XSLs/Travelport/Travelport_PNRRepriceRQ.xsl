@@ -176,7 +176,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 
 	<xsl:template match="UpdatePrice">
 		<xsl:variable name="PNR" select="../Response/universal:UniversalRecordRetrieveRsp/universal:UniversalRecord"/>
-		<xsl:variable name="Price" select="universal:UniversalRecordModifyRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo"/>
+		<xsl:variable name="Price" select="air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution/air:AirPricingInfo"/>
 		<!--"air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution"-->
 		<universal:UniversalRecordModifyReq
 xmlns="http://www.travelport.com/schema/universal_v50_0"
@@ -504,7 +504,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 	<xsl:template match="common_v50_0:BookingTraveler">
 		<xsl:variable name="key" select="@Key" />
 		<xsl:variable name="optc" select="../air:AirReservation/air:AirPricingInfo/air:PassengerType[@BookingTravelerRef=$key]/@Code" />
+		<xsl:variable name="sfptc" select="//StoredFare[substring(PassengerType/@Code, 1, 1) = substring($optc,1,1) ]/PassengerType/@Code" />
 		<xsl:variable name="ptc">
+			<!--
 			<xsl:choose>
 				<xsl:when test="//StoredFare/@FareType = 'Private'">
 					<xsl:call-template name="private_ptc" >
@@ -515,7 +517,21 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 					<xsl:value-of select="$optc"/>
 				</xsl:otherwise>
 			</xsl:choose>
+			-->
+			<xsl:call-template name="private_ptc" >
+				<xsl:with-param name="optc" select="$optc"/>
+			</xsl:call-template>
+		</xsl:variable>
 
+		<xsl:variable name="age">
+			<xsl:choose>
+				<xsl:when test="concat('0',number(substring($sfptc, 2, 2))) = substring($sfptc, 2, 2)">
+					<xsl:value-of select="substring($sfptc, 2, 2)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text></xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 
 		<common_v50_0:SearchPassenger>
@@ -525,6 +541,11 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			<xsl:attribute name="Code">
 				<xsl:value-of select="$ptc"/>
 			</xsl:attribute>
+			<xsl:if test="$age != ''">
+				<xsl:attribute name="Age">
+					<xsl:value-of select="$age"/>
+				</xsl:attribute>
+			</xsl:if>
 		</common_v50_0:SearchPassenger>
 		<!--
 		<xsl:choose>
@@ -575,11 +596,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 									</xsl:otherwise>
 								</xsl:choose>
 							</xsl:attribute>
+							<!--
 							<xsl:if test="//StoredFare[PassengerType/@Code=$ptc[1]]/FareSegments">
 								<xsl:attribute name="FareBasisCode">
 									<xsl:value-of select="//StoredFare[PassengerType/@Code=$ptc[1]]/FareSegments/AirSegments[@RPH=$pos]"/>
 								</xsl:attribute>
 							</xsl:if>
+							-->
 							<air:PermittedBookingCodes>
 								<air:BookingCode>
 									<xsl:attribute name="Code">
@@ -817,7 +840,14 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 
 		<air:AirPricingTicketingModifiers>
 			<xsl:for-each select="../StoredFare[Markup or TourCode or Endorsement]">
-				<xsl:variable name="ptc" select="PassengerType/@Code" />
+				<xsl:variable name="ptc">
+					<xsl:choose>
+						<xsl:when test="substring(PassengerType/@Code, 1,1) = 'C'">CNN</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="PassengerType/@Code"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
 				<air:AirPricingInfoRef>
 					<xsl:attribute name="Key">
 						<xsl:value-of select="$airprice[air:PassengerType/@Code=$ptc]/@Key"/>
@@ -903,33 +933,39 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 	<xsl:template name="private_ptc">
 		<xsl:param name="optc"/>
 		<xsl:choose>
+			<!--
 			<xsl:when test="$optc='JCB'">
 				<xsl:text>JWA</xsl:text>
 			</xsl:when>
 			<xsl:when test="$optc='ADT'">
 				<xsl:text>JWA</xsl:text>
 			</xsl:when>
+			-->
 			<xsl:when test="$optc='WEB'">
 				<xsl:text>JWA</xsl:text>
 			</xsl:when>
 			<xsl:when test="$optc='ITX'">
 				<xsl:text>JWA</xsl:text>
 			</xsl:when>
+			<!--
 			<xsl:when test="$optc='CHD'">
 				<xsl:text>JWC</xsl:text>
 			</xsl:when>
 			<xsl:when test="$optc='CNN'">
 				<xsl:text>JWC</xsl:text>
 			</xsl:when>
+			-->
 			<xsl:when test="$optc='WBC'">
 				<xsl:text>JWC</xsl:text>
 			</xsl:when>
+			<!--
 			<xsl:when test="$optc='JNN'">
 				<xsl:text>JWB</xsl:text>
 			</xsl:when>
 			<xsl:when test="$optc='INF'">
 				<xsl:text>JWB</xsl:text>
 			</xsl:when>
+			-->
 			<xsl:otherwise>
 				<xsl:value-of select="$optc"/>
 			</xsl:otherwise>

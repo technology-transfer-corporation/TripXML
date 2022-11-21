@@ -4,6 +4,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 15 Nov 2022 - Kobelev - Calculated Date of Birth for children.
   Date: 12 Oct 2022 - Kobelev - VOIDed Tickets indicator.
   Date: 11 Feb 2022 - Kobelev - Bate Birth for CHD and INF.
   Date: 21 Oct 2021 - Kobelev - Change Controlling Carrier RemarkType from "Z" to "CC".
@@ -826,6 +827,10 @@
 			<xsl:value-of select="format-number(UniqueKey,'0')" />
 		</xsl:variable>
 
+		<xsl:variable name="paxref">
+			<xsl:value-of select="../AgntEnteredPsgrDescInfo[UniqueKey=$paxno]/ApplesToAry/AppliesTo[1]/AbsNameNum" />
+		</xsl:variable>
+
 		<PTC_FareBreakdown>
 
 			<xsl:attribute name="PricingSource">
@@ -921,7 +926,15 @@
 						<xsl:when test="$PsgrType = 'YC'">YTH</xsl:when>
 						<xsl:when test="$PsgrType = ''">ADT</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="$PsgrType" />
+							<xsl:choose>
+								<xsl:when test="$PsgrType='CNN' and contains(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, 'P-')">
+									<xsl:value-of select="substring-after(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, '-')" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$PsgrType" />
+								</xsl:otherwise>
+							</xsl:choose>
+							
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
@@ -2234,28 +2247,38 @@
 				<Customer>
 					<xsl:if test="../GenPNRInfo/OwningCRS = '1G'">
 						<xsl:if test="../NameRmkInfo[LNameNum=$ItemNo]/NameRmk != ''">
-							<xsl:if test="string-length(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk) > 5">
-								<xsl:if test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'JAN') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'FEB') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'MAR') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'APR') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'MAY') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'JUN') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'JUL') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'AUG') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'SEP') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'OCT') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'NOV') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'DEC')">
+							<xsl:choose>
+								<xsl:when test="string-length(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk) > 5">
+									<xsl:if test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'JAN') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'FEB') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'MAR') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'APR') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'MAY') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'JUN') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'JUL') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'AUG') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'SEP') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'OCT') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'NOV') or contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk,'DEC')">
+										<xsl:attribute name="BirthDate">
+											<xsl:call-template name="bdt">
+												<xsl:with-param name="bdt">
+													<!-- <NameRmk>23FEB20</NameRmk> -->
+													<xsl:choose>
+														<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'INF')">
+															<xsl:value-of select="substring-after(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'INF')" />
+														</xsl:when>
+														<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'CHD')">
+															<xsl:value-of select="substring-after(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'CHD')" />
+														</xsl:when>
+														<xsl:otherwise>
+															<xsl:value-of select="../NameRmkInfo[LNameNum=$ItemNo]/NameRmk" />
+														</xsl:otherwise>
+													</xsl:choose>
+												</xsl:with-param>
+											</xsl:call-template>
+										</xsl:attribute>
+									</xsl:if>
+								</xsl:when>
+								<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-')">
 									<xsl:attribute name="BirthDate">
-										<xsl:call-template name="bdt">
-											<xsl:with-param name="bdt">
-												<!-- <NameRmk>23FEB20</NameRmk> -->
-												<xsl:choose>
-													<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'INF')">
-														<xsl:value-of select="substring-after(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'INF')" />
-													</xsl:when>
-													<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'CHD')">
-														<xsl:value-of select="substring-after(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'CHD')" />
-													</xsl:when>
-													<xsl:otherwise>
-														<xsl:value-of select="../NameRmkInfo[LNameNum=$ItemNo]/NameRmk" />
-													</xsl:otherwise>
-												</xsl:choose>
-											</xsl:with-param>
+										<xsl:call-template name="bdt_years">
+											<xsl:with-param name="bdt" select="substring(substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-'), 2,2)" />
 										</xsl:call-template>
 									</xsl:attribute>
-								</xsl:if>
-							</xsl:if>
+								</xsl:when>
+							</xsl:choose>
+							
 						</xsl:if>
 					</xsl:if>
 					<PersonName>
@@ -2268,7 +2291,12 @@
 							<xsl:otherwise>
 								<xsl:attribute name="NameType">
 									<xsl:choose>
-										<xsl:when test="../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk != '' and NameType = ''">CHD</xsl:when>
+										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-C')">
+											<xsl:value-of select="substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-')"/>
+										</xsl:when>
+										<xsl:when test="../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk != '' and NameType = ''">
+											<xsl:value-of select="../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk"/>
+										</xsl:when>
 										<xsl:when test="../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk != '' and NameType = 'I'">INF</xsl:when>
 										<xsl:otherwise>ADT</xsl:otherwise>
 									</xsl:choose>
@@ -2337,6 +2365,12 @@
 		</xsl:choose>
 		<xsl:text>-</xsl:text>
 		<xsl:value-of select="substring($bd,1,2)" />
+	</xsl:template>
+
+	<xsl:template name="bdt_years">
+		<xsl:param name="bdt" />
+		<xsl:variable name="curr" select="ttVB:GetBirthDate($bdt)" />
+		<xsl:value-of select="$curr" />
 	</xsl:template>
 
 	<xsl:template match="FreqCustInfo">
@@ -3541,24 +3575,26 @@
 	<!--**********************************************************************************************-->
 	<msxsl:script language="VisualBasic" implements-prefix="ttVB">
 		<![CDATA[
-Function FctArrDate(byval p_startDate as string, byval p_DateChange as double) as date
-   	
-    If IsDate(p_startDate) Then
-        FctArrDate = DateAdd("d", p_DateChange, p_startDate)
-    Else
-        FctArrDate = p_startDate
-    End If
+		Function FctArrDate(byval p_startDate as string, byval p_DateChange as double) as date   	
+			If IsDate(p_startDate) Then
+				FctArrDate = DateAdd("d", p_DateChange, p_startDate)
+			Else
+				FctArrDate = p_startDate
+			End If
+		End Function
 
-End Function
+		Function GetBirthDate(ByVal age As String) As String
+            Return DateTime.Now.AddYears(Convert.ToInt32(age) * -1).ToString("yyyy-MM-d")
+        End Function
 ]]>
 	</msxsl:script>
 
-<!--
+	<!--
   ************************************************************************************
   					Issued Tickets				   	                        
   ************************************************************************************
 -->
-	
+
 	<xsl:template match="AdditionalPsgrFareInfo" mode="IssuedTicket">
 		<xsl:variable name="tktPax" select="AbsNameNum" />
 		<xsl:variable name="tkt" select="TkNum" />
@@ -3573,7 +3609,7 @@ End Function
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="tktStatus" select="Status" />
-<!-- 
+		<!-- 
      <xsl:variable name="tktInfo" select="concat(../TkArrangement/Text, ' I')" />
 -->
 
@@ -3788,4 +3824,5 @@ End Function
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+
 </xsl:stylesheet>

@@ -1884,7 +1884,7 @@ Date: 23 Feb 2015 - Rastko
 
 							<xsl:if test="string-length($yr) = 2">
 								<xsl:choose>
-									<xsl:when test="$yr>17">
+									<xsl:when test="$yr > 17">
 										<xsl:text>19</xsl:text>
 									</xsl:when>
 									<xsl:otherwise>
