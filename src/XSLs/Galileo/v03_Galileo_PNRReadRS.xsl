@@ -4,6 +4,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 28 Nov 2022 - Kobelev - Formating childrens age.
   Date: 15 Nov 2022 - Kobelev - Calculated Date of Birth for children.
   Date: 12 Oct 2022 - Kobelev - VOIDed Tickets indicator.
   Date: 11 Feb 2022 - Kobelev - Bate Birth for CHD and INF.
@@ -2292,7 +2293,8 @@
 								<xsl:attribute name="NameType">
 									<xsl:choose>
 										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-C')">
-											<xsl:value-of select="substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-')"/>
+											<xsl:variable name="pCode" select="concat('0', substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'C'))" />											
+											<xsl:value-of select="substring($pCode, string-length($pCode)-1)"/>
 										</xsl:when>
 										<xsl:when test="../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk != '' and NameType = ''">
 											<xsl:value-of select="../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk"/>
