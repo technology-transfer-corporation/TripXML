@@ -5312,49 +5312,49 @@
 	<!-- TourCode Remarks	   	                                          -->
 	<!-- ************************************************************** -->
 	<xsl:template match="PriceQuote" mode="TourCode">
-		<xsl:variable name="pq">
-			<xsl:value-of select="@RPH"/>
-		</xsl:variable>
-		<xsl:attribute name="RPH">
-			<xsl:value-of select="$pq"/>
-		</xsl:attribute>
-		<xsl:variable name="tc">
-			<xsl:choose>
-				<xsl:when test="PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/TourCode/Text">
-					<xsl:value-of select="PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/TourCode/Text"/>
-				</xsl:when>
-				<xsl:when test="../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo/Text">
-					<xsl:variable name="futurePricing">
-						<xsl:value-of select="../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo[contains(Text, concat('PQ',$pq))]/Text"/>
-					</xsl:variable>
-
-					<xsl:if test="contains($futurePricing, 'UN*')">
-						<xsl:choose>
-							<xsl:when test="contains($futurePricing, 'Â') or contains($futurePricing, '‡')">
-								<xsl:variable name="tk" select="substring-after($futurePricing, '‡UN*')" />
-								<xsl:choose>
-									<xsl:when test="contains($tk, 'Â‡')">
-										<xsl:value-of select="substring-before(substring-after($futurePricing, '‡UN*'), 'Â‡')"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:value-of select="substring-after($futurePricing, '‡UN*')"/>
-									</xsl:otherwise>
-								</xsl:choose>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:call-template name="futurePriceElement">
-									<xsl:with-param name="string" select="$futurePricing" />
-									<xsl:with-param name="elem" select="'UN*'" />
-								</xsl:call-template>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:if>
-
-				</xsl:when>
-			</xsl:choose>
-		</xsl:variable>
-
 		<SpecialRemark>
+			<xsl:variable name="pq">
+				<xsl:value-of select="@RPH"/>
+			</xsl:variable>
+			<xsl:attribute name="RPH">
+				<xsl:value-of select="$pq"/>
+			</xsl:attribute>
+			<xsl:variable name="tc">
+				<xsl:choose>
+					<xsl:when test="PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/TourCode/Text">
+						<xsl:value-of select="PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/TourCode/Text"/>
+					</xsl:when>
+					<xsl:when test="../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo/Text">
+						<xsl:variable name="futurePricing">
+							<xsl:value-of select="../../../ItineraryInfo/ItineraryPricing/FuturePriceInfo[contains(Text, concat('PQ',$pq))]/Text"/>
+						</xsl:variable>
+
+						<xsl:if test="contains($futurePricing, 'UN*')">
+							<xsl:choose>
+								<xsl:when test="contains($futurePricing, 'Â') or contains($futurePricing, '‡')">
+									<xsl:variable name="tk" select="substring-after($futurePricing, '‡UN*')" />
+									<xsl:choose>
+										<xsl:when test="contains($tk, 'Â‡')">
+											<xsl:value-of select="substring-before(substring-after($futurePricing, '‡UN*'), 'Â‡')"/>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:value-of select="substring-after($futurePricing, '‡UN*')"/>
+										</xsl:otherwise>
+									</xsl:choose>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:call-template name="futurePriceElement">
+										<xsl:with-param name="string" select="$futurePricing" />
+										<xsl:with-param name="elem" select="'UN*'" />
+									</xsl:call-template>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:if>
+
+					</xsl:when>
+				</xsl:choose>
+			</xsl:variable>
+
 			<xsl:choose>
 				<xsl:when test="string-length($tc) > 0">
 					<xsl:attribute name="RemarkType">TourCode</xsl:attribute>
