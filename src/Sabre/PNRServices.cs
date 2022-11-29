@@ -6,6 +6,7 @@ using System.Xml;
 using System.Xml.Linq;
 using TripXMLMain;
 using System.Collections.Generic;
+using System.Xml.Schema;
 
 namespace Sabre
 {
@@ -556,7 +557,13 @@ namespace Sabre
                 string strPaxCombined = "";
 
                 var oDoc = new XmlDocument();
+                Request = Request.Replace("<Discount Percent=\"0\" />", "<Markup Amount=\"100.00\"/><Discount Percent=\"0\" />");
                 oDoc.LoadXml(Request);
+                int maxDiff = 0;
+                if (Request.Contains("A"))
+                {
+                    maxDiff = 1;
+                }
                 XmlNodeList nodesToDel = oDoc.SelectNodes("//FareSegments/AirSegments[text()='VOID']");
                 for (int i = nodesToDel.Count - 1; i >= 0; i--)
                 {
@@ -620,22 +627,46 @@ namespace Sabre
                             validatingCarrier = oRootResp.SelectSingleNode("TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote[MiscInformation/SignatureLine/@Status='ACTIVE']/PricedItinerary/@ValidatingCarrier").InnerText;
                         }
                     }
+                    decimal bsr = 1.0M;
+                    Dictionary<string, string> ptcFare = new Dictionary<string, string>();
+                    Dictionary<string, decimal> ptcMarkup = new Dictionary<string, decimal>();
                     if (oDoc.SelectSingleNode("//StoredFare/Markup") != null &&
                         oRootResp.SelectSingleNode("//PriceQuote[last()]/PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/BaseFare/@CurrencyCode") != null &&
                         !oRootResp.SelectSingleNode("//PriceQuote[last()]/PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/BaseFare/@CurrencyCode").InnerText.Equals("USD"))
                     {
-                        var cur = oRootResp.SelectSingleNode("//PriceQuote[last()]/PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/BaseFare/@CurrencyCode").InnerText;
-                        var convDoc = new XmlDocument();
-                        foreach (XmlNode makrupNode in oDoc.SelectNodes("//StoredFare/Markup"))
+                        try
                         {
-                            var amount = makrupNode.Attributes["Amount"].Value;
-                            string strConv = $"<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>DC¥USD{amount}/{cur}</HostCommand></Request></SabreCommandLLSRQ>";
-                            var convResp = ttSA.SendMessage(strConv, $"DC¥USD{amount}/{cur}", "SabreCommandLLSRQ", ConversationID);
-                            convDoc.LoadXml(convResp);
-                            var conAmount = convDoc.DocumentElement.SelectSingleNode("//Response").InnerText.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Last()
-                                .Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Skip(1).First();
-                            strPriceCombined = strPriceCombined.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount}");
-                            strPrice = strPrice.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount}");
+                            var cur = oRootResp.SelectSingleNode("//PriceQuote[last()]/PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/BaseFare/@CurrencyCode").InnerText;
+                            var convDoc = new XmlDocument();
+                            foreach (XmlNode makrupNode in oDoc.SelectNodes("//StoredFare/Markup"))
+                            {
+                                var amount = makrupNode.Attributes["Amount"].Value;
+                                string strConv = $"<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>DC¥USD{amount}/{cur}</HostCommand></Request></SabreCommandLLSRQ>";
+                                var convResp = ttSA.SendMessage(strConv, $"DC¥USD{amount}/{cur}", "SabreCommandLLSRQ", ConversationID);
+                                convDoc.LoadXml(convResp);
+                                var conAmount = convDoc.DocumentElement.SelectSingleNode("//Response").InnerText.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Last()
+                                    .Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Skip(1).First();
+                                bsr = decimal.Parse(convDoc.DocumentElement.SelectSingleNode("//Response").InnerText.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                                    .First(x => x.Contains("BSR")).Split('-').Last().Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).First());
+                                strPriceCombined = strPriceCombined.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount}");
+                                strPrice = strPrice.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount}");
+                            }
+
+                            foreach (XmlNode item in oRootResp.SelectNodes("//PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]"))
+                            {
+                                ptcFare[item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Code").Value] =
+                                    item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/EquivFare/@Amount").Value;
+                            }
+
+                            foreach (XmlNode item in oDoc.SelectNodes("//StoredFare"))
+                            {
+                                var markup = item.SelectSingleNode("Markup/@Amount").Value;
+                                ptcMarkup[item.SelectSingleNode("PassengerType/@Code").Value] = !decimal.TryParse(markup, out _) ? 0.0M : decimal.Parse(markup);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
                         }
                     }
 
@@ -796,7 +827,51 @@ namespace Sabre
                                 if (!string.IsNullOrEmpty(validatingCarrier))
                                     strRepriceReq = AddValidatingCarrier(strRepriceReq, validatingCarrier);
 
-                                strRepriceResp += ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                string strPriceResp = string.Empty;
+                                var tryCount = 2;
+                                do
+                                {
+                                    strPriceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+
+                                    if (!bsr.Equals(1M))
+                                    {
+                                        var priceDocResp = new XmlDocument();
+                                        priceDocResp.LoadXml(strPriceResp);
+
+                                        foreach (XmlNode item in priceDocResp.DocumentElement.SelectNodes("//PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]"))
+                                        {
+                                            var ptcCode = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Code").Value;
+                                            var ptcAmaount = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/EquivFare/@Amount").Value;
+                                            try
+                                            {
+                                                if (ptcFare.ContainsKey(ptcCode) && Math.Abs(decimal.Parse(ptcFare[ptcCode]) - decimal.Parse(ptcAmaount)) > ptcMarkup[ptcCode] + maxDiff)
+                                                {
+                                                    var diff = (ptcMarkup[ptcCode] - (decimal.Parse(ptcAmaount) - decimal.Parse(ptcFare[ptcCode]))) * bsr;
+                                                    var prcReqDoc = new XmlDocument();
+                                                    prcReqDoc.LoadXml(strRepriceReq);
+                                                    foreach (XmlNode rItem in prcReqDoc.SelectNodes("//sx:PlusUp", nsmgr))
+                                                    {
+                                                        rItem.Attributes["Amount"].Value = (decimal.Parse(rItem.Attributes["Amount"].Value) + diff).ToString("#.##");
+                                                    }
+                                                    strRepriceReq = prcReqDoc.OuterXml;
+                                                }
+                                                else
+                                                {
+                                                    tryCount = 0;
+                                                    break;
+                                                }
+                                            }
+                                            catch
+                                            {
+                                                tryCount = 0;
+                                                break;
+                                            }
+                                        }
+
+                                    }
+                                } while (!bsr.Equals(1M) && --tryCount > 0);
+
+                                strRepriceResp += strPriceResp;
                                 if (strRepriceResp.Contains("Error"))
                                 {
                                     strRepriceResp = strRepriceResp.Replace("<OTA_AirPriceRS Version=\"2.17.0\">", "").Replace("</OTA_AirPriceRS>", "");
@@ -855,7 +930,6 @@ namespace Sabre
                                 strRepriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                             }
                         }
-                        { }
                     }
 
                     if (strRepriceResp.Contains("NO COMBINABLE FARES FOR CLASS USED") || strRepriceResp.Contains("NEED MORE PSGR TYPES OR NAME SELECT") || strRepriceResp.Contains("USE INF PSGR TYPE CODE FOR I"))
