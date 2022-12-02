@@ -2294,7 +2294,7 @@
 									<xsl:choose>
 										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-C')">
 											<xsl:variable name="pCode" select="concat('0', substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'C'))" />											
-											<xsl:value-of select="substring($pCode, string-length($pCode)-1)"/>
+											<xsl:value-of select="concat('C', substring($pCode, string-length($pCode)-1))"/>
 										</xsl:when>
 										<xsl:when test="../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk != '' and NameType = ''">
 											<xsl:value-of select="../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk"/>
@@ -3586,7 +3586,7 @@
 		End Function
 
 		Function GetBirthDate(ByVal age As String) As String
-            Return DateTime.Now.AddYears(Convert.ToInt32(age) * -1).ToString("yyyy-MM-d")
+            Return DateTime.Now.AddYears(Convert.ToInt32(age) * -1).ToString("yyyy-MM-dd")
         End Function
 ]]>
 	</msxsl:script>

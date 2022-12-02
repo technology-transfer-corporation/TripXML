@@ -22,7 +22,7 @@
 		<UpdateInsert>
 			<MultiElements>
 				<PNRBFManagement_53>
-					<xsl:apply-templates select="UpdateInsert/OTA_UpdateRQ | UpdateInsert/OTA_UpdateSessionedRQ" mode="start" />
+					<xsl:apply-templates select="//OTA_UpdateRQ | //OTA_UpdateSessionedRQ" mode="start" />
 				</PNRBFManagement_53>
 			</MultiElements>
 			<ET>
@@ -58,7 +58,7 @@
 		</UpdateInsert>
 	</xsl:template>
 
-	<xsl:template match="OTA_UpdateRQ | UpdateInsert/OTA_UpdateSessionedRQ" mode="start">
+	<xsl:template match="OTA_UpdateRQ | OTA_UpdateSessionedRQ" mode="start">
 		<xsl:apply-templates select="Position/Element/PNRData"/>
 		<xsl:apply-templates select="Position/Element[@Operation='insert' and @Child='PNRData'][PNRData/Telephone]" mode="telephone"/>
 		<!--xsl:apply-templates select="OTA_UpdateRQ/Position/Element[@Operation='insert' and @Child='Traveler']"/-->

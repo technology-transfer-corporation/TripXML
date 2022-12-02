@@ -3,7 +3,8 @@
 	<!-- 
 	==================================================================
 	Travelport_PNRRepriceRS.xsl 										
-	================================================================== 
+	==================================================================
+	Date: 02 Dec 2022 - Kobelev - Price Quote selection based on BookingCode.
 	Date: 23 Nov 2022 - Kobelev - Price Quote RPH number referenced correctly.
 	Date: 18 Oct 2022 - Kobelev - Price Quote number referenced correctly.
 	Date: 17 Oct 2022 - Kobelev - Multy Travelers in one PTC.
@@ -124,17 +125,20 @@
 		<xsl:call-template name="AirPricingInfo">
 			<xsl:with-param name="fare" select="'new'"/>
 			<xsl:with-param name="sn" select="2"/>
+			<xsl:with-param name="class" select="//universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[1]/air:BookingInfo" />
 		</xsl:call-template>
 	</xsl:template>
 	<xsl:template match="universal:UniversalRecord" mode="second">
 		<xsl:call-template name="AirPricingInfo">
 			<xsl:with-param name="fare" select="'new'"/>
 			<xsl:with-param name="sn" select="'2'"/>
+			<xsl:with-param name="class" select="//universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[1]/air:BookingInfo" />
 		</xsl:call-template>
 	</xsl:template>
 	<xsl:template name="AirPricingInfo">
 		<xsl:param name="fare"/>
 		<xsl:param name="sn"/>
+		<xsl:param name="class"/>
 		<xsl:variable name="price">
 			<xsl:choose>
 				<xsl:when test="air:AirReservation/air:AirPricingInfo[1]/@PricingMethod">
@@ -159,7 +163,7 @@
 					<xsl:apply-templates select="//universal:UniversalRecordModifyRsp/universal:UniversalRecord/air:AirReservation" />
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:apply-templates select="air:AirPricingSolution[air:AirPricingInfo/@PricingMethod=$price][$last]" />	
+					<xsl:apply-templates select="air:AirPricingSolution[air:AirPricingInfo/@PricingMethod=$price and air:AirPricingInfo/air:BookingInfo /@BookingCode = $class/@BookingCode]" />	
 				</xsl:otherwise>
 			</xsl:choose>			
 			
