@@ -3,6 +3,7 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
+   Date: 30 Nov 2022 - Samokhvalov - Fixed Brand Fares w/MarkUp.
    Date: 25 May 2022 - Samokhvalov - Fixed FareBasis (truncation to 8 chars removed).
    Date: 18 May 2022 - Kobelev - Fixed Ticket Designator in RePrice request (According to Irina, regardless if Discount is 0 still have to pass Ticket Desgnator as Discount).
    Date: 17 May 2022 - Kobelev - Added Tour Code to RePrice request.
@@ -85,7 +86,7 @@
 		<Price>
 			<xsl:choose>
 				<!-- count(StoredFare/TicketDesignator)=count(StoredFare) and  -->
-				<xsl:when test="count(StoredFare/FareSegments) = 0">
+				<!--<xsl:when test="count(StoredFare/FareSegments) = 0">
 					<OTA_AirPriceRQ Version="2.17.0" xmlns="http://webservices.sabre.com/sabreXML/2011/10">
 						<PriceRequestInformation>
 							<xsl:variable name="sf" select="@StoreFare"/>
@@ -96,31 +97,73 @@
 								<xsl:if test="TourCode">
 									<MiscQualifiers>
 										<TourCode>
-											<!-- Optional -->
-											<!-- Repeat Factor=0 -->
-											<!-- "Ind" is used to specify to suppress the fare amount on the ticket and replace with BT. -->
-											<!-- This is not applicable to ARC subscribers. -->
-											<!-- Equivalent Sabre host command: WPUB*TEST1212
+											-->
+				<!-- Optional -->
+				<!--
+											-->
+				<!-- Repeat Factor=0 -->
+				<!--
+											-->
+				<!-- "Ind" is used to specify to suppress the fare amount on the ticket and replace with BT. -->
+				<!--
+											-->
+				<!-- This is not applicable to ARC subscribers. -->
+				<!--
+											-->
+				<!-- Equivalent Sabre host command: WPUB*TEST1212
 											<SuppressFareReplaceWithBT Ind="true"/> -->
-											<!-- Optional -->
-											<!-- Repeat Factor=0 -->
-											<!-- "Ind" is used to specify to suppress the fare amount on the ticket and replace with IT. -->
-											<!-- Equivalent Sabre host command: WPUI*TEST1212
+				<!--
+											-->
+				<!-- Optional -->
+				<!--
+											-->
+				<!-- Repeat Factor=0 -->
+				<!--
+											-->
+				<!-- "Ind" is used to specify to suppress the fare amount on the ticket and replace with IT. -->
+				<!--
+											-->
+				<!-- Equivalent Sabre host command: WPUI*TEST1212
 											<SuppressFareReplaceWithIT Ind="true"/> -->
-											<!-- Optional -->
-											<!-- Repeat Factor=0 -->
-											<!-- "Ind" is used to specify to to suppress the IT in the tourcode box from printing. -->
-											<!-- Equivalent Sabre host command: WPUN*TEST1212
+				<!--
+											-->
+				<!-- Optional -->
+				<!--
+											-->
+				<!-- Repeat Factor=0 -->
+				<!--
+											-->
+				<!-- "Ind" is used to specify to to suppress the IT in the tourcode box from printing. -->
+				<!--
+											-->
+				<!-- Equivalent Sabre host command: WPUN*TEST1212
 											<SuppressIT Ind="true"/> -->
-											<!-- Optional -->
-											<!-- Repeat Factor=0 -->
-											<!-- "Ind" is used to specify to specify to suppress IT from printing in the tour box on the ticket and to suppress      fare amounts from printing on the ticket. -->
-											<!-- Equivalent Sabre host command: WPUX*TEST1212
+				<!--
+											-->
+				<!-- Optional -->
+				<!--
+											-->
+				<!-- Repeat Factor=0 -->
+				<!--
+											-->
+				<!-- "Ind" is used to specify to specify to suppress IT from printing in the tour box on the ticket and to suppress      fare amounts from printing on the ticket. -->
+				<!--
+											-->
+				<!-- Equivalent Sabre host command: WPUX*TEST1212
 											<SuppressITSupressFare Ind="true"/> -->
-											<!-- Optional -->
-											<!-- Repeat Factor=0 -->
-											<!-- "Text" is used to specify tour code. -->
-											<!-- Equivalent Sabre host command: WPUTEST1212 -->
+				<!--
+											-->
+				<!-- Optional -->
+				<!--
+											-->
+				<!-- Repeat Factor=0 -->
+				<!--
+											-->
+				<!-- "Text" is used to specify tour code. -->
+				<!--
+											-->
+				<!-- Equivalent Sabre host command: WPUTEST1212 -->
+				<!--
 											<Text>
 												<xsl:value-of select="TourCode"/>
 											</Text>
@@ -140,9 +183,11 @@
 
 												<ItineraryOptions>
 													<xsl:call-template name="GetItineraryOptions"/>
-													<!--<xsl:for-each select="FlightReference">
+													-->
+				<!--<xsl:for-each select="FlightReference">
 														<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
 													</xsl:for-each>-->
+				<!--
 												</ItineraryOptions>
 
 											</xsl:if>
@@ -175,7 +220,7 @@
 							</OptionalQualifiers>
 						</PriceRequestInformation>
 					</OTA_AirPriceRQ>
-				</xsl:when>
+				</xsl:when>-->
 				<xsl:when test="StoredFare/FareSegments">
 					<xsl:for-each select="StoredFare[generate-id() = generate-id(key('storedFareByPTC', PassengerType/@Code)[1])]">
 						<xsl:apply-templates select="." mode="SmartPricingAll" />
@@ -234,15 +279,30 @@
 									<PricingQualifiers>
 										<xsl:choose>
 											<xsl:when test="BrandedFares">
-												<xsl:apply-templates select="BrandedFares" mode="FareFamily" />
+												<xsl:apply-templates select="BrandedFares" mode="FareFamily" >
+													<xsl:with-param name="skipTD" select="1" />
+													<xsl:with-param name="skipIO" select="1" />
+												</xsl:apply-templates>
+												<ItineraryOptions>
+													<xsl:choose>
+														<xsl:when test="../FlightReference">
+															<xsl:for-each select="../FlightReference">
+																<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
+															</xsl:for-each>
+														</xsl:when>
+														<xsl:otherwise>
+															<xsl:for-each select="BrandedFares/FareFamily">
+																<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
+															</xsl:for-each>
+														</xsl:otherwise>
+													</xsl:choose>
+												</ItineraryOptions>
 											</xsl:when>
 											<xsl:when test="Discount/@Amount!='' or Discount/@Percent!='' or StoredFare/FareSegments/AirSegments/@TicketDesignator !=''">
 												<CommandPricing>CP</CommandPricing>
 											</xsl:when>
 										</xsl:choose>
-										<!--</xsl:otherwise>-->
 										<NameSelect>NS</NameSelect>
-										<!--<xsl:otherwise>-->
 										<xsl:if test="PassengerType">
 											<PassengerType>
 												<xsl:attribute name="Quantity">
@@ -286,7 +346,7 @@
 								</xsl:when>
 								<xsl:otherwise>
 									<ItineraryOptions>
-										<xsl:call-template name="GetItineraryOptions"/>										
+										<xsl:call-template name="GetItineraryOptions"/>
 									</ItineraryOptions>
 								</xsl:otherwise>
 							</xsl:choose>
@@ -509,6 +569,7 @@
 -->
 	<xsl:template match="BrandedFares" mode="FareFamily">
 		<xsl:param name="skipTD" select="0" />
+		<xsl:param name="skipIO" select="0" />
 		<xsl:for-each select="FareFamily">
 			<Brand>
 				<xsl:attribute name="RPH">
@@ -542,12 +603,14 @@
 			</xsl:for-each>
 		</xsl:if>
 
-		<ItineraryOptions>
-			<xsl:call-template name="GetItineraryOptions"/>
-			<!--<xsl:for-each select="FareFamily">
+		<xsl:if test="$skipIO != 1">
+			<ItineraryOptions>
+				<xsl:call-template name="GetItineraryOptions"/>
+				<!--<xsl:for-each select="FareFamily">
 				<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
 			</xsl:for-each>-->
-		</ItineraryOptions>
+			</ItineraryOptions>
+		</xsl:if>
 
 	</xsl:template>
 
@@ -596,30 +659,62 @@
 						</MiscQualifiers>
 					</xsl:if>
 					<PricingQualifiers>
+						<xsl:choose>
+							<xsl:when test="//StoredFare[1]/BrandedFares">
+								<xsl:apply-templates select="//StoredFare[1]/BrandedFares" mode="FareFamily" >
+									<xsl:with-param name="skipIO">1</xsl:with-param>
+									<xsl:with-param name="skipTD">1</xsl:with-param>
+								</xsl:apply-templates>
+								<ItineraryOptions>
+									<xsl:for-each select="//StoredFare[1]/FareSegments/AirSegments">
+										<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
+									</xsl:for-each>
+								</ItineraryOptions>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:if test="//StoredFare[1]/Discount/@Percent!='' or //StoredFare[1]/TicketDesignator!=''">
+
+									<xsl:apply-templates select="//StoredFare[1]" mode="CommandPricing" />
+
+									<ItineraryOptions>
+										<xsl:call-template name="GetItineraryOptions"/>
+										<xsl:for-each select="FlightReference">
+											<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
+										</xsl:for-each>
+									</ItineraryOptions>
+
+								</xsl:if>
+							</xsl:otherwise>
+						</xsl:choose>
 						<xsl:if test="FareSegments">
-							<xsl:apply-templates select="FareSegments" mode="SmartPricing" />
-						</xsl:if>						
+							<xsl:apply-templates select="FareSegments" mode="SmartPricing">
+								<xsl:with-param name="skipItinOpts">1</xsl:with-param>
+							</xsl:apply-templates>
+						</xsl:if>
 					</PricingQualifiers>
 				</OptionalQualifiers>
 			</PriceRequestInformation>
 		</OTA_AirPriceRQ>
-		
+
 	</xsl:template>
 
 	<!--<xsl:key name="keySegs" match="FB/text()" use="." />-->
 
 	<xsl:template match="FareSegments" mode="SmartPricing">
-		<xsl:variable name="ptc" select="../PassengerType" />
+		<xsl:param name="skipItinOpts" select="0" />
 
+		<xsl:variable name="ptc" select="../PassengerType" />
 		<xsl:choose>
 			<xsl:when test="AirSegments/@TicketDesignator!=''">
 				<xsl:apply-templates select="../../StoredFare[PassengerType/@Code=$ptc/@Code]" mode="CommandPricing" />
-				<ItineraryOptions>
-					<xsl:call-template name="GetItineraryOptions"/>
-					<!--<xsl:for-each select="../../FlightReference">
+				<xsl:if test="$skipItinOpts != 1">
+					<ItineraryOptions>
+						<xsl:call-template name="GetItineraryOptions"/>
+						<!--<xsl:for-each select="../../FlightReference">
 						<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
 					</xsl:for-each>-->
-				</ItineraryOptions>
+					</ItineraryOptions>
+				</xsl:if>
 				<NameSelect>NS</NameSelect>
 				<xsl:if test="../PassengerType">
 					<PassengerType>
@@ -641,9 +736,11 @@
 				</xsl:if>
 			</xsl:when>
 			<xsl:otherwise>
-				<ItineraryOptions>
-					<xsl:call-template name="GetItineraryOptions"/>
-				</ItineraryOptions>
+				<xsl:if test="$skipItinOpts != 1">
+					<ItineraryOptions>
+						<xsl:call-template name="GetItineraryOptions"/>
+					</ItineraryOptions>
+				</xsl:if>
 				<NameSelect>NS</NameSelect>
 				<xsl:if test="../PassengerType">
 					<PassengerType>
@@ -772,7 +869,7 @@
 	</xsl:template>
 
 	<xsl:template match="StoredFare" mode="CommandPricing">
-		
+
 		<xsl:variable name="discType">
 			<xsl:choose>
 				<xsl:when test="Discount/@Amount !=''">
@@ -812,7 +909,8 @@
 				<xsl:attribute name="RPH" >
 					<xsl:value-of select="$rph"/>
 				</xsl:attribute>
-				<xsl:if test="$disc!=''"> <!-- and $disc!='0' -->
+				<xsl:if test="$disc!=''">
+					<!-- and $disc!='0' -->
 					<Discount>
 						<xsl:choose>
 							<xsl:when test="$discType ='P'">
