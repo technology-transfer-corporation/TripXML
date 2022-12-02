@@ -1,0 +1,13 @@
+<Config Domain="dtt.com" Trace="true" Log="true">
+  <Validate In="true" Out="true" />
+  <FeaturedProvider>Sabre-53UG</FeaturedProvider>
+	<Provider Name="Sabre">
+		<System Name="Test">
+			<PCC Code="7DXK" Name="TN">
+				<Username>638679</Username>
+				<Password>8S59FI1H</Password>
+				<Profile />
+			</PCC>
+		</System>		
+	</Provider>
+</Config>

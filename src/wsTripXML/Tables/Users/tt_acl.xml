@@ -96,4 +96,17 @@
       <BL></BL>
     </User>
   </Customer>
+	<Customer Active="true" RequestorID="TN">
+		<User Active="true">
+			<Username>TripNinja</Username>
+			<Password>tr@v3l</Password>
+			<IP_Address/>
+			<Services>
+				<Start>2022-11-29</Start>
+				<End>2099-12-31</End>
+			</Services>
+			<Config>tripninja.xml</Config>
+			<BL></BL>
+		</User>		
+	</Customer>
 </ACL>
