@@ -116,9 +116,9 @@ namespace TripXMLMain
         {
             try
             {
-                //TraceSender(new string[] { "ws://localhost:3070/Trace", ConfigurationManager.AppSettings["TraceServerUrl"] }, msg);
+                TraceSender(new string[] { "ws://localhost:3070/Trace", ConfigurationManager.AppSettings["TraceServerUrl"] });
                 //TraceSender(new string[] { "ws://localhost:3070/Trace", "ws://localhost:8111/Trace" });
-                TraceSender("ws://localhost:3070/Trace");
+                //TraceSender("ws://localhost:3070/Trace");
             }
             catch (Exception)
             {

@@ -1067,33 +1067,31 @@ namespace TripXMLMain
                     }
 
                 case ttServices.PNRRead:
+                case ttServices.PNREnd:
+                case ttServices.TravelBuild:
+                case ttServices.HotelModify:
+                case ttServices.QueueRead:
+                case ttServices.TravelModify:
+                case ttServices.Update:
+                case ttServices.UpdateSessioned:
+                case ttServices.PNRSplit:
                     {
                         tag = "OTA_TravelItineraryRS";
                         version = "v03";
                         break;
                     }
-
                 case ttServices.PNRReprice:
                     {
                         tag = "OTA_PNRRepriceRS";
                         version = "v03";
                         break;
                     }
-
                 case ttServices.PNRCancel:
                     {
                         tag = "OTA_CancelRS";
                         version = "1.001";
                         break;
                     }
-
-                case ttServices.TravelBuild:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
-
                 case ttServices.ShowMileage:
                     {
                         tag = "OTA_ShowMileageRS";
@@ -1239,22 +1237,19 @@ namespace TripXMLMain
                         tag = "NativeRS";
                         version = "1.000";
                         break;
-                    }
-
-                case ttServices.HotelModify:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
-
+                    }                
                 case ttServices.IssueTicket:
                     {
                         tag = "TT_IssueTicketRS";
                         version = "1.000";
                         break;
                     }
-
+                case ttServices.IssueTicketSessioned:
+                    {
+                        tag = "TT_IssueTicketRS";
+                        version = "1.001";
+                        break;
+                    }
                 case ttServices.GeoList:
                     {
                         tag = "TT_GeoListRS";
@@ -1276,21 +1271,20 @@ namespace TripXMLMain
                         break;
                     }
 
-                case ttServices.QueueRead:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        if (!string.IsNullOrEmpty(OTA_Version))
-                        {
-                            version = OTA_Version;
-                        }
-                        else
-                        {
-                            version = "v03";
-                        }
+                //case ttServices.QueueRead:
+                //    {
+                //        tag = "OTA_TravelItineraryRS";
+                //        if (!string.IsNullOrEmpty(OTA_Version))
+                //        {
+                //            version = OTA_Version;
+                //        }
+                //        else
+                //        {
+                //            version = "v03";
+                //        }
 
-                        break;
-                    }
-
+                //        break;
+                //    }
                 case ttServices.ETicketVerify:
                     {
                         tag = "OTA_ETicketVerifyRS";
@@ -1324,42 +1318,7 @@ namespace TripXMLMain
                         tag = "OTA_AddonAvailRS";
                         version = "1.000";
                         break;
-                    }
-
-                case ttServices.TravelModify:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
-
-                case ttServices.Update:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
-
-                case ttServices.UpdateSessioned:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
-
-                case ttServices.PNRSplit:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
-
-                case ttServices.IssueTicketSessioned:
-                    {
-                        tag = "TT_IssueTicketRS";
-                        version = "1.001";
-                        break;
-                    }
+                    }                
             }
 
             if (!string.IsNullOrEmpty(OTA_Version))
