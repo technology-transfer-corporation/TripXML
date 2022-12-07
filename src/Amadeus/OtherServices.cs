@@ -46,13 +46,15 @@ namespace AmadeusWS
                 var ttAA = SetAdapter();
                 SetConversationID(ttAA);
 
+                IsSOAP2 = ttProviderSystems.SOAP2;
+                
                 if (string.IsNullOrEmpty(ConversationID))
                     throw new Exception("ConversationID is missing in the Request.");
 
                 var resp = IsSOAP2 ? ttAA.CloseSession(ConversationID) : ttAA.CloseSoap4Session(ConversationID);
 
                 //  Build Response.
-                return String.Format("<SessionCloseRS Version=\'1.001\'><Success/></SessionCloseRS>", resp);
+                return $"<SessionCloseRS Version=\'1.001\'><Success/>{resp}</SessionCloseRS>";
             }
             catch (Exception ex)
             {

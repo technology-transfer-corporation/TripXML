@@ -920,7 +920,7 @@ public class AmadeusWSAdapter
             {
                 string header = ComposeHeader("AmadeusWSXML", "Session", "SessionCloseRQ", sessionID);
                 string body = "<Security_SignOut/>";
-                response = Send(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSOQ_04_1_1A");
+                response = GetResponseFromSoap(Send(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSOQ_04_1_1A"), "CloseSession", enRequestType.CloseSession);
             }
             return response;
         }
@@ -943,8 +943,9 @@ public class AmadeusWSAdapter
         {
             string header = ComposeSoap4Header("VLSSOQ_04_1_1A", ref session);
             string body = "<Security_SignOut/>";
-            string strResponse = SendSoap4(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSOQ_04_1_1A");
-            return strResponse;
+            string _response = SendSoap4(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSOQ_04_1_1A");
+            _response = GetResponseFromSoap(_response, "CloseSession", enRequestType.CloseSession);
+            return _response;
         }
         catch (Exception ex)
         {
