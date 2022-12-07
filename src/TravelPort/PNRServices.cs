@@ -209,14 +209,15 @@ namespace Travelport
                         var modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
                         strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
 
-                        if (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0)
-                        {
-                            modRQ = strRequest.Replace("</OTA_PNRRepriceRQ>", $"<UpdatePrice>{airRS}</UpdatePrice></OTA_PNRRepriceRQ>");
-                            modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
-                            CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Store Price RQ", modRQ, ProviderSystems.LogUUID);
-                            modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-                            strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
-                        }
+                        //if (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0 && oRoot.SelectNodes("StoredFare[@FareType='Private']").Count > 0)
+                        //{
+                        //    modRQ = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{modRS}</Response></OTA_PNRRepriceRQ>").Replace("</OTA_PNRRepriceRQ>", $"<UpdatePrice>{airRS}</UpdatePrice></OTA_PNRRepriceRQ>");
+                        //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "UpdatePrice RQ", modRQ, ProviderSystems.LogUUID);
+                        //    modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
+                        //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Store Price RS", modRQ, ProviderSystems.LogUUID);
+                        //    modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                        //    strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
+                        //}
                     }
                 }
 
