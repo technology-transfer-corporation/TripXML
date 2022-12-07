@@ -6,6 +6,7 @@ using System.Xml;
 using System.Xml.Linq;
 using TripXMLMain;
 using System.Collections.Generic;
+using System.Xml.Schema;
 
 namespace Sabre
 {
@@ -557,6 +558,8 @@ namespace Sabre
 
                 var oDoc = new XmlDocument();
                 oDoc.LoadXml(Request);
+                int maxDiff = 1;
+
                 XmlNodeList nodesToDel = oDoc.SelectNodes("//FareSegments/AirSegments[text()='VOID']");
                 for (int i = nodesToDel.Count - 1; i >= 0; i--)
                 {
@@ -595,6 +598,11 @@ namespace Sabre
                         bStoreFare = false;
                     }
                 }
+                if (oRoot.SelectSingleNode("@MaxResponses") != null)
+                {
+                    if (int.TryParse(oRoot.SelectSingleNode("@MaxResponses").Value, out _))
+                        maxDiff = int.Parse(oRoot.SelectSingleNode("@MaxResponses").Value);
+                }
 
                 strRequest = !inSession ? strRead : strRedisplay;
 
@@ -618,6 +626,48 @@ namespace Sabre
                         if (arlns.Any() && !arlns.TrueForAll(a => a.Equals(arlns.First())))
                         {
                             validatingCarrier = oRootResp.SelectSingleNode("TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote[MiscInformation/SignatureLine/@Status='ACTIVE']/PricedItinerary/@ValidatingCarrier").InnerText;
+                        }
+                    }
+                    decimal bsr = 1.0M;
+                    Dictionary<string, string> ptcFare = new Dictionary<string, string>();
+                    Dictionary<string, decimal> ptcMarkup = new Dictionary<string, decimal>();
+                    if (oDoc.SelectSingleNode("//StoredFare/Markup") != null &&
+                        oRootResp.SelectSingleNode("//PriceQuote[last()]/PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/BaseFare/@CurrencyCode") != null &&
+                        !oRootResp.SelectSingleNode("//PriceQuote[last()]/PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/BaseFare/@CurrencyCode").InnerText.Equals("USD"))
+                    {
+                        try
+                        {
+                            var cur = oRootResp.SelectSingleNode("//PriceQuote[last()]/PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/BaseFare/@CurrencyCode").InnerText;
+                            var convDoc = new XmlDocument();
+                            foreach (XmlNode makrupNode in oDoc.SelectNodes("//StoredFare/Markup"))
+                            {
+                                var amount = makrupNode.Attributes["Amount"].Value;
+                                string strConv = $"<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>DC¥USD{amount}/{cur}</HostCommand></Request></SabreCommandLLSRQ>";
+                                var convResp = ttSA.SendMessage(strConv, $"DC¥USD{amount}/{cur}", "SabreCommandLLSRQ", ConversationID);
+                                convDoc.LoadXml(convResp);
+                                var conAmount = convDoc.DocumentElement.SelectSingleNode("//Response").InnerText.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Last()
+                                    .Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Skip(1).First();
+                                bsr = decimal.Parse(convDoc.DocumentElement.SelectSingleNode("//Response").InnerText.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                                    .First(x => x.Contains("BSR")).Split('-').Last().Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).First());
+                                strPriceCombined = strPriceCombined.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount}");
+                                strPrice = strPrice.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount}");
+                            }
+
+                            foreach (XmlNode item in oRootResp.SelectNodes("//PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]"))
+                            {
+                                ptcFare[item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Code").Value] =
+                                    item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/EquivFare/@Amount").Value;
+                            }
+
+                            foreach (XmlNode item in oDoc.SelectNodes("//StoredFare"))
+                            {
+                                var markup = item.SelectSingleNode("Markup/@Amount").Value;
+                                ptcMarkup[item.SelectSingleNode("PassengerType/@Code").Value] = !decimal.TryParse(markup, out _) ? 0.0M : decimal.Parse(markup);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
                         }
                     }
 
@@ -778,7 +828,51 @@ namespace Sabre
                                 if (!string.IsNullOrEmpty(validatingCarrier))
                                     strRepriceReq = AddValidatingCarrier(strRepriceReq, validatingCarrier);
 
-                                strRepriceResp += ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                string strPriceResp = string.Empty;
+                                var tryCount = 2;
+                                do
+                                {
+                                    strPriceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+
+                                    if (!bsr.Equals(1M))
+                                    {
+                                        var priceDocResp = new XmlDocument();
+                                        priceDocResp.LoadXml(strPriceResp);
+
+                                        foreach (XmlNode item in priceDocResp.DocumentElement.SelectNodes("//PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]"))
+                                        {
+                                            var ptcCode = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Code").Value;
+                                            var ptcAmaount = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/EquivFare/@Amount").Value;
+                                            try
+                                            {
+                                                if (ptcFare.ContainsKey(ptcCode) && Math.Abs(decimal.Parse(ptcFare[ptcCode]) - decimal.Parse(ptcAmaount)) > ptcMarkup[ptcCode] + maxDiff)
+                                                {
+                                                    var diff = (ptcMarkup[ptcCode] - (decimal.Parse(ptcAmaount) - decimal.Parse(ptcFare[ptcCode]))) * bsr;
+                                                    var prcReqDoc = new XmlDocument();
+                                                    prcReqDoc.LoadXml(strRepriceReq);
+                                                    foreach (XmlNode rItem in prcReqDoc.SelectNodes("//sx:PlusUp", nsmgr))
+                                                    {
+                                                        rItem.Attributes["Amount"].Value = (decimal.Parse(rItem.Attributes["Amount"].Value) + diff).ToString("#.##");
+                                                    }
+                                                    strRepriceReq = prcReqDoc.OuterXml;
+                                                }
+                                                else
+                                                {
+                                                    tryCount = 0;
+                                                    break;
+                                                }
+                                            }
+                                            catch
+                                            {
+                                                tryCount = 0;
+                                                break;
+                                            }
+                                        }
+
+                                    }
+                                } while (!bsr.Equals(1M) && --tryCount > 0);
+
+                                strRepriceResp += strPriceResp;
                                 if (strRepriceResp.Contains("Error"))
                                 {
                                     strRepriceResp = strRepriceResp.Replace("<OTA_AirPriceRS Version=\"2.17.0\">", "").Replace("</OTA_AirPriceRS>", "");
@@ -824,7 +918,52 @@ namespace Sabre
                                     if (!string.IsNullOrEmpty(validatingCarrier))
                                         strRepriceReq = AddValidatingCarrier(strRepriceReq, validatingCarrier);
 
-                                    strRepriceResp += ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                    //strRepriceResp += ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                    string strPriceResp = string.Empty;
+                                    var tryCount = 2;
+                                    do
+                                    {
+                                        strPriceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+
+                                        if (!bsr.Equals(1M))
+                                        {
+                                            var priceDocResp = new XmlDocument();
+                                            priceDocResp.LoadXml(strPriceResp);
+
+                                            foreach (XmlNode item in priceDocResp.DocumentElement.SelectNodes("//PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]"))
+                                            {
+                                                var ptcCode = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Code").Value;
+                                                var ptcAmaount = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/EquivFare/@Amount").Value;
+                                                try
+                                                {
+                                                    if (ptcFare.ContainsKey(ptcCode) && Math.Abs(decimal.Parse(ptcFare[ptcCode]) - decimal.Parse(ptcAmaount)) > ptcMarkup[ptcCode] + maxDiff)
+                                                    {
+                                                        var diff = (ptcMarkup[ptcCode] - (decimal.Parse(ptcAmaount) - decimal.Parse(ptcFare[ptcCode]))) * bsr;
+                                                        var prcReqDoc = new XmlDocument();
+                                                        prcReqDoc.LoadXml(strRepriceReq);
+                                                        foreach (XmlNode rItem in prcReqDoc.SelectNodes("//sx:PlusUp", nsmgr))
+                                                        {
+                                                            rItem.Attributes["Amount"].Value = (decimal.Parse(rItem.Attributes["Amount"].Value) + diff).ToString("#.##");
+                                                        }
+                                                        strRepriceReq = prcReqDoc.OuterXml;
+                                                    }
+                                                    else
+                                                    {
+                                                        tryCount = 0;
+                                                        break;
+                                                    }
+                                                }
+                                                catch
+                                                {
+                                                    tryCount = 0;
+                                                    break;
+                                                }
+                                            }
+
+                                        }
+                                    } while (!bsr.Equals(1M) && --tryCount > 0);
+
+                                    strRepriceResp += strPriceResp;
                                 }
                             }
                             else
@@ -834,10 +973,54 @@ namespace Sabre
                                 if (!string.IsNullOrEmpty(validatingCarrier))
                                     strPrice = AddValidatingCarrier(strPrice, validatingCarrier);
 
-                                strRepriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                //strRepriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                string strPriceResp = string.Empty;
+                                var tryCount = 2;
+                                do
+                                {
+                                    strPriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+
+                                    if (!bsr.Equals(1M))
+                                    {
+                                        var priceDocResp = new XmlDocument();
+                                        priceDocResp.LoadXml(strPriceResp);
+
+                                        foreach (XmlNode item in priceDocResp.DocumentElement.SelectNodes("//PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]"))
+                                        {
+                                            var ptcCode = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Code").Value;
+                                            var ptcAmaount = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/EquivFare/@Amount").Value;
+                                            try
+                                            {
+                                                if (ptcFare.ContainsKey(ptcCode) && Math.Abs(decimal.Parse(ptcFare[ptcCode]) - decimal.Parse(ptcAmaount)) > ptcMarkup[ptcCode] + maxDiff)
+                                                {
+                                                    var diff = (ptcMarkup[ptcCode] - (decimal.Parse(ptcAmaount) - decimal.Parse(ptcFare[ptcCode]))) * bsr;
+                                                    var prcReqDoc = new XmlDocument();
+                                                    prcReqDoc.LoadXml(strPrice);
+                                                    foreach (XmlNode rItem in prcReqDoc.SelectNodes("//sx:PlusUp", nsmgr))
+                                                    {
+                                                        rItem.Attributes["Amount"].Value = (decimal.Parse(rItem.Attributes["Amount"].Value) + diff).ToString("#.##");
+                                                    }
+                                                    strPrice = prcReqDoc.OuterXml;
+                                                }
+                                                else
+                                                {
+                                                    tryCount = 0;
+                                                    break;
+                                                }
+                                            }
+                                            catch
+                                            {
+                                                tryCount = 0;
+                                                break;
+                                            }
+                                        }
+
+                                    }
+                                } while (!bsr.Equals(1M) && --tryCount > 0);
+
+                                strRepriceResp += strPriceResp;
                             }
                         }
-                        { }
                     }
 
                     if (strRepriceResp.Contains("NO COMBINABLE FARES FOR CLASS USED") || strRepriceResp.Contains("NEED MORE PSGR TYPES OR NAME SELECT") || strRepriceResp.Contains("USE INF PSGR TYPE CODE FOR I"))
@@ -850,7 +1033,7 @@ namespace Sabre
                         strRepriceResp = ttSA.SendMessage(strPriceCombined, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                         strRepriceResp = strRepriceResp.Replace("<OTA_AirPriceRS Version=\"2.17.0\">", "").Replace("</OTA_AirPriceRS>", "");
                     }
-
+                    var strWanr = string.Empty;
                     if (strRepriceResp.Contains("Error"))
                     {
                         string strER = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>IR</HostCommand></Request></SabreCommandLLSRQ>";
@@ -868,11 +1051,11 @@ namespace Sabre
 
                         if (strResponse.Contains("*WARNING EDITS*") | strResponse.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strResponse.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED") | strResponse.Contains("END OR IGNORE PNR") | strResponse.Contains("INCORRECT TIME LIMIT - VERIFY  *PQ  DATE"))
                         {
-                            ttSA.SendMessage(strER, "ER", "SabreCommandLLSRQ", ConversationID);
+                            strResponse = ttSA.SendMessage(strER, "ER", "SabreCommandLLSRQ", ConversationID);
                         }
+                        if (strResponse.Contains("CTP EDITS IN PROGRESS....PLEASE WAIT...."))
+                            strWanr = "<Warning>CTP EDITS IN PROGRESS....PLEASE WAIT....</Warning>";
                     }
-
-
 
                     // *****************************************************************
                     // Transform Native Sabre PNRRead Response into OTA Response   *
@@ -881,8 +1064,8 @@ namespace Sabre
                     var strToReplace = "</TravelItineraryReadRS>";
 
                     strResponse = !strRepriceResp.Contains("<OTA_AirPriceRS")
-                            ? strReadResp.Replace("</TravelItineraryReadRS>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS></TravelItineraryReadRS>")
-                            : strReadResp.Replace("</TravelItineraryReadRS>", $"{strRepriceResp}</TravelItineraryReadRS>");
+                            ? strReadResp.Replace("</TravelItineraryReadRS>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS>{strWanr}</TravelItineraryReadRS>")
+                            : strReadResp.Replace("</TravelItineraryReadRS>", $"{strRepriceResp}{strWanr}</TravelItineraryReadRS>");
 
                     if (inSession)
                         strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
