@@ -141,8 +141,21 @@ namespace Sabre
                     string strOther = oRoot.SelectSingleNode("Remarks").InnerXml.Replace(" xmlns=\"\"", "");
                     Other = !string.IsNullOrEmpty(strOther);
                     nsmgr = new XmlNamespaceManager(oDoc.NameTable);
-                    nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2003/07");
-                    nodesOther = oRoot.SelectSingleNode("Remarks").SelectNodes("sx:AddRemarkRQ", nsmgr);
+                    if (strOther.Contains("sx:AddRemarkRQ"))
+                    {                        
+                        nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2011/10");
+                        nodesOther = oRoot.SelectSingleNode("Remarks").SelectNodes("sx:AddRemarkRQ", nsmgr);
+                    }
+                    else
+                    {
+                        nsmgr.AddNamespace("", "http://webservices.sabre.com/sabreXML/2011/10");
+                        nodesOther = oRoot.SelectSingleNode("Remarks").SelectNodes("AddRemarkRQ", nsmgr);
+                        if(nodesOther.Count.Equals(0))
+                            nodesOther = oRoot.SelectNodes("Remarks").Item(0).ChildNodes;
+                    }
+                        
+                    
+                    
                 }
 
                 if (oRoot.SelectSingleNode("SpecialServicesCI") is null)
@@ -212,9 +225,7 @@ namespace Sabre
                 strIgnore = oRoot.SelectSingleNode("Ignore").InnerXml.Replace(" xmlns=\"\"", "");
 
 
-                // *******************
-                // Create Session    *
-                // *******************
+                /*  Create Session */
                 bool inSession = SetConversationID(ttSA);
                 strResponse = ttSA.SendMessage(strIgnore, "IgnoreTransaction", "IgnoreTransactionLLSRQ", ConversationID);
 
@@ -245,7 +256,7 @@ namespace Sabre
                             return strResponse;
                         }
                     }
-
+                    
                     Thread.Sleep(1000);
 
                     // Send Cars Request
@@ -276,7 +287,7 @@ namespace Sabre
                         int brCount = 0;
                         foreach (XmlNode otherNode in nodesOther)
                         {
-                            if (otherNode.SelectNodes("sx:BasicRemark", nsmgr).Count > 0)
+                            if (otherNode.InnerXml.Contains("sx:AddRemarkRQ")) //otherNode.SelectNodes("sx:BasicRemark", nsmgr).Count > 0
                             {
                                 if (otherNode.SelectNodes("sx:BasicRemark", nsmgr).Count > 10)
                                 {
@@ -360,14 +371,15 @@ namespace Sabre
 
                     // Send Special Services Requests
                     if (SpecialCI)
-                    {
                         strResponse = SendRequestSegment(ttSA, strSpecialServicesCI, "SpecialServicesCI", "SpecialService", "SpecialServiceLLSRQ");
-                    }
 
                     if (SpecialSeat)
-                    {
                         strResponse = SendRequestSegment(ttSA, strSpecialServicesSeat, "SpecialServicesSeat", "SpecialService", "SpecialServiceLLSRQ");
-                    }
+
+                    // Send End Transaction Request
+                    //CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ET", "", ProviderSystems.LogUUID);
+                    //strResponse = ttSA.SendMessage(strEndTransaction, "EndTransaction", "EndTransactionLLSRQ", ConversationID);
+                    //strNative += $"{strEndTransaction}{strResponse}";
 
                     if (SpecialSSR)
                     {
@@ -381,14 +393,10 @@ namespace Sabre
                     }
 
                     if (SpecialOSI)
-                    {
                         strResponse = SendRequestSegment(ttSA, strSpecialServicesOSI, "SpecialServicesOSI", "SpecialService", "SpecialServiceLLSRQ");
-                    }
 
                     if (MiscSegmentSell)
-                    {
                         strResponse = SendRequestSegment(ttSA, strMiscSegmentSell, "MiscSegmentSell", "MiscSegmentSell", "MiscSegmentSellLLSRQ");
-                    }
 
                     // Send Pricing Request
                     if (Price)
@@ -2097,39 +2105,37 @@ namespace Sabre
             return strResponse;
         }
 
-        private string SendRequestSegment(SabreAdapter ttSA, string strRequest, string Segment, string Service, string Action)
+        private string SendRequestSegment(SabreAdapter ttSA, string request, string segment, string service, string action)
         {
-            string strResponse = "";
-            if (!string.IsNullOrEmpty(strRequest.Trim()))
+            if (!string.IsNullOrEmpty(request.Trim()))
             {
-                CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", Segment, "", ProviderSystems.LogUUID);
-                strResponse = ttSA.SendMessage(strRequest, Service, Action, ConversationID);
-                if (strResponse.Contains("TICKETING IN PROGRESS"))
+                //CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", segment, request, ProviderSystems.LogUUID);
+                var _response = ttSA.SendMessage(request, service, action, ConversationID);
+                if (_response.Contains("TICKETING IN PROGRESS"))
                 {
                     int iTry = 0;
-                    while (strResponse.Contains("TICKETING IN PROGRESS") & iTry < 5)
+                    while (_response.Contains("TICKETING IN PROGRESS") & iTry < 5)
                     {
                         Thread.Sleep(2000);
-
-                        strResponse = ttSA.SendMessage(strRequest, Service, Action, ConversationID);
+                        _response = ttSA.SendMessage(request, service, action, ConversationID);
                         iTry += 1;
                     }
                 }
 
-                strNative += $"{strRequest}{strResponse}";
+                strNative += $"{request}{_response}";
 
-                if (Segment == "BulkDocument")
-                    strResponse = strResponse.Replace("<![CDATA[", "<Line>").Replace("]]>", "</Line>").Replace("\r\n", "").Trim();
+                if (segment == "BulkDocument")
+                    _response = _response.Replace("<![CDATA[", "<Line>").Replace("]]>", "</Line>").Replace("\r\n", "").Trim();
 
                 // Check for Errors
-                var transResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_TB_Errors.xsl");
+                var transResponse = CoreLib.TransformXML(_response, XslPath, $"{Version}Sabre_TB_Errors.xsl");
 
-                if (string.IsNullOrEmpty(transResponse) && Segment == "BulkDocument")
-                    transResponse = strResponse;
+                if (string.IsNullOrEmpty(transResponse) && segment == "BulkDocument")
+                    transResponse = _response;
 
-                CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "strResponse", transResponse, ProviderSystems.LogUUID);
+                //CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "strResponse", transResponse, ProviderSystems.LogUUID);
                 // Log Errors
-                if (transResponse.Contains("<Error") & Segment == "BulkDocument")
+                if (transResponse.Contains("<Error") & segment.Equals("BulkDocument"))
                 {
                     Warnings += transResponse.Replace("<Error", "<Warning").Replace("</Error", "</Warning");
                     transResponse = "";
@@ -2143,14 +2149,12 @@ namespace Sabre
                     Warnings += transResponse;
                     transResponse = "";
                 }
-
                 return transResponse;
             }
             else
             {
-                return "";
+                return string.Empty;
             }
-
         }
 
         private string BuildOTAResponse(string strResponse)
@@ -2175,8 +2179,6 @@ namespace Sabre
             {
                 throw ex;
             }
-
         }
-
     }
 }
