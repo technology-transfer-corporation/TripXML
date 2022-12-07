@@ -215,11 +215,9 @@ public class ttHttpWebClient
         try
         {
             message = strMessage;
-
             StartTime = System.DateTime.Now;
             CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Sent to AmadeusWS", message.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), ttProviderSystems.LogUUID);
             HttpConnect(ttProviderSystems);
-
             oWriter = new StreamWriter(new GZipStream(mHttpRequest.GetRequestStream(), CompressionMode.Compress, false));
             oWriter.Write(message);
         }
