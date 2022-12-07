@@ -1081,8 +1081,8 @@ namespace Galileo
                 XmlElement oRoot = oDoc.DocumentElement;
                 string strRead = oRoot.SelectSingleNode("PNRRead").InnerXml;
                 string strCurrentRead = oRoot.SelectSingleNode("PNRCurrentRead").InnerXml;
-                string strTicket = oRoot.SelectSingleNode("Ticket").InnerXml;
-                string strVerifyATFQ = oRoot.SelectSingleNode("VerifyATFQ") != null ? oRoot.SelectSingleNode("VerifyATFQ").InnerXml : "";
+
+                //string strVerifyATFQ = oRoot.SelectSingleNode("VerifyATFQ") != null ? oRoot.SelectSingleNode("VerifyATFQ").InnerXml : "";
                 string strET = oRoot.SelectSingleNode("ET") != null ? oRoot.SelectSingleNode("ET").InnerXml : "";
                 string strCrypticRULA = oRoot.SelectSingleNode("CrypticRULA") != null ? oRoot.SelectSingleNode("CrypticRULA").InnerXml : "";
                 string strGetTickets = oRoot.SelectSingleNode("GetTickets") != null ? oRoot.SelectSingleNode("GetTickets").InnerXml : "";
@@ -1179,10 +1179,10 @@ namespace Galileo
                     if (strResponse.Contains("<DocProdDisplayStoredQuote />") | strResponse.Contains("<Text>NO FARES</Text>"))
                         throw new Exception("Cannot issue ticket - no stored fares in PNR");
 
+
+
                     #region Get existing fare
-                    var oDocResp = new XmlDocument();
-                    oDocResp.LoadXml(strResponse);
-                    var oRootResp = oDocResp.DocumentElement;
+                    
                     XmlNodeList oFareNodes;
                     XmlNode oFareNode;
                     XmlNode oSegNode;
@@ -1206,9 +1206,20 @@ namespace Galileo
                         strEmail += $"{strET}\r\n{strResponse}";
                         strMessage += $"{strET}\r\n{strResponse}";
                     }
+                    var tktRQ = Request.Replace("</TT_IssueTicketRQ>", $"<PNR>{strResponse}</PNR></TT_IssueTicketRQ>");
+                    CoreLib.SendTrace(ProviderSystems.UserID, "TicketingRQ", $"Ticketing", tktRQ, ProviderSystems.LogUUID);
 
+                    var fullResp = CoreLib.TransformXML(tktRQ, XslPath, $"{Version}Galileo_IssueTicketRQ.xsl");
+                    CoreLib.SendTrace(ProviderSystems.UserID, "TicketingRQ", $"Full Transformed", fullResp, ProviderSystems.LogUUID);
+
+                    var oDocResp = new XmlDocument();
+                    oDocResp.LoadXml(fullResp);
+                    var oRootResp = oDocResp.DocumentElement;
+                    string strTicket = oRoot.SelectSingleNode("Ticket").InnerXml;
+                    CoreLib.SendTrace(ProviderSystems.UserID, "TicketingRQ", $"Ticketing Details", strTicket, ProviderSystems.LogUUID);
 
                     strResponse = ttGA.SendMessage(strTicket, ConversationID);
+
                     // send cryptic issue ticket command and format response screen
                     // strResponse = ttGA.SendCrypticMessage(strTicket, Token)
                     // strResponse = strResponse.Replace("&gt;", "")
@@ -1462,15 +1473,16 @@ namespace Galileo
 
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation of OTA PNRRead Request produced empty xml.");
-
+                                
                 // ****************************
                 // Retrieve existing PNR     *
                 // **************************** 
                 var oDoc = new XmlDocument();
                 oDoc.LoadXml(Request);
                 var oRoot = oDoc.DocumentElement;
-                var strRecLocator = oRoot.SelectSingleNode("UniqueID/@ID").InnerText;
-                string strCurrentPNR = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr /><CodeCheck /><RecLoc>{strRecLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>2</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>3</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>4</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
+                var recLocator = oRoot.SelectSingleNode("UniqueID/@ID")?.InnerText ?? "";
+
+                string strCurrentPNR = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr /><CodeCheck /><RecLoc>{recLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>2</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>3</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>4</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
 
                 // ********************************************
                 // * Get Galileo Native PNR Retrieve response *
@@ -1497,7 +1509,9 @@ namespace Galileo
                     oDoc = new XmlDocument();
                     oDoc.LoadXml(strRequest);
                     oRoot = oDoc.DocumentElement;
-                    var strEndTransaction = oRoot.SelectSingleNode("ET").InnerXml;
+
+                    var strEndTransaction = oRoot.SelectSingleNode("ET")?.InnerXml ?? "";
+                    var multiElementsRQ = oRoot.SelectSingleNode("MultiElements")?.InnerXml ?? "";
 
                     // *******************************
                     // Modify PNR - Insert elements *
@@ -1517,56 +1531,55 @@ namespace Galileo
                         // ********************
                         // Get All Requests  * 
                         // ********************                        
-                        oDocTemp = new XmlDocument();
-                        oDocTemp.LoadXml(strRequest);
-                        var oRootTemp = oDocTemp.DocumentElement;
-                        strEndTransaction = oRootTemp.SelectSingleNode("ET").InnerXml;
+                        //oDocTemp = new XmlDocument();
+                        //oDocTemp.LoadXml(strRequest);
+                        //var oRootTemp = oDocTemp.DocumentElement;
+                        //strEndTransaction = oRootTemp.SelectSingleNode("ET").InnerXml;
 
                         // insert other elements
-                        if (oRootTemp.SelectSingleNode("MultiElements") != null)
+                        if (!string.IsNullOrEmpty(multiElementsRQ))
                         {
-                            string strMultiElements = oRootTemp.SelectSingleNode("MultiElements").InnerXml;
-                            nativePNRReply = ttGA.SendMessage(strMultiElements, ConversationID);
+                            nativePNRReply = ttGA.SendMessage(multiElementsRQ, ConversationID);
 
                             if (nativePNRReply.Contains("SIMULTANEOUS CHANGES TO BOOKING FILE"))
                             {
                                 HandleSimChanges(ttGA, ConversationID);
-                                nativePNRReply = ttGA.SendMessage(strMultiElements, ConversationID);
+                                nativePNRReply = ttGA.SendMessage(multiElementsRQ, ConversationID);
                             }
 
                             if (nativePNRReply.Contains("CHECK CONTINUITY SEGMENT"))
                                 nativePNRReply = ttGA.SendMessage(strEndTransaction, ConversationID);
 
-                            message = $"{strMultiElements}\r\n{nativePNRReply}";
+                            message = $"{multiElementsRQ}\r\n{nativePNRReply}";
                         }
                     }
 
                     response = nativePNRReply;
                     message = $"{strEndTransaction}\r\n{response}";
-                    response = ttGA.SendMessage(strCurrentPNR, ConversationID);
 
+                    /*
+                    response = ttGA.SendMessage(strCurrentPNR, ConversationID);
                     var oDocResp = new XmlDocument();
                     oDocResp.LoadXml(response);
                     var oRootResp = oDocResp.DocumentElement;
-                    var oNodeResp = oRootResp.SelectSingleNode("EndTransaction/EndTransactResponse/RecLoc");
-                    if (oNodeResp != null)
+                    */
+
+                    if (!string.IsNullOrEmpty(recLocator))
                     {
-                        string RecordLocator = oNodeResp.InnerText;
-                        if (!string.IsNullOrEmpty(RecordLocator))
-                        {
+                        
                             // Send Retreive Request
-                            string strRTV = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr/><CodeCheck/><RecLoc>{RecordLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods>" +
+                            string strRTV = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr/><CodeCheck/><RecLoc>{recLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods>" +
                             "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
                             response = ttGA.SendMessage(strRTV, ConversationID);
                             message = $"{strRTV}\r\n{response}";
-                        }
+                        
                     }
 
                     // ****************************************************************************
                     // Add Previous Errors and Warnings To Galileo Native End Transact Response   *
                     // ****************************************************************************
                     nativePNRReply = response;
-                    oDocResp = null;
+                    //oDocResp = null;
                 }
 
                 // *****************************************************************
