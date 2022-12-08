@@ -1,5 +1,5 @@
 @echo off
-rem set path=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.2 Tools;%path%
+set path=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools;%path%
 
 xsltc /settings:document+,script+ Sabre_AirAvailRQ.xsl
 xsltc /settings:document+,script+ Sabre_AirAvailRS.xsl
@@ -72,19 +72,12 @@ xsltc /settings:document+,script+ v04_Sabre_PNRReadRS.xsl
 xsltc /settings:document+,script+ Sabre_SalesReportRQ.xsl
 xsltc /settings:document+,script+ Sabre_SalesReportRS.xsl
 
-xsltc /settings:document+,script+ Sabre_ProfileReadRQ.xsl
-xsltc /settings:document+,script+ Sabre_ProfileReadRS.xsl
-xsltc /settings:document+,script+ Sabre_ProfileCreateRQ.xsl
-xsltc /settings:document+,script+ Sabre_ProfileCreateRS.xsl
-xsltc /settings:document+,script+ Sabre_ProfileUpdateRQ.xsl
-xsltc /settings:document+,script+ Sabre_ProfileUpdateRS.xsl
-
-rem xsltc /settings:document+,script+ Sabre_TicketCouponRQ.xsl
-rem xsltc /settings:document+,script+ Sabre_TicketCouponRS.xsl
+xsltc /settings:document+,script+ Sabre_TicketCouponRQ.xsl
+xsltc /settings:document+,script+ Sabre_TicketCouponRS.xsl
 
 xcopy "*.dll"  "..\..\wsTripXML\bin"  /c /d /i /y
 xcopy "*.dll"  "..\..\TripXMLMain\Xsl\Sabre"  /c /d /i /y
 xcopy "*.dll"  "C:\TripXML\Xsl\Sabre"  /c /d /i /y
 
 del "*.dll" 
-pause
+#pause

@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 08 Dec 2022 - Samokhvalov - PTC_Farebreakdown/TPA_Extensions/SupplementalInfo fixed.
 Date: 13 Sep 2022 - Samokhvalov - Exchanges - TPA_Extensions/AgencyCommission fixed.
 Date: 30 Aug 2022 - Samokhvalov - OperatingAirline Code fixes
 Date: 30 Aug 2022 - Samokhvalov - Added TPA_Extensions/AgencyCommission.
@@ -1558,6 +1559,11 @@ Date: 23 Feb 2015 - Rastko
 						<xsl:when test="//PNR_DHT_INF/DOC_ITM[DOC_PAX_INF/PTC=$paxtype]/DOC_PRC_INF/FAR_SHE_INF">
 							<SupplementalInfo>
 								<xsl:value-of select="//PNR_DHT_INF/DOC_ITM[DOC_PAX_INF/PTC=$paxtype]/DOC_PRC_INF/FAR_SHE_INF/FAR_SHE_TXT"/>
+							</SupplementalInfo>
+						</xsl:when>
+						<xsl:when test="//PNR_4_INF/Line and contains(//PNR_4_INF/Line[1], '4P*')">
+							<SupplementalInfo>
+								<xsl:value-of select="//PNR_4_INF/Line[1]"/>
 							</SupplementalInfo>
 						</xsl:when>
 						<xsl:otherwise>
