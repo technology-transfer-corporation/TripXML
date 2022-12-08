@@ -245,7 +245,7 @@
 		<xsl:if test="OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks/SpecialRemark[@RemarkType='HostEntry']">
 			<HostEntry>
 				<xsl:for-each select="OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks/SpecialRemark[@RemarkType='HostEntry']">
-					<SabreCommandLLSRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.6.1">
+					<SabreCommandLLSRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.0.0">
 						<xsl:element name="Request">
 							<xsl:attribute name="Output">SCREEN</xsl:attribute>
 							<xsl:attribute name="MDRSubset">AD01</xsl:attribute>
@@ -355,7 +355,7 @@
 		</xsl:if-->
 		<xsl:if test=" OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks[@RemarkType='C']">
 			<SpecialRemarks>
-				<AddRemarkRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.0.1">
+				<AddRemarkRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" ReturnHostCommand="true" Version="2.1.1">
 					<POS>
 						<xsl:value-of select="$PCC"/>
 					</POS>
@@ -585,7 +585,7 @@
 		</xsl:if>
 		<xsl:if test="OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/OtherServiceInformations/OtherServiceInformation">
 			<SpecialServicesOSI>
-				<SpecialServiceRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.4.1">
+				<SpecialServiceRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.2.1">
 					<POS>
 						<Source>
 							<xsl:attribute name="PseudoCityCode">
@@ -658,7 +658,7 @@
 			</Queue>
 		</xsl:if>
 		<ET>
-			<EndTransactionRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.01">
+			<EndTransactionRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.2.0">
 				<POS>
 					<Source>
 						<xsl:attribute name="PseudoCityCode">
@@ -699,7 +699,7 @@
 			</GetReservationRQ>
 		</Read>
 		<Ignore>
-			<IgnoreTransactionRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.0.1">
+			<IgnoreTransactionRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.0.0">
 				<POS>
 					<xsl:attribute name="PseudoCityCode">
 						<xsl:value-of select="$PCC"/>
@@ -1066,7 +1066,7 @@
 	<!--  		Customer Information                                -->
 	<!--************************************************************-->
 	<xsl:template match="PNRData" mode="ixplore">
-		<TravelItineraryAddInfoRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.6.1">
+		<TravelItineraryAddInfoRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.2.1">
 			<POS>
 				<Source>
 					<xsl:attribute name="PseudoCityCode">
@@ -2219,7 +2219,7 @@
 	</xsl:template>
 	<!-- **************************************OTH Segemnt*******************************************-->
 	<xsl:template match="Segment" mode="Seg">
-		<MiscSegmentSellRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.0.1">
+		<MiscSegmentSellRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.0.0">
 			<POS>
 				<Source>
 					<xsl:attribute name="PseudoCityCode">
