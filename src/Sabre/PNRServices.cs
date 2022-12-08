@@ -797,7 +797,7 @@ namespace Sabre
                                             {
                                                 cmdPrice += $"<Discount Percent=\"{oNodeDiscount.SelectSingleNode("@Percent").InnerText}\"";
                                             }
-
+                                            //TODO:AAAAAAAAAAAAAAAAAAAAAAAAAAA
                                             if (oRoot.SelectSingleNode($"StoredFare[@RPH='{strPQ}']/TicketDesignator") != null)
                                             {
                                                 cmdPrice += $" AuthCode=\"{oRoot.SelectSingleNode($"StoredFare[@RPH='{strPQ} ']/TicketDesignator").InnerText}\"/>";
