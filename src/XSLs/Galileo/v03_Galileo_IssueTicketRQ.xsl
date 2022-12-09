@@ -1,28 +1,28 @@
 <?xml version="1.0" ?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
-	<!-- 
+  <!-- 
   ================================================================== 
 	v04_Galileo_IssueTicketRQ.xsl 													
-	================================================================== 
+  ================================================================== 
   Date: 04 Nov 2020 - Kobelev - MIR Printer Status Change.
   Date: 28 Oct 2020 - Kobelev - Printer Status Change Cryptically.
   Date: 27 Oct 2020 - Kobelev - Ticketing and Invoice Printer assignement.
   Date: 27 Oct 2020 - Kobelev - Service Update. Fix FOP and Commission issues.	
-	Date: 15 Sep 2009 - Rastko														
-	================================================================== 
+  Date: 15 Sep 2009 - Rastko														
+  ================================================================== 
   -->
 	<xsl:output method="xml" omit-xml-declaration="yes" />
 	<xsl:variable name="PCC">
 		<xsl:value-of select="TT_IssueTicketRQ/POS/Source/@PseudoCityCode"/>
 	</xsl:variable>
+
 	<xsl:template match="/">
 		<TT_IssueTicketRQ>
 			<xsl:apply-templates select="TT_IssueTicketRQ" />
 		</TT_IssueTicketRQ>
 	</xsl:template>
-	<!-- ************************************************************************************************************-->
-	<xsl:template match="TT_IssueTicketRQ">
 
+	<xsl:template match="TT_IssueTicketRQ">
 		<PNRRead>
 			<PNRBFManagement_53>
 				<PNRBFRetrieveMods>
@@ -609,7 +609,7 @@
 		</xsl:if>
 	</xsl:template>
 
-	<!--
+<!--
   ############################################################
   ## Template to tokenize strings                           ##
   ############################################################
