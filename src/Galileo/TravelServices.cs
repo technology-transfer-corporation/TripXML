@@ -1252,7 +1252,7 @@ namespace Galileo
                         strMessage += $"\r\n{strRead}\r\n{strResp}";
 
                         strResponse = ttGA.SendMessage(strGetTickets, ConversationID);
-                        strResponse = strResponse.Replace("</DocProdFareManipulation_29>", strResponse + "</DocProdFareManipulation_29>");
+                        strResponse = strResponse.Replace("</DocProdFareManipulation_29>", $"{strResponse}</DocProdFareManipulation_29>");
                         strEmail += $"{strGetTickets}\r\n{strResponse}";
                         strMessage += $"\r\n{strGetTickets}\r\n{strResponse}";
                         strReplacementTag = "</DocProdFareManipulation_29>";

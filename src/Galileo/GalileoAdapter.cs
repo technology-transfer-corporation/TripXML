@@ -45,7 +45,7 @@ namespace Galileo
                     ? new wsGalileoProd.XmlSelect { Url = ProviderSystems.URL }
                     : new wsGalileoCopy.XmlSelect { Url = ProviderSystems.URL };
 
-                mstrProfile = ProviderSystems.Profile.Text;
+                mstrProfile = ProviderSystems.Profile;
                 mstrSystem = ProviderSystems.System;
                 mstrUserID = ProviderSystems.UserID;
                 oNc = new NetworkCredential(ProviderSystems.UserName, ProviderSystems.Password);
@@ -170,7 +170,7 @@ namespace Galileo
                 }
 
                 // oDa.InsertNewSession(Token, 1, ProviderSystems.Provider, CreatedTime, LastMessageTime, ProviderSystems.UserID, "Active", "N", "N", ProviderSystems.URL, BlockID, IsInitialBlock, ProviderSystems.PCC, ProviderSystems.Profile, ProviderSystems.System, ProviderSystems.GPass)
-                oDa.InsertNewSession(Token, 1, ProviderSystems.Provider, CreatedTime, LastMessageTime, ProviderSystems.UserName, ProviderSystems.UserID, "Active", 'N', 'N', ProviderSystems.URL, BlockID, IsInitialBlock, ProviderSystems.PCC, ProviderSystems.Profile.Text, ProviderSystems.System, ProviderSystems.GPass);
+                oDa.InsertNewSession(Token, 1, ProviderSystems.Provider, CreatedTime, LastMessageTime, ProviderSystems.UserName, ProviderSystems.UserID, "Active", 'N', 'N', ProviderSystems.URL, BlockID, IsInitialBlock, ProviderSystems.PCC, ProviderSystems.Profile, ProviderSystems.System, ProviderSystems.GPass);
                 modCore.IsCreating = false;
             }
             catch (Exception ex)
