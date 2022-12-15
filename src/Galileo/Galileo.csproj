@@ -104,6 +104,10 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TripXMLTools\TripXMLTools.csproj">
+      <Project>{b362f5bf-5f86-4997-9ef4-067c8e3db74e}</Project>
+      <Name>TripXMLTools</Name>
+    </ProjectReference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System">
       <Name>System</Name>
@@ -122,10 +126,6 @@
     <ProjectReference Include="..\TripXMLMain\TripXMLMain.csproj">
       <Project>{c9d99008-6b09-0fb3-2941-ac1bb23825fa}</Project>
       <Name>TripXMLMain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TripXMLTools\TripXMLTools.csproj">
-      <Project>{B362F5BF-5F86-4997-9EF4-067C8E3DB74E}</Project>
-      <Name>TripXMLTools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
