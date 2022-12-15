@@ -4,6 +4,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 15 Dec 2022 - Kobelev - Formating childrens age for NET fare (JNN).
   Date: 28 Nov 2022 - Kobelev - Formating childrens age.
   Date: 15 Nov 2022 - Kobelev - Calculated Date of Birth for children.
   Date: 12 Oct 2022 - Kobelev - VOIDed Tickets indicator.
@@ -931,11 +932,13 @@
 								<xsl:when test="$PsgrType='CNN' and contains(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, 'P-')">
 									<xsl:value-of select="substring-after(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, '-')" />
 								</xsl:when>
+								<xsl:when test="$PsgrType='JNN' and contains(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, 'P-')">
+									<xsl:value-of select="substring-after(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, '-')" />
+								</xsl:when>
 								<xsl:otherwise>
 									<xsl:value-of select="$PsgrType" />
 								</xsl:otherwise>
-							</xsl:choose>
-							
+							</xsl:choose>							
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
@@ -2254,8 +2257,14 @@
 										<xsl:attribute name="BirthDate">
 											<xsl:call-template name="bdt">
 												<xsl:with-param name="bdt">
-													<!-- <NameRmk>23FEB20</NameRmk> -->
+													<!-- 
+													<NameRmk>23FEB20</NameRmk> 
+													<NameRmk>10MAY22 P-INF</NameRmk>
+													-->
 													<xsl:choose>
+														<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, '-INF')">
+															<xsl:value-of select="substring(substring-before(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, '-INF'), 1,7)" />
+														</xsl:when>
 														<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'INF')">
 															<xsl:value-of select="substring-after(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'INF')" />
 														</xsl:when>
@@ -2295,6 +2304,10 @@
 										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-C')">
 											<xsl:variable name="pCode" select="concat('0', substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'C'))" />											
 											<xsl:value-of select="concat('C', substring($pCode, string-length($pCode)-1))"/>
+										</xsl:when>
+										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-J')">
+											<xsl:variable name="pCode" select="concat('0', substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'J'))" />
+											<xsl:value-of select="concat('J', substring($pCode, string-length($pCode)-1))"/>
 										</xsl:when>
 										<xsl:when test="../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk != '' and NameType = ''">
 											<xsl:value-of select="../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk"/>

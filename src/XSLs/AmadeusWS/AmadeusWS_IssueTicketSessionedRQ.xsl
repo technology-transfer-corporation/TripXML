@@ -179,9 +179,9 @@
                 <xsl:if test="Ticketing/@OmitInfant = 'true' and $pcc!='NYC1S21GQ'">/PAX</xsl:if>
                 <xsl:if test="Ticketing/@InfantOnly = 'true' and $pcc!='NYC1S21GQ'">/INF</xsl:if>
                 <xsl:if test="Ticketing/@IssueInvoice = 'true'">/INV</xsl:if>
-                <xsl:if test="$pcc='NYC1S21GQ' and (not(Ticketing/@InfantOnly) or Ticketing/@InfantOnly='false')">
+                <!--<xsl:if test="$pcc='NYC1S21GQ' and (not(Ticketing/@InfantOnly) or Ticketing/@InfantOnly='false')">
                   <xsl:value-of select="'J'"/>
-                </xsl:if>
+                </xsl:if>-->
                 <xsl:for-each select="Ticketing/FareNumber">
                   <xsl:if test="position()=1">/T</xsl:if>
                   <xsl:value-of select="."/>

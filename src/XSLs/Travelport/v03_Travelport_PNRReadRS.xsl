@@ -4242,7 +4242,7 @@
 	<xsl:template name="bdt">
 		<xsl:param name="bdt" />
 		<xsl:choose>
-			<xsl:when test="string-length(substring($bdt, 2,2))=2">
+			<xsl:when test="not(string-length($bdt) = 7) and string-length(substring($bdt, 2,2))=2">
 				<xsl:call-template name="bdt_years">
 					<xsl:with-param name="bdt" select="substring($bdt, 2,2)" />
 				</xsl:call-template>

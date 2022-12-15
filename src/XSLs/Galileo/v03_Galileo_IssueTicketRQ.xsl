@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
-  <!-- 
+	<!-- 
   ================================================================== 
 	v04_Galileo_IssueTicketRQ.xsl 													
   ================================================================== 
@@ -10,6 +10,7 @@
   Date: 27 Oct 2020 - Kobelev - Service Update. Fix FOP and Commission issues.	
   Date: 15 Sep 2009 - Rastko														
   ================================================================== 
+  https://support.travelport.com/webhelp/GWS/Content/TRANSACTIONHELP/DocProdFareManipulation_29/DocProdFareManipulation_29.htm
   -->
 	<xsl:output method="xml" omit-xml-declaration="yes" />
 	<xsl:variable name="PCC">
@@ -171,7 +172,7 @@
 		</VerifyATFQ>
     -->
 
-		<!--
+		<!-- 
     <xsl:for-each select="Ticketing/FareNumber">
       <CrypticTMU>
         <xsl:text>TMU</xsl:text>
@@ -196,12 +197,10 @@
             <xsl:value-of select="../../Fulfillment/PaymentDetails/PaymentDetail/PaymentCard/@ConfirmationNumber"/>
           </xsl:when>
         </xsl:choose>
-
         <xsl:if test="../OrderNumber != ''">
           <xsl:text>*C</xsl:text>
           <xsl:value-of select="../OrderNumber"/>
         </xsl:if>
-
         <xsl:choose>
           <xsl:when test="../Commission/@Percent=0 and ../Commission/@Amount=0">
             <xsl:text>/Z</xsl:text>
@@ -215,20 +214,15 @@
             <xsl:text>/Z</xsl:text>
             <xsl:value-of select="../Commission/@Percent"/>
           </xsl:otherwise>
-
-        </xsl:choose>
-
-        -->
-		<!--xsl:text>/ET</xsl:text-->
-		<!--
+        </xsl:choose>        
+		<xsl:text>/ET</xsl:text>
       </CrypticTMU>
     </xsl:for-each>
-    -->
 
 		<xsl:if test="Ticketing/BookingPCC != ''">
 			<CrypticRULA>RULA/BANK</CrypticRULA>
 		</xsl:if>
-
+-->
 		<!--xsl:if test="Ticketing/FareNumber!='' or Ticketing/BookingPCC != ''"-->
 
 		<ET>
@@ -303,7 +297,9 @@
 							</xsl:for-each>
 						</FareNumAry>
 					</FareNumInfo>
+					
 					<!--xsl:apply-templates select="Fulfillment/PaymentDetails/PaymentDetail" mode="DocProd"/-->
+					
 					<TicketingControl>
 						<TransType>TK</TransType>
 					</TicketingControl>
@@ -368,6 +364,11 @@
 								</xsl:otherwise>
 							</xsl:choose>
 						</CommissionMod>
+					</xsl:if>
+					<xsl:if test="Ticketing/FutureTicket = 'BLK'">
+						<BulkTicket>
+							<FareConstructInd>S</FareConstructInd>						
+						</BulkTicket>					
 					</xsl:if>
 					<xsl:if test="Ticketing/@TravelerRefNumberRPHList != ''">
 						<AssocPsgrs>
@@ -609,7 +610,7 @@
 		</xsl:if>
 	</xsl:template>
 
-<!--
+	<!--
   ############################################################
   ## Template to tokenize strings                           ##
   ############################################################
