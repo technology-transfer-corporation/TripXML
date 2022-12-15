@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 09 Dec 2022 - Samokhvalov - TPA_Extensions/AgencyCommission from SPE_RMK_INF added.
 Date: 08 Dec 2022 - Samokhvalov - PTC_Farebreakdown/TPA_Extensions/SupplementalInfo fixed.
 Date: 13 Sep 2022 - Samokhvalov - Exchanges - TPA_Extensions/AgencyCommission fixed.
 Date: 30 Aug 2022 - Samokhvalov - OperatingAirline Code fixes
@@ -505,9 +506,17 @@ Date: 23 Feb 2015 - Rastko
 									<xsl:with-param name="rph">1</xsl:with-param>
 								</xsl:call-template>
 							</xsl:if>
-							<xsl:if test="//PNR_DHT_INF/DOC_ITM/CM_INF">
+							<xsl:choose>
+								<xsl:when test="//PNR_DHT_INF/DOC_ITM/CM_INF">
+									<xsl:apply-templates select="//PNR_DHT_INF/DOC_ITM" mode="agencyComm"/>
+								</xsl:when>
+								<xsl:when test="//SPE_RMK_INF/RMK_ITM/RMK_TYP = 'CM'">
+									<xsl:apply-templates select="//SPE_RMK_INF/RMK_ITM[RMK_TYP = 'CM']" mode="agencyComm"/>
+								</xsl:when>
+							</xsl:choose>
+							<!--<xsl:if test="//PNR_DHT_INF/DOC_ITM/CM_INF">
 								<xsl:apply-templates select="//PNR_DHT_INF/DOC_ITM" mode="agencyComm"/>
-							</xsl:if>
+							</xsl:if>-->
 						</TPA_Extensions>
 					</TravelItinerary>
 				</xsl:otherwise>
@@ -756,6 +765,23 @@ Date: 23 Feb 2015 - Rastko
 						</xsl:if>
 					</xsl:for-each>
 				</xsl:attribute>
+			</AgencyCommission>
+		</xsl:if>
+	</xsl:template>
+	<xsl:template match="RMK_ITM" mode="agencyComm">
+		<xsl:if test="number(translate(RMK_TXT, translate(RMK_TXT,'.0123456789',''),''))=translate(RMK_TXT, translate(RMK_TXT,'.0123456789',''),'')">
+			<AgencyCommission>
+				<xsl:attribute name="Amount">
+					<xsl:value-of select="translate(RMK_TXT, translate(RMK_TXT,'.0123456789',''),'')"/>
+				</xsl:attribute>
+				<!--<xsl:variable name="tktPax" select="DOC_PAX_INF/PAX_NME" />
+				<xsl:attribute name="TravelerRefNumberRPHList">
+					<xsl:for-each select="//PAX_INF/NME_ITM">
+						<xsl:if test="translate(PAX_NME, '.','') = translate($tktPax, '.','')">
+							<xsl:value-of select="NME_POS"/>
+						</xsl:if>
+					</xsl:for-each>
+				</xsl:attribute>-->
 			</AgencyCommission>
 		</xsl:if>
 	</xsl:template>
