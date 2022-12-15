@@ -184,7 +184,7 @@ namespace Travelport
                 string strRetrieve;
                 
                 bool inSession = SetConversationID(ttTP);
-                ttTP.TracerID = ConversationID;
+                //ttTP.TracerID = ConversationID;
                 
 
                 // send retrieve universal record (UR)                
@@ -208,6 +208,9 @@ namespace Travelport
                         CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Current Price RQ", modRQ, ProviderSystems.LogUUID);
                         var modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
                         strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
+
+                        //TODO: We may need to0 save PNR before complititng this process.
+                        //strResponse = ttTP.SendMessage(strEndTransaction, TravelPortWSAdapter.enRequestType.UniversalRecordService);
 
                         //if (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0 && oRoot.SelectNodes("StoredFare[@FareType='Private']").Count > 0)
                         //{
@@ -239,7 +242,7 @@ namespace Travelport
                 }
                 finally
                 {
-                    if (!inSession)
+                    if (inSession)
                     {
                         ttTP.CloseTerminalSession(branch, host, ttTP.TracerID);
                         ConversationID = string.Empty;
