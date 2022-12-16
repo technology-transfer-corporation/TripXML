@@ -2280,7 +2280,7 @@
 										</xsl:attribute>
 									</xsl:if>
 								</xsl:when>
-								<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-')">
+								<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-') and not(contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-JCB'))">
 									<xsl:attribute name="BirthDate">
 										<xsl:call-template name="bdt_years">
 											<xsl:with-param name="bdt" select="substring(substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-'), 2,2)" />

@@ -135,7 +135,7 @@
 									<xsl:value-of select="'A'"/>
 								</Type>
 							</PrinterParameters>
-						</xsl:if>
+						</xsl:if>						
 					</LinkageUpdateMods>
 				</TicketPrinterLinkage_1_0>
 			</SetPRT>
@@ -144,7 +144,6 @@
 				<xsl:value-of select="concat('HMOM',Ticketing/TicketingPrinter,'-U')" />
 			</CrypticSetPRTStatus>
 		</xsl:if>
-
 		<!--
     <VerifyATFQ>
 			<PNRBFManagement_53>
@@ -171,7 +170,6 @@
 			</PNRBFManagement_53>
 		</VerifyATFQ>
     -->
-
 		<!-- 
     <xsl:for-each select="Ticketing/FareNumber">
       <CrypticTMU>
@@ -224,7 +222,6 @@
 		</xsl:if>
 -->
 		<!--xsl:if test="Ticketing/FareNumber!='' or Ticketing/BookingPCC != ''"-->
-
 		<ET>
 			<PNRBFManagement_53>
 				<EndTransactionMods>
@@ -254,23 +251,20 @@
 					</FareRedisplayMods-->
 			</PNRBFManagement_53>
 		</ET>
-
 		<!--/xsl:if-->
-
 		<xsl:for-each select="Ticketing/FareNumber">
 			<CrypticFF>
 				<xsl:text>*FF</xsl:text>
 				<xsl:value-of select="."/>
 			</CrypticFF>
 		</xsl:for-each>
-
 		<Ticket>
 			<!--
-      <xsl:choose>
+			<xsl:choose>
 				<xsl:when test="POS/Source/@PseudoCityCode='7EV1'">TKP</xsl:when>
 				<xsl:otherwise>TKPDTDAD</xsl:otherwise>
 			</xsl:choose>
-      -->
+			-->
 			<DocProdFareManipulation_29>
 				<TicketingMods>
 					<DocumentSelect>
@@ -296,14 +290,10 @@
 								</FareNum>
 							</xsl:for-each>
 						</FareNumAry>
-					</FareNumInfo>
-					
-					<!--xsl:apply-templates select="Fulfillment/PaymentDetails/PaymentDetail" mode="DocProd"/-->
-					
+					</FareNumInfo>					
 					<TicketingControl>
 						<TransType>TK</TransType>
 					</TicketingControl>
-
 					<!-- FOP -->
 					<xsl:if test="Fulfillment/PaymentDetails/PaymentDetail/DirectBill">
 						<xsl:choose>
@@ -347,7 +337,6 @@
 							</xsl:when>
 						</xsl:choose>
 					</xsl:if>
-
 					<xsl:if test="Ticketing/Commission">
 						<!--          -->
 						<CommissionMod>
@@ -536,14 +525,15 @@
 						</FareNumAry>
 					</FareNumInfo>
 				</xsl:if-->
-		<!--xsl:if test="OtherPrinter != ''">
+		<!--<xsl:if test="OtherPrinter != ''">
 					<PrintTableOverride><xsl:value-of select="OtherPrinter"/></PrintTableOverride>
 				</xsl:if>
 				<TicketingControl>
 					<TransType>TK</TransType>
 				</TicketingControl>
 			</TicketingMods>
-		</DocProdFareManipulation_4_0-->
+		</DocProdFareManipulation_4_0> 
+		-->
 	</xsl:template>
 
 	<xsl:template name="SSRPerPax">

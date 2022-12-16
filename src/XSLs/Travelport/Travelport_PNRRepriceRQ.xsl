@@ -760,13 +760,30 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 		<xsl:variable name="pos" select="position()"/>
 		<xsl:variable name="pnr" select="//Response/universal:UniversalRecordRetrieveRsp/universal:UniversalRecord" />
 		<xsl:variable name="ptc" select="air:PassengerType/@Code" />
-		<xsl:variable name="storedFare" select="//StoredFare[substring(PassengerType/@Code,1,1) = substring($ptc,1,1)]"/>
-		<xsl:variable name="comCount" select="count(//StoredFare[Markup])"/>
+
+		<xsl:variable name="ptcMod">
+			<xsl:choose>
+				<xsl:when test="$ptc='JNN'">
+					<xsl:value-of select="//StoredFare[substring(PassengerType/@Code, 1,1) = substring($ptc,1,1) and not(PassengerType/@Code='JCB')]/PassengerType/@Code"/>
+				</xsl:when>
+				<xsl:when test="$ptc='CNN'">
+					<xsl:value-of select="//StoredFare[substring(PassengerType/@Code, 1,1) = substring($ptc,1,1)]/PassengerType/@Code"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="//StoredFare[PassengerType/@Code = $ptc]/PassengerType/@Code"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+		<xsl:variable name="storedFare" select="//StoredFare[PassengerType/@Code = $ptcMod]" />
+
+		
+		<xsl:variable name="comCount" select="count($storedFare[Markup])"/>
 		<xsl:variable name="group">
 			<xsl:choose>
-				<xsl:when test="$comCount > 1 and //StoredFare[PassengerType/@Code=$ptc[1]]/Markup">
+				<xsl:when test="$comCount > 1 and $storedFare/Markup">
 					<xsl:choose>
-						<xsl:when test="not(//StoredFare[1]/Markup/@Amount = //StoredFare[$comCount]/Markup/@Amount)" >
+						<xsl:when test="not($storedFare[1]/Markup/@Amount = $storedFare[$comCount]/Markup/@Amount)" >
 							<!--<xsl:value-of select="format-number($pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code = $ptc]/@AirPricingInfoGroup,'#0') * format-number($pos,'#0')"/>-->
 							<xsl:value-of select="format-number($pos,'#0')"/>
 						</xsl:when>
@@ -775,12 +792,12 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:when>
-				<xsl:when test="//StoredFare[PassengerType/@Code=$ptc]/Markup">
+				<xsl:when test="$storedFare/Markup">
 					<xsl:value-of select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code = $ptc]/@AirPricingInfoGroup"/>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:choose>
-						<xsl:when test="//StoredFare[1]/Markup/@Amount = //StoredFare[$comCount]/Markup/@Amount" >
+						<xsl:when test="$storedFare[1]/Markup/@Amount = $storedFare[$comCount]/Markup/@Amount" >
 							<xsl:value-of select="format-number($pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code = $ptc]/@AirPricingInfoGroup,'#0') + 1"/>
 						</xsl:when>
 						<xsl:otherwise>
@@ -791,9 +808,6 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="brandTier" select="$pnr/air:AirReservation/air:AirPricingInfo[substring(air:PassengerType/@Code,1,1) = substring($ptc,1,1)]/air:FareInfo[1]/air:Brand/@BrandTier" />
-
-
-
 		<xsl:if test="air:FareInfo/air:Brand[@BrandTier = $brandTier]">
 			<air:AirPricingInfo>
 				<xsl:attribute name="Key">
@@ -916,10 +930,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 							<xsl:when test="@Age!=''">
 								<xsl:value-of select="@Age"/>
 							</xsl:when>
-							<xsl:when test="@Code = 'CNN'">
+							<xsl:when test="@Code = 'CNN' or @Code = 'JNN'">
 								<xsl:value-of select="number(substring($storedFare[position()=$paxPos]/PassengerType/@Code, 2, 2))"/>
 							</xsl:when>
 							<xsl:when test="substring(@Code, 1, 1) = 'C'">
+								<xsl:value-of select="concat('0',number(substring(@Code, 2, 2)))"/>
+							</xsl:when>
+							<xsl:when test="substring(@Code, 1, 1) = 'J' and @Code != 'JCB'">
 								<xsl:value-of select="concat('0',number(substring(@Code, 2, 2)))"/>
 							</xsl:when>
 							<xsl:when test="concat('0',number(substring(@Code, 2, 2))) = substring(@Code, 2, 2)">
@@ -935,7 +952,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 						<xsl:attribute name="Code">
 							<xsl:value-of select="@Code"/>
 						</xsl:attribute>
-						<xsl:if test="substring(@Code,1,1) = 'C'">
+						<xsl:if test="$age != ''">
 							<xsl:attribute name="Age">
 								<xsl:value-of select="$age"/>
 							</xsl:attribute>
