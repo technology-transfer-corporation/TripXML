@@ -8,6 +8,8 @@ using System.Threading;
 using System.Collections.Concurrent;
 using WebSocket = WebSocketSharp.WebSocket;
 using WebSocketState = WebSocketSharp.WebSocketState;
+using System.Runtime.Remoting.Messaging;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Configuration;
 
@@ -116,9 +118,10 @@ namespace TripXMLMain
         {
             try
             {
+                var msg = _senderQueue.Take();
                 TraceSender(new string[] { "ws://localhost:3070/Trace", ConfigurationManager.AppSettings["TraceServerUrl"] });
-                //TraceSender(new string[] { "ws://localhost:3070/Trace", "ws://localhost:8111/Trace" });
-                //TraceSender("ws://localhost:3070/Trace");
+                //TraceSender(new WebSocket($"ws://localhost:3070/Trace"), msg);
+                //TraceSender(new WebSocket($"ws://localhost:8111/Trace"), msg);
             }
             catch (Exception)
             {
