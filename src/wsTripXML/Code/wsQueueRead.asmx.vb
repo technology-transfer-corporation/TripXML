@@ -101,7 +101,7 @@ Namespace wsTravelTalk
                         ElseIf Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
                             Dim attCode As XmlAttribute
                             attCode = oDoc.CreateAttribute("Code")
-                            attCode.Value = GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                            attCode.Value = EncodeValue(DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)  'GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
                             oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
 
                             oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
@@ -280,7 +280,7 @@ Namespace wsTravelTalk
 
         End Function
 
-        <WebMethod(Description:="Process QueueRead well format Xml Messages Request.")> _
+        <WebMethod(Description:="Process QueueRead well format Xml Messages Request.")>
         Public Function wmQueueReadXml(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.QueueRead)
         End Function
