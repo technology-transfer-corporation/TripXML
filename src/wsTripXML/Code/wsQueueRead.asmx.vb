@@ -4,6 +4,7 @@ Imports TripXMLMain
 Imports System.Xml
 Imports System.Xml.Serialization
 Imports TripXMLMain.modCore
+Imports TripXMLTools.TripXMLLoad
 
 Namespace wsTravelTalk
 
@@ -103,7 +104,6 @@ Namespace wsTravelTalk
                             attCode = oDoc.CreateAttribute("Code")
                             attCode.Value = EncodeValue(DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)  'GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
                             oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
-
                             oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
                         End If
 

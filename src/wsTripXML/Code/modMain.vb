@@ -6,6 +6,8 @@ Imports System.Threading
 Imports System.Net
 Imports TripXMLMain.modCore
 Imports PaymentServices
+Imports TripXMLMain.modCore.enAmadeusWSSchema
+
 
 Namespace wsTravelTalk
 
@@ -1080,7 +1082,7 @@ Namespace wsTravelTalk
 
                     Select Case Service
                         Case ttServices.AirFlifo
-                            If (Not ttProviderSystems.AmadeusWS) Or (ttProviderSystems.AmadeusWS And ttProviderSystems.AmadeusWSSchema.Air_FlightInfo <> "") Then
+                            If (Not ttProviderSystems.AmadeusWS) Or (ttProviderSystems.AmadeusWS And Not String.IsNullOrEmpty(ttProviderSystems.AmadeusWSSchema(enAmadeusWSSchema.Air_FlightInfo))) Then
                                 strResponse = .AirFlifo()
                             Else
                                 Throw New Exception("Air_FlightInfo not authorized")
@@ -3113,35 +3115,36 @@ Namespace wsTravelTalk
                                         .PCC = oNodePCC.Attributes("Code").Value
                                         .UserName = oNodePCC.SelectSingleNode("Username").InnerText
                                         .Password = oNodePCC.SelectSingleNode("Password").InnerText
-                                        .Profile = oNodePCC.SelectSingleNode("Profile").InnerText
+                                        .Profile.Text = oNodePCC.SelectSingleNode("Profile").InnerText
                                         .BLFile = blFiles(i)
                                         .AggFilter = bAggFilter(i)
                                         .GPass = arPass(i)
                                         .GReqID = reqID(i)
                                         .Provider = provider
+                                        .AmadeusWSSchema = New Dictionary(Of enAmadeusWSSchema, String)
 
                                         If Not oNodePCC.SelectSingleNode("Profile").Attributes("Origin") Is Nothing Then
-                                            .Origin = oNodePCC.SelectSingleNode("Profile").Attributes("Origin").Value.ToUpper
+                                            .Profile.Origin = oNodePCC.SelectSingleNode("Profile").Attributes("Origin").Value.ToUpper
                                         Else
-                                            .Origin = "NMC-US"
+                                            .Profile.Origin = "NMC-US"
                                         End If
 
                                         If Not oNodePCC.SelectSingleNode("Profile").Attributes("XML") Is Nothing Then
-                                            .ProfileXML = oNodePCC.SelectSingleNode("Profile").Attributes("XML").Value.ToUpper
+                                            .Profile.Xml = oNodePCC.SelectSingleNode("Profile").Attributes("XML").Value.ToUpper
                                         Else
-                                            .ProfileXML = ""
+                                            .Profile.Xml = ""
                                         End If
 
                                         If Not oNodePCC.SelectSingleNode("Profile").Attributes("Cryptic") Is Nothing Then
-                                            .ProfileCryptic = oNodePCC.SelectSingleNode("Profile").Attributes("Cryptic").Value.ToUpper
+                                            .Profile.Cryptic = oNodePCC.SelectSingleNode("Profile").Attributes("Cryptic").Value.ToUpper
                                         Else
-                                            .ProfileCryptic = ""
+                                            .Profile.Cryptic = ""
                                         End If
 
                                         If Not oNodePCC.SelectSingleNode("Profile").Attributes("Tkt") Is Nothing Then
-                                            .ProfileTicketing = oNodePCC.SelectSingleNode("Profile").Attributes("Tkt").Value.ToUpper
+                                            .Profile.Ticketing = oNodePCC.SelectSingleNode("Profile").Attributes("Tkt").Value.ToUpper
                                         Else
-                                            .ProfileTicketing = ""
+                                            .Profile.Ticketing = ""
                                         End If
 
 
@@ -3355,2172 +3358,2172 @@ Namespace wsTravelTalk
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Air_FlightInfo']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Air_FlightInfo = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Air_FlightInfo) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Air_FlightInfo = ""
+                                                    .AmadeusWSSchema(Air_FlightInfo) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Air_FlightInfoReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Air_FlightInfoReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Air_FlightInfoReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Air_FlightInfoReply = ""
+                                                    .AmadeusWSSchema(Air_FlightInfoReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Air_MultiAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Air_MultiAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Air_MultiAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Air_MultiAvailability = ""
+                                                    .AmadeusWSSchema(Air_MultiAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Air_MultiAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Air_MultiAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Air_MultiAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Air_MultiAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Air_MultiAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Air_RebookAirSegment']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Air_RebookAirSegment = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Air_RebookAirSegment) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Air_RebookAirSegment = ""
+                                                    .AmadeusWSSchema(Air_RebookAirSegment) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Air_RebookAirSegmentReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Air_RebookAirSegmentReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Air_RebookAirSegmentReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Air_RebookAirSegmentReply = ""
+                                                    .AmadeusWSSchema(Air_RebookAirSegmentReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Air_RetrieveSeatMap']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Air_RetrieveSeatMap = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Air_RetrieveSeatMap) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Air_RetrieveSeatMap = ""
+                                                    .AmadeusWSSchema(Air_RetrieveSeatMap) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Air_RetrieveSeatMapReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Air_RetrieveSeatMapReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Air_RetrieveSeatMapReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Air_RetrieveSeatMapReply = ""
+                                                    .AmadeusWSSchema(Air_RetrieveSeatMapReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Air_SellFromRecommendation']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Air_SellFromRecommendation = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Air_SellFromRecommendation) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Air_SellFromRecommendation = ""
+                                                    .AmadeusWSSchema(Air_SellFromRecommendation) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Air_SellFromRecommendationReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Air_SellFromRecommendationReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Air_SellFromRecommendationReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Air_SellFromRecommendationReply = ""
+                                                    .AmadeusWSSchema(Air_SellFromRecommendationReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_LocationList']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_LocationList = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_LocationList) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_LocationList = ""
+                                                    .AmadeusWSSchema(Car_LocationList) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_LocationListReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_LocationListReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_LocationListReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_LocationListReply = ""
+                                                    .AmadeusWSSchema(Car_LocationListReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_Availability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_Availability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_Availability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_Availability = ""
+                                                    .AmadeusWSSchema(Car_Availability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_AvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_AvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_AvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_AvailabilityReply = ""
+                                                    .AmadeusWSSchema(Car_AvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_MultiAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_MultiAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_MultiAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_MultiAvailability = ""
+                                                    .AmadeusWSSchema(Car_MultiAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_MultiAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_MultiAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_MultiAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_MultiAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Car_MultiAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_Policy']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_Policy = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_Policy) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_Policy = ""
+                                                    .AmadeusWSSchema(Car_Policy) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_PolicyReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_PolicyReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_PolicyReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_PolicyReply = ""
+                                                    .AmadeusWSSchema(Car_PolicyReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_RateInformationFromAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_RateInformationFromAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_RateInformationFromAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_RateInformationFromAvailability = ""
+                                                    .AmadeusWSSchema(Car_RateInformationFromAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_RateInformationFromAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_RateInformationFromAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_RateInformationFromAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_RateInformationFromAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Car_RateInformationFromAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_RateInformationFromCarSegment']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_RateInformationFromCarSegment = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_RateInformationFromCarSegment) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_RateInformationFromCarSegment = ""
+                                                    .AmadeusWSSchema(Car_RateInformationFromCarSegment) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_RateInformationFromCarSegmentReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_RateInformationFromCarSegmentReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_RateInformationFromCarSegmentReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_RateInformationFromCarSegmentReply = ""
+                                                    .AmadeusWSSchema(Car_RateInformationFromCarSegmentReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_Sell']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_Sell = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_Sell) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_Sell = ""
+                                                    .AmadeusWSSchema(Car_Sell) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_SellReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_SellReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_SellReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_SellReply = ""
+                                                    .AmadeusWSSchema(Car_SellReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_SingleAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_SingleAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_SingleAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_SingleAvailability = ""
+                                                    .AmadeusWSSchema(Car_SingleAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Car_SingleAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Car_SingleAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Car_SingleAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Car_SingleAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Car_SingleAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Command_Cryptic']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Command_Cryptic = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Command_Cryptic) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Command_Cryptic = ""
+                                                    .AmadeusWSSchema(Command_Cryptic) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Command_CrypticReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Command_CrypticReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Command_CrypticReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Command_CrypticReply = ""
+                                                    .AmadeusWSSchema(Command_CrypticReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_CancelBooking']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_CancelBooking = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_CancelBooking) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_CancelBooking = ""
+                                                    .AmadeusWSSchema(Cruise_CancelBooking) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_CancelBookingReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_CancelBookingReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_CancelBookingReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_CancelBookingReply = ""
+                                                    .AmadeusWSSchema(Cruise_CancelBookingReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_ClaimBooking']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_ClaimBooking = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_ClaimBooking) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_ClaimBooking = ""
+                                                    .AmadeusWSSchema(Cruise_ClaimBooking) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_ClaimBookingReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_ClaimBookingReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_ClaimBookingReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_ClaimBookingReply = ""
+                                                    .AmadeusWSSchema(Cruise_ClaimBookingReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_CreateBooking']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_CreateBooking = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_CreateBooking) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_CreateBooking = ""
+                                                    .AmadeusWSSchema(Cruise_CreateBooking) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_CreateBookingReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_CreateBookingReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_CreateBookingReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_CreateBookingReply = ""
+                                                    .AmadeusWSSchema(Cruise_CreateBookingReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayBusDescription']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayBusDescription = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayBusDescription) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayBusDescription = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayBusDescription) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayBusDescriptionReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayBusDescriptionReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayBusDescriptionReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayBusDescriptionReply = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayBusDescriptionReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayCabinDescription']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayCabinDescription = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayCabinDescription) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayCabinDescription = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayCabinDescription) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayCabinDescriptionReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayCabinDescriptionReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayCabinDescriptionReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayCabinDescriptionReply = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayCabinDescriptionReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayCategoryDescription']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayCategoryDescription = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayCategoryDescription) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayCategoryDescription = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayCategoryDescription) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayCategoryDescriptionReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayCategoryDescriptionReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayCategoryDescriptionReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayCategoryDescriptionReply = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayCategoryDescriptionReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayFareDescription']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayFareDescription = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayFareDescription) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayFareDescription = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayFareDescription) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayFareDescriptionReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayFareDescriptionReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayFareDescriptionReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayFareDescriptionReply = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayFareDescriptionReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayInclusivePackageDescription']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayInclusivePackageDescription = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayInclusivePackageDescription) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayInclusivePackageDescription = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayInclusivePackageDescription) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayInclusivePackageDescriptionReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayInclusivePackageDescriptionReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayInclusivePackageDescriptionReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayInclusivePackageDescriptionReply = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayInclusivePackageDescriptionReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayItineraryDescription']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayItineraryDescription = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayItineraryDescription) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayItineraryDescription = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayItineraryDescription) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayItineraryDescriptionReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayItineraryDescriptionReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayItineraryDescriptionReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayItineraryDescriptionReply = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayItineraryDescriptionReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayPrePostPackageDescription']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayPrePostPackageDescription = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayPrePostPackageDescription) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayPrePostPackageDescription = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayPrePostPackageDescription) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayPrePostPackageDescriptionReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayPrePostPackageDescriptionReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayPrePostPackageDescriptionReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayPrePostPackageDescriptionReply = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayPrePostPackageDescriptionReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayProductInformation']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayProductInformation = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayProductInformation) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayProductInformation = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayProductInformation) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_DisplayProductInformationReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_DisplayProductInformationReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_DisplayProductInformationReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_DisplayProductInformationReply = ""
+                                                    .AmadeusWSSchema(Cruise_DisplayProductInformationReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_EnterPassengerInformation']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_EnterPassengerInformation = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_EnterPassengerInformation) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_EnterPassengerInformation = ""
+                                                    .AmadeusWSSchema(Cruise_EnterPassengerInformation) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_EnterPassengerInformationReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_EnterPassengerInformationReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_EnterPassengerInformationReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_EnterPassengerInformationReply = ""
+                                                    .AmadeusWSSchema(Cruise_EnterPassengerInformationReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_GetBookingDetails']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_GetBookingDetails = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_GetBookingDetails) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_GetBookingDetails = ""
+                                                    .AmadeusWSSchema(Cruise_GetBookingDetails) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_GetBookingDetailsReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_GetBookingDetailsReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_GetBookingDetailsReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_GetBookingDetailsReply = ""
+                                                    .AmadeusWSSchema(Cruise_GetBookingDetailsReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_HoldCabin']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_HoldCabin = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_HoldCabin) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_HoldCabin = ""
+                                                    .AmadeusWSSchema(Cruise_HoldCabin) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_HoldCabinReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_HoldCabinReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_HoldCabinReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_HoldCabinReply = ""
+                                                    .AmadeusWSSchema(Cruise_HoldCabinReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_ModifyBooking']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_ModifyBooking = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_ModifyBooking) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_ModifyBooking = ""
+                                                    .AmadeusWSSchema(Cruise_ModifyBooking) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_ModifyBookingReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_ModifyBookingReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_ModifyBookingReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_ModifyBookingReply = ""
+                                                    .AmadeusWSSchema(Cruise_ModifyBookingReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_PriceBooking']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_PriceBooking = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_PriceBooking) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_PriceBooking = ""
+                                                    .AmadeusWSSchema(Cruise_PriceBooking) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_PriceBookingReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_PriceBookingReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_PriceBookingReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_PriceBookingReply = ""
+                                                    .AmadeusWSSchema(Cruise_PriceBookingReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_PriceBookingCancellation']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_PriceBookingCancellation = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_PriceBookingCancellation) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_PriceBookingCancellation = ""
+                                                    .AmadeusWSSchema(Cruise_PriceBookingCancellation) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_PriceBookingCancellationReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_PriceBookingCancellationReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_PriceBookingCancellationReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_PriceBookingCancellationReply = ""
+                                                    .AmadeusWSSchema(Cruise_PriceBookingCancellationReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestBusAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestBusAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestBusAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestBusAvailability = ""
+                                                    .AmadeusWSSchema(Cruise_RequestBusAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestBusAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestBusAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestBusAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestBusAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Cruise_RequestBusAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestCabinAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestCabinAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestCabinAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestCabinAvailability = ""
+                                                    .AmadeusWSSchema(Cruise_RequestCabinAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestCabinAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestCabinAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestCabinAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestCabinAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Cruise_RequestCabinAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestCategoryAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestCategoryAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestCategoryAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestCategoryAvailability = ""
+                                                    .AmadeusWSSchema(Cruise_RequestCategoryAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestCategoryAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestCategoryAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestCategoryAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestCategoryAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Cruise_RequestCategoryAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestFareAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestFareAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestFareAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestFareAvailability = ""
+                                                    .AmadeusWSSchema(Cruise_RequestFareAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestFareAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestFareAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestFareAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestFareAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Cruise_RequestFareAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestInclusivePackageAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestInclusivePackageAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestInclusivePackageAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestInclusivePackageAvailability = ""
+                                                    .AmadeusWSSchema(Cruise_RequestInclusivePackageAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestInclusivePackageAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestInclusivePackageAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestInclusivePackageAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestInclusivePackageAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Cruise_RequestInclusivePackageAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestPrePostPackageAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestPrePostPackageAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestPrePostPackageAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestPrePostPackageAvailability = ""
+                                                    .AmadeusWSSchema(Cruise_RequestPrePostPackageAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestPrePostPackageAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestPrePostPackageAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestPrePostPackageAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestPrePostPackageAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Cruise_RequestPrePostPackageAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestSailingAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestSailingAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestSailingAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestSailingAvailability = ""
+                                                    .AmadeusWSSchema(Cruise_RequestSailingAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestSailingAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestSailingAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestSailingAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestSailingAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Cruise_RequestSailingAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestShoreExcursionAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestShoreExcursionAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestShoreExcursionAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestShoreExcursionAvailability = ""
+                                                    .AmadeusWSSchema(Cruise_RequestShoreExcursionAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestShoreExcursionAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestShoreExcursionAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestShoreExcursionAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestShoreExcursionAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Cruise_RequestShoreExcursionAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestSpecialServicesAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestSpecialServicesAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestSpecialServicesAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestSpecialServicesAvailability = ""
+                                                    .AmadeusWSSchema(Cruise_RequestSpecialServicesAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestSpecialServicesAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestSpecialServicesAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestSpecialServicesAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestSpecialServicesAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Cruise_RequestSpecialServicesAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestTransferAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestTransferAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestTransferAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestTransferAvailability = ""
+                                                    .AmadeusWSSchema(Cruise_RequestTransferAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_RequestTransferAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_RequestTransferAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_RequestTransferAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_RequestTransferAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Cruise_RequestTransferAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_SearchBooking']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_SearchBooking = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_SearchBooking) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_SearchBooking = ""
+                                                    .AmadeusWSSchema(Cruise_SearchBooking) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_SearchBookingReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_SearchBookingReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_SearchBookingReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_SearchBookingReply = ""
+                                                    .AmadeusWSSchema(Cruise_SearchBookingReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_UnholdCabin']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_UnholdCabin = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_UnholdCabin) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_UnholdCabin = ""
+                                                    .AmadeusWSSchema(Cruise_UnholdCabin) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Cruise_UnholdCabinReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Cruise_UnholdCabinReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Cruise_UnholdCabinReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Cruise_UnholdCabinReply = ""
+                                                    .AmadeusWSSchema(Cruise_UnholdCabinReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Doc_DisplayItinerary']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Doc_DisplayItinerary = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Doc_DisplayItinerary) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Doc_DisplayItinerary = ""
+                                                    .AmadeusWSSchema(Doc_DisplayItinerary) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Doc_DisplayItineraryReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Doc_DisplayItineraryReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Doc_DisplayItineraryReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Doc_DisplayItineraryReply = ""
+                                                    .AmadeusWSSchema(Doc_DisplayItineraryReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocIssuance_IssueTicket']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocIssuance_IssueTicket = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocIssuance_IssueTicket) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocIssuance_IssueTicket = ""
+                                                    .AmadeusWSSchema(DocIssuance_IssueTicket) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocIssuance_IssueTicketReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocIssuance_IssueTicketReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocIssuance_IssueTicketReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocIssuance_IssueTicketReply = ""
+                                                    .AmadeusWSSchema(DocIssuance_IssueTicketReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_CheckRules']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_CheckRules = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_CheckRules) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_CheckRules = ""
+                                                    .AmadeusWSSchema(Fare_CheckRules) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_CheckRulesReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_CheckRulesReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_CheckRulesReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_CheckRulesReply = ""
+                                                    .AmadeusWSSchema(Fare_CheckRulesReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_DisplayFaresForCityPair']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_DisplayFaresForCityPair = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_DisplayFaresForCityPair) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_DisplayFaresForCityPair = ""
+                                                    .AmadeusWSSchema(Fare_DisplayFaresForCityPair) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_DisplayFaresForCityPairReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_DisplayFaresForCityPairReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_DisplayFaresForCityPairReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_DisplayFaresForCityPairReply = ""
+                                                    .AmadeusWSSchema(Fare_DisplayFaresForCityPairReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_GetFareFamilyDescription']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_GetFareFamilyDescription = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_GetFareFamilyDescription) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_GetFareFamilyDescription = ""
+                                                    .AmadeusWSSchema(Fare_GetFareFamilyDescription) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_GetFareFamilyDescriptionReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_GetFareFamilyDescriptionReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_GetFareFamilyDescriptionReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_GetFareFamilyDescriptionReply = ""
+                                                    .AmadeusWSSchema(Fare_GetFareFamilyDescriptionReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_InformativePricingWithoutPNR']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_InformativePricingWithoutPNR = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_InformativePricingWithoutPNR) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_InformativePricingWithoutPNR = ""
+                                                    .AmadeusWSSchema(Fare_InformativePricingWithoutPNR) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_InformativePricingWithoutPNRReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_InformativePricingWithoutPNRReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_InformativePricingWithoutPNRReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_InformativePricingWithoutPNRReply = ""
+                                                    .AmadeusWSSchema(Fare_InformativePricingWithoutPNRReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_InformativeBestPricingWithoutPNR']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_InformativeBestPricingWithoutPNR = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_InformativeBestPricingWithoutPNR) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_InformativeBestPricingWithoutPNR = ""
+                                                    .AmadeusWSSchema(Fare_InformativeBestPricingWithoutPNR) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_InformativeBestPricingWithoutPNRReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_InformativeBestPricingWithoutPNRReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_InformativeBestPricingWithoutPNRReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_InformativeBestPricingWithoutPNRReply = ""
+                                                    .AmadeusWSSchema(Fare_InformativeBestPricingWithoutPNRReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_MasterPricerCalendar']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_MasterPricerCalendar = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_MasterPricerCalendar) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_MasterPricerCalendar = ""
+                                                    .AmadeusWSSchema(Fare_MasterPricerCalendar) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_MasterPricerCalendarReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_MasterPricerCalendarReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_MasterPricerCalendarReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_MasterPricerCalendarReply = ""
+                                                    .AmadeusWSSchema(Fare_MasterPricerCalendarReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_MetaPricerCalendar']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_MetaPricerCalendar = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_MetaPricerCalendar) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_MetaPricerCalendar = ""
+                                                    .AmadeusWSSchema(Fare_MetaPricerCalendar) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_MetaPricerCalendarReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_MetaPricerCalendarReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_MetaPricerCalendarReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_MetaPricerCalendarReply = ""
+                                                    .AmadeusWSSchema(Fare_MetaPricerCalendarReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_MasterPricerExpertSearch']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_MasterPricerExpertSearch = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_MasterPricerExpertSearch) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_MasterPricerExpertSearch = ""
+                                                    .AmadeusWSSchema(Fare_MasterPricerExpertSearch) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_MasterPricerExpertSearchReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_MasterPricerExpertSearchReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_MasterPricerExpertSearchReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_MasterPricerExpertSearchReply = ""
+                                                    .AmadeusWSSchema(Fare_MasterPricerExpertSearchReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_MasterPricerTravelBoardSearch']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_MasterPricerTravelBoardSearch = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_MasterPricerTravelBoardSearch) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_MasterPricerTravelBoardSearch = ""
+                                                    .AmadeusWSSchema(Fare_MasterPricerTravelBoardSearch) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_MasterPricerTravelBoardSearchReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_MasterPricerTravelBoardSearchReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_MasterPricerTravelBoardSearchReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_MasterPricerTravelBoardSearchReply = ""
+                                                    .AmadeusWSSchema(Fare_MasterPricerTravelBoardSearchReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_MetaPricerTravelBoardSearch']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_MetaPricerTravelBoardSearch = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_MetaPricerTravelBoardSearch) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_MetaPricerTravelBoardSearch = ""
+                                                    .AmadeusWSSchema(Fare_MetaPricerTravelBoardSearch) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_MetaPricerTravelBoardSearchReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_MetaPricerTravelBoardSearchReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_MetaPricerTravelBoardSearchReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_MetaPricerTravelBoardSearchReply = ""
+                                                    .AmadeusWSSchema(Fare_MetaPricerTravelBoardSearchReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_PricePNRWithBookingClass']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_PricePNRWithBookingClass = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_PricePNRWithBookingClass) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_PricePNRWithBookingClass = ""
+                                                    .AmadeusWSSchema(Fare_PricePNRWithBookingClass) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_PricePNRWithBookingClassReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_PricePNRWithBookingClassReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_PricePNRWithBookingClassReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_PricePNRWithBookingClassReply = ""
+                                                    .AmadeusWSSchema(Fare_PricePNRWithBookingClassReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_PricePNRWithLowerFares']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_PricePNRWithLowerFares = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_PricePNRWithLowerFares) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_PricePNRWithLowerFares = ""
+                                                    .AmadeusWSSchema(Fare_PricePNRWithLowerFares) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_PricePNRWithLowerFaresReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_PricePNRWithLowerFaresReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_PricePNRWithLowerFaresReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_PricePNRWithLowerFaresReply = ""
+                                                    .AmadeusWSSchema(Fare_PricePNRWithLowerFaresReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_QuoteItinerary']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_QuoteItinerary = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_QuoteItinerary) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_QuoteItinerary = ""
+                                                    .AmadeusWSSchema(Fare_QuoteItinerary) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_QuoteItineraryReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_QuoteItineraryReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_QuoteItineraryReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_QuoteItineraryReply = ""
+                                                    .AmadeusWSSchema(Fare_QuoteItineraryReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_SellByFareCalendar']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_SellByFareCalendar = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_SellByFareCalendar) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_SellByFareCalendar = ""
+                                                    .AmadeusWSSchema(Fare_SellByFareCalendar) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_SellByFareCalendarReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_SellByFareCalendarReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_SellByFareCalendarReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_SellByFareCalendarReply = ""
+                                                    .AmadeusWSSchema(Fare_SellByFareCalendarReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_SellByFareSearch']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_SellByFareSearch = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_SellByFareSearch) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_SellByFareSearch = ""
+                                                    .AmadeusWSSchema(Fare_SellByFareSearch) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_SellByFareSearchReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_SellByFareSearchReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_SellByFareSearchReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_SellByFareSearchReply = ""
+                                                    .AmadeusWSSchema(Fare_SellByFareSearchReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_FlexPricerUpsell']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_FlexPricerUpsell = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_FlexPricerUpsell) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_FlexPricerUpsell = ""
+                                                    .AmadeusWSSchema(Fare_FlexPricerUpsell) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Fare_FlexPricerUpsellReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Fare_FlexPricerUpsellReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Fare_FlexPricerUpsellReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Fare_FlexPricerUpsellReply = ""
+                                                    .AmadeusWSSchema(Fare_FlexPricerUpsellReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_MultiSingleAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_MultiSingleAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_MultiSingleAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_MultiSingleAvailability = ""
+                                                    .AmadeusWSSchema(Hotel_MultiSingleAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_MultiSingleAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_MultiSingleAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_MultiSingleAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_MultiSingleAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Hotel_MultiSingleAvailabilityReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_AvailabilityMultiProperties']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_AvailabilityMultiProperties = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_AvailabilityMultiProperties) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_AvailabilityMultiProperties = ""
+                                                    .AmadeusWSSchema(Hotel_AvailabilityMultiProperties) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_AvailabilityMultiPropertiesReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_AvailabilityMultiPropertiesReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_AvailabilityMultiPropertiesReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_AvailabilityMultiPropertiesReply = ""
+                                                    .AmadeusWSSchema(Hotel_AvailabilityMultiPropertiesReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_Features']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_Features = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_Features) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_Features = ""
+                                                    .AmadeusWSSchema(Hotel_Features) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_FeaturesReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_FeaturesReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_FeaturesReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_FeaturesReply = ""
+                                                    .AmadeusWSSchema(Hotel_FeaturesReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_DescriptiveInfo']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_DescriptiveInfo = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_DescriptiveInfo) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_DescriptiveInfo = ""
+                                                    .AmadeusWSSchema(Hotel_DescriptiveInfo) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_DescriptiveInfoReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_DescriptiveInfoReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_DescriptiveInfoReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_DescriptiveInfoReply = ""
+                                                    .AmadeusWSSchema(Hotel_DescriptiveInfoReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_List']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_List = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_List) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_List = ""
+                                                    .AmadeusWSSchema(Hotel_List) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_ListReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_ListReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_ListReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_ListReply = ""
+                                                    .AmadeusWSSchema(Hotel_ListReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_RateChange']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_RateChange = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_RateChange) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_RateChange = ""
+                                                    .AmadeusWSSchema(Hotel_RateChange) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_RateChangeReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_RateChangeReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_RateChangeReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_RateChangeReply = ""
+                                                    .AmadeusWSSchema(Hotel_RateChangeReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_Sell']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_Sell = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_Sell) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_Sell = ""
+                                                    .AmadeusWSSchema(Hotel_Sell) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_SellReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_SellReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_SellReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_SellReply = ""
+                                                    .AmadeusWSSchema(Hotel_SellReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_SingleAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_SingleAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_SingleAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_SingleAvailability = ""
+                                                    .AmadeusWSSchema(Hotel_SingleAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_SingleAvailabilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_SingleAvailabilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_SingleAvailabilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_SingleAvailabilityReply = ""
+                                                    .AmadeusWSSchema(Hotel_SingleAvailabilityReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_StructuredPricing']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_StructuredPricing = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_StructuredPricing) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_StructuredPricing = ""
+                                                    .AmadeusWSSchema(Hotel_StructuredPricing) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_StructuredPricingReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_StructuredPricingReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_StructuredPricingReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_StructuredPricingReply = ""
+                                                    .AmadeusWSSchema(Hotel_StructuredPricingReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_Terms']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_Terms = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_Terms) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_Terms = ""
+                                                    .AmadeusWSSchema(Hotel_Terms) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_TermsReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_TermsReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_TermsReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_TermsReply = ""
+                                                    .AmadeusWSSchema(Hotel_TermsReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_EnhancedSingleAvail']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_EnhancedSingleAvail = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_EnhancedSingleAvail) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_EnhancedSingleAvail = ""
+                                                    .AmadeusWSSchema(Hotel_EnhancedSingleAvail) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_EnhancedSingleAvail']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_EnhancedSingleAvail = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_EnhancedSingleAvail) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_EnhancedSingleAvail = ""
+                                                    .AmadeusWSSchema(Hotel_EnhancedSingleAvail) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_MultiAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_MultiAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_MultiAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_MultiAvailability = ""
+                                                    .AmadeusWSSchema(Hotel_MultiAvailability) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_MultiAvailability']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_MultiAvailability = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_MultiAvailability) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_MultiAvailability = ""
+                                                    .AmadeusWSSchema(Hotel_MultiAvailability) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_EnhancedPricing']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_EnhancedPricing = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_EnhancedPricing) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_EnhancedPricing = ""
+                                                    .AmadeusWSSchema(Hotel_EnhancedPricing) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_EnhancedPricing']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_EnhancedPricing = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_EnhancedPricing) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_EnhancedPricing = ""
+                                                    .AmadeusWSSchema(Hotel_EnhancedPricing) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_CalendarView']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_CalendarView = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_CalendarView) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_CalendarView = ""
+                                                    .AmadeusWSSchema(Hotel_CalendarView) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Hotel_CalendarView']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Hotel_CalendarView = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Hotel_CalendarView) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Hotel_CalendarView = ""
+                                                    .AmadeusWSSchema(Hotel_CalendarView) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_AddMultiElements']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_AddMultiElements = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_AddMultiElements) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_AddMultiElements = ""
+                                                    .AmadeusWSSchema(PNR_AddMultiElements) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_Cancel']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_Cancel = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_Cancel) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_Cancel = ""
+                                                    .AmadeusWSSchema(PNR_Cancel) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_Ignore']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_Ignore = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_Ignore) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_Ignore = ""
+                                                    .AmadeusWSSchema(PNR_Ignore) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_IgnoreReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_IgnoreReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_IgnoreReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_IgnoreReply = ""
+                                                    .AmadeusWSSchema(PNR_IgnoreReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_List']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_List = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_List) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_List = ""
+                                                    .AmadeusWSSchema(PNR_List) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_Reply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_Reply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_Reply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_Reply = ""
+                                                    .AmadeusWSSchema(PNR_Reply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_Reply1']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_Reply1 = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_Reply1) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_Reply1 = ""
+                                                    .AmadeusWSSchema(PNR_Reply1) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_Retrieve']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_Retrieve = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_Retrieve) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_Retrieve = ""
+                                                    .AmadeusWSSchema(PNR_Retrieve) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_RetrieveByRecLoc']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_RetrieveByRecLoc = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_RetrieveByRecLoc) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_RetrieveByRecLoc = ""
+                                                    .AmadeusWSSchema(PNR_RetrieveByRecLoc) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_RetrieveByRecLocReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_RetrieveByRecLocReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_RetrieveByRecLocReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_RetrieveByRecLocReply = ""
+                                                    .AmadeusWSSchema(PNR_RetrieveByRecLocReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_TransferOwnership']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_TransferOwnership = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_TransferOwnership) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_TransferOwnership = ""
+                                                    .AmadeusWSSchema(PNR_TransferOwnership) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_TransferOwnershipReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_TransferOwnershipReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_TransferOwnershipReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_TransferOwnershipReply = ""
+                                                    .AmadeusWSSchema(PNR_TransferOwnershipReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_Split']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_Split = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_Split) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_Split = ""
+                                                    .AmadeusWSSchema(PNR_Split) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PNR_SplitReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PNR_SplitReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PNR_SplitReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PNR_SplitReply = ""
+                                                    .AmadeusWSSchema(PNR_SplitReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_CreateUpdateProfile']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_CreateUpdateProfile = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_CreateUpdateProfile) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_CreateUpdateProfile = ""
+                                                    .AmadeusWSSchema(Profile_CreateUpdateProfile) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_CreateUpdateProfileReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_CreateUpdateProfileReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_CreateUpdateProfileReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_CreateUpdateProfileReply = ""
+                                                    .AmadeusWSSchema(Profile_CreateUpdateProfileReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_CreateProfile']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_CreateProfile = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_CreateProfile) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_CreateProfile = ""
+                                                    .AmadeusWSSchema(Profile_CreateProfile) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_CreateProfileReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_CreateProfileReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_CreateProfileReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_CreateProfileReply = ""
+                                                    .AmadeusWSSchema(Profile_CreateProfileReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_UpdateProfile']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_UpdateProfile = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_UpdateProfile) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_UpdateProfile = ""
+                                                    .AmadeusWSSchema(Profile_UpdateProfile) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_UpdateProfileReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_UpdateProfileReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_UpdateProfileReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_UpdateProfileReply = ""
+                                                    .AmadeusWSSchema(Profile_UpdateProfileReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_DeleteProfile']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_DeleteProfile = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_DeleteProfile) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_DeleteProfile = ""
+                                                    .AmadeusWSSchema(Profile_DeleteProfile) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_DeleteProfileReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_DeleteProfileReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_DeleteProfileReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_DeleteProfileReply = ""
+                                                    .AmadeusWSSchema(Profile_DeleteProfileReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_DeactivateProfile']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_DeactivateProfile = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_DeactivateProfile) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_DeactivateProfile = ""
+                                                    .AmadeusWSSchema(Profile_DeactivateProfile) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_DeactivateProfileReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_DeactivateProfileReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_DeactivateProfileReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_DeactivateProfileReply = ""
+                                                    .AmadeusWSSchema(Profile_DeactivateProfileReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_RetrieveProfile']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_RetrieveProfile = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_RetrieveProfile) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_RetrieveProfile = ""
+                                                    .AmadeusWSSchema(Profile_RetrieveProfile) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_RetrieveProfileReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_RetrieveProfileReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_RetrieveProfileReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_RetrieveProfileReply = ""
+                                                    .AmadeusWSSchema(Profile_RetrieveProfileReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_ProfileReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_ProfileReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_ProfileReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_ProfileReply = ""
+                                                    .AmadeusWSSchema(Profile_ProfileReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_CreateProfile']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_CreateProfile = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_CreateProfile) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_CreateProfile = ""
+                                                    .AmadeusWSSchema(Profile_CreateProfile) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_CreateProfileReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_CreateProfileReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_CreateProfileReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_CreateProfileReply = ""
+                                                    .AmadeusWSSchema(Profile_CreateProfileReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_ReadProfile']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_ReadProfile = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_ReadProfile) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_ReadProfile = ""
+                                                    .AmadeusWSSchema(Profile_ReadProfile) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_ReadProfileReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_ReadProfileReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_ReadProfileReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_ReadProfileReply = ""
+                                                    .AmadeusWSSchema(Profile_ReadProfileReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_UpdateProfile']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_UpdateProfile = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_UpdateProfile) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_UpdateProfile = ""
+                                                    .AmadeusWSSchema(Profile_UpdateProfile) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_UpdateProfileReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_UpdateProfileReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_UpdateProfileReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_UpdateProfileReply = ""
+                                                    .AmadeusWSSchema(Profile_UpdateProfileReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_DeleteProfile']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_DeleteProfile = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_DeleteProfile) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_DeleteProfile = ""
+                                                    .AmadeusWSSchema(Profile_DeleteProfile) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Profile_DeleteProfileReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Profile_DeleteProfileReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Profile_DeleteProfileReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Profile_DeleteProfileReply = ""
+                                                    .AmadeusWSSchema(Profile_DeleteProfileReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Queue_CountTotal']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Queue_CountTotal = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Queue_CountTotal) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Queue_CountTotal = ""
+                                                    .AmadeusWSSchema(Queue_CountTotal) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Queue_CountTotalReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Queue_CountTotalReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Queue_CountTotalReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Queue_CountTotalReply = ""
+                                                    .AmadeusWSSchema(Queue_CountTotalReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Queue_List']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Queue_List = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Queue_List) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Queue_List = ""
+                                                    .AmadeusWSSchema(Queue_List) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Queue_ListReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Queue_ListReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Queue_ListReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Queue_ListReply = ""
+                                                    .AmadeusWSSchema(Queue_ListReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Queue_MoveItem']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Queue_MoveItem = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Queue_MoveItem) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Queue_MoveItem = ""
+                                                    .AmadeusWSSchema(Queue_MoveItem) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Queue_MoveItemReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Queue_MoveItemReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Queue_MoveItemReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Queue_MoveItemReply = ""
+                                                    .AmadeusWSSchema(Queue_MoveItemReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Queue_PlacePNR']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Queue_PlacePNR = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Queue_PlacePNR) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Queue_PlacePNR = ""
+                                                    .AmadeusWSSchema(Queue_PlacePNR) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Queue_PlacePNRReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Queue_PlacePNRReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Queue_PlacePNRReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Queue_PlacePNRReply = ""
+                                                    .AmadeusWSSchema(Queue_PlacePNRReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Queue_RemoveItem']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Queue_RemoveItem = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Queue_RemoveItem) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Queue_RemoveItem = ""
+                                                    .AmadeusWSSchema(Queue_RemoveItem) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Queue_RemoveItemReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Queue_RemoveItemReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Queue_RemoveItemReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Queue_RemoveItemReply = ""
+                                                    .AmadeusWSSchema(Queue_RemoveItemReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Security_Authenticate']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Security_Authenticate = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Security_Authenticate) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Security_Authenticate = ""
+                                                    .AmadeusWSSchema(Security_Authenticate) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Security_AuthenticateReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Security_AuthenticateReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Security_AuthenticateReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Security_AuthenticateReply = ""
+                                                    .AmadeusWSSchema(Security_AuthenticateReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Security_SignOut']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Security_SignOut = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Security_SignOut) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Security_SignOut = ""
+                                                    .AmadeusWSSchema(Security_SignOut) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Security_SignOutReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Security_SignOutReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Security_SignOutReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Security_SignOutReply = ""
+                                                    .AmadeusWSSchema(Security_SignOutReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_ATCShopperMasterPricerTravelBoardSearch']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_ATCShopperMasterPricerTravelBoardSearch = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_ATCShopperMasterPricerTravelBoardSearch) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_ATCShopperMasterPricerTravelBoardSearch = ""
+                                                    .AmadeusWSSchema(Ticket_ATCShopperMasterPricerTravelBoardSearch) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_ATCShopperMasterPricerTravelBoardSearchReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_ATCShopperMasterPricerTravelBoardSearchReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_ATCShopperMasterPricerTravelBoardSearchReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_ATCShopperMasterPricerTravelBoardSearchReply = ""
+                                                    .AmadeusWSSchema(Ticket_ATCShopperMasterPricerTravelBoardSearchReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_CancelDocument']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_CancelDocument = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_CancelDocument) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_CancelDocument = ""
+                                                    .AmadeusWSSchema(Ticket_CancelDocument) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_CancelDocumentReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_CancelDocumentReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_CancelDocumentReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_CancelDocumentReply = ""
+                                                    .AmadeusWSSchema(Ticket_CancelDocumentReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_CheckEligibility']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_CheckEligibility = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_CheckEligibility) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_CheckEligibility = ""
+                                                    .AmadeusWSSchema(Ticket_CheckEligibility) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_CheckEligibilityReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_CheckEligibilityReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_CheckEligibilityReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_CheckEligibilityReply = ""
+                                                    .AmadeusWSSchema(Ticket_CheckEligibilityReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_CreateTSTFromPricing']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_CreateTSTFromPricing = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_CreateTSTFromPricing) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_CreateTSTFromPricing = ""
+                                                    .AmadeusWSSchema(Ticket_CreateTSTFromPricing) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_CreateTSTFromPricingReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_CreateTSTFromPricingReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_CreateTSTFromPricingReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_CreateTSTFromPricingReply = ""
+                                                    .AmadeusWSSchema(Ticket_CreateTSTFromPricingReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_CreditCardCheck']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_CreditCardCheck = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_CreditCardCheck) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_CreditCardCheck = ""
+                                                    .AmadeusWSSchema(Ticket_CreditCardCheck) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_CreditCardCheckReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_CreditCardCheckReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_CreditCardCheckReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_CreditCardCheckReply = ""
+                                                    .AmadeusWSSchema(Ticket_CreditCardCheckReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_DeleteTST']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_DeleteTST = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_DeleteTST) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_DeleteTST = ""
+                                                    .AmadeusWSSchema(Ticket_DeleteTST) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_DeleteTSTReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_DeleteTSTReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_DeleteTSTReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_DeleteTSTReply = ""
+                                                    .AmadeusWSSchema(Ticket_DeleteTSTReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_DisplayTST']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_DisplayTST = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_DisplayTST) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_DisplayTST = ""
+                                                    .AmadeusWSSchema(Ticket_DisplayTST) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_DisplayTSTReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_DisplayTSTReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_DisplayTSTReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_DisplayTSTReply = ""
+                                                    .AmadeusWSSchema(Ticket_DisplayTSTReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_GetPricingOptions']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_GetPricingOptions = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_GetPricingOptions) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_GetPricingOptions = ""
+                                                    .AmadeusWSSchema(Ticket_GetPricingOptions) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_GetPricingOptionsReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_GetPricingOptionsReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_GetPricingOptionsReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_GetPricingOptionsReply = ""
+                                                    .AmadeusWSSchema(Ticket_GetPricingOptionsReply) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_ProcessEDoc']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_ProcessEDoc = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_ProcessEDoc) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_ProcessEDoc = ""
+                                                    .AmadeusWSSchema(Ticket_ProcessEDoc) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_ProcessEDocReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_ProcessEDocReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_ProcessEDocReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_ProcessEDocReply = ""
+                                                    .AmadeusWSSchema(Ticket_ProcessEDocReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_ProcessETicket']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_ProcessETicket = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_ProcessETicket) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_ProcessETicket = ""
+                                                    .AmadeusWSSchema(Ticket_ProcessETicket) = ""
                                                 End If
 
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_ProcessETicketReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_ProcessETicketReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_ProcessETicketReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_ProcessETicketReply = ""
+                                                    .AmadeusWSSchema(Ticket_ProcessETicketReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_UpdateTST']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_UpdateTST = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_UpdateTST) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_UpdateTST = ""
+                                                    .AmadeusWSSchema(Ticket_UpdateTST) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_UpdateTSTReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_UpdateTSTReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_UpdateTSTReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_UpdateTSTReply = ""
+                                                    .AmadeusWSSchema(Ticket_UpdateTSTReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_RepricePNRWithBookingClass']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_RepricePNRWithBookingClass = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_RepricePNRWithBookingClass) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_RepricePNRWithBookingClass = ""
+                                                    .AmadeusWSSchema(Ticket_RepricePNRWithBookingClass) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_RepricePNRWithBookingClassReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_RepricePNRWithBookingClassReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_RepricePNRWithBookingClassReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_RepricePNRWithBookingClassReply = ""
+                                                    .AmadeusWSSchema(Ticket_RepricePNRWithBookingClassReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_AutomaticUpdate']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_AutomaticUpdate = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_AutomaticUpdate) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_AutomaticUpdate = ""
+                                                    .AmadeusWSSchema(Ticket_AutomaticUpdate) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'Ticket_AutomaticUpdateReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.Ticket_AutomaticUpdateReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(Ticket_AutomaticUpdateReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.Ticket_AutomaticUpdateReply = ""
+                                                    .AmadeusWSSchema(Ticket_AutomaticUpdateReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'SalesReports_DisplayQueryReport']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.SalesReports_DisplayQueryReport = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(SalesReports_DisplayQueryReport) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.SalesReports_DisplayQueryReport = ""
+                                                    .AmadeusWSSchema(SalesReports_DisplayQueryReport) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'SalesReports_DisplayQueryReportReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.SalesReports_DisplayQueryReportReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(SalesReports_DisplayQueryReportReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.SalesReports_DisplayQueryReportReply = ""
+                                                    .AmadeusWSSchema(SalesReports_DisplayQueryReportReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocRefund_CalculateRefund']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocRefund_CalculateRefund = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocRefund_CalculateRefund) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocRefund_CalculateRefund = ""
+                                                    .AmadeusWSSchema(DocRefund_CalculateRefund) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocRefund_CalculateRefundReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocRefund_CalculateRefundReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocRefund_CalculateRefundReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocRefund_CalculateRefundReply = ""
+                                                    .AmadeusWSSchema(DocRefund_CalculateRefundReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocRefund_IgnoreRefund']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocRefund_IgnoreRefund = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocRefund_IgnoreRefund) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocRefund_IgnoreRefund = ""
+                                                    .AmadeusWSSchema(DocRefund_IgnoreRefund) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocRefund_IgnoreRefundReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocRefund_IgnoreRefundReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocRefund_IgnoreRefundReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocRefund_IgnoreRefundReply = ""
+                                                    .AmadeusWSSchema(DocRefund_IgnoreRefundReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocRefund_InitRefund']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocRefund_InitRefund = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocRefund_InitRefund) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocRefund_InitRefund = ""
+                                                    .AmadeusWSSchema(DocRefund_InitRefund) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocRefund_InitRefundReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocRefund_InitRefundReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocRefund_InitRefundReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocRefund_InitRefundReply = ""
+                                                    .AmadeusWSSchema(DocRefund_InitRefundReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocRefund_ProcessRefund']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocRefund_ProcessRefund = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocRefund_ProcessRefund) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocRefund_ProcessRefund = ""
+                                                    .AmadeusWSSchema(DocRefund_ProcessRefund) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocRefund_ProcessRefundReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocRefund_ProcessRefundReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocRefund_ProcessRefundReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocRefund_ProcessRefundReply = ""
+                                                    .AmadeusWSSchema(DocRefund_ProcessRefundReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocRefund_SearchRefundRule']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocRefund_SearchRefundRule = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocRefund_SearchRefundRule) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocRefund_SearchRefundRule = ""
+                                                    .AmadeusWSSchema(DocRefund_SearchRefundRule) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocRefund_SearchRefundRuleReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocRefund_SearchRefundRuleReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocRefund_SearchRefundRuleReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocRefund_SearchRefundRuleReply = ""
+                                                    .AmadeusWSSchema(DocRefund_SearchRefundRuleReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocRefund_UpdateRefund']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocRefund_UpdateRefund = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocRefund_UpdateRefund) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocRefund_UpdateRefund = ""
+                                                    .AmadeusWSSchema(DocRefund_UpdateRefund) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'DocRefund_UpdateRefundReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.DocRefund_UpdateRefundReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(DocRefund_UpdateRefundReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.DocRefund_UpdateRefundReply = ""
+                                                    .AmadeusWSSchema(DocRefund_UpdateRefundReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'MiniRule_GetFromPricing']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.MiniRule_GetFromPricing = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(MiniRule_GetFromPricing) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.MiniRule_GetFromPricing = ""
+                                                    .AmadeusWSSchema(MiniRule_GetFromPricing) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'MiniRule_GetFromPricingReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.MiniRule_GetFromPricingReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(MiniRule_GetFromPricingReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.MiniRule_GetFromPricingReply = ""
+                                                    .AmadeusWSSchema(MiniRule_GetFromPricingReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'MiniRule_GetFromPricingRec']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.MiniRule_GetFromPricingRec = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(MiniRule_GetFromPricingRec) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.MiniRule_GetFromPricingRec = ""
+                                                    .AmadeusWSSchema(MiniRule_GetFromPricingRec) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'MiniRule_GetFromPricingRecReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.MiniRule_GetFromPricingRecReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(MiniRule_GetFromPricingRecReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.MiniRule_GetFromPricingRecReply = ""
+                                                    .AmadeusWSSchema(MiniRule_GetFromPricingRecReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'QueueMode_ProcessQueue']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.QueueMode_ProcessQueue = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(QueueMode_ProcessQueue) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.QueueMode_ProcessQueue = ""
+                                                    .AmadeusWSSchema(QueueMode_ProcessQueue) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'QueueMode_ProcessQueueReply']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.QueueMode_ProcessQueueReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(QueueMode_ProcessQueueReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.QueueMode_ProcessQueueReply = ""
+                                                    .AmadeusWSSchema(QueueMode_ProcessQueueReply) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PAY_GenerateVirtualCard']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PAY_GenerateVirtualCard = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PAY_GenerateVirtualCard) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PAY_GenerateVirtualCard = ""
+                                                    .AmadeusWSSchema(PAY_GenerateVirtualCard) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PAY_ListVirtualCards']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PAY_ListVirtualCards = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PAY_ListVirtualCards) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PAY_ListVirtualCards = ""
+                                                    .AmadeusWSSchema(PAY_ListVirtualCards) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PAY_VirtualCardDetails']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PAY_VirtualCardDetails = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PAY_VirtualCardDetails) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PAY_VirtualCardDetails = ""
+                                                    .AmadeusWSSchema(PAY_VirtualCardDetails) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'PAY_DeleteVirtualCard']")
 
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.PAY_DeleteVirtualCard = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(PAY_DeleteVirtualCard) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.PAY_DeleteVirtualCard = ""
+                                                    .AmadeusWSSchema(PAY_DeleteVirtualCard) = ""
                                                 End If
 
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'SalesReports_DisplayQueryReport']")
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.SalesReports_DisplayQueryReport = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(SalesReports_DisplayQueryReport) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.SalesReports_DisplayQueryReport = ""
+                                                    .AmadeusWSSchema(SalesReports_DisplayQueryReport) = ""
                                                 End If
                                                 wsNode = oNodePCC.SelectSingleNode("WSDLSchema/Message[@Name = 'SalesReports_DisplayQueryReportReply']")
                                                 If Not wsNode Is Nothing Then
-                                                    .AmadeusWSSchema.SalesReports_DisplayQueryReportReply = wsNode.Attributes("Version").Value
+                                                    .AmadeusWSSchema(SalesReports_DisplayQueryReportReply) = wsNode.Attributes("Version").Value
                                                 Else
-                                                    .AmadeusWSSchema.SalesReports_DisplayQueryReportReply = ""
+                                                    .AmadeusWSSchema(SalesReports_DisplayQueryReportReply) = ""
                                                 End If
 
                                             End If
@@ -5592,7 +5595,7 @@ Namespace wsTravelTalk
                                             'ttSA = New ttSabreAdapter.SabreAdapter(ttProviderSystems)
 
                                             ' API).Append(UserName).Append(System. Sample: APIElleipsisTest
-                                            'Key = "API").Append(arUsers(i)).Append(ttProviderSystems.System).Append(oNodeOT.Attributes("OfficeID").Value
+                                            'Key) = "API").Append(arUsers(i)).Append(ttProviderSystems.System).Append(oNodeOT.Attributes("OfficeID").Value
                                             'oApplication.Add(Key, ttSA)
 
                                             'ttSA = Nothing
@@ -5632,7 +5635,7 @@ Namespace wsTravelTalk
                                 End Try
                             Next    ' oNodePCC in oNode.SelectNodes("PCC")
                         Next    ' oNode In oRoot.SelectNodes("Provider/System")
-                        CoreLib.SendTrace("", "modMain", "All Users PCC loaded successfully.", $"Key = {key}", String.Empty)
+                        CoreLib.SendTrace("", "modMain", "All Users PCC loaded successfully.", $"Key) = {key}", String.Empty)
                     Catch exx As Exception
                         ' Config File Not Valid.
                         CoreLib.SendTrace("", "modMain", sb.Append("TripXMLStartUp: Error Loading File ").Append(arFiles(i)).ToString(), exx.Message, String.Empty)
