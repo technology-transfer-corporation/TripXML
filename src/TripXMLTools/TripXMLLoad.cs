@@ -123,12 +123,15 @@ namespace TripXMLTools
                 ttProviderSystem.System = credentials.System;
                 ttProviderSystem.Provider = provider.Provider.Name;
                 ttProviderSystem.UserID = credentials.UserID;
-                ttProviderSystem.Profile = "1ASIWDWTMBD";
                 ttProviderSystem.Password = providerPcc.Password;
                 ttProviderSystem.UserName = providerPcc.Username;
                 ttProviderSystem.SOAP2 = providerPcc.SOAPType.Equals("SOAP2");
                 ttProviderSystem.SOAP4 = !ttProviderSystem.SOAP2;
-                ttProviderSystem.Origin = "NMC-US";
+                ttProviderSystem.Profile.Origin = providerPcc.Profile.Origin;
+                ttProviderSystem.Profile.Xml = providerPcc.Profile.Xml;
+                ttProviderSystem.Profile.Text = providerPcc.Profile.Text;
+                ttProviderSystem.Profile.Cryptic = providerPcc.Profile.Cryptic;
+                ttProviderSystem.Profile.Ticketing = providerPcc.Profile.Ticketing;
                 ttProviderSystem.GReqID = Requestor;
                 ttProviderSystem.AggFilter = true;
                 ttProviderSystem.FareMessage = "VP";
@@ -137,10 +140,56 @@ namespace TripXMLTools
                 ttProviderSystem.ProxyURL = "";
                 ttProviderSystem.BLFile = "";
                 ttProviderSystem.System = provider.Provider.System.Environment;
+                //Default Values
+                ttProviderSystem.GetStoredFares = true;
+                ttProviderSystem.CheckBookedFare = false;
+                ttProviderSystem.AmadeusTrace = false;
+                ttProviderSystem.RebookNextFlight = false;
+                ttProviderSystem.LogNative = false;
+                ttProviderSystem.SessionPool = false;
+                ttProviderSystem.AddLog = false;
+                ttProviderSystem.HotelMedia = false;
+                ttProviderSystem.SendEmailToAgency = false;
+                ttProviderSystem.CreateInRHAdmin = false;
+                ttProviderSystem.LFPLight = false;
+                ttProviderSystem.CouponStatus = false;
+                ttProviderSystem.AddLFPStat = false;
+
+
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        public static string EncodeValue(DecodingType type, string code)
+        {
+            if (DecodingTables == null)
+                GetDecodingTables();
+
+            switch (type)
+            {
+                case DecodingType.Airline:
+                    return DecodingTables.Airlines.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.Airport:
+                    return DecodingTables.Airports.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.Equipment:
+                    return DecodingTables.Equipments.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.CreditCard:
+                    return DecodingTables.Creditcards.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.Hotel:
+                    return DecodingTables.Hotels.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.HotelAmenity:
+                    return DecodingTables.Hotelamenity.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.HotelArea:
+                    return DecodingTables.Hotelarea.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.HotelRoom:
+                    return DecodingTables.Hotelrooms.FirstOrDefault(c => c.Name == code)?.Code;
+                case DecodingType.HotelSubtitle:
+                    return DecodingTables.Hotelsubtitle.FirstOrDefault(c => c.Name == code)?.Code;
+                default:
+                    return string.Empty;
             }
         }
 
@@ -232,7 +281,7 @@ namespace TripXMLTools
         public class Hotelamenity : DecodingBase { }
         public class Hotelarea : DecodingBase { }
         public class Hotelroom : DecodingBase { }
-        public class Hotelsubtitle : DecodingBase {}
+        public class Hotelsubtitle : DecodingBase { }
         public class Hotel : DecodingBase { }
 
         public abstract class DecodingBase
