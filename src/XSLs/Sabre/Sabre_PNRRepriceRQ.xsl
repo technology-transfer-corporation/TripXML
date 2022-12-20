@@ -3,6 +3,7 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
+   Date: 30 Nov 2022 - Samokhvalov - Fixed Price node.
    Date: 30 Nov 2022 - Samokhvalov - Fixed Brand Fares w/MarkUp.
    Date: 25 May 2022 - Samokhvalov - Fixed FareBasis (truncation to 8 chars removed).
    Date: 18 May 2022 - Kobelev - Fixed Ticket Designator in RePrice request (According to Irina, regardless if Discount is 0 still have to pass Ticket Desgnator as Discount).
@@ -670,27 +671,34 @@
 										<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
 									</xsl:for-each>
 								</ItineraryOptions>
+								<xsl:if test="FareSegments">
+									<xsl:apply-templates select="FareSegments" mode="SmartPricing">
+										<xsl:with-param name="skipItinOpts">1</xsl:with-param>
+									</xsl:apply-templates>
+								</xsl:if>
+							</xsl:when>
+							<xsl:when test="//StoredFare[1]/Discount/@Percent!='' or //StoredFare[1]/TicketDesignator!=''">
+
+								<xsl:apply-templates select="//StoredFare[1]" mode="CommandPricing" />
+
+								<ItineraryOptions>
+									<xsl:call-template name="GetItineraryOptions"/>
+									<xsl:for-each select="FlightReference">
+										<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
+									</xsl:for-each>
+								</ItineraryOptions>
+								<xsl:if test="FareSegments">
+									<xsl:apply-templates select="FareSegments" mode="SmartPricing">
+										<xsl:with-param name="skipItinOpts">1</xsl:with-param>
+									</xsl:apply-templates>
+								</xsl:if>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:if test="//StoredFare[1]/Discount/@Percent!='' or //StoredFare[1]/TicketDesignator!=''">
-
-									<xsl:apply-templates select="//StoredFare[1]" mode="CommandPricing" />
-
-									<ItineraryOptions>
-										<xsl:call-template name="GetItineraryOptions"/>
-										<xsl:for-each select="FlightReference">
-											<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
-										</xsl:for-each>
-									</ItineraryOptions>
-
+								<xsl:if test="FareSegments">
+									<xsl:apply-templates select="FareSegments" mode="SmartPricing"/>
 								</xsl:if>
 							</xsl:otherwise>
 						</xsl:choose>
-						<xsl:if test="FareSegments">
-							<xsl:apply-templates select="FareSegments" mode="SmartPricing">
-								<xsl:with-param name="skipItinOpts">1</xsl:with-param>
-							</xsl:apply-templates>
-						</xsl:if>
 					</PricingQualifiers>
 				</OptionalQualifiers>
 			</PriceRequestInformation>
