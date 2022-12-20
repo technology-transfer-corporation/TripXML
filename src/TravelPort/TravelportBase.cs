@@ -176,7 +176,7 @@ namespace Travelport
             }
             finally
             {
-                if (ConversationID.Contains(ProviderSystems.Profile))
+                if (ConversationID.Contains(ProviderSystems.Profile.Text))
                     ttTP.TracerID = ConversationID;
             }
         }

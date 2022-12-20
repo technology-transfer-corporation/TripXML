@@ -145,7 +145,7 @@ namespace Travelport
             var oDoc = new XmlDocument();
             try
             {
-                branch = ProviderSystems.Profile;
+                branch = ProviderSystems.Profile.Text;
                 TravelPortWSAdapter ttTP = SetAdapter(ProviderSystems);
 
                 if (!Request.Contains("<RequestorID Type=\"21\" Instance"))
