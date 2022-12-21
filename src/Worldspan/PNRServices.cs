@@ -675,7 +675,7 @@ namespace Worldspan
             }
             catch (Exception exx)
             {
-                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                AddLog($"<M>{Request}<BL/>", ProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, exx.Message, ProviderSystems);
             }
 
