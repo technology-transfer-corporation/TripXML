@@ -494,7 +494,7 @@ public class AmadeusWSAdapter
         }
         catch (Exception ex)
         {
-            addLog($"<M>{strResponse}</M><GetResponseFromSoap/>", ttProviderSystems);
+            addLog($"<M>{strResponse}</M>", ttProviderSystems);
             return $"<Errors><Error>{ex.Message}</Error></Errors>";
         }
     }
@@ -749,7 +749,7 @@ public class AmadeusWSAdapter
         }
         catch (Exception ex)
         {
-            addLog($"<M>{body}</M><M>{ex.Message}</M><CreateSession/>", ttProviderSystems);
+            addLog($"<M>{body}</M><M>{ex.Message}</M>", ttProviderSystems);
 
             if (ttProviderSystems.AddLog)
                 addLog($"<EXCOS/>{sessionID} {body}", ttProviderSystems);
@@ -949,7 +949,7 @@ public class AmadeusWSAdapter
         }
         catch (Exception ex)
         {
-            addLog($"<M>{session.SessionId}</M><CloseSession/>", ttProviderSystems);
+            addLog($"<M>{session.SessionId}</M>", ttProviderSystems);
 
             if (ttProviderSystems.AddLog)
                 addLog($"<EXCCS/>{session.SessionId}", ttProviderSystems);
@@ -1120,7 +1120,7 @@ public class AmadeusWSAdapter
         }
         catch (Exception ex)
         {
-            addLog($"<M>{message}</M><SendMessage/>", ttProviderSystems);
+            addLog($"<M>{message}</M>", ttProviderSystems);
             if (ttProviderSystems.AddLog)
                 addLog($"<EXCSM/>{response} {soapResponse}", ttProviderSystems);
             throw ex;
@@ -1231,7 +1231,7 @@ public class AmadeusWSAdapter
     {
         try
         {
-            TripXMLTools.TripXMLLog.LogSoapMessage(msg, starttime, endtime, provider.UserName, TracerID);
+            TripXMLTools.TripXMLLog.LogSoapMessage(msg, starttime, endtime, provider, TracerID);
         }
         catch (Exception)
         {

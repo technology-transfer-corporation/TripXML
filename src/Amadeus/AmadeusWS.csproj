@@ -106,11 +106,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Service References\ConnectorService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="TravelServices.cs" />
     <Compile Include="ttHttpWebClient.cs" />
     <Compile Include="Web References\wsBlackList\Reference.cs">
@@ -160,26 +155,6 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\ConnectorService\Connector.wsdl" />
-    <None Include="Service References\ConnectorService\Connector.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ConnectorService\Connector1.wsdl" />
-    <None Include="Service References\ConnectorService\Connector1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ConnectorService\Connector2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ConnectorService\Connector3.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ConnectorService\Connector4.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\ConnectorService\Connector5.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Web References\wsBlackList\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -203,27 +178,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\ConnectorService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ConnectorService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ConnectorService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ConnectorService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ConnectorService\Connector.disco" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\ConnectorService\Connector1.disco" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">

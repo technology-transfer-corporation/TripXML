@@ -3204,7 +3204,7 @@ namespace AmadeusWS
 
             try
             {
-                ConnectorService.ConnectorClient cli = new ConnectorService.ConnectorClient();
+                //ConnectorService.ConnectorClient cli = new ConnectorService.ConnectorClient();
                 ////********************************************
                 // 'bSendEmail' is was not in local code
                 // *********************************************
@@ -3222,7 +3222,7 @@ namespace AmadeusWS
                 //******************************************************************************
                 //the following method call was done without bSendEmail parameter in local code
                 //******************************************************************************
-                cli.CreateBooking(Convert.ToInt16(portalSession[0]), 1, saveDbData.TravelBuildRS, bSendEmail);
+                //cli.CreateBooking(Convert.ToInt16(portalSession[0]), 1, saveDbData.TravelBuildRS, bSendEmail);
 
             }
             catch (Exception ex)

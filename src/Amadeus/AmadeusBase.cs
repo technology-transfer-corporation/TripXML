@@ -473,7 +473,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error Creating Session.\r\n{ex.Message}");
+                throw new Exception($"Error Creating Session.", ex);
             }
         }
         #endregion
