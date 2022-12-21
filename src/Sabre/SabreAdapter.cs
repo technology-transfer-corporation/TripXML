@@ -5,7 +5,6 @@ using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
 using TripXMLMain;
-using TripXMLTools;
 
 namespace Sabre
 {
@@ -627,18 +626,6 @@ namespace Sabre
                 }
 
                 return strResponse;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        private void addLog(string msg, string username)
-        {
-            try
-            {
-                TripXMLLog.LogErrorMessage(msg, username, "");
             }
             catch (Exception ex)
             {
