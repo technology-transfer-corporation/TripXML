@@ -564,7 +564,7 @@ namespace Galileo
             }
             catch (Exception exx)
             {
-                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                AddLog($"<M>{Request}<BL/>", ProviderSystems);
                 Errors = exx.Message;
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.TravelBuild, exx.Message, ProviderSystems, "");
             }
@@ -795,7 +795,7 @@ namespace Galileo
             }
             catch (Exception exx)
             {
-                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                AddLog($"<M>{Request}<BL/>", ProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.TravelModify, exx.Message, ProviderSystems, "");
             }
             finally
@@ -1049,7 +1049,7 @@ namespace Galileo
             }
             catch (Exception exx)
             {
-                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                AddLog($"<M>{Request}<BL/>", ProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.IssueTicket, exx.Message, ProviderSystems, "");
             }
             finally
@@ -1298,7 +1298,7 @@ namespace Galileo
             }
             catch (Exception exx)
             {
-                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                AddLog($"<M>{Request}<BL/>", ProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.IssueTicketSessioned, exx.Message, ProviderSystems, "");
             }
             finally
@@ -1446,7 +1446,7 @@ namespace Galileo
             }
             catch (Exception exx)
             {
-                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                AddLog($"<M>{Request}<BL/>", ProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.Update, exx.Message, ProviderSystems, "");
             }
             finally
@@ -1629,7 +1629,7 @@ namespace Galileo
             }
             catch (Exception exx)
             {
-                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                AddLog($"<M>{Request}<BL/>", ProviderSystems);
                 response = modCore.FormatErrorMessage(modCore.ttServices.Update, exx.Message, ProviderSystems, "");
             }
             finally
@@ -1740,7 +1740,7 @@ namespace Galileo
             }
             catch (Exception exx)
             {
-                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                AddLog($"<M>{Request}<BL/>", ProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.TicketVoid, exx.Message, ProviderSystems, "");
             }
             finally

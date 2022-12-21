@@ -244,7 +244,7 @@ namespace Galileo
             {
                 var dur = responseTime - requestTime;
                 string strLine = $"<Message Type=\'{msgType}\' RequestTime=\'{requestTime:dd MMM yyyy HH:mm:ss}\' ResponseTime=\'{responseTime:dd MMM yyyy HH:mm:ss}\' Duration=\'{dur.TotalSeconds}\'><GalileoMessage>{message}</GalileoMessage></Message>";
-                AddLog(strLine, ProviderSystems.UserID);
+                AddLog(strLine, ProviderSystems);
             }
             catch (Exception ex)
             {
@@ -252,42 +252,50 @@ namespace Galileo
             }
         }
 
-        protected static void AddLog(string msg, string username)
+        protected static void AddLog(string msg, modCore.TripXMLProviderSystems provider)
         {
             try
             {
-                string filePath = $"log\\{username}_{DateTime.Today:dd-MM-yyyy}";
-                string dirPath = ConfigurationManager.AppSettings["TripXMLLogFolder"]; //"C:\\TripXML\\log"
-                filePath = $"{dirPath}\\{filePath}.txt";
+                modCore.AddLog(modCore.LogType.Info, msg, provider);
+                //string filePath = $"log\\{username}_{DateTime.Today:dd-MM-yyyy}";
+                //string dirPath = ConfigurationManager.AppSettings["TripXMLLogFolder"]; //"C:\\TripXML\\log"
 
-                FileInfo ffInfo = new FileInfo(filePath);
+                //FileInfo ffInfo = new FileInfo(filePath);
+                //if (ffInfo.Directory is { Exists: false })
+                //    ffInfo.Directory.Create();
 
-                if (ffInfo.Directory is { Exists: false })
+                //if (!ffInfo.Exists)
+                //{
+                //    WriteLogEntry($"{dirPath}\\{filePath}.txt", $"created On - {DateTime.Now}\r\n");
+                //}
+                //else
+                //{
+                //    DateTimeFormatInfo myDtfi = new CultureInfo("en-US", true).DateTimeFormat;
+                //    WriteLogEntry($"{dirPath}\\{filePath}.txt", $"{DateTime.UtcNow.ToString(myDtfi).Substring(11)} GMT - {msg}\r\n");
+                //}
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error adding line to Log.", ex);
+            }
+        }
+        private static void WriteLogEntry(string filePath, string log, bool isAppend = true)
+        {
+            try
+            {
+                using (FileStream stream = new FileStream(filePath, !File.Exists(filePath) || !isAppend ? FileMode.Create : FileMode.Append, FileAccess.Write))
                 {
-                    ffInfo.Directory.Create();
-                }
-
-                if (!ffInfo.Exists)
-                {
-                    using StreamWriter sw = ffInfo.CreateText();
-                    sw.WriteLine("created On - {0}\r\n", DateTime.Now);
-                    sw.Flush();
-                    sw.Close();
-                }
-
-                using (StreamWriter sw = ffInfo.AppendText())
-                {
-                    DateTimeFormatInfo myDtfi = new CultureInfo("en-US", true).DateTimeFormat;
-
-                    sw.WriteLine($"{DateTime.UtcNow.ToString(myDtfi).Substring(11)} GMT - {msg}\r\n");
-                    sw.Flush();
-                    sw.Close();
+                    using (StreamWriter streamWriter = new StreamWriter(stream))
+                    {
+                        streamWriter.WriteLine(log);
+                        streamWriter.Flush();
+                    }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error adding line to Log.\r\n{ex.Message}");
+                Console.WriteLine(ex.Message);
             }
-        }        
+        }
     }
 }
