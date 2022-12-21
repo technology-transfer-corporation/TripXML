@@ -542,7 +542,7 @@ namespace AmadeusWS
         {
             try
             {
-                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema[PNR_Cancel]}", ConversationID)
+                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_Cancel]}", ConversationID)
                     .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
                 return response;
@@ -583,7 +583,7 @@ namespace AmadeusWS
         {
             try
             {
-                var response = ttAA.SendMessage(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements]}", ConversationID)
+                var response = ttAA.SendMessage(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements]}", ConversationID)
                     .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
                 return response;
@@ -829,7 +829,7 @@ namespace AmadeusWS
         {
             try
             {
-                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema[PNR_Split]}", ConversationID);
+                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_Split]}", ConversationID);
                 response = response.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
                 return response;

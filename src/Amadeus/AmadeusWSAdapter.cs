@@ -146,7 +146,7 @@ public class AmadeusWSAdapter
 
         header.Append("\n").Append($"<wsa:MessageID>{Guid.NewGuid()}</wsa:MessageID>");
         header.Append("\n").Append($"<wsa:Action>http://webservices.amadeus.com/{amadeusWSAction.Substring(amadeusWSAction.LastIndexOf('/') + 1, amadeusWSAction.Length - (amadeusWSAction.LastIndexOf('/') + 1))}</wsa:Action>");
-        header.Append("\n").Append($"<wsa:To>{ttProviderSystems.SOAP4URL}/{ttProviderSystems.Profile}</wsa:To>");
+        header.Append("\n").Append($"<wsa:To>{ttProviderSystems.SOAP4URL}/{ttProviderSystems.Profile.Text}</wsa:To>");
         header.Append("\n").Append($"<link:TransactionFlowLink xmlns:link=\"http://wsdl.amadeus.com/2010/06/ws/Link_v1\"/>");
 
         //var sbAddressing = new StringBuilder();
@@ -403,7 +403,7 @@ public class AmadeusWSAdapter
             ttHttpWebClient oHttpWebClient = new ttHttpWebClient();
             string action = AmadeusWSAction.Substring(AmadeusWSAction.LastIndexOf('/') + 1, AmadeusWSAction.Length - (AmadeusWSAction.LastIndexOf('/') + 1));
             oHttpWebClient.SoapAction = $"http://webservices.amadeus.com/{action}";
-            oHttpWebClient.ServiceURL = $"{ttProviderSystems.SOAP4URL}/{ttProviderSystems.Profile}";
+            oHttpWebClient.ServiceURL = $"{ttProviderSystems.SOAP4URL}/{ttProviderSystems.Profile.Text}";
             oHttpWebClient.HttpMethod = "POST";
             oHttpWebClient.Header = header;
             oHttpWebClient.Body = body;
@@ -717,7 +717,7 @@ public class AmadeusWSAdapter
                  */
                 body = "<Command_Cryptic><messageAction><messageFunctionDetails><messageFunction>M</messageFunction></messageFunctionDetails></messageAction><longTextString><textStringDetails>DDNYC</textStringDetails></longTextString></Command_Cryptic>";
                 Soap4Session session = new Soap4Session(TransactionStatusCode.Start);
-                var resp = SendMessagesoap4(body, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema[Command_Cryptic]}", ref session);
+                var resp = SendMessagesoap4(body, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[Command_Cryptic]}", ref session);
                 session.StatusCode = TransactionStatusCode.InSeries;
                 return string.IsNullOrEmpty(session.SecurityToken) ? session.SecurityToken : session.ToString();
             }
@@ -734,8 +734,8 @@ public class AmadeusWSAdapter
                 DateTime requesttime = DateTime.Now;
 
                 sessionID = isSOAP2
-                    ? SendSOAP2(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSLQ_06_1_1A")
-                    : Send(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSLQ_06_1_1A");
+                    ? SendSOAP2(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSLQ_06_1_1A")
+                    : Send(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSLQ_06_1_1A");
 
                 DateTime responsetime = DateTime.Now;
 
@@ -755,8 +755,8 @@ public class AmadeusWSAdapter
                 addLog($"<EXCOS/>{sessionID} {body}", ttProviderSystems);
 
             sessionID = isSOAP2
-                    ? SendSOAP2(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSLQ_06_1_1A")
-                    : Send(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSLQ_06_1_1A");
+                    ? SendSOAP2(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSLQ_06_1_1A")
+                    : Send(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSLQ_06_1_1A");
 
             if (ttProviderSystems.AddLog)
                 addLog($"<EXOK/>{sessionID}", ttProviderSystems);
@@ -781,7 +781,7 @@ public class AmadeusWSAdapter
             $"<passwordInfo><dataLength>{length}</dataLength><dataType>E</dataType><binaryData>{password}</binaryData></passwordInfo></Security_Authenticate>";
 
             DateTime requesttime = DateTime.Now;
-            string sessionID = Send(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSLQ_06_1_1A");
+            string sessionID = Send(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSLQ_06_1_1A");
             DateTime responsetime = DateTime.Now;
 
             // ****************************************
@@ -921,7 +921,7 @@ public class AmadeusWSAdapter
             {
                 string header = ComposeHeader("AmadeusWSXML", "Session", "SessionCloseRQ", sessionID);
                 string body = "<Security_SignOut/>";
-                response = Send(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSOQ_04_1_1A");
+                response = Send(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSOQ_04_1_1A");
             }
             return response;
         }
@@ -944,7 +944,7 @@ public class AmadeusWSAdapter
         {
             string header = ComposeSoap4Header("VLSSOQ_04_1_1A", ref session);
             string body = "<Security_SignOut/>";
-            string strResponse = SendSoap4(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSOQ_04_1_1A");
+            string strResponse = SendSoap4(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSOQ_04_1_1A");
             return strResponse;
         }
         catch (Exception ex)
@@ -984,7 +984,7 @@ public class AmadeusWSAdapter
                 {
                     var header = ComposeHeader("AmadeusWSXML", "Session", "SessionCloseRQ", SessionID);
                     var body = "<Security_SignOut/>";
-                    var response = Send(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSOQ_04_1_1A");
+                    var response = Send(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSOQ_04_1_1A");
                     return response;
                 }
                 catch (Exception ex)
