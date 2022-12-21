@@ -1484,7 +1484,7 @@ namespace Sabre
             }
             catch (Exception exx)
             {
-                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                AddLog($"<M>{Request}<BL/>", ProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.TicketDisplay, exx.Message, ProviderSystems);
             }
 
@@ -1783,7 +1783,7 @@ namespace Sabre
             }
             catch (Exception exx)
             {
-                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                AddLog($"<M>{Request}<BL/>", ProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.Update, exx.Message, ProviderSystems);
             }
             return strResponse;
@@ -1807,7 +1807,7 @@ namespace Sabre
                 // Retrieve existing PNR * 
                 // **************************** 
                 string strErrEvent = "Error sending Sabre PNR Display Request.";
-                string strRequest = "<TravelItineraryReadRQ Version=\"3.6.0\" xmlns=\"http://services.sabre.com/res/tir/v3_6\"><MessagingDetails><SubjectAreas><SubjectArea>FULL</SubjectArea></SubjectAreas></MessagingDetails></TravelItineraryReadRQ>";
+                string strRequest = "<TravelItineraryReadRQ Version=\"3.10.0\" xmlns=\"http://services.sabre.com/res/tir/v3_10\"><MessagingDetails><SubjectAreas><SubjectArea>FULL</SubjectArea></SubjectAreas></MessagingDetails></TravelItineraryReadRQ>";
                 string strEndTransaction = "";
 
                 // ********************************************
@@ -1833,7 +1833,7 @@ namespace Sabre
                     if (oRoot.SelectSingleNode("Position/Element[@Operation='insert']") != null)
                     {
                         // *******************************************************************
-                        // * Transform OTA Modify Request into Sabre Native Insert Request *
+                        // * Transform OTA Modify Request into Sabre Native Insert Request   *
                         // *******************************************************************
                         strRequest = CoreLib.TransformXML($"<UpdateInsert>{Request}{strNativePNRReply}</UpdateInsert>", XslPath, $"{Version}Sabre_UpdateInsertRQ.xsl");
 

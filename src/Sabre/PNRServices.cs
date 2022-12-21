@@ -211,7 +211,7 @@ namespace Sabre
             }
             catch (Exception exx)
             {
-                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                AddLog($"<M>{Request}<BL/>", ProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, exx.Message, ProviderSystems);
             }
             return strResponse;
@@ -235,7 +235,7 @@ namespace Sabre
             }
             catch (Exception ex)
             {
-                AddLog($"<Error>{ex.Message}</Error>", ProviderSystems.UserID);
+                AddLog($"<Error>{ex.Message}</Error>", ProviderSystems);
             }
             return (AFP: strline, CCType: string.Empty, CCNumber: string.Empty, Exp: string.Empty);
         }
