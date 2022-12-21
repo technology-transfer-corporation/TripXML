@@ -105,11 +105,6 @@ namespace AmadeusWS
                 DateTime responseTime = DateTime.Now;
                 string strMessage = sbNativeLog.ToString();
                 sbNativeLog.Clear();
-
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("CreateVirtualCard", ref strMessage, requestTime, responseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
             }
             catch (Exception exx)
             {
@@ -366,11 +361,6 @@ namespace AmadeusWS
                 DateTime responseTime = DateTime.Now;
                 string strMessage = sbNativeLog.ToString();
                 sbNativeLog.Clear();
-
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("VCC Cancel", ref strMessage, requestTime, responseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
             }
             catch (Exception exx)
             {
@@ -542,11 +532,6 @@ namespace AmadeusWS
 
                 string strMessage = sbNativeLog.ToString();
                 sbNativeLog.Clear();
-
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("ListVirtualCards", ref strMessage, requestTime, DateTime.Now, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
             }
             catch (Exception exx)
             {

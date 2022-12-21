@@ -302,9 +302,6 @@ public class AmadeusWSAdapter
             string strResponse = oHttpWebClient.SendHttpRequest(ttProviderSystems);
             DateTime responsetime = DateTime.Now;
 
-            if (ttProviderSystems.AddLog)
-                addSoapLog(log + Environment.NewLine + strResponse, requesttime, responsetime, ttProviderSystems);
-
             return strResponse;
         }
         catch (Exception ex)
@@ -344,9 +341,6 @@ public class AmadeusWSAdapter
             strResponse = oHttpWebClient.SendHttpRequest(ttProviderSystems);
             DateTime responsetime = DateTime.Now;
 
-            if (ttProviderSystems.AddLog)
-                addSoapLog($"{log}{Environment.NewLine}{strResponse}", requesttime, responsetime, ttProviderSystems);
-
             return strResponse;
         }
         catch (Exception ex)
@@ -384,8 +378,6 @@ public class AmadeusWSAdapter
             DateTime requesttime = DateTime.Now;
             strResponse = oHttpWebClient.SendHttpRequest(ttProviderSystems);
             DateTime responsetime = DateTime.Now;
-            if (ttProviderSystems.AddLog)
-                addSoapLog($"{log}{Environment.NewLine}{strResponse}", requesttime, responsetime, ttProviderSystems);
 
             return strResponse;
         }
@@ -412,9 +404,6 @@ public class AmadeusWSAdapter
             DateTime requesttime = DateTime.Now;
             string strResponse = oHttpWebClient.SendHttpRequestSoap4(ttProviderSystems, log);
             DateTime responsetime = DateTime.Now;
-
-            if (ttProviderSystems.AddLog)
-                addSoapLog($"{log}{Environment.NewLine}{strResponse}", requesttime, responsetime, ttProviderSystems);
 
             return strResponse;
         }
@@ -787,8 +776,6 @@ public class AmadeusWSAdapter
             // ****************************************
             //  Get SecurityToken From AmadeusWS Response *
             // ****************************************
-            if (ttProviderSystems.AddLog)
-                addSoapLog(sessionID, requesttime, responsetime, ttProviderSystems);
 
             sessionID = GetResponseFromSoap(sessionID, "SessionCreate", enRequestType.CreateSession);
 
@@ -825,9 +812,6 @@ public class AmadeusWSAdapter
             // ****************************************
             //  Get SecurityToken From AmadeusWS Response *
             // ****************************************
-            if (ttProviderSystems.AddLog)
-                addSoapLog(newSessionID, requesttime, responsetime, ttProviderSystems);
-
             newSessionID = GetResponseFromSoap(newSessionID, "SessionCreate", enRequestType.CreateSession);
 
             if (!newSessionID.Contains("<Error"))
@@ -873,9 +857,6 @@ public class AmadeusWSAdapter
             // ****************************************
             //  Get SecurityToken From AmadeusWS Response *
             // ****************************************
-            if (ttProviderSystems.AddLog)
-                addSoapLog(newSessionID, reqesttime, responsetime, ttProviderSystems);
-
             newSessionID = GetResponseFromSoap(newSessionID, "SessionCreate", enRequestType.CreateSession);
 
             if (newSessionID.StartsWith("<Error"))
@@ -1224,17 +1205,6 @@ public class AmadeusWSAdapter
                     CloseSessionFromPool(sessionID);//CloseSession(SessionID);
             }
             throw ex;
-        }
-    }
-
-    private void addSoapLog(string msg, DateTime starttime, DateTime endtime, modCore.TripXMLProviderSystems provider)
-    {
-        try
-        {
-            TripXMLTools.TripXMLLog.LogSoapMessage(msg, starttime, endtime, provider, TracerID);
-        }
-        catch (Exception)
-        {
         }
     }
 

@@ -1010,14 +1010,6 @@ namespace AmadeusWS
 
                 DateTime ResponseTime = default(DateTime);
                 ResponseTime = DateTime.Now;
-
-                if (ttProviderSystems.LogNative)
-                {
-                    var msg = Message;
-                    TripXMLTools.TripXMLLog.LogMessage("TravelBuild", ref msg, RequestTime, ResponseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
-
-
             }
             catch (Exception exx)
             {
@@ -1374,12 +1366,6 @@ namespace AmadeusWS
                     throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
                 }
 
-                if (ttProviderSystems.LogNative)
-                {
-                    var strMSG = Message;
-                    TripXMLTools.TripXMLLog.LogMessage("IssueTicket", ref strMSG, RequestTime, DateTime.Now, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
-
                 return strResponse;
             }
             catch (Exception exx)
@@ -1474,12 +1460,6 @@ namespace AmadeusWS
                         ConversationID = null;
                         ttAA = null;
                     }
-                }
-
-                if (ttProviderSystems.LogNative)
-                {
-                    var strMSG = Message;
-                    TripXMLTools.TripXMLLog.LogMessage("IssueTicket", ref strMSG, RequestTime, DateTime.Now, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
                 }
 
                 return strResponse;
@@ -1674,12 +1654,6 @@ namespace AmadeusWS
                     throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
                 }
 
-                if (ttProviderSystems.LogNative)
-                {
-                    var strMSG = Message;
-                    TripXMLTools.TripXMLLog.LogMessage("IssueTicket", ref strMSG, RequestTime, DateTime.Now, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
-
                 return strResponse;
             }
             catch (Exception exx)
@@ -1740,12 +1714,6 @@ namespace AmadeusWS
                         ConversationID = null;
                         ttAA = null;
                     }
-                }
-
-                if (ttProviderSystems.LogNative)
-                {
-                    var strMSG = Message;
-                    TripXMLTools.TripXMLLog.LogMessage("IssueTicket", ref strMSG, RequestTime, DateTime.Now, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
                 }
 
                 return strResponse;
@@ -1874,12 +1842,6 @@ namespace AmadeusWS
                         ConversationID = null;
                         ttAA = null;
                     }
-                }
-
-                if (ttProviderSystems.LogNative)
-                {
-                    var strmsg = Message;
-                    TripXMLTools.TripXMLLog.LogMessage("IssueTicket", ref strmsg, RequestTime, DateTime.Now, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
                 }
 
                 return strResponse;
@@ -2083,14 +2045,6 @@ namespace AmadeusWS
                         ConversationID = null;
                         ttAA = null;
                     }
-                }
-
-
-
-                if (ttProviderSystems.LogNative)
-                {
-                    var strmsg = Message;
-                    TripXMLTools.TripXMLLog.LogMessage("IssueTicket", ref strmsg, RequestTime, DateTime.Now, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
                 }
 
                 return strResponse;
@@ -2746,12 +2700,6 @@ namespace AmadeusWS
                         ttAA = null;
                     }
                 }
-
-                if (ttProviderSystems.LogNative)
-                {
-                    var strmsg = Message;
-                    TripXMLTools.TripXMLLog.LogMessage("Update", ref strmsg, RequestTime, DateTime.Now, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
             }
             catch (Exception exx)
             {
@@ -3118,12 +3066,6 @@ namespace AmadeusWS
                         ttAA = null;
                     }
                     oDocResp = null;
-                }
-
-                if (ttProviderSystems.LogNative)
-                {
-                    var strmsg = Message;
-                    TripXMLTools.TripXMLLog.LogMessage("IssueTicket", ref strmsg, RequestTime, DateTime.Now, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
                 }
             }
             catch (Exception exx)

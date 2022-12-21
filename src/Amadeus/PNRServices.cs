@@ -321,11 +321,6 @@ namespace AmadeusWS
                     DateTime responseTime = DateTime.Now;
                     String strMeessege = sbNativeLog.ToString();
                     sbNativeLog.Remove(0, sbNativeLog.Length);
-
-                    if (ttProviderSystems.LogNative && strMeessege.Trim() != string.Empty)
-                    {
-                        TripXMLTools.TripXMLLog.LogMessage("PNRRead", ref strMeessege, requestTime, responseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -596,9 +591,6 @@ namespace AmadeusWS
                 DateTime responseTime = DateTime.Now;
                 string strMessage = sbNativeLog.ToString();
                 sbNativeLog.Remove(0, sbNativeLog.Length);
-
-                if (ttProviderSystems.LogNative)
-                    TripXMLTools.TripXMLLog.LogMessage("PNRCancel", ref strMessage, requestTime, responseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
             }
 
             catch (Exception exx)
@@ -831,11 +823,6 @@ namespace AmadeusWS
                 DateTime responseTime = DateTime.Now;
                 string strMessage = sbNativeLog.ToString();
                 sbNativeLog.Remove(0, sbNativeLog.Length);
-
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("PNRSplit", ref strMessage, requestTime, responseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
             }
             catch (Exception exx)
             {
@@ -2962,11 +2949,6 @@ namespace AmadeusWS
                     DateTime responseTime = DateTime.Now;
                     string strMessage = sbNativeLogMessge.ToString();
                     sbNativeLogMessge.Clear();
-
-                    if (ttProviderSystems.LogNative)
-                    {
-                        TripXMLTools.TripXMLLog.LogMessage("TransferOwnership", ref strMessage, requestTime, responseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                    }
                 }
                 catch (Exception ex)
                 {
