@@ -54,7 +54,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TripXMLLoad.cs" />
     <Compile Include="SystemRQDTO.cs" />
-    <Compile Include="TripXMLLog.cs" />
     <Compile Include="TripXMLProviderDTO.cs" />
   </ItemGroup>
   <ItemGroup>
