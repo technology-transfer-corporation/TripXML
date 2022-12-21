@@ -2870,24 +2870,6 @@ Namespace wsTravelTalk
         End Sub
 
         Public Sub TripXMLStartUp(ByRef oApplication As HttpApplicationState)
-            'Dim ttSA As Sabre.SabreAdapter = Nothing
-            Dim strPath As String
-            Dim strBLPath As String
-            Dim oDoc As XmlDocument
-            Dim oRoot As XmlElement
-            Dim oNode As XmlNode
-            Dim oNodeOT As XmlNode
-            Dim oNodePCC As XmlNode
-            Dim oDocPrv As XmlDocument
-            Dim oRootPrv As XmlElement
-            Dim oNodePrv As XmlNode
-            Dim i As Integer
-            Dim j As Integer
-            Dim key As String
-            Dim validateXSDIn As Boolean
-            Dim validateXSDOut As Boolean
-            Dim sb As StringBuilder = New StringBuilder()
-
             Try
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
 
@@ -2903,10 +2885,10 @@ Namespace wsTravelTalk
                 Trace = True   ' TODO Remove this line once TravelTalkUserSettings is working.
 
             Catch ex As Exception
-                                    Throw New Exception(sb.Append("Error Starting up Application.").Append(ex.Message).ToString())
-                                Finally
-                                    GC.Collect()
-                                End Try
+                Throw New Exception($"Error Starting up Application.{ex.Message}")
+            Finally
+                GC.Collect()
+            End Try
 
         End Sub
 

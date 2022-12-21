@@ -3,6 +3,7 @@ Imports System.IO
 Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports TripXMLMain.modCore
+Imports System.Web.Configuration
 
 Namespace wsTravelTalk
 
@@ -52,8 +53,8 @@ Namespace wsTravelTalk
 #Region " Process Service Request All GDS "
         Private ReadOnly sb As StringBuilder = New StringBuilder()
 
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
-            Dim strResponse As String = ""
+        Private Function ServiceRequest(ByVal request As String, ByVal ttServiceID As Integer, Optional ByVal sessionID As String = "") As String
+            Dim response As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
             Dim validateXSDOut As Boolean
@@ -63,13 +64,13 @@ Namespace wsTravelTalk
             Try
                 startTime = Now
 
-                PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, startTime, ttServiceID, Server.MachineName, UUID)
+                PreServiceRequest(request, Application, ttCredential, ttProviderSystems, startTime, ttServiceID, Server.MachineName, UUID)
                 validateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
                 sb.Remove(0, sb.Length())
 
                 Select Case ttCredential.Providers(0).Name
                     Case "AmadeusWS"
-                        strResponse = SendPNRRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendPNRRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, request)
 
                     Case "Sabre"
                         'ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
@@ -82,28 +83,41 @@ Namespace wsTravelTalk
 
                         ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
 
-                        strResponse = SendPNRRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendPNRRequestSabre(ttServiceID, ttCredential, ttProviderSystems, request)
 
-                    Case "Worldspan"
-                        strResponse = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-                    Case "Galileo"
-                        strResponse = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                    Case "Worldspan", "Galileo"
+                        If CBool(WebConfigurationManager.AppSettings("IsTravelportReprice")) Then
+                            Dim ttDefProvider As New TripXMLProviderSystems()
+                            If Not String.IsNullOrEmpty(sessionID) Then
+                                request = request.Replace(sessionID, "")
+                            End If
+                            PreServiceRequest(request, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, UUID, "", True)
+                            response = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, request)
+                            response = response.Replace("</OTA_PNRRepriceRS>", $"<ConversationID>{sessionID}</ConversationID></OTA_PNRRepriceRS>")
+                        Else
+                            Select Case ttCredential.Providers(0).Name
+                                Case "Galileo"
+                                    response = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, request)
+                                Case "Worldspan"
+                                    response = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, request)
+                            End Select
+                        End If
                     Case "Travelport"
-                        strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttProviderSystems, request)
                     Case Else
                         Throw New Exception(sb.Append("Provider ").Append(ttCredential.Providers(0).Name).Append(" Not Currently Supported.").ToString())
                 End Select
 
-                PostServiceRequest(strResponse, validateXSDOut, ttServiceID, ttCredential.UserID)
+                PostServiceRequest(response, validateXSDOut, ttServiceID, ttCredential.UserID)
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(ttServiceID, ex.Message, ttCredential.Providers(0).Name)
+                response = FormatErrorMessage(ttServiceID, ex.Message, ttCredential.Providers(0).Name)
             Finally
-                LogResponse(strResponse, ttCredential, startTime, ttServiceID, Server.MachineName, UUID)
-                If Trace Then CoreLib.SendTrace(ttCredential.UserID, "wsPNRReprice", "============= OTA Response ============= ", strResponse, UUID)
+                LogResponse(response, ttCredential, startTime, ttServiceID, Server.MachineName, UUID)
+                If Trace Then CoreLib.SendTrace(ttCredential.UserID, "wsPNRReprice", "============= OTA Response ============= ", response, UUID)
             End Try
 
-            Return strResponse
+            Return response
         End Function
 
 #End Region
@@ -121,8 +135,8 @@ Namespace wsTravelTalk
             oSerializer.Serialize(oWriter, OTA_PNRRepriceRQ)
             Dim xmlMessage As String = oWriter.ToString
             xmlMessage = xmlMessage.Replace(" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""", "")
-
-            xmlMessage = ServiceRequest(xmlMessage, ttServices.PNRReprice)
+            Dim sid As String = OTA_PNRRepriceRQ.ConversationID
+            xmlMessage = ServiceRequest(xmlMessage, ttServices.PNRReprice, sid)
 
             Try
                 oSerializer = New XmlSerializer(type:=GetType(wmPNRRepriceOut.OTA_PNRRepriceRS))
