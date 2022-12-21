@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace TripXMLMain
         public static bool IsCreating = false;
         public static bool NonDirectFlights = false;
         public static int LFSchRequestCount = 0;
+        public static Log Logger;
         public static System.Collections.Specialized.NameValueCollection config => ConfigurationManager.AppSettings;
 
         #region  Structures 
@@ -44,6 +46,24 @@ namespace TripXMLMain
             public string Password;
         }
 
+        public struct ProfileStruct
+        {
+            public string Ticketing;
+            public string Origin;
+            public string Cryptic;
+            public string Text;
+            public string Xml;
+        }
+
+        public enum ProfileType
+        {
+            Ticketing,
+            Origin,
+            Cryptic,
+            Text,
+            Xml
+        }
+
         public struct TripXMLProviderSystems
         {
             public string UserID;
@@ -55,22 +75,19 @@ namespace TripXMLMain
             public bool AmadeusTrace;
             public string UserName;
             public string Password;
-            public string Profile;
-            public string ProfileXML;
-            public string ProfileCryptic;
-            public string ProfileTicketing;
-            public string Origin;
+            //public string Profile;
+            public ProfileStruct Profile;
             public bool Trace;
             public OpenType[] OpenTypes;
             public string BLFile;
             public bool AggFilter;
             public bool RebookNextFlight;
             public bool RebookPassive;
-            public string FareMessage;
+            public string FareMessage/* { get; set; } = "VP"*/;
             public string SaveInDB;
             public bool LogNative;
             public bool AmadeusWS;
-            public AmadeusWSSchema AmadeusWSSchema;
+            public Dictionary<enAmadeusWSSchema, string> AmadeusWSSchema;
             public ProviderSession ProviderSession;
             public string GPass;
             public string GReqID;
@@ -108,6 +125,10 @@ namespace TripXMLMain
             public string Language;
             public bool SabreFareSearch;
             public string AdVShop;
+            //public TripXMLProviderSystems()
+            //{
+
+            //}
         }
 
         public struct ProviderSession
@@ -131,253 +152,254 @@ namespace TripXMLMain
             public string TravelAgentID;
         }
 
-        public struct AmadeusWSSchema
+        public static NameValueCollection AmadeusWSSchemaDic { get; set; } = new NameValueCollection();
+        public enum enAmadeusWSSchema
         {
-            public string Air_FlightInfo;
-            public string Air_FlightInfoReply;
-            public string Air_MultiAvailability;
-            public string Air_MultiAvailabilityReply;
-            public string Air_RebookAirSegment;
-            public string Air_RebookAirSegmentReply;
-            public string Air_RetrieveSeatMap;
-            public string Air_RetrieveSeatMapReply;
-            public string Air_SellFromRecommendation;
-            public string Air_SellFromRecommendationReply;
-            public string Car_InformationImage;
-            public string Car_InformationImageReply;
-            public string Car_LocationList;
-            public string Car_LocationListReply;
-            public string Car_MultiAvailability;
-            public string Car_MultiAvailabilityReply;
-            public string Car_Availability;
-            public string Car_AvailabilityReply;
-            public string Car_Policy;
-            public string Car_PolicyReply;
-            public string Car_RateInformationFromAvailability;
-            public string Car_RateInformationFromAvailabilityReply;
-            public string Car_RateInformationFromCarSegment;
-            public string Car_RateInformationFromCarSegmentReply;
-            public string Car_Sell;
-            public string Car_SellReply;
-            public string Car_SingleAvailability;
-            public string Car_SingleAvailabilityReply;
-            public string Command_Cryptic;
-            public string Command_CrypticReply;
-            public string Cruise_CancelBooking;
-            public string Cruise_CancelBookingReply;
-            public string Cruise_ClaimBooking;
-            public string Cruise_ClaimBookingReply;
-            public string Cruise_CreateBooking;
-            public string Cruise_CreateBookingReply;
-            public string Cruise_DisplayBusDescription;
-            public string Cruise_DisplayBusDescriptionReply;
-            public string Cruise_DisplayCabinDescription;
-            public string Cruise_DisplayCabinDescriptionReply;
-            public string Cruise_DisplayCategoryDescription;
-            public string Cruise_DisplayCategoryDescriptionReply;
-            public string Cruise_DisplayFareDescription;
-            public string Cruise_DisplayFareDescriptionReply;
-            public string Cruise_DisplayInclusivePackageDescription;
-            public string Cruise_DisplayInclusivePackageDescriptionReply;
-            public string Cruise_DisplayItineraryDescription;
-            public string Cruise_DisplayItineraryDescriptionReply;
-            public string Cruise_DisplayPrePostPackageDescription;
-            public string Cruise_DisplayPrePostPackageDescriptionReply;
-            public string Cruise_DisplayProductInformation;
-            public string Cruise_DisplayProductInformationReply;
-            public string Cruise_EnterPassengerInformation;
-            public string Cruise_EnterPassengerInformationReply;
-            public string Cruise_GetBookingDetails;
-            public string Cruise_GetBookingDetailsReply;
-            public string Cruise_HoldCabin;
-            public string Cruise_HoldCabinReply;
-            public string Cruise_ModifyBooking;
-            public string Cruise_ModifyBookingReply;
-            public string Cruise_PriceBooking;
-            public string Cruise_PriceBookingReply;
-            public string Cruise_PriceBookingCancellation;
-            public string Cruise_PriceBookingCancellationReply;
-            public string Cruise_RequestBusAvailability;
-            public string Cruise_RequestBusAvailabilityReply;
-            public string Cruise_RequestCabinAvailability;
-            public string Cruise_RequestCabinAvailabilityReply;
-            public string Cruise_RequestCategoryAvailability;
-            public string Cruise_RequestCategoryAvailabilityReply;
-            public string Cruise_RequestFareAvailability;
-            public string Cruise_RequestFareAvailabilityReply;
-            public string Cruise_RequestInclusivePackageAvailability;
-            public string Cruise_RequestInclusivePackageAvailabilityReply;
-            public string Cruise_RequestPrePostPackageAvailability;
-            public string Cruise_RequestPrePostPackageAvailabilityReply;
-            public string Cruise_RequestSailingAvailability;
-            public string Cruise_RequestSailingAvailabilityReply;
-            public string Cruise_RequestShoreExcursionAvailability;
-            public string Cruise_RequestShoreExcursionAvailabilityReply;
-            public string Cruise_RequestSpecialServicesAvailability;
-            public string Cruise_RequestSpecialServicesAvailabilityReply;
-            public string Cruise_RequestTransferAvailability;
-            public string Cruise_RequestTransferAvailabilityReply;
-            public string Cruise_SearchBooking;
-            public string Cruise_SearchBookingReply;
-            public string Cruise_UnholdCabin;
-            public string Cruise_UnholdCabinReply;
-            public string Doc_DisplayItinerary;
-            public string Doc_DisplayItineraryReply;
-            public string DocIssuance_IssueTicket;
-            public string DocIssuance_IssueTicketReply;
-            public string DocRefund_CalculateRefund;
-            public string DocRefund_CalculateRefundReply;
-            public string DocRefund_IgnoreRefund;
-            public string DocRefund_IgnoreRefundReply;
-            public string DocRefund_InitRefund;
-            public string DocRefund_InitRefundReply;
-            public string DocRefund_ProcessRefund;
-            public string DocRefund_ProcessRefundReply;
-            public string DocRefund_SearchRefundRule;
-            public string DocRefund_SearchRefundRuleReply;
-            public string DocRefund_UpdateRefund;
-            public string DocRefund_UpdateRefundReply;
-            public string Fare_CheckRules;
-            public string Fare_CheckRulesReply;
-            public string Fare_DisplayFaresForCityPair;
-            public string Fare_DisplayFaresForCityPairReply;
-            public string Fare_GetFareFamilyDescription;
-            public string Fare_GetFareFamilyDescriptionReply;
-            public string Fare_InformativePricingWithoutPNR;
-            public string Fare_InformativePricingWithoutPNRReply;
-            public string Fare_InformativeBestPricingWithoutPNR;
-            public string Fare_InformativeBestPricingWithoutPNRReply;
-            public string Fare_MasterPricerCalendar;
-            public string Fare_MasterPricerCalendarReply;
-            public string Fare_MasterPricerExpertSearch;
-            public string Fare_MasterPricerExpertSearchReply;
-            public string Fare_MasterPricerTravelBoardSearch;
-            public string Fare_MasterPricerTravelBoardSearchReply;
-            public string Fare_MetaPricerCalendar;
-            public string Fare_MetaPricerCalendarReply;
-            public string Fare_MetaPricerTravelBoardSearch;
-            public string Fare_MetaPricerTravelBoardSearchReply;
-            public string Fare_PricePNRWithBookingClass;
-            public string Fare_PricePNRWithBookingClassReply;
-            public string Fare_PricePNRWithLowerFares;
-            public string Fare_PricePNRWithLowerFaresReply;
-            public string Fare_QuoteItinerary;
-            public string Fare_QuoteItineraryReply;
-            public string Fare_SellByFareCalendar;
-            public string Fare_SellByFareCalendarReply;
-            public string Fare_SellByFareSearch;
-            public string Fare_SellByFareSearchReply;
-            public string Fare_FlexPricerUpsell;
-            public string Fare_FlexPricerUpsellReply;
-            public string Hotel_MultiSingleAvailability;
-            public string Hotel_MultiSingleAvailabilityReply;
-            public string Hotel_AvailabilityMultiProperties;
-            public string Hotel_AvailabilityMultiPropertiesReply;
-            public string Hotel_Features;
-            public string Hotel_FeaturesReply;
-            public string Hotel_DescriptiveInfo;
-            public string Hotel_DescriptiveInfoReply;
-            public string Hotel_List;
-            public string Hotel_ListReply;
-            public string Hotel_RateChange;
-            public string Hotel_RateChangeReply;
-            public string Hotel_Sell;
-            public string Hotel_SellReply;
-            public string Hotel_SingleAvailability;
-            public string Hotel_SingleAvailabilityReply;
-            public string Hotel_StructuredPricing;
-            public string Hotel_StructuredPricingReply;
-            public string Hotel_Terms;
-            public string Hotel_TermsReply;
-            public string Hotel_EnhancedSingleAvail;
-            public string Hotel_EnhancedSingleAvailReply;
-            public string Hotel_MultiAvailability;
-            public string Hotel_MultiAvailabilityReply;
-            public string Hotel_EnhancedPricing;
-            public string Hotel_EnhancedPricingReply;
-            public string Hotel_CalendarView;
-            public string Hotel_CalendarViewReply;
-            public string MiniRule_GetFromPricing;
-            public string MiniRule_GetFromPricingReply;
-            public string MiniRule_GetFromPricingRec;
-            public string MiniRule_GetFromPricingRecReply;
-            public string PNR_AddMultiElements;
-            public string PNR_Cancel;
-            public string PNR_Ignore;
-            public string PNR_IgnoreReply;
-            public string PNR_List;
-            public string PNR_Reply;
-            public string PNR_Reply1;
-            public string PNR_Retrieve;
-            public string PNR_RetrieveByRecLoc;
-            public string PNR_RetrieveByRecLocReply;
-            public string PNR_TransferOwnership;
-            public string PNR_TransferOwnershipReply;
-            public string PNR_Split;
-            public string PNR_SplitReply;
-            public string Profile_CreateUpdateProfile;
-            public string Profile_CreateUpdateProfileReply;
-            public string Profile_CreateProfile;
-            public string Profile_CreateProfileReply;
-            public string Profile_UpdateProfile;
-            public string Profile_UpdateProfileReply;
-            public string Profile_DeleteProfile;
-            public string Profile_DeleteProfileReply;
-            public string Profile_DeactivateProfile;
-            public string Profile_DeactivateProfileReply;
-            public string Profile_RetrieveProfile;
-            public string Profile_RetrieveProfileReply;
-            public string Profile_ProfileReply;
-            public string Profile_ReadProfile;
-            public string Profile_ReadProfileReply;
-            public string Queue_CountTotal;
-            public string Queue_CountTotalReply;
-            public string Queue_List;
-            public string Queue_ListReply;
-            public string Queue_MoveItem;
-            public string Queue_MoveItemReply;
-            public string Queue_PlacePNR;
-            public string Queue_PlacePNRReply;
-            public string Queue_RemoveItem;
-            public string Queue_RemoveItemReply;
-            public string QueueMode_ProcessQueue;
-            public string QueueMode_ProcessQueueReply;
-            public string Security_Authenticate;
-            public string Security_AuthenticateReply;
-            public string Security_SignOut;
-            public string Security_SignOutReply;
-            public string Ticket_ATCShopperMasterPricerTravelBoardSearch;
-            public string Ticket_ATCShopperMasterPricerTravelBoardSearchReply;
-            public string Ticket_CancelDocument;
-            public string Ticket_CancelDocumentReply;
-            public string Ticket_CheckEligibility;
-            public string Ticket_CheckEligibilityReply;
-            public string Ticket_CreateTSTFromPricing;
-            public string Ticket_CreateTSTFromPricingReply;
-            public string Ticket_CreditCardCheck;
-            public string Ticket_CreditCardCheckReply;
-            public string Ticket_DeleteTST;
-            public string Ticket_DeleteTSTReply;
-            public string Ticket_DisplayTST;
-            public string Ticket_GetPricingOptions;
-            public string Ticket_GetPricingOptionsReply;
-            public string Ticket_DisplayTSTReply;
-            public string Ticket_ProcessETicket;
-            public string Ticket_ProcessETicketReply;
-            public string Ticket_ProcessEDoc;
-            public string Ticket_ProcessEDocReply;
-            public string Ticket_RepricePNRWithBookingClass;
-            public string Ticket_RepricePNRWithBookingClassReply;
-            public string Ticket_UpdateTST;
-            public string Ticket_UpdateTSTReply;
-            public string Ticket_AutomaticUpdate;
-            public string Ticket_AutomaticUpdateReply;
-            public string PAY_GenerateVirtualCard;
-            public string PAY_ListVirtualCards;
-            public string PAY_VirtualCardDetails;
-            public string PAY_DeleteVirtualCard;
-            public string SalesReports_DisplayQueryReport;
-            public string SalesReports_DisplayQueryReportReply;
+            Air_FlightInfo,
+            Air_FlightInfoReply,
+            Air_MultiAvailability,
+            Air_MultiAvailabilityReply,
+            Air_RebookAirSegment,
+            Air_RebookAirSegmentReply,
+            Air_RetrieveSeatMap,
+            Air_RetrieveSeatMapReply,
+            Air_SellFromRecommendation,
+            Air_SellFromRecommendationReply,
+            Car_InformationImage,
+            Car_InformationImageReply,
+            Car_LocationList,
+            Car_LocationListReply,
+            Car_MultiAvailability,
+            Car_MultiAvailabilityReply,
+            Car_Availability,
+            Car_AvailabilityReply,
+            Car_Policy,
+            Car_PolicyReply,
+            Car_RateInformationFromAvailability,
+            Car_RateInformationFromAvailabilityReply,
+            Car_RateInformationFromCarSegment,
+            Car_RateInformationFromCarSegmentReply,
+            Car_Sell,
+            Car_SellReply,
+            Car_SingleAvailability,
+            Car_SingleAvailabilityReply,
+            Command_Cryptic,
+            Command_CrypticReply,
+            Cruise_CancelBooking,
+            Cruise_CancelBookingReply,
+            Cruise_ClaimBooking,
+            Cruise_ClaimBookingReply,
+            Cruise_CreateBooking,
+            Cruise_CreateBookingReply,
+            Cruise_DisplayBusDescription,
+            Cruise_DisplayBusDescriptionReply,
+            Cruise_DisplayCabinDescription,
+            Cruise_DisplayCabinDescriptionReply,
+            Cruise_DisplayCategoryDescription,
+            Cruise_DisplayCategoryDescriptionReply,
+            Cruise_DisplayFareDescription,
+            Cruise_DisplayFareDescriptionReply,
+            Cruise_DisplayInclusivePackageDescription,
+            Cruise_DisplayInclusivePackageDescriptionReply,
+            Cruise_DisplayItineraryDescription,
+            Cruise_DisplayItineraryDescriptionReply,
+            Cruise_DisplayPrePostPackageDescription,
+            Cruise_DisplayPrePostPackageDescriptionReply,
+            Cruise_DisplayProductInformation,
+            Cruise_DisplayProductInformationReply,
+            Cruise_EnterPassengerInformation,
+            Cruise_EnterPassengerInformationReply,
+            Cruise_GetBookingDetails,
+            Cruise_GetBookingDetailsReply,
+            Cruise_HoldCabin,
+            Cruise_HoldCabinReply,
+            Cruise_ModifyBooking,
+            Cruise_ModifyBookingReply,
+            Cruise_PriceBooking,
+            Cruise_PriceBookingReply,
+            Cruise_PriceBookingCancellation,
+            Cruise_PriceBookingCancellationReply,
+            Cruise_RequestBusAvailability,
+            Cruise_RequestBusAvailabilityReply,
+            Cruise_RequestCabinAvailability,
+            Cruise_RequestCabinAvailabilityReply,
+            Cruise_RequestCategoryAvailability,
+            Cruise_RequestCategoryAvailabilityReply,
+            Cruise_RequestFareAvailability,
+            Cruise_RequestFareAvailabilityReply,
+            Cruise_RequestInclusivePackageAvailability,
+            Cruise_RequestInclusivePackageAvailabilityReply,
+            Cruise_RequestPrePostPackageAvailability,
+            Cruise_RequestPrePostPackageAvailabilityReply,
+            Cruise_RequestSailingAvailability,
+            Cruise_RequestSailingAvailabilityReply,
+            Cruise_RequestShoreExcursionAvailability,
+            Cruise_RequestShoreExcursionAvailabilityReply,
+            Cruise_RequestSpecialServicesAvailability,
+            Cruise_RequestSpecialServicesAvailabilityReply,
+            Cruise_RequestTransferAvailability,
+            Cruise_RequestTransferAvailabilityReply,
+            Cruise_SearchBooking,
+            Cruise_SearchBookingReply,
+            Cruise_UnholdCabin,
+            Cruise_UnholdCabinReply,
+            Doc_DisplayItinerary,
+            Doc_DisplayItineraryReply,
+            DocIssuance_IssueTicket,
+            DocIssuance_IssueTicketReply,
+            DocRefund_CalculateRefund,
+            DocRefund_CalculateRefundReply,
+            DocRefund_IgnoreRefund,
+            DocRefund_IgnoreRefundReply,
+            DocRefund_InitRefund,
+            DocRefund_InitRefundReply,
+            DocRefund_ProcessRefund,
+            DocRefund_ProcessRefundReply,
+            DocRefund_SearchRefundRule,
+            DocRefund_SearchRefundRuleReply,
+            DocRefund_UpdateRefund,
+            DocRefund_UpdateRefundReply,
+            Fare_CheckRules,
+            Fare_CheckRulesReply,
+            Fare_DisplayFaresForCityPair,
+            Fare_DisplayFaresForCityPairReply,
+            Fare_GetFareFamilyDescription,
+            Fare_GetFareFamilyDescriptionReply,
+            Fare_InformativePricingWithoutPNR,
+            Fare_InformativePricingWithoutPNRReply,
+            Fare_InformativeBestPricingWithoutPNR,
+            Fare_InformativeBestPricingWithoutPNRReply,
+            Fare_MasterPricerCalendar,
+            Fare_MasterPricerCalendarReply,
+            Fare_MasterPricerExpertSearch,
+            Fare_MasterPricerExpertSearchReply,
+            Fare_MasterPricerTravelBoardSearch,
+            Fare_MasterPricerTravelBoardSearchReply,
+            Fare_MetaPricerCalendar,
+            Fare_MetaPricerCalendarReply,
+            Fare_MetaPricerTravelBoardSearch,
+            Fare_MetaPricerTravelBoardSearchReply,
+            Fare_PricePNRWithBookingClass,
+            Fare_PricePNRWithBookingClassReply,
+            Fare_PricePNRWithLowerFares,
+            Fare_PricePNRWithLowerFaresReply,
+            Fare_QuoteItinerary,
+            Fare_QuoteItineraryReply,
+            Fare_SellByFareCalendar,
+            Fare_SellByFareCalendarReply,
+            Fare_SellByFareSearch,
+            Fare_SellByFareSearchReply,
+            Fare_FlexPricerUpsell,
+            Fare_FlexPricerUpsellReply,
+            Hotel_MultiSingleAvailability,
+            Hotel_MultiSingleAvailabilityReply,
+            Hotel_AvailabilityMultiProperties,
+            Hotel_AvailabilityMultiPropertiesReply,
+            Hotel_Features,
+            Hotel_FeaturesReply,
+            Hotel_DescriptiveInfo,
+            Hotel_DescriptiveInfoReply,
+            Hotel_List,
+            Hotel_ListReply,
+            Hotel_RateChange,
+            Hotel_RateChangeReply,
+            Hotel_Sell,
+            Hotel_SellReply,
+            Hotel_SingleAvailability,
+            Hotel_SingleAvailabilityReply,
+            Hotel_StructuredPricing,
+            Hotel_StructuredPricingReply,
+            Hotel_Terms,
+            Hotel_TermsReply,
+            Hotel_EnhancedSingleAvail,
+            Hotel_EnhancedSingleAvailReply,
+            Hotel_MultiAvailability,
+            Hotel_MultiAvailabilityReply,
+            Hotel_EnhancedPricing,
+            Hotel_EnhancedPricingReply,
+            Hotel_CalendarView,
+            Hotel_CalendarViewReply,
+            MiniRule_GetFromPricing,
+            MiniRule_GetFromPricingReply,
+            MiniRule_GetFromPricingRec,
+            MiniRule_GetFromPricingRecReply,
+            PNR_AddMultiElements,
+            PNR_Cancel,
+            PNR_Ignore,
+            PNR_IgnoreReply,
+            PNR_List,
+            PNR_Reply,
+            PNR_Reply1,
+            PNR_Retrieve,
+            PNR_RetrieveByRecLoc,
+            PNR_RetrieveByRecLocReply,
+            PNR_TransferOwnership,
+            PNR_TransferOwnershipReply,
+            PNR_Split,
+            PNR_SplitReply,
+            Profile_CreateUpdateProfile,
+            Profile_CreateUpdateProfileReply,
+            Profile_CreateProfile,
+            Profile_CreateProfileReply,
+            Profile_UpdateProfile,
+            Profile_UpdateProfileReply,
+            Profile_DeleteProfile,
+            Profile_DeleteProfileReply,
+            Profile_DeactivateProfile,
+            Profile_DeactivateProfileReply,
+            Profile_RetrieveProfile,
+            Profile_RetrieveProfileReply,
+            Profile_ProfileReply,
+            Profile_ReadProfile,
+            Profile_ReadProfileReply,
+            Queue_CountTotal,
+            Queue_CountTotalReply,
+            Queue_List,
+            Queue_ListReply,
+            Queue_MoveItem,
+            Queue_MoveItemReply,
+            Queue_PlacePNR,
+            Queue_PlacePNRReply,
+            Queue_RemoveItem,
+            Queue_RemoveItemReply,
+            QueueMode_ProcessQueue,
+            QueueMode_ProcessQueueReply,
+            Security_Authenticate,
+            Security_AuthenticateReply,
+            Security_SignOut,
+            Security_SignOutReply,
+            Ticket_ATCShopperMasterPricerTravelBoardSearch,
+            Ticket_ATCShopperMasterPricerTravelBoardSearchReply,
+            Ticket_CancelDocument,
+            Ticket_CancelDocumentReply,
+            Ticket_CheckEligibility,
+            Ticket_CheckEligibilityReply,
+            Ticket_CreateTSTFromPricing,
+            Ticket_CreateTSTFromPricingReply,
+            Ticket_CreditCardCheck,
+            Ticket_CreditCardCheckReply,
+            Ticket_DeleteTST,
+            Ticket_DeleteTSTReply,
+            Ticket_DisplayTST,
+            Ticket_GetPricingOptions,
+            Ticket_GetPricingOptionsReply,
+            Ticket_DisplayTSTReply,
+            Ticket_ProcessETicket,
+            Ticket_ProcessETicketReply,
+            Ticket_ProcessEDoc,
+            Ticket_ProcessEDocReply,
+            Ticket_RepricePNRWithBookingClass,
+            Ticket_RepricePNRWithBookingClassReply,
+            Ticket_UpdateTST,
+            Ticket_UpdateTSTReply,
+            Ticket_AutomaticUpdate,
+            Ticket_AutomaticUpdateReply,
+            PAY_GenerateVirtualCard,
+            PAY_ListVirtualCards,
+            PAY_VirtualCardDetails,
+            PAY_DeleteVirtualCard,
+            SalesReports_DisplayQueryReport,
+            SalesReports_DisplayQueryReportReply,
         }
 
         #endregion
@@ -1067,31 +1089,33 @@ namespace TripXMLMain
                     }
 
                 case ttServices.PNRRead:
-                case ttServices.PNREnd:
-                case ttServices.TravelBuild:
-                case ttServices.HotelModify:
-                case ttServices.QueueRead:
-                case ttServices.TravelModify:
-                case ttServices.Update:
-                case ttServices.UpdateSessioned:
-                case ttServices.PNRSplit:
                     {
                         tag = "OTA_TravelItineraryRS";
                         version = "v03";
                         break;
                     }
+
                 case ttServices.PNRReprice:
                     {
                         tag = "OTA_PNRRepriceRS";
                         version = "v03";
                         break;
                     }
+
                 case ttServices.PNRCancel:
                     {
                         tag = "OTA_CancelRS";
                         version = "1.001";
                         break;
                     }
+
+                case ttServices.TravelBuild:
+                    {
+                        tag = "OTA_TravelItineraryRS";
+                        version = "v03";
+                        break;
+                    }
+
                 case ttServices.ShowMileage:
                     {
                         tag = "OTA_ShowMileageRS";
@@ -1237,19 +1261,22 @@ namespace TripXMLMain
                         tag = "NativeRS";
                         version = "1.000";
                         break;
-                    }                
+                    }
+
+                case ttServices.HotelModify:
+                    {
+                        tag = "OTA_TravelItineraryRS";
+                        version = "v03";
+                        break;
+                    }
+
                 case ttServices.IssueTicket:
                     {
                         tag = "TT_IssueTicketRS";
                         version = "1.000";
                         break;
                     }
-                case ttServices.IssueTicketSessioned:
-                    {
-                        tag = "TT_IssueTicketRS";
-                        version = "1.001";
-                        break;
-                    }
+
                 case ttServices.GeoList:
                     {
                         tag = "TT_GeoListRS";
@@ -1271,20 +1298,21 @@ namespace TripXMLMain
                         break;
                     }
 
-                //case ttServices.QueueRead:
-                //    {
-                //        tag = "OTA_TravelItineraryRS";
-                //        if (!string.IsNullOrEmpty(OTA_Version))
-                //        {
-                //            version = OTA_Version;
-                //        }
-                //        else
-                //        {
-                //            version = "v03";
-                //        }
+                case ttServices.QueueRead:
+                    {
+                        tag = "OTA_TravelItineraryRS";
+                        if (!string.IsNullOrEmpty(OTA_Version))
+                        {
+                            version = OTA_Version;
+                        }
+                        else
+                        {
+                            version = "v03";
+                        }
 
-                //        break;
-                //    }
+                        break;
+                    }
+
                 case ttServices.ETicketVerify:
                     {
                         tag = "OTA_ETicketVerifyRS";
@@ -1318,7 +1346,42 @@ namespace TripXMLMain
                         tag = "OTA_AddonAvailRS";
                         version = "1.000";
                         break;
-                    }                
+                    }
+
+                case ttServices.TravelModify:
+                    {
+                        tag = "OTA_TravelItineraryRS";
+                        version = "v03";
+                        break;
+                    }
+
+                case ttServices.Update:
+                    {
+                        tag = "OTA_TravelItineraryRS";
+                        version = "v03";
+                        break;
+                    }
+
+                case ttServices.UpdateSessioned:
+                    {
+                        tag = "OTA_TravelItineraryRS";
+                        version = "v03";
+                        break;
+                    }
+
+                case ttServices.PNRSplit:
+                    {
+                        tag = "OTA_TravelItineraryRS";
+                        version = "v03";
+                        break;
+                    }
+
+                case ttServices.IssueTicketSessioned:
+                    {
+                        tag = "TT_IssueTicketRS";
+                        version = "1.001";
+                        break;
+                    }
             }
 
             if (!string.IsNullOrEmpty(OTA_Version))
@@ -1337,7 +1400,17 @@ namespace TripXMLMain
             ps.UserName = "";
             ps.UserID = "";
             ps.Provider = Provider;
-            var trace = new JObject(new JProperty("Status", tag.Contains("OTA_CancelRS") ? "" : "Unsuccessful"), new JProperty("@Version", version), new JProperty("@AltLangID", !string.IsNullOrEmpty(Provider) ? Provider : string.Empty), new JProperty("@UniqueID", !string.IsNullOrEmpty(RecordLocator) ? RecordLocator : ""), new JProperty("@TimeStamp", DateTime.Now), new JProperty("Errors", GetListToJSON(lstError)));
+            var trace =
+                new JObject(
+                    new JProperty("PNR",
+                        new JObject(
+                            new JProperty("Status", tag.Contains("OTA_CancelRS") ? "" : "Unsuccessful"),
+                            new JProperty("@Version", version),
+                            new JProperty("@AltLangID", !string.IsNullOrEmpty(Provider) ? Provider : string.Empty),
+                            new JProperty("@UniqueID", !string.IsNullOrEmpty(RecordLocator) ? RecordLocator : ""),
+                            new JProperty("@TimeStamp", DateTime.Now),
+                            new JProperty("Errors", GetListToJSON(lstError)))));
+
             AddLog(LogType.Error, ref tag, ps, trace);
             string jsonTrace = JsonConvert.SerializeObject(trace);
             var doc = JsonConvert.DeserializeXmlNode(jsonTrace, tag); // strResponse
@@ -1368,59 +1441,64 @@ namespace TripXMLMain
 
         #region Logging
 
-        public static void AddLog(LogType logType, ref string message, TripXMLProviderSystems providerSystems)
+        public static void AddLog(LogType logType, string message, TripXMLProviderSystems providerSystems)
         {
-            var lg = new Log();
-            lg.Message = message;
-            lg.Type = logType.ToString();
-            lg.UserName = providerSystems.UserName;
-            lg.UserID = providerSystems.UserID;
-            lg.Provider = providerSystems.Provider;
-            AddLog(lg);
+
+            if (modCore.Logger is null)
+                modCore.Logger = new Log();
+            Logger.Message = message;
+            Logger.Type = logType.ToString();
+            Logger.UserName = providerSystems.UserName;
+            Logger.UserID = providerSystems.UserID;
+            Logger.Provider = providerSystems.Provider;
+            Logger.Items = new List<object>() { providerSystems.PCC }; ;
+
+            if (providerSystems.AddLog)
+                AddLog();
+
+            Console.Write(Logger.ToString());
         }
 
-        private static void AddLog(Log log)
+        private static void AddLog()
         {
-            int fileNumber;
-            // Dim DirPath As String = "C:\\TripXML\\log"
             try
             {
-                string filePath = string.Format(@"{0}\\{1}_{2}.log", config["TripXMLLogFolder"], log.UserName, DateTime.Today.ToString("dd-MM-yyyy"));
-                //fileNumber = FileSystem.FreeFile();
-                //FileSystem.FileOpen(fileNumber, filePath, OpenMode.Append);
-                //FileSystem.PrintLine(fileNumber, log.ToString());
-                //FileSystem.FileClose(fileNumber);
+                string filePath = @$"{config["TripXMLLogFolder"]}\\{(string.IsNullOrEmpty(Logger.UserName) ? Logger.Provider : Logger.UserName)}_{DateTime.Today.ToString("dd-MM-yyyy")}.log";
 
-                using (StreamWriter sw = new StreamWriter(filePath))
+                using (FileStream stream = new FileStream(filePath, !File.Exists(filePath) ? FileMode.Create : FileMode.Append, FileAccess.Write))
                 {
-                    sw.Write(log.ToString());
+                    using (StreamWriter streamWriter = new StreamWriter(stream))
+                    {
+                        streamWriter.WriteLine(Logger.ToString());
+                        streamWriter.Flush();
+                    }
                 }
             }
             catch (Exception ex)
             {
-                // 
+                Console.WriteLine(ex.Message);
             }
         }
 
-        public static void AddLog(ref string message, string username)
+        public static void AddLog(string message, string username)
         {
-            int fileNumber;
             string strPath = config["TripXMLLogFolder"].ToString();
             try
             {
-                string filePath = $@"\\{username}_{DateTime.Today.ToString("dd - MM - yyyy")}";
+                string filePath = $@"\\{username}_{DateTime.Today.ToString("dd-MM-yyyy")}";
                 filePath = $"{strPath}{filePath}.log";
 
-                //fileNumber = FileSystem.FreeFile();
-                //FileSystem.FileOpen(fileNumber, filePath, OpenMode.Append);
-                //FileSystem.PrintLine(fileNumber, message);
-                //FileSystem.FileClose(fileNumber);
-                using (StreamWriter sw = new StreamWriter(filePath))
+
+                using (FileStream stream = new FileStream(filePath, !File.Exists(filePath) ? FileMode.Create : FileMode.Append, FileAccess.Write))
                 {
-                    sw.Write(message);
+                    using (StreamWriter streamWriter = new StreamWriter(stream))
+                    {
+                        streamWriter.WriteLine(Logger.ToString());
+                        streamWriter.Flush();
+                    }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // 
             }
@@ -1428,13 +1506,12 @@ namespace TripXMLMain
 
         public static void AddLog_old(ref string message, string Username)
         {
-            int fileNumber;
             try
             {
                 string filePath = $@"log\\{Username}_{DateTime.Today.ToString("dd-MM-yyyy")}";
                 filePath = $@"C:\\TripXML\\{filePath}.txt";
 
-                //fileNumber = FileSystem.FreeFile();
+                //int fileNumber = FileSystem.FreeFile();
                 //FileSystem.FileOpen(fileNumber, filePath, OpenMode.Append);
                 //FileSystem.PrintLine(fileNumber, message);
                 //FileSystem.FileClose(fileNumber);
@@ -1443,7 +1520,7 @@ namespace TripXMLMain
                     sw.Write(message);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // 
             }
@@ -1451,15 +1528,20 @@ namespace TripXMLMain
 
         public static void AddLog(LogType logType, ref string message, TripXMLProviderSystems providerSystems, object items)
         {
-            var lg = new Log();
-            lg.Message = message;
-            lg.Type = logType.ToString();
-            lg.UserName = providerSystems.UserName;
-            lg.UserID = providerSystems.UserID;
-            lg.Provider = providerSystems.Provider;
-            lg.Items = new List<object>() { items };
-            lg.Resourse = Assembly.GetExecutingAssembly().GetName().Name;
-            AddLog(lg);
+            if (modCore.Logger is null)
+                modCore.Logger = new Log();
+            Logger.Message = message;
+            Logger.Type = logType.ToString();
+            Logger.UserName = providerSystems.UserName;
+            Logger.UserID = providerSystems.UserID;
+            Logger.Provider = providerSystems.Provider;
+            Logger.Items = new List<object>() { items };
+            Logger.Resourse = Assembly.GetExecutingAssembly().GetName().Name;
+
+            if (providerSystems.AddLog)
+                AddLog();
+
+            Console.Write(Logger.ToString());
         }
 
         public enum LogType
@@ -1478,15 +1560,60 @@ namespace TripXMLMain
             /// <returns></returns>
             /// <remarks>Amadeus, Sabre</remarks>
             public string Provider { get; set; }
+            /// <summary>
+            /// Gets or sets Recordlocator.
+            /// </summary>
+            /// <value></value>
+            /// <remarks></remarks>
             public string RecordLocator { get; set; }
+            /// <summary>
+            /// Gets or sets UserName.
+            /// </summary>
+            /// <value></value>
+            /// <remarks></remarks>
             public string UserName { get; set; }
+            /// <summary>
+            /// Gets or sets UserID.
+            /// </summary>
+            /// <value></value>
+            /// <remarks></remarks>
             public string UserID { get; set; }
+            /// <summary>
+            /// Gets or sets Version.
+            /// </summary>
+            /// <value></value>
+            /// <remarks></remarks>
             public string Version { get; set; }
+            /// <summary>
+            /// Gets or sets Resource.
+            /// </summary>
+            /// <value></value>
+            /// <remarks></remarks>
             public string Resourse { get; set; }
+            /// <summary>
+            /// Gets or sets Type.
+            /// </summary>
+            /// <value></value>
+            /// <remarks></remarks>
             public string Type { get; set; }
+            /// <summary>
+            /// Gets or sets Message.
+            /// </summary>
+            /// <value></value>
+            /// <remarks></remarks>
             public string Message { get; set; }
+            /// <summary>
+            /// Gets or sets Items as list of objects.
+            /// </summary>
+            /// <value></value>
+            /// <remarks></remarks>
             public IEnumerable<object> Items { get; set; }
 
+            /// <summary>
+            /// Overwrite ToString method
+            /// </summary>
+            /// <returns></returns>
+            /// <remarks></remarks>
             public new string ToString()
             {
                 return JsonConvert.SerializeObject(this);
