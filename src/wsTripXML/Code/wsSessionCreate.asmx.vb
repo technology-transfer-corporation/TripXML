@@ -113,7 +113,18 @@ Namespace wsTravelTalk
                 PostServiceRequest(strResponse, validateXSDOut, ttServiceID, ttCredential.UserID)
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(ttServiceID, ex.Message, ttProviderSystems)
+                Dim msgError As String = $"{ex.Message}"
+                If Not ex.InnerException Is Nothing Then
+                    msgError += $"{vbNewLine}{ex.InnerException.Message}"
+                    If Not ex.InnerException.InnerException Is Nothing Then
+                        msgError += $"{vbNewLine}{ex.InnerException.InnerException.Message}"
+                        If Not ex.InnerException.InnerException.InnerException Is Nothing Then
+                            msgError += $"{vbNewLine}{ex.InnerException.InnerException.InnerException.Message}"
+                        End If
+                    End If
+                End If
+
+                strResponse = FormatErrorMessage(ttServiceID, msgError, ttProviderSystems)
             Finally
                 LogResponse(strResponse, ttCredential, startTime, ttServiceID, Server.MachineName, uuid)
                 If Trace Then CoreLib.SendTrace(ttCredential.UserID, "wsSessionCreate", "============= OTA Response ============= ", strResponse, ttProviderSystems.LogUUID)

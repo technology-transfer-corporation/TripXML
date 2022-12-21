@@ -3,6 +3,7 @@ Imports System.IO
 Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports TripXMLMain.modCore
+Imports System.Web.Configuration
 
 Namespace wsTravelTalk
 
@@ -79,18 +80,24 @@ Namespace wsTravelTalk
 
                         ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
                         response = SendPNRRequestSabre(ttServiceID, ttCredential, ttProviderSystems, request)
+
                     Case "Worldspan", "Galileo"
-                        Dim ttDefProvider As New TripXMLProviderSystems()
-                        If Not String.IsNullOrEmpty(sessionID) Then
-                            request = request.Replace(sessionID, "")
+                        If CBool(WebConfigurationManager.AppSettings("IsTravelportReprice")) Then
+                            Dim ttDefProvider As New TripXMLProviderSystems()
+                            If Not String.IsNullOrEmpty(sessionID) Then
+                                request = request.Replace(sessionID, "")
+                            End If
+                            PreServiceRequest(request, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, UUID, "", True)
+                            response = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, request)
+                            response = response.Replace("</OTA_PNRRepriceRS>", $"<ConversationID>{sessionID}</ConversationID></OTA_PNRRepriceRS>")
+                        Else
+                            Select Case ttCredential.Providers(0).Name
+                                Case "Galileo"
+                                    response = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, request)
+                                Case "Worldspan"
+                                    response = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, request)
+                            End Select
                         End If
-                        PreServiceRequest(request, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, UUID, "", True)
-                        response = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, request)
-                        response = response.Replace("</OTA_PNRRepriceRS>", $"<ConversationID>{sessionID}</ConversationID></OTA_PNRRepriceRS>")
-                    'Case "Galileo"
-                    '    response = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, request)
-                    'Case "Worldspan"
-                    '    response = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, request)
                     Case "Travelport"
                         response = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttProviderSystems, request)
                     Case Else
