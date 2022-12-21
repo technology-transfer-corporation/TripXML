@@ -63,7 +63,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruiseSailAvail, ex.Message, ttProviderSystems, "");
             }
 
@@ -117,7 +117,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruiseFareAvail, ex.Message, ttProviderSystems, "");
             }
 
@@ -174,7 +174,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruiseCategoryAvail, ex.Message, ttProviderSystems, "");
             }
 
@@ -230,7 +230,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruiseCabinAvail, ex.Message, ttProviderSystems);
             }
             return strResponse;
@@ -276,7 +276,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruiseCabinHold, ex.Message, ttProviderSystems);
             }
 
@@ -334,7 +334,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruiseCabinUnhold, ex.Message, ttProviderSystems);
             }
 
@@ -388,7 +388,7 @@ namespace AmadeusWS
                     if (Request.Contains("<System>Production</System>") && strResponse.Contains("<Errors>"))
                     {
                         strRequest = $"<PriceBooking><TripXML>{strRequest}{strResponse}</TripXML><Native>";
-                        //CoreLib.SendEmail("Amadeus Cruise Price Error", sb.ToString(), ttProviderSystems.UserID);
+                        //CoreLib.SendEmail("Amadeus Cruise Price Error", sb.ToString(), ttProviderSystems);
                     }
                 }
                 catch (Exception ex)
@@ -406,7 +406,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruisePriceBooking, ex.Message, ttProviderSystems);
             }
 
@@ -463,7 +463,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruisePriceBooking, ex.Message, ttProviderSystems);
             }
             return strResponse;
@@ -542,7 +542,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruiseRead, ex.Message, ttProviderSystems);
             }
 
@@ -727,7 +727,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruiseModifyBooking, ex.Message, ttProviderSystems);
             }
             return strResponse;
@@ -784,7 +784,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruiseModifyBooking, ex.Message, ttProviderSystems);
             }
 
@@ -839,7 +839,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruisePackageDesc, ex.Message, ttProviderSystems);
             }
 
@@ -894,7 +894,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruiseTransferAvail, ex.Message, ttProviderSystems);
             }
 
@@ -950,7 +950,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CruiseItineraryDesc, ex.Message, ttProviderSystems);
             }
 

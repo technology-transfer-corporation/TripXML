@@ -146,7 +146,7 @@ public class AmadeusWSAdapter
 
         header.Append("\n").Append($"<wsa:MessageID>{Guid.NewGuid()}</wsa:MessageID>");
         header.Append("\n").Append($"<wsa:Action>http://webservices.amadeus.com/{amadeusWSAction.Substring(amadeusWSAction.LastIndexOf('/') + 1, amadeusWSAction.Length - (amadeusWSAction.LastIndexOf('/') + 1))}</wsa:Action>");
-        header.Append("\n").Append($"<wsa:To>{ttProviderSystems.SOAP4URL}/{ttProviderSystems.Profile.Text}</wsa:To>");
+        header.Append("\n").Append($"<wsa:To>{ttProviderSystems.SOAP4URL}/{ttProviderSystems.Profile}</wsa:To>");
         header.Append("\n").Append($"<link:TransactionFlowLink xmlns:link=\"http://wsdl.amadeus.com/2010/06/ws/Link_v1\"/>");
 
         //var sbAddressing = new StringBuilder();
@@ -207,7 +207,7 @@ public class AmadeusWSAdapter
     //    catch (Exception ex)
     //    {
     //        created = "";
-    //        addLog($"<M>{ex.Message}</M><Send/>", ttProviderSystems.UserID);
+    //        addLog($"<M>{ex.Message}</M><Send/>", ttProviderSystems);
     //        return "";
     //    }
     //}
@@ -248,7 +248,7 @@ public class AmadeusWSAdapter
         }
         catch (Exception ex)
         {
-            addLog($"<M>{ex.Message}</M><Send/>", ttProviderSystems.UserID);
+            addLog($"<M>{ex.Message}</M><Send/>", ttProviderSystems);
             digest = nonce = created = "";
         }
     }
@@ -303,7 +303,7 @@ public class AmadeusWSAdapter
             DateTime responsetime = DateTime.Now;
 
             if (ttProviderSystems.AddLog)
-                addSoapLog(log + Environment.NewLine + strResponse, requesttime, responsetime, ttProviderSystems.PCC, ttProviderSystems.UserID);
+                addSoapLog(log + Environment.NewLine + strResponse, requesttime, responsetime, ttProviderSystems);
 
             return strResponse;
         }
@@ -345,13 +345,13 @@ public class AmadeusWSAdapter
             DateTime responsetime = DateTime.Now;
 
             if (ttProviderSystems.AddLog)
-                addSoapLog($"{log}{Environment.NewLine}{strResponse}", requesttime, responsetime, ttProviderSystems.PCC, ttProviderSystems.UserID);
+                addSoapLog($"{log}{Environment.NewLine}{strResponse}", requesttime, responsetime, ttProviderSystems);
 
             return strResponse;
         }
         catch (Exception ex)
         {
-            addLog($"<M>{message}</M><Send/>", ttProviderSystems.PCC);
+            addLog($"<M>{message}</M><Send/>", ttProviderSystems);
             throw new Exception(ex.Message);
         }
     }
@@ -385,13 +385,13 @@ public class AmadeusWSAdapter
             strResponse = oHttpWebClient.SendHttpRequest(ttProviderSystems);
             DateTime responsetime = DateTime.Now;
             if (ttProviderSystems.AddLog)
-                addSoapLog($"{log}{Environment.NewLine}{strResponse}", requesttime, responsetime, ttProviderSystems.PCC, ttProviderSystems.UserID);
+                addSoapLog($"{log}{Environment.NewLine}{strResponse}", requesttime, responsetime, ttProviderSystems);
 
             return strResponse;
         }
         catch (Exception ex)
         {
-            addLog($"<M>{ex.Message}</M><SendSoap2/>", ttProviderSystems.PCC);
+            addLog($"<M>{ex.Message}</M><SendSoap2/>", ttProviderSystems);
             throw new Exception(ex.Message);
         }
     }
@@ -403,7 +403,7 @@ public class AmadeusWSAdapter
             ttHttpWebClient oHttpWebClient = new ttHttpWebClient();
             string action = AmadeusWSAction.Substring(AmadeusWSAction.LastIndexOf('/') + 1, AmadeusWSAction.Length - (AmadeusWSAction.LastIndexOf('/') + 1));
             oHttpWebClient.SoapAction = $"http://webservices.amadeus.com/{action}";
-            oHttpWebClient.ServiceURL = $"{ttProviderSystems.SOAP4URL}/{ttProviderSystems.Profile.Text}";
+            oHttpWebClient.ServiceURL = $"{ttProviderSystems.SOAP4URL}/{ttProviderSystems.Profile}";
             oHttpWebClient.HttpMethod = "POST";
             oHttpWebClient.Header = header;
             oHttpWebClient.Body = body;
@@ -414,7 +414,7 @@ public class AmadeusWSAdapter
             DateTime responsetime = DateTime.Now;
 
             if (ttProviderSystems.AddLog)
-                addSoapLog($"{log}{Environment.NewLine}{strResponse}", requesttime, responsetime, ttProviderSystems.PCC, ttProviderSystems.UserID);
+                addSoapLog($"{log}{Environment.NewLine}{strResponse}", requesttime, responsetime, ttProviderSystems);
 
             return strResponse;
         }
@@ -494,7 +494,7 @@ public class AmadeusWSAdapter
         }
         catch (Exception ex)
         {
-            addLog($"<M>{strResponse}</M><GetResponseFromSoap/>", ttProviderSystems.PCC);
+            addLog($"<M>{strResponse}</M><GetResponseFromSoap/>", ttProviderSystems);
             return $"<Errors><Error>{ex.Message}</Error></Errors>";
         }
     }
@@ -717,7 +717,7 @@ public class AmadeusWSAdapter
                  */
                 body = "<Command_Cryptic><messageAction><messageFunctionDetails><messageFunction>M</messageFunction></messageFunctionDetails></messageAction><longTextString><textStringDetails>DDNYC</textStringDetails></longTextString></Command_Cryptic>";
                 Soap4Session session = new Soap4Session(TransactionStatusCode.Start);
-                var resp = SendMessagesoap4(body, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[Command_Cryptic]}", ref session);
+                var resp = SendMessagesoap4(body, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema[Command_Cryptic]}", ref session);
                 session.StatusCode = TransactionStatusCode.InSeries;
                 return string.IsNullOrEmpty(session.SecurityToken) ? session.SecurityToken : session.ToString();
             }
@@ -734,8 +734,8 @@ public class AmadeusWSAdapter
                 DateTime requesttime = DateTime.Now;
 
                 sessionID = isSOAP2
-                    ? SendSOAP2(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSLQ_06_1_1A")
-                    : Send(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSLQ_06_1_1A");
+                    ? SendSOAP2(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSLQ_06_1_1A")
+                    : Send(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSLQ_06_1_1A");
 
                 DateTime responsetime = DateTime.Now;
 
@@ -749,17 +749,17 @@ public class AmadeusWSAdapter
         }
         catch (Exception ex)
         {
-            addLog($"<M>{body}</M><M>{ex.Message}</M><CreateSession/>", ttProviderSystems.PCC);
+            addLog($"<M>{body}</M><M>{ex.Message}</M><CreateSession/>", ttProviderSystems);
 
             if (ttProviderSystems.AddLog)
-                addLog($"<EXCOS/>{sessionID} {body}", ttProviderSystems.PCC);
+                addLog($"<EXCOS/>{sessionID} {body}", ttProviderSystems);
 
             sessionID = isSOAP2
-                    ? SendSOAP2(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSLQ_06_1_1A")
-                    : Send(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSLQ_06_1_1A");
+                    ? SendSOAP2(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSLQ_06_1_1A")
+                    : Send(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSLQ_06_1_1A");
 
             if (ttProviderSystems.AddLog)
-                addLog($"<EXOK/>{sessionID}", ttProviderSystems.PCC);
+                addLog($"<EXOK/>{sessionID}", ttProviderSystems);
 
             sessionID = GetResponseFromSoap(sessionID, "SessionCreate", enRequestType.CreateSession);
 
@@ -781,14 +781,14 @@ public class AmadeusWSAdapter
             $"<passwordInfo><dataLength>{length}</dataLength><dataType>E</dataType><binaryData>{password}</binaryData></passwordInfo></Security_Authenticate>";
 
             DateTime requesttime = DateTime.Now;
-            string sessionID = Send(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSLQ_06_1_1A");
+            string sessionID = Send(body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSLQ_06_1_1A");
             DateTime responsetime = DateTime.Now;
 
             // ****************************************
             //  Get SecurityToken From AmadeusWS Response *
             // ****************************************
             if (ttProviderSystems.AddLog)
-                addSoapLog(sessionID, requesttime, responsetime, ttProviderSystems.PCC, ttProviderSystems.UserID);
+                addSoapLog(sessionID, requesttime, responsetime, ttProviderSystems);
 
             sessionID = GetResponseFromSoap(sessionID, "SessionCreate", enRequestType.CreateSession);
 
@@ -826,7 +826,7 @@ public class AmadeusWSAdapter
             //  Get SecurityToken From AmadeusWS Response *
             // ****************************************
             if (ttProviderSystems.AddLog)
-                addSoapLog(newSessionID, requesttime, responsetime, ttProviderSystems.PCC, ttProviderSystems.UserID);
+                addSoapLog(newSessionID, requesttime, responsetime, ttProviderSystems);
 
             newSessionID = GetResponseFromSoap(newSessionID, "SessionCreate", enRequestType.CreateSession);
 
@@ -874,7 +874,7 @@ public class AmadeusWSAdapter
             //  Get SecurityToken From AmadeusWS Response *
             // ****************************************
             if (ttProviderSystems.AddLog)
-                addSoapLog(newSessionID, reqesttime, responsetime, ttProviderSystems.PCC, ttProviderSystems.UserID);
+                addSoapLog(newSessionID, reqesttime, responsetime, ttProviderSystems);
 
             newSessionID = GetResponseFromSoap(newSessionID, "SessionCreate", enRequestType.CreateSession);
 
@@ -921,16 +921,16 @@ public class AmadeusWSAdapter
             {
                 string header = ComposeHeader("AmadeusWSXML", "Session", "SessionCloseRQ", sessionID);
                 string body = "<Security_SignOut/>";
-                response = Send(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSOQ_04_1_1A");
+                response = Send(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSOQ_04_1_1A");
             }
             return response;
         }
         catch (Exception ex)
         {
-            addLog($"<M>{sessionID}</M><CloseSession/>", ttProviderSystems.PCC);
+            addLog($"<M>{sessionID}</M><CloseSession/>", ttProviderSystems);
 
             if (ttProviderSystems.AddLog)
-                addLog($"<EXCCS/>{sessionID}", ttProviderSystems.PCC);
+                addLog($"<EXCCS/>{sessionID}", ttProviderSystems);
 
             throw ex;
         }
@@ -944,15 +944,15 @@ public class AmadeusWSAdapter
         {
             string header = ComposeSoap4Header("VLSSOQ_04_1_1A", ref session);
             string body = "<Security_SignOut/>";
-            string strResponse = SendSoap4(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSOQ_04_1_1A");
+            string strResponse = SendSoap4(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSOQ_04_1_1A");
             return strResponse;
         }
         catch (Exception ex)
         {
-            addLog($"<M>{session.SessionId}</M><CloseSession/>", ttProviderSystems.UserID);
+            addLog($"<M>{session.SessionId}</M><CloseSession/>", ttProviderSystems);
 
             if (ttProviderSystems.AddLog)
-                addLog($"<EXCCS/>{session.SessionId}", ttProviderSystems.UserID);
+                addLog($"<EXCCS/>{session.SessionId}", ttProviderSystems);
 
             throw ex;
         }
@@ -984,7 +984,7 @@ public class AmadeusWSAdapter
                 {
                     var header = ComposeHeader("AmadeusWSXML", "Session", "SessionCloseRQ", SessionID);
                     var body = "<Security_SignOut/>";
-                    var response = Send(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSOQ_04_1_1A");
+                    var response = Send(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSOQ_04_1_1A");
                     return response;
                 }
                 catch (Exception ex)
@@ -1048,7 +1048,7 @@ public class AmadeusWSAdapter
             }
 
             //if (ttProviderSystems.AddLog)
-            //    addLog(strResponse, ttProviderSystems.UserID);
+            //    addLog(strResponse, ttProviderSystems);
 
             if (CloseThisSession)
             {
@@ -1069,9 +1069,9 @@ public class AmadeusWSAdapter
         }
         catch (Exception ex)
         {
-            addLog($"<M>{message}</M><SendMessage/>", ttProviderSystems.PCC);
+            addLog($"<M>{message}</M><SendMessage/>", ttProviderSystems);
             if (ttProviderSystems.AddLog)
-                addLog($"<EXCSM/>{response} {soapResponse}", ttProviderSystems.PCC);
+                addLog($"<EXCSM/>{response} {soapResponse}", ttProviderSystems);
 
             if (CloseThisSession)
             {
@@ -1120,9 +1120,9 @@ public class AmadeusWSAdapter
         }
         catch (Exception ex)
         {
-            addLog($"<M>{message}</M><SendMessage/>", ttProviderSystems.UserID);
+            addLog($"<M>{message}</M><SendMessage/>", ttProviderSystems);
             if (ttProviderSystems.AddLog)
-                addLog($"<EXCSM/>{response} {soapResponse}", ttProviderSystems.UserID);
+                addLog($"<EXCSM/>{response} {soapResponse}", ttProviderSystems);
             throw ex;
         }
         finally
@@ -1201,7 +1201,7 @@ public class AmadeusWSAdapter
         }
         catch (Exception ex)
         {
-            addLog($"<M>{message}</M><SendMessage3/>", ttProviderSystems.PCC);
+            addLog($"<M>{message}</M><SendMessage3/>", ttProviderSystems);
 
             if (CloseThisSession)
             {
@@ -1227,22 +1227,23 @@ public class AmadeusWSAdapter
         }
     }
 
-    private void addSoapLog(string msg, DateTime starttime, DateTime endtime, string username, string userid)
+    private void addSoapLog(string msg, DateTime starttime, DateTime endtime, modCore.TripXMLProviderSystems provider)
     {
         try
         {
-            TripXMLTools.TripXMLLog.LogSoapMessage(msg, starttime, endtime, username, TracerID);
+            TripXMLTools.TripXMLLog.LogSoapMessage(msg, starttime, endtime, provider.UserName, TracerID);
         }
         catch (Exception)
         {
         }
     }
 
-    private void addLog(string msg, string username)
+    private void addLog(string msg, modCore.TripXMLProviderSystems provider)
     {
         try
         {
-            TripXMLTools.TripXMLLog.LogErrorMessage(msg, username, TracerID);
+            //TripXMLTools.TripXMLLog.LogErrorMessage(msg, username, TracerID);
+            modCore.AddLog(modCore.LogType.Error, msg, provider);
         }
         catch (Exception)
         {

@@ -225,7 +225,7 @@ public class ttHttpWebClient
         }
         catch (Exception ex)
         {
-            addLog($"<M>{message}</M><SendHttpRequest/>", ttProviderSystems.UserID);
+            addLog($"<M>{message}</M><SendHttpRequest/>", ttProviderSystems);
             throw new Exception(ex.Message);
         }
         finally
@@ -258,7 +258,7 @@ public class ttHttpWebClient
         }
         catch (Exception ex)
         {
-            addLog($"<M>{message}</M><SendHttpRequest/>", ttProviderSystems.UserID);
+            addLog($"<M>{message}</M><SendHttpRequest/>", ttProviderSystems);
 
             if (ex.Message == "The operation has timed out")
             {
@@ -273,7 +273,7 @@ public class ttHttpWebClient
 
                 if (oHttpResponse == null)
                 {
-                    addLog($"<EXHRN/>{message}", ttProviderSystems.UserID);
+                    addLog($"<EXHRN/>{message}", ttProviderSystems);
                     strResponse = "<Error>Connection problem with Amadeus</Error>";
                     return strResponse;
                 }
@@ -286,7 +286,7 @@ public class ttHttpWebClient
                 oReader.Close();
                 CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Soap error response", strResponse.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), ttProviderSystems.LogUUID);
 
-                addLog($"<EXSHR/><M>{message}</M><R>{strResponse}</R>", ttProviderSystems.UserID);
+                addLog($"<EXSHR/><M>{message}</M><R>{strResponse}</R>", ttProviderSystems);
                 return strResponse;
             }
 
@@ -314,15 +314,16 @@ public class ttHttpWebClient
     /// </summary>
     /// <param name="msg"></param>
     /// <param name="username"></param>
-    private void addLog(string msg, string username)
+    private void addLog(string msg, modCore.TripXMLProviderSystems provider)
     {
         try
         {
-            TripXMLTools.TripXMLLog.LogErrorMessage(msg, username, TracerID);
+            //TripXMLTools.TripXMLLog.LogErrorMessage(msg, username, TracerID);
+            modCore.AddLog(modCore.LogType.Error, msg, provider);
         }
         catch (Exception)
         {
         }
-    } 
+    }
     #endregion
 }

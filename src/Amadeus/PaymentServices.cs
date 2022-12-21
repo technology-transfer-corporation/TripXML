@@ -113,7 +113,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strFinalResponse = modCore.FormatErrorMessage(modCore.ttServices.GenerateVirtualCard, exx.Message, ttProviderSystems, strRecLocator);
             }
 
@@ -374,7 +374,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CancelVirtualCardLoad, exx.Message, ttProviderSystems, strRecLocator);
             }
 
@@ -550,7 +550,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.ListVirtualCards, exx.Message, ttProviderSystems, strRecLocator);
             }
             
@@ -668,7 +668,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.ScheduleVirtualCardLoad, ex.Message, ttProviderSystems);
             }
             return strResponse;
@@ -857,7 +857,7 @@ namespace AmadeusWS
                 }
                 catch (Exception ex)
                 {
-                    addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                    addLog($"<M>{Request}<BL/>", ttProviderSystems);
                     Console.WriteLine(ex.Message);
                     throw;
                 }
@@ -872,7 +872,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.UpdateVirtualCard, ex.Message, ttProviderSystems, "");
             }
             return strResponse;

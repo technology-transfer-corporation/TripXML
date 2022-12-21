@@ -273,7 +273,7 @@ namespace AmadeusWS
 
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.AirAvail, ex.Message, ttProviderSystems);
             }
 
@@ -297,7 +297,7 @@ namespace AmadeusWS
 
         public string AirFlifo()
         {
-            string strResponse = "";
+            string strResponse;
 
             var strRequest = SetRequest($"AmadeusWS_AirFlifoRQ.xsl");
 
@@ -315,7 +315,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 throw ex;
             }
 
@@ -663,7 +663,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 throw exx;
             }
 
@@ -966,7 +966,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}</M><BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}</M><BL/>", ttProviderSystems);
                 throw exx;
             }
             finally
@@ -1159,7 +1159,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 throw ex;
             }
         }
@@ -1297,7 +1297,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}</M><BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}</M><BL/>", ttProviderSystems);
                 throw new Exception($"Exception Error.\r\n{ex.Message}\r\n{ex.InnerException}");
             }
         }

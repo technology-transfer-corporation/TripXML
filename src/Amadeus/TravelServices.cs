@@ -1021,7 +1021,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.TravelBuild, exx.Message, ttProviderSystems, "");
             }
             finally
@@ -1384,7 +1384,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<EXOR><M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<EXOR><M>{Request}<BL/>", ttProviderSystems);
                 throw exx;
             }
             finally
@@ -1684,7 +1684,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 throw exx;
             }
             finally
@@ -1752,7 +1752,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 throw exx;
             }
             finally
@@ -1887,7 +1887,7 @@ namespace AmadeusWS
             catch (Exception exx)
             {
                 //TODO: ReEngeneer Arror Log Collection
-                //addLog($"<M>{mstrRequest}<BL/>", ttProviderSystems.UserID);
+                //addLog($"<M>{mstrRequest}<BL/>", ttProviderSystems);
                 throw exx;
             }
             finally
@@ -2097,7 +2097,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 throw exx;
             }
             finally
@@ -2755,7 +2755,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, exx.Message, ttProviderSystems);
             }
             finally
@@ -3191,7 +3191,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<Error>{exx.Message}</Error>", ttProviderSystems.UserID);
+                addLog($"<Error>{exx.Message}</Error>", ttProviderSystems);
             }
             finally
             {

@@ -156,39 +156,36 @@ namespace AmadeusWS
             return sessionID;
         }
 
-        protected static void addLog(string msg, string username)
+        protected static void addLog(string msg, modCore.TripXMLProviderSystems provider)
         {
             try
             {
-                string filePath = $"log\\{username}_{DateTime.Today:dd-MM-yyyy}";
-                string dirPath = "C:\\TripXML\\log";
-                filePath = $"C:\\TripXML\\{filePath}.txt";
-
-                if (!Directory.Exists(dirPath))
-                {
-                    Directory.CreateDirectory(dirPath);
-                }
-                if (!File.Exists(filePath))
-                {
-                    using (StreamWriter sw = File.CreateText(filePath))
-                    {
-                        sw.WriteLine("created On - {0}\r\n", DateTime.Now);
-                        sw.Flush();
-                        sw.Close();
-                    }
-                }
-                using (StreamWriter sw = File.AppendText(filePath))
-                {
-                    DateTimeFormatInfo myDtfi = new CultureInfo("en-US", true).DateTimeFormat;
-
-                    sw.WriteLine(DateTime.UtcNow.ToString(myDtfi).Substring(11) + " GMT - " + msg + "\r\n");
-                    sw.Flush();
-                    sw.Close();
-                }
+                modCore.AddLog(LogType.Info, msg, provider);
+                //string filePath = $"log\\{username}_{DateTime.Today:dd-MM-yyyy}";
+                //string dirPath = "C:\\TripXML\\log";
+                //filePath = $"C:\\TripXML\\{filePath}.txt";
+                //if (!Directory.Exists(dirPath))
+                //{
+                //    Directory.CreateDirectory(dirPath);
+                //}
+                //if (!File.Exists(filePath))
+                //{
+                //    using (StreamWriter sw = File.CreateText(filePath))
+                //    {
+                //        sw.WriteLine("created On - {0}\r\n", DateTime.Now);
+                //        sw.Flush();
+                //    }
+                //}
+                //using (StreamWriter sw = File.AppendText(filePath))
+                //{
+                //    DateTimeFormatInfo myDtfi = new CultureInfo("en-US", true).DateTimeFormat;
+                //    sw.WriteLine($"{DateTime.UtcNow.ToString(myDtfi).Substring(11)} GMT - {msg}\r\n");
+                //    sw.Flush();
+                //}
             }
             catch (Exception ex)
             {
-                throw new Exception(new StringBuilder("Error adding line to Log.").Append("\r\n").Append(ex.Message).ToString());
+                throw new Exception($"Error adding line to Log.", ex);
             }
         }
 
@@ -375,7 +372,7 @@ namespace AmadeusWS
                 TimeSpan dur;
                 dur = ResponseTime - RequestTime;
                 string strLine = $"<Message Type=\'{MsgType}\' RequestTime=\'{RequestTime.ToString("dd MMM yyyy HH:mm:ss")}\' ResponseTime=\'{ResponseTime.ToString("dd MMM yyyy HH:mm:ss")}\' Duration=\'{dur.TotalSeconds}\'><AmadeusMessage>{Message}</AmadeusMessage></Message>";
-                addLog(strLine, ttProviderSystems.UserID);
+                addLog(strLine, ttProviderSystems);
             }
             catch (Exception)
             {
@@ -527,12 +524,12 @@ namespace AmadeusWS
         {
             try
             {
-                //var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema.PNR_Retrieve}", ConversationID)
-                //    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "")
-                //    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply1]}\"", "");
+                //var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_Retrieve}", ConversationID)
+                //    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply}\"", "")
+                //    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply1}\"", "");
                 //ConversationID = UpdateSessionID(ConversationID);
                 var response = SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[PNR_Retrieve], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
-                response = response.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[enAmadeusWSSchema.PNR_Reply]}\"", "");
+                response = response.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "");
                 return response;
             }
             catch (Exception ex)
@@ -545,7 +542,7 @@ namespace AmadeusWS
         {
             try
             {
-                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_Cancel]}", ConversationID)
+                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema[PNR_Cancel]}", ConversationID)
                     .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
                 return response;
@@ -586,7 +583,7 @@ namespace AmadeusWS
         {
             try
             {
-                var response = ttAA.SendMessage(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements]}", ConversationID)
+                var response = ttAA.SendMessage(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements]}", ConversationID)
                     .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
                 return response;
@@ -832,7 +829,7 @@ namespace AmadeusWS
         {
             try
             {
-                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_Split]}", ConversationID);
+                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema[PNR_Split]}", ConversationID);
                 response = response.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
                 return response;

@@ -60,7 +60,7 @@ public class CarServices : AmadeusBase
         }
         catch (Exception ex)
         {
-            addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+            addLog($"<M>{Request}<BL/>", ttProviderSystems);
             strResponse = modCore.FormatErrorMessage(modCore.ttServices.CarAvail, ex.Message, ttProviderSystems, "");
         }
         return strResponse;
@@ -115,7 +115,7 @@ public class CarServices : AmadeusBase
         }
         catch (Exception ex)
         {
-            addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+            addLog($"<M>{Request}<BL/>", ttProviderSystems);
             strResponse = modCore.FormatErrorMessage(modCore.ttServices.SalesReport, ex.Message, ttProviderSystems);
         }
 
@@ -184,7 +184,7 @@ public class CarServices : AmadeusBase
         }
         catch (Exception ex)
         {
-            addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+            addLog($"<M>{Request}<BL/>", ttProviderSystems);
             strResponse = modCore.FormatErrorMessage(modCore.ttServices.CarRules, ex.Message, ttProviderSystems, "");
         }
 
@@ -238,7 +238,7 @@ public class CarServices : AmadeusBase
         }
         catch (Exception exx)
         {
-            addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+            addLog($"<M>{Request}<BL/>", ttProviderSystems);
             strResponse = modCore.FormatErrorMessage(modCore.ttServices.CarList, exx.Message, ttProviderSystems, "");
         }
         return strResponse;
