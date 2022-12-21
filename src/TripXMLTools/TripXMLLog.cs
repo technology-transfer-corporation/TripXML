@@ -2,6 +2,7 @@
 using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TripXMLMain;
 
 namespace TripXMLTools
 {
@@ -67,7 +68,7 @@ namespace TripXMLTools
             }
         }
 
-        public static void LogSoapMessage(string message, DateTime requestTime, DateTime responseTime, String userName, string tracerID)
+        public static void LogSoapMessage(string message, DateTime requestTime, DateTime responseTime, modCore.TripXMLProviderSystems provider, string tracerID)
         {
             //var sb = new StringBuilder();
             //dynamic logWriter = EnterpriseLibraryContainer.Current.GetInstance<LogWriter>();
@@ -81,26 +82,15 @@ namespace TripXMLTools
                         new JProperty("RequestTime", requestTime.ToString("dd MMM yyyy HH:mm:ss")),
                         new JProperty("ResponseTime", responseTime.ToString("dd MMM yyyy HH:mm:ss")),
                         new JProperty("Duration(Sec)", dur.TotalSeconds.ToString(CultureInfo.InvariantCulture)),
-                        new JProperty("User Name", userName),
+                        new JProperty("User Name", provider.UserName),
                         new JProperty("Tracer ID", tracerID),
                         new JProperty("GMT", DateTime.UtcNow.ToString(myDTFI).Substring(11)),
                         new JProperty("Message", message)
                         );
                 string strLine = JsonConvert.SerializeObject(msg);
 
-                //sb.Append("<Message").Append(" RequestTime='");
-                //sb.Append(requestTime.ToString("dd MMM yyyy HH:mm:ss")).Append("'").Append(" ResponseTime='");
-                //sb.Append(responseTime.ToString("dd MMM yyyy HH:mm:ss")).Append("'");
-                //sb.Append(" Duration(Sec)='").Append(dur.TotalSeconds.ToString(CultureInfo.InvariantCulture)).Append("'");
-                //sb.Append(" User Name='").Append(userName).Append("'");
-                //sb.Append(" Tracer ID='").Append(tracerID).Append("'");
-                //sb.Append(" GMT='").Append(DateTime.UtcNow.ToString(myDTFI).Substring(11)).Append("'>");
-                //sb.Append(Environment.NewLine).Append(message).Append(Environment.NewLine).Append("</Message>");
-
-                //string strLine = sb.ToString();
-                //sb.Remove(0, sb.Length);
-
-                //logWriter.Write(strLine, "SoapLog");
+                if(provider.AddLog)
+                    modCore.AddLog(modCore.LogType.Info,strLine, provider);                
             }
             catch (Exception ex)
             {
@@ -113,7 +103,7 @@ namespace TripXMLTools
             }
         }
 
-        public static void LogErrorMessage(string message,String userName, String tracerID)
+        public static void LogErrorMessage(string message, modCore.TripXMLProviderSystems provider, String tracerID)
         {
             //var sb = new StringBuilder();
             //dynamic logWriter = EnterpriseLibraryContainer.Current.GetInstance<LogWriter>();
@@ -122,22 +112,16 @@ namespace TripXMLTools
                 DateTimeFormatInfo myDTFI = new CultureInfo("en-US", true).DateTimeFormat;
 
                 var msg = new JObject(
-                    new JProperty("User Name", userName),
+                    new JProperty("User Name", provider.UserName),
                     new JProperty("Tracer ID", tracerID),
                     new JProperty("GMT", DateTime.UtcNow.ToString(myDTFI).Substring(11)),
                     new JProperty("Message", message)
                 );
                 string strLine = JsonConvert.SerializeObject(msg);
 
-                //sb.Append("<Message");
-                //sb.Append(" User Name='").Append(userName).Append("'");
-                //sb.Append(" Tracer ID='").Append(tracerID).Append("'");
-                //sb.Append(" GMT='").Append(DateTime.UtcNow.ToString(myDTFI).Substring(11)).Append("'>");
-                //sb.Append(Environment.NewLine).Append(message).Append(Environment.NewLine).Append("</Message>");
-                //string strLine = sb.ToString();
-                //sb.Remove(0, sb.Length);
+                if (provider.AddLog)
+                    modCore.AddLog(modCore.LogType.Info, strLine, provider);
 
-                //logWriter.Write(strLine, "SoapError");
             }
             catch (Exception ex)
             {
