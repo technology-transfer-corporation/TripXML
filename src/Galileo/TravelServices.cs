@@ -542,11 +542,6 @@ namespace Galileo
                         : strResponse;
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
-
-                    if (ProviderSystems.LogNative)
-                    {
-                        TripXMLTools.TripXMLLog.LogMessage("TravelBuild", ref strMessage, requestTime, DateTime.Now, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -1017,10 +1012,6 @@ namespace Galileo
 
                     strEmail += strResponse;
 
-
-                    if (ProviderSystems.LogNative)
-                        TripXMLTools.TripXMLLog.LogMessage("IssueTicket", ref strMessage, RequestTime, DateTime.Now, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
-
                     // ****************************************************
                     // below given if condition was not there in local code
                     // ----------------------------------------------------
@@ -1290,11 +1281,6 @@ namespace Galileo
                         ttGA = null;
                     }
                 }
-
-
-                if (ProviderSystems.LogNative)
-                    TripXMLTools.TripXMLLog.LogMessage("IssueTicket", ref strResponse, RequestTime, DateTime.Now, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
-
             }
             catch (Exception exx)
             {
@@ -1426,9 +1412,6 @@ namespace Galileo
                         : strResponse;
 
                     strResponse = CoreLib.TransformXML(strNativePNRReply, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
-
-                    if (ProviderSystems.LogNative)
-                        TripXMLTools.TripXMLLog.LogMessage("Update", ref strMessage, RequestTime, DateTime.Now, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
                 }
                 catch (Exception ex)
                 {
@@ -1609,9 +1592,6 @@ namespace Galileo
                     //}
 
                     response = CoreLib.TransformXML(nativePNRReply, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
-
-                    if (ProviderSystems.LogNative)
-                        TripXMLTools.TripXMLLog.LogMessage("Update", ref message, RequestTime, DateTime.Now, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
                 }
                 catch (Exception ex)
                 {

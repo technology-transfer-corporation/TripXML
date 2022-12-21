@@ -44,7 +44,7 @@ namespace Galileo
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
         }
 
-        public string SendHttpRequest(string UserID, string strMessage = "")
+        public string SendHttpRequest(modCore.TripXMLProviderSystems providerSystem, string strMessage = "")
         {
             HttpWebResponse oHttpResponse = null;
             string Message = "";
@@ -56,15 +56,15 @@ namespace Galileo
                     ? strMessage
                     : ComposeMessage();
 
-                CoreLib.SendTrace(UserID, "ttGalileoAdapter", "Sent to Galileo", Message.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), string.Empty);
+                CoreLib.SendTrace(providerSystem.UserID, "ttGalileoAdapter", "Sent to Galileo", Message.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), string.Empty);
                 HttpConnect();
                 StreamWriter oWriter = new StreamWriter(mHttpRequest.GetRequestStream());
                 oWriter.Write(Message);
             }
             catch (Exception ex)
             {
-                //GalileoBase.addLog($"<EXOR><M>{Message}</M><SendHttpRequest/>", UserID);
-                TripXMLTools.TripXMLLog.LogErrorMessage($"<EXOR><M>{Message}</M><SendHttpRequest/>", UserID, TracerID);
+                addLog($"<M>{Message}</M>", providerSystem);
+                //TripXMLTools.TripXMLLog.LogErrorMessage($"<EXOR><M>{Message}</M><SendHttpRequest/>", Prov, TracerID);
                 throw ex;
             }
 
@@ -73,7 +73,7 @@ namespace Galileo
                 oHttpResponse = (HttpWebResponse)mHttpRequest.GetResponse();
                 StreamReader oReader = new StreamReader(oHttpResponse.GetResponseStream());
                 strResponse = oReader.ReadToEnd();
-                CoreLib.SendTrace(UserID, "ttGalileoAdapter", "Received from Galileo", strResponse.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), string.Empty);
+                CoreLib.SendTrace(providerSystem.UserID, "ttGalileoAdapter", "Received from Galileo", strResponse.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), string.Empty);
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace Galileo
             }
             finally
             {
-                CoreLib.SendTrace(UserID, "ttGalileoAdapter", $"Galileo Response Time = {Convert.ToInt32(DateTime.Now.Subtract(StartTime).TotalSeconds)} seconds.", "", string.Empty);
+                CoreLib.SendTrace(providerSystem.UserID, "ttGalileoAdapter", $"Galileo Response Time = {Convert.ToInt32(DateTime.Now.Subtract(StartTime).TotalSeconds)} seconds.", "", string.Empty);
 
                 if (oHttpResponse != null)
                     oHttpResponse.Close();
@@ -101,6 +101,23 @@ namespace Galileo
             }
 
             return strResponse;
+        }
+
+        /// <summary>
+        /// This is to log the error in the log
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="username"></param>
+        private void addLog(string msg, modCore.TripXMLProviderSystems provider)
+        {
+            try
+            {
+                //TripXMLTools.TripXMLLog.LogErrorMessage(msg, username, TracerID);
+                modCore.AddLog(modCore.LogType.Error, msg, provider);
+            }
+            catch (Exception)
+            {
+            }
         }
         #endregion
 

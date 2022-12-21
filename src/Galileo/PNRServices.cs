@@ -91,11 +91,6 @@ namespace Galileo
                         ttGA.CloseSession(ConversationID);
                         ConversationID = string.Empty;
                     }
-
-                    if (ProviderSystems.LogNative)
-                    {
-                        TripXMLTools.TripXMLLog.LogMessage("PNRRead", ref strMessage, requestTime, DateTime.Now, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
-                    }
                 }
                 #endregion
 
@@ -184,11 +179,6 @@ namespace Galileo
                     {
                         ttGA.CloseSession(ConversationID);
                         ConversationID = string.Empty;
-                    }
-
-                    if (ProviderSystems.LogNative)
-                    {
-                        TripXMLTools.TripXMLLog.LogMessage("PNRCancel", ref strMessage, requestTime, DateTime.Now, "Native", ProviderSystems.Provider, ProviderSystems.System, ProviderSystems.UserName);
                     }
                 }
             }

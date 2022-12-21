@@ -346,11 +346,6 @@ namespace Galileo
                 }
 
                 var responsetime = DateTime.Now;
-                if (ProviderSystems.AddLog)
-                {
-                    addSoapLog(Message + Environment.NewLine + xmlResponse.OuterXml, requesttime, responsetime, ProviderSystems.PCC, ProviderSystems.UserID);
-                    // addSoapLog(xmlResponse.OuterXml, requesttime, responsetime, ProviderSystems.PCC, ProviderSystems.UserID)
-                }
 
                 CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Receive from Galileo", xmlResponse.OuterXml, ProviderSystems.LogUUID);
             }
@@ -524,22 +519,6 @@ namespace Galileo
             }
 
             return strResponse;
-        }
-
-        private void addSoapLog(string msg, DateTime starttime, DateTime endtime, string username, string userid)
-        {
-            try
-            {
-                TripXMLTools.TripXMLLog.LogSoapMessage(msg, starttime, endtime, username, TracerID);
-            }
-            catch (Exception generatedExceptionName)
-            {
-            }
-        }
-
-        private void addLog(string msg, string username)
-        {
-            TripXMLTools.TripXMLLog.LogErrorMessage(msg, username, TracerID);
         }
 
         public string formatGalileo(string strDisp, string id = "")

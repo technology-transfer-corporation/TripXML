@@ -104,10 +104,6 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TripXMLTools\TripXMLTools.csproj">
-      <Project>{b362f5bf-5f86-4997-9ef4-067c8e3db74e}</Project>
-      <Name>TripXMLTools</Name>
-    </ProjectReference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System">
       <Name>System</Name>
