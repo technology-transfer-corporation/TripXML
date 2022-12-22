@@ -503,7 +503,6 @@ Namespace wsTravelTalk
                                             End If
                                         End If
 
-
                                         If Not oNode.Attributes("ExcludeLightTicketing") Is Nothing Then
                                             If Not oNode.Attributes("MaxResponses") Is Nothing OrElse Not oNode.Attributes("TwoOneWays") Is Nothing Then
                                                 tempTravelSum = tempTravelSum.Replace("<OTA_AirLowFareSearchPlusRQ ", "<OTA_AirLowFareSearchPlusRQ ExcludeLightTicketing=""" & oNode.Attributes("ExcludeLightTicketing").Value & """ ")
@@ -643,8 +642,7 @@ Namespace wsTravelTalk
                                                 officeIDElement = RQdocument.DocumentElement
 
                                                 Dim pseudoCityCode As String = Nothing
-
-                                                Dim nodeOffice As XmlNode
+                                                Dim nodeOffice As XmlNode = Nothing
 
                                                 'If officeIDElement.FirstChild().LastChild().FirstChild.ChildNodes(officeIDCounter).Attributes().Count > 0 And officeIDElement.FirstChild().LastChild().FirstChild.ChildNodes(officeIDCounter).Attributes() IsNot Nothing Then
 
@@ -706,15 +704,10 @@ Namespace wsTravelTalk
                                                         .ttCities = ttCities
                                                     End With
 
-
-
                                                     DoSabreSearches(j) = New SearchSabre_v03(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oSabre)
                                                     DoSabreSearches(j).Request = lfstrRequest(j)
                                                     DoSabreSearches(j).ServiceID = ttServiceID
                                                     DoSabreSearches(j).BeginSearch()
-
-
-
                                                 Catch e As Exception
                                                     GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))
                                                 End Try

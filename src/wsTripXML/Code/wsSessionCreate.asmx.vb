@@ -63,7 +63,7 @@ Namespace wsTravelTalk
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
             Dim validateXSDOut As Boolean
             Dim startTime As Date
-            Dim uuid As String
+            Dim uuid As String = String.Empty
 
             Try
                 startTime = Now
@@ -164,7 +164,7 @@ Namespace wsTravelTalk
 
         End Function
 
-        <WebMethod(Description:="Process Session Create Xml Messages Request.")> _
+        <WebMethod(Description:="Process Session Create Xml Messages Request.")>
         Public Function wmSessionCreateXml(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.CreateSession)
         End Function
