@@ -116,8 +116,8 @@ Namespace wsTravelTalk
             Return response
         End Function
 
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
-            Dim strResponse As String = ""
+        Private Function ServiceRequest(ByVal request As String, ByVal ttServiceID As Integer) As String
+            Dim response As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
             Dim validateXSDOut As Boolean
@@ -133,7 +133,7 @@ Namespace wsTravelTalk
 
                 Select Case ttCredential.Providers(0).Name
                     Case "AmadeusWS"
-                        strResponse = SendPNRRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendPNRRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, request)
                     Case "Sabre"
 
                         If ttProviderSystems.System Is Nothing Then
@@ -143,11 +143,11 @@ Namespace wsTravelTalk
                         End If
 
                         ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
-                        strResponse = SendPNRRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendPNRRequestSabre(ttServiceID, ttCredential, ttProviderSystems, request)
                     Case "Worldspan"
-                        strResponse = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, request)
                     Case "Galileo"
-                        strResponse = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, request)
                     Case "Travelport"
                         response = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttProviderSystems, request)
                     Case Else
