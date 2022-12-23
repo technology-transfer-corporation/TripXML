@@ -1,0 +1,33 @@
+<package>
+  <metadata>
+    <id>wsTripXML</id>
+    <version>1.1.0.081</version>
+    <authors>Technology Transfer Corporation</authors>
+    <owners>Downtown Travel</owners>
+    <tags>OctopusDeploy</tags>
+    <licenseUrl>https://github.com/git/git-scm.com/blob/main/MIT-LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/Downtown-Travel-TT/wsTripXML</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>TripXML Platform</description>
+    <releaseNotes></releaseNotes>
+  </metadata>
+  <files>
+    <file src="App_Data\Admin\*.asmx" target="App_Data\Admin" />    
+    <file src="bin\*.*" target="bin" />        
+	<file src="..\TripXMLMain\Xsl\Aggregation\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\AmadeusWS\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\BL\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\Galileo\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\Travelport\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\Sabre\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\Worldspan\*.dll" target="bin" />
+	<file src="..\TripXMLMain\Xsl\TCML\*.dll" target="bin" />
+    <file src="Tables\**\*.*" target="Tables" />    
+    <file src="App_Data\Admin\*.*" target="App_Data\Admin" />
+    <file src="*.asmx" />
+    <file src="*.aspx" />
+    <file src="*.asax" />
+    <file src="Web.config" />
+    <file src="packages.config" />    
+     </files>
+</package>
