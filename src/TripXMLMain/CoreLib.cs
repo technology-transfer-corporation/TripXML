@@ -118,10 +118,9 @@ namespace TripXMLMain
         {
             try
             {
-                var msg = _senderQueue.Take();
-                TraceSender(new string[] { "ws://localhost:3070/Trace", ConfigurationManager.AppSettings["TraceServerUrl"] });
-                //TraceSender(new WebSocket($"ws://localhost:3070/Trace"), msg);
-                //TraceSender(new WebSocket($"ws://localhost:8111/Trace"), msg);
+              TraceSender(new string[] { "ws://localhost:3070/Trace", ConfigurationManager.AppSettings["TraceServerUrl"] });
+              //TraceSender(new string[] { "ws://localhost:3070/Trace", "ws://localhost:8111/Trace" });
+              //TraceSender("ws://localhost:3070/Trace");
             }
             catch (Exception)
             {
