@@ -980,9 +980,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="build.cake" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
