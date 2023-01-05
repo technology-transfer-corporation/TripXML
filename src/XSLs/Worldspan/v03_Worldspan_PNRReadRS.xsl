@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 05 Jan 2023 - Samokhvalov - Baggege Node fixes.
 Date: 09 Dec 2022 - Samokhvalov - TPA_Extensions/AgencyCommission from SPE_RMK_INF added.
 Date: 08 Dec 2022 - Samokhvalov - PTC_Farebreakdown/TPA_Extensions/SupplementalInfo fixed.
 Date: 13 Sep 2022 - Samokhvalov - Exchanges - TPA_Extensions/AgencyCommission fixed.
@@ -1557,14 +1558,26 @@ Date: 23 Feb 2015 - Rastko
 										</xsl:attribute>
 									</xsl:when>
 									<xsl:otherwise>
-										<xsl:attribute name="Weight">
-											<xsl:value-of select="substring(//MIS_INF/MIS_TIC_INF/BAG_ALL, 1,string-length(//MIS_INF/MIS_TIC_INF/BAG_ALL) - 1)"/>
-										</xsl:attribute>
+										<!--<xsl:attribute name="Quantity">
+											<xsl:text>0</xsl:text>
+										</xsl:attribute>-->
+										<xsl:choose>
+											<xsl:when test="substring(//MIS_INF/MIS_TIC_INF/BAG_ALL, 1,string-length(//MIS_INF/MIS_TIC_INF/BAG_ALL) - 1)">
+												<xsl:attribute name="Weight">
+													<xsl:value-of select="substring(//MIS_INF/MIS_TIC_INF/BAG_ALL, 1,string-length(//MIS_INF/MIS_TIC_INF/BAG_ALL) - 1)"/>
+												</xsl:attribute>
+												<xsl:attribute name="Unit">
+													<xsl:value-of select="substring(//MIS_INF/MIS_TIC_INF/BAG_ALL, string-length(//MIS_INF/MIS_TIC_INF/BAG_ALL))"/>
+												</xsl:attribute>
+											</xsl:when>
+											<!--<xsl:otherwise>
+												<xsl:attribute name="Weight">
+													<xsl:text>0.0</xsl:text>
+												</xsl:attribute>
+											</xsl:otherwise>-->
+										</xsl:choose>
 										<xsl:attribute name="Type">
 											<xsl:text>Weight</xsl:text>
-										</xsl:attribute>
-										<xsl:attribute name="Unit">
-											<xsl:value-of select="substring(//MIS_INF/MIS_TIC_INF/BAG_ALL, string-length(//MIS_INF/MIS_TIC_INF/BAG_ALL))"/>
 										</xsl:attribute>
 									</xsl:otherwise>
 								</xsl:choose>
