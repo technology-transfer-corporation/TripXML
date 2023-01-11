@@ -374,6 +374,8 @@ namespace Worldspan
                 // ProviderSystems.Profile = ProviderSystems.ProfileCryptic
                 var ttWA = SetAdapter(ProviderSystems);
 
+                CoreLib.SendTrace(ProviderSystems.UserID, "ProviderSystem", "Switching Setting Profile", Newtonsoft.Json.JsonConvert.SerializeObject(ProviderSystems.Profile), ProviderSystems.LogUUID);
+
                 // *******************************
                 // Load OTA Modify XML document  *
                 // ******************************* 
@@ -461,6 +463,8 @@ namespace Worldspan
                     var tripXmlProviderSystems = ProviderSystems;
                     //tripXmlProviderSystems.Profile = ProviderSystems.Profile.Cryptic;
                     ttWA = SetAdapter(tripXmlProviderSystems, modCore.ProfileType.Cryptic);
+                    CoreLib.SendTrace(ProviderSystems.UserID, "ProviderSystem", "Switching Setting Profile", Newtonsoft.Json.JsonConvert.SerializeObject(ProviderSystems.Profile), ProviderSystems.LogUUID);
+
                     inSession = SetConversationID(ttWA);
 
                     if (!string.IsNullOrEmpty(strResponse) & !strResponse.Contains("no session configured with name ") &
@@ -590,6 +594,8 @@ namespace Worldspan
                             //TODO: Recheck
                             //tripXmlProviderSystems.Profile = ProviderSystems.Profile.Xml;
                             ProviderSystems = tripXmlProviderSystems;
+                            CoreLib.SendTrace(ProviderSystems.UserID, "ProviderSystem", "Switching Setting Profile", Newtonsoft.Json.JsonConvert.SerializeObject(ProviderSystems.Profile), ProviderSystems.LogUUID);
+
                         }
                         // End If
                     }

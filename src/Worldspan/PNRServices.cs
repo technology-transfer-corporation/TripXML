@@ -945,8 +945,7 @@ namespace Worldspan
                     oDoc.LoadXml(Request);
                     oRoot = oDoc.DocumentElement;
                     string pnrType = oRoot.SelectSingleNode("StoredFare/@FareType").InnerXml;
-                    strResponse = strResponse.Replace("<AirItineraryPricingInfo>",
-                        $"<AirItineraryPricingInfo PricingSource=\"{pnrType}\">");
+                    strResponse = strResponse.Replace("<AirItineraryPricingInfo>", $"<AirItineraryPricingInfo PricingSource=\"{pnrType}\">");
 
                     // ---------------------------------------------
                 }
