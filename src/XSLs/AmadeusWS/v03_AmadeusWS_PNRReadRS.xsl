@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 10 Jan 2023 - Samokhvalov - Farebasis fixes.
    Date: 09 Aug 2022 - Kobelev - Confirmation Number for FOP as part of CC.
    Date: 09 Aug 2022 - Kobelev - Better Pax Birthday handler.
    Date: 19 Jul 2022 - Kobelev - Error node for failed FOP change.
@@ -273,7 +274,7 @@
 						</xsl:when>
 						<xsl:when test="Error">
 							<Errors>
-								<xsl:apply-templates select="Error" mode="error"/>								
+								<xsl:apply-templates select="Error" mode="error"/>
 							</Errors>
 						</xsl:when>
 						<xsl:when test="Warning">
@@ -1343,27 +1344,40 @@
 
 	<xsl:template match="segmentInformation">
 		<xsl:variable name="fcl" select="../otherPricingInfo/attributeDetails[attributeType='FCA']/attributeDescription" />
+
+		<xsl:variable name="segref">
+			<xsl:value-of select="segmentReference/refDetails/refNumber"/>
+		</xsl:variable>
+		<xsl:variable name="paref">
+			<xsl:value-of select="../paxSegReference/refDetails/refQualifier"/>
+		</xsl:variable>
+		<xsl:variable name="paxnum">
+			<xsl:value-of select="../paxSegReference/refDetails/refNumber"/>
+		</xsl:variable>
 		
 		<xsl:choose>
 			<xsl:when test="(not(connexInformation/connecDetails/routingInformation) or connexInformation/connecDetails/routingInformation != 'ARNK') and fareQualifier/fareBasisDetails">
 				<xsl:variable name="fb">
 					<xsl:choose>
 						<xsl:when test="string-length(concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode)) = 9 
-						and substring(fareQualifier/fareBasisDetails/fareBasisCode, string-length(fareQualifier/fareBasisDetails/fareBasisCode), 1) = 'C' 
-					    and contains($fcl, concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode))">
+							and substring(fareQualifier/fareBasisDetails/fareBasisCode, string-length(fareQualifier/fareBasisDetails/fareBasisCode), 1) = 'C' 
+							and contains($fcl, concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode))">
 							<xsl:value-of select="concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode,'H')"/>
 						</xsl:when>
 						<xsl:when test="string-length(concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode)) = 9 
-						and substring(fareQualifier/fareBasisDetails/fareBasisCode, string-length(fareQualifier/fareBasisDetails/fareBasisCode), 1) = 'I' 
-					    and contains($fcl, concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode))">
+							and substring(fareQualifier/fareBasisDetails/fareBasisCode, string-length(fareQualifier/fareBasisDetails/fareBasisCode), 1) = 'I' 
+							and contains($fcl, concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode))">
 							<xsl:value-of select="concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode,'N')"/>
+						</xsl:when>
+						<xsl:when test="//pricingRecordGroup/productPricingQuotationRecord[passengerTattoos/passengerReference/type=$paref and passengerTattoos/passengerReference/value=$paxnum]/documentDetailsGroup/fareComponentDetailsGroup[couponDetailsGroup/productId/referenceDetails[type='ST' and value=$segref]]/componentClassInfo/fareBasisDetails/rateTariffClass">
+							<xsl:value-of select="//pricingRecordGroup/productPricingQuotationRecord[passengerTattoos/passengerReference/type=$paref and passengerTattoos/passengerReference/value=$paxnum]/documentDetailsGroup/fareComponentDetailsGroup[couponDetailsGroup/productId/referenceDetails[type='ST' and value=$segref]]/componentClassInfo/fareBasisDetails/rateTariffClass"/>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:value-of select="concat(fareQualifier/fareBasisDetails/primaryCode,fareQualifier/fareBasisDetails/fareBasisCode)"/>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				
+
 				<FareBasisCode>
 					<xsl:choose>
 						<xsl:when test="fareQualifier/fareBasisDetails/ticketDesignator">
@@ -1374,7 +1388,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</FareBasisCode>
-				
+
 			</xsl:when>
 			<xsl:otherwise>
 				<FareBasisCode>VOID</FareBasisCode>
@@ -1669,7 +1683,7 @@
 
 		<xsl:variable name="dob">
 			<xsl:for-each select="msxsl:node-set($elems)/elem/node()[1]">
-									
+
 				<xsl:if test="string-length(.) = 7">
 					<xsl:variable name="nNum">
 						<xsl:call-template name="month">
@@ -1678,11 +1692,11 @@
 							</xsl:with-param>
 						</xsl:call-template>
 					</xsl:variable>
-					
+
 					<xsl:if test="$nNum != ''">
 						<xsl:value-of select="."/>
 					</xsl:if>
-					
+
 				</xsl:if>
 			</xsl:for-each>
 		</xsl:variable>
@@ -3576,7 +3590,7 @@
 										</xsl:choose>
 									</xsl:if>
 								</xsl:variable>
-								
+
 								<PaymentCard>
 									<xsl:attribute name="CardCode">
 										<xsl:choose>
@@ -3586,7 +3600,7 @@
 												<xsl:value-of select="$cardCode"/>
 											</xsl:otherwise>
 										</xsl:choose>
-									</xsl:attribute>									
+									</xsl:attribute>
 									<xsl:if test="$conf!=''">
 										<xsl:attribute name="ConfirmationNumber">
 											<xsl:choose>
@@ -3598,7 +3612,7 @@
 												</xsl:otherwise>
 											</xsl:choose>
 										</xsl:attribute>
-									</xsl:if>									
+									</xsl:if>
 									<xsl:choose>
 										<xsl:when test="substring($cc,5,1)='/'">
 											<xsl:attribute name="CardNumber">
@@ -3712,9 +3726,9 @@
 												</xsl:choose>
 											</xsl:attribute>
 										</xsl:otherwise>
-									</xsl:choose>									
+									</xsl:choose>
 								</PaymentCard>
-								
+
 								<xsl:variable name="amt">
 									<xsl:if test="$card != ''">
 										<xsl:choose>
@@ -3732,7 +3746,7 @@
 										</xsl:choose>
 									</xsl:if>
 								</xsl:variable>
-								
+
 								<TPA_Extensions>
 									<xsl:attribute name="FOPType">CC</xsl:attribute>
 									<xsl:if test="$conf!=''">
@@ -3762,7 +3776,7 @@
 									</xsl:if>
 									<xsl:if test="contains(otherDataFreetext/longFreetext,'INF ')">INF</xsl:if>
 								</TPA_Extensions>
-								
+
 								<xsl:if test="$amt!='' and (string(number($amt))!='NaN' or string(number(substring($amt,4)))!='NaN')">
 									<PaymentAmount>
 										<xsl:attribute name="Amount">
@@ -4673,7 +4687,9 @@
 				</Text>
 			</xsl:if>
 			<xsl:if test="otherDataFreetext/freetextDetail/type='P27'">
-				<Text><xsl:value-of select="otherDataFreetext/longFreetext"/></Text>
+				<Text>
+					<xsl:value-of select="otherDataFreetext/longFreetext"/>
+				</Text>
 			</xsl:if>
 		</OtherServiceInformation>
 	</xsl:template>
