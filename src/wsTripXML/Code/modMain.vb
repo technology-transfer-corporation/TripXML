@@ -169,7 +169,9 @@ Namespace wsTravelTalk
         End Sub
 
         Public Sub PreServiceRequestPool(ByRef strRequest As String, ByRef oApp As HttpApplicationState, ByRef ttCredential As TravelTalkCredential,
-                                    ByVal StartTime As Date, ByVal ttServiceID As Integer, ByVal ServerName As String, ByRef UUID As String, Optional ByVal Version As String = "")
+                                    ByRef ttProviderSystems As TripXMLProviderSystems,
+                                    ByVal StartTime As Date, ByVal ttServiceID As Integer, ByVal ServerName As String,
+                                    ByRef UUID As String, Optional ByVal Version As String = "")
             Dim oDoc As XmlDocument
             Dim validateXSDIn As Boolean
             Dim oLog As cLog
@@ -180,11 +182,12 @@ Namespace wsTravelTalk
                 ttCredential = GetTravelTalkCredential(strRequest, ttServiceID)
 
                 oDoc = oApp.Get("ttACL")
-                If oDoc Is Nothing Then
-                    Throw New Exception("Failed to find ttACL")
-                End If
+                'If oDoc Is Nothing Then
+                '    Throw New Exception("Failed to find ttACL")
+                'End If
 
-                validateXSDIn = oApp.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("In").ToString())
+                'validateXSDIn = oApp.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("In").ToString())
+                validateXSDIn = oApp.Get($"XSD{ttCredential.UserID}In")
                 sb.Remove(0, sb.Length())
 
                 ' SQL Message Log
@@ -222,8 +225,10 @@ Namespace wsTravelTalk
                     Throw New Exception(sb.Append("Invalid Request. Schema Validation Failed.").Append(vbNewLine).Append(exx.Message).ToString())
                 End Try
 
-                AuthenticateUser(oDoc, ttCredential)
+                TripXMLTools.TripXMLLoad.GetProviderSystem(ttProviderSystems, ttCredential)
+                ttProviderSystems.LogUUID = UUID
 
+                'AuthenticateUser(oDoc, ttCredential)
             Catch ex As Exception
                 If Not logged Then
                     If Trace Then CoreLib.SendTrace(ttCredential.UserID, sb.Append("ttMain ").Append(ttServiceID).ToString(), "============= OTA Request ============= ", strRequest, UUID)
@@ -822,6 +827,9 @@ Namespace wsTravelTalk
 
         Public Function GetDecodeValue(ByRef oDV As DataView, ByRef strCode As String) As String
             Try
+                If oDV Is Nothing Then
+                    Return String.Empty
+                End If
                 For Each row As DataRow In oDV.Table.Rows
                     If row("Code").ToString().Trim().ToUpper().Equals(strCode.Trim().ToUpper()) Then
                         Return row("Name").ToString()

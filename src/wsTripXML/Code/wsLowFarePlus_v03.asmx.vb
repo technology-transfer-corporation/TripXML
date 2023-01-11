@@ -454,7 +454,7 @@ Namespace wsTravelTalk
 
                 sb.Remove(0, sb.Length)
 
-                PreServiceRequestPool(strRequest, Application, ttCredential, StartTime, ttServiceID, Server.MachineName, UUID)
+                PreServiceRequestPool(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
                 sb.Append("XSD").Append(ttCredential.UserID).Append("Out")
                 ValidateXSDOut = Application.Get(sb.ToString())
                 sb.Remove(0, sb.Length)

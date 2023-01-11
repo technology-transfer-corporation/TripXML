@@ -3,6 +3,7 @@ Imports TripXMLMain
 Imports System.Xml
 Imports System.Xml.Serialization
 Imports TripXMLMain.modCore
+Imports TripXMLTools.TripXMLLoad
 
 Namespace wsTravelTalk
 
@@ -84,8 +85,8 @@ Namespace wsTravelTalk
                         ' *******************
                         ' Decode Airports   *
                         ' *******************
-                        oFlightNode.SelectSingleNode("DepartureAirport").InnerText = GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
-                        oFlightNode.SelectSingleNode("ArrivalAirport").InnerText = GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                        oFlightNode.SelectSingleNode("DepartureAirport").InnerText = DecodeValue(DecodingType.Airport, oFlightNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                        oFlightNode.SelectSingleNode("ArrivalAirport").InnerText = DecodeValue(DecodingType.Airport, oFlightNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
 
                         ' *******************
                         ' Decode Airlines   *
@@ -101,7 +102,7 @@ Namespace wsTravelTalk
                             '    End If
                             'Else
                             If oFlightNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value <> "" And oFlightNode.SelectSingleNode("OperatingAirline").InnerText = "" Then
-                                oFlightNode.SelectSingleNode("OperatingAirline").InnerText = GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                                oFlightNode.SelectSingleNode("OperatingAirline").InnerText = DecodeValue(DecodingType.Airline, oFlightNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
                             End If
                             'End If
 
@@ -117,7 +118,7 @@ Namespace wsTravelTalk
                             '    End If
                             'Else
                             If oFlightNode.SelectSingleNode("MarketingAirline").InnerText = "" Then
-                                oFlightNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                                oFlightNode.SelectSingleNode("MarketingAirline").InnerText = DecodeValue(DecodingType.Airline, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                             End If
                         End If
 
@@ -125,7 +126,7 @@ Namespace wsTravelTalk
                         ' Decode Equipments *
                         ' *******************
                         If Not oFlightNode.SelectSingleNode("Equipment") Is Nothing Then
-                            oFlightNode.SelectSingleNode("Equipment").InnerText = GetDecodeValue(ttEquipments, oFlightNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                            oFlightNode.SelectSingleNode("Equipment").InnerText = DecodeValue(DecodingType.Equipment, oFlightNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
                         End If
 
                         ' *******************
@@ -134,7 +135,7 @@ Namespace wsTravelTalk
                         If Not oFlightNode.SelectSingleNode("TPA_Extensions/StopInfo") Is Nothing Then
                             Dim stopNode As XmlNode = Nothing
                             For Each stopNode In oFlightNode.SelectNodes("TPA_Extensions/StopInfo")
-                                stopNode.InnerText = GetDecodeValue(ttAirports, stopNode.Attributes("LocationCode").Value)
+                                stopNode.InnerText = DecodeValue(DecodingType.Airport, stopNode.Attributes("LocationCode").Value)
                             Next
                         End If
                     Next
@@ -364,47 +365,7 @@ Namespace wsTravelTalk
             Try
                 StartTime = Now
 
-                'oDoc = New XmlDocument
-                'oDoc.LoadXml(strRequest)
-                'oRoot = oDoc.DocumentElement
-
-                'sb.Append("<OTA_AirLowFareSearchPlusRQ>").Append(oRoot.SelectSingleNode("POS").OuterXml)
-
-
-                'For Each oNode In oRoot.SelectNodes("OriginDestinationInformation")
-                '    sb.Append(oNode.OuterXml)
-                'Next
-
-                ''uTravelSum = sb.Append(oRoot.SelectSingleNode("TravelerInfoSummary").OuterXml).ToString()
-                ''sb.Append("<FaringPreferences>").ToString()
-
-                ''For Each oNode In oRoot.SelectNodes("FaringPreferences/FaringPreference")
-                ''    sb.Append(oNode.OuterXml)
-                ''    sb.Remove(0, sb.Length)
-                ''    lfstrRequest(j) = sb.Append(uTravelSum).Append(oNode.OuterXml).Append("</OTA_AirLowFareSearchPlusRQ>").ToString
-                ''    j += 1
-
-                ''Next
-
-                ''sb.Remove(0, sb.Length)
-
-                'TravelSum = sb.ToString()
-                'uTravelSum = oRoot.SelectSingleNode("TravelerInfoSummary").InnerXml.ToString()
-
-                'For Each oNode In oRoot.SelectNodes("FaringPreferences/FaringPreference")
-
-                '    sb.Remove(0, sb.Length)
-                '    sb.Append(TravelSum).Append(oNode.SelectSingleNode("TravelPreferences").OuterXml)
-                '    sb.Append("<TravelerInfoSummary>").Append(uTravelSum).Append(oNode.SelectSingleNode("AirTravelerAvail").OuterXml)
-                '    sb.Append(oNode.SelectSingleNode("PriceRequestInformation").OuterXml).Append("</TravelerInfoSummary></OTA_AirLowFareSearchPlusRQ>")
-
-                '    lfstrRequest(j) = sb.ToString()
-                '    j += 1
-                'Next
-
-                'sb.Remove(0, sb.Length)
-
-                PreServiceRequestPool(strRequest, Application, ttCredential, StartTime, ttServiceID, Server.MachineName, UUID)
+                PreServiceRequestPool(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
                 sb.Append("XSD").Append(ttCredential.UserID).Append("Out")
                 ValidateXSDOut = Application.Get(sb.ToString())
                 sb.Remove(0, sb.Length)
@@ -422,10 +383,10 @@ Namespace wsTravelTalk
                                     'ttAA = Application.Get(sb.ToString())
                                     sb.Remove(0, sb.Length)
 
-                                    'If ttAA Is Nothing Then
-                                    Dim ekbpPCC As String = .Providers(i).PCC.Replace("*", "")
-                                    ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ekbpPCC).ToString())
-                                    sb.Remove(0, sb.Length())
+                                    ''If ttAA Is Nothing Then
+                                    'Dim ekbpPCC As String = .Providers(i).PCC.Replace("*", "")
+                                    'ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ekbpPCC).ToString())
+                                    'sb.Remove(0, sb.Length())
 
                                     If ttProviderSystems.AmadeusWS = False Then
                                         sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
@@ -504,9 +465,9 @@ Namespace wsTravelTalk
 
                             Case "apollo", "galileo"
                                 Try
-                                    sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
-                                    ttProviderSystems = Application.Get(sb.ToString())
-                                    sb.Remove(0, sb.Length)
+                                    'sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
+                                    'ttProviderSystems = Application.Get(sb.ToString())
+                                    'sb.Remove(0, sb.Length)
 
                                     If ttProviderSystems.System Is Nothing Then
                                         sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
@@ -541,9 +502,9 @@ Namespace wsTravelTalk
 
                             Case "sabre", "Sabre"
                                 Try
-                                    sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
-                                    ttProviderSystems = Application.Get(sb.ToString())
-                                    sb.Remove(0, sb.Length)
+                                    'sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
+                                    'ttProviderSystems = Application.Get(sb.ToString())
+                                    'sb.Remove(0, sb.Length)
 
                                     If ttProviderSystems.System Is Nothing Then
                                         sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
@@ -583,9 +544,9 @@ Namespace wsTravelTalk
 
                             Case "worldspan", "Worldspan"
                                 Try
-                                    sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
-                                    ttProviderSystems = Application.Get(sb.ToString())
-                                    sb.Remove(0, sb.Length)
+                                    'sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
+                                    'ttProviderSystems = Application.Get(sb.ToString())
+                                    'sb.Remove(0, sb.Length)
 
                                     If ttProviderSystems.System Is Nothing Then
                                         sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
@@ -623,9 +584,9 @@ Namespace wsTravelTalk
 
                             Case "travelport"
                                 Try
-                                    sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
-                                    ttProviderSystems = Application.Get(sb.ToString())
-                                    sb.Remove(0, sb.Length)
+                                    'sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
+                                    'ttProviderSystems = Application.Get(sb.ToString())
+                                    'sb.Remove(0, sb.Length)
 
                                     If ttProviderSystems.System Is Nothing Then
                                         sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
