@@ -64,71 +64,38 @@ Namespace wsTravelTalk
 
         Private Function DecodeLowFarePlus(ByVal strResponse As String, ByVal UserID As String) As String
             Try
-
-                Dim ttAirports As DataView
-                Dim ttAirlines As DataView
-                Dim ttEquipments As DataView
                 Dim oDoc As New XmlDocument
                 oDoc.LoadXml(strResponse)
                 Dim oRoot As XmlElement = oDoc.DocumentElement
-
-                ttAirports = CType(Application.Get("ttAirports"), DataView)
-                ttAirlines = CType(Application.Get("ttAirlines"), DataView)
-                'ttHiddenAirlines = CType(Application.Get("ttHiddenAirlines"), DataView)
-                ttEquipments = CType(Application.Get("ttEquipments"), DataView)
-
                 Dim oNode As XmlNode
+
                 For Each oNode In oRoot.SelectNodes("PricedItineraries/PricedItinerary")
                     Dim oFlightNode As XmlNode
                     For Each oFlightNode In oNode.SelectNodes("AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment")
-                        ' *******************
                         ' *******************
                         ' Decode Airports   *
                         ' *******************
                         oFlightNode.SelectSingleNode("DepartureAirport").InnerText = DecodeValue(DecodingType.Airport, oFlightNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
                         oFlightNode.SelectSingleNode("ArrivalAirport").InnerText = DecodeValue(DecodingType.Airport, oFlightNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
-
                         ' *******************
                         ' Decode Airlines   *
                         ' *******************
                         If Not oFlightNode.SelectSingleNode("OperatingAirline") Is Nothing And Not oFlightNode.SelectSingleNode("OperatingAirline/@Code") Is Nothing Then
-                            'oFareNode = oNode.SelectSingleNode("AirItineraryPricingInfo").Attributes("PricingSource")
-
-                            'If oFareNode.InnerText = "Private" Then
-                            '    oFlightNode.SelectSingleNode("OperatingAirline").InnerText = GetDecodeValue(ttHiddenAirlines, oFlightNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
-
-                            '    If oFlightNode.SelectSingleNode("OperatingAirline").InnerText = "" Then
-                            '        oFlightNode.SelectSingleNode("OperatingAirline").InnerText = GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
-                            '    End If
-                            'Else
                             If oFlightNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value <> "" And oFlightNode.SelectSingleNode("OperatingAirline").InnerText = "" Then
                                 oFlightNode.SelectSingleNode("OperatingAirline").InnerText = DecodeValue(DecodingType.Airline, oFlightNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
                             End If
-                            'End If
-
                         End If
-
                         If Not oFlightNode.SelectSingleNode("MarketingAirline") Is Nothing Then
-
-                            'If oFareNode.InnerText = "Private" Then
-                            '    oFlightNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttHiddenAirlines, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
-
-                            '    If oFlightNode.SelectSingleNode("MarketingAirline").InnerText = "" Then
-                            '        oFlightNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
-                            '    End If
-                            'Else
                             If oFlightNode.SelectSingleNode("MarketingAirline").InnerText = "" Then
                                 oFlightNode.SelectSingleNode("MarketingAirline").InnerText = DecodeValue(DecodingType.Airline, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                             End If
                         End If
-
                         ' *******************
                         ' Decode Equipments *
                         ' *******************
                         If Not oFlightNode.SelectSingleNode("Equipment") Is Nothing Then
                             oFlightNode.SelectSingleNode("Equipment").InnerText = DecodeValue(DecodingType.Equipment, oFlightNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
                         End If
-
                         ' *******************
                         ' Decode Stops *
                         ' *******************
@@ -340,18 +307,14 @@ Namespace wsTravelTalk
             Dim UUID As String = ""
             Dim i As Integer
             Dim StartCounter As Date
-            'Dim DoAmadeusSearches(99) As SearchAmadeus
+
             Dim DoAmadeusWSSearches(99) As SearchAmadeusWS
             Dim DoGalileoSearches(99) As SearchGalileo
             Dim DoSabreSearches(99) As SearchSabre
             Dim DoWorldspanSearches(99) As SearchWorldspan
-            'Dim DoPortalSearches(99) As SearchPortal
-            'Dim DoPortalXMLSearches(99) As SearchPortalXML
-            'Dim DoTravelFusionSearches(99) As SearchTravelFusion
-            Dim sb As StringBuilder = Nothing
+
             Dim uTravelSum As String = ""
             Dim TravelSum As String = ""
-            'Static MultipleCount As Integer = 0
             Dim oDoc As XmlDocument = Nothing
             Dim oRoot As XmlElement = Nothing
             Dim oNode As XmlNode = Nothing
@@ -360,16 +323,10 @@ Namespace wsTravelTalk
             Dim lfstrRequest(99) As String
             Dim j As Integer = 0
 
-            sb = New StringBuilder()
-
             Try
                 StartTime = Now
-
                 PreServiceRequestPool(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
-                sb.Append("XSD").Append(ttCredential.UserID).Append("Out")
-                ValidateXSDOut = Application.Get(sb.ToString())
-                sb.Remove(0, sb.Length)
-
+                ValidateXSDOut = Application.Get($"XSD{ttCredential.UserID}Out")
                 'strRequest= "<?xml version="1.0" encoding="utf-16"?><OTA_AirLowFareSearchPlusRQ><POS><Source PseudoCityCode="MIA1S21AV"><RequestorID Type="21" ID="Thomalex" /></Source><TPA_Extensions><Provider><Name>Amadeus</Name><System>Test</System><Userid>Thomalex</Userid><Password>thefalls</Password></Provider></TPA_Extensions></POS><OriginDestinationInformation><DepartureDateTime>2010-03-04T00:00:00</DepartureDateTime><OriginLocation LocationCode="ATL" /><DestinationLocation LocationCode="MIA" /></OriginDestinationInformation><TravelerInfoSummary><SeatsRequested>1</SeatsRequested><FaringPreferences><FaringPreference PseudoCityCode="ATL1S2157"><TravelPreferences><VendorPref Code="DL" PreferLevel="Preferred"/><VendorPref Code="UA" PreferLevel="Preferred"/><CabinPref PreferLevel="Preferred" Cabin="Economy"/></TravelPreferences><AirTravelerAvail><PassengerTypeQuantity Code="JCB" Quantity="1"/></AirTravelerAvail><PriceRequestInformation PricingSource="Private"/></FaringPreference><FaringPreference PseudoCityCode="ATL1S2157"><TravelPreferences><VendorPref Code="AA" PreferLevel </AirTravelerAvail><PriceRequestInformation PricingSource="Published"/></FaringPreference><FaringPreference PseudoCityCode="NYC1S218Z"><TravelPreferences><VendorPref Code="AA" PreferLevel="Preferred"/><CabinPref PreferLevel="Preferred" Cabin="Business"/></TravelPreferences><AirTravelerAvail><PassengerTypeQuantity Code="JCB" Quantity="1"/></AirTravelerAvail><PriceRequestInformation PricingSource="Private"/></FaringPreference></FaringPreferences></TravelerInfoSummary></OTA_AirLowFareSearchPlusRQ>"
 
                 With ttCredential
@@ -378,20 +335,14 @@ Namespace wsTravelTalk
                             Case "amadeus"
                                 Try
                                     'Dim ttAA As AmadeusAPIAdapter
-
-                                    sb.Append("API").Append(.UserID).Append(.System).Append(.Providers(i).PCC)
-                                    'ttAA = Application.Get(sb.ToString())
-                                    sb.Remove(0, sb.Length)
-
+                                    'ttAA = Application.Get($"API{.UserID}{.System}{.Providers(i).PCC}")
                                     ''If ttAA Is Nothing Then
                                     'Dim ekbpPCC As String = .Providers(i).PCC.Replace("*", "")
                                     'ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ekbpPCC).ToString())
                                     'sb.Remove(0, sb.Length())
 
                                     If ttProviderSystems.AmadeusWS = False Then
-                                        sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
-                                        GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), .Providers(i).Name))
-                                        sb.Remove(0, sb.Length)
+                                        GotResponse(FormatErrorMessage(ttServiceID, $"Access denied to { .Providers(i).Name} - {ttCredential.System} system. Or invalid provider.", .Providers(i).Name))
                                         Exit Select
                                     End If
                                     'End If
@@ -403,28 +354,21 @@ Namespace wsTravelTalk
 
                                         ttCredential.Providers(0).Name = "AmadeusWS"
 
-                                        If ttCredential.System = "Test" Then
-                                            ttProviderSystems.URL = "https://test.webservices.amadeus.com"
-                                        ElseIf ttCredential.System = "Training" Then
-                                            ttProviderSystems.URL = "https://production.webservices.amadeus.com"
-                                        Else
-                                            ttProviderSystems.URL = "https://production.webservices.amadeus.com"
-                                        End If
+                                        'If ttCredential.System = "Test" Then
+                                        '    ttProviderSystems.URL = "https://test.webservices.amadeus.com"
+                                        'ElseIf ttCredential.System = "Training" Then
+                                        '    ttProviderSystems.URL = "https://production.webservices.amadeus.com"
+                                        'Else
+                                        '    ttProviderSystems.URL = "https://production.webservices.amadeus.com"
+                                        'End If
 
                                         Dim oAmadeusWS As New cServiceAmadeusWS
                                         AddHandler oAmadeusWS.GotResponse, AddressOf GotResponse
 
                                         With oAmadeusWS
                                             .ServiceID = ttServiceID
-                                            '.Request = strRequest
                                             .Request = strRequest
                                             .ttProviderSystems = ttProviderSystems
-                                            '.ttProviderSystems.ProviderSession.MultipleCount = .ttProviderSystems.ProviderSession.MultipleCount + 1
-                                            'If .ttProviderSystems.ProviderSession.MultipleCount <> 1 Then
-                                            '    .ttProviderSystems.ProviderSession.MultipleAccess = False
-                                            'Else
-                                            '    .ttProviderSystems.ProviderSession.MultipleAccess = True
-                                            'End If
                                             .Version = ""
                                         End With
 
@@ -432,47 +376,15 @@ Namespace wsTravelTalk
                                         DoAmadeusWSSearches(i).Request = strRequest
                                         DoAmadeusWSSearches(i).ServiceID = ttServiceID
                                         DoAmadeusWSSearches(i).BeginSearch()
-                                        'ttProviderSystems = Nothing
-                                        'Else
-                                        '    ttProviderSystems = ttAA.ttProviderSystems
-                                        '    If ttCredential.Providers(i).PCC.Trim.Length > 0 Then
-                                        '        ttAA.SourcePCC = ttCredential.Providers(i).PCC
-                                        '    Else
-                                        '        ttAA.SourcePCC = ttAA.ttProviderSystems.PCC
-                                        '    End If
-                                        '    Dim oAmadeus As New cServiceAmadeus
-                                        '    AddHandler oAmadeus.GotResponse, AddressOf GotResponse
-                                        '    With oAmadeus
-                                        '        .ServiceID = ttServiceID
-                                        '        '.Request = strRequest
-                                        '        .Request = strRequest
-                                        '        .ttAA = ttAA
-                                        '        .Version = ""
-                                        '    End With
-                                        '    DoAmadeusSearches(i) = New SearchAmadeus(.Providers(i).PCC, .UserID, .System, ttAA, oAmadeus)
-                                        '    'DoAmadeusSearches(i).Request = strRequest
-                                        '    DoAmadeusSearches(i).Request = strRequest
-                                        '    DoAmadeusSearches(i).ServiceID = ttServiceID
-                                        '    DoAmadeusSearches(i).BeginSearch()
-                                        '    sb.Append("API").Append(.UserID).Append(.System)
-                                        '    Application.Set(sb.ToString(), ttAA)
-                                        '    sb.Remove(0, sb.Length)
                                     End If
                                 Catch e As Exception
                                     GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))
-
                                 End Try
 
                             Case "apollo", "galileo"
                                 Try
-                                    'sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
-                                    'ttProviderSystems = Application.Get(sb.ToString())
-                                    'sb.Remove(0, sb.Length)
-
                                     If ttProviderSystems.System Is Nothing Then
-                                        sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
-                                        GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), .Providers(i).Name))
-                                        sb.Remove(0, sb.Length)
+                                        GotResponse(FormatErrorMessage(ttServiceID, $"Access denied to { .Providers(i).Name} - {ttCredential.System} system. Or invalid provider.", .Providers(i).Name))
                                         Exit Select
                                     End If
 
@@ -485,7 +397,6 @@ Namespace wsTravelTalk
 
                                     With oGalileo
                                         .ServiceID = ttServiceID
-                                        '.Request = strRequest
                                         .Request = strRequest
                                         .ProviderSystems = ttProviderSystems
                                         .Version = ""
@@ -502,26 +413,13 @@ Namespace wsTravelTalk
 
                             Case "sabre", "Sabre"
                                 Try
-                                    'sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
-                                    'ttProviderSystems = Application.Get(sb.ToString())
-                                    'sb.Remove(0, sb.Length)
-
                                     If ttProviderSystems.System Is Nothing Then
-                                        sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
-                                        GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), .Providers(i).Name))
-                                        sb.Remove(0, sb.Length)
+                                        GotResponse(FormatErrorMessage(ttServiceID, $"Access denied to { .Providers(i).Name} - {ttCredential.System} system. Or invalid provider.", .Providers(i).Name))
                                         Exit Select
                                     End If
-
                                     ttProviderSystems.AAAPCC = .Providers(i).PCC
-
-                                    'If ttCredential.Providers(i).PCC.Trim.Length > 0 Then
-                                    '    ttProviderSystems.PCC = ttCredential.Providers(i).PCC
-                                    'End If
-
                                     Dim oSabre As New cServiceSabre
                                     AddHandler oSabre.GotResponse, AddressOf GotResponse
-
                                     Dim ttCities As DataView
                                     ttCities = CType(Application.Get("ttCities"), DataView)
 
@@ -544,14 +442,8 @@ Namespace wsTravelTalk
 
                             Case "worldspan", "Worldspan"
                                 Try
-                                    'sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
-                                    'ttProviderSystems = Application.Get(sb.ToString())
-                                    'sb.Remove(0, sb.Length)
-
                                     If ttProviderSystems.System Is Nothing Then
-                                        sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
-                                        GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), .Providers(i).Name))
-                                        sb.Remove(0, sb.Length)
+                                        GotResponse(FormatErrorMessage(ttServiceID, $"Access denied to { .Providers(i).Name} - {ttCredential.System} system. Or invalid provider.", .Providers(i).Name))
                                         Exit Select
                                     End If
 
@@ -584,14 +476,8 @@ Namespace wsTravelTalk
 
                             Case "travelport"
                                 Try
-                                    'sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
-                                    'ttProviderSystems = Application.Get(sb.ToString())
-                                    'sb.Remove(0, sb.Length)
-
                                     If ttProviderSystems.System Is Nothing Then
-                                        sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
-                                        GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), .Providers(i).Name))
-                                        sb.Remove(0, sb.Length)
+                                        GotResponse(FormatErrorMessage(ttServiceID, $"Access denied to { .Providers(i).Name} - {ttCredential.System} system. Or invalid provider.", .Providers(i).Name))
                                         Exit Select
                                     End If
 
@@ -608,103 +494,13 @@ Namespace wsTravelTalk
                                         .ProviderSystems = ttProviderSystems
                                         .Version = ""
                                     End With
-
-                                    'DoTravelportSearches(i) = New SearchPortal(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oPortal)
-                                    'DoTravelportSearches(i).Request = strRequest
-                                    'DoTravelportSearches(i).ServiceID = ttServiceID
-                                    'DoTravelportSearches(i).BeginSearch()
-
                                 Catch e As Exception
                                     GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))
                                 End Try
-
-                            Case "portalxml"
-                                'Try
-                                '    sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
-                                '    ttProviderSystems = Application.Get(sb.ToString())
-                                '    sb.Remove(0, sb.Length)
-
-                                '    If ttProviderSystems.System Is Nothing Then
-                                '        sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
-                                '        GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), .Providers(i).Name))
-                                '        sb.Remove(0, sb.Length)
-                                '        Exit Select
-                                '    End If
-
-                                '    If ttCredential.Providers(i).PCC.Trim.Length > 0 Then
-                                '        ttProviderSystems.PCC = ttCredential.Providers(i).PCC
-                                '    End If
-
-                                '    Dim oPortalXML As New cServicePortalXML
-                                '    AddHandler oPortalXML.GotResponse, AddressOf GotResponse
-
-                                '    With oPortalXML
-                                '        .ServiceID = ttServiceID
-                                '        .Request = strRequest
-                                '        .ProviderSystems = ttProviderSystems
-                                '        .Version = ""
-                                '    End With
-
-                                '    DoPortalXMLSearches(i) = New SearchPortalXML(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oPortalXML)
-                                '    DoPortalXMLSearches(i).Request = strRequest
-                                '    DoPortalXMLSearches(i).ServiceID = ttServiceID
-                                '    DoPortalXMLSearches(i).BeginSearch()
-
-                                'Catch e As Exception
-                                '    GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))
-                                'End Try
-
-                            Case "travelfusion"
-                                'Try
-                                '    oDoc = New XmlDocument
-                                '    oDoc.LoadXml(strRequest)
-                                '    oRoot = oDoc.DocumentElement
-
-                                '    If oRoot.SelectNodes("OriginDestinationInformation").Count > 2 Then
-                                '        Throw New Exception("Travel Fusion does not support multi destination searches")
-                                '    End If
-
-                                '    sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
-                                '    ttProviderSystems = Application.Get(sb.ToString())
-                                '    sb.Remove(0, sb.Length)
-
-                                '    If ttProviderSystems.System Is Nothing Then
-                                '        sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
-                                '        GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), .Providers(i).Name))
-                                '        sb.Remove(0, sb.Length)
-                                '        Exit Select
-                                '    End If
-
-                                '    If ttCredential.Providers(i).PCC.Trim.Length > 0 Then
-                                '        ttProviderSystems.PCC = ttCredential.Providers(i).PCC
-                                '    End If
-
-                                '    Dim oTravelFusion As New cServiceTravelFusion
-                                '    AddHandler oTravelFusion.GotResponse, AddressOf GotResponse
-
-                                '    With oTravelFusion
-                                '        .ServiceID = ttServiceID
-                                '        .Request = strRequest
-                                '        .ttProviderSystems = ttProviderSystems
-                                '        .Version = ""
-                                '    End With
-
-                                '    DoTravelFusionSearches(i) = New SearchTravelFusion(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oTravelFusion)
-                                '    DoTravelFusionSearches(i).Request = strRequest
-                                '    DoTravelFusionSearches(i).ServiceID = ttServiceID
-                                '    DoTravelFusionSearches(i).BeginSearch()
-
-                                'Catch e As Exception
-                                '    GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))
-                                'End Try
-
                             Case Else
-                                sb.Append("Provider ").Append(ttCredential.Providers(0).Name).Append(" Not Currently Supported.")
-                                Throw New Exception(sb.ToString())
-                                sb.Remove(0, sb.Length)
+                                Throw New Exception($"Provider { ttCredential.Providers(0).Name} Not Currently Supported.")
                         End Select
                     Next
-
                 End With
 
                 StartCounter = Now
@@ -720,11 +516,8 @@ Namespace wsTravelTalk
                     cAggregation.Aggregate(ttServiceID, XslPath, "", strResponse)
 
                     ' Filter Flights
-
                     If ttProviderSystems.AggFilter = True Then
-                        sb.Append("ttFP").Append(ttCredential.UserID)
-                        FilterFlights(strResponse, CType(Application.Get(sb.ToString()), String))
-                        sb.Remove(0, sb.Length)
+                        FilterFlights(strResponse, CType(Application.Get($"ttFP{ttCredential.UserID}"), String))
                     End If
                 Else
                     strResponse = mstrResponse
@@ -734,40 +527,25 @@ Namespace wsTravelTalk
 
                     StartCounter = Now
                     strResponse = DecodeLowFarePlus(strResponse, ttCredential.UserID)
-                    sb.Append("Decoding = ").Append(CType(Now.Subtract(StartCounter).TotalMilliseconds, Integer))
-                    CoreLib.SendTrace(ttCredential.UserID, "Performance", sb.ToString(), "", ttProviderSystems.LogUUID)
-                    sb.Remove(0, sb.Length)
+                    CoreLib.SendTrace(ttCredential.UserID, "Performance", $"Decoding = {CType(Now.Subtract(StartCounter).TotalMilliseconds, Integer)}", "", ttProviderSystems.LogUUID)
 
-                    If ttProviderSystems.BLFile <> "" Then
+                    If Not String.IsNullOrEmpty(ttProviderSystems.BLFile) Then
                         oDoc = New XmlDocument()
                         oDoc.Load(ttProviderSystems.BLFile)
 
                         oRoot = oDoc.DocumentElement
                         oNode = oRoot.SelectSingleNode("Message[@Name='LowFare'][@Direction='Out']")
 
-                        If Not (oNode Is Nothing) Then
+                        If Not oNode Is Nothing Then
                             '  check if flights from or to country to eliminate
-                            Dim oBLNode As XmlNode
-                            sb.Append("NoCountry[@Name='Amadeus'][@System='").Append(ttProviderSystems.System).Append("'][@PCC='").Append(ttProviderSystems.PCC).Append("']")
-                            oBLNode = oNode.SelectSingleNode(sb.ToString())
-                            sb.Remove(0, sb.Length)
-
-                            If Not (oBLNode Is Nothing) Then
-                                sb.Append(modCore.XslPath).Append("BL\")
+                            Dim oBLNode As XmlNode = oNode.SelectSingleNode($"NoCountry[@Name='Amadeus'][@System='{ttProviderSystems.System}'][@PCC='{ttProviderSystems.PCC}']")
+                            If Not oBLNode Is Nothing Then
                                 Dim strBusiness As String = oBLNode.OuterXml
-                                Dim sb1 As New StringBuilder()
-                                If strResponse.IndexOf("<Success />") <> -1 OrElse strResponse.IndexOf("<Success></Success>") <> -1 Then
-                                    sb1.Append(strBusiness).Append("<Success />")
-                                    strResponse = strResponse.Replace("<Success />", sb1.ToString())
-                                    sb1.Remove(0, sb.Length)
-                                    sb1.Append(strBusiness).Append("<Success></Success>")
-                                    strResponse = strResponse.Replace("<Success></Success>", sb1.ToString())
-                                    sb1.Remove(0, sb.Length)
-                                    strResponse = CoreLib.TransformXML(strResponse, sb.ToString(), "BL_LowFareNoCountryRS.xsl", False)
+                                If strResponse.IndexOf("<Success/>") <> -1 OrElse strResponse.IndexOf("<Success></Success>") <> -1 Then
+                                    strResponse = strResponse.Replace("<Success/>", $"{strBusiness}<Success/>")
+                                    strResponse = strResponse.Replace("<Success></Success>", $"{strBusiness}<Success></Success>")
+                                    strResponse = CoreLib.TransformXML(strResponse, $"{modCore.XslPath}BL\", "BL_LowFareNoCountryRS.xsl", False)
                                 End If
-                                sb1 = Nothing
-
-                                sb.Remove(0, sb.Length)
                             End If
                         End If
                     End If
@@ -805,31 +583,23 @@ Namespace wsTravelTalk
         <WebMethod(Description:="Process Low Fare Messages Request.")>
         <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmLowFarePlus(ByVal OTA_AirLowFareSearchPlusRQ As wmLowFarePlusIn.OTA_AirLowFareSearchPlusRQ) As <XmlElementAttribute("OTA_AirLowFareSearchPlusRS")> wmLowFarePlusOut.OTA_AirLowFareSearchPlusRS
-
-            Dim xmlMessage As String = ""
-            Dim oLowFarePlusRS As wmLowFarePlusOut.OTA_AirLowFareSearchPlusRS = Nothing
-            Dim oSerializer As XmlSerializer = Nothing
-            Dim oWriter As System.IO.StringWriter = Nothing
-            Dim oReader As System.IO.StringReader = Nothing
-
-            oSerializer = New XmlSerializer(GetType(wmLowFarePlusIn.OTA_AirLowFareSearchPlusRQ))
-
-            oWriter = New System.IO.StringWriter(New System.Text.StringBuilder)
+            Dim oSerializer As New XmlSerializer(GetType(wmLowFarePlusIn.OTA_AirLowFareSearchPlusRQ))
+            Dim oWriter As New System.IO.StringWriter(New System.Text.StringBuilder)
             oSerializer.Serialize(oWriter, OTA_AirLowFareSearchPlusRQ)
-            xmlMessage = oWriter.ToString
+            Dim xmlMessage As String = oWriter.ToString
             xmlMessage = xmlMessage.Replace(" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""", "")
-
             xmlMessage = ServiceRequest(xmlMessage, ttServices.LowFarePlus)
+            Dim oLowFarePlusRS As wmLowFarePlusOut.OTA_AirLowFareSearchPlusRS
 
             Try
                 oSerializer = Nothing
                 oSerializer = New XmlSerializer(type:=GetType(wmLowFarePlusOut.OTA_AirLowFareSearchPlusRS))
-                oReader = New System.IO.StringReader(xmlMessage)
+                Dim oReader As New System.IO.StringReader(xmlMessage)
                 oLowFarePlusRS = CType(oSerializer.Deserialize(oReader), wmLowFarePlusOut.OTA_AirLowFareSearchPlusRS)
             Catch ex As Exception
                 CoreLib.SendTrace("", "wsLowFarePlus", "Error Deserialing OTA Response", ex.Message, String.Empty)
-                xmlMessage = "<OTA_AirLowFareSearchPlusRS Version=""1.001""><Errors><Error>" & ex.InnerException.ToString() & "</Error></Errors></OTA_AirLowFareSearchPlusRS>"
-                oReader = New System.IO.StringReader(xmlMessage)
+                xmlMessage = "<OTA_AirLowFareSearchPlusRS Version="" 1.001""><Errors><Error>" & ex.InnerException.ToString() & "</Error></Errors></OTA_AirLowFareSearchPlusRS>"
+                Dim oReader As New System.IO.StringReader(xmlMessage)
                 oLowFarePlusRS = CType(oSerializer.Deserialize(oReader), wmLowFarePlusOut.OTA_AirLowFareSearchPlusRS)
             End Try
 
