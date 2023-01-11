@@ -5,6 +5,7 @@ xsltc /settings:document+,script+ %~1%
 
 xcopy "*.dll"  "..\..\TripXMLMain\Xsl\Travelport"  /c /d /i /y
 xcopy "%id%.dll"  "..\..\wsTripXML\Xsl\Travelport"  /c /d /i /y
+xcopy "%id%.dll"  "..\..\wsTripXML\bin"  /c /d /i /y
 xcopy "*.dll"  "C:\TripXML\Xsl\Travelport"  /c /d /i /y
 
 del "*.dll" 
