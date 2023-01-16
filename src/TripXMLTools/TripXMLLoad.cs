@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
-using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
-using System.Runtime.Caching;
+using System.Net.Http;
+using System.Text;
 using System.Web.Configuration;
 using System.Xml.Linq;
 using static TripXMLMain.modCore;
@@ -15,7 +16,7 @@ namespace TripXMLTools
         public static List<Txuser> UsersObject { get; set; }
         private static string Requestor { get; set; }
         public static Decoding DecodingTables { get; set; }
-        private static RestClient _restClient => new RestClient(WebConfigurationManager.AppSettings["HasuraEndpoint"]);
+        
         public static void TripXMLLoadObject()
         {
             if (UsersObject == null)
@@ -30,15 +31,11 @@ namespace TripXMLTools
             {
                 throw new ArgumentNullException(nameof(rqObject));
             }
+            
+            var body = JsonConvert.SerializeObject(rqObject);
+            var _response = GetServerData($"{WebConfigurationManager.AppSettings["HasuraEndpoint"]}/tripxmlload", body);
 
-            var request = new RestRequest("tripxmlload");
-            request.AddJsonBody(rqObject);
-
-            var response = _restClient.AddDefaultHeader("x-hasura-admin-secret", WebConfigurationManager.AppSettings["HasuraKey"]).Post(request);
-            if (response.ErrorMessage != null)
-                throw new Exception(response.ErrorMessage);
-
-            var providers = JsonConvert.DeserializeObject<TripXMLProviderDTO>(response.Content);
+            var providers = JsonConvert.DeserializeObject<TripXMLProviderDTO>(_response);
 
             if (providers != null)
             {
@@ -53,16 +50,38 @@ namespace TripXMLTools
         {
             if (DecodingTables == null)
             {
-                var client = _restClient;
-                var request = new RestRequest("decoding");
+                var _response = GetServerData($"{WebConfigurationManager.AppSettings["HasuraEndpoint"]}/decoding");
+                var decoded = JsonConvert.DeserializeObject<Decoding>(_response);                
 
-                var response = client.AddDefaultHeader("x-hasura-admin-secret", WebConfigurationManager.AppSettings["HasuraKey"]).Get<Decoding>(request);
-                if (response.ErrorMessage != null)
-                    throw new Exception(response.ErrorMessage);
-
-                DecodingTables = client.Get<Decoding>(request).Data;
+                DecodingTables = decoded;
             }
         }
+
+        private static string GetServerData(string url, string body = "")
+        {
+            try
+            {
+                var hasuraKey = WebConfigurationManager.AppSettings["HasuraKey"];
+
+                var client = new HttpClient();
+                var request = string.IsNullOrEmpty(body) ? new HttpRequestMessage(HttpMethod.Get, url) : new HttpRequestMessage(HttpMethod.Post, url);
+                request.Headers.Add("x-hasura-admin-secret", hasuraKey);
+
+                if (!string.IsNullOrEmpty(body))
+                    request.Content = new StringContent(body, Encoding.UTF8, "application/json");
+
+                var response = client.SendAsync(request);
+                var _response = response.Result.Content.ReadAsStringAsync().Result;
+
+                return _response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+        }
+
         public static TravelTalkCredential GetTravelTalkCredential(string strRequest, int id)
         {
             if (UsersObject == null)
