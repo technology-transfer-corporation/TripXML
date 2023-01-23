@@ -859,7 +859,6 @@
               </xsl:if>
             </xsl:if>
           </Psgr>
-
         </xsl:for-each>
       </xsl:when>
     </xsl:choose>

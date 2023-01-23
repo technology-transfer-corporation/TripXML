@@ -6,7 +6,8 @@
    Date: 30 Nov 2022 - Samokhvalov - Fixed Price node.
    Date: 30 Nov 2022 - Samokhvalov - Fixed Brand Fares w/MarkUp.
    Date: 25 May 2022 - Samokhvalov - Fixed FareBasis (truncation to 8 chars removed).
-   Date: 18 May 2022 - Kobelev - Fixed Ticket Designator in RePrice request (According to Irina, regardless if Discount is 0 still have to pass Ticket Desgnator as Discount).
+   Date: 18 May 2022 - Kobelev - Fixed Ticket Designator in RePrice request 
+   (According to Irina, regardless if Discount is 0 still have to pass Ticket Desgnator as Discount).
    Date: 17 May 2022 - Kobelev - Added Tour Code to RePrice request.
    Date: 09 May 2022 - Samokhvalov - Grouped ItineraryOptions/SegmentSelect
    Date: 15 Feb 2022 - Kobelev - *ZZ + Ticket Designator and FareBases with Passanger association. Amount equivalent Sabre host command: WPQY/AD75/DA100.00‡N1.1-3.1
@@ -39,7 +40,6 @@
 	<xsl:key name="storedFareByFF" match="StoredFare" use="BrandedFares/FareFamily"/>
 	<xsl:key name="storedFareByPTC" match="StoredFare" use="PassengerType/@Code"/>
 	<xsl:key name="fbcBysf" match="FareSegments" use="AirSegments/text()"/>
-
 	<xsl:key name="nameDistinct" match="AA[@Aattr = 'xyz1']/BB" use="@bAttr2"/>
 
 	<xsl:template match="/">
@@ -87,7 +87,8 @@
 		<Price>
 			<xsl:choose>
 				<!-- count(StoredFare/TicketDesignator)=count(StoredFare) and  -->
-				<!--<xsl:when test="count(StoredFare/FareSegments) = 0">
+				<!--
+				<xsl:when test="count(StoredFare/FareSegments) = 0">
 					<OTA_AirPriceRQ Version="2.17.0" xmlns="http://webservices.sabre.com/sabreXML/2011/10">
 						<PriceRequestInformation>
 							<xsl:variable name="sf" select="@StoreFare"/>
@@ -221,7 +222,9 @@
 							</OptionalQualifiers>
 						</PriceRequestInformation>
 					</OTA_AirPriceRQ>
-				</xsl:when>-->
+				</xsl:when>
+				-->
+				
 				<xsl:when test="StoredFare/FareSegments">
 					<xsl:for-each select="StoredFare[generate-id() = generate-id(key('storedFareByPTC', PassengerType/@Code)[1])]">
 						<xsl:apply-templates select="." mode="SmartPricingAll" />
@@ -563,7 +566,7 @@
 		</OTA_AirPriceRQ>
 	</xsl:template>
 
-	<!--
+<!--
 **********************************************
   Branded Fares
 **********************************************
