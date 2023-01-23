@@ -139,9 +139,9 @@ namespace Travelport
         {
             string response;
             DateTime RequestTime = DateTime.Now;
-            //*****************************************************************
-            // Transform OTA PNRReprice Request into Native Travelport Request     *
-            //***************************************************************** 
+            //******************************************************************
+            // Transform OTA PNRReprice Request into Native Travelport Request * 
+            //****************************************************************** 
             var oDoc = new XmlDocument();
             try
             {
@@ -161,6 +161,8 @@ namespace Travelport
                 var recordLocator = oRoot.SelectSingleNode("UniqueID/@ID") != null
                     ? oRoot.SelectSingleNode("UniqueID/@ID").Value
                     : string.Empty;
+
+                var isPricePublished = Request.Contains(" FareType=\"Published\" ");
 
                 if (oRoot.HasAttribute("Target"))
                 {
@@ -205,19 +207,18 @@ namespace Travelport
                         // store new pricing in UR
                         var modRQ = strRequest.Replace("</OTA_PNRRepriceRQ>", $"<NewPrice>{airRS}</NewPrice></OTA_PNRRepriceRQ>");
                         modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Current Price RQ", modRQ, ProviderSystems.LogUUID);
                         var modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
                         strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
 
-                        //if (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0 && oRoot.SelectNodes("StoredFare[@FareType='Private']").Count > 0)
-                        //{
-                        //    modRQ = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{modRS}</Response></OTA_PNRRepriceRQ>").Replace("</OTA_PNRRepriceRQ>", $"<UpdatePrice>{airRS}</UpdatePrice></OTA_PNRRepriceRQ>");
-                        //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "UpdatePrice RQ", modRQ, ProviderSystems.LogUUID);
-                        //    modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
-                        //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Store Price RS", modRQ, ProviderSystems.LogUUID);
-                        //    modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-                        //    strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
-                        //}
+                        if (isPricePublished && (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0 && oRoot.SelectNodes("StoredFare[@FareType='Published']").Count > 0))
+                        {
+                            modRQ = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{modRS}</Response></OTA_PNRRepriceRQ>").Replace("</OTA_PNRRepriceRQ>", $"<UpdatePrice>{airRS}</UpdatePrice></OTA_PNRRepriceRQ>");
+                            CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "UpdatePrice RQ", modRQ, ProviderSystems.LogUUID);
+                            modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
+                            CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Store Price RS", modRQ, ProviderSystems.LogUUID);
+                            modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                            strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
+                        }
                     }
                 }
 
