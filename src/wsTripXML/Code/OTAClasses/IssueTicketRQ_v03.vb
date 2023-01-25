@@ -190,8 +190,11 @@ Namespace wsTravelTalk.wmIssueTicketIn_v03
     End Class
 
     '<remarks/>
-    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)> _
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
     Public Class Ticketing
+
+        '<remarks/>
+        Public TicketDesignator As String
 
         '<remarks/>
         Public OtherPrinter As String
@@ -200,7 +203,7 @@ Namespace wsTravelTalk.wmIssueTicketIn_v03
         Public StockRange As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlElementAttribute("FareNumber")> _
+        <System.Xml.Serialization.XmlElementAttribute("FareNumber")>
         Public FareNumber() As Integer
 
         '<remarks/>
@@ -216,37 +219,37 @@ Namespace wsTravelTalk.wmIssueTicketIn_v03
         Public Commission As Commission
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute(), _
-         System.ComponentModel.DefaultValueAttribute(False)> _
+        <System.Xml.Serialization.XmlAttributeAttribute(),
+         System.ComponentModel.DefaultValueAttribute(False)>
         Public BoardingPass As Boolean = False
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public TravelerRefNumberRPHList As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public FlightRefNumberRPHList As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute(), _
-         System.ComponentModel.DefaultValueAttribute(False)> _
+        <System.Xml.Serialization.XmlAttributeAttribute(),
+         System.ComponentModel.DefaultValueAttribute(False)>
         Public InfantOnly As Boolean = False
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public TicketType As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public IssueMCO As Boolean = False
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public IssueInvoice As Boolean = False
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public IssueItinerary As Boolean = False
     End Class
 
