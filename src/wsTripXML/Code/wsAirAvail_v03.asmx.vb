@@ -4,6 +4,7 @@ Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports System.Threading
 Imports TripXMLMain.modCore
+Imports TripXMLTools.TripXMLLoad
 
 Namespace wsTravelTalk
 
@@ -54,9 +55,6 @@ Namespace wsTravelTalk
         Private Function DecodeAirAvail(ByVal strResponse As String, ByVal UserID As String) As String
             Dim oDoc As XmlDocument = Nothing
             Dim oRoot As XmlElement = Nothing
-            Dim ttAirports As DataView
-            Dim ttAirlines As DataView
-            Dim ttEquipments As DataView
             Dim oNode As XmlNode = Nothing
 
             Try
@@ -65,32 +63,28 @@ Namespace wsTravelTalk
                 oDoc.LoadXml(strResponse)
                 oRoot = oDoc.DocumentElement
 
-                ttAirports = CType(Application.Get("ttAirports"), DataView)
-                ttAirlines = CType(Application.Get("ttAirlines"), DataView)
-                ttEquipments = CType(Application.Get("ttEquipments"), DataView)
-
                 For Each oNode In oRoot.SelectNodes("OriginDestinationOptions/OriginDestinationOption/FlightSegment")
                     ' *******************
                     ' Decode Airports   *
                     ' *******************
-                    oNode.SelectSingleNode("DepartureAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
-                    oNode.SelectSingleNode("ArrivalAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                    oNode.SelectSingleNode("DepartureAirport").InnerText = DecodeValue(DecodingType.Airport, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                    oNode.SelectSingleNode("ArrivalAirport").InnerText = DecodeValue(DecodingType.Airport, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
 
                     ' *******************
                     ' Decode Airlines   *
                     ' *******************
                     If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
-                        oNode.SelectSingleNode("OperatingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                        oNode.SelectSingleNode("OperatingAirline").InnerText = DecodeValue(DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
                     End If
                     If Not oNode.SelectSingleNode("MarketingAirline") Is Nothing Then
-                        oNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                        oNode.SelectSingleNode("MarketingAirline").InnerText = DecodeValue(DecodingType.Airline, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                     End If
 
                     ' *******************
                     ' Decode Equipments *
                     ' *******************
                     If Not oNode.SelectSingleNode("Equipment") Is Nothing Then
-                        oNode.SelectSingleNode("Equipment").InnerText = GetDecodeValue(ttEquipments, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                        oNode.SelectSingleNode("Equipment").InnerText = DecodeValue(DecodingType.Equipment, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
                     End If
                 Next
 
@@ -167,7 +161,7 @@ Namespace wsTravelTalk
                 'Dim oTime As String = oDate.Substring(oDate.IndexOf("T") + 1, 8).ToString
                 Dim oTime As String = oDate.Substring(oDate.IndexOf("T"), oDate.Length - oDate.IndexOf("T")).ToString
 
-                PreServiceRequestPool(strRequest, Application, ttCredential, StartTime, ttServiceID, Server.MachineName, UUID)
+                PreServiceRequestPool(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
                 ValidateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
                 sb.Remove(0, sb.Length())
 

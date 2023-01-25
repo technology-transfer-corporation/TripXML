@@ -214,11 +214,10 @@ Namespace wsTravelTalk
             Dim xmlMessage As String = oWriter.ToString
             xmlMessage = xmlMessage.Replace(" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""", "")
 
-            Dim ipAddress As String
-            ipAddress = Me.Context.Request.UserHostAddress
+            Dim ipAddress As String = Me.Context.Request.UserHostAddress
 
-            If xmlMessage.IndexOf("</Remarks>") <> -1 And xmlMessage.IndexOf("ATL1S2157") <> -1 Then
-                xmlMessage = xmlMessage.Replace("</Remarks>", "<Remark>*PR*** TRAVEL SITE IP " + ipAddress + "</Remark></Remarks>")
+            If xmlMessage.Contains("</Remarks>") And xmlMessage.Contains("ATL1S2157") Then
+                xmlMessage = xmlMessage.Replace("</Remarks>", $"<Remark>*PR*** TRAVEL SITE IP {ipAddress}</Remark></Remarks>")
             End If
 
             xmlMessage = ServiceRequest(xmlMessage, ttServices.TravelBuild)

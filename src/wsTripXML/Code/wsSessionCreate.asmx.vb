@@ -57,8 +57,8 @@ Namespace wsTravelTalk
 #Region " Process Service Request All GDS "
         Private sb As StringBuilder = New StringBuilder()
 
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
-            Dim strResponse As String
+        Private Function ServiceRequest(ByVal request As String, ByVal ttServiceID As Integer) As String
+            Dim response As String
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
             Dim validateXSDOut As Boolean
@@ -68,7 +68,7 @@ Namespace wsTravelTalk
             Try
                 startTime = Now
 
-                PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, startTime, ttServiceID, Server.MachineName, uuid)
+                PreServiceRequest(request, Application, ttCredential, ttProviderSystems, startTime, ttServiceID, Server.MachineName, uuid)
                 validateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
                 sb.Remove(0, sb.Length())
                 ttProviderSystems.LogUUID = uuid
@@ -76,16 +76,14 @@ Namespace wsTravelTalk
                 Select Case ttCredential.Providers(0).Name
                     Case "AmadeusWS"
 
-                        strResponse = SendOtherRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendOtherRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, request)
 
                     Case "Apollo", "Galileo"
 
-                        strResponse = SendOtherRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendOtherRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, request)
 
                     Case "Sabre"
 
-                        'ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
-                        'ttProviderSystems.LogUUID = UUID
                         sb.Remove(0, sb.Length())
                         If ttProviderSystems.System Is Nothing Then
                             FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers(0).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers(0).Name)
@@ -93,16 +91,15 @@ Namespace wsTravelTalk
                             Exit Select
                         End If
 
-                        ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
-                        strResponse = SendOtherRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendOtherRequestSabre(ttServiceID, ttCredential, ttProviderSystems, request)
 
                     Case "Worldspan"
 
-                        strResponse = SendOtherRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendOtherRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, request)
 
                     Case "Travelport"
 
-                        strResponse = SendOtherRequestTravelport(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+                        response = SendOtherRequestTravelport(ttServiceID, ttCredential, ttProviderSystems, request)
 
                     Case Else
                         Throw New Exception(sb.Append("Provider ").Append(ttCredential.Providers(0).Name).Append(" Not Currently Supported.").ToString())
@@ -110,16 +107,26 @@ Namespace wsTravelTalk
 
                 ' DecodeSessionCreate(strResponse) Not Implemented.
 
-                PostServiceRequest(strResponse, validateXSDOut, ttServiceID, ttCredential.UserID)
+                PostServiceRequest(response, validateXSDOut, ttServiceID, ttCredential.UserID)
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(ttServiceID, ex.Message, ttProviderSystems)
+                Dim msgError As String = $"{ex.Message}"
+                If Not ex.InnerException Is Nothing Then
+                    msgError += $"{vbNewLine}{ex.InnerException.Message}"
+                    If Not ex.InnerException.InnerException Is Nothing Then
+                        msgError += $"{vbNewLine}{ex.InnerException.InnerException.Message}"
+                        If Not ex.InnerException.InnerException.InnerException Is Nothing Then
+                            msgError += $"{vbNewLine}{ex.InnerException.InnerException.InnerException.Message}"
+                        End If
+                    End If
+                End If
+                response = FormatErrorMessage(ttServiceID, msgError, ttProviderSystems)
             Finally
-                LogResponse(strResponse, ttCredential, startTime, ttServiceID, Server.MachineName, uuid)
-                If Trace Then CoreLib.SendTrace(ttCredential.UserID, "wsSessionCreate", "============= OTA Response ============= ", strResponse, ttProviderSystems.LogUUID)
+                LogResponse(response, ttCredential, startTime, ttServiceID, Server.MachineName, uuid)
+                If Trace Then CoreLib.SendTrace(ttCredential.UserID, "wsSessionCreate", "============= OTA Response ============= ", response, ttProviderSystems.LogUUID)
             End Try
             sb = Nothing
-            Return strResponse
+            Return response
 
         End Function
 
@@ -157,7 +164,7 @@ Namespace wsTravelTalk
 
         End Function
 
-        <WebMethod(Description:="Process Session Create Xml Messages Request.")> _
+        <WebMethod(Description:="Process Session Create Xml Messages Request.")>
         Public Function wmSessionCreateXml(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.CreateSession)
         End Function

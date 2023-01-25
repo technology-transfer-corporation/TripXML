@@ -49,6 +49,18 @@ Namespace wsTravelTalk
         <System.Xml.Serialization.XmlAttributeAttribute()>
         Public ID As String
 
+        '<remarks/>
+        <System.Xml.Serialization.XmlAttributeAttribute(DataType:="anyURI")>
+        Public URL As String
+
+        '<remarks/>
+        <System.Xml.Serialization.XmlAttributeAttribute()>
+        Public Type As String
+
+        '<remarks/>
+        <System.Xml.Serialization.XmlAttributeAttribute()>
+        Public Instance As String
+
     End Class
 
     '<remarks/>
