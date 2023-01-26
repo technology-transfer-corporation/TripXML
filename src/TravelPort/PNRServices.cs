@@ -129,7 +129,7 @@ namespace Travelport
             }
             catch (Exception exx)
             {
-                AddLog($"<M>{Request}<BL/>", ProviderSystems.UserID);
+                AddLog($"<M>{Request}<BL/>", ProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, exx.Message, ProviderSystems);
             }
             return strResponse;
@@ -137,11 +137,11 @@ namespace Travelport
 
         public string PNRReprice()
         {
-            string strResponse;
+            string response;
             DateTime RequestTime = DateTime.Now;
-            //*****************************************************************
-            // Transform OTA PNRReprice Request into Native Travelport Request     *
-            //***************************************************************** 
+            //******************************************************************
+            // Transform OTA PNRReprice Request into Native Travelport Request * 
+            //****************************************************************** 
             var oDoc = new XmlDocument();
             try
             {
@@ -162,6 +162,8 @@ namespace Travelport
                     ? oRoot.SelectSingleNode("UniqueID/@ID").Value
                     : string.Empty;
 
+                var isPricePublished = Request.Contains(" FareType=\"Published\" ");
+
                 if (oRoot.HasAttribute("Target"))
                 {
                     switch (oRoot.Attributes["Target"].Value)
@@ -177,25 +179,25 @@ namespace Travelport
                             break;
                     }
                 }
-                
+
                 //*******************************************************************************
                 // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                 //******************************************************************************* 
                 string strRetrieve;
-                
+
                 bool inSession = SetConversationID(ttTP);
                 //ttTP.TracerID = ConversationID;
-                
+
 
                 // send retrieve universal record (UR)                
-                strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                response = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.UniversalRecordService);
 
-                strRetrieve = strResponse;
+                strRetrieve = response;
 
-                if (strResponse.Contains("universal:UniversalRecord LocatorCode="))
+                if (response.Contains("universal:UniversalRecord LocatorCode="))
                 {
                     // create and send pricing message
-                    strRequest = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{strResponse}</Response></OTA_PNRRepriceRQ>");                    
+                    strRequest = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{response}</Response></OTA_PNRRepriceRQ>");
                     var airRQ = CoreLib.TransformXML(strRequest, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
                     var airRS = ttTP.SendMessage(airRQ, TravelPortWSAdapter.enRequestType.AirService);
                     strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{airRS}</universal:UniversalRecordRetrieveRsp>");
@@ -205,22 +207,18 @@ namespace Travelport
                         // store new pricing in UR
                         var modRQ = strRequest.Replace("</OTA_PNRRepriceRQ>", $"<NewPrice>{airRS}</NewPrice></OTA_PNRRepriceRQ>");
                         modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
-                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Current Price RQ", modRQ, ProviderSystems.LogUUID);
                         var modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
                         strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
 
-                        //TODO: We may need to0 save PNR before complititng this process.
-                        //strResponse = ttTP.SendMessage(strEndTransaction, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-
-                        //if (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0 && oRoot.SelectNodes("StoredFare[@FareType='Private']").Count > 0)
-                        //{
-                        //    modRQ = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{modRS}</Response></OTA_PNRRepriceRQ>").Replace("</OTA_PNRRepriceRQ>", $"<UpdatePrice>{airRS}</UpdatePrice></OTA_PNRRepriceRQ>");
-                        //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "UpdatePrice RQ", modRQ, ProviderSystems.LogUUID);
-                        //    modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
-                        //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Store Price RS", modRQ, ProviderSystems.LogUUID);
-                        //    modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-                        //    strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
-                        //}
+                        if (isPricePublished && (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0 && oRoot.SelectNodes("StoredFare[@FareType='Published']").Count > 0))
+                        {
+                            modRQ = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{modRS}</Response></OTA_PNRRepriceRQ>").Replace("</OTA_PNRRepriceRQ>", $"<UpdatePrice>{airRS}</UpdatePrice></OTA_PNRRepriceRQ>");
+                            CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "UpdatePrice RQ", modRQ, ProviderSystems.LogUUID);
+                            modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
+                            CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Store Price RS", modRQ, ProviderSystems.LogUUID);
+                            modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                            strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
+                        }
                     }
                 }
 
@@ -234,7 +232,7 @@ namespace Travelport
                         strRetrieve = strRetrieve.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
 
                     CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response", strRetrieve, ProviderSystems.LogUUID);
-                    strResponse = CoreLib.TransformXML(strRetrieve, XslPath, $"{Version}Travelport_PNRRepriceRS.xsl");
+                    response = CoreLib.TransformXML(strRetrieve, XslPath, $"{Version}Travelport_PNRRepriceRS.xsl");
                 }
                 catch (Exception ex)
                 {
@@ -251,9 +249,9 @@ namespace Travelport
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
             }
-            return strResponse;
+            return response;
         }
 
         public string Queue()

@@ -21,16 +21,20 @@ namespace Travelport
                     throw new Exception("Native Message is missing in the Request.");
 
                 string ConversationID = oRoot.SelectSingleNode("POS/TPA_Extensions/ConversationID").InnerText;
-                strRequest = oRoot.SelectSingleNode("Native").InnerXml;            
+                strRequest = oRoot.SelectSingleNode("Native").InnerXml;
 
-            // *******************************************************************************
-            //  Send Native Request to the Amadeus Adapter and Getting Native Response  *
-            // ******************************************************************************* 
-            var ttProviderSystems = ProviderSystems;
+                branch = !string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText)
+                        ? oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText
+                        : ProviderSystems.Profile.Text;
+
+                // *******************************************************************************
+                //  Send Native Request to the Amadeus Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+                var ttProviderSystems = ProviderSystems;
             TravelPortWSAdapter ttTP = SetAdapter(ttProviderSystems);
             bool inSession = SetConversationID(ttTP);
 
-                if (strRequest.Contains("AvailabilitySearchReq") || strRequest.Contains("AirPriceReq"))
+            if (strRequest.Contains("AvailabilitySearchReq") || strRequest.Contains("AirPriceReq"))
                 strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.AirService);
             else if (strRequest.Contains("CreateTerminalSessionReq") || strRequest.Contains("EndTerminalSessionReq") || strRequest.Contains("TerminalReq"))
                 strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.TerminalService);
@@ -96,7 +100,9 @@ namespace Travelport
                     ? ""
                     : oRoot.SelectSingleNode("POS/TPA_Extensions/ConversationID").InnerText;
 
-                branch = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
+                branch = !string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText)
+                        ? oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText
+                        : ProviderSystems.Profile.Text;
 
                 if (oRoot.HasAttribute("Target"))
                 {
@@ -158,7 +164,10 @@ namespace Travelport
                 if (!string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText))
                 { 
                     pcc = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
-                    branch = ProviderSystems.Profile.Text;
+                    
+                    branch = !string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText) 
+                        ? oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText
+                        : ProviderSystems.Profile.Text;
                 }
 
                 if (oRoot.HasAttribute("Target"))
@@ -178,8 +187,8 @@ namespace Travelport
                             host = "1G"; //GAL
                             break;
                     }
-                }                
-                           
+                }
+
                 TravelPortWSAdapter ttGA = SetAdapter(ProviderSystems);
                 // Create Session and Get Sesson Token
                 string token = ttGA.CreateTerminalSession(branch, host);
@@ -212,7 +221,9 @@ namespace Travelport
                 if (!string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText))
                 {
                     pcc = oRoot.SelectSingleNode("POS/Source/@PseudoCityCode").InnerText;
-                    branch = ProviderSystems.Profile.Text;
+                    branch = !string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText)
+                        ? oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText
+                        : ProviderSystems.Profile.Text;
                 }
 
                 //****************************

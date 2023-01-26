@@ -65,7 +65,7 @@ namespace Travelport
             CoreLib.SendTrace(userID, "ttGalileoService", "Record Locator", recordLocator, string.Empty);
             return recordLocator;
         }
-        
+
         protected string FormatTravelport(string strDisplay, string id = "")
         {
             string display = "";
@@ -107,7 +107,7 @@ namespace Travelport
                     if (oNodeSPL == null)
                     {
                         var oElem = otaElement?.GetElementsByTagName("ConversationID");
-                        oNodeSPL = oElem is {  Count: > 0 } ? oElem[0] : null;
+                        oNodeSPL = oElem is { Count: > 0 } ? oElem[0] : null;
                     }
 
                     if (oNodeSPL != null)
@@ -166,7 +166,7 @@ namespace Travelport
                     }
 
                     return true;
-                }               
+                }
 
                 return false;
             }
@@ -209,7 +209,7 @@ namespace Travelport
                 TimeSpan dur;
                 dur = responseTime - requestTime;
                 string strLine = $"<Message Type=\'{msgType}\' RequestTime=\'{requestTime.ToString("dd MMM yyyy HH:mm:ss")}\' ResponseTime=\'{responseTime.ToString("dd MMM yyyy HH:mm:ss")}\' Duration=\'{dur.TotalSeconds}\'><GalileoMessage>{message}</GalileoMessage></Message>";
-                AddLog(strLine, ProviderSystems.UserID);
+                AddLog(strLine, ProviderSystems);
             }
             catch (Exception ex)
             {
@@ -217,41 +217,42 @@ namespace Travelport
             }
         }
 
-        public static void AddLog(string msg, string username)
+        public static void AddLog(string msg, modCore.TripXMLProviderSystems provider)
         {
             try
             {
-                string filePath = $"log\\{username}_{DateTime.Today:dd-MM-yyyy}";
-                string dirPath = ConfigurationManager.AppSettings["TripXMLLogFolder"]; //"C:\\TripXML\\log"
-                filePath = $"{dirPath}\\{filePath}.txt";
+                modCore.AddLog(modCore.LogType.Info, msg, provider);
+                //string filePath = $"log\\{username}_{DateTime.Today:dd-MM-yyyy}";
+                //string dirPath = ConfigurationManager.AppSettings["TripXMLLogFolder"]; //"C:\\TripXML\\log"
+                //filePath = $"{dirPath}\\{filePath}.txt";
 
-                FileInfo ffInfo = new FileInfo(filePath);
+                //FileInfo ffInfo = new FileInfo(filePath);
 
-                if (ffInfo.Directory is { Exists: false })
-                {
-                    ffInfo.Directory.Create();
-                }
+                //if (ffInfo.Directory is { Exists: false })
+                //{
+                //    ffInfo.Directory.Create();
+                //}
 
-                if (!ffInfo.Exists)
-                {
-                    using StreamWriter sw = ffInfo.CreateText();
-                    sw.WriteLine("created On - {0}\r\n", DateTime.Now);
-                    sw.Flush();
-                    sw.Close();
-                }
+                //if (!ffInfo.Exists)
+                //{
+                //    using StreamWriter sw = ffInfo.CreateText();
+                //    sw.WriteLine("created On - {0}\r\n", DateTime.Now);
+                //    sw.Flush();
+                //    sw.Close();
+                //}
 
-                using (StreamWriter sw = ffInfo.AppendText())
-                {
-                    DateTimeFormatInfo myDtfi = new CultureInfo("en-US", true).DateTimeFormat;
+                //using (StreamWriter sw = ffInfo.AppendText())
+                //{
+                //    DateTimeFormatInfo myDtfi = new CultureInfo("en-US", true).DateTimeFormat;
 
-                    sw.WriteLine($"{DateTime.UtcNow.ToString(myDtfi).Substring(11)} GMT - {msg}\r\n");
-                    sw.Flush();
-                    sw.Close();
-                }
+                //    sw.WriteLine($"{DateTime.UtcNow.ToString(myDtfi).Substring(11)} GMT - {msg}\r\n");
+                //    sw.Flush();
+                //    sw.Close();
+                //}
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error adding line to Log.\r\n{ex.Message}");
+                throw new Exception($"Error adding line to Log.", ex);
             }
         }
     }
