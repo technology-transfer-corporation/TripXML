@@ -17,12 +17,12 @@ namespace Worldspan
             try
             {
                 var tripXmlProviderSystems = ProviderSystems;
-                tripXmlProviderSystems.Profile = ProviderSystems.ProfileCryptic;
-                WorldspanAdapter ttWA = SetAdapter(tripXmlProviderSystems); //= new WorldspanAdapter(ProviderSystems);
+                //tripXmlProviderSystems.Profile = ProviderSystems.Profile.Cryptic;
+                WorldspanAdapter ttWA = SetAdapter(tripXmlProviderSystems, modCore.ProfileType.Cryptic); //= new WorldspanAdapter(ProviderSystems);
                 // Create Session and Get Sesson SessionID
                 ttWA.CreateSession();
                 // Build Response.
-                var strResponse = "<SessionCreateRS Version='1.001'><Success/>" + 
+                var strResponse = "<SessionCreateRS Version='1.001'><Success/>" +
                                   $"<ConversationID>{ttWA.ConversationID}</ConversationID></SessionCreateRS>";
                 return strResponse;
             }
@@ -61,8 +61,8 @@ namespace Worldspan
             try
             {
                 var tripXmlProviderSystems = ProviderSystems;
-                tripXmlProviderSystems.Profile = ProviderSystems.ProfileCryptic;
-                var ttWA = new WorldspanAdapter(tripXmlProviderSystems) { ConversationID = sessionID };
+                //tripXmlProviderSystems.Profile = ProviderSystems.Profile.Cryptic;
+                var ttWA = new WorldspanAdapter(tripXmlProviderSystems, modCore.ProfileType.Cryptic) { ConversationID = sessionID };
                 var strResponse = ttWA.CloseSession();
                 if (!strResponse.Contains("ERROR"))
                 {
@@ -86,7 +86,7 @@ namespace Worldspan
         public string Cryptic()
         {
             string strResponse;
-            
+
             // *********************
             // Get ConversationID *
             // *********************
@@ -94,7 +94,7 @@ namespace Worldspan
             try
             {
                 string strRequest = SetRequest("Worldspan_CrypticRQ.xsl");
-                
+
                 // *********************************************************
                 // Transform Cryptic Request into Native Worldspan Request  *
                 // *********************************************************
@@ -105,12 +105,12 @@ namespace Worldspan
                 // Send Transformed Request to the Worldspan Adapter and Getting Native Response   *
                 // ******************************************************************************** 
 
-                
-                tripXmlProviderSystems.Profile = ProviderSystems.ProfileCryptic;
-                var ttWA = SetAdapter(tripXmlProviderSystems);
+
+                //tripXmlProviderSystems.Profile = ProviderSystems.Profile.Cryptic;
+                var ttWA = SetAdapter(tripXmlProviderSystems, modCore.ProfileType.Cryptic);
                 bool inSession = SetConversationID(ttWA);
 
-                strResponse = ttWA.SendMessage(strRequest);                
+                strResponse = ttWA.SendMessage(strRequest);
 
                 // ********************************************************************************
                 // parse the response and create screen with lines                               *
@@ -129,7 +129,7 @@ namespace Worldspan
                     var strToReplace = "</CrypticRS>";
                     if (inSession)
                         strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
-                    
+
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Worldspan_CrypticRS.xsl");
                 }
                 catch (Exception ex)
@@ -166,7 +166,7 @@ namespace Worldspan
                 // *******************************************************************************
                 // Send Transformed Request to the Worldspan Adapter and Getting Native Response  *
                 // ******************************************************************************* 
-                
+
                 var ttWA = SetAdapter(ProviderSystems);
                 bool inSession = SetConversationID(ttWA);
                 strResponse = ttWA.SendMessage(strRequest);
