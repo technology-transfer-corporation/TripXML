@@ -3,6 +3,7 @@ using TripXMLMain;
 using System.Text;
 using System;
 using System.Globalization;
+using static TripXMLMain.modCore.enAmadeusWSSchema;
 
 namespace AmadeusWS
 {
@@ -104,15 +105,10 @@ namespace AmadeusWS
                 DateTime responseTime = DateTime.Now;
                 string strMessage = sbNativeLog.ToString();
                 sbNativeLog.Clear();
-
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("CreateVirtualCard", ref strMessage, requestTime, responseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strFinalResponse = modCore.FormatErrorMessage(modCore.ttServices.GenerateVirtualCard, exx.Message, ttProviderSystems, strRecLocator);
             }
 
@@ -365,15 +361,10 @@ namespace AmadeusWS
                 DateTime responseTime = DateTime.Now;
                 string strMessage = sbNativeLog.ToString();
                 sbNativeLog.Clear();
-
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("VCC Cancel", ref strMessage, requestTime, responseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.CancelVirtualCardLoad, exx.Message, ttProviderSystems, strRecLocator);
             }
 
@@ -541,15 +532,10 @@ namespace AmadeusWS
 
                 string strMessage = sbNativeLog.ToString();
                 sbNativeLog.Clear();
-
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("ListVirtualCards", ref strMessage, requestTime, DateTime.Now, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.ListVirtualCards, exx.Message, ttProviderSystems, strRecLocator);
             }
             
@@ -667,7 +653,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.ScheduleVirtualCardLoad, ex.Message, ttProviderSystems);
             }
             return strResponse;
@@ -709,7 +695,7 @@ namespace AmadeusWS
                         // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                         strResponse = strRequest.Contains("Command_Cryptic")
                                 ? SendCommandCryptically(ttAA, strRequest)
-                                : SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema.QueueMode_ProcessQueue, ttProviderSystems.AmadeusWSSchema.QueueMode_ProcessQueueReply);
+                                : SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema[QueueMode_ProcessQueue], ttProviderSystems.AmadeusWSSchema[QueueMode_ProcessQueueReply]);
 
 
                         if (strResponse.Contains("|Session|"))
@@ -718,7 +704,7 @@ namespace AmadeusWS
                             //Try update SessionID and reRun previos command.
                             strResponse = strRequest.Contains("Command_Cryptic")
                                 ? SendCommandCryptically(ttAA, strRequest)
-                                : SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema.QueueMode_ProcessQueue, ttProviderSystems.AmadeusWSSchema.QueueMode_ProcessQueueReply);
+                                : SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema[QueueMode_ProcessQueue], ttProviderSystems.AmadeusWSSchema[QueueMode_ProcessQueueReply]);
                         }
                     }
 
@@ -856,7 +842,7 @@ namespace AmadeusWS
                 }
                 catch (Exception ex)
                 {
-                    addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                    addLog($"<M>{Request}<BL/>", ttProviderSystems);
                     Console.WriteLine(ex.Message);
                     throw;
                 }
@@ -871,7 +857,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.UpdateVirtualCard, ex.Message, ttProviderSystems, "");
             }
             return strResponse;

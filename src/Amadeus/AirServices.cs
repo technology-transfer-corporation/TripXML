@@ -6,6 +6,7 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections.Generic;
+using static TripXMLMain.modCore.enAmadeusWSSchema;
 
 namespace AmadeusWS
 {
@@ -266,13 +267,11 @@ namespace AmadeusWS
                 }
 
                 DateTime responseTime = DateTime.Now;
-                if (ttProviderSystems.LogNative)
-                    TripXMLTools.TripXMLLog.LogMessage("LowFarePlus", ref strMessage, RequestTime, responseTime, "Native", ttProviderSystems.Provider.ToString(), ttProviderSystems.System.ToString(), ttProviderSystems.UserName.ToString());
             }
 
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.AirAvail, ex.Message, ttProviderSystems);
             }
 
@@ -296,7 +295,7 @@ namespace AmadeusWS
 
         public string AirFlifo()
         {
-            string strResponse = "";
+            string strResponse;
 
             var strRequest = SetRequest($"AmadeusWS_AirFlifoRQ.xsl");
 
@@ -314,7 +313,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 throw ex;
             }
 
@@ -336,7 +335,7 @@ namespace AmadeusWS
         {
             XmlElement oRoot;
             string strRequest;
-            string strResponse = "";
+            string response = "";
             string strPNRReply;
             DateTime RequestTime;
             DateTime ResponseTime;
@@ -365,30 +364,16 @@ namespace AmadeusWS
 
                 if (Version.Equals("v03_"))
                 {
-                    try
-                    {
-                        ttAA = ttProviderSystems.SessionPool ? SetAdapter("V1") : SetAdapter();
-                        inSession = SetConversationID(ttAA);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception($"Error Creating Session.\r\n{ex.Message}");
-                    }
+                    ttAA = ttProviderSystems.SessionPool ? SetAdapter("V1") : SetAdapter();
+                    inSession = SetConversationID(ttAA);
 
                     // *******************************************************************************
                     //  Get from Transformed Request and Send Fare message to the AmadeusWS Adapter  *
                     // *******************************************************************************
 
-                    try
-                    {
-                        XmlDocument oDoc = new XmlDocument();
-                        oDoc.LoadXml(strRequest);
-                        oRoot = oDoc.DocumentElement;
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception($"Error Loading Transformed Request XML Document.\r\n{ex.Message}");
-                    }
+                    XmlDocument oDoc = new XmlDocument();
+                    oDoc.LoadXml(strRequest);
+                    oRoot = oDoc.DocumentElement;
 
                     string strAddMultiElements = "";
                     string strSellFlights = "";
@@ -411,103 +396,74 @@ namespace AmadeusWS
                     // - sell flights first so if there is an error, send an ignore and exit with error
                     // - add names and then price
                     // - ignore everything to release the seats booked
-                    try
-                    {
-                        strResponse = SendAirSellFromRecommendation(ttAA, strRequest);
-                        strMessage = $"{strMessage}{strResponse}";
-                        strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_TB_Errors.xsl", false);
-                        CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSService", "strResponse", strResponse, ttProviderSystems.LogUUID);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
+                    response = SendAirSellFromRecommendation(ttAA, strRequest);
+                    strMessage = $"{strMessage}{response}";
+                    response = CoreLib.TransformXML(response, XslPath, $"{Version}AmadeusWS_TB_Errors.xsl", false);
+                    CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSService", "strResponse", response, ttProviderSystems.LogUUID);
 
                     //  Log Errors
-                    if (!strResponse.Contains("<Error"))
+                    if (!response.Contains("<Error"))
                     {
-                        try
-                        {
-                            //  Send Request
-                            strMessage = strRequest;
-                            strResponse = SendAddMultiElements(ttAA, strRequest);
+                        //  Send Request
+                        strMessage = strRequest;
+                        response = SendAddMultiElements(ttAA, strRequest);
 
-                            strPNRReply = strResponse;
-                            strMessage = $"{strMessage}{strResponse}";
-                            strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_TB_Errors.xsl", false);
-                            CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSService", "strResponse", strResponse, ttProviderSystems.LogUUID);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw ex;
-                        }
+                        strPNRReply = response;
+                        strMessage = $"{strMessage}{response}";
+                        response = CoreLib.TransformXML(response, XslPath, $"{Version}AmadeusWS_TB_Errors.xsl", false);
+                        CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSService", "strResponse", response, ttProviderSystems.LogUUID);
 
-                        if (!strResponse.Contains("<Error"))
+                        if (!response.Contains("<Error"))
                         {
                             // ************************************************************************************
                             //  Get from Transformed Request and Send FarePlus_DisplayLowestApplicableFare_Query  *
                             // ************************************************************************************
-                            try
-                            {
-                                //  Send Request
-                                strMessage = $"{strMessage}{strFarePlus}";
+                            //  Send Request
+                            strMessage = $"{strMessage}{strFarePlus}";
 
-                                strResponse = strFarePlus.StartsWith("<Fare_PricePNRWithLowerFares>")
-                                    ? SendPricePNRWithLowerFares(ttAA, strFarePlus)
-                                    : SendPricePNRWithBookingClass(ttAA, strFarePlus);
+                            response = strFarePlus.StartsWith("<Fare_PricePNRWithLowerFares>")
+                                ? SendPricePNRWithLowerFares(ttAA, strFarePlus)
+                                : SendPricePNRWithBookingClass(ttAA, strFarePlus);
 
-                                strMessage = $"{strMessage}{strResponse}";
+                            strMessage = $"{strMessage}{response}";
 
-                                // ignore everything
-                                strIgnore = SendRequestCryptically(ttAA, strIgnore);
+                            // ignore everything
+                            strIgnore = SendRequestCryptically(ttAA, strIgnore);
 
-                                //  Close Session
-                                inSession = false;
-                            }
-                            catch (Exception ex)
-                            {
-                                throw ex;
-                            }
+                            //  Close Session
+                            inSession = false;
 
                             //  *******************************************************************
                             //  Add AirTravelerAvail/PassengerTypeQuantity to AmadeusWS Response    *
                             //  *******************************************************************
-                            try
+                            strRequest = oRoot.SelectSingleNode("AirTravelerAvail").InnerXml;
+                            oDocResp = new XmlDocument();
+                            oDocResp.LoadXml(response);
+                            oRootResp = oDocResp.DocumentElement;
+                            oNodeResp = oDocResp.CreateNode(XmlNodeType.Element, "", "AirTravelerAvail", "");
+                            oNodeResp.InnerXml = strRequest;
+                            oRootResp.AppendChild(oNodeResp);
+                            strRequest = oRoot.SelectSingleNode("FlightSegments").InnerXml;
+                            oNodeResp = oDocResp.CreateNode(XmlNodeType.Element, "", "FlightSegments", "");
+                            oNodeResp.InnerXml = strRequest;
+                            oRootResp.AppendChild(oNodeResp);
+                            response = oDocResp.OuterXml;
+                            oDocResp = null;
+
+                            if (response.Contains("</Fare_PricePNRWithLowerFaresReply>"))
                             {
-                                strRequest = oRoot.SelectSingleNode("AirTravelerAvail").InnerXml;
-                                oDocResp = new XmlDocument();
-                                oDocResp.LoadXml(strResponse);
-                                oRootResp = oDocResp.DocumentElement;
-                                oNodeResp = oDocResp.CreateNode(XmlNodeType.Element, "", "AirTravelerAvail", "");
-                                oNodeResp.InnerXml = strRequest;
-                                oRootResp.AppendChild(oNodeResp);
-                                strRequest = oRoot.SelectSingleNode("FlightSegments").InnerXml;
-                                oNodeResp = oDocResp.CreateNode(XmlNodeType.Element, "", "FlightSegments", "");
-                                oNodeResp.InnerXml = strRequest;
-                                oRootResp.AppendChild(oNodeResp);
-                                strResponse = oDocResp.OuterXml;
-                                oDocResp = null;
-
-                                if (strResponse.Contains("</Fare_PricePNRWithLowerFaresReply>"))
-                                {
-                                    strPNRReply += "</Fare_PricePNRWithLowerFaresReply>";
-                                    strResponse = strResponse.Replace("</Fare_PricePNRWithLowerFaresReply>", strPNRReply);
-                                }
-                                else
-                                {
-                                    strPNRReply += "</Fare_PricePNRWithBookingClassReply>";
-                                    strResponse = strResponse.Replace("</Fare_PricePNRWithBookingClassReply>", strPNRReply);
-                                }
-
+                                strPNRReply += "</Fare_PricePNRWithLowerFaresReply>";
+                                response = response.Replace("</Fare_PricePNRWithLowerFaresReply>", strPNRReply);
                             }
-                            catch (Exception ex)
+                            else
                             {
-                                throw new Exception($"Error Loading AirTravelerAvail into Air Price Response. \r\n{ex.Message}");
+                                strPNRReply += "</Fare_PricePNRWithBookingClassReply>";
+                                response = response.Replace("</Fare_PricePNRWithBookingClassReply>", strPNRReply);
                             }
                         }
                         else
                         {
-                            strResponse = $"<PNR_Reply>{strResponse}</PNR_Reply>";
+                            response = $"<PNR_Reply>{response}</PNR_Reply>";
                         }
                     }
                     else
@@ -519,7 +475,7 @@ namespace AmadeusWS
                         strIgnore = SendRequestCryptically(ttAA, strIgnore);
 
                         //  Close Session
-                        strResponse = $"<PNR_Reply>{strResponse}</PNR_Reply>";
+                        response = $"<PNR_Reply>{response}</PNR_Reply>";
                     }
                 }
                 else
@@ -527,26 +483,12 @@ namespace AmadeusWS
                     // *******************************************************************************
                     //  Get from Transformed Request and Send Fare message to the AmadeusWS Adapter  *
                     // *******************************************************************************
-                    try
-                    {
-                        ttAA = ttProviderSystems.SessionPool ? SetAdapter("V1") : SetAdapter();
-                        ConversationID = ttProviderSystems.SessionPool ? ttAA.CheckSessionV2() : ttAA.CreateSession();
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception($"Error Creating Session.\r\n{ex.Message} ");
-                    }
+                    ttAA = ttProviderSystems.SessionPool ? SetAdapter("V1") : SetAdapter();
+                    ConversationID = ttProviderSystems.SessionPool ? ttAA.CheckSessionV2() : ttAA.CreateSession();
 
-                    try
-                    {
-                        XmlDocument oDoc = new XmlDocument();
-                        oDoc.LoadXml(strRequest);
-                        oRoot = oDoc.DocumentElement;
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception($"Error Loading Transformed Request XML Document.\r\n{ex.Message}");
-                    }
+                    XmlDocument oDoc = new XmlDocument();
+                    oDoc.LoadXml(strRequest);
+                    oRoot = oDoc.DocumentElement;
 
                     XmlNode oNode = oRoot.SelectSingleNode("Fare_InformativePricingWithoutPNR");
 
@@ -555,31 +497,24 @@ namespace AmadeusWS
 
                     strRequest = oNode.OuterXml;
 
-                    try
+                    ttAA = ttProviderSystems.SessionPool ? SetAdapter("V1") : SetAdapter();
+
+                    if (strRequest.StartsWith("<Fare_InformativePricingWithoutPNR"))
                     {
-                        ttAA = ttProviderSystems.SessionPool ? SetAdapter("V1") : SetAdapter();
-
-                        if (strRequest.StartsWith("<Fare_InformativePricingWithoutPNR"))
-                        {
-                            strResponse = SendInformativePricingWithoutPNR(ttAA, strRequest);
-                            strResponse = CoreLib.TransformXML($"<FIP>{strRequest}{strResponse}</FIP>", XslPath, $"AmadeusWS_AirPrice1RS.xsl", false);
-                        }
-
-                        else
-                        {
-                            strResponse = SendFareInformativeBestPricingWithoutPNR(ttAA, strRequest);
-                            strResponse = CoreLib.TransformXML($"<FIP>{strRequest}{strResponse}</FIP>", XslPath, $"AmadeusWS_LowFareFlights1RS.xsl", false);
-                        }
-
-                        string strFareFamiliyDescResponse = CoreLib.TransformXML($"<FIP>{strRequest}{ strResponse}</FIP>", XslPath, $"AmadeusWS_LowFareFlights1RS.xsl", false);
-                        strResponse = SendGetFareFamilyDescription(ttAA, strFareFamiliyDescResponse);
-                    }
-                    catch (Exception)
-                    {
-                        throw;
+                        response = SendInformativePricingWithoutPNR(ttAA, strRequest);
+                        response = CoreLib.TransformXML($"<FIP>{strRequest}{response}</FIP>", XslPath, $"AmadeusWS_AirPrice1RS.xsl", false);
                     }
 
-                    if (strRequest.StartsWith("<Fare_InformativeBestPricingWithoutPNR") == true && strResponse.IndexOf("<Error>") == -1 && returnBreakPoint)
+                    else
+                    {
+                        response = SendFareInformativeBestPricingWithoutPNR(ttAA, strRequest);
+                        response = CoreLib.TransformXML($"<FIP>{strRequest}{response}</FIP>", XslPath, $"AmadeusWS_LowFareFlights1RS.xsl", false);
+                    }
+
+                    string strFareFamiliyDescResponse = CoreLib.TransformXML($"<FIP>{strRequest}{response}</FIP>", XslPath, $"AmadeusWS_LowFareFlights1RS.xsl", false);
+                    response = SendGetFareFamilyDescription(ttAA, strFareFamiliyDescResponse);
+
+                    if (strRequest.StartsWith("<Fare_InformativeBestPricingWithoutPNR") == true && response.IndexOf("<Error>") == -1 && returnBreakPoint)
                     {
                         var strCrypticResp = SendCommandCryptically(ttAA, "FQH1");
 
@@ -592,7 +527,7 @@ namespace AmadeusWS
                         if (!string.IsNullOrEmpty(strScreen))
                         {
                             strScreen = formatBreakPoint($"<Screen>{strScreen}</Screen>");
-                            strResponse = strResponse.Replace("</Fare_InformativeBestPricingWithoutPNRReply>", $"{strScreen}</Fare_InformativeBestPricingWithoutPNRReply>");
+                            response = response.Replace("</Fare_InformativeBestPricingWithoutPNRReply>", $"{strScreen}</Fare_InformativeBestPricingWithoutPNRReply>");
                         }
                     }
 
@@ -600,29 +535,12 @@ namespace AmadeusWS
 
                     ttAA = null;
                 }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                if (!inSession)
-                {
-                    ttAA.CloseSession(ConversationID);
-                    ConversationID = string.Empty;
-                }
-                ttAA = null;
-            }
-
-            //  *******************************************************************
-            //  Add AirTravelerAvail/PassengerTypeQuantity to AmadeusWS Response    *
-            //  *******************************************************************
-            try
-            {
+                //  *******************************************************************
+                //  Add AirTravelerAvail/PassengerTypeQuantity to AmadeusWS Response    *
+                //  *******************************************************************
                 strRequest = oRoot.SelectSingleNode("AirTravelerAvail").InnerXml;
                 oDocResp = new XmlDocument();
-                oDocResp.LoadXml(strResponse);
+                oDocResp.LoadXml(response);
                 oRootResp = oDocResp.DocumentElement;
                 oNodeResp = oDocResp.CreateNode(XmlNodeType.Element, "", "AirTravelerAvail", "");
                 oNodeResp.InnerXml = strRequest;
@@ -631,56 +549,27 @@ namespace AmadeusWS
                 oNodeResp = oDocResp.CreateNode(XmlNodeType.Element, "", "FlightSegments", "");
                 oNodeResp.InnerXml = strRequest;
                 oRootResp.AppendChild(oNodeResp);
-                strResponse = oDocResp.OuterXml;
+                response = oDocResp.OuterXml;
                 oDocResp = null;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error Loading AirTravelerAvail into Air Price Response.\r\n{ex.Message}");
-            }
-            // *****************************************************************
-            //  Transform Native AmadeusWS AirPrice Response into OTA Response   *
-            // ***************************************************************** 
-            try
-            {
-                CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Response to transform", strResponse, ttProviderSystems.LogUUID);
-                strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_AirPriceRS.xsl", false);
+                // *****************************************************************
+                //  Transform Native AmadeusWS AirPrice Response into OTA Response   *
+                // ***************************************************************** 
+                CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Response to transform", response, ttProviderSystems.LogUUID);
+                response = CoreLib.TransformXML(response, XslPath, $"{Version}AmadeusWS_AirPriceRS.xsl", false);
             }
             catch (Exception ex)
             {
                 throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
             }
-
-            ResponseTime = DateTime.Now;
-            try
-            {
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("AirPrice", ref strMessage, RequestTime, ResponseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
-                return strResponse;
-            }
-            catch (Exception exx)
-            {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
-                throw exx;
-            }
-
             finally
             {
-                if (inSession && ttAA != null && Version.Equals("v03_"))
+                if (!inSession)
                 {
-                    if (ttProviderSystems.SessionPool)
-                    {
-                        ConversationID = SubSessionID(ConversationID);
-                        ttAA.CloseSessionFromPool(ConversationID);
-                    }
-                    else
-                    {
-                        ttAA.CloseSession(ConversationID);
-                    }
+                    ttAA.CloseSession(ConversationID);
+                    ConversationID = string.Empty;
                 }
             }
+            return response;
         }
 
         public string AirRules()
@@ -957,15 +846,12 @@ namespace AmadeusWS
                 // ******************************************************************* 
                 strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_AirRulesRS.xsl", false);
                 responseTime = DateTime.Now;
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("AirRules", ref strMessage, requestTime, responseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
+
                 return strResponse;
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}</M><BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}</M><BL/>", ttProviderSystems);
                 throw exx;
             }
             finally
@@ -1149,16 +1035,11 @@ namespace AmadeusWS
 
                 ResponseTime = DateTime.Now;
 
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("LowFare", ref strMessage, RequestTime, ResponseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                    //LogMessageToFile("LowFare", strMessage, RequestTime, ResponseTime);
-                }
                 return strResponse;
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 throw ex;
             }
         }
@@ -1289,14 +1170,11 @@ namespace AmadeusWS
 
                 ResponseTime = DateTime.Now;
 
-                if (ttProviderSystems.LogNative)
-                    TripXMLTools.TripXMLLog.LogMessage("LowFarePlus", ref strMessage, RequestTime, ResponseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-
                 return strResponse;
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}</M><BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}</M><BL/>", ttProviderSystems);
                 throw new Exception($"Exception Error.\r\n{ex.Message}\r\n{ex.InnerException}");
             }
         }
@@ -1396,11 +1274,6 @@ namespace AmadeusWS
 
                 ResponseTime = DateTime.Now;
 
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("LowFareMatrix", ref strMessage, RequestTime, ResponseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
-
                 return strResponse;
             }
             catch (Exception ex)
@@ -1464,7 +1337,7 @@ namespace AmadeusWS
                 // ***********************************************
                 //  process output business logic if necessary   *
                 // *********************************************** 
-                strResponse = strResponse.Replace("TransactionIdentifier=\"Amadeus", $"TransactionIdentifier=\"Amadeus-{ ttProviderSystems.PCC}");
+                strResponse = strResponse.Replace("TransactionIdentifier=\"Amadeus", $"TransactionIdentifier=\"Amadeus-{ttProviderSystems.PCC}");
 
                 if (!string.IsNullOrEmpty(ttProviderSystems.BLFile))
                 {
@@ -1499,11 +1372,6 @@ namespace AmadeusWS
                 }
 
                 ResponseTime = DateTime.Now;
-
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("LowOfferMatrix", ref strMessage, RequestTime, ResponseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
 
                 return strResponse;
             }
@@ -1598,14 +1466,11 @@ namespace AmadeusWS
                     }
                 }
 
-                if (ttProviderSystems.LogNative)
-                    TripXMLTools.TripXMLLog.LogMessage("LowOfferSearch", ref strMessage, RequestTime, DateTime.Now, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-
                 return strResponse;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Exception Error.\r\n{ ex.Message }");
+                throw new Exception($"Exception Error.\r\n{ex.Message}");
             }
         }
 
@@ -1629,21 +1494,21 @@ namespace AmadeusWS
             string strAvailResponses = "";
             string strFirstFlight = "";
             string strFinalResponse = "";
-            
+
             int NCount = 0;
-            
+
             int RNCount = 0;
             List<string> AClasses = new List<string>();
             List<string> FiltClasses = new List<string>();
             List<string> IndexFiltClass = new List<string>();
             string PricedItinerary = "";
             int iNIP = 0;
-            
+
             string FlexToken = "";
             string EchoToken = "";
             string avTempResponse = "";
             string avFinalResponse = "";
-            
+
             int outboundcnt = 5;
             int inboundcnt = 5;
 
@@ -1656,7 +1521,7 @@ namespace AmadeusWS
             XmlElement oPRoot = null;
             XmlDocument oPriceDoc = null;
             XmlElement oPriceRoot = null;
-            
+
             string cabinpref = "Economy";
             bool isReturn = true;
             int tempNoOfFlights = 0;
@@ -1729,11 +1594,11 @@ namespace AmadeusWS
                 foreach (XmlNode oNodeResp in oRootResp)
                 {
                     string s1 = oNodeResp.OuterXml;
-                    strResponse = SendAirMultiAvailability(ttAA,oNodeResp.OuterXml);
+                    strResponse = SendAirMultiAvailability(ttAA, oNodeResp.OuterXml);
                     XmlDocument oDocRespN1 = new XmlDocument();
                     oDocRespN1.LoadXml(strResponse);
                     XmlElement oRootRespN1 = oDocRespN1.DocumentElement;
-                    strAvailResponses += strResponse;                    
+                    strAvailResponses += strResponse;
                 }
 
                 strAvailResponses = $"<AirAvail>{strAvailResponses}</AirAvail>";
@@ -1802,7 +1667,7 @@ namespace AmadeusWS
                 strAvailResponses = strAvailResponses.Replace("<flightInfo></flightInfo>", "");
                 oDocResp.LoadXml(strAvailResponses);
                 oRootResp = oDocResp.DocumentElement;
-                
+
                 if (oRootResp.SelectSingleNode("Air_MultiAvailabilityReply/singleCityPairInfo/flightInfo/basicFlightInfo/flightDetails") != null
                     && strAvailResponses.IndexOf("NO NEGOTIATED SPACE IS AVAILABLE") == -1 && strAvailResponses.IndexOf("NO AVAILABILITY FOR SELECTED PREFERENCE") == -1
                     && (strAvailResponses.IndexOf("<Air_MultiAvailabilityReply/>") == -1 && strAvailResponses.IndexOf("<Air_MultiAvailabilityReply></Air_MultiAvailabilityReply>") == -1))
@@ -1978,7 +1843,7 @@ namespace AmadeusWS
                                         strRequest = Request.Replace("</OTA_AirLowFareSearchFlightsRQ>", $"{strFirstFlight}</OTA_AirLowFareSearchFlightsRQ>");
 
                                         strRequest = CoreLib.TransformXML(strRequest, XslPath, $"{Version}AmadeusWS_LowFareFlights1RQ.xsl", false);
-                                        
+
                                         strRequestTotal = strRequest;
                                         oDbThread[iFareSearches] = new Thread(new ThreadStart(SearchFares));
                                         oDbThread[iFareSearches].Start();
@@ -2035,7 +1900,7 @@ namespace AmadeusWS
                                             pRes = pRes.Replace("</Fare_InformativeBestPricingWithoutPNRReply>", oRoot.SelectSingleNode("TravelerInfoSummary/AirTravelerAvail").OuterXml + strFirstFlight + "</Fare_InformativeBestPricingWithoutPNRReply>");
 
                                             pRes = $"<FS>{strAvailResponses}{pRes}</FS>";
-                                            string presF = CoreLib.TransformXML(pRes, XslPath, $"{Version}AmadeusWS_LowFareFlightsRS.xsl", false);                                            
+                                            string presF = CoreLib.TransformXML(pRes, XslPath, $"{Version}AmadeusWS_LowFareFlightsRS.xsl", false);
 
                                             oPriceDoc = new XmlDocument();
                                             oPriceDoc.LoadXml(presF);
@@ -2072,7 +1937,7 @@ namespace AmadeusWS
                                             oPRoot = tempDoc.DocumentElement;
 
                                             strTemp = oPRoot.SelectSingleNode("PricedItineraries").SelectNodes("PricedItinerary").Item(0).SelectSingleNode("AirItineraryPricingInfo").SelectSingleNode("ItinTotalFare").InnerXml;
-                                            
+
                                             OutClass[i - 1, j - 1] = "00000000";
                                             InClass[i - 1, j - 1] = "111111111111111";
 
@@ -2152,10 +2017,10 @@ namespace AmadeusWS
                                     strRequest = Request.Replace("</OTA_AirLowFareSearchFlightsRQ>", $"{strFirstFlight}</OTA_AirLowFareSearchFlightsRQ>");
 
 
-                                    strRequest = CoreLib.TransformXML(strRequest, XslPath, $"{Version}AmadeusWS_LowFareFlights1RQ.xsl", false);                                    
+                                    strRequest = CoreLib.TransformXML(strRequest, XslPath, $"{Version}AmadeusWS_LowFareFlights1RQ.xsl", false);
 
-                                    avTempResponse = SendInformativePricingWithoutPNR(ttAA,strRequest);
-                                    
+                                    avTempResponse = SendInformativePricingWithoutPNR(ttAA, strRequest);
+
                                     avTempResponse = CoreLib.TransformXML($"<FIP>{strRequest}{avTempResponse}</FIP>", XslPath, $"{strFirstFlight}</AmadeusWS_LowFareFlights1RS>", false);
 
                                     OTAPrice = CoreLib.TransformXML(avTempResponse, XslPath, "AmadeusWS_AirPriceRS.xsl", false);
@@ -2169,12 +2034,12 @@ namespace AmadeusWS
                                     if (oPRoot != null && oPRoot.FirstChild.LocalName != "Errors")
                                     {
                                         string pRes = CoreLib.TransformXML($"<FIP>{strRequest}{avTempResponse}</FIP>", XslPath, $"{Version}AmadeusWS_LowFareFlights1RS.xsl", false);
-                                        
+
 
                                         pRes = pRes.Replace("</Fare_InformativeBestPricingWithoutPNRReply>", oRoot.SelectSingleNode("TravelerInfoSummary/AirTravelerAvail").OuterXml + strFirstFlight + "</Fare_InformativeBestPricingWithoutPNRReply>");
 
                                         pRes = $"<FS>{strAvailResponses}{pRes}</FS>";
-                                        string presF = CoreLib.TransformXML(pRes, XslPath, $"{Version}AmadeusWS_LowFareFlightsRS.xsl", false);                                        
+                                        string presF = CoreLib.TransformXML(pRes, XslPath, $"{Version}AmadeusWS_LowFareFlightsRS.xsl", false);
 
                                         oPriceDoc = new XmlDocument();
                                         oPriceDoc.LoadXml(presF);
@@ -2268,12 +2133,12 @@ namespace AmadeusWS
 
 
                             firstPrice = CoreLib.TransformXML($"<FIP>{strRequest}{firstPrice}</FIP>", XslPath, $"{Version}AmadeusWS_LowFareFlights1RS.xsl", false);
-                            
+
 
                             firstPrice = firstPrice.Replace("</Fare_InformativeBestPricingWithoutPNRReply>", oRoot.SelectSingleNode("TravelerInfoSummary/AirTravelerAvail").OuterXml + strFirstFlight + "</Fare_InformativeBestPricingWithoutPNRReply>");
                             strFinalResponse = $"<FIP>{strAvailResponses}{firstPrice}</FS>";
                             strResponse = CoreLib.TransformXML(strFinalResponse, XslPath, $"{Version}AmadeusWS_LowFareFlightsRS.xsl", false);
-                            
+
                             oPDoc = new XmlDocument();
                             oPDoc.LoadXml(strResponse);
                             strResponse = strResponse.Replace("<OTA_AirLowFareSearchFlightsRS", "<OTA_AirLowFareSearchFlightsRS EchoToken=\"FLTS\"");
@@ -2524,7 +2389,7 @@ namespace AmadeusWS
                                         int iClass = 0;
                                         string strRPH = "0";
 
-                                        int loopcnt = inboundNodes.Count; 
+                                        int loopcnt = inboundNodes.Count;
 
                                         for (int j = 1; j <= loopcnt; j++)
                                         {
@@ -2663,9 +2528,9 @@ namespace AmadeusWS
                             if (oRoot.SelectSingleNode("SpecificFlightInfo/BookingClassPref") == null)
                             {
                                 strRequest = CoreLib.TransformXML(strRequest, XslPath, $"{Version}AmadeusWS_LowFareFlights1RQ.xsl", false);
-                                strResponse = SendInformativePricingWithoutPNR(ttAA,strRequest);
+                                strResponse = SendInformativePricingWithoutPNR(ttAA, strRequest);
                                 strResponse = CoreLib.TransformXML($"<FIP>{strRequest}{strResponse}</FIP>", XslPath, $"{Version}AmadeusWS_LowFareFlights1RS.xsl", false);
-                                
+
                                 strResponse = strResponse.Replace("</Fare_InformativeBestPricingWithoutPNRReply>", oRoot.SelectSingleNode("TravelerInfoSummary/AirTravelerAvail").OuterXml + strFirstFlight + "</Fare_InformativeBestPricingWithoutPNRReply>");
                                 strFinalResponse = $"<FS>{strAvailResponses}{strResponse}</FS>";
                                 strResponse = CoreLib.TransformXML(strFinalResponse, XslPath, $"{Version}AmadeusWS_LowFareFlightsRS.xsl", false);
@@ -2695,11 +2560,11 @@ namespace AmadeusWS
                                     strRequest = strRequest.Substring((strRequest.IndexOf("<AirAvail>") + 10), strRequest.IndexOf("</AirAvail>") - 10);
                                     strRequest = Request.Replace("</OTA_AirLowFareSearchFlightsRQ>", strRequest + "</OTA_AirLowFareSearchFlightsRQ>");
                                     strRequest = CoreLib.TransformXML(strRequest, XslPath, $"{Version}AmadeusWS_LowFareFlights2RQ.xsl", false);
-                                    strResponse = SendInformativePricingWithoutPNR(ttAA,strRequest);
+                                    strResponse = SendInformativePricingWithoutPNR(ttAA, strRequest);
                                     strResponse = strResponse.Replace("</Fare_InformativePricingWithoutPNRReply>", oRoot.SelectSingleNode("TravelerInfoSummary/AirTravelerAvail").OuterXml + strFirstFlight + "</Fare_InformativePricingWithoutPNRReply>");
                                     strFinalResponse = "<FS>" + strAvailResponses + strResponse + "</FS>";
                                     strResponse = CoreLib.TransformXML(strFinalResponse, XslPath, $"{Version}AmadeusWS_LowFareFlights3RS.xsl", false);
-                                    
+
 
 
 
@@ -2726,7 +2591,7 @@ namespace AmadeusWS
                                             oRootFinal = oDocResp.DocumentElement;
                                         }
 
-                                        
+
 
                                         XmlElement oRootSeq = null;
 
@@ -2830,12 +2695,12 @@ namespace AmadeusWS
 
                             if (FlexToken != "MPC")
                             {
-                                
+
                                 strRequest = CoreLib.TransformXML(strSecondRequest, XslPath, $"{Version}AmadeusWS_LowFareScheduleRQ.xsl", false);
                                 strMessage = strRequest;
-                                strResponse = SendMasterPricerTravelBoardSearch(ttAA,strRequest);
-                                strMessage += strResponse;                                
-                                strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_LowFareScheduleRS.xsl", false);                                
+                                strResponse = SendMasterPricerTravelBoardSearch(ttAA, strRequest);
+                                strMessage += strResponse;
+                                strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_LowFareScheduleRS.xsl", false);
                             }
                             else
                             {
@@ -2847,11 +2712,11 @@ namespace AmadeusWS
                                 //  Transform OTA LowFareMatrix Request into Native Amadeus Request     *
                                 // ***************************************************************** 
                                 strRequest = CoreLib.TransformXML(strSecondRequest, XslPath, $"{Version}AmadeusWS_LowFareMatrixRQ.xsl", false);
-                                
+
                                 strMessage = strRequest;
-                                strResponse = SendMasterPricerCalendar(ttAA,strRequest);
+                                strResponse = SendMasterPricerCalendar(ttAA, strRequest);
                                 strMessage += strResponse;
-                                
+
 
 
                                 // ********************************************************************
@@ -2860,13 +2725,13 @@ namespace AmadeusWS
                                 //  easier to create and filter the final response                    *
                                 // ******************************************************************** 
                                 strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_LowFareMatrix1RS.xsl", false);
-                                
+
 
                                 // ********************************************************************
                                 //  Transform Native Amadeus LowFareMatrix Response into OTA Response   *
                                 // ******************************************************************** 
                                 strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_LowFareMatrix2RS.xsl", false);
-                                
+
 
                                 // ***********************************************
                                 //  process output business logic if necessary   *
@@ -2931,7 +2796,7 @@ namespace AmadeusWS
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception($"Error in MasterPricerTravelBoardSearch.\r\n{ex.Message}");                        
+                        throw new Exception($"Error in MasterPricerTravelBoardSearch.\r\n{ex.Message}");
                     }
                 }
                 else
@@ -2943,7 +2808,7 @@ namespace AmadeusWS
 
                     strFinalResponse = $"<FS>{strAvailResponses}</FS>";
                     strResponse = CoreLib.TransformXML(strFinalResponse, XslPath, $"{Version}AmadeusWS_LowFareFlightsRS.xsl", false);
-                    
+
 
                     strResponse = strResponse.Replace("<OTA_AirLowFareSearchFlightsRS", "<OTA_AirLowFareSearchFlightsRS EchoToken=\"FLTS\"");
                     // strResponse = RemoveDuplicate(strResponse);
@@ -2953,7 +2818,7 @@ namespace AmadeusWS
 
                 if (EchoToken != "LFSC" && EchoToken != "LFSCC" && EchoToken != "FLTS")
                     strResponse = RemoveDuplicate(strResponse);
-                
+
                 if (!ttAA.isSOAP4)
                 {
                     ttAA.CloseSession(ConversationID);
@@ -2964,10 +2829,10 @@ namespace AmadeusWS
                 // ***********************************************
                 //  process output business logic if necessary   *
                 // *********************************************** 
-                
+
                 //string t = $"TransactionIdentifier=\"Amadeus-{ttProviderSystems.PCC}";
                 strResponse = strResponse.Replace("TransactionIdentifier=\"Amadeus", $"TransactionIdentifier=\"Amadeus-{ttProviderSystems.PCC}");
-                
+
 
                 #region "BL section"
                 if (ttProviderSystems.BLFile != "")
@@ -2983,23 +2848,23 @@ namespace AmadeusWS
                     {
                         //  check if non ticketable flights/fares to eliminate
                         oBLNode = oNode.SelectSingleNode($"NoTktAirline[@Name=\'Amadeus\'][@System=\'{ttProviderSystems.System}\'][@PCC=\'{ttProviderSystems.PCC}\']");
-                        
+
 
                         if (oBLNode != null)
-                            strResponse = BusinessLogic(strResponse, oBLNode.OuterXml, $"{modCore.gXslPath}BL\\", "BL_LowFareNoTktRS.xsl");                            
+                            strResponse = BusinessLogic(strResponse, oBLNode.OuterXml, $"{modCore.gXslPath}BL\\", "BL_LowFareNoTktRS.xsl");
 
                         //  check if no mix airline to eliminate
                         oBLNode = oNode.SelectSingleNode($"NoMixAirline[@Name=\'Amadeus\'][@System=\'{ttProviderSystems.System}\'][@PCC=\'{ttProviderSystems.PCC}\']");
 
                         if (oBLNode != null)
                             strResponse = BusinessLogic(strResponse, oBLNode.OuterXml, $"{modCore.gXslPath}BL\\", "BL_LowFareNoMixRS.xsl");
-                            
-                        
+
+
                         //  add fare markup if needed
                         oBLNode = oNode.SelectSingleNode($"ProviderBL[@Name=\'Amadeus\'][@System=\'{ttProviderSystems.System}\'][@PCC=\'{ttProviderSystems.PCC}\']");
-                        
+
                         if (oBLNode != null)
-                            strResponse = BusinessLogic(strResponse, oBLNode.OuterXml, $"{modCore.gXslPath}BL\\", "BL_LowFareRS.xsl");                            
+                            strResponse = BusinessLogic(strResponse, oBLNode.OuterXml, $"{modCore.gXslPath}BL\\", "BL_LowFareRS.xsl");
                     }
                 }
                 #endregion
@@ -3016,7 +2881,7 @@ namespace AmadeusWS
                         int k = 1;
                         if (!isReturn)
                             k = 0;
-                        
+
                         for (int j = oPDoc.GetElementsByTagName("PricedItinerary").Item(i).SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[k].SelectNodes("FlightSegment").Count - 1; j >= 0; j--)
                         {
                             if (oPDoc.GetElementsByTagName("PricedItinerary").Item(i).SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[k].SelectNodes("FlightSegment").Item(j).Attributes["ResBookDesigCode"].Value == "1" || oPDoc.GetElementsByTagName("PricedItinerary").Item(i).SelectSingleNode("AirItinerary").SelectSingleNode("OriginDestinationOptions").SelectNodes("OriginDestinationOption")[k].SelectNodes("FlightSegment").Item(j).Attributes["ResBookDesigCode"].Value == "0")
@@ -3223,11 +3088,6 @@ namespace AmadeusWS
                 //  process output business logic if necessary   *
                 // *********************************************** 
                 strResponse = strResponse.Replace("TransactionIdentifier=\"Amadeus", $"TransactionIdentifier=\"Amadeus-{ttProviderSystems.PCC}");
-
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("LowFareSchedule", ref strMessage, RequestTime, DateTime.Now, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
 
                 if (modCore.NonDirectFlights)
                 {
@@ -3633,13 +3493,13 @@ namespace AmadeusWS
                             }
                             else if (tempResp.Substring(16, 2) == "  ")
                             {
-                                newTax = $"{newTax}{ tempResp.Substring(17, tempResp.IndexOf("\r") - 17)}";
+                                newTax = $"{newTax}{tempResp.Substring(17, tempResp.IndexOf("\r") - 17)}";
                             }
                         }
                     }
                     else if (tempResp.Substring(0, 3) == "   ")
                     {
-                        newTax = $"{newTax}{ tempResp.Substring(17, tempResp.IndexOf("\r") - 17)}";
+                        newTax = $"{newTax}{tempResp.Substring(17, tempResp.IndexOf("\r") - 17)}";
                     }
                     else
                     {
@@ -3727,7 +3587,7 @@ namespace AmadeusWS
                                     {
                                         strNewXFInfo[k] = strXFResp.Substring(0, 3);
                                         strXFResp = strXFResp.Substring(3);
-                                        strNewXFInfo[k] = $"{strNewXFInfo[k]}{ strXFResp.Substring(0, strXFResp.IndexOf(".") + 3)}";
+                                        strNewXFInfo[k] = $"{strNewXFInfo[k]}{strXFResp.Substring(0, strXFResp.IndexOf(".") + 3)}";
                                         strXFResp = strXFResp.Substring(strXFResp.IndexOf(".") + 3);
                                     }
                                 }
@@ -4119,7 +3979,7 @@ namespace AmadeusWS
                     {
                         OTAPriceTotal[fareindex] = "<OTA_AirPriceRS Version=\"2003.2\"><Errors><Error Type=\"Amadeus\" Code=\"911\">NO FARE FOR BOOKING CODE-TRY OTHER PRICING OPTIONS</Error></Errors></OTA_AirPriceRS>";
                         OTAReqTotal[fareindex] = req;
-                        avTempResponse = avTempResponse.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema.Fare_InformativeBestPricingWithoutPNRReply}\"", "");
+                        avTempResponse = avTempResponse.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[Fare_InformativeBestPricingWithoutPNRReply]}\"", "");
 
                         avTempResponseTotal[fareindex] = avTempResponse;
 

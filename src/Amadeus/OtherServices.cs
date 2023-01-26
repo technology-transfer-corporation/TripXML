@@ -32,7 +32,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                throw new Exception($"Session was not Created.\r\n{ex.Message}");
+                throw new Exception($"Session was not Created.", ex);
             }
         }
 

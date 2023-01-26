@@ -2,6 +2,7 @@
 using System.Xml;
 using System;
 using AmadeusWS;
+using static TripXMLMain.modCore.enAmadeusWSSchema;
 
 public class HotelServices : AmadeusBase
 {
@@ -356,7 +357,7 @@ public class HotelServices : AmadeusBase
             strResponse = strResponse.Replace(" xsi:schemaLocation=\"http://www.opentravel.org/OTA/2003/05 OTA_HotelDescriptiveInfoRS.xsd\"", "")
                 .Replace(" xmlns=\"http://www.opentravel.org/OTA/2003/05\"", "")
                 .Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"", "")
-                .Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.AmadeusWSSchema.Hotel_FeaturesReply + "\"", "");
+                .Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.AmadeusWSSchema[Hotel_FeaturesReply] + "\"", "");
 
             //***************************************************************** 
             // Transform Native Amadeus HotelInfo Response into OTA Response * 

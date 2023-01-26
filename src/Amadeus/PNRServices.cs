@@ -7,7 +7,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using System.Windows.Interop;
+using static TripXMLMain.modCore.enAmadeusWSSchema;
 
 namespace AmadeusWS
 {
@@ -321,11 +321,6 @@ namespace AmadeusWS
                     DateTime responseTime = DateTime.Now;
                     String strMeessege = sbNativeLog.ToString();
                     sbNativeLog.Remove(0, sbNativeLog.Length);
-
-                    if (ttProviderSystems.LogNative && strMeessege.Trim() != string.Empty)
-                    {
-                        TripXMLTools.TripXMLLog.LogMessage("PNRRead", ref strMeessege, requestTime, responseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -344,7 +339,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, exx.Message, ttProviderSystems);
             }
             return strResponse;
@@ -596,14 +591,11 @@ namespace AmadeusWS
                 DateTime responseTime = DateTime.Now;
                 string strMessage = sbNativeLog.ToString();
                 sbNativeLog.Remove(0, sbNativeLog.Length);
-
-                if (ttProviderSystems.LogNative)
-                    TripXMLTools.TripXMLLog.LogMessage("PNRCancel", ref strMessage, requestTime, responseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
             }
 
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRCancel, exx.Message, ttProviderSystems, strRecLocator);
             }
 
@@ -831,15 +823,10 @@ namespace AmadeusWS
                 DateTime responseTime = DateTime.Now;
                 string strMessage = sbNativeLog.ToString();
                 sbNativeLog.Remove(0, sbNativeLog.Length);
-
-                if (ttProviderSystems.LogNative)
-                {
-                    TripXMLTools.TripXMLLog.LogMessage("PNRSplit", ref strMessage, requestTime, responseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                }
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRSplit, exx.Message, ttProviderSystems, strRecLocator);
             }
 
@@ -991,7 +978,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.Queue, ex.Message, ttProviderSystems);
             }
             return strResponse;
@@ -1242,7 +1229,7 @@ namespace AmadeusWS
                 }
                 catch (Exception ex)
                 {
-                    addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                    addLog($"<M>{Request}<BL/>", ttProviderSystems);
                     Console.WriteLine(ex.Message);
                     throw;
                 }
@@ -1257,7 +1244,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, exx.Message, ttProviderSystems, "");
             }
             finally
@@ -1503,6 +1490,7 @@ namespace AmadeusWS
                                     }
                                     if (!bPrivate && isTktDesInTst && ffList.All(f => !string.IsNullOrEmpty(f.Item3)))
                                     {
+
                                         foreach (var ff in ffList)
                                         {
                                             strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{ff.Item3}");
@@ -1518,6 +1506,7 @@ namespace AmadeusWS
                                     {
                                         foreach (var ff in ffList.FindAll(x => !string.IsNullOrEmpty(x.Item2)))
                                         {
+
                                             strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{ff.Item2}");
                                             if (strHistFareRS.Contains("TICKET DESIGNATOR TOO LONG TO PROCESS"))
                                             {
@@ -1536,7 +1525,6 @@ namespace AmadeusWS
                                     if (!saveResp.Contains("<freeText>SIMULTANEOUS CHANGES TO PNR - USE WRA/RT TO PRINT OR IGNORE"))
                                         break;
                                 } while (retry_count-- > 0);
-
 
                                 if (tktDesTooLong)
                                 {
@@ -1592,8 +1580,6 @@ namespace AmadeusWS
                                                 }
                                                 else
                                                     continue;
-                                                //if (tktNode != null && tktNode.InnerText.Equals(ticketDes))
-                                                //    continue;
 
                                                 if (segNode.SelectSingleNode("fareQualifier") == null)
                                                     continue;
@@ -1695,6 +1681,7 @@ namespace AmadeusWS
                                 {
                                     strZap = $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>ZAP</pricingOptionKey></pricingOptionKey><penDisInformation><discountPenaltyQualifier>ZAP</discountPenaltyQualifier><discountPenaltyDetails><function>700</function><amountType>{discQualif}</amountType><amount>{strDiscount}</amount>{strTktDes}</discountPenaltyDetails></penDisInformation></pricingOptionGroup>";
                                 }
+
                                 var excludeFFopts = false;
                                 foreach (var xmlFareFamily in sXmlFareFamily)
                                 {
@@ -1708,11 +1695,9 @@ namespace AmadeusWS
                                     }
                                     strResponseReprice += FilterPricePNRWithBookingClassResponseByPax(respReprice, xmlFareFamily);
                                 }
-                                //string strAddress =$"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithBookingClass}";
-                                //strResponseReprice = strResponse =ttAA.SendMessage(strRepriceRQ, "", strAddress, conversationID);
                                 strResponseReprice = strResponseReprice.Replace(@"</Fare_PricePNRWithBookingClassReply><Fare_PricePNRWithBookingClassReply>", "");
-                                strResponseReprice = strResponseReprice.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithLowerFaresReply}\"", "");
-                                strResponseReprice = strResponseReprice.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithBookingClassReply}\"", "");
+                                strResponseReprice = strResponseReprice.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithLowerFaresReply]}\"", "");
+                                strResponseReprice = strResponseReprice.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClassReply]}\"", "");
                                 //conversationID = UpdateSessionID(conversationID);
                             }
                         }
@@ -2066,7 +2051,7 @@ namespace AmadeusWS
                             //                    strResponse = SendPricePNRWithBookingClass(ttAA, strRepriceRQ);
                             //                }
 
-                            //                strResponseReprice += strResponse.Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithBookingClassReply + "\"", "");
+                            //                strResponseReprice += strResponse.Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClassReply] + "\"", "");
 
                             //                XmlElement oRootTst = null;
                             //                if (bStoreFare)
@@ -2185,7 +2170,7 @@ namespace AmadeusWS
                         //        }
                         //        string strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{strByFare}<overrideInformation><attributeDetails><attributeType>RLO</attributeType></attributeDetails><attributeDetails><attributeType>RP</attributeType></attributeDetails></overrideInformation>{strVC}</Fare_PricePNRWithBookingClass>";
                         //        strRepriceRQ = strRepriceRQ.Replace(">RP<", strRPRU);
-                        //        strResponseReprice = SendGDSMessage(ttAA, strRepriceRQ, ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithBookingClass, ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithBookingClassReply);
+                        //        strResponseReprice = SendGDSMessage(ttAA, strRepriceRQ, ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClass], ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClassReply]);
                         //        // now we need to compare stored fare to repriced fare
                         //        // if they are different we need to store the new fare in PNR
                         //        XmlDocument oDocRepriced = new XmlDocument();
@@ -2444,6 +2429,7 @@ namespace AmadeusWS
                     }
                 }
             }
+
             var combRes = new List<Tuple<string, string, string>>();
             paxFareSegs.ForEach(pfs => pfs.Item2.RemoveAll(p => p.Item2 == "T"));
             var paxFareSegsGrouped = new List<Tuple<string, List<Tuple<string, string, string>>>>();
@@ -2635,37 +2621,43 @@ namespace AmadeusWS
             }
             var paxFareSegsGrouped = new List<Tuple<string, List<Tuple<string, string, string>>>>();
             paxFareSegsGrouped = paxFareSegs;
-
-            List<string> tRes = new List<string>();
-            //foreach (var ps in psg)
-            foreach (var ps in paxFareSegs)
+            //foreach (var psg in paxFareSegsGrouped.GroupBy(x => new
+            //{
+            //    segs = string.Join(",", x.Item2.FindAll(p => p.Item2.StartsWith("*"))),
+            //    isInf = x.Item2.Any(p => p.Item2.Equals("PI"))
+            //}))
             {
-                var isInf = ps.Item2.Any(p => p.Item2.Equals("PI"));
-                var opt = $"{string.Join(",", ps.Item2.FindAll(p => p.Item2.StartsWith("*")).Select(s => $",{s.Item2}"))}";
-                tRes.Add($"{opt}{(isInf ? "/INF" : "")}" +
-                    $"{(ps.Item2.Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}");
-                var fbCodes = new Dictionary<string, string>();
-                var tktDes = new Dictionary<string, string>();
-                foreach (XmlNode item in root.SelectSingleNode($"//StoredFare[@RPH='{ps.Item1}']").SelectNodes("FareSegments/AirSegments"))
+                List<string> tRes = new List<string>();
+                //foreach (var ps in psg)
+                foreach (var ps in paxFareSegs)
                 {
-                    fbCodes[item.InnerText.TrimEnd('/')] = fbCodes.ContainsKey(item.InnerText.TrimEnd('/'))
-                        ? fbCodes[item.InnerText.TrimEnd('/')] + "," + item.Attributes["RPH"].Value
-                        : item.Attributes["RPH"].Value;
-                    if (item.Attributes["TicketDesignator"] != null)
-                        tktDes[item.Attributes["TicketDesignator"].Value] = tktDes.ContainsKey(item.Attributes["TicketDesignator"].Value)
-                            ? tktDes[item.Attributes["TicketDesignator"].Value] + "," + item.Attributes["RPH"].Value
+                    var isInf = ps.Item2.Any(p => p.Item2.Equals("PI"));
+                    var opt = $"{string.Join(",", ps.Item2.FindAll(p => p.Item2.StartsWith("*")).Select(s => $",{s.Item2}"))}";
+                    tRes.Add($"{opt}{(isInf ? "/INF" : "")}" +
+                        $"{(ps.Item2.Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}");
+                    var fbCodes = new Dictionary<string, string>();
+                    var tktDes = new Dictionary<string, string>();
+                    foreach (XmlNode item in root.SelectSingleNode($"//StoredFare[@RPH='{ps.Item1}']").SelectNodes("FareSegments/AirSegments"))
+                    {
+                        fbCodes[item.InnerText.TrimEnd('/')] = fbCodes.ContainsKey(item.InnerText.TrimEnd('/'))
+                            ? fbCodes[item.InnerText.TrimEnd('/')] + "," + item.Attributes["RPH"].Value
                             : item.Attributes["RPH"].Value;
+                        if (item.Attributes["TicketDesignator"] != null)
+                            tktDes[item.Attributes["TicketDesignator"].Value] = tktDes.ContainsKey(item.Attributes["TicketDesignator"].Value)
+                                ? tktDes[item.Attributes["TicketDesignator"].Value] + "," + item.Attributes["RPH"].Value
+                                : item.Attributes["RPH"].Value;
+                    }
+                    var fbOpt = string.Join("/", fbCodes.Where(x => !string.IsNullOrEmpty(x.Key)).Select(x => $"A{x.Value}-{x.Key}"));
+                    if (!string.IsNullOrEmpty(fbOpt.Trim(' ')))
+                        tRes.Add(fbOpt);
+                    if (tktDes.Any())
+                    {
+                        tRes.Add(string.Join("/", tktDes.Select(x => $"ZO-0*{x.Key}.{x.Value}")));
+                    }
+                    tRes.Add($"P{string.Join(",", ps.Item2.FindAll(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}");
+                    res.Add(new Tuple<string, string, string>(ps.Item1, string.Join("/", tRes).Replace("/,", ",").TrimEnd('/'), ""));
+                    tRes = new List<string>();
                 }
-                var fbOpt = string.Join("/", fbCodes.Where(x => !string.IsNullOrEmpty(x.Key)).Select(x => $"A{x.Value}-{x.Key}"));
-                if (!string.IsNullOrEmpty(fbOpt.Trim(' ')))
-                    tRes.Add(fbOpt);
-                if (tktDes.Any())
-                {
-                    tRes.Add(string.Join("/", tktDes.Select(x => $"ZO-0*{x.Key}.{x.Value}")));
-                }
-                tRes.Add($"P{string.Join(",", ps.Item2.FindAll(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}");
-                res.Add(new Tuple<string, string, string>(ps.Item1, string.Join("/", tRes).Replace("/,", ",").TrimEnd('/'), ""));
-                tRes = new List<string>();
             }
 
             if (res.TrueForAll(r => System.Text.RegularExpressions.Regex.Replace(r.Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", "")
@@ -2957,11 +2949,6 @@ namespace AmadeusWS
                     DateTime responseTime = DateTime.Now;
                     string strMessage = sbNativeLogMessge.ToString();
                     sbNativeLogMessge.Clear();
-
-                    if (ttProviderSystems.LogNative)
-                    {
-                        TripXMLTools.TripXMLLog.LogMessage("TransferOwnership", ref strMessage, requestTime, responseTime, "Native", ttProviderSystems.Provider, ttProviderSystems.System, ttProviderSystems.UserName);
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -2978,7 +2965,7 @@ namespace AmadeusWS
             }
             catch (Exception exx)
             {
-                addLog($"<M>{Request}<BL/>", ttProviderSystems.UserID);
+                addLog($"<M>{Request}<BL/>", ttProviderSystems);
                 strResponse = modCore.FormatErrorMessage(modCore.ttServices.TransferOwnership, exx.Message, ttProviderSystems, "");
             }
 

@@ -6,6 +6,8 @@ using System.Xml;
 using TripXMLMain;
 using System.Globalization;
 using System.ComponentModel;
+using static TripXMLMain.modCore;
+using static TripXMLMain.modCore.enAmadeusWSSchema;
 
 namespace AmadeusWS
 {
@@ -154,39 +156,36 @@ namespace AmadeusWS
             return sessionID;
         }
 
-        protected static void addLog(string msg, string username)
+        protected static void addLog(string msg, modCore.TripXMLProviderSystems provider)
         {
             try
             {
-                string filePath = $"log\\{username}_{DateTime.Today:dd-MM-yyyy}";
-                string dirPath = "C:\\TripXML\\log";
-                filePath = $"C:\\TripXML\\{filePath}.txt";
-
-                if (!Directory.Exists(dirPath))
-                {
-                    Directory.CreateDirectory(dirPath);
-                }
-                if (!File.Exists(filePath))
-                {
-                    using (StreamWriter sw = File.CreateText(filePath))
-                    {
-                        sw.WriteLine("created On - {0}\r\n", DateTime.Now);
-                        sw.Flush();
-                        sw.Close();
-                    }
-                }
-                using (StreamWriter sw = File.AppendText(filePath))
-                {
-                    DateTimeFormatInfo myDtfi = new CultureInfo("en-US", true).DateTimeFormat;
-
-                    sw.WriteLine(DateTime.UtcNow.ToString(myDtfi).Substring(11) + " GMT - " + msg + "\r\n");
-                    sw.Flush();
-                    sw.Close();
-                }
+                modCore.AddLog(LogType.Info, msg, provider);
+                //string filePath = $"log\\{username}_{DateTime.Today:dd-MM-yyyy}";
+                //string dirPath = "C:\\TripXML\\log";
+                //filePath = $"C:\\TripXML\\{filePath}.txt";
+                //if (!Directory.Exists(dirPath))
+                //{
+                //    Directory.CreateDirectory(dirPath);
+                //}
+                //if (!File.Exists(filePath))
+                //{
+                //    using (StreamWriter sw = File.CreateText(filePath))
+                //    {
+                //        sw.WriteLine("created On - {0}\r\n", DateTime.Now);
+                //        sw.Flush();
+                //    }
+                //}
+                //using (StreamWriter sw = File.AppendText(filePath))
+                //{
+                //    DateTimeFormatInfo myDtfi = new CultureInfo("en-US", true).DateTimeFormat;
+                //    sw.WriteLine($"{DateTime.UtcNow.ToString(myDtfi).Substring(11)} GMT - {msg}\r\n");
+                //    sw.Flush();
+                //}
             }
             catch (Exception ex)
             {
-                throw new Exception(new StringBuilder("Error adding line to Log.").Append("\r\n").Append(ex.Message).ToString());
+                throw new Exception($"Error adding line to Log.", ex);
             }
         }
 
@@ -373,7 +372,7 @@ namespace AmadeusWS
                 TimeSpan dur;
                 dur = ResponseTime - RequestTime;
                 string strLine = $"<Message Type=\'{MsgType}\' RequestTime=\'{RequestTime.ToString("dd MMM yyyy HH:mm:ss")}\' ResponseTime=\'{ResponseTime.ToString("dd MMM yyyy HH:mm:ss")}\' Duration=\'{dur.TotalSeconds}\'><AmadeusMessage>{Message}</AmadeusMessage></Message>";
-                addLog(strLine, ttProviderSystems.UserID);
+                addLog(strLine, ttProviderSystems);
             }
             catch (Exception)
             {
@@ -400,7 +399,7 @@ namespace AmadeusWS
                     oDocReq.LoadXml(Request);
                     XmlElement oRootReq = oDocReq.DocumentElement;
                     strEchoToken = $"<ConversationID>{oRootReq.SelectSingleNode("SecurityToken").InnerText}|{oRootReq.SelectSingleNode("SessionId").InnerText}|{oRootReq.SelectSingleNode("SequenceNumber").InnerText}</ConversationID>";
-                }               
+                }
 
                 strResponse = $"<PNR_Reply>{strResponse}{strEchoToken}</PNR_Reply>";
                 strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
@@ -429,8 +428,7 @@ namespace AmadeusWS
             }
         }
 
-        /// <summary>
-        /// This method will either get SessionID from Request or will set new SessionID.
+        /// <summary>        /// This method will either get SessionID from Request or will set new SessionID.
         /// </summary>
         /// <param name="ttAA">GDS Adapter</param>
         /// <returns>returns flag wether conversation in session or not.</returns>
@@ -475,7 +473,7 @@ namespace AmadeusWS
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error Creating Session.\r\n{ex.Message}");
+                throw new Exception($"Error Creating Session.", ex);
             }
         }
         #endregion
@@ -497,8 +495,8 @@ namespace AmadeusWS
                 CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSService", methodRQ, "", ttProviderSystems.LogUUID);
 
                 var response = ttProviderSystems.SessionPool
-                    ? ttAA.SendMessageV3(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{methodRQ}", ConversationID).Replace($" xmlns=\"http://xml.amadeus.com/{methodRS}\"", "")
-                    : ttAA.SendMessage(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{methodRQ}", ConversationID).Replace($" xmlns=\"http://xml.amadeus.com/{methodRS}\"", "");
+                    ? ttAA.SendMessageV3(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{methodRQ}", ConversationID).Replace($" xmlns=\"http://xml.amadeus.com/{methodRS}\"", "")
+                    : ttAA.SendMessage(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{methodRQ}", ConversationID).Replace($" xmlns=\"http://xml.amadeus.com/{methodRS}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
 
                 CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSService", methodRS, response, ttProviderSystems.LogUUID);
@@ -514,7 +512,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.PNR_RetrieveByRecLoc, ttProviderSystems.AmadeusWSSchema.PNR_RetrieveByRecLocReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[PNR_RetrieveByRecLoc], ttProviderSystems.AmadeusWSSchema[PNR_RetrieveByRecLocReply]);
             }
             catch (Exception ex)
             {
@@ -526,12 +524,12 @@ namespace AmadeusWS
         {
             try
             {
-                //var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema.PNR_Retrieve}", ConversationID)
-                //    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema.PNR_Reply}\"", "")
-                //    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema.PNR_Reply1}\"", "");
+                //var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_Retrieve}", ConversationID)
+                //    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply}\"", "")
+                //    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply1}\"", "");
                 //ConversationID = UpdateSessionID(ConversationID);
-                var response = SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.PNR_Retrieve, ttProviderSystems.AmadeusWSSchema.PNR_Reply);
-                response = response.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema.PNR_Reply1}\"", "");
+                var response = SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[PNR_Retrieve], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
+                response = response.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "");
                 return response;
             }
             catch (Exception ex)
@@ -544,9 +542,8 @@ namespace AmadeusWS
         {
             try
             {
-                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema.PNR_Cancel}", ConversationID)
-                    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema.PNR_Reply}\"", "")
-                    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema.PNR_Reply1}\"", "");
+                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_Cancel]}", ConversationID)
+                    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
                 return response;
             }
@@ -573,7 +570,7 @@ namespace AmadeusWS
         {
             try
             {
-                var response = SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Command_Cryptic, ttProviderSystems.AmadeusWSSchema.Command_CrypticReply);
+                var response = SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
                 return response;
             }
             catch (Exception ex)
@@ -586,9 +583,8 @@ namespace AmadeusWS
         {
             try
             {
-                var response = ttAA.SendMessage(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema.PNR_AddMultiElements}", ConversationID)
-                    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema.PNR_Reply}\"", "")
-                    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema.PNR_Reply1}\"", "");
+                var response = ttAA.SendMessage(request, nameSpace, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements]}", ConversationID)
+                    .Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
                 return response;
             }
@@ -602,7 +598,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.PAY_DeleteVirtualCard, ttProviderSystems.AmadeusWSSchema.PAY_DeleteVirtualCard);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[PAY_DeleteVirtualCard], ttProviderSystems.AmadeusWSSchema[PAY_DeleteVirtualCard]);
             }
             catch (Exception ex)
             {
@@ -614,7 +610,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.PAY_GenerateVirtualCard, ttProviderSystems.AmadeusWSSchema.PAY_GenerateVirtualCard);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[PAY_GenerateVirtualCard], ttProviderSystems.AmadeusWSSchema[PAY_GenerateVirtualCard]);
             }
             catch (Exception ex)
             {
@@ -626,7 +622,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.PAY_ListVirtualCards, ttProviderSystems.AmadeusWSSchema.PAY_ListVirtualCards);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[PAY_ListVirtualCards], ttProviderSystems.AmadeusWSSchema[PAY_ListVirtualCards]);
             }
             catch (Exception ex)
             {
@@ -638,7 +634,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.PAY_VirtualCardDetails, ttProviderSystems.AmadeusWSSchema.PAY_VirtualCardDetails);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[PAY_VirtualCardDetails], ttProviderSystems.AmadeusWSSchema[PAY_VirtualCardDetails]);
             }
             catch (Exception ex)
             {
@@ -723,7 +719,7 @@ namespace AmadeusWS
             try
             {
                 var request = "<Ticket_DisplayTST><displayMode><attributeDetails><attributeType>ALL</attributeType></attributeDetails></displayMode></Ticket_DisplayTST>";
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Ticket_DisplayTST, ttProviderSystems.AmadeusWSSchema.Ticket_DisplayTSTReply); ;
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_DisplayTST], ttProviderSystems.AmadeusWSSchema[Ticket_DisplayTSTReply]); ;
             }
             catch (Exception)
             {
@@ -736,7 +732,7 @@ namespace AmadeusWS
             try
             {
                 var request = "<Ticket_DeleteTST><deleteMode><attributeDetails><attributeType>ALL</attributeType></attributeDetails></deleteMode></Ticket_DeleteTST>";
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Ticket_DeleteTST, ttProviderSystems.AmadeusWSSchema.Ticket_DeleteTSTReply); ;
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_DeleteTST], ttProviderSystems.AmadeusWSSchema[Ticket_DeleteTSTReply]); ;
             }
             catch (Exception)
             {
@@ -748,7 +744,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema.Air_MultiAvailability, ttProviderSystems.AmadeusWSSchema.Air_MultiAvailabilityReply);
+                return SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema[Air_MultiAvailability], ttProviderSystems.AmadeusWSSchema[Air_MultiAvailabilityReply]);
             }
             catch (Exception)
             {
@@ -760,7 +756,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema.Fare_InformativePricingWithoutPNR, ttProviderSystems.AmadeusWSSchema.Fare_InformativePricingWithoutPNRReply);
+                return SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema[Fare_InformativePricingWithoutPNR], ttProviderSystems.AmadeusWSSchema[Fare_InformativePricingWithoutPNRReply]);
             }
             catch (Exception)
             {
@@ -772,7 +768,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema.Fare_CheckRules, ttProviderSystems.AmadeusWSSchema.Fare_CheckRulesReply);
+                return SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema[Fare_CheckRules], ttProviderSystems.AmadeusWSSchema[Fare_CheckRulesReply]);
             }
             catch (Exception)
             {
@@ -784,7 +780,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema.Fare_DisplayFaresForCityPair, ttProviderSystems.AmadeusWSSchema.Fare_DisplayFaresForCityPairReply);
+                return SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema[Fare_DisplayFaresForCityPair], ttProviderSystems.AmadeusWSSchema[Fare_DisplayFaresForCityPairReply]);
             }
             catch (Exception)
             {
@@ -796,7 +792,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema.Fare_InformativeBestPricingWithoutPNR, ttProviderSystems.AmadeusWSSchema.Fare_InformativeBestPricingWithoutPNRReply);
+                return SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema[Fare_InformativeBestPricingWithoutPNR], ttProviderSystems.AmadeusWSSchema[Fare_InformativeBestPricingWithoutPNRReply]);
             }
             catch (Exception)
             {
@@ -808,7 +804,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema.Air_FlightInfo, ttProviderSystems.AmadeusWSSchema.Air_FlightInfoReply);
+                return SendGDSMessage(ttAA, strRequest, ttProviderSystems.AmadeusWSSchema[Air_FlightInfo], ttProviderSystems.AmadeusWSSchema[Air_FlightInfoReply]);
             }
             catch (Exception)
             {
@@ -820,8 +816,7 @@ namespace AmadeusWS
         {
             try
             {
-                var request = $"<PNR_Retrieve><settings><options><optionCode>51</optionCode></options></settings><retrievalFacts><retrieve><type>1</type></retrieve></retrievalFacts>" +
-                    $"</PNR_Retrieve>";
+                var request = $"<PNR_Retrieve><settings><options><optionCode>51</optionCode></options></settings><retrievalFacts><retrieve><type>1</type></retrieve></retrievalFacts></PNR_Retrieve>";
                 return SendRetrievePNR(ttAA, request);
             }
             catch (Exception ex)
@@ -834,9 +829,8 @@ namespace AmadeusWS
         {
             try
             {
-                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/{ttProviderSystems.AmadeusWSSchema.PNR_Split}", ConversationID);
-                response = response.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema.PNR_Reply}\"", "");
-                response = response.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema.PNR_Reply1}\"", "");
+                var response = ttAA.SendMessage(request, "", $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/{ttProviderSystems.AmadeusWSSchema[PNR_Split]}", ConversationID);
+                response = response.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[PNR_Reply]}\"", "");
                 ConversationID = UpdateSessionID(ConversationID);
                 return response;
             }
@@ -850,7 +844,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Ticket_GetPricingOptions, ttProviderSystems.AmadeusWSSchema.Ticket_GetPricingOptionsReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_GetPricingOptions], ttProviderSystems.AmadeusWSSchema[Ticket_GetPricingOptionsReply]);
             }
             catch (Exception)
             {
@@ -862,7 +856,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Ticket_ProcessETicket, ttProviderSystems.AmadeusWSSchema.Ticket_ProcessETicketReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_ProcessETicket], ttProviderSystems.AmadeusWSSchema[Ticket_ProcessETicketReply]);
             }
             catch (Exception)
             {
@@ -875,7 +869,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithBookingClass, ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithBookingClassReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClass], ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClassReply]);
             }
             catch (Exception ex)
             {
@@ -888,7 +882,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithLowerFares, ttProviderSystems.AmadeusWSSchema.Fare_PricePNRWithLowerFaresReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithLowerFares], ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithLowerFaresReply]);
             }
             catch (Exception ex)
             {
@@ -901,7 +895,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Ticket_CreateTSTFromPricing, ttProviderSystems.AmadeusWSSchema.Ticket_CreateTSTFromPricingReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_CreateTSTFromPricing], ttProviderSystems.AmadeusWSSchema[Ticket_CreateTSTFromPricingReply]);
             }
             catch (Exception)
             {
@@ -913,7 +907,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Ticket_UpdateTST, ttProviderSystems.AmadeusWSSchema.Ticket_UpdateTSTReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_UpdateTST], ttProviderSystems.AmadeusWSSchema[Ticket_UpdateTSTReply]);
             }
             catch (Exception)
             {
@@ -925,7 +919,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.QueueMode_ProcessQueue, ttProviderSystems.AmadeusWSSchema.QueueMode_ProcessQueueReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[QueueMode_ProcessQueue], ttProviderSystems.AmadeusWSSchema[QueueMode_ProcessQueueReply]);
             }
             catch (Exception ex)
             {
@@ -937,7 +931,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Air_SellFromRecommendation, ttProviderSystems.AmadeusWSSchema.Air_SellFromRecommendationReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Air_SellFromRecommendation], ttProviderSystems.AmadeusWSSchema[Air_SellFromRecommendationReply]);
             }
             catch (Exception ex)
             {
@@ -949,7 +943,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Fare_GetFareFamilyDescription, ttProviderSystems.AmadeusWSSchema.Fare_GetFareFamilyDescriptionReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Fare_GetFareFamilyDescription], ttProviderSystems.AmadeusWSSchema[Fare_GetFareFamilyDescriptionReply]);
             }
             catch (Exception)
             {
@@ -961,7 +955,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Air_RetrieveSeatMap, ttProviderSystems.AmadeusWSSchema.Air_RetrieveSeatMap);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Air_RetrieveSeatMap], ttProviderSystems.AmadeusWSSchema[Air_RetrieveSeatMap]);
             }
             catch (Exception)
             {
@@ -973,7 +967,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Fare_MasterPricerExpertSearch, ttProviderSystems.AmadeusWSSchema.Fare_MasterPricerExpertSearch);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Fare_MasterPricerExpertSearch], ttProviderSystems.AmadeusWSSchema[Fare_MasterPricerExpertSearch]);
             }
             catch (Exception)
             {
@@ -985,7 +979,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Fare_MasterPricerTravelBoardSearch, ttProviderSystems.AmadeusWSSchema.Fare_MasterPricerTravelBoardSearchReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Fare_MasterPricerTravelBoardSearch], ttProviderSystems.AmadeusWSSchema[Fare_MasterPricerTravelBoardSearchReply]);
             }
             catch (Exception)
             {
@@ -997,7 +991,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Fare_MasterPricerCalendar, ttProviderSystems.AmadeusWSSchema.Fare_MasterPricerCalendarReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Fare_MasterPricerCalendar], ttProviderSystems.AmadeusWSSchema[Fare_MasterPricerCalendarReply]);
             }
             catch (Exception)
             {
@@ -1009,7 +1003,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Fare_SellByFareCalendar, ttProviderSystems.AmadeusWSSchema.Fare_SellByFareCalendarReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Fare_SellByFareCalendar], ttProviderSystems.AmadeusWSSchema[Fare_SellByFareCalendarReply]);
             }
             catch (Exception)
             {
@@ -1021,7 +1015,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Fare_SellByFareSearch, ttProviderSystems.AmadeusWSSchema.Fare_SellByFareSearchReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Fare_SellByFareSearch], ttProviderSystems.AmadeusWSSchema[Fare_SellByFareSearchReply]);
             }
             catch (Exception)
             {
@@ -1033,7 +1027,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Car_Policy, ttProviderSystems.AmadeusWSSchema.Car_PolicyReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Car_Policy], ttProviderSystems.AmadeusWSSchema[Car_PolicyReply]);
             }
             catch (Exception)
             {
@@ -1045,7 +1039,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Car_SingleAvailability, ttProviderSystems.AmadeusWSSchema.Car_SingleAvailabilityReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Car_SingleAvailability], ttProviderSystems.AmadeusWSSchema[Car_SingleAvailabilityReply]);
             }
             catch (Exception)
             {
@@ -1057,7 +1051,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Car_MultiAvailability, ttProviderSystems.AmadeusWSSchema.Car_MultiAvailabilityReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Car_MultiAvailability], ttProviderSystems.AmadeusWSSchema[Car_MultiAvailabilityReply]);
             }
             catch (Exception)
             {
@@ -1069,7 +1063,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Car_RateInformationFromAvailability, ttProviderSystems.AmadeusWSSchema.Car_RateInformationFromAvailabilityReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Car_RateInformationFromAvailability], ttProviderSystems.AmadeusWSSchema[Car_RateInformationFromAvailabilityReply]);
             }
             catch (Exception)
             {
@@ -1081,7 +1075,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Car_LocationList, ttProviderSystems.AmadeusWSSchema.Car_LocationListReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Car_LocationList], ttProviderSystems.AmadeusWSSchema[Car_LocationListReply]);
             }
             catch (Exception)
             {
@@ -1093,7 +1087,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Car_InformationImage, ttProviderSystems.AmadeusWSSchema.Car_InformationImageReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Car_InformationImage], ttProviderSystems.AmadeusWSSchema[Car_InformationImageReply]);
             }
             catch (Exception)
             {
@@ -1104,7 +1098,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Car_Sell, ttProviderSystems.AmadeusWSSchema.Car_SellReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Car_Sell], ttProviderSystems.AmadeusWSSchema[Car_SellReply]);
             }
             catch (Exception)
             {
@@ -1116,7 +1110,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Car_Availability, ttProviderSystems.AmadeusWSSchema.Car_AvailabilityReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Car_Availability], ttProviderSystems.AmadeusWSSchema[Car_AvailabilityReply]);
             }
             catch (Exception)
             {
@@ -1128,7 +1122,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Hotel_SingleAvailability, ttProviderSystems.AmadeusWSSchema.Hotel_SingleAvailabilityReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Hotel_SingleAvailability], ttProviderSystems.AmadeusWSSchema[Hotel_SingleAvailabilityReply]);
             }
             catch (Exception)
             {
@@ -1140,7 +1134,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Hotel_StructuredPricing, ttProviderSystems.AmadeusWSSchema.Hotel_StructuredPricingReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Hotel_StructuredPricing], ttProviderSystems.AmadeusWSSchema[Hotel_StructuredPricingReply]);
             }
             catch (Exception)
             {
@@ -1152,7 +1146,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Hotel_AvailabilityMultiProperties, ttProviderSystems.AmadeusWSSchema.Hotel_AvailabilityMultiPropertiesReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Hotel_AvailabilityMultiProperties], ttProviderSystems.AmadeusWSSchema[Hotel_AvailabilityMultiPropertiesReply]);
             }
             catch (Exception)
             {
@@ -1164,7 +1158,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Hotel_MultiSingleAvailability, ttProviderSystems.AmadeusWSSchema.Hotel_MultiSingleAvailabilityReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Hotel_MultiSingleAvailability], ttProviderSystems.AmadeusWSSchema[Hotel_MultiSingleAvailabilityReply]);
             }
             catch (Exception)
             {
@@ -1176,7 +1170,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Hotel_DescriptiveInfo, ttProviderSystems.AmadeusWSSchema.Hotel_DescriptiveInfoReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Hotel_DescriptiveInfo], ttProviderSystems.AmadeusWSSchema[Hotel_DescriptiveInfoReply]);
             }
             catch (Exception)
             {
@@ -1188,7 +1182,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Hotel_Features, ttProviderSystems.AmadeusWSSchema.Hotel_FeaturesReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Hotel_Features], ttProviderSystems.AmadeusWSSchema[Hotel_FeaturesReply]);
             }
             catch (Exception)
             {
@@ -1200,7 +1194,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Hotel_List, ttProviderSystems.AmadeusWSSchema.Hotel_ListReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Hotel_List], ttProviderSystems.AmadeusWSSchema[Hotel_ListReply]);
             }
             catch (Exception)
             {
@@ -1212,7 +1206,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Hotel_EnhancedPricing, ttProviderSystems.AmadeusWSSchema.Hotel_EnhancedPricingReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Hotel_EnhancedPricing], ttProviderSystems.AmadeusWSSchema[Hotel_EnhancedPricingReply]);
             }
             catch (Exception)
             {
@@ -1224,7 +1218,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Hotel_RateChange, ttProviderSystems.AmadeusWSSchema.Hotel_RateChangeReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Hotel_RateChange], ttProviderSystems.AmadeusWSSchema[Hotel_RateChangeReply]);
             }
             catch (Exception)
             {
@@ -1236,7 +1230,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Hotel_Terms, ttProviderSystems.AmadeusWSSchema.Hotel_TermsReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Hotel_Terms], ttProviderSystems.AmadeusWSSchema[Hotel_TermsReply]);
             }
             catch (Exception)
             {
@@ -1248,7 +1242,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Hotel_Sell, ttProviderSystems.AmadeusWSSchema.Hotel_SellReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Hotel_Sell], ttProviderSystems.AmadeusWSSchema[Hotel_SellReply]);
             }
             catch (Exception)
             {
@@ -1260,7 +1254,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.DocIssuance_IssueTicket, ttProviderSystems.AmadeusWSSchema.DocIssuance_IssueTicketReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[DocIssuance_IssueTicket], ttProviderSystems.AmadeusWSSchema[DocIssuance_IssueTicketReply]);
             }
             catch (Exception ex)
             {
@@ -1272,7 +1266,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Ticket_CancelDocument, ttProviderSystems.AmadeusWSSchema.Ticket_CancelDocumentReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_CancelDocument], ttProviderSystems.AmadeusWSSchema[Ticket_CancelDocumentReply]);
             }
             catch (Exception ex)
             {
@@ -1284,7 +1278,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Ticket_CheckEligibility, ttProviderSystems.AmadeusWSSchema.Ticket_CheckEligibilityReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_CheckEligibility], ttProviderSystems.AmadeusWSSchema[Ticket_CheckEligibilityReply]);
             }
             catch (Exception ex)
             {
@@ -1296,7 +1290,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Ticket_ProcessEDoc, ttProviderSystems.AmadeusWSSchema.Ticket_ProcessEDocReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_ProcessEDoc], ttProviderSystems.AmadeusWSSchema[Ticket_ProcessEDocReply]);
             }
             catch (Exception ex)
             {
@@ -1308,7 +1302,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Ticket_RepricePNRWithBookingClass, ttProviderSystems.AmadeusWSSchema.Ticket_RepricePNRWithBookingClassReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_RepricePNRWithBookingClass], ttProviderSystems.AmadeusWSSchema[Ticket_RepricePNRWithBookingClassReply]);
             }
             catch (Exception ex)
             {
@@ -1320,7 +1314,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Ticket_AutomaticUpdate, ttProviderSystems.AmadeusWSSchema.Ticket_AutomaticUpdateReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_AutomaticUpdate], ttProviderSystems.AmadeusWSSchema[Ticket_AutomaticUpdateReply]);
             }
             catch (Exception ex)
             {
@@ -1332,7 +1326,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.SalesReports_DisplayQueryReport, ttProviderSystems.AmadeusWSSchema.SalesReports_DisplayQueryReportReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[SalesReports_DisplayQueryReport], ttProviderSystems.AmadeusWSSchema[SalesReports_DisplayQueryReportReply]);
             }
             catch (Exception ex)
             {
@@ -1344,7 +1338,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Ticket_CreditCardCheck, ttProviderSystems.AmadeusWSSchema.Ticket_CreditCardCheckReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_CreditCardCheck], ttProviderSystems.AmadeusWSSchema[Ticket_CreditCardCheckReply]);
             }
             catch (Exception ex)
             {
@@ -1356,7 +1350,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Queue_PlacePNR, ttProviderSystems.AmadeusWSSchema.Queue_PlacePNRReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Queue_PlacePNR], ttProviderSystems.AmadeusWSSchema[Queue_PlacePNRReply]);
             }
             catch (Exception ex)
             {
@@ -1368,7 +1362,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Queue_MoveItem, ttProviderSystems.AmadeusWSSchema.Queue_MoveItemReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Queue_MoveItem], ttProviderSystems.AmadeusWSSchema[Queue_MoveItemReply]);
             }
             catch (Exception ex)
             {
@@ -1380,7 +1374,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Queue_RemoveItem, ttProviderSystems.AmadeusWSSchema.Queue_RemoveItemReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Queue_RemoveItem], ttProviderSystems.AmadeusWSSchema[Queue_RemoveItemReply]);
             }
             catch (Exception ex)
             {
@@ -1392,7 +1386,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.DocRefund_CalculateRefund, ttProviderSystems.AmadeusWSSchema.DocRefund_CalculateRefundReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[DocRefund_CalculateRefund], ttProviderSystems.AmadeusWSSchema[DocRefund_CalculateRefundReply]);
             }
             catch (Exception ex)
             {
@@ -1404,7 +1398,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.DocRefund_IgnoreRefund, ttProviderSystems.AmadeusWSSchema.DocRefund_IgnoreRefundReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[DocRefund_IgnoreRefund], ttProviderSystems.AmadeusWSSchema[DocRefund_IgnoreRefundReply]);
             }
             catch (Exception ex)
             {
@@ -1416,7 +1410,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.DocRefund_InitRefund, ttProviderSystems.AmadeusWSSchema.DocRefund_InitRefundReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[DocRefund_InitRefund], ttProviderSystems.AmadeusWSSchema[DocRefund_InitRefundReply]);
             }
             catch (Exception ex)
             {
@@ -1428,7 +1422,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.DocRefund_ProcessRefund, ttProviderSystems.AmadeusWSSchema.DocRefund_ProcessRefundReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[DocRefund_ProcessRefund], ttProviderSystems.AmadeusWSSchema[DocRefund_ProcessRefundReply]);
             }
             catch (Exception ex)
             {
@@ -1440,7 +1434,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.DocRefund_SearchRefundRule, ttProviderSystems.AmadeusWSSchema.DocRefund_SearchRefundRuleReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[DocRefund_SearchRefundRule], ttProviderSystems.AmadeusWSSchema[DocRefund_SearchRefundRuleReply]);
             }
             catch (Exception ex)
             {
@@ -1452,7 +1446,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.DocRefund_UpdateRefund, ttProviderSystems.AmadeusWSSchema.DocRefund_UpdateRefundReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[DocRefund_UpdateRefund], ttProviderSystems.AmadeusWSSchema[DocRefund_UpdateRefundReply]);
             }
             catch (Exception ex)
             {
@@ -1464,7 +1458,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Security_Authenticate, ttProviderSystems.AmadeusWSSchema.Security_AuthenticateReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Security_Authenticate], ttProviderSystems.AmadeusWSSchema[Security_AuthenticateReply]);
             }
             catch (Exception ex)
             {
@@ -1476,7 +1470,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Security_SignOut, ttProviderSystems.AmadeusWSSchema.Security_SignOutReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Security_SignOut], ttProviderSystems.AmadeusWSSchema[Security_SignOutReply]);
             }
             catch (Exception ex)
             {
@@ -1488,7 +1482,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.MiniRule_GetFromPricing, ttProviderSystems.AmadeusWSSchema.MiniRule_GetFromPricingReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[MiniRule_GetFromPricing], ttProviderSystems.AmadeusWSSchema[MiniRule_GetFromPricingReply]);
             }
             catch (Exception ex)
             {
@@ -1500,7 +1494,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.MiniRule_GetFromPricingRec, ttProviderSystems.AmadeusWSSchema.MiniRule_GetFromPricingRecReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[MiniRule_GetFromPricingRec], ttProviderSystems.AmadeusWSSchema[MiniRule_GetFromPricingRecReply]);
             }
             catch (Exception ex)
             {
@@ -1512,7 +1506,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Fare_FlexPricerUpsell, ttProviderSystems.AmadeusWSSchema.Fare_FlexPricerUpsellReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Fare_FlexPricerUpsell], ttProviderSystems.AmadeusWSSchema[Fare_FlexPricerUpsellReply]);
             }
             catch (Exception ex)
             {
@@ -1524,7 +1518,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Ticket_ATCShopperMasterPricerTravelBoardSearch, ttProviderSystems.AmadeusWSSchema.Ticket_ATCShopperMasterPricerTravelBoardSearchReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_ATCShopperMasterPricerTravelBoardSearch], ttProviderSystems.AmadeusWSSchema[Ticket_ATCShopperMasterPricerTravelBoardSearchReply]);
             }
             catch (Exception ex)
             {
@@ -1536,7 +1530,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.PNR_TransferOwnership, ttProviderSystems.AmadeusWSSchema.PNR_TransferOwnershipReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[PNR_TransferOwnership], ttProviderSystems.AmadeusWSSchema[PNR_TransferOwnershipReply]);
             }
             catch (Exception ex)
             {
@@ -1548,7 +1542,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Fare_QuoteItinerary, ttProviderSystems.AmadeusWSSchema.Fare_QuoteItineraryReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Fare_QuoteItinerary], ttProviderSystems.AmadeusWSSchema[Fare_QuoteItineraryReply]);
             }
             catch (Exception ex)
             {
@@ -1560,7 +1554,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Fare_MetaPricerTravelBoardSearch, ttProviderSystems.AmadeusWSSchema.Fare_MetaPricerTravelBoardSearchReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Fare_MetaPricerTravelBoardSearch], ttProviderSystems.AmadeusWSSchema[Fare_MetaPricerTravelBoardSearchReply]);
             }
             catch (Exception ex)
             {
@@ -1572,7 +1566,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Fare_MetaPricerCalendar, ttProviderSystems.AmadeusWSSchema.Fare_MetaPricerCalendarReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Fare_MetaPricerCalendar], ttProviderSystems.AmadeusWSSchema[Fare_MetaPricerCalendarReply]);
             }
             catch (Exception ex)
             {
@@ -1584,7 +1578,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_RequestSailingAvailability, ttProviderSystems.AmadeusWSSchema.Cruise_RequestSailingAvailabilityReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_RequestSailingAvailability], ttProviderSystems.AmadeusWSSchema[Cruise_RequestSailingAvailabilityReply]);
             }
             catch (Exception)
             {
@@ -1596,7 +1590,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_RequestFareAvailability, ttProviderSystems.AmadeusWSSchema.Cruise_RequestFareAvailabilityReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_RequestFareAvailability], ttProviderSystems.AmadeusWSSchema[Cruise_RequestFareAvailabilityReply]);
             }
             catch (Exception)
             {
@@ -1608,7 +1602,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_RequestCategoryAvailability, ttProviderSystems.AmadeusWSSchema.Cruise_RequestCategoryAvailabilityReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_RequestCategoryAvailability], ttProviderSystems.AmadeusWSSchema[Cruise_RequestCategoryAvailabilityReply]);
             }
             catch (Exception)
             {
@@ -1620,7 +1614,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_RequestCabinAvailability, ttProviderSystems.AmadeusWSSchema.Cruise_RequestCabinAvailabilityReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_RequestCabinAvailability], ttProviderSystems.AmadeusWSSchema[Cruise_RequestCabinAvailabilityReply]);
             }
             catch (Exception)
             {
@@ -1632,7 +1626,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_HoldCabin, ttProviderSystems.AmadeusWSSchema.Cruise_HoldCabinReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_HoldCabin], ttProviderSystems.AmadeusWSSchema[Cruise_HoldCabinReply]);
             }
             catch (Exception)
             {
@@ -1644,7 +1638,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_UnholdCabin, ttProviderSystems.AmadeusWSSchema.Cruise_UnholdCabinReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_UnholdCabin], ttProviderSystems.AmadeusWSSchema[Cruise_UnholdCabinReply]);
             }
             catch (Exception)
             {
@@ -1656,7 +1650,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_PriceBooking, ttProviderSystems.AmadeusWSSchema.Cruise_PriceBookingReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_PriceBooking], ttProviderSystems.AmadeusWSSchema[Cruise_PriceBookingReply]);
             }
             catch (Exception)
             {
@@ -1668,7 +1662,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_CreateBooking, ttProviderSystems.AmadeusWSSchema.Cruise_CreateBookingReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_CreateBooking], ttProviderSystems.AmadeusWSSchema[Cruise_CreateBookingReply]);
             }
             catch (Exception)
             {
@@ -1680,7 +1674,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_GetBookingDetails, ttProviderSystems.AmadeusWSSchema.Cruise_GetBookingDetailsReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_GetBookingDetails], ttProviderSystems.AmadeusWSSchema[Cruise_GetBookingDetailsReply]);
             }
             catch (Exception)
             {
@@ -1692,7 +1686,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_CancelBooking, ttProviderSystems.AmadeusWSSchema.Cruise_CancelBookingReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_CancelBooking], ttProviderSystems.AmadeusWSSchema[Cruise_CancelBookingReply]);
             }
             catch (Exception)
             {
@@ -1704,7 +1698,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_ModifyBooking, ttProviderSystems.AmadeusWSSchema.Cruise_ModifyBookingReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_ModifyBooking], ttProviderSystems.AmadeusWSSchema[Cruise_ModifyBookingReply]);
             }
             catch (Exception)
             {
@@ -1716,7 +1710,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_RequestPrePostPackageAvailability, ttProviderSystems.AmadeusWSSchema.Cruise_RequestPrePostPackageAvailabilityReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_RequestPrePostPackageAvailability], ttProviderSystems.AmadeusWSSchema[Cruise_RequestPrePostPackageAvailabilityReply]);
             }
             catch (Exception)
             {
@@ -1728,7 +1722,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_DisplayPrePostPackageDescription, ttProviderSystems.AmadeusWSSchema.Cruise_DisplayPrePostPackageDescriptionReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_DisplayPrePostPackageDescription], ttProviderSystems.AmadeusWSSchema[Cruise_DisplayPrePostPackageDescriptionReply]);
             }
             catch (Exception)
             {
@@ -1740,7 +1734,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_RequestTransferAvailability, ttProviderSystems.AmadeusWSSchema.Cruise_RequestTransferAvailabilityReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_RequestTransferAvailability], ttProviderSystems.AmadeusWSSchema[Cruise_RequestTransferAvailabilityReply]);
             }
             catch (Exception)
             {
@@ -1752,7 +1746,7 @@ namespace AmadeusWS
         {
             try
             {
-                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema.Cruise_DisplayItineraryDescription, ttProviderSystems.AmadeusWSSchema.Cruise_DisplayItineraryDescriptionReply);
+                return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Cruise_DisplayItineraryDescription], ttProviderSystems.AmadeusWSSchema[Cruise_DisplayItineraryDescriptionReply]);
             }
             catch (Exception)
             {
