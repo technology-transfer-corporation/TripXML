@@ -3089,90 +3089,27 @@ Namespace wsTravelTalk
      System.SerializableAttribute()>
     Partial Public Class FareComponentType
 
-        Private parametersField As FareComponentTypeParameters
-
-        Private priceField As FarePriceDetailType
-
-        Private fareBasisField As FareComponentTypeFareBasis
-
-        Private ticketDesigField As TicketDesignatorType
-
-        Private fareRulesField As FareRulesType
-
-        Private priceClassRefField As String
-
-        Private segmentRefsField As FareComponentTypeSegmentRefs
-
         '''<remarks/>
         Public Property Parameters() As FareComponentTypeParameters
-            Get
-                Return Me.parametersField
-            End Get
-            Set
-                Me.parametersField = Value
-            End Set
-        End Property
 
         '''<remarks/>
         Public Property Price() As FarePriceDetailType
-            Get
-                Return Me.priceField
-            End Get
-            Set
-                Me.priceField = Value
-            End Set
-        End Property
 
         '''<remarks/>
         Public Property FareBasis() As FareComponentTypeFareBasis
-            Get
-                Return Me.fareBasisField
-            End Get
-            Set
-                Me.fareBasisField = Value
-            End Set
-        End Property
 
         '''<remarks/>
         Public Property TicketDesig() As TicketDesignatorType
-            Get
-                Return Me.ticketDesigField
-            End Get
-            Set
-                Me.ticketDesigField = Value
-            End Set
-        End Property
 
         '''<remarks/>
         Public Property FareRules() As FareRulesType
-            Get
-                Return Me.fareRulesField
-            End Get
-            Set
-                Me.fareRulesField = Value
-            End Set
-        End Property
 
         '''<remarks/>
         <System.Xml.Serialization.XmlElementAttribute(DataType:="IDREF")>
         Public Property PriceClassRef() As String
-            Get
-                Return Me.priceClassRefField
-            End Get
-            Set
-                Me.priceClassRefField = Value
-            End Set
-        End Property
 
         '''<remarks/>
         Public Property SegmentRefs() As FareComponentTypeSegmentRefs
-            Get
-                Return Me.segmentRefsField
-            End Get
-            Set
-                Me.segmentRefsField = Value
-            End Set
-        End Property
     End Class
 
     '''<remarks/>
@@ -3180,18 +3117,9 @@ Namespace wsTravelTalk
      System.SerializableAttribute()>
     Partial Public Class FareComponentTypeParameters
 
-        Private quantityField As String
-
         '''<remarks/>
         <System.Xml.Serialization.XmlAttributeAttribute(DataType:="positiveInteger")>
         Public Property Quantity() As String
-            Get
-                Return Me.quantityField
-            End Get
-            Set
-                Me.quantityField = Value
-            End Set
-        End Property
     End Class
 
     '''<remarks/>
@@ -3199,66 +3127,21 @@ Namespace wsTravelTalk
      System.SerializableAttribute()>
     Partial Public Class FareComponentTypeFareBasis
 
-        Private fareBasisCodeField As FareBasisCodeType
-
-        Private fareRulesRemarksField() As FareRulesRemarksFareRulesRemark
-
-        Private fareBasisCityPairField As String
-
-        Private rBDField As String
-
-        Private cabinTypeField As FareComponentTypeFareBasisCabinType
-
         '''<remarks/>
         Public Property FareBasisCode() As FareBasisCodeType
-            Get
-                Return Me.fareBasisCodeField
-            End Get
-            Set
-                Me.fareBasisCodeField = Value
-            End Set
-        End Property
 
         '''<remarks/>
         <System.Xml.Serialization.XmlArrayItemAttribute("FareRulesRemark", IsNullable:=False)>
         Public Property FareRulesRemarks() As FareRulesRemarksFareRulesRemark()
-            Get
-                Return Me.fareRulesRemarksField
-            End Get
-            Set
-                Me.fareRulesRemarksField = Value
-            End Set
-        End Property
 
         '''<remarks/>
         Public Property FareBasisCityPair() As String
-            Get
-                Return Me.fareBasisCityPairField
-            End Get
-            Set
-                Me.fareBasisCityPairField = Value
-            End Set
-        End Property
 
         '''<remarks/>
         Public Property RBD() As String
-            Get
-                Return Me.rBDField
-            End Get
-            Set
-                Me.rBDField = Value
-            End Set
-        End Property
 
         '''<remarks/>
         Public Property CabinType() As FareComponentTypeFareBasisCabinType
-            Get
-                Return Me.cabinTypeField
-            End Get
-            Set
-                Me.cabinTypeField = Value
-            End Set
-        End Property
     End Class
 
     '''<remarks/>
@@ -3266,42 +3149,15 @@ Namespace wsTravelTalk
      System.SerializableAttribute()>
     Partial Public Class FareBasisCodeType
 
-        Private codeField As String
-
-        Private applicationField As String
-
-        Private refsField As String
-
         '''<remarks/>
         Public Property Code() As String
-            Get
-                Return Me.codeField
-            End Get
-            Set
-                Me.codeField = Value
-            End Set
-        End Property
 
         '''<remarks/>
         Public Property Application() As String
-            Get
-                Return Me.applicationField
-            End Get
-            Set
-                Me.applicationField = Value
-            End Set
-        End Property
 
         '''<remarks/>
         <System.Xml.Serialization.XmlAttributeAttribute(DataType:="IDREFS")>
         Public Property refs() As String
-            Get
-                Return Me.refsField
-            End Get
-            Set
-                Me.refsField = Value
-            End Set
-        End Property
     End Class
 
     '''<remarks/>
@@ -3382,31 +3238,13 @@ Namespace wsTravelTalk
      System.SerializableAttribute()>
     Partial Public Class TicketDesignatorType
 
-        Private applicationField As String
-
-        Private valueField As String
-
         '''<remarks/>
         <System.Xml.Serialization.XmlAttributeAttribute()>
         Public Property Application() As String
-            Get
-                Return Me.applicationField
-            End Get
-            Set
-                Me.applicationField = Value
-            End Set
-        End Property
 
         '''<remarks/>
         <System.Xml.Serialization.XmlTextAttribute()>
         Public Property Value() As String
-            Get
-                Return Me.valueField
-            End Get
-            Set
-                Me.valueField = Value
-            End Set
-        End Property
     End Class
 
     '''<remarks/>

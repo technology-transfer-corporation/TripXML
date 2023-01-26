@@ -204,6 +204,9 @@ Namespace wsTravelTalk.wmIssueTicketSessionedIn
         Public TicketingPrinter As String
 
         '<remarks/>
+        Public TicketDesignators As TicketDesignator()
+
+        '<remarks/>
         Public InvoicePrinter As String
 
         '<remarks/>
@@ -357,17 +360,27 @@ Namespace wsTravelTalk.wmIssueTicketSessionedIn
     End Class
 
     '<remarks/>
-    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)> _
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
     Public Class Notification
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public ByEmail As Boolean = False
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public ByFax As Boolean = False
 
+    End Class
+
+    Partial Public Class TicketDesignator
+
+        '''<remarks/>
+        <System.Xml.Serialization.XmlAttributeAttribute()>
+        Public RPH As String
+
+        <System.Xml.Serialization.XmlTextAttribute()>
+        Public Value As String
     End Class
 
     '<remarks/>
