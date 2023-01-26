@@ -575,9 +575,7 @@
         <ReqAirVPFs>Y</ReqAirVPFs>
         <SegRangeAry>
           <xsl:variable name="qN" select="GenQuoteDetails[UniqueKey=$fareNum]/QuoteNum"/>
-
           <SegRange>
-
             <xsl:choose>
               <xsl:when test="PNRBFRetrieve/ARNK">
                 <StartSeg>

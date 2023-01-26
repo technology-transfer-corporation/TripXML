@@ -4,6 +4,7 @@
 	================================================================== 
 	Sabre_LowFarePlusRS.xsl 											
 	================================================================== 
+	Date: 24 Jan 2022 - Kobelev - Fixed Base Fare and Total Fare Display
 	Date: 26 Aug 2022 - Kobelev - Fixed FareInfo Display
 	Date: 24 Aug 2022 - Kobelev - Fixed JourneyDuration Display
 	Date: 23 Aug 2022 - Samokhvalov - corrected OriginDestinationOptions			
@@ -126,17 +127,29 @@
 			</xsl:attribute>
 			<ItinTotalFare>
 				<xsl:variable name="amtbase1">
-					<xsl:apply-templates select="PTC_FareInfo/PTC_FareBreakdown[1]" mode="basefare">
+					<xsl:apply-templates select="ItinTotalFare/BaseFare" mode="basefare">
 						<xsl:with-param name="total">0</xsl:with-param>
 					</xsl:apply-templates>
+					
 				</xsl:variable>
 				<xsl:variable name="amtbase"><xsl:value-of select="substring-before($amtbase1,'/')" /></xsl:variable>
 				<xsl:variable name="amttot">
 					<xsl:value-of select="translate(ItinTotalFare/TotalFare/@Amount,'.','')" />
 				</xsl:variable>
+				<xsl:variable name="amttotbase">
+					<xsl:choose>
+						<xsl:when test="ItinTotalFare/EquivFare">
+							<xsl:value-of select="translate(ItinTotalFare/EquivFare/@Amount,'.','')" />		
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="translate(ItinTotalFare/BaseFare/@Amount,'.','')" />
+						</xsl:otherwise>
+					</xsl:choose>
+					
+				</xsl:variable>
 				<BaseFare>
 					<xsl:attribute name="Amount">
-						<xsl:value-of select="$amtbase" />
+						<xsl:value-of select="$amttotbase" />
 					</xsl:attribute>
 					<xsl:attribute name="CurrencyCode">
 						<xsl:value-of select="ItinTotalFare/TotalFare/@CurrencyCode" />
@@ -148,7 +161,7 @@
 				<Taxes>
 					<Tax>
 						<xsl:attribute name="TaxCode">TotalTax</xsl:attribute>
-						<xsl:attribute name="Amount"><xsl:value-of select="$amttot - $amtbase"/></xsl:attribute>
+						<xsl:attribute name="Amount"><xsl:value-of select="translate(ItinTotalFare/Taxes/Tax/@Amount,'.','')"/></xsl:attribute>
 						<xsl:attribute name="CurrencyCode">
 							<xsl:value-of select="ItinTotalFare/TotalFare/@CurrencyCode" />
 						</xsl:attribute>
@@ -170,12 +183,12 @@
 				</TotalFare>
 			</ItinTotalFare>
 			<PTC_FareBreakdowns>
-				<xsl:apply-templates select="PTC_FareInfo/PTC_FareBreakdown" mode="PaxType" />
+				<xsl:apply-templates select="PTC_FareBreakdowns/PTC_FareBreakdown" mode="PaxType" />
 			</PTC_FareBreakdowns>
 			<FareInfos>
 				<xsl:for-each select="PTC_FareBreakdowns/PTC_FareBreakdown">
 					<xsl:variable name="fareref" select="FareBasisCodes/FareBasisCode"/>
-					<xsl:apply-templates select="../../../AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment" mode="fareinfos">
+					<xsl:apply-templates select="//AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment" mode="fareinfos">
 						<xsl:with-param name="fareref">
 							<xsl:copy-of select="$fareref" />
 						</xsl:with-param>
@@ -306,6 +319,9 @@
 					<xsl:attribute name="Amount">
 						<xsl:value-of select="$tbase" />
 					</xsl:attribute>
+					<xsl:attribute name="CurrencyCode">
+						<xsl:value-of select="PassengerFare/TotalFare/@CurrencyCode" />
+					</xsl:attribute>					
 				</BaseFare>
 				<Taxes>
 					<Tax>

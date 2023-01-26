@@ -14,8 +14,7 @@
 	
   <!-- 'User variable is not defined in local xsl'-->
   <xsl:variable name="User"><xsl:value-of select="TT_IssueTicketRQ/POS/Source/RequestorID/@ID"/></xsl:variable>
-	<!--=============================================-->
-  
+	<!--=============================================-->  
   
   <xsl:template match="/">
 		<TT_IssueTicketRQ>

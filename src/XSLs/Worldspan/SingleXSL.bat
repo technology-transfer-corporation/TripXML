@@ -5,5 +5,7 @@ xsltc /settings:document %~1
 
 xcopy "*.dll"  "..\..\TripXMLMain\Xsl\Worldspan"  /c /d /i /y
 xcopy "*.dll"  "C:\TripXML\Xsl\Worldspan"  /c /d /i /y
+xcopy "*.dll"  "..\..\wsTripXML\Xsl\Worldspan"  /c /d /i /y
+xcopy "*.dll"  "..\..\wsTripXML\bin"  /c /d /i /y
 
 del "*.dll" 

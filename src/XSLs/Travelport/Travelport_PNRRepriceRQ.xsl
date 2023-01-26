@@ -894,13 +894,14 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 							</xsl:attribute>
 						</xsl:if>
 
-						<!-- Possible different implementation -->
+						<!-- Possible different implementation
 						<xsl:if test="//StoredFare[PassengerType/@Code=$ptc and Markup or TourCode or Endorsement]/FareSegments/AirSegments[$pos]/@TicketDesignator">
 							<air:FareTicketDesignator>
 								<xsl:value-of select="//StoredFare[PassengerType/@Code=$ptc and Markup or TourCode or Endorsement]/FareSegments/AirSegments[$pos]/@TicketDesignator"/>
 							</air:FareTicketDesignator>
 						</xsl:if>
-
+						-->
+						
 						<air:FareRuleKey>
 							<xsl:attribute name="FareInfoRef">
 								<xsl:value-of select="air:FareRuleKey/@FareInfoRef"/>
@@ -1058,7 +1059,6 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 
 				<!--<xsl:for-each select="../StoredFare[Markup]">-->
 				<xsl:if test="//StoredFare[Discount or Markup]">
-
 					<common_v50_0:Commission>
 						<xsl:attribute name="Level">
 							<xsl:text>Fare</xsl:text>
@@ -1126,8 +1126,6 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 						</air:TicketEndorsement>
 					</xsl:for-each>
 				</xsl:if>
-
-
 
 				<air:DocumentSelect IssueTicketOnly="false">
 					<air:Itinerary SeparateIndicator="false"/>
@@ -1252,6 +1250,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 					</xsl:attribute>
 				</air:ManualFareAdjustment>
 			</xsl:if>
+			<!-- 
 			<xsl:if test ="$td != ''" >
 				<air:ManualFareAdjustment>
 					<xsl:attribute name="AppliedOn">
@@ -1268,6 +1267,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 					</xsl:attribute>
 				</air:ManualFareAdjustment>
 			</xsl:if>
+			-->
+			
 		</xsl:for-each>
 	</xsl:template>
 

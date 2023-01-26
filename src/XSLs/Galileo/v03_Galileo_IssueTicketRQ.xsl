@@ -4,6 +4,7 @@
   ================================================================== 
 	v04_Galileo_IssueTicketRQ.xsl 													
   ================================================================== 
+  Date: 25 Jan 2023 - Kobelev - Added TicketDesignators
   Date: 04 Nov 2020 - Kobelev - MIR Printer Status Change.
   Date: 28 Oct 2020 - Kobelev - Printer Status Change Cryptically.
   Date: 27 Oct 2020 - Kobelev - Ticketing and Invoice Printer assignement.
@@ -267,6 +268,16 @@
 			-->
 			<DocProdFareManipulation_29>
 				<TicketingMods>
+					<xsl:if test="Ticketing/TicketDesignators!=''">
+						<TicketDesignator>
+							<SegNumAry>
+								<SegNumInfo>
+									<SegNum>0</SegNum><!--SegNum should always be 0 -->
+									<TkDesignator><xsl:value-of select="Ticketing/TicketDesignators[1]" /></TkDesignator>
+								</SegNumInfo>
+							</SegNumAry>
+						</TicketDesignator>
+					</xsl:if>
 					<DocumentSelect>
 						<!--<TkOnlyInd>Y</TkOnlyInd>-->
 						<ETInd>
