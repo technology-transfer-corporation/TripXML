@@ -226,7 +226,7 @@ namespace Sabre
 
 
                 /*  Create Session */
-                bool inSession = SetConversationID(ttSA);
+                bool inSession = SetConversationID(ttSA); //"EnhancedAirBook","EnhancedAirBookRQ"
                 strResponse = ttSA.SendMessage(strIgnore, "IgnoreTransaction", "IgnoreTransactionLLSRQ", ConversationID);
 
                 // *******************************************************************************

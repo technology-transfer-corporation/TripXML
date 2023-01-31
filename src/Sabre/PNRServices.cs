@@ -1043,13 +1043,15 @@ namespace Sabre
                     {
                         string strER = @"<SabreCommandLLSRQ xmlns=""http://webservices.sabre.com/sabreXML/2011/10"" Version=""2.0.0""><Request Output=""SCREEN"" MDRSubset=""AD01"" CDATA=""true""><HostCommand>6TRIPXML\ER</HostCommand></Request></SabreCommandLLSRQ>";
                         strResponse = ttSA.SendMessage(strER, "ER", "SabreCommandLLSRQ", ConversationID);
-                        if (strResponse.Contains("*WARNING EDITS*") | strResponse.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strResponse.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED") | strResponse.Contains("END OR IGNORE PNR") | strResponse.Contains("INCORRECT TIME LIMIT - VERIFY  *PQ  DATE"))
+                        if (strResponse.Contains("*WARNING EDITS*") || strResponse.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") || strResponse.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED") ||
+                            strResponse.Contains("END OR IGNORE PNR") || strResponse.Contains("INCORRECT TIME LIMIT - VERIFY  *PQ  DATE") || strResponse.Contains("DETAILS REQUIRED IN SSR - ENTER"))
                         {
                             strER = strER.Replace(@"6TRIPXML\ER", "ER");
                             strResponse = ttSA.SendMessage(strER, "ER", "SabreCommandLLSRQ", ConversationID);
                         }
 
-                        if (strResponse.Contains("*WARNING EDITS*") | strResponse.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strResponse.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED") | strResponse.Contains("END OR IGNORE PNR") | strResponse.Contains("INCORRECT TIME LIMIT - VERIFY  *PQ  DATE"))
+                        if (strResponse.Contains("*WARNING EDITS*") || strResponse.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") || strResponse.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED") ||
+                            strResponse.Contains("END OR IGNORE PNR") || strResponse.Contains("INCORRECT TIME LIMIT - VERIFY  *PQ  DATE") || strResponse.Contains("DETAILS REQUIRED IN SSR - ENTER"))
                         {
                             strResponse = ttSA.SendMessage(strER, "ER", "SabreCommandLLSRQ", ConversationID);
                         }
