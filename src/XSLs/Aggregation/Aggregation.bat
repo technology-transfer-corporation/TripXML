@@ -9,6 +9,6 @@ xsltc /settings:document+,script+ Aggregation_AirAvailRS.xsl
 xcopy "*.dll"  "..\..\wsTripXML\bin"  /c /d /i /y
 xcopy "*.dll"  "..\..\TripXMLMain\bin\Debug"  /c /d /i /y
 xcopy "*.dll"  "..\..\TripXMLMain\bin\Release"  /c /d /i /y
-xcopy "*.dll"  "C:\TripXML\Xsl\AmadeusWS"  /c /d /i /y
+xcopy "*.dll"  "C:\TripXML\Xsl\Aggregation"  /c /d /i /y
 
-del "*.dll" 
+#del "*.dll" 
