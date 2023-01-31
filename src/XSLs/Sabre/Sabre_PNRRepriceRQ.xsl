@@ -610,9 +610,11 @@
 		<xsl:if test="$skipIO != 1">
 			<ItineraryOptions>
 				<xsl:call-template name="GetItineraryOptions"/>
-				<!--<xsl:for-each select="FareFamily">
-				<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
-			</xsl:for-each>-->
+				<!--
+				<xsl:for-each select="FareFamily">
+					<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
+				</xsl:for-each>
+				-->
 			</ItineraryOptions>
 		</xsl:if>
 
