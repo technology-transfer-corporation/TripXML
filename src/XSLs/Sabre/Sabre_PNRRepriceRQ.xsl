@@ -224,7 +224,7 @@
 					</OTA_AirPriceRQ>
 				</xsl:when>
 				-->
-				
+
 				<xsl:when test="StoredFare/FareSegments">
 					<xsl:for-each select="StoredFare[generate-id() = generate-id(key('storedFareByPTC', PassengerType/@Code)[1])]">
 						<xsl:apply-templates select="." mode="SmartPricingAll" />
@@ -566,7 +566,7 @@
 		</OTA_AirPriceRQ>
 	</xsl:template>
 
-<!--
+	<!--
 **********************************************
   Branded Fares
 **********************************************
@@ -664,13 +664,13 @@
 					</xsl:if>
 					<PricingQualifiers>
 						<xsl:choose>
-							<xsl:when test="//StoredFare[1]/BrandedFares">
-								<xsl:apply-templates select="//StoredFare[1]/BrandedFares" mode="FareFamily" >
+							<xsl:when test="BrandedFares and not(FareSegments/AirSegments/@TicketDesignator!='')">
+								<xsl:apply-templates select="BrandedFares" mode="FareFamily" >
 									<xsl:with-param name="skipIO">1</xsl:with-param>
 									<xsl:with-param name="skipTD">1</xsl:with-param>
 								</xsl:apply-templates>
 								<ItineraryOptions>
-									<xsl:for-each select="//StoredFare[1]/FareSegments/AirSegments">
+									<xsl:for-each select="FareSegments/AirSegments">
 										<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
 									</xsl:for-each>
 								</ItineraryOptions>
@@ -680,19 +680,17 @@
 									</xsl:apply-templates>
 								</xsl:if>
 							</xsl:when>
-							<xsl:when test="//StoredFare[1]/Discount/@Percent!='' or //StoredFare[1]/TicketDesignator!=''">
-
-								<xsl:apply-templates select="//StoredFare[1]" mode="CommandPricing" />
-
-								<ItineraryOptions>
+							<xsl:when test="Discount/@Percent!='0' or FareSegments/AirSegments/@TicketDesignator!=''">
+								<!--<xsl:apply-templates select="." mode="CommandPricing" />-->
+								<!--<ItineraryOptions>
 									<xsl:call-template name="GetItineraryOptions"/>
 									<xsl:for-each select="FlightReference">
 										<SegmentSelect Number="{@RPH}" RPH="{@RPH}"/>
 									</xsl:for-each>
-								</ItineraryOptions>
+								</ItineraryOptions>-->
 								<xsl:if test="FareSegments">
 									<xsl:apply-templates select="FareSegments" mode="SmartPricing">
-										<xsl:with-param name="skipItinOpts">1</xsl:with-param>
+										<!--<xsl:with-param name="skipItinOpts">0</xsl:with-param>-->
 									</xsl:apply-templates>
 								</xsl:if>
 							</xsl:when>
