@@ -679,6 +679,7 @@
 								<xsl:if test="FareSegments">
 									<xsl:apply-templates select="FareSegments" mode="SmartPricing">
 										<xsl:with-param name="skipItinOpts">1</xsl:with-param>
+										<xsl:with-param name="skipFBcodes">1</xsl:with-param>
 									</xsl:apply-templates>
 								</xsl:if>
 							</xsl:when>
@@ -713,6 +714,7 @@
 
 	<xsl:template match="FareSegments" mode="SmartPricing">
 		<xsl:param name="skipItinOpts" select="0" />
+		<xsl:param name="skipFBcodes" select="0" />
 
 		<xsl:variable name="ptc" select="../PassengerType" />
 		<xsl:choose>
@@ -771,15 +773,15 @@
 						<PlusUp Amount="{../Markup/@Amount}"/>
 					</xsl:if>
 				</xsl:if>
-				<xsl:for-each select="AirSegments[position()=1 or not(text()=preceding-sibling::AirSegments[1]/text())]">
-					<!--<xsl:for-each select="AirSegments">-->
-					<SpecificFare RPH="{@RPH}">
-						<FareBasis>
-							<!--<xsl:variable name="fbc" select="substring(.,1,8)" />-->
-							<xsl:value-of select="."/>
-						</FareBasis>
-					</SpecificFare>
-				</xsl:for-each>
+				<xsl:if test="skipFBcodes != 1">
+					<xsl:for-each select="AirSegments[position()=1 or not(text()=preceding-sibling::AirSegments[1]/text())]">
+						<SpecificFare RPH="{@RPH}">
+							<FareBasis>
+								<xsl:value-of select="."/>
+							</FareBasis>
+						</SpecificFare>
+					</xsl:for-each>
+				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
