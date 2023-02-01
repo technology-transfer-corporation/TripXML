@@ -717,7 +717,13 @@ namespace Sabre
                                 if (!string.IsNullOrEmpty(validatingCarrier))
                                     strRepriceReq = AddValidatingCarrier(strRepriceReq, validatingCarrier);
 
-                                strRepriceResp += ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                var priceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                if (priceResp.Contains("FORMAT FARE BASIS NOT AVAILABLE"))
+                                {
+                                    strRepriceReq = Regex.Replace(strRepriceReq, "(FareBasis Code=\".+)(CH)(\")", "$1$3");
+                                    priceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                }
+                                strRepriceResp += priceResp;
                                 if (strRepriceResp.Contains("NO COMBINABLE FARES FOR CLASS USED") || strRepriceResp.Contains("NEED MORE PSGR TYPES OR NAME SELECT") || strRepriceResp.Contains("USE INF PSGR TYPE CODE FOR I"))
                                     break;
                             }
@@ -1630,25 +1636,25 @@ namespace Sabre
             {
 
                 //string strPQ = oRoot.SelectSingleNode($"StoredFare[position()={i}]/@RPH").InnerText;
-                CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "stored fare number", string.Join(",", strPQ), ProviderSystems.LogUUID);
+                //CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "stored fare number", string.Join(",", strPQ), ProviderSystems.LogUUID);
 
                 foreach (string line in strPQS.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "line.Substring(9,1)", line.Substring(9, 1), ProviderSystems.LogUUID);
+                    //CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "line.Substring(9,1)", line.Substring(9, 1), ProviderSystems.LogUUID);
 
                     if (strPQ.Exists(l => line.Contains(l)))
                     {
                         strPassengers += $"<NameSelect NameNumber=\"{line.Substring(1, 3)}\"/>";
-                        CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "{line.Substring(2, 3)}", line.Substring(1, 3), ProviderSystems.LogUUID);
+                        //CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "{line.Substring(2, 3)}", line.Substring(1, 3), ProviderSystems.LogUUID);
                     }
                     else
                     {
                         //It happandes when PQS has CNN but Stylesheet has C09
                         if (strPQ.First().Equals("C09") && line.Contains("CNN"))
                         {
-                            CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "line.Substring(9,1)", line.Substring(9, 1), ProviderSystems.LogUUID);
+                            //CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "line.Substring(9,1)", line.Substring(9, 1), ProviderSystems.LogUUID);
                             strPassengers += $"<NameSelect NameNumber=\"{line.Substring(1, 3)}\"/>";
-                            CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "{line.Substring(2, 3)}", line.Substring(1, 3), ProviderSystems.LogUUID);
+                            //CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "{line.Substring(2, 3)}", line.Substring(1, 3), ProviderSystems.LogUUID);
                         }
                     }
 
