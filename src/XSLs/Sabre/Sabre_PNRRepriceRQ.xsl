@@ -3,6 +3,7 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
+   Date: 02 Fev 2023 - Samokhvalov - Removed farebasis codes if brands listed.
    Date: 30 Nov 2022 - Samokhvalov - Fixed Price node.
    Date: 30 Nov 2022 - Samokhvalov - Fixed Brand Fares w/MarkUp.
    Date: 25 May 2022 - Samokhvalov - Fixed FareBasis (truncation to 8 chars removed).
