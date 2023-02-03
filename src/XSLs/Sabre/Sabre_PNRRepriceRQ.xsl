@@ -3,6 +3,7 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
+   Date: 03 Feb 2023 - Samokhvalov - Brands Itinerary Oprions Fixes.
    Date: 03 Feb 2023 - Samokhvalov - Discount node check fixes.
    Date: 02 Feb 2023 - Samokhvalov - Removed farebasis codes if brands listed.
    Date: 30 Nov 2022 - Samokhvalov - Fixed Price node.
@@ -830,6 +831,16 @@
 						</FB>
 					</xsl:for-each>
 				</xsl:when>
+				<xsl:otherwise>
+					<xsl:variable name="fbCode" select="text()"/>
+					<xsl:for-each select="FareFamily">
+						<FB>
+							<xsl:value-of select="@RPH" />
+							<xsl:text>,</xsl:text>
+							<!--<xsl:value-of select="@RPH" />-->
+						</FB>
+					</xsl:for-each>
+				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 
