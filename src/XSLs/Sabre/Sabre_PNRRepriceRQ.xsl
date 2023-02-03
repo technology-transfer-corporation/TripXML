@@ -3,7 +3,8 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
-   Date: 02 Fev 2023 - Samokhvalov - Removed farebasis codes if brands listed.
+   Date: 03 Feb 2023 - Samokhvalov - Discount node check fixes.
+   Date: 02 Feb 2023 - Samokhvalov - Removed farebasis codes if brands listed.
    Date: 30 Nov 2022 - Samokhvalov - Fixed Price node.
    Date: 30 Nov 2022 - Samokhvalov - Fixed Brand Fares w/MarkUp.
    Date: 25 May 2022 - Samokhvalov - Fixed FareBasis (truncation to 8 chars removed).
@@ -303,7 +304,7 @@
 													</xsl:choose>
 												</ItineraryOptions>
 											</xsl:when>
-											<xsl:when test="Discount/@Amount!='' or Discount/@Percent!='' or StoredFare/FareSegments/AirSegments/@TicketDesignator !=''">
+											<xsl:when test="Discount/@Amount!='' or Discount/@Percent!='0' or StoredFare/FareSegments/AirSegments/@TicketDesignator !=''">
 												<CommandPricing>CP</CommandPricing>
 											</xsl:when>
 										</xsl:choose>
@@ -432,7 +433,7 @@
 						<xsl:apply-templates select="$firstBrand[1]" mode="FareFamily" />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:if test="StoredFare[FareSegments/AirSegments/@TicketDesignator]/Discount/@Percent!='' or StoredFare[FareSegments/AirSegments/@TicketDesignator]/TicketDesignator!=''">
+						<xsl:if test="StoredFare[FareSegments/AirSegments/@TicketDesignator]/Discount/@Percent!='0' or StoredFare[FareSegments/AirSegments/@TicketDesignator]/TicketDesignator!=''">
 							<xsl:apply-templates select="StoredFare[FareSegments/AirSegments/@TicketDesignator]" mode="CommandPricing"/>
 							<ItineraryOptions>
 								<xsl:call-template name="GetItineraryOptions"/>
@@ -584,15 +585,15 @@
 			</Brand>
 		</xsl:for-each>
 
-		<xsl:if test="$skipTD != 1 and (../Discount/@Percent!='' or ../TicketDesignator!='')">
+		<xsl:if test="$skipTD != 1 and (../Discount/@Percent!='0' or ../TicketDesignator!='')">
 			<xsl:for-each select="FareFamily">
 				<CommandPricing>
 					<xsl:attribute name="RPH" >
 						<xsl:value-of select="@RPH"/>
 					</xsl:attribute>
-					<xsl:if test="../../Discount/@Percent!=''">
+					<xsl:if test="../../Discount/@Percent!='0'">
 						<Discount>
-							<xsl:if test="../../Discount/@Percent!=''">
+							<xsl:if test="../../Discount/@Percent!='0'">
 								<xsl:attribute name="Percent">
 									<xsl:value-of select="../../Discount/@Percent"/>
 								</xsl:attribute>
