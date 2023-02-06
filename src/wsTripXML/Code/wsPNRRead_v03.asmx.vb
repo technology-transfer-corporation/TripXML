@@ -70,12 +70,12 @@ Namespace wsTravelTalk
                 oDoc.LoadXml(strResponse)
                 oRoot = oDoc.DocumentElement
 
-                ttAirports = CType(Application.Get("ttAirports"), DataView)
-                ttAirlines = CType(Application.Get("ttAirlines"), DataView)
-                'ttAirlines.Table.PrimaryKey = New DataColumn() { ttAirlines.Table.Columns("Code") } 
+                'ttAirports = CType(Application.Get("ttAirports"), DataView)
+                'ttAirlines = CType(Application.Get("ttAirlines"), DataView)
+                ''ttAirlines.Table.PrimaryKey = New DataColumn() { ttAirlines.Table.Columns("Code") } 
 
-                ttEquipments = CType(Application.Get("ttEquipments"), DataView)
-                ttAirlinesNames = CType(Application.Get("ttAirlinesNames"), DataView)
+                'ttEquipments = CType(Application.Get("ttEquipments"), DataView)
+                'ttAirlinesNames = CType(Application.Get("ttAirlinesNames"), DataView)
                 'ttAirlinesNames.Table.PrimaryKey = New DataColumn() { ttAirlinesNames.Table.Columns("Code") } 
 
                 Dim testNode As XmlNode = oRoot.SelectSingleNode("TravelItinerary/ItineraryInfo/ReservationItems/Item/Air")

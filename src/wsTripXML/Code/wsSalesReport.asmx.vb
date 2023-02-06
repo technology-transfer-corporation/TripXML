@@ -3,6 +3,7 @@ Imports System.Xml
 Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports TripXMLMain.modCore
+Imports TripXMLTools
 
 Namespace wsTravelTalk
 
@@ -139,7 +140,8 @@ Namespace wsTravelTalk
                         ' *******************
                         If Not oNode.SelectSingleNode("Airline") Is Nothing And Not oNode.SelectSingleNode("Airline").Attributes("Code") Is Nothing Then
                             If oNode.SelectSingleNode("Airline").Attributes("Code").Value <> "" Then
-                                oNode.SelectSingleNode("Airline").InnerText = GetCodeValue(ttAirlines, oNode.SelectSingleNode("Airline").Attributes("Code").Value)
+                                oNode.SelectSingleNode("Airline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("Airline").Attributes("Code").Value)
+                                'GetCodeValue(ttAirlines, oNode.SelectSingleNode("Airline").Attributes("Code").Value)
                             End If
                         End If
 
