@@ -7,13 +7,14 @@ Imports System.Xml.Serialization
 Imports System.Data
 Imports System.Text
 Imports CompressionExtension
+Imports TripXMLTools
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsGetDeals", _
-        Name:="wsGetDeals", _
-        Description:="A TripXML Web Service to get fare deals.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsGetDeals",
+        Name:="wsGetDeals",
+        Description:="A TripXML Web Service to get fare deals.")>
     Public Class wsGetDeals
         Inherits System.Web.Services.WebService
         Public tXML As TripXML
@@ -56,20 +57,17 @@ Namespace wsTravelTalk
 #Region " Decode Function "
 
         Private Function DecodeTXMLGetDeals(ByVal strResponse As String, ByVal UserID As String) As String
-            Dim oDoc As XmlDocument = Nothing
-            Dim oRoot As XmlElement = Nothing
-            Dim ttAirports As DataView
-            Dim ttAirlines As DataView
-            Dim oNode As XmlNode = Nothing
-
             Try
 
-                oDoc = New XmlDocument
+                Dim oDoc As XmlDocument = New XmlDocument
                 oDoc.LoadXml(strResponse)
-                oRoot = oDoc.DocumentElement
+                Dim oRoot As XmlElement = oDoc.DocumentElement
 
-                ttAirports = CType(Application.Get("ttAirports"), DataView)
-                ttAirlines = CType(Application.Get("ttAirlines"), DataView)
+                'Dim ttAirports As DataView
+                'Dim ttAirlines As DataView
+                Dim oNode As XmlNode
+                'ttAirports = CType(Application.Get("ttAirports"), DataView)
+                'ttAirlines = CType(Application.Get("ttAirlines"), DataView)
 
                 For Each oNode In oRoot.SelectNodes("Deals/Deal")
                     For Each oFlightNode In oNode.SelectNodes("OriginDestinationOption")
@@ -77,14 +75,17 @@ Namespace wsTravelTalk
                         ' *******************
                         ' Decode Airports   *
                         ' *******************
-                        oFlightNode.SelectSingleNode("OriginLocation").InnerText = GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("OriginLocation").Attributes("LocationCode").Value)
-                        oFlightNode.SelectSingleNode("DestinationLocation").InnerText = GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("DestinationLocation").Attributes("LocationCode").Value)
+                        oFlightNode.SelectSingleNode("OriginLocation").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oFlightNode.SelectSingleNode("OriginLocation").Attributes("LocationCode").Value)
+                        'GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("OriginLocation").Attributes("LocationCode").Value)
+                        oFlightNode.SelectSingleNode("DestinationLocation").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oFlightNode.SelectSingleNode("DestinationLocation").Attributes("LocationCode").Value)
+                        'GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("DestinationLocation").Attributes("LocationCode").Value)
 
                         ' *******************
                         ' Decode Airlines   *
                         ' *******************
                         If Not oFlightNode.SelectSingleNode("MarketingAirline") Is Nothing Then
-                            oFlightNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                            oFlightNode.SelectSingleNode("MarketingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                            'GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                         End If
                     Next
                 Next
@@ -137,9 +138,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Get Deals Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Get Deals Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmGetDeals(ByVal TXML_GetLeadsRQ As wmGetDealsIn.TXML_GetLeadsRQ) As <XmlElementAttribute("TXML_GetDealsRS")> wmGetDealsOut.TXML_GetDealsRS
             Dim xmlMessage As String = ""
             Dim oGetDealsRS As wmGetDealsOut.TXML_GetDealsRS = Nothing
@@ -157,7 +158,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmGetDealsOut.TXML_GetDealsRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmGetDealsOut.TXML_GetDealsRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oGetDealsRS = CType(oSerializer.Deserialize(oReader), wmGetDealsOut.TXML_GetDealsRS)
             Catch ex As Exception
@@ -168,7 +169,7 @@ Namespace wsTravelTalk
 
         End Function
 
-        <WebMethod(Description:="Process PNR Read Xml Messages Request.")> _
+        <WebMethod(Description:="Process PNR Read Xml Messages Request.")>
         Public Function wmTXMLGetDealsXml(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.GetDeals)
         End Function

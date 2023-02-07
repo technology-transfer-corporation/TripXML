@@ -6,13 +6,14 @@ Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports System.Data
 Imports System.Text
+Imports TripXMLTools
 
 Namespace wsTravelTalk
 
 
-    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsMultiMessage", _
-        Name:="wsMultiMessage", _
-        Description:="A TripXML Web Service to Process MultiMessage Messages Request.")> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsMultiMessage",
+        Name:="wsMultiMessage",
+        Description:="A TripXML Web Service to Process MultiMessage Messages Request.")>
     Public Class wsMultiMessage
         Inherits System.Web.Services.WebService
 
@@ -57,9 +58,6 @@ Namespace wsTravelTalk
         Private Function DecodeMultiMessage(ByVal strResponse As String, ByVal UserID As String) As String
             Dim oDoc As XmlDocument = Nothing
             Dim oRoot As XmlElement = Nothing
-            Dim ttAirports As DataView
-            Dim ttAirlines As DataView
-            Dim ttEquipments As DataView
             Dim oNode As XmlNode = Nothing
             Dim oNodeLF As XmlNode = Nothing
             Dim strResp As String = ""
@@ -70,33 +68,34 @@ Namespace wsTravelTalk
                 oDoc.LoadXml(strResponse)
                 oRoot = oDoc.DocumentElement
 
-                ttAirports = CType(Application.Get("ttAirports"), DataView)
-                ttAirlines = CType(Application.Get("ttAirlines"), DataView)
-                ttEquipments = CType(Application.Get("ttEquipments"), DataView)
-
                 For Each oNodeLF In oRoot.SelectSingleNode("Response").ChildNodes
                     For Each oNode In oNodeLF.SelectNodes("PricedItineraries/PricedItinerary/AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment")
                         ' *******************
                         ' Decode Airports   *
                         ' *******************
-                        oNode.SelectSingleNode("DepartureAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
-                        oNode.SelectSingleNode("ArrivalAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                        oNode.SelectSingleNode("DepartureAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                        'GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                        oNode.SelectSingleNode("ArrivalAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                        'GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
 
                         ' *******************
                         ' Decode Airlines   *
                         ' *******************
                         If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
-                            oNode.SelectSingleNode("OperatingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                            oNode.SelectSingleNode("OperatingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                            'GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
                         End If
                         If Not oNode.SelectSingleNode("MarketingAirline") Is Nothing Then
-                            oNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                            oNode.SelectSingleNode("MarketingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                            'GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                         End If
 
                         ' *******************
                         ' Decode Equipments *
                         ' *******************
                         If Not oNode.SelectSingleNode("Equipment") Is Nothing Then
-                            oNode.SelectSingleNode("Equipment").InnerText = GetDecodeValue(ttEquipments, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                            oNode.SelectSingleNode("Equipment").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Equipment, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                            'GetDecodeValue(ttEquipments, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
                         End If
                     Next
                     strResp = sb.Append(strResp).Append(oNodeLF.OuterXml).ToString()
@@ -188,7 +187,7 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <WebMethod(Description:="Process MultiMessage Messages Request.")> _
+        <WebMethod(Description:="Process MultiMessage Messages Request.")>
         Public Function wmMultiMessage(ByVal MultiMessageRQ As wmMultiMessageIn.MultiMessageRQ) As <XmlElementAttribute("MultiMessageRS")> wmMultiMessageOut.MultiMessageRS
             Dim xmlMessage As String = ""
             Dim oMultiMessageRS As wmMultiMessageOut.MultiMessageRS = Nothing
@@ -210,7 +209,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmMultiMessageOut.MultiMessageRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmMultiMessageOut.MultiMessageRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oMultiMessageRS = CType(oSerializer.Deserialize(oReader), wmMultiMessageOut.MultiMessageRS)
             Catch ex As Exception

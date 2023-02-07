@@ -3,6 +3,7 @@ Imports TripXMLMain.modCore
 Imports TripXMLMain
 Imports System.Xml
 Imports System.Xml.Serialization
+Imports TripXMLTools
 
 Namespace wsTravelTalk
 
@@ -64,10 +65,10 @@ Namespace wsTravelTalk
         Private Function DecodeLowFarePlus(ByVal strResponse As String, ByVal UserID As String) As String
             Dim oDoc As XmlDocument = Nothing
             Dim oRoot As XmlElement = Nothing
-            Dim ttAirports As DataView
-            Dim ttAirlines As DataView
+            'Dim ttAirports As DataView
+            'Dim ttAirlines As DataView
             'Dim ttHiddenAirlines As DataView
-            Dim ttEquipments As DataView
+            'Dim ttEquipments As DataView
             Dim oNode As XmlNode = Nothing
             Dim oFareNode As XmlNode = Nothing
             Dim oFlightNode As XmlNode = Nothing
@@ -78,10 +79,10 @@ Namespace wsTravelTalk
                 oDoc.LoadXml(strResponse)
                 oRoot = oDoc.DocumentElement
 
-                ttAirports = CType(Application.Get("ttAirports"), DataView)
-                ttAirlines = CType(Application.Get("ttAirlines"), DataView)
+                'ttAirports = CType(Application.Get("ttAirports"), DataView)
+                'ttAirlines = CType(Application.Get("ttAirlines"), DataView)
                 'ttHiddenAirlines = CType(Application.Get("ttHiddenAirlines"), DataView)
-                ttEquipments = CType(Application.Get("ttEquipments"), DataView)
+                'ttEquipments = CType(Application.Get("ttEquipments"), DataView)
 
                 For Each oNode In oRoot.SelectNodes("PricedItineraries/PricedItinerary")
                     For Each oFlightNode In oNode.SelectNodes("AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment")
@@ -89,8 +90,10 @@ Namespace wsTravelTalk
                         ' *******************
                         ' Decode Airports   *
                         ' *******************
-                        oFlightNode.SelectSingleNode("DepartureAirport").InnerText = GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
-                        oFlightNode.SelectSingleNode("ArrivalAirport").InnerText = GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                        oFlightNode.SelectSingleNode("DepartureAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oFlightNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                        'GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                        oFlightNode.SelectSingleNode("ArrivalAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oFlightNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                        'GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
 
                         ' *******************
                         ' Decode Airlines   *
@@ -106,7 +109,8 @@ Namespace wsTravelTalk
                             '    End If
                             'Else
                             If oFlightNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value <> "" Then
-                                oFlightNode.SelectSingleNode("OperatingAirline").InnerText = GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                                oFlightNode.SelectSingleNode("OperatingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oFlightNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                                'GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
                             End If
                             'End If
 
@@ -121,7 +125,8 @@ Namespace wsTravelTalk
                             '        oFlightNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                             '    End If
                             'Else
-                            oFlightNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                            oFlightNode.SelectSingleNode("MarketingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                            'GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                             'End If
                         End If
 
@@ -129,7 +134,8 @@ Namespace wsTravelTalk
                         ' Decode Equipments *
                         ' *******************
                         If Not oFlightNode.SelectSingleNode("Equipment") Is Nothing Then
-                            oFlightNode.SelectSingleNode("Equipment").InnerText = GetDecodeValue(ttEquipments, oFlightNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                            oFlightNode.SelectSingleNode("Equipment").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Equipment, oFlightNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                            'GetDecodeValue(ttEquipments, oFlightNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
                         End If
                     Next
                 Next

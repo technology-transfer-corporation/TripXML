@@ -6,6 +6,7 @@ Imports System.Xml.Serialization
 Imports System.Text
 Imports TripXMLMain.modCore
 Imports System.Globalization
+Imports TripXMLTools
 
 Namespace wsTravelTalk
 
@@ -55,10 +56,6 @@ Namespace wsTravelTalk
         Private Function DecodePNRRead(ByVal strResponse As String, ByVal UserID As String, ByVal UUID As String) As String
             Dim oDoc As XmlDocument
             Dim oRoot As XmlElement
-            Dim ttAirports As DataView
-            Dim ttAirlines As DataView
-            Dim ttAirlinesNames As DataView
-            Dim ttEquipments As DataView
             Dim oNode As XmlNode
 
             Try
@@ -66,14 +63,6 @@ Namespace wsTravelTalk
                 oDoc = New XmlDocument
                 oDoc.LoadXml(strResponse)
                 oRoot = oDoc.DocumentElement
-
-                ttAirports = CType(Application.Get("ttAirports"), DataView)
-                ttAirlines = CType(Application.Get("ttAirlines"), DataView)
-                'ttAirlines.Table.PrimaryKey = New DataColumn() { ttAirlines.Table.Columns("Code") } 
-
-                ttEquipments = CType(Application.Get("ttEquipments"), DataView)
-                ttAirlinesNames = CType(Application.Get("ttAirlinesNames"), DataView)
-                'ttAirlinesNames.Table.PrimaryKey = New DataColumn() { ttAirlinesNames.Table.Columns("Code") } 
 
                 Dim testNode As XmlNode = oRoot.SelectSingleNode("TravelItinerary/ItineraryInfo/ReservationItems/Item/Air")
 
@@ -91,10 +80,12 @@ Namespace wsTravelTalk
                             ' Decode Airports   *
                             ' *******************
                             If Not oNode.SelectSingleNode("DepartureAirport") Is Nothing Then
-                                oNode.SelectSingleNode("DepartureAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                                oNode.SelectSingleNode("DepartureAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                                'GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
                             End If
                             If Not oNode.SelectSingleNode("ArrivalAirport") Is Nothing Then
-                                oNode.SelectSingleNode("ArrivalAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                                oNode.SelectSingleNode("ArrivalAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                                'GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
                             End If
 
                             ' *******************
@@ -103,11 +94,13 @@ Namespace wsTravelTalk
                             If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
                                 If Not oNode.SelectSingleNode("OperatingAirline").Attributes("Code") Is Nothing Then
                                     If oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value <> "" Then
-                                        oNode.SelectSingleNode("OperatingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                                        oNode.SelectSingleNode("OperatingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                                        'GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
                                     ElseIf Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
                                         Dim attCode As XmlAttribute
                                         attCode = oDoc.CreateAttribute("Code")
-                                        attCode.Value = GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                                        attCode.Value = TripXMLLoad.EncodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                                        'GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
                                         oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
 
                                         oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
@@ -116,7 +109,8 @@ Namespace wsTravelTalk
                                     If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
                                         Dim attCode As XmlAttribute
                                         attCode = oDoc.CreateAttribute("Code")
-                                        attCode.Value = GetEncodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                                        attCode.Value = TripXMLLoad.EncodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                                        'GetEncodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").InnerText)
 
                                         If Not String.IsNullOrEmpty(attCode.Value) Then
                                             oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
@@ -127,14 +121,16 @@ Namespace wsTravelTalk
                             ElseIf Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
                                 Dim attCode As XmlAttribute
                                 attCode = oDoc.CreateAttribute("Code")
-                                attCode.Value = GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                                attCode.Value = TripXMLLoad.EncodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                                'GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
                                 oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
 
                                 oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
                             End If
 
                             If Not oNode.SelectSingleNode("MarketingAirline") Is Nothing Then
-                                oNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                                oNode.SelectSingleNode("MarketingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                                'GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                             End If
 
                             ' *******************
@@ -142,7 +138,8 @@ Namespace wsTravelTalk
                             ' *******************
                             If Not oNode.SelectSingleNode("Equipment") Is Nothing Then
                                 If Not oNode.SelectSingleNode("Equipment").Attributes("AirEquipType") Is Nothing Then
-                                    oNode.SelectSingleNode("Equipment").InnerText = GetDecodeValue(ttEquipments, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                                    oNode.SelectSingleNode("Equipment").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Equipment, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                                    'GetDecodeValue(ttEquipments, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
                                 End If
                             End If
                         Catch e As Exception

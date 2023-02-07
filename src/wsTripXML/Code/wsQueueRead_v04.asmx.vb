@@ -7,13 +7,14 @@ Imports System.Web.Services.Protocols
 Imports System.Data
 Imports System.Text
 Imports CompressionExtension
+Imports TripXMLTools
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsQueueRead", _
-        Name:="wsQueueRead_v04", _
-        Description:="A TripXML Web Service to Process QueueRead Messages Request version v04.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsQueueRead",
+        Name:="wsQueueRead_v04",
+        Description:="A TripXML Web Service to Process QueueRead Messages Request version v04.")>
     Public Class wsQueueRead_v04
         Inherits System.Web.Services.WebService
         Public tXML As TripXML
@@ -56,33 +57,25 @@ Namespace wsTravelTalk
 #Region " Decode Functions "
 
         Private Function DecodeQueueRead(ByVal strResponse As String, ByVal UserID As String) As String
-            Dim oDoc As XmlDocument = Nothing
-            Dim oRoot As XmlElement = Nothing
-            Dim ttAirports As DataView
-            Dim ttAirlines As DataView
-            Dim ttEquipments As DataView
-            Dim oNode As XmlNode = Nothing
-
             Try
 
-                oDoc = New XmlDocument
+                Dim oDoc As XmlDocument = New XmlDocument
                 oDoc.LoadXml(strResponse)
-                oRoot = oDoc.DocumentElement
+                Dim oRoot As XmlElement = oDoc.DocumentElement
 
-                ttAirports = CType(Application.Get("ttAirports"), DataView)
-                ttAirlines = CType(Application.Get("ttAirlines"), DataView)
-                ttEquipments = CType(Application.Get("ttEquipments"), DataView)
-
+                Dim oNode As XmlNode = Nothing
                 For Each oNode In oRoot.SelectNodes("TravelItinerary/ItineraryInfo/ReservationItems/Item/Air")
                     Try
                         ' *******************
                         ' Decode Airports   *
                         ' *******************
                         If Not oNode.SelectSingleNode("DepartureAirport") Is Nothing Then
-                            oNode.SelectSingleNode("DepartureAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                            oNode.SelectSingleNode("DepartureAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                            'GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
                         End If
                         If Not oNode.SelectSingleNode("ArrivalAirport") Is Nothing Then
-                            oNode.SelectSingleNode("ArrivalAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                            oNode.SelectSingleNode("ArrivalAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                            'GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
                         End If
 
                         ' *******************
@@ -90,11 +83,13 @@ Namespace wsTravelTalk
                         ' *******************
                         If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
                             If Not oNode.SelectSingleNode("OperatingAirline").Attributes("Code") Is Nothing Then
-                                oNode.SelectSingleNode("OperatingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                                oNode.SelectSingleNode("OperatingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                                'GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
                             End If
                         End If
                         If Not oNode.SelectSingleNode("MarketingAirline") Is Nothing Then
-                            oNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                            oNode.SelectSingleNode("MarketingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                            'GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                         End If
 
                         ' *******************
@@ -102,7 +97,8 @@ Namespace wsTravelTalk
                         ' *******************
                         If Not oNode.SelectSingleNode("Equipment") Is Nothing Then
                             If Not oNode.SelectSingleNode("Equipment").Attributes("AirEquipType") Is Nothing Then
-                                oNode.SelectSingleNode("Equipment").InnerText = GetDecodeValue(ttEquipments, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                                oNode.SelectSingleNode("Equipment").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Equipment, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                                'GetDecodeValue(ttEquipments, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
                             End If
                         End If
                     Catch e As Exception
@@ -203,9 +199,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process QueueRead Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process QueueRead Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmQueueRead(ByVal OTA_QueueReadRQ As wmQueueReadIn.OTA_QueueReadRQ) As <XmlElementAttribute("OTA_TravelItineraryRS")> wmTravelItineraryOut_v04.OTA_TravelItineraryRS
             Dim xmlMessage As String = ""
             Dim oQueueReadRS As wmTravelItineraryOut_v04.OTA_TravelItineraryRS = Nothing
@@ -226,7 +222,7 @@ Namespace wsTravelTalk
             End If
 
             Try
-                oSerializer = New XmlSerializer(Type:=GetType(wmTravelItineraryOut_v04.OTA_TravelItineraryRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut_v04.OTA_TravelItineraryRS))
                 oReader = New IO.StringReader(xmlMessage)
                 oQueueReadRS = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut_v04.OTA_TravelItineraryRS)
             Catch ex As Exception

@@ -6,13 +6,14 @@ Imports System.Xml.Serialization
 Imports System.Data
 Imports System.Text
 Imports CompressionExtension
+Imports TripXMLTools
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsPNRSplit", _
-        Name:="wsPNRSplit", _
-        Description:="A TripXML Web Service to Process PNR Split Request.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsPNRSplit",
+        Name:="wsPNRSplit",
+        Description:="A TripXML Web Service to Process PNR Split Request.")>
     Public Class wsPNRSplit
         Inherits System.Web.Services.WebService
         Public tXML As TripXML
@@ -57,9 +58,6 @@ Namespace wsTravelTalk
         Private Function DecodePNRSplit(ByVal strResponse As String, ByVal UserID As String) As String
             Dim oDoc As XmlDocument = Nothing
             Dim oRoot As XmlElement = Nothing
-            Dim ttAirports As DataView
-            Dim ttAirlines As DataView
-            Dim ttEquipments As DataView
             Dim oNode As XmlNode = Nothing
 
             Try
@@ -68,9 +66,6 @@ Namespace wsTravelTalk
                 oDoc.LoadXml(strResponse)
                 oRoot = oDoc.DocumentElement
 
-                ttAirports = CType(Application.Get("ttAirports"), DataView)
-                ttAirlines = CType(Application.Get("ttAirlines"), DataView)
-                ttEquipments = CType(Application.Get("ttEquipments"), DataView)
 
                 For Each oNode In oRoot.SelectNodes("TravelItinerary/ItineraryInfo/ReservationItems/Item/Air")
                     Try
@@ -78,10 +73,12 @@ Namespace wsTravelTalk
                         ' Decode Airports   *
                         ' *******************
                         If Not oNode.SelectSingleNode("DepartureAirport") Is Nothing Then
-                            oNode.SelectSingleNode("DepartureAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                            oNode.SelectSingleNode("DepartureAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                            'GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
                         End If
                         If Not oNode.SelectSingleNode("ArrivalAirport") Is Nothing Then
-                            oNode.SelectSingleNode("ArrivalAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                            oNode.SelectSingleNode("ArrivalAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                            'GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
                         End If
 
                         ' *******************
@@ -89,12 +86,14 @@ Namespace wsTravelTalk
                         ' *******************
                         If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing And Not oNode.SelectSingleNode("OperatingAirline").Attributes("Code") Is Nothing Then
                             If oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value <> "" Then
-                                oNode.SelectSingleNode("OperatingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                                oNode.SelectSingleNode("OperatingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                                'GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
                             End If
                         End If
 
                         If Not oNode.SelectSingleNode("MarketingAirline") Is Nothing Then
-                            oNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                            oNode.SelectSingleNode("MarketingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                            'GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                         End If
 
                         ' *******************
@@ -102,7 +101,8 @@ Namespace wsTravelTalk
                         ' *******************
                         If Not oNode.SelectSingleNode("Equipment") Is Nothing Then
                             If Not oNode.SelectSingleNode("Equipment").Attributes("AirEquipType") Is Nothing Then
-                                oNode.SelectSingleNode("Equipment").InnerText = GetDecodeValue(ttEquipments, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                                oNode.SelectSingleNode("Equipment").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Equipment, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                                'GetDecodeValue(ttEquipments, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
                             End If
                         End If
                     Catch e As Exception
@@ -169,9 +169,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process PNR Split Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process PNR Split Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmPNRSplit(ByVal OTA_PNRSplitRQ As wmPNRSplitIn.OTA_PNRSplitRQ) As <XmlElementAttribute("OTA_TravelItineraryRS")> wmTravelItineraryOut_v03.OTA_TravelItineraryRS
             Dim xmlMessage As String = ""
             Dim oPNRSplitRS As wmTravelItineraryOut_v03.OTA_TravelItineraryRS = Nothing
@@ -189,7 +189,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmTravelItineraryOut_v03.OTA_TravelItineraryRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmTravelItineraryOut_v03.OTA_TravelItineraryRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oPNRSplitRS = CType(oSerializer.Deserialize(oReader), wmTravelItineraryOut_v03.OTA_TravelItineraryRS)
             Catch ex As Exception

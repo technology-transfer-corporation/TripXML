@@ -7,13 +7,14 @@ Imports System.Xml.Serialization
 Imports System.Data
 Imports System.Text
 Imports CompressionExtension
+Imports TripXMLTools
 
 Namespace wsTravelTalk
 
-    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement), _
-        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsInventoryManagement", _
-        Name:="wsInventoryManagement", _
-        Description:="A TripXML Web Service to work with inventory management.")> _
+    <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
+        System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsInventoryManagement",
+        Name:="wsInventoryManagement",
+        Description:="A TripXML Web Service to work with inventory management.")>
     Public Class wsInventoryManagement
         Inherits System.Web.Services.WebService
         Public tXML As TripXML
@@ -56,35 +57,33 @@ Namespace wsTravelTalk
 #Region " Decode Function "
 
         Private Function DecodeTXMLInventoryManagement(ByVal strResponse As String, ByVal UserID As String) As String
-            Dim oDoc As XmlDocument = Nothing
-            Dim oRoot As XmlElement = Nothing
-            Dim ttAirports As DataView
-            Dim ttAirlines As DataView
-            Dim oNode As XmlNode = Nothing
-
             Try
 
-                oDoc = New XmlDocument
+                Dim oDoc As XmlDocument = New XmlDocument
                 oDoc.LoadXml(strResponse)
-                oRoot = oDoc.DocumentElement
+                Dim oRoot As XmlElement = oDoc.DocumentElement
 
-                ttAirports = CType(Application.Get("ttAirports"), DataView)
-                ttAirlines = CType(Application.Get("ttAirlines"), DataView)
+                'Dim ttAirports As DataView = CType(Application.Get("ttAirports"), DataView)
+                'Dim ttAirlines As DataView = CType(Application.Get("ttAirlines"), DataView)
 
+                Dim oNode As XmlNode
                 For Each oNode In oRoot.SelectNodes("Deals/Deal")
                     For Each oFlightNode In oNode.SelectNodes("OriginDestinationOption")
                         ' *******************
                         ' *******************
                         ' Decode Airports   *
                         ' *******************
-                        oFlightNode.SelectSingleNode("OriginLocation").InnerText = GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("OriginLocation").Attributes("LocationCode").Value)
-                        oFlightNode.SelectSingleNode("DestinationLocation").InnerText = GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("DestinationLocation").Attributes("LocationCode").Value)
+                        oFlightNode.SelectSingleNode("OriginLocation").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oFlightNode.SelectSingleNode("OriginLocation").Attributes("LocationCode").Value)
+                        'GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("OriginLocation").Attributes("LocationCode").Value)
+                        oFlightNode.SelectSingleNode("DestinationLocation").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oFlightNode.SelectSingleNode("DestinationLocation").Attributes("LocationCode").Value)
+                        'GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("DestinationLocation").Attributes("LocationCode").Value)
 
                         ' *******************
                         ' Decode Airlines   *
                         ' *******************
                         If Not oFlightNode.SelectSingleNode("MarketingAirline") Is Nothing Then
-                            oFlightNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                            oFlightNode.SelectSingleNode("MarketingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                            'GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                         End If
                     Next
                 Next
@@ -143,9 +142,9 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
-        <WebMethod(Description:="Process Inventory Management Messages Request.")> _
-        <System.Web.Services.Protocols.SoapHeader("tXML")> _
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process Inventory Management Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmInventoryManagement(ByVal TXML_InventoryManagementRQ As wmInventoryManagementIn.TXML_InventoryManagementRQ) As <XmlElementAttribute("TXML_InventoryManagementRS")> wmInventoryManagementOut.TXML_InventoryManagementRS
             Dim xmlMessage As String = ""
             Dim oInventoryManagementRS As wmInventoryManagementOut.TXML_InventoryManagementRS = Nothing
@@ -163,7 +162,7 @@ Namespace wsTravelTalk
 
             Try
                 oSerializer = Nothing
-                oSerializer = New XmlSerializer(Type:=GetType(wmInventoryManagementOut.TXML_InventoryManagementRS))
+                oSerializer = New XmlSerializer(type:=GetType(wmInventoryManagementOut.TXML_InventoryManagementRS))
                 oReader = New System.IO.StringReader(xmlMessage)
                 oInventoryManagementRS = CType(oSerializer.Deserialize(oReader), wmInventoryManagementOut.TXML_InventoryManagementRS)
             Catch ex As Exception
@@ -174,7 +173,7 @@ Namespace wsTravelTalk
 
         End Function
 
-        <WebMethod(Description:="Process Inventory Management Xml Messages Request.")> _
+        <WebMethod(Description:="Process Inventory Management Xml Messages Request.")>
         Public Function wmTXMLInventoryManagementXml(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.InventoryManagement)
         End Function

@@ -3,6 +3,7 @@ Imports System.Xml
 Imports TripXMLMain
 Imports System.Xml.Serialization
 Imports TripXMLMain.modCore
+Imports TripXMLTools
 
 Namespace wsTravelTalk
 
@@ -51,40 +52,38 @@ Namespace wsTravelTalk
 #Region " Decode Function "
 
         Private Function DecodePNRRead(ByVal strResponse As String, ByVal UserID As String) As String
-            Dim oDoc As XmlDocument = Nothing
-            Dim oRoot As XmlElement = Nothing
-            Dim ttAirports As DataView
-            Dim ttAirlines As DataView
-            Dim oNode As XmlNode = Nothing
-
             Try
-
-                oDoc = New XmlDocument
+                Dim oDoc As XmlDocument = New XmlDocument
                 oDoc.LoadXml(strResponse)
-                oRoot = oDoc.DocumentElement
+                Dim oRoot As XmlElement = oDoc.DocumentElement
 
-                ttAirports = CType(Application.Get("ttAirports"), DataView)
-                ttAirlines = CType(Application.Get("ttAirlines"), DataView)
+                'Dim ttAirports As DataView = CType(Application.Get("ttAirports"), DataView)
+                'Dim ttAirlines As DataView = CType(Application.Get("ttAirlines"), DataView)
 
+                Dim oNode As XmlNode
                 For Each oNode In oRoot.SelectNodes("TravelItinerary/ItineraryInfo/ReservationItems/Item/Air")
                     ' *******************
                     ' Decode Airports   *
                     ' *******************
                     If Not oNode.SelectSingleNode("DepartureAirport") Is Nothing Then
-                        oNode.SelectSingleNode("DepartureAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                        oNode.SelectSingleNode("DepartureAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                        'GetDecodeValue(ttAirports, oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
                     End If
                     If Not oNode.SelectSingleNode("ArrivalAirport") Is Nothing Then
-                        oNode.SelectSingleNode("ArrivalAirport").InnerText = GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                        oNode.SelectSingleNode("ArrivalAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
+                        'GetDecodeValue(ttAirports, oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
                     End If
 
                     ' *******************
                     ' Decode Airlines   *
                     ' *******************
                     If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
-                        oNode.SelectSingleNode("OperatingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                        oNode.SelectSingleNode("OperatingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                        'GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
                     End If
                     If Not oNode.SelectSingleNode("MarketingAirline") Is Nothing Then
-                        oNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                        oNode.SelectSingleNode("MarketingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                        'GetDecodeValue(ttAirlines, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                     End If
                 Next
 

@@ -122,14 +122,14 @@ Namespace wsTravelTalk
 #Region " Decode Function "
 
         Private Function DecodeSalesReport(ByVal strResponse As String, ByVal UserID As String) As String
-            Dim ttAirlines As DataView
+
             Try
 
                 Dim oDoc As XmlDocument = New XmlDocument
                 oDoc.LoadXml(strResponse)
                 Dim oRoot As XmlElement = oDoc.DocumentElement
 
-                ttAirlines = CType(Application.Get("ttAirlines"), DataView)
+                'Dim ttAirlines As DataView = CType(Application.Get("ttAirlines"), DataView)
 
                 Dim oNode As XmlNode
                 For Each oNode In oRoot.SelectNodes("JournalEntries/JournalEntry")
