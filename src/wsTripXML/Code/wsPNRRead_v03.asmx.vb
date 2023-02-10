@@ -119,12 +119,14 @@ Namespace wsTravelTalk
                                     If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
                                         Dim attCode As XmlAttribute
                                         attCode = oDoc.CreateAttribute("Code")
-                                        attCode.Value = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
-                                        'GetEncodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                                        If Not oNode.SelectSingleNode("OperatingAirline").Attributes("Code") Is Nothing Then
+                                            attCode.Value = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                                            'GetEncodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").InnerText)
 
-                                        If Not String.IsNullOrEmpty(attCode.Value) Then
-                                            oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
-                                            oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
+                                            If Not String.IsNullOrEmpty(attCode.Value) Then
+                                                oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
+                                                oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
+                                            End If
                                         End If
                                     End If
                                 End If
