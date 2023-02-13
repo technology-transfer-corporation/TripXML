@@ -51,7 +51,7 @@
 		</TravelBuild>
 	</xsl:template>
 	<xsl:template match="OTA_TravelItineraryRQ">
-		<AddInfo>
+		<!--<AddInfo>
 			<xsl:choose>
 				<xsl:when test="$paxtype='Y'">
 					<xsl:apply-templates select="TPA_Extensions/PNRData" mode="ixplore"/>
@@ -113,133 +113,133 @@
 					</RemarkInfo>
 				</AddRemarkRQ>
 			</xsl:if>
-			<AddRemarkRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" ReturnHostCommand="true" Version="2.1.1">
-				<RemarkInfo>
-					<Remark Type="Historical">
-						<xsl:variable name="pcode">
-							<xsl:choose>
-								<xsl:when test="not(OTA_AirBookRQ/AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment[@ActionCode!=''])">PNR</xsl:when>
-								<xsl:when test="OTA_AirBookRQ/AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment[@ActionCode!='Passive']">PNR</xsl:when>
-								<xsl:when test="OTA_HotelResRQ/HotelReservations/HotelReservation">PNR</xsl:when>
-								<xsl:when test="OTA_VehResRQ/VehResRQCore">PNR</xsl:when>
-								<xsl:otherwise>SCF</xsl:otherwise>
-							</xsl:choose>
-						</xsl:variable>
-						<Text>
-							<xsl:value-of select="concat('ASD/TL/',$pcode,'/Techtrans booking')"/>
-						</Text>
+		<AddRemarkRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" ReturnHostCommand="true" Version="2.1.1">
+			<RemarkInfo>
+				<Remark Type="Historical">
+					<xsl:variable name="pcode">
+						<xsl:choose>
+							<xsl:when test="not(OTA_AirBookRQ/AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment[@ActionCode!=''])">PNR</xsl:when>
+							<xsl:when test="OTA_AirBookRQ/AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment[@ActionCode!='Passive']">PNR</xsl:when>
+							<xsl:when test="OTA_HotelResRQ/HotelReservations/HotelReservation">PNR</xsl:when>
+							<xsl:when test="OTA_VehResRQ/VehResRQCore">PNR</xsl:when>
+							<xsl:otherwise>SCF</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+					<Text>
+						<xsl:value-of select="concat('ASD/TL/',$pcode,'/Techtrans booking')"/>
+					</Text>
+				</Remark>
+				<xsl:if test="$VA='TK' or $VA='HU' or $VA='QF' or $VA='GF'">
+					<Remark Type="General">
+						<Text>COM*** CLAIM 7</Text>
 					</Remark>
-					<xsl:if test="$VA='TK' or $VA='HU' or $VA='QF' or $VA='GF'">
+					<Remark Type="General">
+						<Text>COM*** AGENT 0</Text>
+					</Remark>
+				</xsl:if>
+				<xsl:if test="OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/Remarks">
+					<xsl:for-each select="OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/Remarks/Remark">
 						<Remark Type="General">
-							<Text>COM*** CLAIM 7</Text>
+							<Text>
+								<xsl:variable name="vartxt">
+									<xsl:value-of select="translate(translate(translate(translate(translate(translate(.,'*#',''),':',''),'@','AT'),';',','),'+',''),'?','')"/>
+								</xsl:variable>
+								<xsl:choose>
+									<xsl:when test="string-length($vartxt) > 69">
+										<xsl:value-of select="substring($vartxt,1,69)"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="$vartxt"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</Text>
 						</Remark>
-						<Remark Type="General">
-							<Text>COM*** AGENT 0</Text>
-						</Remark>
-					</xsl:if>
-					<xsl:if test="OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/Remarks">
-						<xsl:for-each select="OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/Remarks/Remark">
-							<Remark Type="General">
-								<Text>
-									<xsl:variable name="vartxt">
-										<xsl:value-of select="translate(translate(translate(translate(translate(translate(.,'*#',''),':',''),'@','AT'),';',','),'+',''),'?','')"/>
-									</xsl:variable>
-									<xsl:choose>
-										<xsl:when test="string-length($vartxt) > 69">
-											<xsl:value-of select="substring($vartxt,1,69)"/>
-										</xsl:when>
-										<xsl:otherwise>
-											<xsl:value-of select="$vartxt"/>
-										</xsl:otherwise>
-									</xsl:choose>
-								</Text>
-							</Remark>
-						</xsl:for-each>
-					</xsl:if>
-					<xsl:if test="OTA_AirBookRQ/Fulfillment/PaymentDetails/PaymentDetail/PaymentCard/Address or OTA_AirBookRQ/Fulfillment/DeliveryAddress">
-						<xsl:for-each select="OTA_AirBookRQ/Fulfillment/PaymentDetails/PaymentDetail/PaymentCard/Address">
-							<xsl:if test="../CardHolderName!=''">
-								<Remark Type="Client Address">
-									<Text>
-										<xsl:value-of select="../CardHolderName"/>
-									</Text>
-								</Remark>
-							</xsl:if>
+					</xsl:for-each>
+				</xsl:if>
+				<xsl:if test="OTA_AirBookRQ/Fulfillment/PaymentDetails/PaymentDetail/PaymentCard/Address or OTA_AirBookRQ/Fulfillment/DeliveryAddress">
+					<xsl:for-each select="OTA_AirBookRQ/Fulfillment/PaymentDetails/PaymentDetail/PaymentCard/Address">
+						<xsl:if test="../CardHolderName!=''">
 							<Remark Type="Client Address">
 								<Text>
-									<xsl:choose>
-										<xsl:when test="AddressLine!=''">
-											<xsl:value-of select="translate(AddressLine,'*#:@;+','')"/>
-										</xsl:when>
-										<xsl:otherwise>
-											<xsl:value-of select="translate(StreetNmbr,'*#:@;+','')"/>
-										</xsl:otherwise>
-									</xsl:choose>
+									<xsl:value-of select="../CardHolderName"/>
 								</Text>
 							</Remark>
+						</xsl:if>
+						<Remark Type="Client Address">
+							<Text>
+								<xsl:choose>
+									<xsl:when test="AddressLine!=''">
+										<xsl:value-of select="translate(AddressLine,'*#:@;+','')"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="translate(StreetNmbr,'*#:@;+','')"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</Text>
+						</Remark>
+						<Remark Type="Client Address">
+							<Text>
+								<xsl:value-of select="CityName"/>
+								<xsl:if test="StateProv/@StateCode!=''">
+									<xsl:value-of select="concat(' ',StateProv/@StateCode)"/>
+								</xsl:if>
+							</Text>
+						</Remark>
+						<xsl:if test="PostalCode!=''">
 							<Remark Type="Client Address">
 								<Text>
-									<xsl:value-of select="CityName"/>
-									<xsl:if test="StateProv/@StateCode!=''">
-										<xsl:value-of select="concat(' ',StateProv/@StateCode)"/>
-									</xsl:if>
+									<xsl:value-of select="PostalCode"/>
 								</Text>
 							</Remark>
-							<xsl:if test="PostalCode!=''">
-								<Remark Type="Client Address">
-									<Text>
-										<xsl:value-of select="PostalCode"/>
-									</Text>
-								</Remark>
-							</xsl:if>
-							<xsl:if test="CountryName/@Code!=''">
-								<Remark Type="Client Address">
-									<Text>
-										<xsl:value-of select="CountryName/@Code"/>
-									</Text>
-								</Remark>
-							</xsl:if>
-						</xsl:for-each>
-						<xsl:for-each select="OTA_AirBookRQ/Fulfillment/DeliveryAddress">
+						</xsl:if>
+						<xsl:if test="CountryName/@Code!=''">
+							<Remark Type="Client Address">
+								<Text>
+									<xsl:value-of select="CountryName/@Code"/>
+								</Text>
+							</Remark>
+						</xsl:if>
+					</xsl:for-each>
+					<xsl:for-each select="OTA_AirBookRQ/Fulfillment/DeliveryAddress">
+						<Remark Type="Delivery Address">
+							<Text>
+								<xsl:choose>
+									<xsl:when test="AddressLine!=''">
+										<xsl:value-of select="AddressLine"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="StreetNmbr"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</Text>
+						</Remark>
+						<Remark Type="Delivery Address">
+							<Text>
+								<xsl:value-of select="CityName"/>
+								<xsl:if test="StateProv/@StateCode!=''">
+									<xsl:value-of select="concat(' ',StateProv/@StateCode)"/>
+								</xsl:if>
+							</Text>
+						</Remark>
+						<xsl:if test="PostalCode!=''">
 							<Remark Type="Delivery Address">
 								<Text>
-									<xsl:choose>
-										<xsl:when test="AddressLine!=''">
-											<xsl:value-of select="AddressLine"/>
-										</xsl:when>
-										<xsl:otherwise>
-											<xsl:value-of select="StreetNmbr"/>
-										</xsl:otherwise>
-									</xsl:choose>
+									<xsl:value-of select="PostalCode"/>
 								</Text>
 							</Remark>
+						</xsl:if>
+						<xsl:if test="CountryName/@Code!=''">
 							<Remark Type="Delivery Address">
 								<Text>
-									<xsl:value-of select="CityName"/>
-									<xsl:if test="StateProv/@StateCode!=''">
-										<xsl:value-of select="concat(' ',StateProv/@StateCode)"/>
-									</xsl:if>
+									<xsl:value-of select="CountryName/@Code"/>
 								</Text>
 							</Remark>
-							<xsl:if test="PostalCode!=''">
-								<Remark Type="Delivery Address">
-									<Text>
-										<xsl:value-of select="PostalCode"/>
-									</Text>
-								</Remark>
-							</xsl:if>
-							<xsl:if test="CountryName/@Code!=''">
-								<Remark Type="Delivery Address">
-									<Text>
-										<xsl:value-of select="CountryName/@Code"/>
-									</Text>
-								</Remark>
-							</xsl:if>
-						</xsl:for-each>
-					</xsl:if>
-				</RemarkInfo>
-			</AddRemarkRQ>
-		</Remarks>
+						</xsl:if>
+					</xsl:for-each>
+				</xsl:if>
+			</RemarkInfo>
+		</AddRemarkRQ>
+		</Remarks>-->
 		<!--/xsl:if-->
 		<xsl:if test="OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks/SpecialRemark[@RemarkType='HostEntry']">
 			<HostEntry>
@@ -257,12 +257,13 @@
 				</xsl:for-each>
 			</HostEntry>
 		</xsl:if>
-		<xsl:if test="OTA_AirBookRQ">
-			<AirBook>
+		<EnhancedAirBookRQ HaltOnError="true" IgnoreOnError="true" haltOnInvalidMCT="true" version="3.10.0" xmlns="http://services.sabre.com/sp/eab/v3_10">
+			<xsl:if test="OTA_AirBookRQ">
+				<!--<AirBook>-->
 				<xsl:apply-templates select="OTA_AirBookRQ"/>
-			</AirBook>
-		</xsl:if>
-		<xsl:if test="OTA_HotelResRQ">
+				<!--</AirBook>-->
+			</xsl:if>
+			<!--<xsl:if test="OTA_HotelResRQ">
 			<HotelBook>
 				<xsl:apply-templates select="OTA_HotelResRQ/HotelReservations/HotelReservation"/>
 			</HotelBook>
@@ -276,17 +277,18 @@
 				<xsl:apply-templates select="OTA_VehResRQ/VehResRQCore"/>
 				<xsl:apply-templates select="CarResGroupRQ/OTA_VehResRQ/VehResRQCore"/>
 			</CarBook>
-		</xsl:if>
-		<xsl:if test="OTA_AirBookRQ/MiscellaneousSegments/Segment">
-			<MiscellaneousSegments>
-				<xsl:apply-templates select="OTA_AirBookRQ/MiscellaneousSegments/Segment" mode="Seg"/>
-			</MiscellaneousSegments>
-		</xsl:if>
-		<xsl:if test="TPA_Extensions/PriceData">
-			<Pricing>
+		</xsl:if>-->
+			<xsl:if test="OTA_AirBookRQ/MiscellaneousSegments/Segment">
+				<MiscellaneousSegments>
+					<xsl:apply-templates select="OTA_AirBookRQ/MiscellaneousSegments/Segment" mode="Seg"/>
+				</MiscellaneousSegments>
+			</xsl:if>
+			<xsl:if test="TPA_Extensions/PriceData">
+				<!--<Pricing>-->
 				<xsl:apply-templates select="TPA_Extensions/PriceData"/>
-			</Pricing>
-		</xsl:if>
+				<!--</Pricing>-->
+			</xsl:if>
+		</EnhancedAirBookRQ>
 		<xsl:if test=" OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks[@RemarkType='C']">
 			<SpecialRemarks>
 				<AddRemarkRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" ReturnHostCommand="true" Version="2.1.1">
@@ -1273,7 +1275,20 @@
 	<!--  			 Air Itinerary                                       -->
 	<!--************************************************************-->
 	<xsl:template match="OTA_AirBookRQ">
-		<OTA_AirBookRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.2.0">
+		<OTA_AirBookRQ>
+			<!--xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.2.0">-->
+			<RetryRebook Option="true"/>
+			<HaltOnStatus Code="HL"/>
+			<HaltOnStatus Code="HN"/>
+			<HaltOnStatus Code="HX"/>
+			<HaltOnStatus Code="LL"/>
+			<HaltOnStatus Code="NN"/>
+			<HaltOnStatus Code="NO"/>
+			<HaltOnStatus Code="PN"/>
+			<HaltOnStatus Code="UC"/>
+			<HaltOnStatus Code="UN"/>
+			<HaltOnStatus Code="US"/>
+			<HaltOnStatus Code="UU"/>
 			<OriginDestinationInformation>
 				<xsl:apply-templates select="AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment" mode="new"/>
 			</OriginDestinationInformation>
@@ -1831,9 +1846,10 @@
 	</xsl:template>
 	<xsl:template match="PriceData">
 		<!-- https://files.developer.sabre.com/drc/servicedoc/OTA_AirPriceLLSRQ_v2.17.0_Design.xml -->
-		<OTA_AirPriceRQ Version="2.17.0" xmlns="http://webservices.sabre.com/sabreXML/2011/10">
+		<OTA_AirPriceRQ>
+			<!-- "Version="2.17.0" xmlns="http://webservices.sabre.com/sabreXML/2011/10-->
 			<PriceRequestInformation Retain="true">
-				<OptionalQualifiers>
+				<!--<OptionalQualifiers>
 					<xsl:if test="@PricingInstruction!=''">
 						<MiscQualifiers>
 							<HemisphereCode>
@@ -1860,16 +1876,16 @@
 								<SegmentSelect Number="{position()}" RPH="{position()}"/>
 							</xsl:for-each>
 						</ItineraryOptions>
-						
-							<xsl:for-each select="../../OTA_AirBookRQ/AirItineraryPricingInfo/PTC_FareBreakdowns/PTC_FareBreakdown/FareBasisCodes/FareBasisCode">
-								<xsl:variable name="pos" select="position()" />
-								<SpecificFare RPH="position()">
-									<FareBasis>
-										<xsl:value-of select="text()"/>
-									</FareBasis>
-								</SpecificFare>
-							</xsl:for-each>
-							
+
+						<xsl:for-each select="../../OTA_AirBookRQ/AirItineraryPricingInfo/PTC_FareBreakdowns/PTC_FareBreakdown/FareBasisCodes/FareBasisCode">
+							<xsl:variable name="pos" select="position()" />
+							<SpecificFare RPH="position()">
+								<FareBasis>
+									<xsl:value-of select="text()"/>
+								</FareBasis>
+							</SpecificFare>
+						</xsl:for-each>
+
 						<xsl:choose>
 							<xsl:when test="PassengerTypeQuantity/@Code!=''">
 								<xsl:for-each select="PassengerTypeQuantity">
@@ -1917,7 +1933,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</PricingQualifiers>
-				</OptionalQualifiers>
+				</OptionalQualifiers>-->
 			</PriceRequestInformation>
 		</OTA_AirPriceRQ>
 	</xsl:template>
