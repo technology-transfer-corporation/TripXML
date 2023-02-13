@@ -540,882 +540,921 @@ namespace TripXMLMain
         #endregion
 
         #region  Format Error Message 
-
+        /// <summary>
+        /// Return formated Error message in response object
+        /// </summary>
+        /// <param name="service">Idetifys Service of responsobility</param>
+        /// <param name="message">Errro Message</param>
+        /// <param name="providerSystems">Provider System</param>
+        /// <param name="recordLocator">Record Locator</param>
+        /// <param name="OTA_Version">version of OTA message</param>
+        /// <returns></returns>
         public static string FormatErrorMessage(ttServices service, string message, TripXMLProviderSystems providerSystems, string recordLocator = "", string OTA_Version = "")
         {
             string strResponse;
             string version;
             string tag;
-            switch (service)
+            try
             {
-                case ttServices.AirAvail:
-                    {
-                        tag = "OTA_AirAvailRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.AirFlifo:
-                    {
-                        tag = "OTA_AirFlifoRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.AirPrice:
-                    {
-                        tag = "OTA_AirPriceRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.AirRules:
-                    {
-                        tag = "OTA_AirRulesRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.AirSeatMap:
-                    {
-                        tag = "OTA_AirSeatMapRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.LowFare:
-                    {
-                        tag = "OTA_AirLowFareSearchRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.LowFarePlus:
-                    {
-                        tag = "OTA_AirLowFareSearchPlusRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.LowFareMatrix:
-                    {
-                        tag = "OTA_AirLowFareSearchMatrixRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.LowFareFlights:
-                    {
-                        tag = "OTA_AirLowFareSearchFlightsRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.LowFareSchedule:
-                    {
-                        tag = "OTA_AirLowFareSearchScheduleRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.CarAvail:
-                    {
-                        tag = "OTA_VehAvailRateRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.CarInfo:
-                    {
-                        tag = "OTA_VehLocDetailRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.HotelAvail:
-                    {
-                        tag = "OTA_HotelAvailRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.HotelInfo:
-                    {
-                        tag = "OTA_HotelDescriptiveInfoRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.HotelSearch:
-                    {
-                        tag = "OTA_HotelSearchRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.PNRRead:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
-
-                case ttServices.PNRCancel:
-                    {
-                        tag = "OTA_CancelRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.TravelBuild:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
-
-                case ttServices.ShowMileage:
-                    {
-                        tag = "OTA_ShowMileageRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.CreateSession:
-                    {
-                        tag = "SessionCreateRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.CloseSession:
-                    {
-                        tag = "SessionCloseRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.Cryptic:
-                    {
-                        tag = "CrypticRS";
-                        version = "";
-                        break;
-                    }
-
-                case ttServices.CCValid:
-                    {
-                        tag = "OTA_CCValidRS";
-                        version = "";
-                        break;
-                    }
-
-                case ttServices.CurConv:
-                    {
-                        tag = "OTA_CurConvRS";
-                        version = "";
-                        break;
-                    }
-
-                case ttServices.TimeDiff:
-                    {
-                        tag = "OTA_TimeDiffRS";
-                        version = "";
-                        break;
-                    }
-
-                case ttServices.CruiseCabinAvail:
-                    {
-                        tag = "OTA_CruiseCabinAvailRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseCategoryAvail:
-                    {
-                        tag = "OTA_CruiseCategoryAvailRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseFareAvail:
-                    {
-                        tag = "OTA_CruiseFareAvailRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseSailAvail:
-                    {
-                        tag = "OTA_CruiseSailAvailRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case var @case when @case == ttServices.CruiseCabinAvail:
-                    {
-                        tag = "OTA_CruiseCabinAvailRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseCabinHold:
-                    {
-                        tag = "OTA_CruiseCabinHoldRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseCabinUnhold:
-                    {
-                        tag = "OTA_CruiseCabinUnholdRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruisePriceBooking:
-                    {
-                        tag = "OTA_CruisePriceBookingRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseCreateBooking:
-                    {
-                        tag = "OTA_CruiseCreateBookingRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseRead:
-                    {
-                        tag = "OTA_CruiseReadRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseCancelBooking:
-                    {
-                        tag = "OTA_CruiseCancelRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseModifyBooking:
-                    {
-                        tag = "OTA_CruiseCreateBookingRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruisePackageAvail:
-                    {
-                        tag = "OTA_CruisePackageAvailRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.Native:
-                    {
-                        tag = "NativeRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.HotelModify:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
-
-                case ttServices.IssueTicket:
-                    {
-                        tag = "TT_IssueTicketRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.GeoList:
-                    {
-                        tag = "TT_GeoListRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.FareDisplay:
-                    {
-                        tag = "OTA_AirFareDisplayRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.Queue:
-                    {
-                        tag = "OTA_QueueRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.QueueRead:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        if (!string.IsNullOrEmpty(OTA_Version))
+                switch (service)
+                {
+                    case ttServices.AirAvail:
                         {
-                            version = OTA_Version;
+                            tag = "OTA_AirAvailRS";
+                            version = "1.001";
+                            break;
                         }
-                        else
+
+                    case ttServices.AirFlifo:
                         {
+                            tag = "OTA_AirFlifoRS";
+                            version = "1.001";
+                            break;
+                        }
+
+                    case ttServices.AirPrice:
+                        {
+                            tag = "OTA_AirPriceRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.AirRules:
+                        {
+                            tag = "OTA_AirRulesRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.AirSeatMap:
+                        {
+                            tag = "OTA_AirSeatMapRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.LowFare:
+                        {
+                            tag = "OTA_AirLowFareSearchRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.LowFarePlus:
+                        {
+                            tag = "OTA_AirLowFareSearchPlusRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.LowFareMatrix:
+                        {
+                            tag = "OTA_AirLowFareSearchMatrixRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.LowFareFlights:
+                        {
+                            tag = "OTA_AirLowFareSearchFlightsRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.LowFareSchedule:
+                        {
+                            tag = "OTA_AirLowFareSearchScheduleRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.CarAvail:
+                        {
+                            tag = "OTA_VehAvailRateRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.CarInfo:
+                        {
+                            tag = "OTA_VehLocDetailRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.HotelAvail:
+                        {
+                            tag = "OTA_HotelAvailRS";
+                            version = "1.001";
+                            break;
+                        }
+
+                    case ttServices.HotelInfo:
+                        {
+                            tag = "OTA_HotelDescriptiveInfoRS";
+                            version = "1.001";
+                            break;
+                        }
+
+                    case ttServices.HotelSearch:
+                        {
+                            tag = "OTA_HotelSearchRS";
+                            version = "1.001";
+                            break;
+                        }
+
+                    case ttServices.PNRRead:
+                        {
+                            tag = "OTA_TravelItineraryRS";
                             version = "v03";
+                            break;
                         }
 
-                        break;
-                    }
+                    case ttServices.PNRCancel:
+                        {
+                            tag = "OTA_CancelRS";
+                            version = "1.001";
+                            break;
+                        }
 
-                case ttServices.ETicketVerify:
-                    {
-                        tag = "OTA_ETicketVerifyRS";
-                        version = "1.000";
-                        break;
-                    }
+                    case ttServices.TravelBuild:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            version = "v03";
+                            break;
+                        }
 
-                case ttServices.InsuranceBook:
-                    {
-                        tag = "OTA_InsuranceBookRS";
-                        version = "1.001";
-                        break;
-                    }
+                    case ttServices.ShowMileage:
+                        {
+                            tag = "OTA_ShowMileageRS";
+                            version = "1.001";
+                            break;
+                        }
 
-                case ttServices.InsuranceQuote:
-                    {
-                        tag = "OTA_InsuranceQuoteRS";
-                        version = "1.001";
-                        break;
-                    }
+                    case ttServices.CreateSession:
+                        {
+                            tag = "SessionCreateRS";
+                            version = "1.001";
+                            break;
+                        }
 
-                case ttServices.CruiseItineraryDesc:
-                    {
-                        tag = "OTA_CruiseItineraryAvailRS";
-                        version = "1.000";
-                        break;
-                    }
+                    case ttServices.CloseSession:
+                        {
+                            tag = "SessionCloseRS";
+                            version = "1.001";
+                            break;
+                        }
 
-                case ttServices.AddonAvail:
-                    {
-                        tag = "OTA_AddonAvailRS";
-                        version = "1.000";
-                        break;
-                    }
+                    case ttServices.Cryptic:
+                        {
+                            tag = "CrypticRS";
+                            version = "";
+                            break;
+                        }
 
-                case ttServices.TravelModify:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
+                    case ttServices.CCValid:
+                        {
+                            tag = "OTA_CCValidRS";
+                            version = "";
+                            break;
+                        }
 
-                case ttServices.Update:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
+                    case ttServices.CurConv:
+                        {
+                            tag = "OTA_CurConvRS";
+                            version = "";
+                            break;
+                        }
 
-                case ttServices.UpdateSessioned:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
+                    case ttServices.TimeDiff:
+                        {
+                            tag = "OTA_TimeDiffRS";
+                            version = "";
+                            break;
+                        }
 
-                case ttServices.PNRSplit:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
+                    case ttServices.CruiseCabinAvail:
+                        {
+                            tag = "OTA_CruiseCabinAvailRS";
+                            version = "1.000";
+                            break;
+                        }
 
-                case ttServices.IssueTicketSessioned:
-                    {
-                        tag = "TT_IssueTicketRS";
-                        version = "1.001";
-                        break;
-                    }
+                    case ttServices.CruiseCategoryAvail:
+                        {
+                            tag = "OTA_CruiseCategoryAvailRS";
+                            version = "1.000";
+                            break;
+                        }
 
-                case ttServices.PNRReprice:
-                    {
-                        tag = "OTA_PNRRepriceRS";
-                        version = "v03";
-                        break;
-                    }
+                    case ttServices.CruiseFareAvail:
+                        {
+                            tag = "OTA_CruiseFareAvailRS";
+                            version = "1.000";
+                            break;
+                        }
 
-                default:
-                    {
-                        tag = "";
-                        version = "1.001";
-                        break;
-                    }
+                    case ttServices.CruiseSailAvail:
+                        {
+                            tag = "OTA_CruiseSailAvailRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case var @case when @case == ttServices.CruiseCabinAvail:
+                        {
+                            tag = "OTA_CruiseCabinAvailRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseCabinHold:
+                        {
+                            tag = "OTA_CruiseCabinHoldRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseCabinUnhold:
+                        {
+                            tag = "OTA_CruiseCabinUnholdRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruisePriceBooking:
+                        {
+                            tag = "OTA_CruisePriceBookingRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseCreateBooking:
+                        {
+                            tag = "OTA_CruiseCreateBookingRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseRead:
+                        {
+                            tag = "OTA_CruiseReadRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseCancelBooking:
+                        {
+                            tag = "OTA_CruiseCancelRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseModifyBooking:
+                        {
+                            tag = "OTA_CruiseCreateBookingRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruisePackageAvail:
+                        {
+                            tag = "OTA_CruisePackageAvailRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.Native:
+                        {
+                            tag = "NativeRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.HotelModify:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            version = "v03";
+                            break;
+                        }
+
+                    case ttServices.IssueTicket:
+                        {
+                            tag = "TT_IssueTicketRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.GeoList:
+                        {
+                            tag = "TT_GeoListRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.FareDisplay:
+                        {
+                            tag = "OTA_AirFareDisplayRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.Queue:
+                        {
+                            tag = "OTA_QueueRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.QueueRead:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            if (!string.IsNullOrEmpty(OTA_Version))
+                            {
+                                version = OTA_Version;
+                            }
+                            else
+                            {
+                                version = "v03";
+                            }
+
+                            break;
+                        }
+
+                    case ttServices.ETicketVerify:
+                        {
+                            tag = "OTA_ETicketVerifyRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.InsuranceBook:
+                        {
+                            tag = "OTA_InsuranceBookRS";
+                            version = "1.001";
+                            break;
+                        }
+
+                    case ttServices.InsuranceQuote:
+                        {
+                            tag = "OTA_InsuranceQuoteRS";
+                            version = "1.001";
+                            break;
+                        }
+
+                    case ttServices.CruiseItineraryDesc:
+                        {
+                            tag = "OTA_CruiseItineraryAvailRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.AddonAvail:
+                        {
+                            tag = "OTA_AddonAvailRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.TravelModify:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            version = "v03";
+                            break;
+                        }
+
+                    case ttServices.Update:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            version = "v03";
+                            break;
+                        }
+
+                    case ttServices.UpdateSessioned:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            version = "v03";
+                            break;
+                        }
+
+                    case ttServices.PNRSplit:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            version = "v03";
+                            break;
+                        }
+
+                    case ttServices.IssueTicketSessioned:
+                        {
+                            tag = "TT_IssueTicketRS";
+                            version = "1.001";
+                            break;
+                        }
+
+                    case ttServices.PNRReprice:
+                        {
+                            tag = "OTA_PNRRepriceRS";
+                            version = "v03";
+                            break;
+                        }
+
+                    default:
+                        {
+                            tag = "";
+                            version = "1.001";
+                            break;
+                        }
+                }
+
+                if (!string.IsNullOrEmpty(OTA_Version))
+                    version = OTA_Version;
+                var lstError = new List<string>();
+                if (!message.Contains(Environment.NewLine))
+                {
+                    lstError.Add(message);
+                }
+                else
+                {
+                    lstError.AddRange(message.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList());
+                }
+
+                var trace = new JObject(
+                    new JProperty("@Status", tag.Contains("OTA_CancelRS") ? "" : "Unsuccessful"), 
+                    new JProperty("@Version", version), 
+                    new JProperty("@TransactionIdentifier", providerSystems.Provider), 
+                    new JProperty("@UniqueID", !string.IsNullOrEmpty(recordLocator) ? recordLocator : ""), 
+                    new JProperty("@TimeStamp", DateTime.Now), 
+                    new JProperty("Errors", GetListToJSON(lstError)));
+
+                AddLog(LogType.Error, ref tag, providerSystems, trace);
+                string jsonTrace = JsonConvert.SerializeObject(trace);
+                var doc = JsonConvert.DeserializeXmlNode(jsonTrace, tag); // strResponse
+                strResponse = doc.InnerXml;
             }
-
-            if (!string.IsNullOrEmpty(OTA_Version))
-                version = OTA_Version;
-            var lstError = new List<string>();
-            if (!message.Contains(Environment.NewLine))
+            catch (Exception ex)
             {
-                lstError.Add(message);
+                strResponse = ex.Message;
             }
-            else
-            {
-                lstError.AddRange(message.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList());
-            }
-
-            var trace = new JObject(new JProperty("@Status", tag.Contains("OTA_CancelRS") ? "" : "Unsuccessful"), new JProperty("@Version", version), new JProperty("@TransactionIdentifier", providerSystems.Provider), new JProperty("@UniqueID", !string.IsNullOrEmpty(recordLocator) ? recordLocator : ""), new JProperty("@TimeStamp", DateTime.Now), new JProperty("Errors", GetListToJSON(lstError)));
-            AddLog(LogType.Error, ref tag, providerSystems, trace);
-            string jsonTrace = JsonConvert.SerializeObject(trace);
-            var doc = JsonConvert.DeserializeXmlNode(jsonTrace, tag); // strResponse
-            strResponse = doc.InnerXml;
             return strResponse;
         }
 
-        public static string FormatErrorMessage(ttServices Service, string Message, string Provider, string RecordLocator = "", bool MessageIsNode = false, string OTA_Version = "")
+        /// <summary>
+        /// Return formated Error message in response object
+        /// </summary>
+        /// <param name="service"></param>
+        /// <param name="message"></param>
+        /// <param name="provider"></param>
+        /// <param name="recordLocator"></param>
+        /// <param name="messageIsNode"></param>
+        /// <param name="OTA_Version"></param>
+        /// <returns></returns>
+        public static string FormatErrorMessage(ttServices service, string message, string provider, string recordLocator = "", bool messageIsNode = false, string OTA_Version = "")
         {
-            string strResponse = "";
-            string version = "";
-            string tag = "";
-            switch (Service)
+            string _response;
+            
+            try
             {
-                case ttServices.AirAvail:
-                    {
-                        tag = "OTA_AirAvailRS";
-                        version = "1.001";
-                        break;
-                    }
+                string version = OTA_Version;
+                string tag = "";
 
-                case ttServices.AirFlifo:
-                    {
-                        tag = "OTA_AirFlifoRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.AirPrice:
-                    {
-                        tag = "OTA_AirPriceRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.AirRules:
-                    {
-                        tag = "OTA_AirRulesRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.AirSeatMap:
-                    {
-                        tag = "OTA_AirSeatMapRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.LowFare:
-                    {
-                        tag = "OTA_AirLowFareSearchRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.LowFarePlus:
-                    {
-                        tag = "OTA_AirLowFareSearchPlusRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.LowFareMatrix:
-                    {
-                        tag = "OTA_AirLowFareSearchMatrixRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.LowFareFlights:
-                    {
-                        tag = "OTA_AirLowFareSearchFlightsRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.LowFareSchedule:
-                    {
-                        tag = "OTA_AirLowFareSearchScheduleRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.CarAvail:
-                    {
-                        tag = "OTA_VehAvailRateRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.CarInfo:
-                    {
-                        tag = "OTA_VehLocDetailRS";
-                        version = "2.000";
-                        break;
-                    }
-
-                case ttServices.HotelAvail:
-                    {
-                        tag = "OTA_HotelAvailRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.HotelInfo:
-                    {
-                        tag = "OTA_HotelDescriptiveInfoRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.HotelSearch:
-                    {
-                        tag = "OTA_HotelSearchRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.PNRRead:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
-
-                case ttServices.PNRReprice:
-                    {
-                        tag = "OTA_PNRRepriceRS";
-                        version = "v03";
-                        break;
-                    }
-
-                case ttServices.PNRCancel:
-                    {
-                        tag = "OTA_CancelRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.TravelBuild:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
-
-                case ttServices.ShowMileage:
-                    {
-                        tag = "OTA_ShowMileageRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.CreateSession:
-                    {
-                        tag = "SessionCreateRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.CloseSession:
-                    {
-                        tag = "SessionCloseRS";
-                        version = "1.001";
-                        break;
-                    }
-
-                case ttServices.Cryptic:
-                    {
-                        tag = "CrypticRS";
-                        version = "";
-                        break;
-                    }
-
-                case ttServices.CCValid:
-                    {
-                        tag = "OTA_CCValidRS";
-                        version = "";
-                        break;
-                    }
-
-                case ttServices.CurConv:
-                    {
-                        tag = "OTA_CurConvRS";
-                        version = "";
-                        break;
-                    }
-
-                case ttServices.TimeDiff:
-                    {
-                        tag = "OTA_TimeDiffRS";
-                        version = "";
-                        break;
-                    }
-
-                case ttServices.CruiseCabinAvail:
-                    {
-                        tag = "OTA_CruiseCabinAvailRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseCategoryAvail:
-                    {
-                        tag = "OTA_CruiseCategoryAvailRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseFareAvail:
-                    {
-                        tag = "OTA_CruiseFareAvailRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseSailAvail:
-                    {
-                        tag = "OTA_CruiseSailAvailRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case var @case when @case == ttServices.CruiseCabinAvail:
-                    {
-                        tag = "OTA_CruiseCabinAvailRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseCabinHold:
-                    {
-                        tag = "OTA_CruiseCabinHoldRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseCabinUnhold:
-                    {
-                        tag = "OTA_CruiseCabinUnholdRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruisePriceBooking:
-                    {
-                        tag = "OTA_CruisePriceBookingRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseCreateBooking:
-                    {
-                        tag = "OTA_CruiseCreateBookingRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseRead:
-                    {
-                        tag = "OTA_CruiseReadRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseCancelBooking:
-                    {
-                        tag = "OTA_CruiseCancelRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruiseModifyBooking:
-                    {
-                        tag = "OTA_CruiseCreateBookingRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.CruisePackageAvail:
-                    {
-                        tag = "OTA_CruisePackageAvailRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.Native:
-                    {
-                        tag = "NativeRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.HotelModify:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
-
-                case ttServices.IssueTicket:
-                    {
-                        tag = "TT_IssueTicketRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.GeoList:
-                    {
-                        tag = "TT_GeoListRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.FareDisplay:
-                    {
-                        tag = "OTA_AirFareDisplayRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.Queue:
-                    {
-                        tag = "OTA_QueueRS";
-                        version = "1.000";
-                        break;
-                    }
-
-                case ttServices.QueueRead:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        if (!string.IsNullOrEmpty(OTA_Version))
+                switch (service)
+                {
+                    case ttServices.AirAvail:
                         {
-                            version = OTA_Version;
+                            tag = "OTA_AirAvailRS";
+                            version = "1.001";
+                            break;
                         }
-                        else
+
+                    case ttServices.AirFlifo:
                         {
+                            tag = "OTA_AirFlifoRS";
+                            version = "1.001";
+                            break;
+                        }
+
+                    case ttServices.AirPrice:
+                        {
+                            tag = "OTA_AirPriceRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.AirRules:
+                        {
+                            tag = "OTA_AirRulesRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.AirSeatMap:
+                        {
+                            tag = "OTA_AirSeatMapRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.LowFare:
+                        {
+                            tag = "OTA_AirLowFareSearchRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.LowFarePlus:
+                        {
+                            tag = "OTA_AirLowFareSearchPlusRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.LowFareMatrix:
+                        {
+                            tag = "OTA_AirLowFareSearchMatrixRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.LowFareFlights:
+                        {
+                            tag = "OTA_AirLowFareSearchFlightsRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.LowFareSchedule:
+                        {
+                            tag = "OTA_AirLowFareSearchScheduleRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.CarAvail:
+                        {
+                            tag = "OTA_VehAvailRateRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.CarInfo:
+                        {
+                            tag = "OTA_VehLocDetailRS";
+                            version = "2.000";
+                            break;
+                        }
+
+                    case ttServices.HotelAvail:
+                        {
+                            tag = "OTA_HotelAvailRS";
+                            version = "1.001";
+                            break;
+                        }
+
+                    case ttServices.HotelInfo:
+                        {
+                            tag = "OTA_HotelDescriptiveInfoRS";
+                            version = "1.001";
+                            break;
+                        }
+
+                    case ttServices.HotelSearch:
+                        {
+                            tag = "OTA_HotelSearchRS";
+                            version = "1.001";
+                            break;
+                        }
+
+                    case ttServices.PNRRead:
+                        {
+                            tag = "OTA_TravelItineraryRS";
                             version = "v03";
+                            break;
                         }
 
-                        break;
-                    }
+                    case ttServices.PNRReprice:
+                        {
+                            tag = "OTA_PNRRepriceRS";
+                            version = "v03";
+                            break;
+                        }
 
-                case ttServices.ETicketVerify:
-                    {
-                        tag = "OTA_ETicketVerifyRS";
-                        version = "1.000";
-                        break;
-                    }
+                    case ttServices.PNRCancel:
+                        {
+                            tag = "OTA_CancelRS";
+                            version = "1.001";
+                            break;
+                        }
 
-                case ttServices.InsuranceBook:
-                    {
-                        tag = "OTA_InsuranceBookRS";
-                        version = "1.001";
-                        break;
-                    }
+                    case ttServices.TravelBuild:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            version = "v03";
+                            break;
+                        }
 
-                case ttServices.InsuranceQuote:
-                    {
-                        tag = "OTA_InsuranceQuoteRS";
-                        version = "1.001";
-                        break;
-                    }
+                    case ttServices.ShowMileage:
+                        {
+                            tag = "OTA_ShowMileageRS";
+                            version = "1.001";
+                            break;
+                        }
 
-                case ttServices.CruiseItineraryDesc:
-                    {
-                        tag = "OTA_CruiseItineraryAvailRS";
-                        version = "1.000";
-                        break;
-                    }
+                    case ttServices.CreateSession:
+                        {
+                            tag = "SessionCreateRS";
+                            version = "1.001";
+                            break;
+                        }
 
-                case ttServices.AddonAvail:
-                    {
-                        tag = "OTA_AddonAvailRS";
-                        version = "1.000";
-                        break;
-                    }
+                    case ttServices.CloseSession:
+                        {
+                            tag = "SessionCloseRS";
+                            version = "1.001";
+                            break;
+                        }
 
-                case ttServices.TravelModify:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
+                    case ttServices.Cryptic:
+                        {
+                            tag = "CrypticRS";
+                            version = "";
+                            break;
+                        }
 
-                case ttServices.Update:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
+                    case ttServices.CCValid:
+                        {
+                            tag = "OTA_CCValidRS";
+                            version = "";
+                            break;
+                        }
 
-                case ttServices.UpdateSessioned:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
+                    case ttServices.CurConv:
+                        {
+                            tag = "OTA_CurConvRS";
+                            version = "";
+                            break;
+                        }
 
-                case ttServices.PNRSplit:
-                    {
-                        tag = "OTA_TravelItineraryRS";
-                        version = "v03";
-                        break;
-                    }
+                    case ttServices.TimeDiff:
+                        {
+                            tag = "OTA_TimeDiffRS";
+                            version = "";
+                            break;
+                        }
 
-                case ttServices.IssueTicketSessioned:
-                    {
-                        tag = "TT_IssueTicketRS";
-                        version = "1.001";
-                        break;
-                    }
+                    case ttServices.CruiseCabinAvail:
+                        {
+                            tag = "OTA_CruiseCabinAvailRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseCategoryAvail:
+                        {
+                            tag = "OTA_CruiseCategoryAvailRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseFareAvail:
+                        {
+                            tag = "OTA_CruiseFareAvailRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseSailAvail:
+                        {
+                            tag = "OTA_CruiseSailAvailRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case var @case when @case == ttServices.CruiseCabinAvail:
+                        {
+                            tag = "OTA_CruiseCabinAvailRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseCabinHold:
+                        {
+                            tag = "OTA_CruiseCabinHoldRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseCabinUnhold:
+                        {
+                            tag = "OTA_CruiseCabinUnholdRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruisePriceBooking:
+                        {
+                            tag = "OTA_CruisePriceBookingRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseCreateBooking:
+                        {
+                            tag = "OTA_CruiseCreateBookingRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseRead:
+                        {
+                            tag = "OTA_CruiseReadRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseCancelBooking:
+                        {
+                            tag = "OTA_CruiseCancelRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruiseModifyBooking:
+                        {
+                            tag = "OTA_CruiseCreateBookingRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.CruisePackageAvail:
+                        {
+                            tag = "OTA_CruisePackageAvailRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.Native:
+                        {
+                            tag = "NativeRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.HotelModify:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            version = "v03";
+                            break;
+                        }
+
+                    case ttServices.IssueTicket:
+                        {
+                            tag = "TT_IssueTicketRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.GeoList:
+                        {
+                            tag = "TT_GeoListRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.FareDisplay:
+                        {
+                            tag = "OTA_AirFareDisplayRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.Queue:
+                        {
+                            tag = "OTA_QueueRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.QueueRead:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            if (!string.IsNullOrEmpty(OTA_Version))
+                            {
+                                version = OTA_Version;
+                            }
+                            else
+                            {
+                                version = "v03";
+                            }
+
+                            break;
+                        }
+
+                    case ttServices.ETicketVerify:
+                        {
+                            tag = "OTA_ETicketVerifyRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.InsuranceBook:
+                        {
+                            tag = "OTA_InsuranceBookRS";
+                            version = "1.001";
+                            break;
+                        }
+
+                    case ttServices.InsuranceQuote:
+                        {
+                            tag = "OTA_InsuranceQuoteRS";
+                            version = "1.001";
+                            break;
+                        }
+
+                    case ttServices.CruiseItineraryDesc:
+                        {
+                            tag = "OTA_CruiseItineraryAvailRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.AddonAvail:
+                        {
+                            tag = "OTA_AddonAvailRS";
+                            version = "1.000";
+                            break;
+                        }
+
+                    case ttServices.TravelModify:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            version = "v03";
+                            break;
+                        }
+
+                    case ttServices.Update:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            version = "v03";
+                            break;
+                        }
+
+                    case ttServices.UpdateSessioned:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            version = "v03";
+                            break;
+                        }
+
+                    case ttServices.PNRSplit:
+                        {
+                            tag = "OTA_TravelItineraryRS";
+                            version = "v03";
+                            break;
+                        }
+
+                    case ttServices.IssueTicketSessioned:
+                        {
+                            tag = "TT_IssueTicketRS";
+                            version = "1.001";
+                            break;
+                        }
+                }
+
+                var lstError = new List<string>();
+                if (messageIsNode)
+                {
+                    lstError.Add(message);
+                }
+                else
+                {
+                    lstError.AddRange(message.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList());
+                }
+
+                var ps = new TripXMLProviderSystems();
+                ps.UserName = "";
+                ps.UserID = "";
+                ps.Provider = provider;
+                var trace =
+                    new JObject(
+                        new JProperty("PNR",
+                            new JObject(
+                                new JProperty("Status", tag.Contains("OTA_CancelRS") ? "" : "Unsuccessful"),
+                                new JProperty("@Version", version),
+                                new JProperty("@AltLangID", !string.IsNullOrEmpty(provider) ? provider : string.Empty),
+                                new JProperty("@UniqueID", !string.IsNullOrEmpty(recordLocator) ? recordLocator : ""),
+                                new JProperty("@TimeStamp", DateTime.Now),
+                                new JProperty("Errors", GetListToJSON(lstError)))));
+
+                AddLog(LogType.Error, ref tag, ps, trace);
+                string jsonTrace = JsonConvert.SerializeObject(trace);
+                var doc = JsonConvert.DeserializeXmlNode(jsonTrace, tag); // strResponse
+                _response = doc.InnerXml;
             }
-
-            if (!string.IsNullOrEmpty(OTA_Version))
-                version = OTA_Version;
-            var lstError = new List<string>();
-            if (MessageIsNode)
+            catch (Exception ex)
             {
-                lstError.Add(Message);
+                _response = ex.Message;
             }
-            else
-            {
-                lstError.AddRange(Message.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList());
-            }
-
-            var ps = new TripXMLProviderSystems();
-            ps.UserName = "";
-            ps.UserID = "";
-            ps.Provider = Provider;
-            var trace =
-                new JObject(
-                    new JProperty("PNR",
-                        new JObject(
-                            new JProperty("Status", tag.Contains("OTA_CancelRS") ? "" : "Unsuccessful"),
-                            new JProperty("@Version", version),
-                            new JProperty("@AltLangID", !string.IsNullOrEmpty(Provider) ? Provider : string.Empty),
-                            new JProperty("@UniqueID", !string.IsNullOrEmpty(RecordLocator) ? RecordLocator : ""),
-                            new JProperty("@TimeStamp", DateTime.Now),
-                            new JProperty("Errors", GetListToJSON(lstError)))));
-
-            AddLog(LogType.Error, ref tag, ps, trace);
-            string jsonTrace = JsonConvert.SerializeObject(trace);
-            var doc = JsonConvert.DeserializeXmlNode(jsonTrace, tag); // strResponse
-            strResponse = doc.InnerXml;
-            return strResponse;
+            return _response;
         }
 
         private static JArray GetListToJSON(List<string> list)
@@ -1440,7 +1479,12 @@ namespace TripXMLMain
         #endregion
 
         #region Logging
-
+        /// <summary>
+        /// Add messahe to the Log
+        /// </summary>
+        /// <param name="logType">Error/Warning/Info</param>
+        /// <param name="message">Message of the log</param>
+        /// <param name="providerSystems">Provider System</param>
         public static void AddLog(LogType logType, string message, TripXMLProviderSystems providerSystems)
         {
 
