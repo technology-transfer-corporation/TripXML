@@ -570,10 +570,10 @@
 	</xsl:template>
 
 	<!--
-**********************************************
-  Branded Fares
-**********************************************
--->
+	**********************************************
+	  Branded Fares
+	**********************************************
+	-->
 	<xsl:template match="BrandedFares" mode="FareFamily">
 		<xsl:param name="skipTD" select="0" />
 		<xsl:param name="skipIO" select="0" />

@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 08 Feb 2023 - Kobelev - Endorsements fix.
 Date: 05 Jan 2023 - Samokhvalov - Baggege Node fixes.
 Date: 09 Dec 2022 - Samokhvalov - TPA_Extensions/AgencyCommission from SPE_RMK_INF added.
 Date: 08 Dec 2022 - Samokhvalov - PTC_Farebreakdown/TPA_Extensions/SupplementalInfo fixed.
@@ -179,17 +180,16 @@ Date: 23 Feb 2015 - Rastko
 									<xsl:value-of select="concat(PNR_INF/TEL_INF/TEL_NUM[1]/SID, '|', $CreationDate)"/>
 								</xsl:attribute>
 								<xsl:attribute name="CodeContext">IATACode</xsl:attribute>
-
 								<xsl:value-of select="concat(PNR_HI_INF/Line[last()]/@PCC,'/', PNR_HI_INF/Line[last()]/@Agent)"/>
 								<!--  
-                <xsl:variable name="agent">
-                  <xsl:value-of select="concat(ETR_INF/MIS_INF/MIS_TIC_INF[last()]/SID, '/', ETR_INF/MIS_INF/MIS_TIC_INF[last()]/TIC_AGT_ID, ' ')" />
-                </xsl:variable>
+								<xsl:variable name="agent">
+								  <xsl:value-of select="concat(ETR_INF/MIS_INF/MIS_TIC_INF[last()]/SID, '/', ETR_INF/MIS_INF/MIS_TIC_INF[last()]/TIC_AGT_ID, ' ')" />
+								</xsl:variable>
 
-                <xsl:call-template name="string-trim">
-                  <xsl:with-param name="string" select="$agent" />
-                </xsl:call-template>
-                -->
+								<xsl:call-template name="string-trim">
+								  <xsl:with-param name="string" select="$agent" />
+								</xsl:call-template>
+								-->
 							</CompanyName>
 						</ItineraryRef>
 
@@ -219,31 +219,31 @@ Date: 23 Feb 2015 - Rastko
 								</xsl:variable>
 
 								<!--
-                <xsl:variable name="cPQ">
-                  <xsl:choose>
-                    <xsl:when test="count(msxsl:node-set($elems)/elem) = '2'">
-                      <xsl:choose>
-                        <xsl:when test="count($pq
-                                [contains(
-                                      concat(',', $lPTC), 
-                                      concat(',', PTC_FAR_DTL/PTC, ',')
-                                )]) > 1">
-                          <xsl:value-of select="2"/>
-                        </xsl:when>
-                        <xsl:when test="count(tr) > 1">
-                          <xsl:value-of select="count(tr)"/>                        
-                        </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:value-of select="1"/>
-                        </xsl:otherwise>
-                      </xsl:choose>
-                    </xsl:when>
-                    <xsl:otherwise>
-                      <xsl:value-of select="1"/>
-                    </xsl:otherwise>
-                  </xsl:choose>
-                </xsl:variable>
-                -->
+								<xsl:variable name="cPQ">
+								  <xsl:choose>
+									<xsl:when test="count(msxsl:node-set($elems)/elem) = '2'">
+									  <xsl:choose>
+										<xsl:when test="count($pq
+												[contains(
+													  concat(',', $lPTC), 
+													  concat(',', PTC_FAR_DTL/PTC, ',')
+												)]) > 1">
+										  <xsl:value-of select="2"/>
+										</xsl:when>
+										<xsl:when test="count(tr) > 1">
+										  <xsl:value-of select="count(tr)"/>                        
+										</xsl:when>
+										<xsl:otherwise>
+										  <xsl:value-of select="1"/>
+										</xsl:otherwise>
+									  </xsl:choose>
+									</xsl:when>
+									<xsl:otherwise>
+									  <xsl:value-of select="1"/>
+									</xsl:otherwise>
+								  </xsl:choose>
+								</xsl:variable>
+								-->
 
 								<xsl:choose>
 									<xsl:when test="PRC_INF/TIC_REC_PRC_QUO">
@@ -327,11 +327,10 @@ Date: 23 Feb 2015 - Rastko
 																</Text>
 															</SpecialRemark>
 														</xsl:when>
-														<!--
-                          <xsl:when test="ETR_INF/END_ADV">
-                            <xsl:apply-templates select="ETR_INF" mode="Endorsements" />
-                          </xsl:when>
-                          -->
+														<!-- -->
+														<xsl:when test="ETR_INF/END_ADV">
+															<xsl:apply-templates select="ETR_INF" mode="Endorsements" />
+														</xsl:when>
 														<xsl:when test="RMK_TYP='CON'">
 															<SpecialRemark>
 																<xsl:attribute name="RemarkType">C</xsl:attribute>
@@ -377,11 +376,12 @@ Date: 23 Feb 2015 - Rastko
 															</xsl:if>
 														</Text>
 													</SpecialRemark>
-													<xsl:if test="ETR_INF/END_ADV">
-														<xsl:apply-templates select="ETR_INF" mode="Endorsements" />
-													</xsl:if>
-													<!--</SpecialRemarks>-->
 												</xsl:if>
+												<xsl:if test="ETR_INF/END_ADV">
+													<xsl:apply-templates select="ETR_INF" mode="Endorsements" />
+												</xsl:if>
+													<!--</SpecialRemarks>-->
+												
 
 											</xsl:when>
 										</xsl:choose>
@@ -769,6 +769,7 @@ Date: 23 Feb 2015 - Rastko
 			</AgencyCommission>
 		</xsl:if>
 	</xsl:template>
+
 	<xsl:template match="RMK_ITM" mode="agencyComm">
 		<xsl:if test="number(translate(RMK_TXT, translate(RMK_TXT,'.0123456789',''),''))=translate(RMK_TXT, translate(RMK_TXT,'.0123456789',''),'')">
 			<AgencyCommission>
@@ -829,7 +830,6 @@ Date: 23 Feb 2015 - Rastko
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:variable>
-
 						<xsl:attribute name="Amount">
 							<xsl:value-of select="translate($amount,'.','')"/>
 						</xsl:attribute>
