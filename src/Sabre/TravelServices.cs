@@ -855,7 +855,7 @@ namespace Sabre
                 try
                 {
                     // Send Mandatory elements  
-                    strResponse = SendRequestSegment(ttSA, strEnhanced_AirBookRQ, "EnhancedAirBookRQ", "EnhancedAirBookRQ", "EnhancedAirBookRQ");
+                    strResponse = ttSA.SendMessage(strEnhanced_AirBookRQ, "EnhancedAirBookRQ", "EnhancedAirBookRQ", ConversationID);
                     //strResponse = SendRequestSegment(ttSA, strAddInfo, "MultiElements", "TravelItineraryAddInfo", "TravelItineraryAddInfoLLSRQ");
 
                     // Fatal Error
