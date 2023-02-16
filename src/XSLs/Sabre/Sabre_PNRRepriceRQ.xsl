@@ -776,7 +776,7 @@
 						<PlusUp Amount="{../Markup/@Amount}"/>
 					</xsl:if>
 				</xsl:if>
-				<xsl:if test="skipFBcodes != 1">
+				<xsl:if test="$skipFBcodes != 1">
 					<xsl:for-each select="AirSegments[position()=1 or not(text()=preceding-sibling::AirSegments[1]/text())]">
 						<SpecificFare RPH="{@RPH}">
 							<FareBasis>
