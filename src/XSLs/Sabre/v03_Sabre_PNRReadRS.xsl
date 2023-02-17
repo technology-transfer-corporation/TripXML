@@ -2699,13 +2699,13 @@
 				</Vendor>
 				<VehRentalCore>
 					<xsl:variable name="year">
-						<xsl:value-of select="substring(../../../../../ApplicationResults/Success/@timeStamp,1,4)"/>
+						<xsl:value-of select="substring(//ApplicationResults/Success/@timeStamp,1,4)"/>
 					</xsl:variable>
 					<xsl:variable name="month">
-						<xsl:value-of select="substring(../../../../../ApplicationResults/Success/@timeStamp,6,2)"/>
+						<xsl:value-of select="substring(//ApplicationResults/Success/@timeStamp,6,2)"/>
 					</xsl:variable>
 					<xsl:variable name="day">
-						<xsl:value-of select="substring(../../../../../ApplicationResults/Success/@timeStamp,9,2)"/>
+						<xsl:value-of select="substring(//ApplicationResults/Success/@timeStamp,9,2)"/>
 					</xsl:variable>
 					<xsl:variable name="cMonth">
 						<xsl:value-of select="substring(VehRentalCore/@PickUpDateTime,1,2)"/>
