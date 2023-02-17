@@ -289,6 +289,62 @@
 				<!--</Pricing>-->
 			</xsl:if>
 		</EnhancedAirBookRQ>
+		<PassengerDetailsRQ haltOnError="true" ignoreOnError="false" version="3.5.0" xmlns="http://services.sabre.com/sp/pd/v3_5">
+			<PostProcessing ignoreAfter="false">
+				<RedisplayReservation/>
+				<EndTransactionRQ>
+					<EndTransaction Ind="true"/>
+					<Source ReceivedFrom="API"/>
+				</EndTransactionRQ>
+			</PostProcessing>
+			<SpecialReqDetails>
+				<SpecialServiceRQ>
+					<SpecialServiceInfo>
+						<xsl:apply-templates select="TPA_Extensions/PNRData/Traveler" mode="SSI"/>
+					</SpecialServiceInfo>
+				</SpecialServiceRQ>
+			</SpecialReqDetails>
+			<TravelItineraryAddInfoRQ>
+				<AgencyInfo>
+					<Ticketing TicketType="7TAW"/>
+				</AgencyInfo>
+				<CustomerInfo>
+					<xsl:if test="TPA_Extensions/PNRData/Telephone">
+						<ContactNumbers>
+							<xsl:for-each select="TPA_Extensions/PNRData/Telephone">
+								<ContactNumber>
+									<xsl:attribute name="Phone">
+										<xsl:value-of select="@PhoneNumber"/>
+									</xsl:attribute>
+									<xsl:if test="@PhoneLocationType='Home'">
+										<xsl:attribute name="PhoneUseType">H</xsl:attribute>
+									</xsl:if>
+									<xsl:if test="@PhoneLocationType='Business'">
+										<xsl:attribute name="PhoneUseType">B</xsl:attribute>
+									</xsl:if>
+									<xsl:if test="@PhoneLocationType='Agency'">
+										<xsl:attribute name="PhoneUseType">A</xsl:attribute>
+									</xsl:if>
+									<xsl:if test="@PhoneLocationType='Fax'">
+										<xsl:attribute name="PhoneUseType">F</xsl:attribute>
+									</xsl:if>
+								</ContactNumber>
+							</xsl:for-each>
+						</ContactNumbers>
+					</xsl:if>
+					<xsl:if test="TPA_Extensions/PNRData/Email">
+						<xsl:for-each select="TPA_Extensions/PNRData/Email">
+							<Email>
+								<xsl:attribute name="Address">
+									<xsl:value-of select="."/>
+								</xsl:attribute>
+							</Email>
+						</xsl:for-each>
+					</xsl:if>
+					<xsl:apply-templates select="TPA_Extensions/PNRData/Traveler" mode="CustInfo"/>
+				</CustomerInfo>
+			</TravelItineraryAddInfoRQ>
+		</PassengerDetailsRQ>
 		<xsl:if test=" OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks[@RemarkType='C']">
 			<SpecialRemarks>
 				<AddRemarkRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" ReturnHostCommand="true" Version="2.1.1">
@@ -1849,8 +1905,20 @@
 		<OTA_AirPriceRQ>
 			<!-- "Version="2.17.0" xmlns="http://webservices.sabre.com/sabreXML/2011/10-->
 			<PriceRequestInformation Retain="true">
-				<!--<OptionalQualifiers>
-					<xsl:if test="@PricingInstruction!=''">
+				<OptionalQualifiers>
+					<PricingQualifiers>
+						<!--<Brand>YF</Brand>-->
+						<PassengerType Code="ADT" Quantity="1"/>
+						<!--<PassengerType Code="CNN" Quantity="1"/>
+						<PassengerType Code="INF" Quantity="1"/>-->
+						<!--<SpecificPenalty AdditionalInfo="true"/>-->
+					</PricingQualifiers>
+					<!--<FlightQualifiers>
+						<VendorPrefs>
+							<Airline Code="AF"/>
+						</VendorPrefs>
+					</FlightQualifiers>-->
+					<!--<xsl:if test="@PricingInstruction!=''">
 						<MiscQualifiers>
 							<HemisphereCode>
 								<xsl:value-of select="substring(substring-after(@PricingInstruction,'H'),1,1)"/>
@@ -1932,8 +2000,8 @@
 								</xsl:for-each>
 							</xsl:otherwise>
 						</xsl:choose>
-					</PricingQualifiers>
-				</OptionalQualifiers>-->
+					</PricingQualifiers>-->
+				</OptionalQualifiers>
 			</PriceRequestInformation>
 		</OTA_AirPriceRQ>
 	</xsl:template>
