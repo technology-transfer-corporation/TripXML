@@ -13,12 +13,12 @@
   </xsl:template>
   <!--************************************************************************************************************	-->
   <xsl:template match="OTA_ReadRQ">
-    <GetReservationRQ Version="1.19.0" xmlns="http://webservices.sabre.com/pnrbuilder/v1_19">
+    <GetReservationRQ Version="1.19.16" xmlns="http://webservices.sabre.com/pnrbuilder/v1_19">
       <Locator>
         <xsl:value-of select="UniqueID/@ID" />
       </Locator>
       <RequestType>Stateful</RequestType>
-      <ReturnOptions PriceQuoteServiceVersion="4.0.0">
+      <ReturnOptions PriceQuoteServiceVersion="3.2.0">
         <SubjectAreas>
           <SubjectArea>PRICE_QUOTE</SubjectArea>
         </SubjectAreas>
