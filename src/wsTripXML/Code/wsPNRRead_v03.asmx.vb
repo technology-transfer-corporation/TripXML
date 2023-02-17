@@ -112,50 +112,52 @@ Namespace wsTravelTalk
                                     If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
                                         Dim attCode As XmlAttribute
                                         attCode = oDoc.CreateAttribute("Code")
-                                        attCode.Value = TripXMLLoad.EncodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
-                                        'GetEncodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                                        If Not oNode.SelectSingleNode("OperatingAirline").Attributes("Code") Is Nothing Then
+                                            attCode.Value = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                                            'GetEncodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").InnerText)
 
-                                        If Not String.IsNullOrEmpty(attCode.Value) Then
-                                            oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
-                                            oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
+                                            If Not String.IsNullOrEmpty(attCode.Value) Then
+                                                oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
+                                                oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
+                                            End If
                                         End If
                                     End If
-                                End If
+                            End If
                             ElseIf Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
-                                Dim attCode As XmlAttribute
-                                attCode = oDoc.CreateAttribute("Code")
-                                attCode.Value = TripXMLLoad.EncodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
-                                'GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
-                                oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
+                            Dim attCode As XmlAttribute
+                            attCode = oDoc.CreateAttribute("Code")
+                            attCode.Value = TripXMLLoad.EncodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                            'GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                            oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
 
-                                oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
+                            oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
                             End If
 
-                            If Not oNode.SelectSingleNode("MarketingAirline") Is Nothing Then
-                                oNode.SelectSingleNode("MarketingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
-                                'DecodeValue(DecodingType.Airline, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
-                            End If
-
-                            ' *******************
-                            ' Decode Equipments   *
-                            ' *******************
-                            If Not oNode.SelectSingleNode("Equipment") Is Nothing Then
-                                If Not oNode.SelectSingleNode("Equipment").Attributes("AirEquipType") Is Nothing Then
-                                    oNode.SelectSingleNode("Equipment").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Equipment, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
-                                    'DecodeValue(DecodingType.Equipment, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
-                                End If
-                            End If
-                        Catch e As Exception
-                            CoreLib.SendTrace(UserID, "wsPNRRead", "Error *** Decoding AirAvail Response", e.Message, UUID)
-                        End Try
-
-                    Next
+                If Not oNode.SelectSingleNode("MarketingAirline") Is Nothing Then
+                    oNode.SelectSingleNode("MarketingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
+                    'DecodeValue(DecodingType.Airline, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                 End If
 
-                strResponse = oDoc.OuterXml
+                ' *******************
+                ' Decode Equipments   *
+                ' *******************
+                If Not oNode.SelectSingleNode("Equipment") Is Nothing Then
+                    If Not oNode.SelectSingleNode("Equipment").Attributes("AirEquipType") Is Nothing Then
+                        oNode.SelectSingleNode("Equipment").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Equipment, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                        'DecodeValue(DecodingType.Equipment, oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
+                    End If
+                End If
+            Catch e As Exception
+                CoreLib.SendTrace(UserID, "wsPNRRead", "Error *** Decoding AirAvail Response", e.Message, UUID)
+            End Try
+
+            Next
+            End If
+
+            strResponse = oDoc.OuterXml
 
             Catch ex As Exception
-                CoreLib.SendTrace(UserID, "wsPNRRead", "Error *** Decoding AirAvail Response", ex.Message, UUID)
+            CoreLib.SendTrace(UserID, "wsPNRRead", "Error *** Decoding AirAvail Response", ex.Message, UUID)
             End Try
             Return strResponse
         End Function
