@@ -142,7 +142,7 @@ namespace Sabre
                     Other = !string.IsNullOrEmpty(strOther);
                     nsmgr = new XmlNamespaceManager(oDoc.NameTable);
                     if (strOther.Contains("sx:AddRemarkRQ"))
-                    {                        
+                    {
                         nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2011/10");
                         nodesOther = oRoot.SelectSingleNode("Remarks").SelectNodes("sx:AddRemarkRQ", nsmgr);
                     }
@@ -150,12 +150,9 @@ namespace Sabre
                     {
                         nsmgr.AddNamespace("", "http://webservices.sabre.com/sabreXML/2011/10");
                         nodesOther = oRoot.SelectSingleNode("Remarks").SelectNodes("AddRemarkRQ", nsmgr);
-                        if(nodesOther.Count.Equals(0))
+                        if (nodesOther.Count.Equals(0))
                             nodesOther = oRoot.SelectNodes("Remarks").Item(0).ChildNodes;
                     }
-                        
-                    
-                    
                 }
 
                 if (oRoot.SelectSingleNode("SpecialServicesCI") is null)
@@ -235,7 +232,7 @@ namespace Sabre
 
                 try
                 {
-                    // Send Mandatory elements
+                    // Send Mandatory elements //"EnhancedAirBook","EnhancedAirBookRQ"
                     strResponse = SendRequestSegment(ttSA, strAddInfo, "MultiElements", "TravelItineraryAddInfo", "TravelItineraryAddInfoLLSRQ");
 
                     // Fatal Error
@@ -256,7 +253,7 @@ namespace Sabre
                             return strResponse;
                         }
                     }
-                    
+
                     Thread.Sleep(1000);
 
                     // Send Cars Request
@@ -593,7 +590,630 @@ namespace Sabre
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRReadRS.xsl");
 
                     if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttSA.CloseSession(ConversationID);
+                        ConversationID = null;
+                        ttSA = null;
+
+                        CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "Clean up working area", "", ProviderSystems.LogUUID);
+                        //strIgnore = ttSA.SendMessage(strIgnore, "IgnoreTransaction", "IgnoreTransactionLLSRQ", ConversationID);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.TravelBuild, ex.Message, ProviderSystems);
+            }
+
+            return strResponse;
+        }
+        public string TravelBuild_V3()
+        {
+            string strResponse;
+
+            // ****************************************************************
+            // Transform OTA TravelBuild Request into Several Navite Request *
+            // ****************************************************************  
+
+            try
+            {
+                string strEchoToken = "";
+                var nodesOther = default(XmlNodeList);
+                XmlNamespaceManager nsmgr = null;
+                bool MiscSegmentSell;
+                string strMiscSegmentSell = "";
+                bool SpecialRemark;
+                string srtSpecialRemark = "";
+                var nodesSpecialRemark = default(XmlNodeList);
+                string RecordLocator = "";
+                double dTime;
+                XmlNode oNodeConfirm = null;
+
+                string strRequest = SetRequest("Sabre_TravelBuildEnhcRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
+                    throw new Exception("Transformation produced empty xml.");
+
+                SabreAdapter ttSA = SetAdapter();
+                bool Air;
+                bool Car;
+                bool Hotel;
+                bool Price;
+                bool Other;
+                bool SpecialCI;
+                bool SpecialSeat;
+                bool SpecialSSR;
+                bool SpecialOSI;
+                bool Queue;
+
+                string strEnhanced_AirBookRQ = "";
+                string strAddInfo = "";
+                string strSpecialServicesCI = "";
+                string strSpecialServicesSeat = "";
+                string strSpecialServicesOSI = "";
+                string strAir = "";
+                string strCars = "";
+                string strHotels = "";
+                string strPricing = "";
+                string strEndTransaction = "";
+                string strRead = "";
+                string strIgnore = "";
+                string strQueue = "";
+                XmlElement oRoot;
+                XmlDocument oDoc;
+                // ********************
+                // Get All Requests  * 
+                // ********************
+                oDoc = new XmlDocument();
+                oDoc.LoadXml(strRequest);
+                oRoot = oDoc.DocumentElement;
+
+                nsmgr = new XmlNamespaceManager(oDoc.NameTable);
+                nsmgr.AddNamespace("sxb", "http://services.sabre.com/sp/eab/v3_10"); //xmlns="http://services.sabre.com/sp/eab/v3_10"
+
+                if (oRoot.SelectSingleNode("sxb:EnhancedAirBookRQ", nsmgr) is null)
+                {
+                    throw new Exception("Request is missing mandatory elements.");
+                }
+                else
+                {
+                    strEnhanced_AirBookRQ = oRoot.SelectSingleNode("sxb:EnhancedAirBookRQ", nsmgr).OuterXml;//.Replace(" xmlns=\"\"", "");
+                }
+
+                if (oRoot.SelectSingleNode("AddInfo") is null)
+                {
+                    //throw new Exception("Request is missing mandatory elements.");
+                }
+                else
+                {
+                    strAddInfo = oRoot.SelectSingleNode("AddInfo").InnerXml.Replace(" xmlns=\"\"", "");
+                }
+
+                if (oRoot.SelectSingleNode("AirBook") is null)
+                {
+                    Air = false;
+                }
+                else
+                {
+                    strAir = oRoot.SelectSingleNode("AirBook").InnerXml.Replace(" xmlns=\"\"", "");
+
+                    Air = strAir.Contains("FlightSegment")
+                        ? !string.IsNullOrEmpty(strAir)
+                        : false;
+                }
+
+                if (oRoot.SelectSingleNode("CarBook") is null)
+                {
+                    Car = false;
+                }
+                else
+                {
+                    strCars = oRoot.SelectSingleNode("CarBook").InnerXml.Replace(" xmlns=\"\"", "");
+                    Car = !string.IsNullOrEmpty(strCars);
+                }
+
+                if (oRoot.SelectSingleNode("HotelBook") is null)
+                {
+                    Hotel = false;
+                }
+                else
+                {
+                    strHotels = oRoot.SelectSingleNode("HotelBook").InnerXml.Replace(" xmlns=\"\"", "");
+                    Hotel = !string.IsNullOrEmpty(strHotels);
+                }
+
+                if (oRoot.SelectSingleNode("Pricing") is null)
+                {
+                    Price = false;
+                }
+                else
+                {
+                    strPricing = oRoot.SelectSingleNode("Pricing").InnerXml.Replace(" xmlns=\"\"", "");
+                    Price = !string.IsNullOrEmpty(strPricing);
+                }
+
+                if (oRoot.SelectSingleNode("SpecialRemarks") is null)
+                {
+                    SpecialRemark = false;
+                }
+                else
+                {
+                    srtSpecialRemark = oRoot.SelectSingleNode("SpecialRemarks").InnerXml.Replace(" xmlns=\"\"", "");
+                    SpecialRemark = !string.IsNullOrEmpty(srtSpecialRemark);
+                    nsmgr = new XmlNamespaceManager(oDoc.NameTable);
+                    nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2003/07"); //xmlns="http://services.sabre.com/sp/eab/v3_10"
+                    nodesSpecialRemark = oRoot.SelectSingleNode("SpecialRemarks").SelectNodes("sx:AddRemarkRQ", nsmgr);
+                }
+
+                if (oRoot.SelectSingleNode("Remarks") is null)
+                {
+                    Other = false;
+                }
+                else
+                {
+                    string strOther = oRoot.SelectSingleNode("Remarks").InnerXml.Replace(" xmlns=\"\"", "");
+                    Other = !string.IsNullOrEmpty(strOther);
+                    nsmgr = new XmlNamespaceManager(oDoc.NameTable);
+                    if (strOther.Contains("sx:AddRemarkRQ"))
+                    {
+                        nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2011/10");
+                        nodesOther = oRoot.SelectSingleNode("Remarks").SelectNodes("sx:AddRemarkRQ", nsmgr);
+                    }
+                    else
+                    {
+                        nsmgr.AddNamespace("", "http://webservices.sabre.com/sabreXML/2011/10");
+                        nodesOther = oRoot.SelectSingleNode("Remarks").SelectNodes("AddRemarkRQ", nsmgr);
+                        if (nodesOther.Count.Equals(0))
+                            nodesOther = oRoot.SelectNodes("Remarks").Item(0).ChildNodes;
+                    }
+                }
+
+                if (oRoot.SelectSingleNode("SpecialServicesCI") is null)
+                {
+                    SpecialCI = false;
+                }
+                else
+                {
+                    strSpecialServicesCI = oRoot.SelectSingleNode("SpecialServicesCI").InnerXml.Replace(" xmlns=\"\"", "");
+                    SpecialCI = !string.IsNullOrEmpty(strSpecialServicesCI);
+                }
+
+                if (oRoot.SelectSingleNode("SpecialServicesSeat") is null)
+                {
+                    SpecialSeat = false;
+                }
+                else
+                {
+                    strSpecialServicesSeat = oRoot.SelectSingleNode("SpecialServicesSeat").InnerXml.Replace(" xmlns=\"\"", "");
+                    SpecialSeat = !string.IsNullOrEmpty(strSpecialServicesSeat);
+                }
+
+                if (oRoot.SelectSingleNode("SpecialServicesSSR") is null)
+                {
+                    SpecialSSR = false;
+                }
+                else
+                {
+                    SpecialSSR = true;
+                }
+
+                SpecialSSR = oRoot.SelectSingleNode("SpecialServicesSSR") == null
+                    ? false : true;
+
+                if (oRoot.SelectSingleNode("SpecialServicesOSI") is null)
+                {
+                    SpecialOSI = false;
+                }
+                else
+                {
+                    strSpecialServicesOSI = oRoot.SelectSingleNode("SpecialServicesOSI").InnerXml.Replace(" xmlns=\"\"", "");
+                    SpecialOSI = !string.IsNullOrEmpty(strSpecialServicesOSI);
+                }
+
+                if (oRoot.SelectSingleNode("Queue") is null)
+                {
+                    Queue = false;
+                }
+                else
+                {
+                    strQueue = oRoot.SelectSingleNode("Queue").InnerXml.Replace(" xmlns=\"\"", "");
+                    Queue = !string.IsNullOrEmpty(strQueue);
+                }
+
+                if (oRoot.SelectSingleNode("MiscellaneousSegments") is null)
+                {
+                    MiscSegmentSell = false;
+                }
+                else
+                {
+                    strMiscSegmentSell = oRoot.SelectSingleNode("MiscellaneousSegments").InnerXml.Replace(" xmlns=\"\"", "");
+                    MiscSegmentSell = true;
+                }
+
+                strEndTransaction = oRoot.SelectSingleNode("ET").InnerXml.Replace(" xmlns=\"\"", "");
+                strRead = oRoot.SelectSingleNode("Read").InnerXml.Replace(" xmlns=\"\"", "");
+                strIgnore = oRoot.SelectSingleNode("Ignore").InnerXml.Replace(" xmlns=\"\"", "");
+
+
+                /*  Create Session */
+                bool inSession = SetConversationID(ttSA); //"EnhancedAirBook","EnhancedAirBookRQ"
+                //strResponse = ttSA.SendMessage(strIgnore, "IgnoreTransaction", "IgnoreTransactionLLSRQ", ConversationID);
+
+                // *******************************************************************************
+                // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+
+                try
+                {
+                    // Send Mandatory elements  
+                    strResponse = ttSA.SendMessage(strEnhanced_AirBookRQ, "EnhancedAirBookRQ", "EnhancedAirBookRQ", ConversationID);
+                    //strResponse = SendRequestSegment(ttSA, strAddInfo, "MultiElements", "TravelItineraryAddInfo", "TravelItineraryAddInfoLLSRQ");
+
+                    // Fatal Error
+                    if (strResponse.Trim().Length > 0)
+                    {
+                        strResponse = BuildOTAResponse(strResponse);
+                        return strResponse;
+                    }
+
+                    // Send Air elements
+                    if (Air)
+                    {
+                        strResponse = SendRequestSegment(ttSA, strAir, "Air", "AirBook", "OTA_AirBookLLSRQ");
+                        // Fatal Error
+                        if (strResponse.Trim().Length > 0)
+                        {
+                            strResponse = BuildOTAResponse(strResponse);
+                            return strResponse;
+                        }
+                    }
+
+                    Thread.Sleep(1000);
+
+                    // Send Cars Request
+                    if (Car)
+                    {
+                        strResponse = SendRequestSegment(ttSA, strCars, "Cars", "Sell Vehicle", "OTA_VehResLLSRQ");
+                        if (strResponse.Length > 0 & !(Air | Hotel))
+                        {
+                            strResponse = BuildOTAResponse(strResponse);
+                            return strResponse;
+                        }
+                    }
+
+                    // Send Hotels Request
+                    if (Hotel)
+                    {
+                        strResponse = SendRequestSegment(ttSA, strHotels, "Hotel", "Sell Hotel", "OTA_HotelResLLSRQ");
+                        if (strResponse.Length > 0 & !(Air | Car))
+                        {
+                            strResponse = BuildOTAResponse(strResponse);
+                            return strResponse;
+                        }
+                    }
+
+                    // Send Remarks Request
+                    if (Other)
+                    {
+                        int brCount = 0;
+                        foreach (XmlNode otherNode in nodesOther)
+                        {
+                            if (otherNode.InnerXml.Contains("sx:AddRemarkRQ")) //otherNode.SelectNodes("sx:BasicRemark", nsmgr).Count > 0
+                            {
+                                if (otherNode.SelectNodes("sx:BasicRemark", nsmgr).Count > 10)
+                                {
+                                    brCount = brCount + 1;
+                                    string rmkReq = "";
+                                    for (int index = 1, loopTo = otherNode.SelectNodes("sx:BasicRemark", nsmgr).Count; index <= loopTo; index++)
+                                    {
+                                        if (index % 10 == 1)
+                                        {
+                                            rmkReq = "<AddRemarkRQ Version=\"2003A.TsabreXML1.0.1\" xmlns=\"http://webservices.sabre.com/sabreXML/2003/07\">";
+                                            rmkReq = rmkReq + otherNode.SelectSingleNode("sx:POS", nsmgr).OuterXml;
+                                        }
+
+                                        rmkReq = rmkReq + otherNode.SelectNodes("sx:BasicRemark", nsmgr)[index - 1].OuterXml;
+                                        if (index % 10 == 0 | index == otherNode.SelectNodes("sx:BasicRemark", nsmgr).Count)
+                                        {
+                                            rmkReq = rmkReq + "</AddRemarkRQ>";
+                                            strResponse = SendRequestSegment(ttSA, rmkReq, "Remarks", "AddRemark", "AddRemarkLLSRQ");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    string argstrRequest = otherNode.OuterXml;
+                                    strResponse = SendRequestSegment(ttSA, argstrRequest, "Remarks", "AddRemark", "AddRemarkLLSRQ");
+                                    //otherNode.OuterXml = argstrRequest;
+                                }
+                            }
+                            else
+                            {
+                                string argstrRequest1 = otherNode.OuterXml;
+                                strResponse = SendRequestSegment(ttSA, argstrRequest1, "Remarks", "AddRemark", "AddRemarkLLSRQ");
+                                //otherNode.OuterXml = argstrRequest1;
+                            }
+                        }
+                    }
+
+                    // Send Special Remarks Request
+                    if (SpecialRemark)
+                    {
+                        int brCount = 0;
+                        foreach (XmlNode SpecialRemarkNode in nodesSpecialRemark)
+                        {
+                            if (SpecialRemarkNode.SelectNodes("sx:HistoricalRemark", nsmgr).Count > 0)
+                            {
+                                if (SpecialRemarkNode.SelectNodes("sx:HistoricalRemark", nsmgr).Count > 10)
+                                {
+                                    brCount = brCount + 1;
+                                    string rmkReq = "";
+                                    for (int index = 1, loopTo1 = SpecialRemarkNode.SelectNodes("sx:HistoricalRemark", nsmgr).Count; index <= loopTo1; index++)
+                                    {
+                                        if (index % 10 == 1)
+                                        {
+                                            rmkReq = "<AddRemarkRQ Version=\"2003A.TsabreXML1.0.1\" xmlns=\"http://webservices.sabre.com/sabreXML/2003/07\">";
+                                            rmkReq = rmkReq + SpecialRemarkNode.SelectSingleNode("sx:POS", nsmgr).OuterXml;
+                                        }
+
+                                        rmkReq = rmkReq + SpecialRemarkNode.SelectNodes("sx:HistoricalRemark", nsmgr)[index - 1].OuterXml;
+                                        if (index % 10 == 0 | index == SpecialRemarkNode.SelectNodes("sx:HistoricalRemark", nsmgr).Count)
+                                        {
+                                            rmkReq = rmkReq + "</AddRemarkRQ>";
+                                            strResponse = SendRequestSegment(ttSA, rmkReq, "Special Remarks", "AddRemark", "AddRemarkLLSRQ");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    string argstrRequest2 = SpecialRemarkNode.OuterXml;
+                                    strResponse = SendRequestSegment(ttSA, argstrRequest2, "Special Remarks", "AddRemark", "AddRemarkLLSRQ");
+                                    //SpecialRemarkNode.OuterXml = argstrRequest2;
+                                }
+                            }
+                            else
+                            {
+                                string argstrRequest3 = SpecialRemarkNode.OuterXml;
+                                strResponse = SendRequestSegment(ttSA, argstrRequest3, "Special Remarks", "AddRemark", "AddRemarkLLSRQ");
+                                //SpecialRemarkNode.OuterXml = argstrRequest3;
+                            }
+                        }
+                    }
+
+                    // Send Special Services Requests
+                    if (SpecialCI)
+                        strResponse = SendRequestSegment(ttSA, strSpecialServicesCI, "SpecialServicesCI", "SpecialService", "SpecialServiceLLSRQ");
+
+                    if (SpecialSeat)
+                        strResponse = SendRequestSegment(ttSA, strSpecialServicesSeat, "SpecialServicesSeat", "SpecialService", "SpecialServiceLLSRQ");
+
+                    // Send End Transaction Request
+                    //CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ET", "", ProviderSystems.LogUUID);
+                    //strResponse = ttSA.SendMessage(strEndTransaction, "EndTransaction", "EndTransactionLLSRQ", ConversationID);
+                    //strNative += $"{strEndTransaction}{strResponse}";
+
+                    if (SpecialSSR)
+                    {
+                        var oNodes = oRoot.SelectNodes("SpecialServicesSSR");
+                        foreach (XmlNode currentONode in oNodes)
+                        {
+                            var oNode = currentONode;
+                            string strSpecialServicesSSR = oNode.InnerXml.Replace(" xmlns=\"\"", "");
+                            strResponse = SendRequestSegment(ttSA, strSpecialServicesSSR, "SpecialServicesSSR", "SpecialService", "SpecialServiceLLSRQ");
+                        }
+                    }
+
+                    if (SpecialOSI)
+                        strResponse = SendRequestSegment(ttSA, strSpecialServicesOSI, "SpecialServicesOSI", "SpecialService", "SpecialServiceLLSRQ");
+
+                    if (MiscSegmentSell)
+                        strResponse = SendRequestSegment(ttSA, strMiscSegmentSell, "MiscSegmentSell", "MiscSegmentSell", "MiscSegmentSellLLSRQ");
+
+                    // Send Pricing Request
+                    if (Price)
+                    {
+                        strResponse = SendRequestSegment(ttSA, strPricing, "Price", "Air Price", "OTA_AirPriceLLSRQ");
+
+                        // Fatal Error
+                        if (strResponse.Trim().Length > 0)
+                        {
+                            strResponse = BuildOTAResponse(strResponse);
+                            return strResponse;
+                        }
+                    }
+
+                    // Send End Transaction Request
+                    CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ET", "", ProviderSystems.LogUUID);
+                    strResponse = ttSA.SendMessage(strEndTransaction, "EndTransaction", "EndTransactionLLSRQ", ConversationID);
+                    strNative += $"{strEndTransaction}{strResponse}";
+
+                    // do we need a second end transact?
+                    if (strResponse.Contains("PREVIOUS ENTRY"))
+                    {
+                        //dTime = DateAndTime.Timer;
+                        //while (DateAndTime.Timer - dTime <= 1d)
+                        //{
+                        //}
+                        Thread.Sleep(1000);
+
+                        CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ET", "", ProviderSystems.LogUUID);
+                        strResponse = ttSA.SendMessage(strEndTransaction, "EndTransaction", "EndTransactionLLSRQ", ConversationID);
+                        strNative += $"{strEndTransaction}{strResponse}";
+                    }
+
+                    string cryptic = "";
+                    if (strResponse.Contains("*IM AND CANCEL UNABLE SEGMENTS"))
+                    {
+                        cryptic = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>*IM</HostCommand></Request></SabreCommandLLSRQ>";
+                        CoreLib.SendTrace(ProviderSystems.UserID, "SabreCommand", "*IM", "", ProviderSystems.LogUUID);
+                        strResponse = ttSA.SendMessage(cryptic, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
+                        strNative += $"{cryptic}{strResponse}";
+                        string curDate = DateTime.Now.ToShortDateString();
+                        strResponse = strResponse.Replace("</SabreCommandLLSRS>", $"<CurrentDate>{curDate}</CurrentDate></SabreCommandLLSRS>");
+
+                        // create fomatted error with flights that failed
+                        CoreLib.SendTrace(ProviderSystems.UserID, "FailedFlights", "*IM", strResponse, ProviderSystems.LogUUID);
+                    }
+                    else
+                    {
+                        // do we need a second end transact?
+                        if (strResponse.Contains("DIRECT CONNECT MESSAGES RECEIVED - ENTER *A OR *IM"))
+                        {
+                            cryptic = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>*IM</HostCommand></Request></SabreCommandLLSRQ>";
+                            CoreLib.SendTrace(ProviderSystems.UserID, "SabreCommand", "*IM", "", ProviderSystems.LogUUID);
+                            strResponse = ttSA.SendMessage(cryptic, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
+                            strNative += $"{cryptic}{strResponse}";
+
+                            string curDate = DateTime.Now.ToShortDateString();
+                            strResponse = strResponse.Replace("</SabreCommandLLSRS>", $"<CurrentDate>{curDate}</CurrentDate></SabreCommandLLSRS>");
+                            // Check for Errors
+                            strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_TB_Errors.xsl");
+
+                            if (!string.IsNullOrEmpty(strResponse) & strResponse.Contains("Flight "))
+                            {
+                                if (strResponse.Contains("<Error"))
+                                {
+                                    // Fatal Error
+                                    return BuildOTAResponse(strResponse);
+                                }
+                                else if (strResponse.Contains("<Warning>"))
+                                {
+                                    Warnings += strResponse;
+                                }
+                            }
+
+                            CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ET", "", ProviderSystems.LogUUID);
+                            strResponse = ttSA.SendMessage(strEndTransaction, "EndTransaction", "EndTransactionLLSRQ", ConversationID);
+                            strNative += $"{strEndTransaction}{strResponse}";
+                        }
+
+                        if (strResponse.Contains("VERIFY ORDER OF ITINERARY SEGMENTS - MODIFY OR END TRANSACTION"))
+                        {
+                            cryptic = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>0AA</HostCommand></Request></SabreCommandLLSRQ>";
+                            CoreLib.SendTrace(ProviderSystems.UserID, "SabreCommand", "0AA", "", ProviderSystems.LogUUID);
+                            strResponse = ttSA.SendMessage(cryptic, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
+                            strNative += $"{cryptic}{strResponse}";
+                            CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ET", "", ProviderSystems.LogUUID);
+                            strResponse = ttSA.SendMessage(strEndTransaction, "EndTransaction", "EndTransactionLLSRQ", ConversationID);
+                            strNative += $"{strEndTransaction}{strResponse}";
+                        }
+
+                        if (strResponse.Contains("MODIFY OR END TRANSACTION"))
+                        {
+                            CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ET", "", ProviderSystems.LogUUID);
+                            strResponse = ttSA.SendMessage(strEndTransaction, "EndTransaction", "EndTransactionLLSRQ", ConversationID);
+                            strNative += $"{strEndTransaction}{strResponse}";
+                        }
+                    }
+
+                    // Check for Errors
+                    strEndTransaction = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_TB_Errors.xsl");
+
+                    if (strEndTransaction.Length > 0)
+                    {
+                        if (strEndTransaction.Contains("<Error"))
+                        {
+                            // Fatal Error
+                            return BuildOTAResponse(strEndTransaction);
+                        }
+                        else if (strEndTransaction.Contains("<Warning>"))
+                        {
+                            Warnings += strEndTransaction;
+                        }
+                    }
+
+                    // Retrieve the PNR
+                    oDoc.LoadXml(strResponse);
+                    oRoot = oDoc.DocumentElement;
+                    if (oRoot.SelectSingleNode("UniqueID/@ID") != null)
+                    {
+                        if (Queue)
+                        {
+                            CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "Queue PNR", "", ProviderSystems.LogUUID);
+                            strQueue = strQueue.Replace("UniqueID", $"UniqueID ID=\"{oRoot.SelectSingleNode("UniqueID/@ID").InnerText}\"");
+                            strResponse = ttSA.SendMessage(strQueue, "QueuePlace", "QPlaceLLSRQ", ConversationID);
+                        }
+
+                        CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "Retreive PNR", "", ProviderSystems.LogUUID);
+                        // strRead = strRead.Replace("UniqueID", sb.Append("UniqueID ID=""").Append(oRoot.SelectSingleNode("UniqueID/@ID").InnerText).Append("""").ToString())
+                        strRead = "<TravelItineraryReadRQ Version=\"3.6.0\" xmlns=\"http://services.sabre.com/res/tir/v3_6\"><MessagingDetails><SubjectAreas>" +
+                            "<SubjectArea>FULL</SubjectArea></SubjectAreas></MessagingDetails><UniqueID ID=\"" + oRoot.SelectSingleNode("UniqueID/@ID").InnerText + "\"/></TravelItineraryReadRQ>";
+
+                        strResponse = ttSA.SendMessage(strRead, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
+                        cryptic = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>*PQS</HostCommand></Request></SabreCommandLLSRQ>";
+                        CoreLib.SendTrace(ProviderSystems.UserID, "SabreCommand", "*PQS", "", ProviderSystems.LogUUID);
+                        cryptic = ttSA.SendMessage(cryptic, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
+                        strResponse = strResponse.Replace("</TravelItineraryReadRS>", $"{cryptic}</TravelItineraryReadRS>");
+                        strResponse = strResponse.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
+
+                        oDoc.LoadXml(strResponse);
+                        oRoot = oDoc.DocumentElement;
+                        if (oRoot.SelectSingleNode("TravelItinerary") != null)
+                        {
+                            oNodeConfirm = oRoot.SelectSingleNode("TravelItinerary/ItineraryRef");
+                            if (oNodeConfirm != null)
+                            {
+                                RecordLocator = oNodeConfirm.Attributes["ID"].Value;
+                                if (string.IsNullOrEmpty(RecordLocator))
+                                {
+                                    // Send Retreive Request
+                                    if (Air)
+                                    {
+                                        Thread.Sleep(3000);
+                                    }
+
+                                    strRead = "<TravelItineraryReadRQ Version=\"3.6.0\" xmlns=\"http://services.sabre.com/res/tir/v3_6\"><MessagingDetails><SubjectAreas>" +
+                                        "<SubjectArea>FULL</SubjectArea></SubjectAreas></MessagingDetails><UniqueID ID=\"" + oRoot.SelectSingleNode("UniqueID/@ID").InnerText + "\"/></TravelItineraryReadRQ>";
+
+                                    strResponse = ttSA.SendMessage(strRead, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
+                                    cryptic = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>*PQS</HostCommand></Request></SabreCommandLLSRQ>";
+                                    CoreLib.SendTrace(ProviderSystems.UserID, "SabreCommand", "*PQS", "", ProviderSystems.LogUUID);
+                                    cryptic = ttSA.SendMessage(cryptic, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
+
+                                    strResponse = strResponse.Replace("</TravelItineraryReadRS>", $"{cryptic}</TravelItineraryReadRS>");
+                                }
+                            }
+                        }
+                    }
+
+                    // ****************************************************************************
+                    // Add Previous Errors and Warnings To Sabre Native End Transact Response  *
+                    // ****************************************************************************
+                    if (Request.Contains("EchoToken"))
+                    {
+                        XmlDocument oDocReq = null;
+                        XmlElement oRootReq = null;
+                        oDocReq = new XmlDocument();
+                        oDocReq.LoadXml(Request);
+                        oRootReq = oDocReq.DocumentElement;
+                        strEchoToken = $"<EchoToken>{oRootReq.Attributes.GetNamedItem("EchoToken").Value}</EchoToken>";
+
+                        oDocReq = null;
+                        oRootReq = null;
+                    }
+
+                    strResponse = strResponse.Replace("</OTA_TravelItineraryRS>", $"{Errors}{Warnings}{strEchoToken}</OTA_TravelItineraryRS>");
+
+                    // *****************************************************************
+                    // Transform Native Sabre TravelBuild Response into OTA Response   *
+                    // ***************************************************************** 
+                    var strToReplace = "</Sabre_PNRReadRS>";
+
+                    CoreLib.SendTrace(ProviderSystems.UserID, "TravelBuild", "Final response", strResponse, ProviderSystems.LogUUID);
+                    strResponse = strResponse.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRReadRS.xsl");
+
+                    if (inSession)
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
 
                 }
                 catch (Exception ex)
@@ -889,7 +1509,7 @@ namespace Sabre
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRReadRS.xsl");
 
                     if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
 
                 }
                 catch (Exception ex)
@@ -1009,7 +1629,7 @@ namespace Sabre
                     var strToReplace = "</Sabre_IssueTicketRS>";
 
                     if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
 
                     strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_IssueTicketRS.xsl");
                     strResponse = strResponse.Replace("<UniqueID ID=\"\" />", "<UniqueID ID=\"" + strPnrNo + "\" />");
