@@ -1842,8 +1842,8 @@ Namespace wsTravelTalk
                         Case ttServices.TravelBuild
                             If Version = "v04" Then
                                 strResponse = .TravelBuild_V4
-                            Else
-                                strResponse = .TravelBuild_V3 'for testing only
+                                'Else
+                                'strResponse = .TravelBuild_V3 'for testing only
                             End If
                         Case ttServices.IssueTicket
                             strResponse = .IssueTicket()
