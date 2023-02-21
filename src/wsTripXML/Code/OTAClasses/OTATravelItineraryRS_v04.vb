@@ -2954,6 +2954,9 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v04
 
         '<remarks/>
         Z
+
+        '<remarks/>
+        CC
     End Enum
 
     '<remarks/>
@@ -4005,7 +4008,7 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v04
         Public Customer As CustomerRS
 
         '<remarks/>
-        Public ProfileRef As ProfileRefRS
+        Public ProfileRefRS As ProfileRefRS
 
         '<remarks/>
         <System.Xml.Serialization.XmlElementAttribute("Remarks")>
