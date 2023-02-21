@@ -29,7 +29,7 @@ namespace Sabre
 
             try
             {
-                Version = "v03";
+                //Version = "v03";
                 string strRequest = SetRequest("Sabre_PNRReadRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
@@ -38,9 +38,8 @@ namespace Sabre
                 bool inSession = SetConversationID(ttSA);
 
                 // *******************************************************************************
-                // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
+                // Send Transformed Request to the Sabre Adapter and Getting Native Response     *
                 // ******************************************************************************* 
-
                 try
                 {
                     var tagToReplace = Version == "v04" ? "</GetReservationRS>" : "</TravelItineraryReadRS>";
