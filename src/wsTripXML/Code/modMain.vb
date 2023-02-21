@@ -1843,7 +1843,7 @@ Namespace wsTravelTalk
                             If Version = "v04" Then
                                 strResponse = .TravelBuild_V4
                             Else
-                                strResponse = .TravelBuild 'for testing only
+                                strResponse = .TravelBuild_V3 'for testing only
                             End If
                         Case ttServices.IssueTicket
                             strResponse = .IssueTicket()
