@@ -718,7 +718,7 @@ namespace Sabre
                                     strRepriceReq = AddValidatingCarrier(strRepriceReq, validatingCarrier);
 
                                 var priceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
-                                if (priceResp.Contains("FORMAT FARE BASIS NOT AVAILABLE"))
+                                if (priceResp.Contains("FORMAT FARE BASIS NOT AVAILABLE") || priceResp.Contains("FARE BASIS NOT AVAIL"))
                                 {
                                     strRepriceReq = Regex.Replace(strRepriceReq, "(FareBasis Code=\".+)(CH)(\")", "$1$3");
                                     priceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
@@ -838,7 +838,14 @@ namespace Sabre
                                 var tryCount = 2;
                                 do
                                 {
+                                    //strPriceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+
                                     strPriceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                    if (strPriceResp.Contains("FORMAT FARE BASIS NOT AVAILABLE") || strPriceResp.Contains("FARE BASIS NOT AVAIL"))
+                                    {
+                                        strRepriceReq = Regex.Replace(strRepriceReq, "(<FareBasis>.+)(CH)(</FareBasis>)", "$1$3");
+                                        strPriceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                    }
 
                                     if (!bsr.Equals(1M))
                                     {
