@@ -595,10 +595,9 @@
 					<xsl:when test="fareList[1]/pricingInformation/fcmi = 'R'">Private</xsl:when>
 					<xsl:when test="fareList[1]/pricingInformation/fcmi = '7'">Private</xsl:when>
 					<xsl:when test="fareList[1]/pricingInformation/fcmi = '9'">Private</xsl:when>
-					<xsl:when test="fareList[1]/pricingInformation/fcmi = 'G'">Private</xsl:when>
-
-					<xsl:when test="contains($OptP,'RP')">Published</xsl:when>
+					<xsl:when test="fareList[1]/pricingInformation/fcmi = 'G'">Private</xsl:when>					
 					<xsl:when test="contains($OptP,'RU')">Private</xsl:when>
+					<xsl:when test="contains($OptP,'RP')">Published</xsl:when>
 					<xsl:when test="contains($OptP,'RC')">Private</xsl:when>
 					<xsl:when test="contains($OptP,'RN')">Private</xsl:when>
 					<xsl:when test="contains($OptP,'RW')">Private</xsl:when>
@@ -887,10 +886,9 @@
 										<xsl:when test="$adtfcmi = 'R'">Private</xsl:when>
 										<xsl:when test="$adtfcmi = '7'">Private</xsl:when>
 										<xsl:when test="$adtfcmi = '9'">Private</xsl:when>
-										<xsl:when test="$adtfcmi = 'G'">Private</xsl:when>
-
-										<xsl:when test="contains($priceOpt,'RP')">Published</xsl:when>
+										<xsl:when test="$adtfcmi = 'G'">Private</xsl:when>										
 										<xsl:when test="contains($priceOpt,'RU')">Private</xsl:when>
+										<xsl:when test="contains($priceOpt,'RP')">Published</xsl:when>
 										<xsl:when test="contains($priceOpt,'RC')">Private</xsl:when>
 										<xsl:when test="contains($priceOpt,'RN')">Private</xsl:when>
 										<xsl:when test="contains($priceOpt,'RW')">Private</xsl:when>
@@ -900,9 +898,9 @@
 								</xsl:variable>
 								<xsl:value-of select="$adttype"/>
 							</xsl:when>
-							<!-- -->
-							<xsl:when test="contains($priceOpt,'RP')">Published</xsl:when>
+							<!-- -->							
 							<xsl:when test="contains($priceOpt,'RU')">Private</xsl:when>
+							<xsl:when test="contains($priceOpt,'RP')">Published</xsl:when>
 							<xsl:when test="contains($priceOpt,'RC')">Private</xsl:when>
 							<xsl:when test="contains($priceOpt,'RN')">Private</xsl:when>
 							<xsl:when test="contains($priceOpt,'RW')">Private</xsl:when>
