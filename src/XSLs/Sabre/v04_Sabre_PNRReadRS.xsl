@@ -112,39 +112,30 @@
             <xsl:attribute name="ID_Context">
               <xsl:value-of select="Reservation/POS/Source/@BookingSource"/>
             </xsl:attribute>
-            
-            <xsl:choose>
-              <xsl:when test="PriceQuote/PriceQuoteInfo/Details[1]/AgentInfo/WorkLocation">
-                <CompanyName>
-                  <xsl:variable name="pricedPCC">
-                    <xsl:value-of select="PriceQuote/PriceQuoteInfo/Details[1]/AgentInfo/WorkLocation"/>
-                  </xsl:variable>
-                  <xsl:attribute name="Code">
-                    <xsl:value-of select="concat($pricedPCC, '|', Reservation/BookingDetails/CreationTimestamp)"/>
-                  </xsl:attribute>
-                  <xsl:attribute name="CodeContext">
-					          <xsl:choose>
-						          <xsl:when test="TravelItinerary/ItineraryRef/OfficeStationCode">
-							          <xsl:value-of select="TravelItinerary/ItineraryRef/OfficeStationCode"/>
-						          </xsl:when>
-						          <xsl:otherwise>IATACode</xsl:otherwise>
-					          </xsl:choose>
-                  </xsl:attribute>
-                  <xsl:value-of select="concat($pricedPCC, '/', Reservation/BookingDetails/CreationAgentID)"/>
-                </CompanyName>
-              </xsl:when>
-              <xsl:when test="Reservation/POS/Source/@HomePseudoCityCode">
-                <CompanyName>
-                  <xsl:attribute name="Code">
-                    <xsl:value-of select="Reservation/POS/Source/@HomePseudoCityCode"/>
-                  </xsl:attribute>
-                  <xsl:attribute name="CodeContext">
-                    <xsl:value-of select="Reservation/POS/OfficeStationCode"/>
-                  </xsl:attribute>
-                  <xsl:value-of select="concat(Reservation/POS/Source/@HomePseudoCityCode, '/', Reservation/POS/Source/@PseudoCityCode)"/>
-                </CompanyName>
-              </xsl:when>
-            </xsl:choose>
+
+            <CompanyName>
+              <xsl:attribute name="Code">
+                <xsl:choose>
+                  <xsl:when test="PriceQuote/PriceQuoteInfo/Details[1]/AgentInfo/WorkLocation">
+                    <xsl:value-of select="concat(PriceQuote/PriceQuoteInfo/Details[1]/AgentInfo/WorkLocation, '|', Reservation/BookingDetails/CreationTimestamp)"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="concat(Reservation/POS/Source/@PseudoCityCode, '|', Reservation/BookingDetails/CreationTimestamp)"/>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:attribute>
+
+              <xsl:attribute name="CodeContext">IATACode</xsl:attribute>
+
+              <xsl:choose>
+                <xsl:when test="PNR_HDK/Line">
+                  <xsl:value-of select="concat(PNR_HDK/Line[position()=last()]/@PCC, '/', Reservation/POS/Source/@AgentSine)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:value-of select="concat(Reservation/POS/Source/@HomePseudoCityCode, '/', Reservation/POS/Source/@AgentSine)"/>
+                </xsl:otherwise>
+              </xsl:choose>
+            </CompanyName>
           </ItineraryRef>
           <xsl:apply-templates select="Reservation"/>
         </TravelItinerary>
@@ -293,10 +284,14 @@
         <TPA_Extensions>
           
           <IssuedTickets>
-            <xsl:apply-templates select="PassengerReservation/Passengers/Passenger/TicketingInfo//TicketDetails" mode="IssuedTicket"/>
-            <xsl:if test="$dqb!=''">
-              <xsl:copy-of select="$dqb"/>
-            </xsl:if>
+            <xsl:choose>
+              <xsl:when test="PassengerReservation/Passengers/Passenger/TicketingInfo//TicketDetails">
+                <xsl:apply-templates select="PassengerReservation/Passengers/Passenger/TicketingInfo//TicketDetails" mode="PassangerTicketDetails"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:apply-templates select="PassengerReservation/TicketingInfo/TicketDetails" mode="TicketingInfoTicketDetails"/>
+              </xsl:otherwise>
+            </xsl:choose>
           </IssuedTickets>
         </TPA_Extensions>
       </xsl:if>
@@ -313,7 +308,22 @@
                 <xsl:variable name="ccid">
                   <xsl:value-of select="../../@id"/>
                 </xsl:variable>
-                <xsl:value-of select="format-number(../../../../Remarks/Remark[@id=$ccid]/@index,'#0')"/>
+                
+                <xsl:variable name="remIndex">
+                  <xsl:choose>
+                    <xsl:when test="../../../../Remarks/Remark[@id=$ccid]">
+                      <xsl:value-of select="../../../../Remarks/Remark[@id=$ccid]/@index"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:if test="../../../../Remarks/Remark[@type='FOP']">
+                        <xsl:value-of select="../../../../Remarks/Remark[@type='FOP']/@index"/>
+                      </xsl:if>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </xsl:variable>
+
+                <xsl:value-of select="format-number($remIndex,'#0')"/>
+
               </xsl:attribute>
               <DirectBill>
                 <xsl:attribute name="DirectBill_ID">Check</xsl:attribute>
@@ -330,25 +340,25 @@
                 <xsl:variable name="ccid">
                   <xsl:value-of select="../../@id"/>
                 </xsl:variable>
-                <xsl:value-of select="format-number(../../../../Remarks/Remark[@id=$ccid]/@index,'#0')"/>
+                <xsl:variable name="remIndex">
+                  <xsl:choose>
+                    <xsl:when test="../../../../Remarks/Remark[@id=$ccid]">
+                      <xsl:value-of select="../../../../Remarks/Remark[@id=$ccid]/@index"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:if test="../../../../Remarks/Remark[@type='FOP']">
+                        <xsl:value-of select="../../../../Remarks/Remark[@type='FOP']/@index"/>
+                      </xsl:if>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </xsl:variable>
+                <xsl:value-of select="format-number($remIndex,'#0')"/>
               </xsl:attribute>
               <DirectBill>
                 <xsl:attribute name="DirectBill_ID">Cash</xsl:attribute>
               </DirectBill>
             </FormOfPayment>
           </xsl:for-each>
-        </TravelCost>
-      </xsl:when>
-      <xsl:when test="CustomerInfo/PaymentInfo/Payment/Form[position()=2] = 'CHECK' or CustomerInfo/PaymentInfo/Payment/Form[position()=1] = 'CK' or CustomerInfo/PaymentInfo/Payment/Form[position()=1] = 'CHEQUE'">
-        <TravelCost>
-          <FormOfPayment>
-            <xsl:attribute name="RPH">
-              <xsl:value-of select="format-number(CustomerInfo/PaymentInfo/Payment/Form[position()=2]/@RPH,'#0')"/>
-            </xsl:attribute>
-            <DirectBill>
-              <xsl:attribute name="DirectBill_ID">Check</xsl:attribute>
-            </DirectBill>
-          </FormOfPayment>
         </TravelCost>
       </xsl:when>
       <xsl:when test="OpenReservationElements/OpenReservationElement[@type='FP']/FormOfPayment/Other/Text='CS'">
@@ -368,18 +378,6 @@
           </xsl:for-each>
         </TravelCost>
       </xsl:when>
-      <xsl:when test="CustomerInfo/PaymentInfo/Payment/Form[position()=2] = 'CASH'">
-        <TravelCost>
-          <FormOfPayment>
-            <xsl:attribute name="RPH">
-              <xsl:value-of select="format-number(CustomerInfo/PaymentInfo/Payment/Form[position()=2]/@RPH,'#0')"/>
-            </xsl:attribute>
-            <DirectBill>
-              <xsl:attribute name="DirectBill_ID">Cash</xsl:attribute>
-            </DirectBill>
-          </FormOfPayment>
-        </TravelCost>
-      </xsl:when>
       <xsl:when test="OpenReservationElements/OpenReservationElement[@type='FP']/FormOfPayment/PaymentCard">
           <TravelCost>
             <xsl:for-each select="OpenReservationElements/OpenReservationElement[@type='FP']">
@@ -388,7 +386,7 @@
                     <xsl:variable name="ccid">
                       <xsl:value-of select="../../@id"/>
                     </xsl:variable>
-					<xsl:variable name="cardnum">
+                    <xsl:variable name="cardnum">
                       <xsl:value-of select="FormOfPayment/PaymentCard/CardNumber"/>
                     </xsl:variable>
                     <xsl:value-of select="concat('0', format-number(../../Remarks/Remark[@type='FOP' and contains(RemarkLines/RemarkLine/Text, $cardnum)]/@index,'#0'))"/>
@@ -422,20 +420,6 @@
                 </FormOfPayment>
           </xsl:for-each>
           </TravelCost>
-      </xsl:when>
-      <xsl:when test="CustomerInfo/PaymentInfo/Payment/Form/PaymentCard/@CardType != '' or CustomerInfos/CustomerInfo[1]/Customer[1]/PaymentForm/PaymentCard">
-        <TravelCost>
-          <xsl:if test="CustomerInfo/PaymentInfo/Payment/Form">
-            <FormOfPayment>
-              <xsl:apply-templates select="CustomerInfo/PaymentInfo/Payment/Form"/>
-            </FormOfPayment>
-          </xsl:if>
-          <xsl:if test="CustomerInfo/PaymentInfo/Payment/Form/PaymentCard">
-            <FormOfPayment>
-              <xsl:apply-templates select="CustomerInfo/PaymentInfo/Payment/Form"/>
-            </FormOfPayment>
-          </xsl:if>
-        </TravelCost>
       </xsl:when>
       <xsl:when test="contains(OpenReservationElements/OpenReservationElement[@type='FP']/FormOfPayment/Other/Text,'XXXXX')">
         <xsl:variable name="card">
@@ -684,6 +668,9 @@
                       <xsl:choose>
                         <xsl:when test="CreditCardCode!=''">
                           <PaymentCard>
+                            <xsl:variable name="num">
+                              <xsl:value-of select="CreditCardNumber"/>
+                            </xsl:variable>
                             <xsl:attribute name="CardCode">
                               <xsl:choose>
                                 <xsl:when test="CreditCardCode='CA'">MC</xsl:when>
@@ -697,6 +684,13 @@
                             </xsl:attribute>
                             <xsl:attribute name="CardNumber">
                               <xsl:value-of select="CreditCardNumber"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="ExpireDate">
+                              <xsl:choose>
+                                <xsl:when test="../../../PNR_HDK_FOP[text()=$num]">
+                                  <xsl:value-of select="../../../PNR_HDK_FOP[text()=$num]/@Exp"/>
+                                </xsl:when>
+                              </xsl:choose>
                             </xsl:attribute>
                           </PaymentCard>
                         </xsl:when>
@@ -800,12 +794,19 @@
   <!-- ************************************************************** -->
   <!-- Issued Tickets Elements 	                               		    -->
   <!-- ************************************************************** -->
-  <xsl:template match="TicketDetails" mode="IssuedTicket">
+  <xsl:template match="TicketDetails" mode="PassangerTicketDetails">
     <xsl:variable name="origTickNumber">
       <xsl:value-of select="../../AccountingLines/AccountingLine[OriginalTicketNumber]/OriginalTicketNumber"/>
     </xsl:variable>
     <xsl:variable name="tktno">
-      <xsl:value-of select="TicketNumber"/>
+      <xsl:choose>
+        <xsl:when test="contains(TicketNumber, '/')">
+          <xsl:value-of select="substring-before(TicketNumber, '/')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="TicketNumber"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:variable>
 
     <xsl:variable name="flRefRPHList">
@@ -845,6 +846,37 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template match="TicketDetails" mode="TicketingInfoTicketDetails">
+    <xsl:variable name="tktno">
+      <xsl:value-of select="TicketNumber"/>
+    </xsl:variable>
+
+    <xsl:variable name="flRefRPHList">
+      <xsl:for-each select="../../Segments[Segment]//GenericSpecialRequest[contains(FreeText, $tktno)]">
+        <xsl:value-of select="../../../@sequence"/>
+        <xsl:if test="position() &lt; last()">
+          <xsl:value-of select="string(' ')"/>
+        </xsl:if>
+      </xsl:for-each>
+    </xsl:variable>
+
+    <IssuedTicket>
+      <xsl:attribute name="TravelerRefNumberRPHList">
+        <xsl:for-each select="../../Passengers/Passenger[contains(SpecialRequests/TicketingRequest/TicketNumber, $tktno)]">
+          <xsl:value-of select="./@nameAssocId"/>
+          <xsl:if test="position() &lt; last()">
+            <xsl:value-of select="string(' ')"/>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:attribute>
+      <xsl:attribute name="FlightRefNumberRPHList">
+        <xsl:value-of select="$flRefRPHList"/>
+      </xsl:attribute>
+      <xsl:call-template name="string-trim">
+        <xsl:with-param name="string" select="OriginalTicketDetails" />
+      </xsl:call-template>
+    </IssuedTicket>
+  </xsl:template>
   <!-- ************************************************************** -->
   <!-- Issued Tickets fron DQB lines                                          -->
   <!-- ************************************************************** -->
@@ -1088,6 +1120,19 @@
                 </FareFamily>
               </xsl:if>
             </TPA_Extensions>
+            <xsl:if test="HiddenStop">
+              <StopInfo>
+                <xsl:attribute name="LocationCode">
+                  <xsl:value-of select="HiddenStop/@Airport"/>
+                </xsl:attribute>
+                <xsl:attribute name="ArrivalDateTime">
+                  <xsl:value-of select="HiddenStop/ArrivalDateTime"/>
+                </xsl:attribute>
+                <xsl:attribute name="DepartureDateTime">
+                  <xsl:value-of select="HiddenStop/DepartureDateTime"/>
+                </xsl:attribute>
+              </StopInfo>
+            </xsl:if>
           </Air>
         </xsl:when>
         <xsl:otherwise>
@@ -2023,21 +2068,23 @@
             </Vendor>
           </xsl:if>
 
-        <BagAllowance>
-        <xsl:if test="SegmentInfo/Baggage/@type='P'">
-              <xsl:attribute name="Type">
-                <xsl:value-of select="'Piece'"/>
-              </xsl:attribute>
-            </xsl:if>
-        <xsl:if test="SegmentInfo/Baggage/@type='W'">
-              <xsl:attribute name="Type">
-                <xsl:value-of select="'Weight'"/>
-              </xsl:attribute>
-            </xsl:if>
-        <xsl:attribute name="Quantity">
-                <xsl:value-of select="format-number(SegmentInfo/Baggage/@allowance,'#')"/>
-              </xsl:attribute>
-        </BagAllowance>
+          <xsl:if test="SegmentInfo/Baggage/@type='P' or SegmentInfo/Baggage/@type='W'">
+            <BagAllowance>
+              <xsl:if test="SegmentInfo/Baggage/@type='P'">
+                    <xsl:attribute name="Type">
+                      <xsl:value-of select="'Piece'"/>
+                    </xsl:attribute>
+                  </xsl:if>
+              <xsl:if test="SegmentInfo/Baggage/@type='W'">
+                    <xsl:attribute name="Type">
+                      <xsl:value-of select="'Weight'"/>
+                    </xsl:attribute>
+                  </xsl:if>
+              <xsl:attribute name="Quantity">
+                      <xsl:value-of select="format-number(SegmentInfo/Baggage/@allowance,'#')"/>
+                    </xsl:attribute>
+            </BagAllowance>
+          </xsl:if>
 
           <xsl:if test="TransactionInfo/InputEntry">
             <SupplementalInfo>

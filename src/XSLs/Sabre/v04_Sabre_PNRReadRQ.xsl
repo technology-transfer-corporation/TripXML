@@ -18,7 +18,7 @@
         <xsl:value-of select="UniqueID/@ID" />
       </Locator>
       <RequestType>Stateful</RequestType>
-      <ReturnOptions PriceQuoteServiceVersion="3.2.0">
+      <ReturnOptions UnmaskCreditCard="true" PriceQuoteServiceVersion="3.2.0">
         <SubjectAreas>
           <SubjectArea>PRICE_QUOTE</SubjectArea>
         </SubjectAreas>
