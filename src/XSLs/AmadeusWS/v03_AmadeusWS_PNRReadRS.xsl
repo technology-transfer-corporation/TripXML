@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 22 Feb 2023 - Kobelev - Price Type determination added specific condition for I0 FCMI.
    Date: 10 Jan 2023 - Samokhvalov - Farebasis fixes.
    Date: 09 Aug 2022 - Kobelev - Confirmation Number for FOP as part of CC.
    Date: 09 Aug 2022 - Kobelev - Better Pax Birthday handler.
@@ -585,6 +586,7 @@
 				<xsl:otherwise>Published</xsl:otherwise>
 			</xsl:choose-->
 				<xsl:choose>
+					<xsl:when test="concat(fareList[1]/pricingInformation/tstInformation/tstIndicator,fareList[1]/pricingInformation/fcmi) = 'I0'">Published</xsl:when>
 					<xsl:when test="fareList[1]/pricingInformation/tstInformation/tstIndicator = 'B'">Private</xsl:when>
 					<xsl:when test="fareList[1]/pricingInformation/tstInformation/tstIndicator = 'F'">Private</xsl:when>
 					<xsl:when test="fareList[1]/pricingInformation/tstInformation/tstIndicator = 'G'">Private</xsl:when>
@@ -595,8 +597,7 @@
 					<xsl:when test="fareList[1]/pricingInformation/fcmi = 'R'">Private</xsl:when>
 					<xsl:when test="fareList[1]/pricingInformation/fcmi = '7'">Private</xsl:when>
 					<xsl:when test="fareList[1]/pricingInformation/fcmi = '9'">Private</xsl:when>
-					<xsl:when test="fareList[1]/pricingInformation/fcmi = 'G'">Private</xsl:when>
-					<xsl:when test="concat(fareList[1]/pricingInformation/tstInformation/tstIndicator,fareList[1]/pricingInformation/fcmi) = 'I0'">Published</xsl:when>
+					<xsl:when test="fareList[1]/pricingInformation/fcmi = 'G'">Private</xsl:when>					
 					<xsl:when test="contains($OptP,'RU')">Private</xsl:when>
 					<xsl:when test="contains($OptP,'RP')">Published</xsl:when>
 					<xsl:when test="contains($OptP,'RC')">Private</xsl:when>
@@ -852,6 +853,7 @@
 
 			<xsl:attribute name="PricingSource">
 				<xsl:choose>
+					<xsl:when test="concat(pricingInformation/tstInformation/tstIndicator,pricingInformation/fcmi) = 'I0'">Published</xsl:when>
 					<xsl:when test="pricingInformation/tstInformation/tstIndicator = 'B'">Private</xsl:when>
 					<xsl:when test="pricingInformation/tstInformation/tstIndicator = 'F'">Private</xsl:when>
 					<xsl:when test="pricingInformation/tstInformation/tstIndicator = 'G'">Private</xsl:when>
@@ -862,8 +864,7 @@
 					<xsl:when test="pricingInformation/fcmi = 'R'">Private</xsl:when>
 					<xsl:when test="pricingInformation/fcmi = '7'">Private</xsl:when>
 					<xsl:when test="pricingInformation/fcmi = '9'">Private</xsl:when>
-					<xsl:when test="pricingInformation/fcmi = 'G'">Private</xsl:when>
-					<xsl:when test="concat(pricingInformation/tstInformation/tstIndicator,pricingInformation/fcmi) = 'I0'">Published</xsl:when>
+					<xsl:when test="pricingInformation/fcmi = 'G'">Private</xsl:when>					
 					<xsl:otherwise>
 						<xsl:choose>
 							<xsl:when test="pricingInformation/fcmi = '5'">
