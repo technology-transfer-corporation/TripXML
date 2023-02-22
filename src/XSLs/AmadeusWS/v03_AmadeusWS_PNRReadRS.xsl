@@ -595,7 +595,8 @@
 					<xsl:when test="fareList[1]/pricingInformation/fcmi = 'R'">Private</xsl:when>
 					<xsl:when test="fareList[1]/pricingInformation/fcmi = '7'">Private</xsl:when>
 					<xsl:when test="fareList[1]/pricingInformation/fcmi = '9'">Private</xsl:when>
-					<xsl:when test="fareList[1]/pricingInformation/fcmi = 'G'">Private</xsl:when>					
+					<xsl:when test="fareList[1]/pricingInformation/fcmi = 'G'">Private</xsl:when>
+					<xsl:when test="concat(fareList[1]/pricingInformation/tstInformation/tstIndicator,fareList[1]/pricingInformation/fcmi) = 'I0'">Published</xsl:when>
 					<xsl:when test="contains($OptP,'RU')">Private</xsl:when>
 					<xsl:when test="contains($OptP,'RP')">Published</xsl:when>
 					<xsl:when test="contains($OptP,'RC')">Private</xsl:when>
@@ -862,6 +863,7 @@
 					<xsl:when test="pricingInformation/fcmi = '7'">Private</xsl:when>
 					<xsl:when test="pricingInformation/fcmi = '9'">Private</xsl:when>
 					<xsl:when test="pricingInformation/fcmi = 'G'">Private</xsl:when>
+					<xsl:when test="concat(pricingInformation/tstInformation/tstIndicator,pricingInformation/fcmi) = 'I0'">Published</xsl:when>
 					<xsl:otherwise>
 						<xsl:choose>
 							<xsl:when test="pricingInformation/fcmi = '5'">
