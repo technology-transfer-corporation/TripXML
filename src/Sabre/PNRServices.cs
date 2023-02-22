@@ -29,7 +29,6 @@ namespace Sabre
 
             try
             {
-                Version = "v03";
                 string strRequest = SetRequest("Sabre_PNRReadRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
@@ -43,7 +42,7 @@ namespace Sabre
 
                 try
                 {
-                    var tagToReplace = Version == "v04" ? "</GetReservationRS>" : "</TravelItineraryReadRS>";
+                    var tagToReplace = Version == "v04_" ? "</GetReservationRS>" : "</TravelItineraryReadRS>";
                     string dqbResponse = "";
                     strResponse = Version == "v04_"
                         ? ttSA.SendMessage(strRequest, "GetReservationRQ", "GetReservationRQ", ConversationID)
@@ -59,7 +58,7 @@ namespace Sabre
                     XmlElement initRoot = initDoc.DocumentElement;
 
                     // Check for Errors
-                    if (strResponse.Contains("Success"))
+                    if (strResponse.Contains("Success") || Version == "v04_")
                     {
                         #region *DQB
                         if (oRoot.Attributes["CheckIssuedTicket"] != null)
