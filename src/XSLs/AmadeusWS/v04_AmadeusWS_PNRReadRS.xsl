@@ -1,89 +1,92 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-  <!-- ================================================================== -->
-  <!-- v04_AmadeusWS_PNRReadRS.xsl 												       -->
-  <!-- ================================================================== -->
-  <!-- Date: 15 Mar 2016 - Kobelev	- FOP re-approval code				-->  
-  <!-- Date: 11 Dec 2014 - Rastko - corrected mapping of commission in form of payment				-->
-  <!-- Date: 10 Dec 2014 - Rastko - changed logic to determine flight operating airline					-->
-  <!-- Date: 01 Dec 2014 - Rastko - added test for error in returned PNR						-->
-  <!-- Date: 29 Oct 2014 - Rastko - map TST fcmi=G parameter to Private fare tag					-->
-  <!-- Date: 22 Sep 2014 - Rastko - added display of car voucher						-->
-  <!-- Date: 16 Jan 2014 - Rastko - mapped accounting info and future price info and PTC Breakdown RPH	-->
-  <!-- Date: 26 Dec 2013 - Rastko - added mapping of validating airline in fare structure		-->
-  <!-- Date: 31 Oct 2013 - Rastko - corrected FOP containing original CC info		-->
-  <!-- Date: 17 Apr 2013 - Rastko - corrected ticket status process					-->
-  <!-- Date: 21 Mar 2013 - Rastko - corrected flight duration when flight includes stops	-->
-  <!-- Date: 18 Mar 2013 - Rastko - removed EquivFare from display	for awad only (morqua) 	-->
-  <!-- Date: 18 Mar 2013 - Rastko - removed EquivFare from display				 	-->
-  <!-- Date: 14 Mar 2013 - Rastko - added case when there is no flight info for flight duration 	-->
-  <!-- Date: 01 Mar 2013 - Rastko - added mapping of flight duration in air segment		-->
-  <!-- Date: 14 Feb 2012 - Rastko - corrected pax type mapping in fare list response		-->
-  <!-- Date: 24 Jan 2012 - Rastko - improved mapping of rail segment				-->
-  <!-- Date: 15 Dec 2012 - Rastko - added support for getting only record locator back	 -->
-  <!-- Date: 28 Nov 2012 - Rastko - corrected mapping of FT tour code element		 -->
-  <!-- Date: 27 Nov 2012 - Rastko - added mapping of fare rules						 -->
-  <!-- Date: 27 Nov 2012 - Rastko - corrected total equiv fare calculation			 -->
-  <!-- Date: 26 Nov 2012 - Rastko - mapped airline fee in total and passenger fares		 -->
-  <!-- Date: 12 Nov 2012 - Rastko - added CouponStatus to Air segment			 -->
-  <!-- Date: 09 Nov 2012 - Rastko - improved telephone type mapping				 -->
-  <!-- Date: 06 Nov 2012 - Rastko - corrected decimal number bug with EquivFare mapping	 -->
-  <!-- Date: 05 Nov 2012 - Rastko - added EquivFare mapping						 -->
-  <!-- Date: 11 Oct 2012 - Rastko - corrected parsing of FOP Cash					 -->
-  <!-- Date: 10 Aug 2012 - Rastko - removedFareCalculation from Total fare display		-->
-  <!-- Date: 10 Jul 2012 - Rastko - corrected FOP parsing to be same as ver 5.0		-->
-  <!-- Date: 07 Jul 2012 - Rastko - corrected equivalent base fare amount and currency	-->
-  <!-- Date: 14 Mar 2012 - Rastko  - in FOP check that card code is valid 			-->
-  <!-- Date: 09 Mar 2012 - Rastko  - added a catch all FOP (misc charge order)		-->
-  <!-- Date: 09 Mar 2012 - Rastko  - fixed FOP display for finnish market			-->
-  <!-- Date: 08 Mar 2012 - Rastko  - fixed FOP display for spanish and swedish markets	-->
-  <!-- Date: 08 Mar 2012 - Rastko  - fixed issue in FOP change display				-->
-  <!-- Date: 08 Mar 2012 - Rastko  - added misc payment in FOP element			-->
-  <!-- Date: 06 Mar 2012 - Rastko  - fixed amount in cash FOP 						-->
-  <!-- Date: 22 Feb 2012 - Rastko  - added suplemental info to FOP element			-->
-  <!-- Date: 21 Feb 2012 - Rastko  - changed FOP to support amounts and multiple FOP line	-->
-  <!-- Date: 08 Feb 2012 - Rastko  - display misc segment even when no travel segments in PNR -->
-  <!-- Date: 07 Feb 2012 - Rastko  - corrected mapping of reservation number		-->
-  <!-- Date: 24 Nov 2011 - Rastko  - display BagAllowance only when bag type present in xml	-->
-  <!-- Date: 14 Nov 2011 - Shashin  -Added FQTV number in SSR section			-->
-  <!-- Date: 30 Aug 2011 - Rastko  - made ADT default pax type						-->
-  <!-- Date: 09 Aug 2011 - Rastko  - added mapping for BagAllowance				-->
-  <!-- Date: 08 Aug 2011 - Rastko  - corrected PNR creation date time info			-->
-  <!--  Date: 02 August 2011 - Shashin - fixed invalid PickUpDateTime value-->
-  <!-- Date: 01 Jul 2011 - Rastko - fixed CC parsing for different CC type entries		       -->
-  <!--  Date: 30 June 2011 - Shashin - fixed invalid CardCode value-->
-  <!-- Date: 25 Jun 2011 - Rastko - fixed commission parsing when percent in it		       -->
-  <!--  Date: 23 June 2011 - Shashin - fixed invalid format in Percentage-->
-  <!-- Date:12 MAy 2011 - Shashin - added XL to TicketAdvisory	       -->
-  <!-- Date: 04 Apr 2011 - Rastko - added another Amadeus code to test as private fare	       -->
-  <!-- Date: 29 Mar  2011 - Shashin - added FlightRefNumberRPHList attribute to TicketingCarrier element	       -->
-  <!-- Date: 29 Mar  2011 - Rastko - added NONAME for passengers without names		       -->
-  <!-- Date: 27 Mar  2011 - Rastko - added RepriceRequired attribute to AirFareInfo element	       -->
-  <!-- Date: 14 Mar  2011 - Rastko - set infant surname to NONAME when not in response	       -->
-  <!-- Date: 01 Mar  2011 - Rastko - corrected parsing of credit card	and commission		       -->
-  <!-- Date: 28 Feb 2011 - Rastko - corrected parsing of MCO credit card			       -->
-  <!-- Date: 16 Feb 2011 - Rastko - added parsing of operating airline				       -->
-  <!-- Date: 01 Feb 2011 - Rastko - fixed parsing error in car VehicleCharge			       -->
-  <!-- Date: 31 Jan 2011 - Rastko - fixed parsing of CC info for air mauritius			       -->
-  <!-- Date: 14 Jan 2010 - Rastko - fixed parsing of MCO CC info					       -->
-  <!-- Date: 12 Jan 2010 - Rastko - fixed commission parsing when *D* in it			       -->
-  <!-- Date: 10 Jan 2011 - Rastko - added TST entry in ItemPricing element			       -->
-  <!-- Date: 06 Jan 2010 - Rastko - fixed CC parsing in MCO element				       -->
-  <!-- Date: 19 Dec 2010 - Rastko - fixed commission parsing						       -->
-  <!-- Date: 15 Dec 2010 - Rastko - fixed CC parsing in MCO element				       -->
-  <!-- Date: 10 Dec 2010 - Rastko - fixed commission parsing when INF in it			       -->
-  <!-- Date: 05 Dec 2010 - Rastko - added mappimg for Errors						       -->
-  <!-- Date: 17 Nov 2010 - Rastko - fixed parsing error in car VehicleCharge			       -->
-  <!-- Date: 09 Nov 2010 - Rastko - fixed various parsing errors in FOP and commission	       -->
-  <!-- Date: 28 Oct 2010 - Rastko - added ConversationID mapping					       -->
-  <!-- Date: 28 Oct 2010 - Rastko - added extra attributes to AgencyCommission		       -->
-  <!-- Date: 25 Oct 2010 - Rastko - fixed commission parsing						       -->
-  <!-- Date: 25 Oct 2010 - Rastko - added currency code and number decimals to tax info	       -->
-  <!-- Date: 20 Oct 2010 - Rastko - fixed commission percent parsing				       -->
-  <!-- Date: 11 Oct 2010 - Rastko - raplaced ItinSeqNumber by RPH in all segments		       -->
-  <!-- Date: 10 Oct 2010 - Rastko - changed version from v04 to 4.0					       -->
-  <!-- Date: 06 Oct 2010 - Rastko - New file												       -->
-  <!-- ================================================================== -->
+  <!-- 
+  ================================================================== 
+   v04_AmadeusWS_PNRReadRS.xsl 									
+  =============================================================
+  Date: 15 Mar 2016 - Kobelev	- FOP re-approval code				
+  Date: 11 Dec 2014 - Rastko - corrected mapping of commission in form of payment				
+  Date: 10 Dec 2014 - Rastko - changed logic to determine flight operating airline			
+  Date: 01 Dec 2014 - Rastko - added test for error in returned PNR						
+  Date: 29 Oct 2014 - Rastko - map TST fcmi=G parameter to Private fare tag				
+  Date: 22 Sep 2014 - Rastko - added display of car voucher						
+  Date: 16 Jan 2014 - Rastko - mapped accounting info and future price info and PTC Breakdown RPH	
+  Date: 26 Dec 2013 - Rastko - added mapping of validating airline in fare structure		
+  Date: 31 Oct 2013 - Rastko - corrected FOP containing original CC info		
+  Date: 17 Apr 2013 - Rastko - corrected ticket status process					
+  Date: 21 Mar 2013 - Rastko - corrected flight duration when flight includes stops	
+  Date: 18 Mar 2013 - Rastko - removed EquivFare from display	for awad only (morqua) 	
+  Date: 18 Mar 2013 - Rastko - removed EquivFare from display				 	
+  Date: 14 Mar 2013 - Rastko - added case when there is no flight info for flight duration 	
+  Date: 01 Mar 2013 - Rastko - added mapping of flight duration in air segment		
+  Date: 14 Feb 2012 - Rastko - corrected pax type mapping in fare list response	
+  Date: 24 Jan 2012 - Rastko - improved mapping of rail segment				
+  Date: 15 Dec 2012 - Rastko - added support for getting only record locator back
+  Date: 28 Nov 2012 - Rastko - corrected mapping of FT tour code element		 
+  Date: 27 Nov 2012 - Rastko - added mapping of fare rules						 
+  Date: 27 Nov 2012 - Rastko - corrected total equiv fare calculation			 
+  Date: 26 Nov 2012 - Rastko - mapped airline fee in total and passenger fares	
+  Date: 12 Nov 2012 - Rastko - added CouponStatus to Air segment			 
+  Date: 09 Nov 2012 - Rastko - improved telephone type mapping				 
+  Date: 06 Nov 2012 - Rastko - corrected decimal number bug with EquivFare mapping	 
+  Date: 05 Nov 2012 - Rastko - added EquivFare mapping						 
+  Date: 11 Oct 2012 - Rastko - corrected parsing of FOP Cash				
+  Date: 10 Aug 2012 - Rastko - removedFareCalculation from Total fare display		
+  Date: 10 Jul 2012 - Rastko - corrected FOP parsing to be same as ver 5.0		
+  Date: 07 Jul 2012 - Rastko - corrected equivalent base fare amount and currency	
+  Date: 14 Mar 2012 - Rastko  - in FOP check that card code is valid 			
+  Date: 09 Mar 2012 - Rastko  - added a catch all FOP (misc charge order)		
+  Date: 09 Mar 2012 - Rastko  - fixed FOP display for finnish market			
+  Date: 08 Mar 2012 - Rastko  - fixed FOP display for spanish and swedish markets	
+  Date: 08 Mar 2012 - Rastko  - fixed issue in FOP change display				
+  Date: 08 Mar 2012 - Rastko  - added misc payment in FOP element			
+  Date: 06 Mar 2012 - Rastko  - fixed amount in cash FOP 					
+  Date: 22 Feb 2012 - Rastko  - added suplemental info to FOP element		
+  Date: 21 Feb 2012 - Rastko  - changed FOP to support amounts and multiple FOP line	
+  Date: 08 Feb 2012 - Rastko  - display misc segment even when no travel segments in PNR 
+  Date: 07 Feb 2012 - Rastko  - corrected mapping of reservation number		
+  Date: 24 Nov 2011 - Rastko  - display BagAllowance only when bag type present in xml	
+  Date: 14 Nov 2011 - Shashin  -Added FQTV number in SSR section			
+  Date: 30 Aug 2011 - Rastko  - made ADT default pax type					
+  Date: 09 Aug 2011 - Rastko  - added mapping for BagAllowance				
+  Date: 08 Aug 2011 - Rastko  - corrected PNR creation date time info		
+  Date: 02 August 2011 - Shashin - fixed invalid PickUpDateTime value
+  Date: 01 Jul 2011 - Rastko - fixed CC parsing for different CC type entries		       
+  Date: 30 June 2011 - Shashin - fixed invalid CardCode value
+  Date: 25 Jun 2011 - Rastko - fixed commission parsing when percent in it		       
+  Date: 23 June 2011 - Shashin - fixed invalid format in Percentage
+  Date:12 MAy 2011 - Shashin - added XL to TicketAdvisory	       
+  Date: 04 Apr 2011 - Rastko - added another Amadeus code to test as private fare	       
+  Date: 29 Mar  2011 - Shashin - added FlightRefNumberRPHList attribute to TicketingCarrier element	       
+  Date: 29 Mar  2011 - Rastko - added NONAME for passengers without names		       
+  Date: 27 Mar  2011 - Rastko - added RepriceRequired attribute to AirFareInfo element
+  Date: 14 Mar  2011 - Rastko - set infant surname to NONAME when not in response	   
+  Date: 01 Mar  2011 - Rastko - corrected parsing of credit card	and commission		
+  Date: 28 Feb 2011 - Rastko - corrected parsing of MCO credit card			
+  Date: 16 Feb 2011 - Rastko - added parsing of operating airline				
+  Date: 01 Feb 2011 - Rastko - fixed parsing error in car VehicleCharge		
+  Date: 31 Jan 2011 - Rastko - fixed parsing of CC info for air mauritius			
+  Date: 14 Jan 2010 - Rastko - fixed parsing of MCO CC info					       
+  Date: 12 Jan 2010 - Rastko - fixed commission parsing when *D* in it			   
+  Date: 10 Jan 2011 - Rastko - added TST entry in ItemPricing element			   
+  Date: 06 Jan 2010 - Rastko - fixed CC parsing in MCO element				       
+  Date: 19 Dec 2010 - Rastko - fixed commission parsing						       
+  Date: 15 Dec 2010 - Rastko - fixed CC parsing in MCO element				       
+  Date: 10 Dec 2010 - Rastko - fixed commission parsing when INF in it			   
+  Date: 05 Dec 2010 - Rastko - added mappimg for Errors						       
+  Date: 17 Nov 2010 - Rastko - fixed parsing error in car VehicleCharge			    
+  Date: 09 Nov 2010 - Rastko - fixed various parsing errors in FOP and commission	
+  Date: 28 Oct 2010 - Rastko - added ConversationID mapping					       
+  Date: 28 Oct 2010 - Rastko - added extra attributes to AgencyCommission		   
+  Date: 25 Oct 2010 - Rastko - fixed commission parsing						       
+  Date: 25 Oct 2010 - Rastko - added currency code and number decimals to tax info	
+  Date: 20 Oct 2010 - Rastko - fixed commission percent parsing				       
+  Date: 11 Oct 2010 - Rastko - raplaced ItinSeqNumber by RPH in all segments		   
+  Date: 10 Oct 2010 - Rastko - changed version from v04 to 4.0					       
+  Date: 06 Oct 2010 - Rastko - New file												       
+  ================================================================== 
+  -->
+	
   <xsl:variable name="userid" select="//POS/TPA_Extensions/Provider/Userid"/>
   <xsl:variable name="segcount" select="count(//fareList/segmentInformation)" />
   <xsl:variable name="tktcount" select="count(//Ticket_DisplayTSTReply/fareList)" />
@@ -323,9 +326,11 @@
     </Warning>
   </xsl:template>
 
-  <!-- ************************************************************** -->
-  <!-- PNR Header Information    	                                    -->
-  <!-- ************************************************************** -->
+  <!-- 
+  ************************************************************** 
+   PNR Header Information    	                                    
+  ************************************************************** 
+  -->
   <xsl:template match="pnrHeader" mode="header">
     <ItineraryRef>
       <xsl:attribute name="Type">PNR</xsl:attribute>
@@ -339,9 +344,11 @@
       </xsl:if>
     </ItineraryRef>
   </xsl:template>
-  <!-- -->
-  <!-- version 4 -->
-  <!-- -->
+  <!-- 
+  ************************************************************** 
+  version 4 
+  ************************************************************** 
+  -->
   <xsl:template match="fareList" mode="v04">
     <xsl:variable name="pos">
       <xsl:value-of select="position()"/>
@@ -599,9 +606,11 @@
       </AirFareInfo>
     </ItemPricing>
   </xsl:template>
-  <!-- ************************************************************** -->
-  <!-- Pricing Response     	                                    -->
-  <!-- ************************************************************** -->
+  <!-- 
+  **************************************************************
+   Pricing Response     	                                    
+  ************************************************************** 
+  -->
   <xsl:template match="Ticket_DisplayTSTReply">
     <AirFareInfo>
       <xsl:attribute name="PricingSource">
