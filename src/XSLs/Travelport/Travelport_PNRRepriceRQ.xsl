@@ -7,6 +7,7 @@
 	================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 
+	Date: 27 Feb 2023 - Kobelev - Groupping by AirPricingInfoGroup and FarePriceGroup
 	Date: 03 Feb 2023 - Kobelev - universal:AirAdd and universal:AirDelete Groupping by AirPricingInfoGroup 
 	Date: 03 Feb 2023 - Kobelev - Corrected AirPricing Groupping via AirPricingInfoGroup fro PUB PNR with xcluded ptc
 	Date: 02 Feb 2023 - Kobelev - Fixed Equipment display and Added InventoryRequestType in AirPricingModifiers
