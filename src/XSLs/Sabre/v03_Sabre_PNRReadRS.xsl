@@ -4083,15 +4083,15 @@
 					</xsl:variable>
 
 					<xsl:variable name="sqCount">
-						<xsl:value-of select="count(../../../../../../ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flt,'#0000')])"/>
+						<xsl:value-of select="count(//ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flt,'#0000')])"/>
 					</xsl:variable>
 
 					<xsl:choose>
 						<xsl:when test="$sqCount > 1">
-							<xsl:value-of select="format-number(../../../../../../ReservationItems/Item[@RPH=$itemNum]/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flt,'#0000')]/@SegmentNumber[not(../preceding-sibling::FlightSegment/@SegmentNumber = .)],'#0')"/>
+							<xsl:value-of select="format-number(//ReservationItems/Item[@RPH=$itemNum]/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flt,'#0000')]/@SegmentNumber[not(../preceding-sibling::FlightSegment/@SegmentNumber = .)],'#0')"/>
 						</xsl:when>
-						<xsl:when test="../../../../../../ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flt,'#0000')]">
-							<xsl:value-of select="format-number(../../../../../../ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flt,'#0000')]/@SegmentNumber[not(../preceding-sibling::FlightSegment/@SegmentNumber = .)],'#0')"/>
+						<xsl:when test="//ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flt,'#0000')]">
+							<xsl:value-of select="format-number(//ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flt,'#0000')]/@SegmentNumber[not(../preceding-sibling::FlightSegment/@SegmentNumber = .)],'#0')"/>
 
 							<xsl:if test="FareBasis/@Code='VOID'">
 								<xsl:value-of select="format-number(@SegmentNumber,'#0')"/>
