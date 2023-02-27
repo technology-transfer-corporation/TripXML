@@ -322,6 +322,20 @@ Namespace wsTravelTalk.wmPNRRepriceIn
 
     '<remarks/>
     Public Class StoredFare
+        '<remarks/>
+        <System.Xml.Serialization.XmlAttributeAttribute()>
+        Public RPH As String
+
+        '<remarks/>
+        <System.Xml.Serialization.XmlAttributeAttribute()>
+        Public FarePriceGroup As String
+
+        '<remarks/>
+        <System.Xml.Serialization.XmlAttributeAttribute()>
+        Public FareType As FareTypes
+
+        <System.Xml.Serialization.XmlAttributeAttribute()>
+        Public FareQualifier As FareQualifier
 
         '<remarks/>
         <System.Xml.Serialization.XmlElementAttribute("PassengerType")>
@@ -347,16 +361,6 @@ Namespace wsTravelTalk.wmPNRRepriceIn
         '<remarks/>
         Public Endorsement As String
 
-        '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()>
-        Public RPH As String
-
-        '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()>
-        Public FareType As FareTypes
-
-        <System.Xml.Serialization.XmlAttributeAttribute()>
-        Public FareQualifier As FareQualifier
     End Class
 
     '<remarks/>
