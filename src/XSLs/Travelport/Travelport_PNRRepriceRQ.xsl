@@ -458,7 +458,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			<xsl:when test="//StoredFare[PassengerType/@Code]/BrandedFares">
 				<xsl:choose>
 					<xsl:when test="$action='new'">
-						<xsl:for-each select="//StoredFare"> <!-- [Markup or TourCode or Endorsement] -->
+						<xsl:for-each select="//StoredFare">
+							<!-- [Markup or TourCode or Endorsement] -->
 							<!--<xsl:for-each select="$pnr/air:AirReservation/air:AirPricingInfo">-->
 							<xsl:variable name="optc" select="PassengerType/@Code" />
 							<xsl:variable name="price" select="$pnr/air:AirReservation/air:AirPricingInfo[substring(air:PassengerType/@Code,1,1)=substring($optc, 1,1)]" />
@@ -496,7 +497,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 								<xsl:when test="$group != $sibgroup">
 									<universal:UniversalModifyCmd>
 										<xsl:attribute name="Key">
-											<xsl:value-of select="$pos"/>
+											<xsl:value-of select="@FarePriceGroup"/>
 										</xsl:attribute>
 										<universal:AirDelete Element="AirPricingInfo">
 											<xsl:attribute name="Key">
@@ -510,9 +511,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 								</xsl:when>
 							</xsl:choose>
 						</xsl:for-each>
-
-						<xsl:variable name="keyElem" select="count(//StoredFare[Markup or TourCode or Endorsement])" />
-
+						
 						<!--<xsl:variable name="groups" >
 							<xsl:call-template name="DistictList">
 								<xsl:with-param name="list" select="$pnr/air:AirReservation/air:AirPricingInfo/@AirPricingInfoGroup"/>
@@ -532,7 +531,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 							<!--<xsl:if test="$pnr/air:AirReservation/air:AirPricingInfo[@AirPricingInfoGroup = $g]/air:FareInfo[@PassengerTypeCode = msxsl:node-set($changePTC)/elem/node()[1]]">-->
 							<universal:UniversalModifyCmd>
 								<xsl:attribute name="Key">
-									<xsl:value-of select="$keyElem + position()"/>
+									<xsl:value-of select="count($priceList) + position()"/>
 								</xsl:attribute>
 								<xsl:variable name="resCode" select="$pnr/air:AirReservation/@LocatorCode"/>
 								<universal:AirAdd>
@@ -565,7 +564,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 							</universal:UniversalModifyCmd>
 							<!--</xsl:if>-->
 						</xsl:for-each>
-						
+
 						<!--
 						<xsl:if test="count(//StoredFare/PassengerType/@Code) > count(msxsl:node-set($changePTC)/elem)">
 							<xsl:variable name="sibgroup">
@@ -610,7 +609,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 							</xsl:if>
 						</xsl:if>
 						-->
-					
+
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:apply-templates select="$pnr/air:AirReservation/air:AirPricingInfo[@PricingType='TicketRecord'][1]" mode="brandFare">
@@ -959,7 +958,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			</xsl:attribute>
 		</universal:RecordIdentifier>
 
-		<xsl:variable name="changed" select="//StoredFare[Markup or TourCode or Endorsement]" />
+		<xsl:variable name="changed" select="//StoredFare" />
 
 		<xsl:variable name="changePTC">
 			<xsl:call-template name="getChangedPTC">
@@ -967,27 +966,19 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			</xsl:call-template>
 		</xsl:variable>
 
-
 		<xsl:variable name="groups" >
 			<xsl:call-template name="DistictList">
-				<xsl:with-param name="list" select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code = msxsl:node-set($changePTC)/elem/node()[1]]/@AirPricingInfoGroup"/>
+				<xsl:with-param name="list" select="//StoredFare/@FarePriceGroup"/>
 			</xsl:call-template>
 		</xsl:variable>
 
 		<xsl:variable name="keyElem" select="count(//StoredFare[Markup or TourCode or Endorsement])" />
+		<xsl:variable name="priceList" select="//StoredFare" />
 
-		<!--
 		<xsl:for-each select="msxsl:node-set($groups)/elem/node()[1]">
-		<xsl:variable name="g" select="." />
-		-->
-
-		<xsl:variable name="isJoined" select="count($changed) = count($changed[Markup/@Amount=$changed[1]/Markup/@Amount]) 
-					  and count($changed) = count($changed[TourCode=$changed[1]/TourCode])
-					  and count($changed) = count($changed[Endorsement=$changed[1]/Endorsement])
-					  and count(msxsl:node-set($groups)/elem/node()[1]) = 1" />
-
-		<xsl:choose>
-			<xsl:when test="$isJoined = 'true'">
+			<xsl:variable name="g" select="." />
+			<xsl:variable name="p" select="$priceList[@FarePriceGroup=$g]/PassengerType/@Code" />
+			<xsl:if test="$airprice[air:PassengerType/@Code = msxsl:node-set($changePTC)/elem/node()[1][substring(.,1,1) = substring($p,1,1)]]">
 				<universal:UniversalModifyCmd>
 					<xsl:attribute name="Key">
 						<xsl:value-of select="position() + 1"/>
@@ -998,59 +989,14 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 						</xsl:attribute>
 						<xsl:call-template name="ModStoredFareJoined" >
 							<xsl:with-param name="pnr" select="$pnr" />
+							<xsl:with-param name="fares" select="$priceList[@FarePriceGroup=$g]" />
 							<xsl:with-param name="airprice" select="$airprice[air:PassengerType/@Code = msxsl:node-set($changePTC)/elem/node()[1]]" />
 						</xsl:call-template>
 					</universal:AirAdd>
 				</universal:UniversalModifyCmd>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:for-each select="$airprice[air:FareInfo[@PassengerTypeCode = msxsl:node-set($changePTC)/elem/node()[1]]]">
-					<xsl:variable name="ptc" select="air:PassengerType/@Code" />
-					<xsl:variable name="priceKey" select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code = $ptc]/@Key" />
-					<xsl:variable name="current" select="//StoredFare[substring(PassengerType/@Code, 1, 1)=substring($ptc, 1, 1)]" />
-					<xsl:if test="$current[Markup or TourCode or Endorsement]">
-						<xsl:choose>
-							<xsl:when test="$priceKey != ''">
-								<universal:UniversalModifyCmd>
-									<xsl:attribute name="Key">
-										<xsl:value-of select="position() + 1"/>
-									</xsl:attribute>
-									<universal:AirAdd>
-										<xsl:attribute name="ReservationLocatorCode">
-											<xsl:value-of select="$pnr/air:AirReservation/@LocatorCode"/>
-										</xsl:attribute>
-										<xsl:call-template name="ModStoredFare" >
-											<xsl:with-param name="pnr" select="$pnr" />
-											<xsl:with-param name="airprice" select="." />
-										</xsl:call-template>
-									</universal:AirAdd>
-								</universal:UniversalModifyCmd>
-							</xsl:when>
-							<xsl:otherwise>
-								<universal:UniversalModifyCmd>
-									<xsl:attribute name="Key">
-										<xsl:value-of select="position() + 1"/>
-									</xsl:attribute>
-									<universal:AirUpdate>
-										<xsl:attribute name="ReservationLocatorCode">
-											<xsl:value-of select="$pnr/air:AirReservation/@LocatorCode"/>
-										</xsl:attribute>
-										<xsl:attribute name="BookingTravelerRef">
-											<xsl:value-of select="position() + 1"/>
-										</xsl:attribute>
-										<xsl:call-template name="ModStoredFare" >
-											<xsl:with-param name="pnr" select="$pnr" />
-											<xsl:with-param name="airprice" select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code = $ptc]" />
-										</xsl:call-template>
-									</universal:AirUpdate>
-								</universal:UniversalModifyCmd>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:if>
-				</xsl:for-each>
-			</xsl:otherwise>
-		</xsl:choose>
-		<!--</xsl:for-each>-->
+			</xsl:if>
+		</xsl:for-each>
+
 
 	</xsl:template>
 
@@ -1478,7 +1424,6 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:variable name="ptc">
 			<xsl:choose>
 				<xsl:when test="substring(air:PassengerType/@Code, 1,1) = 'C'">
@@ -1500,30 +1445,12 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<!--
-		<xsl:variable name="optc" select="air:PassengerType/@Code" />
-		<xsl:variable name="crr" select="//StoredFare[PassengerType/@Code=$ptc]" />
--->
+
 		<xsl:variable name="crr" select="$fares[1]" />
 
-		<!--
-		<xsl:variable name="priceKey">
-			<xsl:choose>
-				<xsl:when test="count($pnr/air:AirReservation/air:AirPricingInfo)=count(//StoredFare)">
-					<xsl:value-of select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code = $optc]/@Key"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code = $optc]/@Key"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		-->
-
 		<air:AirPricingTicketingModifiers>
-			<!--<xsl:for-each select="$fares">-->
-
-			<xsl:for-each select="$airprice">
-				<xsl:variable name="pax" select="air:PassengerType[1]/@Code" />
+			<xsl:for-each select="$fares">
+				<xsl:variable name="pax" select="PassengerType/@Code" />
 				<xsl:variable name="priceKey" select="$pnr/air:AirReservation/air:AirPricingInfo[substring(air:PassengerType/@Code, 1,1) = substring($pax, 1,1)]/@Key" />
 				<air:AirPricingInfoRef>
 					<xsl:attribute name="Key">
@@ -1554,134 +1481,6 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 								</xsl:attribute>
 							</xsl:when>
 							<xsl:when test="$crr/Markup/@Percent">
-
-								<xsl:attribute name="Modifier">
-									<xsl:text>SupplementaryPercent</xsl:text>
-								</xsl:attribute>
-
-								<xsl:attribute name="Percentage">
-									<xsl:value-of select="$crr/Markup/@Percent"/>
-								</xsl:attribute>
-								<xsl:attribute name="Type">
-									<xsl:text>PercentTotal</xsl:text>
-								</xsl:attribute>
-							</xsl:when>
-						</xsl:choose>
-					</common_v50_0:Commission>
-				</xsl:if>
-
-				<xsl:if test="$crr/TourCode">
-					<air:TourCode>
-						<xsl:attribute name="Value">
-							<xsl:value-of select="$crr/TourCode"/>
-						</xsl:attribute>
-					</air:TourCode>
-				</xsl:if>
-
-				<xsl:if test="$crr/Endorsement">
-					<xsl:variable name="endors">
-						<xsl:call-template name="tokenizeString">
-							<xsl:with-param name="list" select="$crr/Endorsement"/>
-							<xsl:with-param name="delimiter" select="'/'"/>
-						</xsl:call-template>
-					</xsl:variable>
-					<xsl:for-each select="msxsl:node-set($endors)/elem/node()[1]">
-						<air:TicketEndorsement>
-							<xsl:attribute name="Value">
-								<xsl:value-of select="."/>
-							</xsl:attribute>
-						</air:TicketEndorsement>
-					</xsl:for-each>
-				</xsl:if>
-
-				<air:DocumentSelect IssueTicketOnly="false">
-					<air:Itinerary SeparateIndicator="false"/>
-				</air:DocumentSelect>
-				<air:DocumentOptions SuppressItineraryRemarks="false"/>
-
-			</air:TicketingModifiers>
-		</air:AirPricingTicketingModifiers>
-	</xsl:template>
-
-	<xsl:template name="ModStoredFare">
-		<xsl:param name="pnr" />
-		<xsl:param name="airprice" />
-		<xsl:variable name="priceType" select="@FareType" />
-		<xsl:variable name="pricing">
-			<xsl:choose>
-				<xsl:when test="contains($priceType,'Published')">
-					<xsl:text>Guaranteed</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text>GuaranteedUsingAirlinePrivateFare</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="ptc">
-			<xsl:choose>
-				<xsl:when test="substring(air:PassengerType/@Code, 1,1) = 'C'">
-					<xsl:variable name="pTemp" select="concat('C', substring(concat('0',air:PassengerType/@Age), string-length(air:PassengerType/@Age)))"/>
-					<xsl:choose>
-						<xsl:when test="//StoredFare[PassengerType/@Code=$pTemp]/Markup">
-							<xsl:value-of select="$pTemp"/>
-						</xsl:when>
-						<xsl:when test="//StoredFare[PassengerType/@Code=translate($pTemp, '0', '')]/Markup">
-							<xsl:value-of select="translate($pTemp, '0', '')"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="air:PassengerType/@Code"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="air:PassengerType/@Code"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="optc" select="air:PassengerType/@Code" />
-		<xsl:variable name="crr" select="//StoredFare[PassengerType/@Code=$ptc]" />
-
-		<xsl:variable name="priceKey">
-			<xsl:choose>
-				<xsl:when test="count($pnr/air:AirReservation/air:AirPricingInfo)=count(//StoredFare)">
-					<xsl:value-of select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code = $optc]/@Key"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code = $optc]/@Key"/>
-				</xsl:otherwise>
-			</xsl:choose>
-
-		</xsl:variable>
-
-		<air:AirPricingTicketingModifiers>
-			<air:AirPricingInfoRef>
-				<xsl:attribute name="Key">
-					<xsl:value-of select="$priceKey"/>
-				</xsl:attribute>
-			</air:AirPricingInfoRef>
-
-			<air:TicketingModifiers FreeTicket="false">
-				<!--
-				<xsl:attribute name="BookingTravelerRef">
-					<xsl:value-of select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code=$optc]/air:PassengerType/@BookingTravelerRef"/>
-				</xsl:attribute>
-				-->
-
-				<xsl:if test="$crr/Discount or $crr/Markup">
-					<common_v50_0:Commission>
-						<xsl:attribute name="Level">
-							<xsl:text>Fare</xsl:text>
-						</xsl:attribute>
-						<xsl:choose>
-							<xsl:when test="$crr/Markup/@Amount">
-								<xsl:attribute name="Amount">
-									<xsl:value-of select="$crr/Markup/@Amount"/>
-								</xsl:attribute>
-								<xsl:attribute name="Type">
-									<xsl:text>Flat</xsl:text>
-								</xsl:attribute>
-							</xsl:when>
-							<xsl:when test="//StoredFare[1]/Markup/@Percent">
 
 								<xsl:attribute name="Modifier">
 									<xsl:text>SupplementaryPercent</xsl:text>

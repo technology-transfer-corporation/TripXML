@@ -4,6 +4,7 @@
 	==================================================================
 	Travelport_PNRRepriceRS.xsl 										
 	==================================================================
+	Date: 27 Feb 2023 - Kobelev - BagAllowance Weight values.
 	Date: 02 Dec 2022 - Kobelev - Price Quote selection based on BookingCode.
 	Date: 23 Nov 2022 - Kobelev - Price Quote RPH number referenced correctly.
 	Date: 18 Oct 2022 - Kobelev - Price Quote number referenced correctly.
@@ -608,13 +609,21 @@
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:attribute name="Weight">
-										<xsl:value-of select="air:BaggageAllowance/air:MaxWeight"/>
+										<xsl:value-of select="air:BaggageAllowance/air:MaxWeight/@Value"/>
 									</xsl:attribute>
 									<xsl:attribute name="Type">
 										<xsl:text>Weight</xsl:text>
 									</xsl:attribute>
 									<xsl:attribute name="Unit">
-										<xsl:value-of select="air:BaggageAllowance/air:MaxWeight"/>
+										<xsl:choose>
+											<xsl:when test="substring(air:BaggageAllowance/air:MaxWeight/@Unit,1,1)='K'">
+												<xsl:value-of select="substring(air:BaggageAllowance/air:MaxWeight/@Unit,1,1)"/>		
+											</xsl:when>
+											<xsl:otherwise>
+												<xsl:text>L</xsl:text>
+											</xsl:otherwise>
+										</xsl:choose>
+										
 									</xsl:attribute>
 								</xsl:otherwise>
 							</xsl:choose>
