@@ -10,7 +10,6 @@ Namespace wsTravelTalk
     <ToolboxItem(False)> _
     Public Class wsCreateTicketInvoice
         Inherits System.Web.Services.WebService
-        Private sb As StringBuilder = New StringBuilder()
 
         Private Function ServiceRequest(ByVal strRequest As String) As String
             Dim strResponse As String = ""
@@ -18,7 +17,6 @@ Namespace wsTravelTalk
             'strResponse = AdminStatusManager.Program.CreateTicket(strRequest)
 
             Return strResponse
-            sb = Nothing
         End Function
 
         <WebMethod(Description:="Update Markups.")> _

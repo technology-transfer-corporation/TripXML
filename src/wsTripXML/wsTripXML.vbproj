@@ -328,6 +328,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\Admin\wsAppSettings.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Code\Classes\cAppSettings.vb" />
     <Compile Include="Code\Classes\cServiceTravelport.vb" />
     <Compile Include="Code\NDCClasses\AirShoppingRQ.vb" />
     <Compile Include="Code\NDCClasses\AirShoppingRS.vb" />

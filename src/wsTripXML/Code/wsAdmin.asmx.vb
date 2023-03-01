@@ -92,10 +92,16 @@ Namespace wsTravelTalk
             Return markUp.UpdateMarkups(xmlRequest)
         End Function
 
-        <WebMethod(Description:="Admin status management.")> _
+        <WebMethod(Description:="Admin status management.")>
         Public Function CreateTicketInvoice(ByVal xmlRequest As String) As String
             Dim tktInvoice As wsCreateTicketInvoice = New wsCreateTicketInvoice()
             Return tktInvoice.CreateTicketInvoice(xmlRequest)
+        End Function
+
+        <WebMethod(Description:="Get Server Settings.")>
+        Public Function GetServerConfig() As AppSettings
+            Dim appSettings As wsAppSettings = New wsAppSettings()
+            Return appSettings.AppSettings
         End Function
 
     End Class
