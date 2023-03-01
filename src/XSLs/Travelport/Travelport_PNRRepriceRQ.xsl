@@ -7,6 +7,7 @@
 	================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 
+	Date: 01 Mar 2023 - Kobelev - Using Brand in FareInfo
 	Date: 27 Feb 2023 - Kobelev - Groupping by AirPricingInfoGroup and FarePriceGroup
 	Date: 03 Feb 2023 - Kobelev - universal:AirAdd and universal:AirDelete Groupping by AirPricingInfoGroup 
 	Date: 03 Feb 2023 - Kobelev - Corrected AirPricing Groupping via AirPricingInfoGroup fro PUB PNR with xcluded ptc
@@ -511,7 +512,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 								</xsl:when>
 							</xsl:choose>
 						</xsl:for-each>
-						
+
 						<!--<xsl:variable name="groups" >
 							<xsl:call-template name="DistictList">
 								<xsl:with-param name="list" select="$pnr/air:AirReservation/air:AirPricingInfo/@AirPricingInfoGroup"/>
@@ -1314,7 +1315,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 						</xsl:attribute>
 						<xsl:value-of select="air:FareRuleKey"/>
 					</air:FareRuleKey>
-					<xsl:if test="air:FareInfo/air:Brand[@BrandTier = $brandTier]">
+
+					<xsl:if test="air:Brand[@BrandTier = $brandTier]">
 						<air:Brand>
 							<xsl:attribute name="Key">
 								<xsl:value-of select="air:Brand/@Key"/>
@@ -1338,6 +1340,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 							</xsl:attribute>
 						</air:Brand>
 					</xsl:if>
+
 				</air:FareInfo>
 			</xsl:for-each>
 			<xsl:copy-of select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code=$ptc]/air:BookingInfo"/>
@@ -1386,7 +1389,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 
 			<!--<xsl:if test="//StoredFare/Markup and //@StoreFare='true' and //StoredFare/@FareType='Private'">-->
 			<xsl:variable name="priceType" select="@PricingMethod" />
-			<air:AirPricingModifiers CurrencyType="USD" AccountCodeFaresOnly="false">
+			<air:AirPricingModifiers>
+				<!-- CurrencyType="USD" AccountCodeFaresOnly="false" -->
 				<xsl:attribute name="FaresIndicator">
 					<xsl:choose>
 						<xsl:when test="$priceType='Guaranteed'">
