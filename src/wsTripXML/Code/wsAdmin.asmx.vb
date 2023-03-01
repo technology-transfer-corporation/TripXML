@@ -100,6 +100,9 @@ Namespace wsTravelTalk
 
         <WebMethod(Description:="Get Server Settings.")>
         Public Function GetServerConfig() As AppSettings
+
+            Dim authorization As String = Context.Request.Headers.Get("Authorization")
+
             Dim appSettings As wsAppSettings = New wsAppSettings()
             Return appSettings.AppSettings
         End Function
