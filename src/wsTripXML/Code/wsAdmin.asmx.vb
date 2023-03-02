@@ -3,14 +3,16 @@ Imports System.Web.Services
 Imports System.ComponentModel
 Imports TripXMLMain
 Imports TripXMLMain.modCore
+Imports TripXMLTools
+Imports System.Xml.Serialization
 
 Namespace wsTravelTalk
 
     ' To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line.
     ' <System.Web.Script.Services.ScriptService()> _
-    <System.Web.Services.WebService(Namespace:="http://tripxml.com/wsAdmin")> _
-    <System.Web.Services.WebServiceBinding(ConformsTo:=WsiProfiles.BasicProfile1_1)> _
-    <ToolboxItem(False)> _
+    <System.Web.Services.WebService(Namespace:="http://tripxml.com/wsAdmin")>
+    <System.Web.Services.WebServiceBinding(ConformsTo:=WsiProfiles.BasicProfile1_1)>
+    <ToolboxItem(False)>
     Public Class wsAdmin
         Inherits System.Web.Services.WebService
         Private sb As StringBuilder = New StringBuilder()
@@ -71,22 +73,22 @@ Namespace wsTravelTalk
             sb = Nothing
         End Function
 
-        <WebMethod(Description:="Add a PNR to the Admin by TravelBuild response XML.")> _
+        <WebMethod(Description:="Add a PNR to the Admin by TravelBuild response XML.")>
         Public Function AddPNRToAdmin(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.AddPNRToAdmin)
         End Function
 
-        <WebMethod(Description:="Add a PNR to the Admin by record locator.")> _
+        <WebMethod(Description:="Add a PNR to the Admin by record locator.")>
         Public Function AddRecLocToAdmin(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.AddRecLocToAdmin)
         End Function
 
-        <WebMethod(Description:="Add a PNR to the Admin by record locator.")> _
+        <WebMethod(Description:="Add a PNR to the Admin by record locator.")>
         Public Function AddRecLocToNewAdminOnly(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.AddRecLocToNewAdminOnly)
         End Function
 
-        <WebMethod(Description:="Update Markups.")> _
+        <WebMethod(Description:="Update Markups.")>
         Public Function UpdateMarkups(ByVal xmlRequest As String) As String
             Dim markUp As wsUpdateMarkups = New wsUpdateMarkups()
             Return markUp.UpdateMarkups(xmlRequest)
@@ -99,12 +101,8 @@ Namespace wsTravelTalk
         End Function
 
         <WebMethod(Description:="Get Server Settings.")>
-        Public Function GetServerConfig() As AppSettings
-
-            Dim authorization As String = Context.Request.Headers.Get("Authorization")
-
-            Dim appSettings As wsAppSettings = New wsAppSettings()
-            Return appSettings.AppSettings
+        Public Function GetServerConfig() As <XmlElementAttribute("TripXmlSettings")> TripXmlSettings
+            Return SettingsService.GetAppSettings(Context.Request.Headers)
         End Function
 
     End Class
