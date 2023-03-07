@@ -538,8 +538,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 									</xsl:attribute>
 									<xsl:for-each select="$priceList[@FarePriceGroup=$g]">
 										<xsl:variable name="p" select="PassengerType/@Code" />
-										<xsl:if test="$pnr/air:AirReservation/air:AirPricingInfo/air:FareInfo[substring(@PassengerTypeCode,1,1) = substring($p,1,1)]">
-											<xsl:apply-templates select="$airprice[substring(air:PassengerType/@Code,1,1)=substring($p,1,1)]" mode="brandFareStore">
+										<xsl:variable name="ptc">
+											<xsl:call-template name="price_ptc" >
+												<xsl:with-param name="sptc" select="$p"/>
+											</xsl:call-template>										
+										</xsl:variable>
+										<xsl:if test="$pnr/air:AirReservation/air:AirPricingInfo/air:FareInfo[@PassengerTypeCode=$ptc]">
+											<xsl:apply-templates select="$airprice[air:PassengerType/@Code=$ptc]" mode="brandFareStore">
 												<xsl:with-param name="delete" select="'true'" />
 												<xsl:with-param name="pnr" select="$pnr" />
 												<xsl:with-param name="storedFare" select="." />
@@ -859,8 +864,17 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 
 	<xsl:template match="common_v50_0:BookingTraveler">
 		<xsl:variable name="key" select="@Key" />
-		<xsl:variable name="optc" select="../air:AirReservation/air:AirPricingInfo/air:PassengerType[@BookingTravelerRef=$key]/@Code" />
-		<xsl:variable name="sfptc" select="//StoredFare[substring(PassengerType/@Code, 1, 1) = substring($optc,1,1) ]/PassengerType/@Code" />
+		<xsl:variable name="optc" select="../air:AirReservation/air:AirPricingInfo/air:PassengerType[@BookingTravelerRef=$key]/@Code" />		
+		<xsl:variable name="sfptc">
+			<xsl:choose>
+				<xsl:when test="//StoredFare[PassengerType/@Code = $optc]/PassengerType/@Code">
+					<xsl:value-of select="//StoredFare[PassengerType/@Code = $optc]/PassengerType/@Code"/>				
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="//StoredFare[substring(PassengerType/@Code, 1, 1) = substring($optc,1,1) ]/PassengerType/@Code"/>				
+				</xsl:otherwise>			
+			</xsl:choose>		
+		</xsl:variable>
 		<xsl:variable name="ptc">
 			<xsl:call-template name="private_ptc" >
 				<xsl:with-param name="optc" select="$optc"/>
@@ -1018,9 +1032,6 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="brandTier" select="$pnr/air:AirReservation/air:AirPricingInfo[substring(air:PassengerType/@Code,1,1) = substring($ptc,1,1)]/air:FareInfo[position()=$pos]/air:Brand/@BrandTier" />
-
-		<!--<xsl:if test="air:FareInfo[air:Brand/@BrandTier = $brandTier]">-->
-			
 			<air:AirPricingInfo>
 				<xsl:attribute name="Key">
 					<xsl:value-of select="@Key"/>
@@ -1191,9 +1202,11 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 							<xsl:when test="substring(@Code, 1, 1) = 'C'">
 								<xsl:value-of select="concat('0',number(substring(@Code, 2, 2)))"/>
 							</xsl:when>
+							<!-- JNF has no age 
 							<xsl:when test="substring(@Code, 1, 1) = 'J' and @Code != 'JCB'">
 								<xsl:value-of select="concat('0',number(substring(@Code, 2, 2)))"/>
 							</xsl:when>
+							-->
 							<xsl:when test="concat('0',number(substring(@Code, 2, 2))) = substring(@Code, 2, 2)">
 								<xsl:value-of select="substring(@Code, 2, 2)"/>
 							</xsl:when>
@@ -1405,6 +1418,26 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			-->
 			<xsl:otherwise>
 				<xsl:value-of select="$optc"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
+		<xsl:template name="price_ptc">
+		<xsl:param name="sptc"/>
+		<xsl:choose>
+			<!--
+			<xsl:when test="$optc='JCB'">
+				<xsl:text>JWA</xsl:text>
+			</xsl:when>
+			<xsl:when test="$optc='ADT'">
+				<xsl:text>JWA</xsl:text>
+			</xsl:when>
+			-->
+			<xsl:when test="substring($sptc,1,2)='J0' or substring($sptc,1,2)='J1'">
+				<xsl:text>JNN</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$sptc"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
