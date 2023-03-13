@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<!-- 
-  ================================================================== 
+<!-- 
+    ================================================================== 
 	v03_Travelport_PNRReadRQ.xsl 													
 	================================================================== 
 	Date: 15 Sep 2014 - Rastko																
 	================================================================== 
-  -->
+-->
 	<xsl:output method="xml" omit-xml-declaration="yes"/>
 	<xsl:template match="/">
 		<xsl:choose>

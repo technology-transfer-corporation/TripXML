@@ -4,6 +4,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 08 Mar 2022 - Kobelev - Not trying to read Age for P-JWZ.
   Date: 15 Dec 2022 - Kobelev - Formating childrens age for NET fare (JNN).
   Date: 28 Nov 2022 - Kobelev - Formating childrens age.
   Date: 15 Nov 2022 - Kobelev - Calculated Date of Birth for children.
@@ -2287,7 +2288,7 @@
 										</xsl:attribute>
 									</xsl:if>
 								</xsl:when>
-								<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-') and not(contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-JCB'))">
+								<xsl:when test="not(contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-JWZ')) and contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-') and not(contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-JCB'))">
 									<xsl:attribute name="BirthDate">
 										<xsl:call-template name="bdt_years">
 											<xsl:with-param name="bdt" select="substring(substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-'), 2,2)" />
