@@ -724,7 +724,7 @@
         <PTC_FareBreakdowns>          
           <xsl:variable name="trNum">
             <xsl:choose>
-              <xsl:when test="./TIC_REC_NUM">
+              <xsl:when test="TIC_REC_NUM">
                 <xsl:value-of select="TIC_REC_NUM"/>                
               </xsl:when>            
             <xsl:otherwise>
@@ -919,7 +919,13 @@
       <xsl:value-of select="PTC"/>
     </xsl:variable>
     <xsl:variable name="nip">
-      <xsl:value-of select="count(../../../PAX_INF/NME_ITM[PTC=$paxtype])"/>
+      <xsl:value-of select="count(//PAX_INF/NME_ITM[PTC=$paxtype])"/>
+    </xsl:variable>
+
+    <xsl:variable name="pnrPax">
+      <xsl:for-each select="//PAX_INF/NME_ITM[PTC=$paxtype]">
+        <xsl:value-of select="concat(NME_POS, ' ')"/>
+      </xsl:for-each>
     </xsl:variable>
     <!-- 
     <xsl:variable name="totbase">
@@ -951,6 +957,37 @@
           <xsl:attribute name="PricingSource">Published</xsl:attribute>
         </xsl:otherwise>
       </xsl:choose>
+      <xsl:attribute name="TravelerRefNumberRPHList">
+        <xsl:call-template name="string-rtrim">
+          <xsl:with-param name="string" select="$pnrPax" />
+        </xsl:call-template>
+      </xsl:attribute>
+
+      <xsl:variable name="p" select="//PNR_4_INF/Line[1]/text()" />
+      
+      <xsl:variable name="segs">
+        <xsl:choose>
+          <xsl:when test="translate(substring-after(translate(string(../PRC_QUO_CMD),'#TR',''),'*S'),'/',' ')">
+            <xsl:value-of select="translate(substring-after(translate(string(../PRC_QUO_CMD),'#TR',''),'*S'),'/',' ')"/>
+          </xsl:when>
+          <xsl:when test="contains($p,'*S')">
+            <xsl:value-of select="translate(translate(substring-after($p,'*S'),'/',' '),'-',' ')"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:for-each select="//AIR_SEG_INF/AIR_ITM">
+              <xsl:call-template name="string-ltrim">
+                <xsl:with-param name="string" select="concat(SEG_NUM, ' ')" />
+              </xsl:call-template>
+            </xsl:for-each>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:variable>
+      
+      <xsl:attribute name="FlightRefNumberRPHList">
+        <xsl:call-template name="string-rtrim">
+          <xsl:with-param name="string" select="translate($segs, '-', ' ')" />
+        </xsl:call-template>
+      </xsl:attribute>
       <PassengerTypeQuantity>
         <xsl:attribute name="Code">
           <xsl:choose>
