@@ -2260,13 +2260,20 @@
 													<!-- 
 													<NameRmk>23FEB20</NameRmk> 
 													<NameRmk>10MAY22 P-INF</NameRmk>
+													<NameRmk>10MAY22 P-JNF</NameRmk>
 													-->
 													<xsl:choose>
 														<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, '-INF')">
 															<xsl:value-of select="substring(substring-before(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, '-INF'), 1,7)" />
 														</xsl:when>
+														<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, '-JNF')">
+															<xsl:value-of select="substring(substring-before(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, '-JNF'), 1,7)" />
+														</xsl:when>
 														<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'INF')">
 															<xsl:value-of select="substring-after(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'INF')" />
+														</xsl:when>
+														<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'JNF')">
+															<xsl:value-of select="substring-after(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'JNF')" />
 														</xsl:when>
 														<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'CHD')">
 															<xsl:value-of select="substring-after(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, 'CHD')" />
