@@ -66,11 +66,11 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoTicket.Domain, Version=1.0.44.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoTicket.Domain.1.0.44\lib\net472\AutoTicket.Domain.dll</HintPath>
+    <Reference Include="AutoTicket.Domain, Version=1.0.57.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoTicket.Domain.1.0.57\lib\net48\AutoTicket.Domain.dll</HintPath>
     </Reference>
     <Reference Include="AutoTicket.Infrastructure, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoTicket.Infrastructure.1.0.9\lib\net472\AutoTicket.Infrastructure.dll</HintPath>
+      <HintPath>..\packages\AutoTicket.Infrastructure.1.0.11\lib\net48\AutoTicket.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -118,7 +118,7 @@
       <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.8\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PaymentServices, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PaymentServices.1.0.23\lib\net48\PaymentServices.dll</HintPath>
@@ -320,12 +320,12 @@
     <Content Include="Tables\Users\dttticket.xml" />
     <Content Include="Tables\Users\ttProviders.xml" />
     <Content Include="Tables\Users\tt_acl.xml" />
+    <Content Include="TTLogo.ico" />
     <!-- 
 	<Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Common.dll" />
     <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Logging.dll" />
     <Content Include="bin\Microsoft.Practices.ServiceLocation.dll" /> 
 	-->
-    <Content Include="TTLogo.ico" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
