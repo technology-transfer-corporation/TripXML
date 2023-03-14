@@ -686,7 +686,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 						<xsl:variable name="ptc" select="$price/air:PassengerType/@Code" />
 						<xsl:choose>
 							<!-- According to Travelport you only need to use one AirpriceInfo Key if all of them sharing a group  and $pos=1-->
-							<xsl:when test="$group = $sibgroup and ($pos=1 or count(msxsl:node-set($pnrGroups)[1]) = count(msxsl:node-set($sfGroups)[1]))">
+							<xsl:when test="$group = $sibgroup and ($pos=1 or count(msxsl:node-set($pnrGroups)[1]/node()) = count(msxsl:node-set($sfGroups)[1]/node()))">
 								<universal:UniversalModifyCmd>
 									<xsl:attribute name="Key">
 										<xsl:value-of select="$pos"/>
@@ -734,6 +734,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 								</xsl:attribute>
 								<xsl:for-each select="$priceList[@FarePriceGroup=$g]">
 									<xsl:variable name="p" select="PassengerType/@Code" />
+									<xsl:variable name="tprice" select="number(substring($pnr/air:AirReservation/air:AirPricingInfo[substring(air:FareInfo/@PassengerTypeCode,1,1) = substring($p,1,1)]/@TotalPrice,4))" />
+
+									<xsl:variable name="muPrice" select="$tprice + number(Markup/@Amount)" />
 
 									<xsl:if test="$pnr/air:AirReservation/air:AirPricingInfo/air:FareInfo[substring(@PassengerTypeCode,1,1) = substring($p,1,1)]">
 										<xsl:apply-templates select="$airprice[substring(air:FareInfo/@PassengerTypeCode,1,1) = substring($p,1,1)]" mode="brandFareStore">
@@ -901,7 +904,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 				<xsl:with-param name="optc" select="$optc"/>
 			</xsl:call-template>
 		</xsl:variable>
-		
+
 		<xsl:variable name="age">
 			<xsl:choose>
 				<xsl:when test="substring($sfptc, 1, 1) = 'C'">
@@ -1528,32 +1531,34 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 		<xsl:variable name="mu" select="$storedFare/Markup" />
 
 		<xsl:if test ="$mu/@Amount and $storedFare/@FareType='Private'" >
-			<air:ManualFareAdjustment>
-				<xsl:attribute name="AppliedOn">
-					<xsl:text>Base</xsl:text>
-				</xsl:attribute>
-				<xsl:choose>
-					<xsl:when test="$mu/@Amount">
-						<xsl:attribute name="AdjustmentType">
-							<xsl:text>Amount</xsl:text>
-						</xsl:attribute>
-						<xsl:attribute name="Value">
-							<xsl:value-of select="concat('+', format-number($mu/@Amount, '#0'))"/>
-						</xsl:attribute>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:attribute name="AdjustmentType">
-							<xsl:text>Percent</xsl:text>
-						</xsl:attribute>
-						<xsl:attribute name="Value">
-							<xsl:value-of select="concat('+', $mu/@Percent)"/>
-						</xsl:attribute>
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:attribute name="PassengerRef">
-					<xsl:value-of select="$key"/>
-				</xsl:attribute>
-			</air:ManualFareAdjustment>
+			<xsl:for-each select="$pax">
+				<air:ManualFareAdjustment>
+					<xsl:attribute name="AppliedOn">
+						<xsl:text>Base</xsl:text>
+					</xsl:attribute>
+					<xsl:choose>
+						<xsl:when test="$mu/@Amount">
+							<xsl:attribute name="AdjustmentType">
+								<xsl:text>Amount</xsl:text>
+							</xsl:attribute>
+							<xsl:attribute name="Value">
+								<xsl:value-of select="concat('+', format-number($mu/@Amount, '#0'))"/>
+							</xsl:attribute>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:attribute name="AdjustmentType">
+								<xsl:text>Percent</xsl:text>
+							</xsl:attribute>
+							<xsl:attribute name="Value">
+								<xsl:value-of select="concat('+', $mu/@Percent)"/>
+							</xsl:attribute>
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:attribute name="PassengerRef">
+						<xsl:value-of select="."/>
+					</xsl:attribute>
+				</air:ManualFareAdjustment>
+			</xsl:for-each>
 		</xsl:if>
 		<!-- 
 			<xsl:if test ="$td != ''" >
