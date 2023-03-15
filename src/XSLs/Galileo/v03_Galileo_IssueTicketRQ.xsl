@@ -365,10 +365,10 @@
 							</xsl:choose>
 						</CommissionMod>
 					</xsl:if>
-					<xsl:if test="Ticketing/FutureTicket = 'BLK'">
+					<xsl:if test="Ticketing/FutureTicket/Number = 'BLK' or Ticketing/FutureTicket = 'BLK'">
 						<BulkTicket>
-							<FareConstructInd>S</FareConstructInd>						
-						</BulkTicket>					
+							<FareConstructInd>S</FareConstructInd>
+						</BulkTicket>
 					</xsl:if>
 					<xsl:if test="Ticketing/@TravelerRefNumberRPHList != ''">
 						<AssocPsgrs>
