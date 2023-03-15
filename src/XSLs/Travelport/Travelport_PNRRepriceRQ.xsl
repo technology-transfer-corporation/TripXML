@@ -543,7 +543,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 											</xsl:call-template>
 										</xsl:variable>
 										<xsl:if test="$pnr/air:AirReservation/air:AirPricingInfo/air:FareInfo[@PassengerTypeCode=$ptc]">
-											<xsl:apply-templates select="$airprice[air:PassengerType/@Code=$ptc]" mode="brandFareStore">
+											<xsl:variable name="bcode" select="BrandedFares/FareFamily/@Code" />
+											<xsl:apply-templates select="$airprice[air:PassengerType/@Code=$ptc and number(air:FareInfo/air:Brand/@BrandTier) = number($bcode)]" mode="brandFareStore">
 												<xsl:with-param name="delete" select="'true'" />
 												<xsl:with-param name="pnr" select="$pnr" />
 												<xsl:with-param name="storedFare" select="." />
