@@ -150,9 +150,10 @@ namespace Travelport
 
                 if (!Request.Contains("<RequestorID Type=\"21\" Instance"))
                     Request = Request.Replace("RequestorID Type=\"21\" ", $"RequestorID Type=\"21\" Instance=\"{branch}\" ");
-                Request = Request.Replace("</StoredFare>", $"</StoredFare><UUID>{ProviderSystems.LogUUID}</UUID> ");
+                Request = Request.Replace("</ConversationID>", $"</ConversationID><UUID>{ProviderSystems.LogUUID}</UUID> ");
 
                 string strRequest = SetRequest("Travelport_PNRRepriceRQ.xsl");
+
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
 
@@ -162,7 +163,8 @@ namespace Travelport
                     ? oRoot.SelectSingleNode("UniqueID/@ID").Value
                     : string.Empty;
 
-                var isPricePublished = Request.Contains(" FareType=\"Published\" ");
+                var isPricePublished = Request.Contains(" FareType=\"Published\" ") || Request.Contains("Markup") || Request.Contains("TourCode") || Request.Contains("Endorsement");
+                var withBrands = Request.Contains("BrandedFares");
 
                 if (oRoot.HasAttribute("Target"))
                 {
@@ -204,14 +206,18 @@ namespace Travelport
                     //TODO: Add call to XSLT in order to modify with TourCode, Endorsemenet and Commission
                     if (Request.Contains("StoreFare=\"true\""))
                     {
-                        // store new pricing in UR
+                        string modRS = string.Empty; //response;
+
+                        // store new pricing in UR                        
                         var modRQ = strRequest.Replace("</OTA_PNRRepriceRQ>", $"<NewPrice>{airRS}</NewPrice></OTA_PNRRepriceRQ>");
                         modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
-                        var modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                        modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
                         strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
-
-                        if (isPricePublished && (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0 && oRoot.SelectNodes("StoredFare[@FareType='Published']").Count > 0))
+                        
+                        if (isPricePublished && (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0 ))
                         {
+                            //&& oRoot.SelectNodes("StoredFare[@FareType='Published']").Count > 0)
+                            //<PNR>{response}</PNR>
                             modRQ = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{modRS}</Response></OTA_PNRRepriceRQ>").Replace("</OTA_PNRRepriceRQ>", $"<UpdatePrice>{airRS}</UpdatePrice></OTA_PNRRepriceRQ>");
                             CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "UpdatePrice RQ", modRQ, ProviderSystems.LogUUID);
                             modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
