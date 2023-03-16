@@ -1003,15 +1003,15 @@
 							<xsl:value-of select="format-number(RelSegNum, '00')"/>
 						</xsl:variable>
 
-						<xsl:if test="../BrandInformation[FIC=$fic and TkDesignator=$td and contains(SegNumList,$seg)]/SegNumList">
+						<xsl:if test="../BrandInformation[FIC=$fic and contains(TkDesignator,$td) and contains(SegNumList,$seg)]/SegNumList">
 							<FareFamily>
 								<xsl:attribute name="RPH">
 									<xsl:value-of select="format-number($seg, '0')"/>
 								</xsl:attribute>
 								<xsl:attribute name="Code">
-									<xsl:value-of select="../BrandInformation[FIC=$fic and TkDesignator=$td and contains(SegNumList,$seg)]/PricebyBrandModifier"/>
+									<xsl:value-of select="../BrandInformation[FIC=$fic and contains(TkDesignator,$td) and contains(SegNumList,$seg)]/PricebyBrandModifier"/>
 								</xsl:attribute>
-								<xsl:value-of select="../BrandInformation[FIC=$fic and TkDesignator=$td and contains(SegNumList,$seg)]/BrandName"/>
+								<xsl:value-of select="../BrandInformation[FIC=$fic and contains(TkDesignator,$td) and contains(SegNumList,$seg)]/BrandName"/>
 							</FareFamily>
 						</xsl:if>
 					</xsl:for-each>
