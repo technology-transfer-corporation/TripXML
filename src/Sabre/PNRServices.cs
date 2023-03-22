@@ -135,6 +135,13 @@ namespace Sabre
                                         lstFOP.Add(histLine);
                                 }
                             }
+                            if (strline.StartsWith("AT "))
+                            {
+                                string atLine = $"<PNR_HDK_TKT_ENT>{strline.Replace("AT ", "").Trim()}</PNR_HDK_TKT_ENT>";
+
+                                if (!lstFOP.Exists(l => l.Equals(atLine)))
+                                    lstFOP.Add(atLine);
+                            }
 
                             isGood = Regex.IsMatch(strline, @"[a-zA-Z0-9]{4}\s[a-zA-Z0-9]{4}\*[A-Z0-9]{3}\s[0-9]{4}\/[a-zA-Z0-9]{5}");
 
