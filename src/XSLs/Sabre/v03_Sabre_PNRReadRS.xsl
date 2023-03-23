@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 21 Mar 2023 - Samokhvalov - Added Ticketing entry data to TravelItinerary\TPA_Extenstions\SupplementalInfo.
   Date: 20 Sep 2022 - Kobelev - VOIDed tickets display.
   Date: 28 Jul 2022 - Kobelev - PNR Read with unmasked CC
   Date: 19 Jul 2022 - Samokhvalov - QueueRead - Pax Type Fixes
@@ -1081,6 +1082,11 @@
 		</UpdatedBy>
 		<xsl:if test="CustomerInfos/CustomerInfo/Customer/TPA_Extensions/CustomerIdentifier/@Identifier!='' or ItineraryRef/@CustomerIdentifier!='' or AccountingInfo or ItineraryInfo/ItineraryPricing/FuturePriceInfo">
 			<TPA_Extensions>
+				<xsl:for-each select="//PNR_HDK_TKT_ENT">
+					<SupplementalInfo>
+						<xsl:value-of select="."></xsl:value-of>
+					</SupplementalInfo>
+				</xsl:for-each>
 				<xsl:if test="CustomerInfos/CustomerInfo/Customer/TPA_Extensions/CustomerIdentifier/@Identifier!='' or ItineraryRef/@CustomerIdentifier!=''">
 					<AccountingLine>
 						<xsl:choose>
