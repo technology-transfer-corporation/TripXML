@@ -395,6 +395,36 @@
 						</xsl:attribute>
 					</xsl:otherwise>
 				</xsl:choose>
+
+        <xsl:variable name="travRefs">
+          <xsl:for-each select="../AssocPsgrs/PsgrAry/Psgr/AbsNameNum">
+            <xsl:if test="position() > 1">
+              <xsl:text> </xsl:text>
+            </xsl:if>
+            <xsl:value-of select="."/>
+          </xsl:for-each>
+        </xsl:variable>
+        
+        <xsl:variable name="flightRefs">
+          <xsl:for-each select="../AssocSegs/SegNumAry/SegNum">
+            <xsl:if test="position() > 1">
+              <xsl:text> </xsl:text>
+            </xsl:if>
+            <xsl:value-of select="."/>
+          </xsl:for-each>
+        </xsl:variable>
+
+        <xsl:attribute name="TravelerRefNumberRPHList">
+          <xsl:value-of select="$travRefs"/>
+        </xsl:attribute>
+      
+        <xsl:attribute name="FlightRefNumberRPHList">
+          <xsl:value-of select="$flightRefs"/>
+        </xsl:attribute>
+      
+        <xsl:attribute name="RPH">
+          <xsl:value-of select="position()"/>
+        </xsl:attribute>
 			</AgencyCommission>
 		</xsl:if>
 	</xsl:template>
@@ -1003,15 +1033,15 @@
 							<xsl:value-of select="format-number(RelSegNum, '00')"/>
 						</xsl:variable>
 
-						<xsl:if test="../BrandInformation[FIC=$fic and TkDesignator=$td and contains(SegNumList,$seg)]/SegNumList">
+						<xsl:if test="../BrandInformation[FIC=$fic and contains(TkDesignator,$td) and contains(SegNumList,$seg)]/SegNumList">
 							<FareFamily>
 								<xsl:attribute name="RPH">
 									<xsl:value-of select="format-number($seg, '0')"/>
 								</xsl:attribute>
 								<xsl:attribute name="Code">
-									<xsl:value-of select="../BrandInformation[FIC=$fic and TkDesignator=$td and contains(SegNumList,$seg)]/PricebyBrandModifier"/>
+									<xsl:value-of select="../BrandInformation[FIC=$fic and contains(TkDesignator,$td) and contains(SegNumList,$seg)]/PricebyBrandModifier"/>
 								</xsl:attribute>
-								<xsl:value-of select="../BrandInformation[FIC=$fic and TkDesignator=$td and contains(SegNumList,$seg)]/BrandName"/>
+								<xsl:value-of select="../BrandInformation[FIC=$fic and contains(TkDesignator,$td) and contains(SegNumList,$seg)]/BrandName"/>
 							</FareFamily>
 						</xsl:if>
 					</xsl:for-each>
