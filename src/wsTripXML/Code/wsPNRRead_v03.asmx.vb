@@ -231,8 +231,11 @@ Namespace wsTravelTalk
                         strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
 
                     Case "Worldspan"
+                        Dim ttDefProvider As New TripXMLProviderSystems()
+                        PreServiceRequest(strRequest, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, uuid, "", True)
+                        strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, strRequest, "v03")
 
-                        strResponse = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
+                        'strResponse = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
 
                     Case Else
                         Throw New Exception(sb.Append("Provider ").Append(ttCredential.Providers(0).Name).Append(" Not Currently Supported.").ToString())

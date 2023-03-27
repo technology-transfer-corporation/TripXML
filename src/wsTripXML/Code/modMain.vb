@@ -79,7 +79,7 @@ Namespace wsTravelTalk
 
             Try
                 If isDefault Then
-                    If ttServiceID.Equals(78) Then
+                    If ttServiceID.Equals(78) Or ttServiceID.Equals(13) Then
                         ttCredential = GetTravelTalkDefaultTravelportCredential(strRequest, ttServiceID, ttCredential)
                     Else
                         ttCredential = GetTravelTalkDefaultAmadeusCredential(strRequest, ttServiceID)
