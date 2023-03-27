@@ -24,7 +24,13 @@ namespace Travelport
                 string strSearch;
                 string strImport;
 
+
+
                 #region Get Tracer ID
+                branch = ProviderSystems.Profile.Text;
+                if (!Request.Contains("<RequestorID Type=\"21\" Instance"))
+                    Request = Request.Replace("RequestorID Type=\"21\" ", $"RequestorID Type=\"21\" Instance=\"{branch}\" ");
+
                 string strRequest = SetRequest("Travelport_PNRReadRQ.xsl");
                 CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Request", strRequest, ProviderSystems.LogUUID);
                 if (string.IsNullOrEmpty(strRequest))
@@ -51,7 +57,7 @@ namespace Travelport
                             host = "1V";
                             break;
                     }
-                }
+                }                
 
                 #endregion
 
@@ -72,6 +78,8 @@ namespace Travelport
                 var ttProviderSystems = ProviderSystems;
                 TravelPortWSAdapter ttTP = SetAdapter(ttProviderSystems);
                 bool inSession = SetConversationID(ttTP);
+
+                
 
                 // send retrieve universal record (UR)
                 strResponse = ttTP.SendMessage(strRetrieve, TravelPortWSAdapter.enRequestType.UniversalRecordService);
