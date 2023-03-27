@@ -115,7 +115,10 @@ namespace TripXMLTools
                 var user = UsersObject.Find(p => p.Username == credentials.UserID && p.Password == credentials.Password);
                 var provider = user.ProviderUsers.FirstOrDefault(u => u.Provider.System.Environment == credentials.System
                     && u.Provider.Name == credentials.Providers[0].Name);
-                var providerPcc = provider.Provider.PCCs[0];
+                var providerPcc = credentials.Providers.Count().Equals(0)
+                    ? provider.Provider.PCCs[0]
+                    : provider.Provider.PCCs.Find(p => p.Code == credentials.Providers.First().PCC || p.OpenTypes.Exists(ot=> ot.OfficeID.Equals(credentials.Providers.First().PCC)));
+                      //  : provider.Provider.PCCs.Select(p => new Pcc { Code = p.OpenTypes.Find(ot => ot.OfficeID.Equals(credentials.Providers.First().PCC)).OfficeID });
 
                 switch (credentials.Providers[0].Name)
                 {
@@ -144,7 +147,7 @@ namespace TripXMLTools
                 ttProviderSystem.UserID = credentials.UserID;
                 ttProviderSystem.Password = providerPcc.Password;
                 ttProviderSystem.UserName = providerPcc.Username;
-                ttProviderSystem.SOAP2 = providerPcc.SOAPType.Equals("SOAP2");
+                ttProviderSystem.SOAP2 = providerPcc.SOAPType==null ? false : providerPcc.SOAPType.Equals("SOAP2");
                 ttProviderSystem.SOAP4 = !ttProviderSystem.SOAP2;
                 ttProviderSystem.Profile.Origin = providerPcc.Profile.Origin;
                 ttProviderSystem.Profile.Xml = providerPcc.Profile.Xml;
