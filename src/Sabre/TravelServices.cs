@@ -522,7 +522,7 @@ namespace Sabre
 
                         CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "Retreive PNR", "", ProviderSystems.LogUUID);
                         // strRead = strRead.Replace("UniqueID", sb.Append("UniqueID ID=""").Append(oRoot.SelectSingleNode("UniqueID/@ID").InnerText).Append("""").ToString())
-                        strRead = "<TravelItineraryReadRQ Version=\"3.6.0\" xmlns=\"http://services.sabre.com/res/tir/v3_6\"><MessagingDetails><SubjectAreas>" +
+                        strRead = "<TravelItineraryReadRQ Version=\"3.10.0\" xmlns=\"http://services.sabre.com/res/tir/v3_10\"><MessagingDetails><SubjectAreas>" +
                             "<SubjectArea>FULL</SubjectArea></SubjectAreas></MessagingDetails><UniqueID ID=\"" + oRoot.SelectSingleNode("UniqueID/@ID").InnerText + "\"/></TravelItineraryReadRQ>";
 
                         strResponse = ttSA.SendMessage(strRead, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
@@ -548,7 +548,7 @@ namespace Sabre
                                         Thread.Sleep(3000);
                                     }
 
-                                    strRead = "<TravelItineraryReadRQ Version=\"3.6.0\" xmlns=\"http://services.sabre.com/res/tir/v3_6\"><MessagingDetails><SubjectAreas>" +
+                                    strRead = "<TravelItineraryReadRQ Version=\"3.10.0\" xmlns=\"http://services.sabre.com/res/tir/v3_10\"><MessagingDetails><SubjectAreas>" +
                                         "<SubjectArea>FULL</SubjectArea></SubjectAreas></MessagingDetails><UniqueID ID=\"" + oRoot.SelectSingleNode("UniqueID/@ID").InnerText + "\"/></TravelItineraryReadRQ>";
 
                                     strResponse = ttSA.SendMessage(strRead, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
@@ -1145,7 +1145,7 @@ namespace Sabre
 
                         CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "Retreive PNR", "", ProviderSystems.LogUUID);
                         // strRead = strRead.Replace("UniqueID", sb.Append("UniqueID ID=""").Append(oRoot.SelectSingleNode("UniqueID/@ID").InnerText).Append("""").ToString())
-                        strRead = "<TravelItineraryReadRQ Version=\"3.6.0\" xmlns=\"http://services.sabre.com/res/tir/v3_6\"><MessagingDetails><SubjectAreas>" +
+                        strRead = "<TravelItineraryReadRQ Version=\"3.10.0\" xmlns=\"http://services.sabre.com/res/tir/v3_10\"><MessagingDetails><SubjectAreas>" +
                             "<SubjectArea>FULL</SubjectArea></SubjectAreas></MessagingDetails><UniqueID ID=\"" + oRoot.SelectSingleNode("UniqueID/@ID").InnerText + "\"/></TravelItineraryReadRQ>";
 
                         strResponse = ttSA.SendMessage(strRead, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
@@ -1171,7 +1171,7 @@ namespace Sabre
                                         Thread.Sleep(3000);
                                     }
 
-                                    strRead = "<TravelItineraryReadRQ Version=\"3.6.0\" xmlns=\"http://services.sabre.com/res/tir/v3_6\"><MessagingDetails><SubjectAreas>" +
+                                    strRead = "<TravelItineraryReadRQ Version=\"3.10.0\" xmlns=\"http://services.sabre.com/res/tir/v3_10\"><MessagingDetails><SubjectAreas>" +
                                         "<SubjectArea>FULL</SubjectArea></SubjectAreas></MessagingDetails><UniqueID ID=\"" + oRoot.SelectSingleNode("UniqueID/@ID").InnerText + "\"/></TravelItineraryReadRQ>";
 
                                     strResponse = ttSA.SendMessage(strRead, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
@@ -2656,7 +2656,7 @@ namespace Sabre
                         }
                     }
 
-                    strRequest = "<TravelItineraryReadRQ Version=\"3.6.0\" xmlns=\"http://services.sabre.com/res/tir/v3_6\"><MessagingDetails><SubjectAreas><SubjectArea>FULL</SubjectArea></SubjectAreas></MessagingDetails></TravelItineraryReadRQ>";
+                    strRequest = "<TravelItineraryReadRQ Version=\"3.10.0\" xmlns=\"http://services.sabre.com/res/tir/v3_10\"><MessagingDetails><SubjectAreas><SubjectArea>FULL</SubjectArea></SubjectAreas></MessagingDetails></TravelItineraryReadRQ>";
                     strResponse = ttSA.SendMessage(strRequest, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
 
                     // Check for Errors

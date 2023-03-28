@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Sabre Webservices Layer")]
 [assembly: AssemblyCompany("Downtown Travel")]
 [assembly: AssemblyProduct("TripXML Platform")]
-[assembly: AssemblyCopyright("Downtown Travel Copyright ©  2014-2022")]
+[assembly: AssemblyCopyright("Downtown Travel Copyright ©  2014-2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: CLSCompliant(true)]
 
@@ -30,4 +30,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 
 [assembly: AssemblyVersion("1.0.0.*")]
-[assembly: AssemblyFileVersion("1.0.4.4")]
+[assembly: AssemblyFileVersion("1.0.4.5")]

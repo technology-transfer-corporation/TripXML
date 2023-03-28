@@ -1349,7 +1349,7 @@ namespace Sabre
                         string strWarning = response.Contains("QUEUE CYCLE COMPLETE") ? "<Warning Type=\"Sabre\">QUEUE CYCLE COMPLETE</Warning>" : "";
 
                         // Send PNR Redisplay
-                        strRequest = "<TravelItineraryReadRQ Version=\"3.6.0\" xmlns=\"http://services.sabre.com/res/tir/v3_6\"><MessagingDetails><SubjectAreas><SubjectArea>FULL</SubjectArea></SubjectAreas></MessagingDetails></TravelItineraryReadRQ>";
+                        strRequest = "<TravelItineraryReadRQ Version=\"3.10.0\" xmlns=\"http://services.sabre.com/res/tir/v3_10\"><MessagingDetails><SubjectAreas><SubjectArea>FULL</SubjectArea></SubjectAreas></MessagingDetails></TravelItineraryReadRQ>";
                         response = ttSA.SendMessage(strRequest, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
                         response = response.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
                         if (response.Contains("Error") && !response.Contains("Success"))
