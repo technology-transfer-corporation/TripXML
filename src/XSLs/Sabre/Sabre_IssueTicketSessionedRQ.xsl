@@ -1,18 +1,21 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-  <!-- ================================================================== -->
-  <!-- Sabre_IssueTicketSessionedRQ.xsl												-->
-  <!-- ================================================================== -->
-  <!-- Date: 29 Mar 2016 - Rastko - upgraded ReadRQ to version 3.6.0				-->
-  <!-- Date: 13 Feb 2015 - Rastko - changed if condition to determine when to send ET	-->
-  <!-- Date: 05 Mar 2014 - Rastko - corrected mapping for TicketingPrinter and InvoicePrinter	-->
-  <!-- Date: 03 Mar 2014 - Rastko - added mapping for TicketingPrinter and InvoicePrinter		-->
-  <!-- Date: 17 Feb 2014 - Rastko - if issue invoice has redisplay do not end transact		-->
-  <!-- Date: 02 Feb 2014 - Rastko - issue ticket with cryptic command				-->
-  <!-- Date: 31 Jan 2014 - Rastko - added designate invoice printer					-->
-  <!-- Date: 29 Jan 2014 - Rastko - made all entries but PNRRead optional			-->
-  <!-- Date: 24 Jan 2014 - Rastko - redisplay PNR instead of retrieve with record locator		-->
-  <!-- Date: 21 Jan 2014 - Rastko - New file												-->
-  <!-- ================================================================== -->
+  <!-- 
+  ================================================================== 
+  Sabre_IssueTicketSessionedRQ.xsl										
+  ================================================================== 
+  Date: 28 Mar 2023 - Kobelev - upgraded ReadRQ to version 3.10.0
+  Date: 29 Mar 2016 - Rastko - upgraded ReadRQ to version 3.6.0		
+  Date: 13 Feb 2015 - Rastko - changed if condition to determine when to send ET	
+  Date: 05 Mar 2014 - Rastko - corrected mapping for TicketingPrinter and InvoicePrinter	
+  Date: 03 Mar 2014 - Rastko - added mapping for TicketingPrinter and InvoicePrinter		
+  Date: 17 Feb 2014 - Rastko - if issue invoice has redisplay do not end transact		
+  Date: 02 Feb 2014 - Rastko - issue ticket with cryptic command				
+  Date: 31 Jan 2014 - Rastko - added designate invoice printer					
+  Date: 29 Jan 2014 - Rastko - made all entries but PNRRead optional			
+  Date: 24 Jan 2014 - Rastko - redisplay PNR instead of retrieve with record locator		
+  Date: 21 Jan 2014 - Rastko - New file												
+  ================================================================== 
+  -->
   <xsl:output method="xml" omit-xml-declaration="yes"/>
   <xsl:template match="/">
     <TT_IssueTicketRQ>
@@ -21,7 +24,7 @@
   </xsl:template>
   <xsl:template match="TT_IssueTicketRQ">
     <PNRRead>
-      <TravelItineraryReadRQ Version="3.6.0" xmlns="http://services.sabre.com/res/tir/v3_6">
+      <TravelItineraryReadRQ Version="3.10.0" xmlns="http://services.sabre.com/res/tir/v3_10">
         <MessagingDetails>
           <SubjectAreas>
             <SubjectArea>FULL</SubjectArea>
@@ -30,7 +33,7 @@
       </TravelItineraryReadRQ>
     </PNRRead>
     <PNRRetrieve>
-      <TravelItineraryReadRQ Version="3.6.0" xmlns="http://services.sabre.com/res/tir/v3_6">
+      <TravelItineraryReadRQ Version="3.10.0" xmlns="http://services.sabre.com/res/tir/v3_10">
         <MessagingDetails>
           <SubjectAreas>
             <SubjectArea>FULL</SubjectArea>

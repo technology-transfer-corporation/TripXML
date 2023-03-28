@@ -3,6 +3,7 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
+   Date: 28 Mar 2023 - Kobelev - upgraded ReadRQ to version 3.10.0
    Date: 03 Feb 2023 - Samokhvalov - Brands Itinerary Oprions Fixes.
    Date: 03 Feb 2023 - Samokhvalov - Discount node check fixes.
    Date: 02 Feb 2023 - Samokhvalov - Removed farebasis codes if brands listed.
@@ -53,7 +54,7 @@
 
 	<xsl:template match="OTA_PNRRepriceRQ">
 		<PNRRead>
-			<TravelItineraryReadRQ Version="3.6.0" xmlns="http://services.sabre.com/res/tir/v3_6">
+			<TravelItineraryReadRQ Version="3.10.0" xmlns="http://services.sabre.com/res/tir/v3_10">
 				<MessagingDetails>
 					<SubjectAreas>
 						<SubjectArea>FULL</SubjectArea>
@@ -67,7 +68,7 @@
 			</TravelItineraryReadRQ>
 		</PNRRead>
 		<PNRRedisplay>
-			<TravelItineraryReadRQ Version="3.6.0" xmlns="http://services.sabre.com/res/tir/v3_6">
+			<TravelItineraryReadRQ Version="3.10.0" xmlns="http://services.sabre.com/res/tir/v3_10">
 				<MessagingDetails>
 					<SubjectAreas>
 						<SubjectArea>FULL</SubjectArea>

@@ -1,25 +1,28 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<!-- ================================================================== -->
-	<!-- Sabre_TravelBuildRQ.xsl 															       -->
-	<!-- ================================================================== -->
-	<!-- Date: 24 Jul 2012 - Rastko - mapped agency address							   -->
-	<!-- Date: 23 Mar 2012 - Rastko - corrected ticketing time limit maping and added validating carrier   -->
-	<!-- Date: 04 Jan 2011 - Rastko - acept both MI and M in SSR DOCS				       -->
-	<!-- Date: 30 Dec 2010 - Rastko - changed SSR request to SSR requested			       -->
-	<!-- Date: 18 Dec 2010 - Rastko - changed SSR request to be per pax and per segment	       -->
-	<!-- Date: 08 Dec 2010 - Rastko - when CHD sent, send C09 to Sabre			       -->
-	<!-- Date: 26 Sep 2010 - Rastko - fixed issue related TravelerRefNumber in CustLoyalty	       -->
-	<!-- Date: 06 Sep 2010 - Rastko - fixed issue with SSR DOCS and INF			       -->
-	<!-- Date: 03 Sep 2010 - Rastko - corrected seat and SSR processing			       -->
-	<!-- Date: 01 Sep 2010 - Rastko - added mapping for seats							       -->
-	<!-- Date: 31 Aug 2010 - Rastko - corrected marriage group element				       -->
-	<!-- Date: 26 Aug 2010 - Rastko - added marriage element							       -->
-	<!-- Date: 19 Aug 2010 - Rastko - added support for DOCS SSR					       -->
-	<!-- Date: 30 Jul 2010 - Rastko - added commission mapping						       -->
-	<!-- Date: 20 Apr 2010 - Rastko - enabled child birth date and passenger types		       -->
-	<!-- Date: 13 May 2010 - Rastko - added check payment							       -->
-	<!-- ================================================================== -->
+	<!-- 
+	==================================================================
+	Sabre_TravelBuildRQ.xsl 											
+	================================================================== 
+	Date: 28 Mar 2023 - Kobelev - upgraded ReadRQ to version 3.10.0
+	Date: 24 Jul 2012 - Rastko - mapped agency address					
+	Date: 23 Mar 2012 - Rastko - corrected ticketing time limit maping and added validating carrier   
+	Date: 04 Jan 2011 - Rastko - acept both MI and M in SSR DOCS				 
+	Date: 30 Dec 2010 - Rastko - changed SSR request to SSR requested			 
+	Date: 18 Dec 2010 - Rastko - changed SSR request to be per pax and per segment
+	Date: 08 Dec 2010 - Rastko - when CHD sent, send C09 to Sabre			       
+	Date: 26 Sep 2010 - Rastko - fixed issue related TravelerRefNumber in CustLoyalty
+	Date: 06 Sep 2010 - Rastko - fixed issue with SSR DOCS and INF			      
+	Date: 03 Sep 2010 - Rastko - corrected seat and SSR processing			      
+	Date: 01 Sep 2010 - Rastko - added mapping for seats						
+	Date: 31 Aug 2010 - Rastko - corrected marriage group element				
+	Date: 26 Aug 2010 - Rastko - added marriage element						
+	Date: 19 Aug 2010 - Rastko - added support for DOCS SSR					
+	Date: 30 Jul 2010 - Rastko - added commission mapping						
+	Date: 20 Apr 2010 - Rastko - enabled child birth date and passenger types	
+	Date: 13 May 2010 - Rastko - added check payment							
+	================================================================== 
+	-->
 	<xsl:output method="xml" omit-xml-declaration="yes"/>
 	<xsl:variable name="PCC">
 		<xsl:value-of select="OTA_TravelItineraryRQ/POS/Source/@PseudoCityCode"/>
@@ -385,7 +388,7 @@
 			</EndTransactionRQ>
 		</ET>
 		<Read>
-			<TravelItineraryReadRQ Version="2.0.0" xmlns="http://webservices.sabre.com/sabreXML/2011/10">
+			<TravelItineraryReadRQ Version="3.10.0" xmlns="http://services.sabre.com/res/tir/v3_10">
 				<!--<POS>
 				<Source>
 					<xsl:attribute name="PseudoCityCode">

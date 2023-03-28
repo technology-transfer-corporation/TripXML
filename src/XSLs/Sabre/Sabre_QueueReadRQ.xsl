@@ -4,6 +4,7 @@
 ==================================================================
 Sabre_QueueReadRQ.xsl 															       
 ================================================================== 
+Date: 28 Mar 2023 - Kobelev - upgraded ReadRQ to version 3.10.0
 Date: 02 Jun 2021  - Kobelev - Upgraded SabreCommandLLSRQ to version 2.0
 Date: 16 Apr 2014  - Rastko - added VerifyTickets option						
 Date: 10 Oct 2013  - Rastko - new file											       
@@ -45,7 +46,7 @@ Date: 10 Oct 2013  - Rastko - new file
 	</xsl:template>
 	
 	<xsl:template match="ItemOnQueue" mode="redisplay">
-		<TravelItineraryReadRQ Version="2.0.0" xmlns="http://webservices.sabre.com/sabreXML/2011/10">
+		<TravelItineraryReadRQ Version="3.10.0" xmlns="http://services.sabre.com/res/tir/v3_10">
 			<MessagingDetails>
 				<Transaction  Code="PNR" /> 
 			</MessagingDetails>
