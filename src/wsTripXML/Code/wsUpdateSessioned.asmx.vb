@@ -193,31 +193,9 @@ Namespace wsTravelTalk
 
                 With ttCredential
                     Select Case .Providers(0).Name.ToLower
-                        Case "amadeus"
-                            'ttAPIAdapter = Application.Get(sb.Append("API").Append(.UserID).Append(.System).Append(.Providers(0).PCC).ToString())
-                            'sb.Remove(0, sb.Length())
-                            'If ttAPIAdapter Is Nothing Then
-                            '    Throw New Exception(sb.Append("Access denied to Amadeus - ").Append(.System).Append(" system. Or invalid provider.").ToString())
-                            '    sb.Remove(0, sb.Length())
-                            'End If
-
-                            'If ttCredential.Providers(0).PCC.Trim.Length > 0 Then
-                            '    ttAPIAdapter.SourcePCC = ttCredential.Providers(0).PCC
-                            'End If
-
-                            ''********************************
-                            ''* Send  PNR Modify Request     * 
-                            ''********************************
-                            'strResponse = SendTravelRequestAmadeus(ttServiceID, ttCredential, ttAPIAdapter, strRequest)
-                            'Application.Set(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).ToString(), ttAPIAdapter)
-                            'sb.Remove(0, sb.Length())
-
                         Case "amadeusws"
-
                             strResponse = SendTravelRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-
                         Case "apollo", "galileo"
-                            'ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
                             sb.Remove(0, sb.Length())
                             If ttProviderSystems.System Is Nothing Then
                                 FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers(0).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers(0).Name)
@@ -228,9 +206,6 @@ Namespace wsTravelTalk
                             strResponse = SendTravelRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest)
 
                         Case "sabre"
-
-                            'ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
-                            'sb.Remove(0, sb.Length())
                             If ttProviderSystems.System Is Nothing Then
                                 FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers(0).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers(0).Name)
                                 sb.Remove(0, sb.Length())
@@ -238,11 +213,16 @@ Namespace wsTravelTalk
                             End If
 
                             ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
-
                             strResponse = SendTravelRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest)
 
                         Case "worldspan"
                             strResponse = SendTravelRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+
+                            'Dim ttDefProvider As New TripXMLProviderSystems()
+                            'Dim sTPRequest As String = CreatePNRRead(strRequest)
+                            'PreServiceRequest(sTPRequest, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, uuID, "", True)
+                            'strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, sTPRequest, "v03")
+
                             strResponse = DecodePNRRead(strResponse, ttCredential.UserID, uuID)
                         Case Else
                             GotResponse(FormatErrorMessage(ttServiceID, sb.Append("Provider ").Append(.Providers(0).Name).Append(" Not Currently Supported.").ToString(), .Providers(0).Name))
@@ -263,6 +243,10 @@ Namespace wsTravelTalk
             End Try
             sb = Nothing
             Return strResponse
+
+        End Function
+
+        Private Function CreatePNRRead(ByVal request As String) As String
 
         End Function
 

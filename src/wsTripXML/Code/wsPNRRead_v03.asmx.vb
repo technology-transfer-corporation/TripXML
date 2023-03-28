@@ -183,35 +183,11 @@ Namespace wsTravelTalk
                 sb.Remove(0, sb.Length())
 
                 Select Case ttCredential.Providers(0).Name
-                    Case "Amadeus"
-                        'Dim ttAA As AmadeusAPIAdapter
-
-                        'ttAA = Application.Get(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
-                        'sb.Remove(0, sb.Length())
-                        'If ttAA Is Nothing Then
-                        '    Throw New Exception(sb.Append("Access denied to Amadeus - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString())
-                        '    sb.Remove(0, sb.Length())
-                        'End If
-
-                        'If ttCredential.Providers(0).PCC.Trim.Length > 0 Then
-                        '    ttAA.SourcePCC = ttCredential.Providers(0).PCC
-                        'End If
-
-                        'strResponse = SendPNRRequestAmadeus(ttServiceID, ttCredential, ttAA, strRequest, "v03")
-                        'Application.Set(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).ToString(), ttAA)
-                        'sb.Remove(0, sb.Length())
-
                     Case "AmadeusWS"
-
                         strResponse = SendPNRRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
-
                     Case "Apollo", "Galileo"
-
                         strResponse = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
-
                     Case "Sabre"
-                        'ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
-                        'sb.Remove(0, sb.Length())
                         If ttProviderSystems.System Is Nothing Then
                             FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers(0).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers(0).Name)
                             sb.Remove(0, sb.Length())
@@ -219,24 +195,15 @@ Namespace wsTravelTalk
                         End If
 
                         ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
-
                         strResponse = SendPNRRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
 
-                    Case "TravelFusion"
-
-                        'strResponse = SendPNRRequestTravelFusion(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
-
                     Case "Travelport"
-
                         strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
-
                     Case "Worldspan"
                         Dim ttDefProvider As New TripXMLProviderSystems()
                         PreServiceRequest(strRequest, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, uuid, "", True)
                         strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, strRequest, "v03")
-
                         'strResponse = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
-
                     Case Else
                         Throw New Exception(sb.Append("Provider ").Append(ttCredential.Providers(0).Name).Append(" Not Currently Supported.").ToString())
                 End Select
