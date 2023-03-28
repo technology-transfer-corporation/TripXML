@@ -18,7 +18,7 @@
   <!--************************************************************************************************************	-->
   <xsl:template match="OTA_CancelRQ">
     <Read>
-      <TravelItineraryReadRQ Version="3.6.0" xmlns="http://services.sabre.com/res/tir/v3_6">
+      <TravelItineraryReadRQ Version="3.10.0" xmlns="http://services.sabre.com/res/tir/v3_10">
         <MessagingDetails>
           <SubjectAreas>
             <SubjectArea>FULL</SubjectArea>

@@ -13,7 +13,7 @@
   </xsl:template>
   <!--************************************************************************************************************	-->
   <xsl:template match="OTA_ReadRQ">
-    <TravelItineraryReadRQ Version="3.6.0" xmlns="http://services.sabre.com/res/tir/v3_6">
+    <TravelItineraryReadRQ Version="3.10.0" xmlns="http://services.sabre.com/res/tir/v3_10">
       <MessagingDetails>
         <SubjectAreas>
           <SubjectArea>FULL</SubjectArea>

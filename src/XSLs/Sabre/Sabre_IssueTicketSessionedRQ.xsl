@@ -21,7 +21,7 @@
   </xsl:template>
   <xsl:template match="TT_IssueTicketRQ">
     <PNRRead>
-      <TravelItineraryReadRQ Version="3.6.0" xmlns="http://services.sabre.com/res/tir/v3_6">
+      <TravelItineraryReadRQ Version="3.10.0" xmlns="http://services.sabre.com/res/tir/v3_10">
         <MessagingDetails>
           <SubjectAreas>
             <SubjectArea>FULL</SubjectArea>
@@ -30,7 +30,7 @@
       </TravelItineraryReadRQ>
     </PNRRead>
     <PNRRetrieve>
-      <TravelItineraryReadRQ Version="3.6.0" xmlns="http://services.sabre.com/res/tir/v3_6">
+      <TravelItineraryReadRQ Version="3.10.0" xmlns="http://services.sabre.com/res/tir/v3_10">
         <MessagingDetails>
           <SubjectAreas>
             <SubjectArea>FULL</SubjectArea>
