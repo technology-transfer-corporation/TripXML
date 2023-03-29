@@ -80,8 +80,9 @@ Namespace wsTravelTalk
 
                         ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
                         response = SendPNRRequestSabre(ttServiceID, ttCredential, ttProviderSystems, request)
-
-                    Case "Worldspan", "Galileo"
+                    Case "Worldspan"
+                        response = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, request)
+                    Case "Galileo"
                         If CBool(WebConfigurationManager.AppSettings("IsTravelportReprice")) Then
                             Dim ttDefProvider As New TripXMLProviderSystems()
                             If Not String.IsNullOrEmpty(sessionID) Then
@@ -94,8 +95,8 @@ Namespace wsTravelTalk
                             Select Case ttCredential.Providers(0).Name
                                 Case "Galileo"
                                     response = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, request)
-                                Case "Worldspan"
-                                    response = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, request)
+                                    'Case "Worldspan"
+                                    '    response = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, request)
                             End Select
                         End If
                     Case "Travelport"
