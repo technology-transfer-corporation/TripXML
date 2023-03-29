@@ -618,7 +618,24 @@
 						<xsl:value-of select="otherPricingInfo/attributeDetails[attributeType='PAY']/attributeDescription"/>
 					</PaymentRestrictions>
 				</xsl:if>
+
+				<xsl:variable name="vc">
+					<xsl:choose>
+						<xsl:when test="contains(air:FareCalc, 'ROE')">
+							<xsl:value-of select="substring(substring-after(substring-after(air:FareCalc,'ROE'),' '),1,2)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="substring(substring-after(substring-after(air:FareCalc,'END'),' '),1,2)"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+
 				<xsl:choose>
+					<xsl:when test="$vc != ''">
+						<ValidatingAirlineCode>
+							<xsl:value-of select="$vc"/>
+						</ValidatingAirlineCode>
+					</xsl:when>
 					<xsl:when test="../air:TicketingModifiers/@PlatingCarrier != ''">
 						<ValidatingAirlineCode>
 							<xsl:value-of select="../air:TicketingModifiers/@PlatingCarrier"/>
