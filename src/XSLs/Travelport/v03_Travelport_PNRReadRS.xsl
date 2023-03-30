@@ -618,7 +618,6 @@
 						<xsl:value-of select="otherPricingInfo/attributeDetails[attributeType='PAY']/attributeDescription"/>
 					</PaymentRestrictions>
 				</xsl:if>
-
 				<xsl:variable name="vc">
 					<xsl:choose>
 						<xsl:when test="contains(air:FareCalc, 'ROE')">
