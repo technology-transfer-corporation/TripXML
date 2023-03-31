@@ -1558,10 +1558,14 @@ namespace Galileo
                     {
                         
                             // Send Retreive Request
-                            //string strRTV = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr/><CodeCheck/><RecLoc>{recLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods>" +
-                            //"<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
-                            response = ttGA.SendMessage(strCurrentPNR, ConversationID);
-                            message = $"{strCurrentPNR}\r\n{response}";
+                            string strRTV = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr/><CodeCheck/><RecLoc>{recLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods>" +
+                            "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" +
+                            "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>2</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" +
+                            "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>3</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" +
+                            "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>4</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" +
+                            "</PNRBFManagement_53>";
+                            response = ttGA.SendMessage(strRTV, ConversationID);
+                            message = $"{strRTV}\r\n{response}";
                         
                     }
 
