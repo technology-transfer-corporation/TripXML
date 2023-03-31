@@ -1077,6 +1077,7 @@ namespace Galileo
                 string strET = oRoot.SelectSingleNode("ET") != null ? oRoot.SelectSingleNode("ET").InnerXml : "";
                 string strCrypticRULA = oRoot.SelectSingleNode("CrypticRULA") != null ? oRoot.SelectSingleNode("CrypticRULA").InnerXml : "";
                 string strGetTickets = oRoot.SelectSingleNode("GetTickets") != null ? oRoot.SelectSingleNode("GetTickets").InnerXml : "";
+                string strIssueTickets = oRoot.SelectSingleNode("Ticket") != null ? oRoot.SelectSingleNode("Ticket").InnerXml : "";
 
                 var oDocReqOTA = new XmlDocument();
                 oDocReqOTA.LoadXml(Request);
@@ -1206,7 +1207,7 @@ namespace Galileo
                     var oDocResp = new XmlDocument();
                     oDocResp.LoadXml(fullResp);
                     var oRootResp = oDocResp.DocumentElement;
-                    string strTicket = oRoot.SelectSingleNode("Ticket").InnerXml;
+                    string strTicket = oRootResp.SelectSingleNode("Ticket").InnerXml;
                     CoreLib.SendTrace(ProviderSystems.UserID, "TicketingRQ", $"Ticketing Details", strTicket, ProviderSystems.LogUUID);
 
                     strResponse = ttGA.SendMessage(strTicket, ConversationID);
@@ -1465,7 +1466,13 @@ namespace Galileo
                 var oRoot = oDoc.DocumentElement;
                 var recLocator = oRoot.SelectSingleNode("UniqueID/@ID")?.InnerText ?? "";
 
-                string strCurrentPNR = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr /><CodeCheck /><RecLoc>{recLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>2</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>3</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods><FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>4</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
+                string strCurrentPNR = 
+                 $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr /><CodeCheck /><RecLoc>{recLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods>" 
+                + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>"
+                + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>2</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>"
+                + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>3</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>"
+                + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>4</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>"
+                + "</PNRBFManagement_53>";
 
                 // ********************************************
                 // * Get Galileo Native PNR Retrieve response *
@@ -1551,10 +1558,10 @@ namespace Galileo
                     {
                         
                             // Send Retreive Request
-                            string strRTV = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr/><CodeCheck/><RecLoc>{recLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods>" +
-                            "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
-                            response = ttGA.SendMessage(strRTV, ConversationID);
-                            message = $"{strRTV}\r\n{response}";
+                            //string strRTV = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr/><CodeCheck/><RecLoc>{recLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods>" +
+                            //"<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods></PNRBFManagement_53>";
+                            response = ttGA.SendMessage(strCurrentPNR, ConversationID);
+                            message = $"{strCurrentPNR}\r\n{response}";
                         
                     }
 
