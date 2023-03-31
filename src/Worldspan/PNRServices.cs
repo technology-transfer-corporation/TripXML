@@ -770,7 +770,7 @@ namespace Worldspan
             string strResponse;
 
             // *****************************************************************
-            // Transform OTA PNRReprice Request into Native Worldspan Request     *
+            // Transform OTA PNRReprice Request into Native Worldspan Request     *5
             // ***************************************************************** 
             var oDoc = new XmlDocument();
             try
@@ -810,8 +810,8 @@ namespace Worldspan
                     {
                         ttWA.SendCryptic(currentONode.InnerText);
                     }
-                    ttWA.CloseSession();
-                    inSession = false;
+                    //ttWA.CloseSession();
+                    //inSession = false;
                     #endregion
 
                     #region ReRead PNR
