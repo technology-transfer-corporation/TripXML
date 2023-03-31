@@ -450,8 +450,6 @@ namespace Worldspan
                     var strDPC = oRootTemp.SelectSingleNode("TTDPC").InnerXml;
 
                     strResponse = ttWA.SendMessage(strDPC);
-
-
                 }
 
                 // *******************************************************************************
@@ -578,6 +576,8 @@ namespace Worldspan
                                 }
                                 #endregion
                             }
+
+                            ttWA.SendCryptic("ER", pnrNum, "");
                         }
                         catch (Exception ex)
                         {
