@@ -3202,9 +3202,9 @@
 						</TotalFare>
 					</ItinTotalFare>
 					<PTC_FareBreakdowns>
-						<!--        
+<!--        
         <xsl:apply-templates select="PriceQuote[not(contains(ResponseHeader/Text[1],'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))][PricedItinerary/@InputMessage!='M-A']"/>
-        -->
+-->
 						<xsl:apply-templates select="../../../DisplayPriceQuoteRS/PriceQuote">
 							<xsl:with-param name="pqh" select="PriceQuote[PriceQuotePlus/PassengerInfo][MiscInformation/SignatureLine/@Status='ACTIVE']"/>
 						</xsl:apply-templates>
@@ -3289,6 +3289,8 @@
 						</TotalFare>
 					</ItinTotalFare>
 					<PTC_FareBreakdowns>
+						<xsl:variable name="px" select="PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Code" />
+						
 						<xsl:apply-templates select="PriceQuote/PricedItinerary/AirItineraryPricingInfo"/>
 					</PTC_FareBreakdowns>
 				</AirFareInfo>
@@ -4168,8 +4170,6 @@
 				</xsl:choose>
 			</xsl:variable>
 
-
-
 			<xsl:if test="contains($brcmd, '$BR') or contains($brcmd, '*BR')">
 				<BrandedFares>
 					<xsl:choose>
@@ -4277,7 +4277,6 @@
 						<xsl:value-of select="PTC_FareBreakdown/FareCalculation/Text"/>
 					</FareCalculation>
 				</xsl:if>
-
 				<xsl:if test="ItinTotalFare/EquivFare/@Amount!=''">
 					<BSR>
 						<xsl:variable name="bsr">
@@ -4286,7 +4285,6 @@
 						<xsl:value-of select="$bsr"/>
 					</BSR>
 				</xsl:if>
-
 				<xsl:if test="../../PricedItinerary/@ValidatingCarrier != ''">
 					<ValidatingAirlineCode>
 						<xsl:value-of select="../../PricedItinerary/@ValidatingCarrier"/>
@@ -4319,13 +4317,11 @@
 						</BagAllowance>
 					</xsl:when>
 				</xsl:choose>
-
 				<xsl:if test="../@InputMessage">
 					<SupplementalInfo>
 						<xsl:value-of select="../@InputMessage"/>
 					</SupplementalInfo>
 				</xsl:if>
-
 			</TPA_Extensions>
 		</PTC_FareBreakdown>
 	</xsl:template>
@@ -5839,7 +5835,4 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-
-
-
 </xsl:stylesheet>

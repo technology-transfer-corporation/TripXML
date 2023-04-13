@@ -3,6 +3,7 @@
    ================================================================== 
    Sabre_PNRRepriceRQ.xsl															
    ================================================================== 
+   Date: 28 Mar 2023 - Kobelev - upgraded ReadRQ to version 3.10.0
    Date: 03 Feb 2023 - Samokhvalov - Brands Itinerary Oprions Fixes.
    Date: 03 Feb 2023 - Samokhvalov - Discount node check fixes.
    Date: 02 Feb 2023 - Samokhvalov - Removed farebasis codes if brands listed.

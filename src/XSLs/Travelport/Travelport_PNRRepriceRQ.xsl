@@ -7,6 +7,7 @@
 	================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 
+	Date: 30 Mar 2023 - Kobelev - Using of PlatingCarrier in AirPricingModifiers for Validating Carrier guarantee
 	Date: 01 Mar 2023 - Kobelev - Using Brand in FareInfo
 	Date: 27 Feb 2023 - Kobelev - Groupping by AirPricingInfoGroup and FarePriceGroup
 	Date: 03 Feb 2023 - Kobelev - universal:AirAdd and universal:AirDelete Groupping by AirPricingInfoGroup 
@@ -1198,6 +1199,10 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 					</xsl:choose>
 					<xsl:value-of select="@SegmentRef"/>
 				</xsl:attribute>
+				<xsl:attribute name="PlatingCarrier" >
+					<xsl:value-of select="@PlatingCarrier"/>
+				</xsl:attribute>			
+
 				<xsl:apply-templates select="." mode="markup">
 					<xsl:with-param name="storedFare" select="$storedFare"/>
 					<xsl:with-param name="pnrPrice" select="$pnr/air:AirReservation/air:AirPricingInfo[substring(air:PassengerType/@Code,1,1)=substring($ptc,1,1)]"/>

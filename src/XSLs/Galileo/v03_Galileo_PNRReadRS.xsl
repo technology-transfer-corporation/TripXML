@@ -963,7 +963,13 @@
 								<xsl:when test="$PsgrType='CNN' and contains(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, 'P-')">
 									<xsl:value-of select="substring-after(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, '-')" />
 								</xsl:when>
+								<xsl:when test="$PsgrType='CNN' and contains(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, 'PO-')">
+									<xsl:value-of select="substring-after(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, '-')" />
+								</xsl:when>
 								<xsl:when test="$PsgrType='JNN' and contains(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, 'P-')">
+									<xsl:value-of select="substring-after(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, '-')" />
+								</xsl:when>
+								<xsl:when test="$PsgrType='JNN' and contains(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, 'PO-')">
 									<xsl:value-of select="substring-after(//NameRmkInfo[PsgrNum=number($paxref)]/NameRmk, '-')" />
 								</xsl:when>
 								<xsl:otherwise>
@@ -2292,6 +2298,7 @@
 													<NameRmk>23FEB20</NameRmk> 
 													<NameRmk>10MAY22 P-INF</NameRmk>
 													<NameRmk>10MAY22 P-JNF</NameRmk>
+													<NameRmk>PO-C10</NameRmk>
 													-->
 													<xsl:choose>
 														<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo]/NameRmk, '-INF')">
@@ -2318,7 +2325,7 @@
 										</xsl:attribute>
 									</xsl:if>
 								</xsl:when>
-								<xsl:when test="not(contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-JWZ')) and contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-') and not(contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-JCB'))">
+								<xsl:when test="not(contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-JWZ')) and (contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-') or contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'PO-')) and not(contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-JCB'))">
 									<xsl:attribute name="BirthDate">
 										<xsl:call-template name="bdt_years">
 											<xsl:with-param name="bdt" select="substring(substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-'), 2,2)" />
@@ -2339,11 +2346,11 @@
 							<xsl:otherwise>
 								<xsl:attribute name="NameType">
 									<xsl:choose>
-										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-C')">
+										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-C')">
 											<xsl:variable name="pCode" select="concat('0', substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'C'))" />											
 											<xsl:value-of select="concat('C', substring($pCode, string-length($pCode)-1))"/>
 										</xsl:when>
-										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'P-J')">
+										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-J')">
 											<xsl:variable name="pCode" select="concat('0', substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'J'))" />
 											<xsl:value-of select="concat('J', substring($pCode, string-length($pCode)-1))"/>
 										</xsl:when>

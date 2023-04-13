@@ -599,75 +599,122 @@
 				</Taxes>
 				-->
 
-        <Taxes>
-          <xsl:attribute name="Amount">
-            <xsl:value-of select="translate(substring(@Taxes, 4), '.','')"/>
-          </xsl:attribute>
-          <xsl:attribute name="CurrencyCode">
-            <xsl:value-of select="$cur"/>
-          </xsl:attribute>
-          <xsl:attribute name="DecimalPlaces">
-            <xsl:value-of select="$dec"/>
-          </xsl:attribute>
-        </Taxes>
-        <TotalFare>
-          <xsl:attribute name="Amount">
-            <xsl:value-of select="$tfpax"/>
-          </xsl:attribute>
-          <xsl:attribute name="CurrencyCode">
-            <xsl:value-of select="$cur"/>
-          </xsl:attribute>
-          <xsl:attribute name="DecimalPlaces">
-            <xsl:value-of select="$dec"/>
-          </xsl:attribute>
-        </TotalFare>
-      </PassengerFare>
-      <TPA_Extensions>
-        <xsl:if test="air:FareCalc">
-          <FareCalculation>
-            <xsl:value-of select="air:FareCalc"/>
-          </FareCalculation>
-        </xsl:if>
-        <xsl:if test="otherPricingInfo/attributeDetails[attributeType='PAY']">
-          <PaymentRestrictions>
-            <xsl:value-of select="otherPricingInfo/attributeDetails[attributeType='PAY']/attributeDescription"/>
-          </PaymentRestrictions>
-        </xsl:if>
-        <xsl:choose>
-          <xsl:when test="../air:TicketingModifiers/@PlatingCarrier != ''">
-            <ValidatingAirlineCode>
-                <xsl:value-of select="../air:TicketingModifiers/@PlatingCarrier"/>
-            </ValidatingAirlineCode>
-          </xsl:when>
-          <xsl:otherwise>
-            <ValidatingAirlineCode>
-              <xsl:choose>
-                <xsl:when test="contains(air:FareCalc, 'ROE')">
-                  <xsl:value-of select="substring(substring-after(substring-after(air:FareCalc,'ROE'),' '),1,2)"/>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:value-of select="substring(substring-after(substring-after(air:FareCalc,'END'),' '),1,2)"/>
-                </xsl:otherwise>
-              </xsl:choose>
-            </ValidatingAirlineCode>
-          </xsl:otherwise>
-        </xsl:choose>
-        <BagAllowance>
-          <xsl:attribute name="Quantity">
-            <xsl:choose>
-              <xsl:when test="air:FareInfo/air:BaggageAllowance/@NumberOfPieces">
-                <xsl:value-of select="sum(air:FareInfo/air:BaggageAllowance/@NumberOfPieces)"/>
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:value-of select="air:FareInfo[1]/air:BaggageAllowance/air:NumberOfPieces"/>
-              </xsl:otherwise>
-            </xsl:choose>
-          </xsl:attribute>
-          <xsl:attribute name="Type">
-            <xsl:text>Piece</xsl:text>
-          </xsl:attribute>
-        </BagAllowance>
-        <!--
+				<Taxes>
+					<xsl:attribute name="Amount">
+						<xsl:value-of select="translate(substring(@Taxes, 4), '.','')"/>
+					</xsl:attribute>
+					<xsl:attribute name="CurrencyCode">
+						<xsl:value-of select="$cur"/>
+					</xsl:attribute>
+					<xsl:attribute name="DecimalPlaces">
+						<xsl:value-of select="$dec"/>
+					</xsl:attribute>
+				</Taxes>
+				<TotalFare>
+					<xsl:attribute name="Amount">
+						<xsl:value-of select="$tfpax"/>
+					</xsl:attribute>
+					<xsl:attribute name="CurrencyCode">
+						<xsl:value-of select="$cur"/>
+					</xsl:attribute>
+					<xsl:attribute name="DecimalPlaces">
+						<xsl:value-of select="$dec"/>
+					</xsl:attribute>
+				</TotalFare>
+			</PassengerFare>
+			<TPA_Extensions>
+				<xsl:if test="air:FareCalc">
+					<FareCalculation>
+						<xsl:value-of select="air:FareCalc"/>
+					</FareCalculation>
+				</xsl:if>
+				<xsl:if test="otherPricingInfo/attributeDetails[attributeType='PAY']">
+					<PaymentRestrictions>
+						<xsl:value-of select="otherPricingInfo/attributeDetails[attributeType='PAY']/attributeDescription"/>
+					</PaymentRestrictions>
+				</xsl:if>
+				<xsl:variable name="vc">
+					<xsl:choose>
+						<xsl:when test="contains(air:FareCalc, 'ROE')">
+							<xsl:value-of select="substring(substring-after(substring-after(air:FareCalc,'ROE'),' '),1,2)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="substring(substring-after(substring-after(air:FareCalc,'END'),' '),1,2)"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+
+				<xsl:choose>
+					<xsl:when test="$vc != ''">
+						<ValidatingAirlineCode>
+							<xsl:value-of select="$vc"/>
+						</ValidatingAirlineCode>
+					</xsl:when>
+					<xsl:when test="../air:TicketingModifiers/@PlatingCarrier != ''">
+						<ValidatingAirlineCode>
+							<xsl:value-of select="../air:TicketingModifiers/@PlatingCarrier"/>
+						</ValidatingAirlineCode>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:variable name="paxassoc">
+							<xsl:for-each select="paxSegReference/refDetails">
+								<xsl:sort order="ascending" data-type="text" select="refNumber"/>
+								<xsl:value-of select="refNumber"/>
+							</xsl:for-each>
+						</xsl:variable>
+						<xsl:variable name="segassoc">
+							<xsl:for-each select="segmentInformation[not(connexInformation/connecDetails/routingInformation) or connexInformation/connecDetails/routingInformation != 'ARNK']">
+								<xsl:sort order="ascending" data-type="text" select="segmentReference/refDetails/refNumber"/>
+								<xsl:value-of select="segmentReference/refDetails/refNumber"/>
+							</xsl:for-each>
+						</xsl:variable>
+						<xsl:for-each select="../../dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FV']">
+							<xsl:variable name="paxfv">
+								<xsl:for-each select="referenceForDataElement/reference[qualifier='PT']">
+									<xsl:sort order="ascending" data-type="text" select="number"/>
+									<xsl:value-of select="number"/>
+								</xsl:for-each>
+							</xsl:variable>
+							<xsl:variable name="segfv">
+								<xsl:for-each select="referenceForDataElement/reference[qualifier='ST']">
+									<xsl:sort order="ascending" data-type="text" select="number"/>
+									<xsl:value-of select="number"/>
+								</xsl:for-each>
+							</xsl:variable>
+							<xsl:if test="contains($paxfv,$paxassoc) and contains($segfv,$segassoc) or ($paxfv='' and $segfv='')">
+								<ValidatingAirlineCode>
+									<xsl:choose>
+										<xsl:when test="starts-with(otherDataFreetext/longFreetext,'PAX ')">
+											<xsl:value-of select="substring-after(otherDataFreetext/longFreetext,'PAX ')"/>
+										</xsl:when>
+										<xsl:when test="starts-with(otherDataFreetext/longFreetext,'INF ')">
+											<xsl:value-of select="substring-after(otherDataFreetext/longFreetext,'INF ')"/>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:value-of select="otherDataFreetext/longFreetext"/>
+										</xsl:otherwise>
+									</xsl:choose>
+								</ValidatingAirlineCode>
+							</xsl:if>
+						</xsl:for-each>
+					</xsl:otherwise>
+				</xsl:choose>
+				<BagAllowance>
+					<xsl:attribute name="Quantity">
+						<xsl:choose>
+							<xsl:when test="air:FareInfo/air:BaggageAllowance/@NumberOfPieces">
+								<xsl:value-of select="sum(air:FareInfo/air:BaggageAllowance/@NumberOfPieces)"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="air:FareInfo[1]/air:BaggageAllowance/air:NumberOfPieces"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+					<xsl:attribute name="Type">
+						<xsl:text>Piece</xsl:text>
+					</xsl:attribute>
+				</BagAllowance>
+				<!--
 				<xsl:for-each select="air:FareInfo">
 					<xsl:if test="air:BaggageAllowance">
 						<BagAllowance>
