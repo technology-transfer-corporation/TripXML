@@ -377,6 +377,7 @@
       <xsl:attribute name="PricingSource">
         <xsl:choose>
           <xsl:when test="$provider='1P' and contains(air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $group][1]/air:ActionDetails/@Text, '.SR')">Private</xsl:when>
+          <xsl:when test="$provider='1P' and contains(air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $group][1]/air:FareInfo/@PrivateFare, 'PrivateFare')">Private</xsl:when>
           <xsl:when test="$provider='1G' and air:AirPricingInfo[@ProviderReservationInfoRef = $ref and @AirPricingInfoGroup = $group][1]/@FareCalculationInd[1] != 'G'">Private</xsl:when>
           <xsl:otherwise>Published</xsl:otherwise>
         </xsl:choose>
@@ -483,6 +484,7 @@
       <xsl:attribute name="PricingSource">
         <xsl:choose>
           <xsl:when test="$provider='1P' and contains(air:ActionDetails/@Text, '.SR')">Private</xsl:when>
+          <xsl:when test="$provider='1P' and contains(air:FareInfo/@PrivateFare, 'PrivateFare')">Private</xsl:when>
           <xsl:when test="$provider='1G' and $fcmi != 'G'">Private</xsl:when>
           <xsl:otherwise>Published</xsl:otherwise>
         </xsl:choose>
