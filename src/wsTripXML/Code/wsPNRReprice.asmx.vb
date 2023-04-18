@@ -81,7 +81,17 @@ Namespace wsTravelTalk
                         ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
                         response = SendPNRRequestSabre(ttServiceID, ttCredential, ttProviderSystems, request)
                     Case "Worldspan"
-                        response = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, request)
+                        If CBool(WebConfigurationManager.AppSettings("IsTravelportWorldspan")) Then
+                            Dim ttDefProvider As New TripXMLProviderSystems()
+                            If Not String.IsNullOrEmpty(sessionID) Then
+                                request = request.Replace(sessionID, "")
+                            End If
+                            PreServiceRequest(request, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, UUID, "", True)
+                            response = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, request)
+                            response = response.Replace("</OTA_PNRRepriceRS>", $"<ConversationID>{sessionID}</ConversationID></OTA_PNRRepriceRS>")
+                        Else
+                            response = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, request)
+                        End If
                     Case "Galileo"
                         If CBool(WebConfigurationManager.AppSettings("IsTravelportReprice")) Then
                             Dim ttDefProvider As New TripXMLProviderSystems()
@@ -92,12 +102,7 @@ Namespace wsTravelTalk
                             response = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, request)
                             response = response.Replace("</OTA_PNRRepriceRS>", $"<ConversationID>{sessionID}</ConversationID></OTA_PNRRepriceRS>")
                         Else
-                            Select Case ttCredential.Providers(0).Name
-                                Case "Galileo"
-                                    response = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, request)
-                                    'Case "Worldspan"
-                                    '    response = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, request)
-                            End Select
+                            response = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, request)
                         End If
                     Case "Travelport"
                         response = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttProviderSystems, request)

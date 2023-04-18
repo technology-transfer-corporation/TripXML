@@ -186,8 +186,6 @@ Namespace wsTravelTalk
                 Select Case ttCredential.Providers(0).Name
                     Case "AmadeusWS"
                         strResponse = SendPNRRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
-                    Case "Apollo", "Galileo"
-                        strResponse = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
                     Case "Sabre"
                         If ttProviderSystems.System Is Nothing Then
                             FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers(0).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers(0).Name)
@@ -197,11 +195,13 @@ Namespace wsTravelTalk
 
                         ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
                         strResponse = SendPNRRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
-
                     Case "Travelport"
                         strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
+                    Case "Apollo", "Galileo"
+                        strResponse = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
                     Case "Worldspan"
-                        If CBool(WebConfigurationManager.AppSettings("IsTravelportReprice")) Then
+
+                        If CBool(WebConfigurationManager.AppSettings("IsTravelportWorldspan")) Then
                             Dim ttDefProvider As New TripXMLProviderSystems()
                             PreServiceRequest(strRequest, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, uuid, "", True)
                             strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, strRequest, "v03")

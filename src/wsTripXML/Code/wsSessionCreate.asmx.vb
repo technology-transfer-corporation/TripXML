@@ -58,7 +58,7 @@ Namespace wsTravelTalk
         Private sb As StringBuilder = New StringBuilder()
 
         Private Function ServiceRequest(ByVal request As String, ByVal ttServiceID As Integer) As String
-            Dim response As String
+            Dim response As String = String.Empty
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
             Dim validateXSDOut As Boolean
