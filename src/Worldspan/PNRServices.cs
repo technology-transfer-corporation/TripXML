@@ -808,7 +808,8 @@ namespace Worldspan
 
                     foreach (XmlNode currentONode in oRoot)
                     {
-                        ttWA.SendCryptic(currentONode.InnerText);
+                        if(!string.IsNullOrEmpty(currentONode.InnerText))
+                            ttWA.SendCryptic(currentONode.InnerText);
                     }
                     //ttWA.CloseSession();
                     //inSession = false;
@@ -817,7 +818,10 @@ namespace Worldspan
                     #region ReRead PNR
                     //ttProviderSystems.Profile = ProviderSystems.Profile.Xml;
                     ttWA = SetAdapter(ttProviderSystems, modCore.ProfileType.Xml);
-                    recordLocator = oRoot.SelectSingleNode("ScreenEntry[1]").InnerXml.Substring(1);
+                    
+                    if(oRoot.SelectSingleNode("ScreenEntry[1]") != null)
+                        recordLocator = oRoot.SelectSingleNode("ScreenEntry[1]").InnerXml.Substring(1);
+                    
                     strResponse = ttWA.SendMessage($"<DPC8><MSG_VERSION>8</MSG_VERSION><REC_LOC>{recordLocator}</REC_LOC><ETR_INF>Y</ETR_INF><ALL_PNR_INF>Y</ALL_PNR_INF><PRC_INF>Y</PRC_INF></DPC8>");
                     #endregion
 

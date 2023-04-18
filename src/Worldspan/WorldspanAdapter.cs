@@ -13,20 +13,27 @@ namespace Worldspan
         public string ConversationID = "";
         public string Profile { get; private set; }
 
-        public string GetProfileByType(modCore.ProfileStruct ps, modCore.ProfileType pt)
+        /// <summary>
+        /// Getting Profile By Profile Type
+        /// </summary>
+        /// <param name="profileSctruc"></param>
+        /// <param name="profileT"></param>
+        /// <returns></returns>
+        /// <remarks></remarks>
+        public string GetProfileByType(modCore.ProfileStruct profileSctruc, modCore.ProfileType profileT)
         {
-            switch (pt)
+            switch (profileT)
             {
                 case modCore.ProfileType.Ticketing:
-                    return ps.Ticketing;
+                    return profileSctruc.Ticketing;
                 case modCore.ProfileType.Origin:
-                    return ps.Origin;
+                    return profileSctruc.Origin;
                 case modCore.ProfileType.Cryptic:
-                    return ps.Cryptic;
+                    return profileSctruc.Cryptic;
                 case modCore.ProfileType.Text:
-                    return ps.Text;
+                    return profileSctruc.Text;
                 case modCore.ProfileType.Xml:
-                    return ps.Xml;
+                    return profileSctruc.Xml;
             }
             return null;
         }
