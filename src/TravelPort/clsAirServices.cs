@@ -18,23 +18,8 @@ namespace Travelport
         private string mstrXslPath = "";
         public static int RequestCount;
         public static string ErrorReq = "";
-        private int iFinishedPrices;
-        private string[,] priceTags;
-        private string[,] PricingSource;
-        private string[,] NegoCode;
-        private string[,] TicketTimeLimit;
-        private string[,] OutClass;
-        private string[,] InClass;
-        private string[,] flSegments;
         private int iFareSearches;
-        private string[] OTAPriceTotal;
-        private string[] OTAReqTotal;
-        private string[] avTempResponseTotal;
         private string strRequestTotal = "";
-        string[] strReq;
-        bool[] bPriceEnd;
-        private string strMessage = "";
-        string _tracerID = "";
 
         public string Request { get; set; } = "";
 
