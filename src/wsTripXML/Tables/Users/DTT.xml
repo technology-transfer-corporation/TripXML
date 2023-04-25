@@ -13987,6 +13987,98 @@
 				</WSDLSchema>
 				<Profile >1ASIWDWTMBD</Profile>
 			</PCC>
+			<PCC Code="NYC1S214M" AmadeusWS="true" SessionPool="false" SOAP2="true" SOAP4="false" AddLog="false" >
+				<Username>WSMBDDWT</Username>
+				<Password>08NUVjMUdWMlg=</Password>
+				<WSDLSchema>
+					<Message Name="Command_Cryptic" Version="HSFREQ_07_3_1A" />
+					<Message Name="Command_CrypticReply" Version="HSFRES_07_3_1A" />
+					<Message Name="Ticket_AutomaticUpdate" Version="TARUPQ_06_1_1A" />
+					<Message Name="Ticket_AutomaticUpdateReply" Version="TARUPR_06_1_1A" />
+					<Message Name="SalesReports_DisplayQueryReport" Version="TSRQRQ_17_1_1A" />
+					<Message Name="SalesReports_DisplayQueryReportReply" Version="TSRQRR_17_1_1A" />
+					<Message Name="Ticket_GetPricingOptions" Version="TPORRQ_14_1_1A" />
+					<Message Name="Ticket_GetPricingOptionsReply" Version="TPORRS_14_1_1A" />
+					<Message Name="PNR_Retrieve" Version="PNRRET_16_1_1A" />
+					<Message Name="PNR_Reply" Version="PNRACC_16_1_1A" />
+					<Message Name="PNR_Cancel" Version="PNRXCL_16_1_1A" />
+					<Message Name="PNR_AddMultiElements" Version="PNRADD_16_1_1A" />
+					<Message Name="PNR_RetrieveByRecLoc" Version="PRETRQ_14_1_1A" />
+					<Message Name="PNR_RetrieveByRecLocReply" Version="PRETRR_14_1_1A" />
+					<Message Name="PNR_List" Version="TNLRES_00_1_1A" />
+					<Message Name="QueueMode_ProcessQueue" Version="QUEREQ_09_1_IA" />
+					<Message Name="QueueMode_ProcessQueueReply" Version="QUEREQ_09_1_IA" />
+					<Message Name="Queue_PlacePNR" Version="QUQPCQ_03_1_1A" />
+					<Message Name="Queue_PlacePNRReply" Version="QUQPCR_03_1_1A" />
+					<Message Name="DocIssuance_IssueTicket" Version="TTKTIQ_09_1_1A" />
+					<Message Name="DocIssuance_IssueTicketReply" Version="TTKTIR_09_1_1A" />
+					<Message Name="Ticket_CreateTSTFromPricing" Version="TAUTCQ_04_1_1A" />
+					<Message Name="Ticket_CreateTSTFromPricingReply" Version="TAUTCR_04_1_1A" />
+					<Message Name="Ticket_DeleteTST" Version="TTSTDQ_04_1_1A" />
+					<Message Name="Ticket_DeleteTSTReply" Version="TTSTDR_04_1_1A" />
+					<Message Name="Ticket_DisplayTST" Version="TTSTRQ_07_1_1A" />
+					<Message Name="Ticket_DisplayTSTReply" Version="TTSTRR_07_1_1A" />
+					<Message Name="Ticket_UpdateTST" Version="TTSTUQ_08_1_1A" />
+					<Message Name="Ticket_UpdateTSTReply" Version="TTSTUR_08_1_1A" />
+					<Message Name="Fare_GetFareFamilyDescription" Version="TFQFRQ_15_1_1A" />
+					<Message Name="Fare_GetFareFamilyDescriptionReply" Version="TFQFRR_15_1_1A" />
+					<Message Name="Fare_PricePNRWithBookingClass" Version="TPCBRQ_18_1_1A" />
+					<Message Name="Fare_PricePNRWithBookingClassReply" Version="TPCBRR_18_1_1A" />
+					<Message Name="Fare_PricePNRWithLowerFares" Version="TPLFRQ_18_1_1A" />
+					<Message Name="Fare_PricePNRWithLowerFaresReply" Version="TPLFRR_18_1_1A" />
+					<Message Name="Security_Authenticate" Version="VLSSLQ_06_1_1A" />
+					<Message Name="Security_AuthenticateReply" Version="VLSSLR_06_1_1A" />
+					<Message Name="Security_SignOut" Version="VLSSOQ_04_1_1A" />
+					<Message Name="Security_SignOutReply" Version="VLSSOR_04_1_1A" />
+					<Message Name="PAY_GenerateVirtualCard" Version="PAY_GenerateVirtualCard_2.0" />
+					<Message Name="PAY_ListVirtualCards" Version="PAY_ListVirtualCards_2.0" />
+					<Message Name="PAY_VirtualCardDetails" Version="PAY_GetVirtualCardDetails_2.0" />
+					<Message Name="PAY_DeleteVirtualCard" Version="PAY_DeleteVirtualCard_2.0" />
+					<Message Name="Air_CancelNegoSpace" Version="LTXREQ_00_1_1A" />
+					<Message Name="Air_CancelNegoSpaceReply" Version="LTXRES_00_1_1A" />
+					<Message Name="Air_CreateNegoSpace" Version="LTAREQ_05_1_1A" />
+					<Message Name="Air_CreateNegoSpaceReply" Version="LTARES_05_1_1A" />
+					<Message Name="Air_DisplayNegoSpace" Version="LTDREQ_05_1_1A" />
+					<Message Name="Air_DisplayNegoSpaceReply" Version="LTDRES_05_1_1A" />
+					<Message Name="Air_FlightInfo" Version="FLIREQ_07_1_1A" />
+					<Message Name="Air_FlightInfoReply" Version="FLIRES_07_1_1A" />
+					<Message Name="Air_MultiAvailability" Version="SATRQT_19_1_1A" />
+					<Message Name="Air_MultiAvailabilityReply" Version="SATRSP_19_1_1A" />
+					<Message Name="Air_RebookAirSegment" Version="ARBKUQ_03_2_1A" />
+					<Message Name="Air_RebookAirSegmentReply" Version="ARBKUR_03_2_1A" />
+					<Message Name="Air_RetrieveSeatMap" Version="SMPREQ_14_2_1A" />
+					<Message Name="Air_RetrieveSeatMapReply" Version="SMPRES_14_2_1A" />
+					<Message Name="Air_SellFromAvailability" Version="ITAREQ_05_1_IA" />
+					<Message Name="Air_SellFromAvailabilityReply" Version="ITARES_05_1_IA" />
+					<Message Name="Air_SellFromRecommendation" Version="ITAREQ_05_2_IA" />
+					<Message Name="Air_SellFromRecommendationReply" Version="ITARES_05_2_IA" />
+					<Message Name="Fare_CheckRules" Version="FARQNQ_07_1_1A" />
+					<Message Name="Fare_CheckRulesReply" Version="FARQNR_07_1_1A" />
+					<Message Name="Fare_DisplayFareCalculation" Version="FITQHQ_08_2_1A" />
+					<Message Name="Fare_DisplayFareCalculationReply" Version="FITQHR_08_2_1A" />
+					<Message Name="Fare_DisplayFaresForCityPair" Version="FQDREQ_07_2_1A" />
+					<Message Name="Fare_DisplayFaresForCityPairReply" Version="FQDRES_07_2_1A" />
+					<Message Name="Fare_GetFareRules" Version="FARRNQ_10_1_1A" />
+					<Message Name="Fare_GetFareRulesReply" Version="FARRNR_10_1_1A" />
+					<Message Name="Fare_InformativeBestPricingWithoutPNR" Version="TIBNRQ_08_1_1A" />
+					<Message Name="Fare_InformativeBestPricingWithoutPNRReply" Version="TIBNRR_08_1_1A" />
+					<Message Name="Fare_InformativePricingWithoutPNR" Version="TIPNRQ_14_1_1A" />
+					<Message Name="Fare_InformativePricingWithoutPNRReply" Version="TIPNRR_14_1_1A" />
+					<Message Name="Fare_MasterPricerCalendar" Version="FMPCAQ_08_2_1A" />
+					<Message Name="Fare_MasterPricerCalendarReply" Version="FMPCAR_08_2_1A" />
+					<Message Name="Fare_MasterPricerExpertSearch" Version="NFSSPQ_14_3_1A" />
+					<Message Name="Fare_MasterPricerExpertSearchReply" Version="NFSSPR_14_3_1A" />
+					<Message Name="Fare_MasterPricerTravelBoardSearch" Version="FMPTBQ_14_3_1A" />
+					<Message Name="Fare_MasterPricerTravelBoardSearchReply" Version="FMPTBR_14_3_1A" />
+					<Message Name="Fare_SellByFareCalendar" Version="FSOCAQ_10_2_1A" />
+					<Message Name="Fare_SellByFareCalendarReply" Version="FSOCAR_10_2_1A" />
+					<Message Name="Fare_SellByFareSearch" Version="FSOTBQ_10_2_1A" />
+					<Message Name="Fare_SellByFareSearchReply" Version="FSOTBR_10_2_1A" />
+					<Message Name="Fare_TLAGetFareRules" Version="TFRURQ_05_1_1A" />
+					<Message Name="Fare_TLAGetFareRulesReply" Version="TFRURR_05_1_1A" />
+				</WSDLSchema>
+				<Profile>1ASIWDWTMBD</Profile>
+			</PCC>
 		</System>
 		<System Name="Test">
 			<PCC Code="NYC1S211F" AmadeusWS="true" SessionPool="false" AddLog="false" SOAPHeader="SOAP4">
@@ -14812,30 +14904,55 @@
 	</Provider>
 	<Provider Name="Galileo">
 		<System Name="Production">
-			<PCC Code="3LM3" >
+			<PCC Code="3LM3">
 				<Username>GWS_P3408196</Username>
 				<Password>Ygk8+-CEi7</Password>
-				<Profile >GWS_1G_3LM3_B5E401</Profile>
+				<Profile>GWS_1G_3LM3_B5E401</Profile>
 			</PCC>
-			<PCC Code="3IZ0" >
+			<PCC Code="3IZ0">
 				<Username>GWS_P3408196</Username>
 				<Password>Ygk8+-CEi7</Password>
-				<Profile >GWS_1G_3LM3_B5E401</Profile>
+				<Profile>GWS_1G_3LM3_B5E401</Profile>
 			</PCC>
-			<PCC Code="79BE" >
+			<PCC Code="79BE">
 				<Username>GWS_P3408196</Username>
 				<Password>Ygk8+-CEi7</Password>
-				<Profile >GWS_1G_3LM3_B5E401</Profile>
+				<Profile>GWS_1G_3LM3_B5E401</Profile>
 			</PCC>
-			<PCC Code="3MI3" >
+			<PCC Code="3MI3">
 				<Username>GWS_P3408196</Username>
 				<Password>Ygk8+-CEi7</Password>
-				<Profile >GWS_1G_3LM3_B5E401</Profile>
+				<Profile>GWS_1G_3LM3_B5E401</Profile>
 			</PCC>
-			<PCC Code="79VJ" >
+			<PCC Code="79VJ">
 				<Username>GWS_P3408196</Username>
 				<Password>Ygk8+-CEi7</Password>
-				<Profile >GWS_1G_3LM3_B5E401</Profile>
+				<Profile>GWS_1G_3LM3_B5E401</Profile>
+			</PCC>
+			<PCC Code="7N6T">
+				<Username>GWS_P3408196</Username>
+				<Password>Ygk8+-CEi7</Password>
+				<Profile>GWS_1G_3LM3_B5E401</Profile>
+			</PCC>
+			<PCC Code="53VY">
+				<Username>GWS_P3408196</Username>
+				<Password>Ygk8+-CEi7</Password>
+				<Profile>GWS_1G_3LM3_B5E401</Profile>
+			</PCC>
+			<PCC Code="3MH4">
+				<Username>GWS_P3408196</Username>
+				<Password>Ygk8+-CEi7</Password>
+				<Profile>GWS_1G_3LM3_B5E401</Profile>
+			</PCC>
+			<PCC Code="533W">
+				<Username>GWS_P3408196</Username>
+				<Password>Ygk8+-CEi7</Password>
+				<Profile>GWS_1G_3LM3_B5E401</Profile>
+			</PCC>
+			<PCC Code="7PL8">
+				<Username>GWS_P3408196</Username>
+				<Password>Ygk8+-CEi7</Password>
+				<Profile>GWS_1G_3LM3_B5E401</Profile>
 			</PCC>
 		</System>
 		<System Name="Test">
