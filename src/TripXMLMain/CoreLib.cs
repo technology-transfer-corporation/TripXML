@@ -8,10 +8,8 @@ using System.Threading;
 using System.Collections.Concurrent;
 using WebSocket = WebSocketSharp.WebSocket;
 using WebSocketState = WebSocketSharp.WebSocketState;
-using System.Runtime.Remoting.Messaging;
 using System.Configuration;
 using System.Collections.Generic;
-using System.Configuration;
 
 namespace TripXMLMain
 {
