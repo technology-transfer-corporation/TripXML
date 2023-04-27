@@ -787,7 +787,7 @@ namespace Worldspan
                     : string.Empty;
 
                 // *******************************************************************************
-                // Send Transformed Request to the Worldspan Adapter and Getting Native Response  *
+                // Send Transformed Request to the Worldspan Adapter and Getting Native Response *
                 // ******************************************************************************* 
 
                 // Dim oDoc As New XmlDocument()
