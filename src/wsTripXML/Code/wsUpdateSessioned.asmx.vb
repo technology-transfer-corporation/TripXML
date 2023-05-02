@@ -246,10 +246,6 @@ Namespace wsTravelTalk
 
         End Function
 
-        Private Function CreatePNRRead(ByVal request As String) As String
-
-        End Function
-
 #End Region
 
 #Region " Web Methods "
@@ -260,12 +256,11 @@ Namespace wsTravelTalk
         Public Function wmUpdateSessioned(ByVal OTA_UpdateSessionedRQ As wmUpdateSessionedIn.OTA_UpdateSessionedRQ) As <XmlElementAttribute("OTA_TravelItineraryRS")> wmTravelItineraryOut_v03.OTA_TravelItineraryRS
             Dim xmlMessage As String = String.Empty
             Dim otaUpdateSessionedRS As wmTravelItineraryOut_v03.OTA_TravelItineraryRS
-            Dim oSerializer As XmlSerializer
+            Dim oSerializer As New XmlSerializer(GetType(wmUpdateSessionedIn.OTA_UpdateSessionedRQ))
             Dim oWriter As IO.StringWriter
             Dim oReader As IO.StringReader
 
             Try
-                oSerializer = New XmlSerializer(GetType(wmUpdateSessionedIn.OTA_UpdateSessionedRQ))
                 oWriter = New IO.StringWriter(New StringBuilder)
 
                 '*************************************

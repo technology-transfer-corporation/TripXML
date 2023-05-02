@@ -30,6 +30,8 @@
 		Public Property HasuraKey As String
 
 		Public Property IsTravelportReprice As String
+
+		Public Property IsTravelportWorldspan As String
 	End Class
 End Namespace
 

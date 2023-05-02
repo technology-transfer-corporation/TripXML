@@ -66,8 +66,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoTicket.Domain, Version=1.0.59.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoTicket.Domain.1.0.59\lib\net48\AutoTicket.Domain.dll</HintPath>
+    <Reference Include="AutoTicket.Domain, Version=1.0.64.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoTicket.Domain.1.0.64\lib\net48\AutoTicket.Domain.dll</HintPath>
     </Reference>
     <Reference Include="AutoTicket.Infrastructure, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoTicket.Infrastructure.1.0.12\lib\net48\AutoTicket.Infrastructure.dll</HintPath>
@@ -151,7 +151,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
@@ -232,8 +232,8 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TripXML.Core, Version=1.0.0.3, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TripXML.Core.1.0.10\lib\net48\TripXML.Core.dll</HintPath>
+    <Reference Include="TripXML.Core, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TripXML.Core.1.0.11\lib\net48\TripXML.Core.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
