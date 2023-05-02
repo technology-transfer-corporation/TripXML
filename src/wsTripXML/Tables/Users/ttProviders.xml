@@ -70,19 +70,19 @@
 	</Provider>
 	<Provider Name="Sabre">
 		<System Name="Production">
-			<URL>https://webservices.sabre.com/websvc</URL>
+			<URL>https://webservices.platform.sabre.com/websvc</URL>
 			<Port/>
 		</System>
 		<System Name="Cert">
-			<URL>https://sws-sts.cert.sabre.com</URL>
+			<URL>https://webservices.cert.platform.sabre.com</URL>
 			<Port/>
 		</System>
 		<System Name="Test">
-			<URL>https://sws-crt.cert.sabre.com</URL>
+			<URL>https://webservices.int.platform.sabre.com</URL>
 			<Port/>
 		</System>
 		<System Name="Dev">
-			<URL>https://sws-res.cert.sabre.com</URL>
+			<URL>https://webservices.int.platform.sabre.com</URL>
 			<Port/>
 		</System>
 		<SOAPAction>OTA</SOAPAction>
