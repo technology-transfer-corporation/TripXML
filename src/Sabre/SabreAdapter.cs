@@ -17,7 +17,7 @@ namespace Sabre
             Message = 3
         }
         private const string CFromPartyID = "downtowntravel.com";
-        private const string CToPartyID = "webservices.sabre.com";
+        //private const string CToPartyID = "webservices.sabre.com";
         private const string ConvID = "itadmin@downtowntravel.com";
 
         // Private ttProviderSystems As TripXMLProviderSystems
@@ -157,7 +157,7 @@ namespace Sabre
             }
             return strResponse;
         }
-                
+
         private string GetResponseFromSoap(string strResponse, string sabreService, enRequestType requestType)
         {
             XmlDocument oDoc;
@@ -175,9 +175,9 @@ namespace Sabre
                 oDoc = new XmlDocument();
                 oDoc.LoadXml(strResponse);
                 oRoot = oDoc.DocumentElement;
-                
+
                 // Get The Body
-                oNode = oRoot.LastChild;                
+                oNode = oRoot.LastChild;
                 // ********************************
                 // Check for Errors in Response  *
                 // ********************************
@@ -204,30 +204,6 @@ namespace Sabre
                     oNode = oRoot.LastChild;
                     strResponse = oNode.InnerXml;
                 }
-
-                /****************************************************
-                 * This is no longer needed since we are using XDocument 
-                 * object in order to strip all namespaces
-                 * from incomming XML string.
-                 ****************************************************
-                strResponse = strResponse.Replace(" xmlns=\"http://www.opentravel.org/OTA/2002/08\"", "");
-                strResponse = strResponse.Replace(" xmlns=\"http://www.opentravel.org/OTA/2002/11\"", "");
-                strResponse = strResponse.Replace(" xmlns:fo=\"http://www.w3.org/1999/XSL/Format\"", "");
-                strResponse = strResponse.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2003/07\"", "");
-                strResponse = strResponse.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "");
-                strResponse = strResponse.Replace(" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\"", "");
-                strResponse = strResponse.Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"", "");
-                strResponse = strResponse.Replace(" xmlns:stl=\"http://services.sabre.com/STL/v01\"", "").Replace("stl:", "");
-                strResponse = strResponse.Replace(" xmlns:or=\"http://services.sabre.com/res/or/v1_4\"", "").Replace("or:", "").Replace("xsi:type=\"", "type=\"");
-                strResponse = strResponse.Replace(" xmlns=\"http://services.sabre.com/res/tir/v3_6\"", "");
-                strResponse = strResponse.Replace(" xmlns:or=\"http://services.sabre.com/res/or/v1_4\"", "");
-                strResponse = strResponse.Replace(" xmlns:stl19=\"http://webservices.sabre.com/pnrbuilder/v1_19\"", "").Replace("stl19:", "");
-                strResponse = strResponse.Replace(" xmlns:or114=\"http://services.sabre.com/res/or/v1_14\"", "").Replace("or114:", "");
-                strResponse = strResponse.Replace(" xmlns:ns6=\"http://services.sabre.com/res/orr/v0\"", "").Replace("ns6:", "");
-                strResponse = strResponse.Replace(" xmlns:raw=\"http://tds.sabre.com/itinerary\"", "").Replace("raw:", "");
-                strResponse = strResponse.Replace(" xmlns:ns4=\"http://webservices.sabre.com/pnrconn/ReaccSearch\"", "").Replace("ns4:", "");
-                strResponse = strResponse.Replace(" xmlns=\"http://www.sabre.com/ns/Ticketing/pqs/1.0\"", "");
-                ********************************************************/
 
                 return strResponse;
             }
@@ -285,14 +261,14 @@ namespace Sabre
 
         public void CreateSessionV2()
         {
-            
+
             string strResponse;
-            modCore.IsCreating = true;            
+            modCore.IsCreating = true;
             var createdTime = DateTime.Now;
-            
+
             // Block Naming
             BlockID = $"B{BlockIDNum}";
-            
+
             CoreLib.SendTrace(ttProviderSystems.UserID, "ttSabreAdapter", "Create Session", "", ttProviderSystems.LogUUID);
             try
             {
@@ -301,7 +277,7 @@ namespace Sabre
                 var password = ttProviderSystems.Password.Substring(2);
                 string header = ComposeHeader("sabreXML", "Session", "SessionCreateRQ");
                 string body = $"<SessionCreateRQ><POS><Source PseudoCityCode='{ttProviderSystems.PCC}'/></POS></SessionCreateRQ>";
-                
+
                 string SecurityToken = Send(header, body);
 
                 // ****************************************
@@ -317,11 +293,11 @@ namespace Sabre
                     //string strAAA = "<ChangeAAARQ xmlns=\"http://webservices.sabre.com/sabreXML/2003/07\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2003A.TsabreXML1.0.1\"><POS><Source PseudoCityCode=\"";
                     //strAAA += $"{ttProviderSystems.PCC}\"/></POS><AAA PseudoCityCode=\"{ttProviderSystems.AAAPCC}\"/></ChangeAAARQ>";                    
                     //strResponse = SendMessage(strAAA, "ChangeAAA", "ChangeAAALLSRQ", SecurityToken);
-                    
+
                     string strAAA = "<ContextChangeRQ  xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"  Version=\"2.0.3\"><ChangeAAA PseudoCityCode=\"";
                     strAAA += $"{ttProviderSystems.AAAPCC}\"/></ContextChangeRQ>";
                     strResponse = SendMessage(strAAA, "ChangeAAA", "ContextChangeLLSRQ", SecurityToken);
-                    
+
                 }
 
                 oDa.InsertNewSession(SecurityToken, 1, ttProviderSystems.Provider, createdTime, DateTime.Now, ttProviderSystems.UserName, ttProviderSystems.UserID, "Active", 'N', 'N', ttProviderSystems.URL, BlockID, IsInitialBlock, ttProviderSystems.PCC, ttProviderSystems.Profile.Text, ttProviderSystems.System, ttProviderSystems.GPass);
@@ -430,9 +406,9 @@ namespace Sabre
 
         public string CloseSession(string SecurityToken)
         {
-            
+
             string strResponse;
-            
+
             CoreLib.SendTrace(ttProviderSystems.UserID, "ttSabreAdapter", "Close Session", "", ttProviderSystems.LogUUID);
             try
             {
@@ -502,7 +478,7 @@ namespace Sabre
             string Body;
             string strResponse;
             var CloseThisSession = default(bool);
-            
+
             try
             {
                 if (SecurityToken.Length == 0)
@@ -516,11 +492,11 @@ namespace Sabre
                 }
 
                 Header = ComposeHeader("sabreXML", SabreService, SabreAction, SecurityToken);
-                
-                Body = Message.Contains("[CDATA[") 
+
+                Body = Message.Contains("[CDATA[")
                     ? Message.Replace("&lt;", "<").Replace("&gt;", ">")
                     : Message.Replace("'", CRLOR.ToString()).Replace("^", CHGKEY.ToString()).Replace(@"\", ENDITEM.ToString()).Replace("[", CURSIGN.ToString());
-                
+
 
                 strResponse = Send(Header, Uri.UnescapeDataString(Body));
 
@@ -554,7 +530,7 @@ namespace Sabre
             string strResponse;
             string soapResponse;
             bool CloseThisSession = false;
-            
+
             try
             {
                 if (SecurityToken.Length == 0)
@@ -607,19 +583,19 @@ namespace Sabre
         public string SendNativeMessage(string Message, string SecurityToken = "")
         {
             string strResponse;
-            
+
             try
             {
                 bool CloseThisSession = SecurityToken.Length == 0;
 
                 if (CloseThisSession)
-                {                    
+                {
                     SecurityToken = CreateSession();
                     Message = Message.Replace("</MessageHeader>", $"</MessageHeader>{SecurityToken}");
                 }
-                
+
                 strResponse = Send(Message);
-                
+
                 if (CloseThisSession)
                 {
                     CloseSession(SecurityToken);

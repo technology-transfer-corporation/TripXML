@@ -678,7 +678,7 @@ namespace Sabre
                 oRoot = oDoc.DocumentElement;
 
                 nsmgr = new XmlNamespaceManager(oDoc.NameTable);
-                nsmgr.AddNamespace("sxb", "http://services.sabre.com/sp/eab/v3_10"); //xmlns="http://services.sabre.com/sp/eab/v3_10"
+                nsmgr.AddNamespace("sxb", "http://services.sabre.com/sp/eab/v3_10");
 
                 if (oRoot.SelectSingleNode("sxb:EnhancedAirBookRQ", nsmgr) is null)
                 {
