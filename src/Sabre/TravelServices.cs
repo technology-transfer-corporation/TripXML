@@ -1750,7 +1750,6 @@ namespace Sabre
 
                 if (string.IsNullOrEmpty(strPrinter))
                 {
-
                     strResponse = ttSA.SendMessage(strRead, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
                     strResponse = strResponse.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
                     oDoc = new XmlDocument();
@@ -1814,8 +1813,14 @@ namespace Sabre
 
                         strTickets = ttSA.SendMessage(strTicket, "Air", "AirTicketLLSRQ", ConversationID);
 
+                        if (strTickets.Contains("PLS ENTER UD8 WITH DTT PROFIT"))
+                        {
+                            string strXPG = @"<SabreCommandLLSRQ xmlns=""http://webservices.sabre.com/sabreXML/2011/10"" Version=""2.0.0""><Request Output=""SCREEN"" MDRSubset=""AD01"" CDATA=""true""><HostCommand>XPG</HostCommand></Request></SabreCommandLLSRQ>";
+                            strNative = ttSA.SendMessage(strXPG, "XPG", "SabreCommandLLSRQ", ConversationID);
+                        }
+
                         if (strTickets.Contains("*WARNING EDITS*") | strTickets.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strTickets.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
-                            | strTickets.Contains("END OR IGNORE PNR") | strTickets.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | strTickets.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT"))
+                            | strTickets.Contains("END OR IGNORE PNR") | strTickets.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | strTickets.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT") | strTickets.Contains("PLS ENTER UD8 WITH DTT PROFIT"))
                         {
                             strTickets = ttSA.SendMessage(strTicket, "Air", "AirTicketLLSRQ", ConversationID);
                             if (strTickets.Contains("*WARNING EDITS*") | strTickets.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strTickets.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
