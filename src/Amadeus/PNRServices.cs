@@ -1411,13 +1411,26 @@ namespace AmadeusWS
                                 var retry_count = 0;
                                 string strHistFareRS;
                                 string strEndTransaction;
-                                foreach (var ff in ffList.FindAll(x => !string.IsNullOrEmpty(x.Item2)))
+                                var omitOptions = false;
+                                if (ffList.TrueForAll(x => string.IsNullOrEmpty(x.Item2))
+                                    && ffList.TrueForAll(r => System.Text.RegularExpressions.Regex.Replace(r.Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", "")
+                                        .Equals(System.Text.RegularExpressions.Regex.Replace(ffList.First().Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", ""))))//fbCode empty or Nego PNR
+                                {
+                                    ffList.Clear();
+                                    ffList.Add(new Tuple<string, string, string>("", " ", ""));
+
+                                }
+                                foreach (var ff in ffList.FindAll(x => !string.IsNullOrEmpty(x.Item2)).OrderBy(x => x.Item2))
                                 {
                                     retry_count = 3;
                                     do
                                     {
-                                        var fxOpt = System.Text.RegularExpressions.Regex.Replace(ff.Item2, @"\/ZO-0\*[A-Z0-9.,]*", "");
+                                        var fxOpt = System.Text.RegularExpressions.Regex.Replace(ff.Item2, @"\/ZO-0\*[A-Z0-9.,]*", "").Trim();
                                         strHistFareRS = SendCommandCryptically(ttAA, $"FXX{strFareType}{fxOpt}");
+                                        if (strHistFareRS.Contains("NO FARE FOR BOOKING CODE-TRY OTHER PRICING OPTIONS"))
+                                        {
+
+                                        }
                                         if (!string.IsNullOrEmpty(ff.Item1) &&
                                             ffList.FindAll(x => !string.IsNullOrEmpty(x.Item2)).Count == ffList.Count)
                                         {
@@ -1682,18 +1695,27 @@ namespace AmadeusWS
                                     strZap = $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>ZAP</pricingOptionKey></pricingOptionKey><penDisInformation><discountPenaltyQualifier>ZAP</discountPenaltyQualifier><discountPenaltyDetails><function>700</function><amountType>{discQualif}</amountType><amount>{strDiscount}</amount>{strTktDes}</discountPenaltyDetails></penDisInformation></pricingOptionGroup>";
                                 }
 
+                                var strPriceRq = string.Empty;
+
                                 var excludeFFopts = false;
                                 foreach (var xmlFareFamily in sXmlFareFamily)
                                 {
+                                    var respReprice = string.Empty;
+                                    //TODO: Recheck duplicated command
                                     string strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{(excludeFFopts ? "" : xmlFareFamily)}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{(xmlFareFamily.Contains($">{strFareType}<") ? "" : $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>")}{strZap}</Fare_PricePNRWithBookingClass>";
-                                    var respReprice = SendPricePNRWithBookingClass(ttAA, strRepriceRQ);
-                                    if (respReprice != null && respReprice.Contains("NO VALID FARE/RULE COMBINATIONS FOR PRICING"))
+                                    if (!strPriceRq.Equals(strRepriceRQ))
                                     {
-                                        excludeFFopts = true;
-                                        strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{(excludeFFopts ? "" : xmlFareFamily)}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{(xmlFareFamily.Contains($">{strFareType}<") ? "" : $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>")}{strZap}</Fare_PricePNRWithBookingClass>";
+                                        strPriceRq = strRepriceRQ;
                                         respReprice = SendPricePNRWithBookingClass(ttAA, strRepriceRQ);
+                                        if (respReprice != null && (respReprice.Contains("NO VALID FARE/RULE COMBINATIONS FOR PRICING") || respReprice.Contains("NO FARE FOR BOOKING CODE-TRY OTHER PRICING OPTIONS")))
+                                        {
+                                            excludeFFopts = true;
+                                            strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{(excludeFFopts ? "" : xmlFareFamily)}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{(xmlFareFamily.Contains($">{strFareType}<") ? "" : $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>")}{strZap}</Fare_PricePNRWithBookingClass>";
+                                            strPriceRq = strRepriceRQ;
+                                            respReprice = SendPricePNRWithBookingClass(ttAA, strRepriceRQ);
+                                        }
+                                        strResponseReprice += FilterPricePNRWithBookingClassResponseByPax(respReprice, xmlFareFamily, excludeFFopts);
                                     }
-                                    strResponseReprice += FilterPricePNRWithBookingClassResponseByPax(respReprice, xmlFareFamily);
                                 }
                                 strResponseReprice = strResponseReprice.Replace(@"</Fare_PricePNRWithBookingClassReply><Fare_PricePNRWithBookingClassReply>", "");
                                 strResponseReprice = strResponseReprice.Replace($" xmlns=\"http://xml.amadeus.com/{ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithLowerFaresReply]}\"", "");
@@ -2310,7 +2332,7 @@ namespace AmadeusWS
             return strResponse;
         }
 
-        private string FilterPricePNRWithBookingClassResponseByPax(string response, string request)
+        private string FilterPricePNRWithBookingClassResponseByPax(string response, string request, bool skipFFopts)
         {
             if (string.IsNullOrEmpty(request))
                 return response;
@@ -2327,8 +2349,11 @@ namespace AmadeusWS
                 .SelectNodes("//paxSegTstReference/referenceDetails[type='PA' or type='PI' or type='P']")
                 .Cast<XmlNode>().ToList().Select(x => (value: x.SelectSingleNode("value").InnerText, type: x.SelectSingleNode("type").InnerText)).ToList();
 
+            if (skipFFopts)
+                okPax.Clear();
+
             var okTst = new List<string>();
-            if (okPax.Count.Equals(0))// TST ref
+            if (!skipFFopts && okPax.Count.Equals(0))// TST ref
             {
                 okTst = rootRQ
                     .SelectNodes("//paxSegTstReference/referenceDetails[type='T']")
@@ -2569,7 +2594,7 @@ namespace AmadeusWS
 
             var res = new List<Tuple<string, string, string>>();
 
-            XmlNodeList nodes = root.SelectNodes("//StoredFare");
+            XmlNodeList storedFaresNodes = root.SelectNodes("//StoredFare");
 
             XmlDocument pnr = new XmlDocument();
             pnr.LoadXml(pnrRead);
@@ -2587,7 +2612,7 @@ namespace AmadeusWS
 
             List<Tuple<string, List<Tuple<string, string, string>>>> paxFareSegs =
                 new List<Tuple<string, List<Tuple<string, string, string>>>>();
-            foreach (XmlNode fnode in nodes)
+            foreach (XmlNode fnode in storedFaresNodes)
             {
                 var tst = fnode.Attributes["RPH"].Value;
                 if (!paxFareSegs.Any(fs => fs.Item1 == tst))
@@ -2639,9 +2664,12 @@ namespace AmadeusWS
                     var tktDes = new Dictionary<string, string>();
                     foreach (XmlNode item in root.SelectSingleNode($"//StoredFare[@RPH='{ps.Item1}']").SelectNodes("FareSegments/AirSegments"))
                     {
-                        fbCodes[item.InnerText.TrimEnd('/')] = fbCodes.ContainsKey(item.InnerText.TrimEnd('/'))
-                            ? fbCodes[item.InnerText.TrimEnd('/')] + "," + item.Attributes["RPH"].Value
-                            : item.Attributes["RPH"].Value;
+                        if (root.SelectSingleNode($"//StoredFare[@RPH='{ps.Item1}']/@FareType").Value != "Private")
+                        {
+                            fbCodes[item.InnerText.TrimEnd('/')] = fbCodes.ContainsKey(item.InnerText.TrimEnd('/'))
+                                ? fbCodes[item.InnerText.TrimEnd('/')] + "," + item.Attributes["RPH"].Value
+                                : item.Attributes["RPH"].Value;
+                        }
                         if (item.Attributes["TicketDesignator"] != null)
                             tktDes[item.Attributes["TicketDesignator"].Value] = tktDes.ContainsKey(item.Attributes["TicketDesignator"].Value)
                                 ? tktDes[item.Attributes["TicketDesignator"].Value] + "," + item.Attributes["RPH"].Value
