@@ -902,7 +902,7 @@ public class AmadeusWSAdapter
             {
                 string header = ComposeHeader("AmadeusWSXML", "Session", "SessionCloseRQ", sessionID);
                 string body = "<Security_SignOut/>";
-                response = GetResponseFromSoap(Send(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile}/VLSSOQ_04_1_1A"), "CloseSession", enRequestType.CloseSession);
+                response = GetResponseFromSoap(Send(header, body, $"http://webservices.amadeus.com/{ttProviderSystems.Profile.Text}/VLSSOQ_04_1_1A"), "CloseSession", enRequestType.CloseSession);
             }
             return response;
         }
