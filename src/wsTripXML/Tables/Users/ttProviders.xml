@@ -93,7 +93,7 @@
 			<Port/>
 		</System>
 		<System Name="Production">
-      <URL>https://xmlpro.worldspan.com:443/xmlts</URL>
+			<URL>https://xmlpro.worldspan.com:443/xmlts</URL>
 			<Port/>
 		</System>
 		<SOAPAction/>
