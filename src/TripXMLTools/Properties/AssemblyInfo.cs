@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Downtown Travel")]
 [assembly: AssemblyProduct("TripXML")]
-[assembly: AssemblyCopyright("Copyright © Downtown Travel 2016")]
+[assembly: AssemblyCopyright("Copyright © Technology Transfer Corporation 2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,4 +33,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.*")]
-[assembly: AssemblyFileVersion("1.0.0.5")]
+[assembly: AssemblyFileVersion("1.0.0.6")]
