@@ -1587,7 +1587,7 @@ namespace AmadeusWS
                                                 if (reqNode.SelectSingleNode($"FareSegments/AirSegments[@RPH='{flSegMap[segNum]}']").Attributes["TicketDesignator"] != null)
                                                 {
                                                     segTD = reqNode.SelectSingleNode($"FareSegments/AirSegments[@RPH='{flSegMap[segNum]}']").Attributes["TicketDesignator"].Value;
-                                                    var nSegTD = segNode.SelectSingleNode("fareQualifier/fareBasisDetails/ticketDesignator").InnerText;
+                                                    var nSegTD = segNode.SelectSingleNode("fareQualifier/fareBasisDetails/ticketDesignator")?.InnerText;
                                                     if (nSegTD != null && segTD.Equals(nSegTD))
                                                         continue;
                                                 }
