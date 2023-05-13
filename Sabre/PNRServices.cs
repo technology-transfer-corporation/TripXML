@@ -281,7 +281,7 @@ namespace Sabre
             try
             {
                 // Branded Fares Check
-                string strBrandedFare = "<GetReservationRQ xmlns=\"http://webservices.sabre.com/pnrbuilder/v1_19\" Version=\"1.19.0\"><Locator>" + rl + "</Locator><RequestType>Stateful</RequestType><ReturnOptions PriceQuoteServiceVersion = \"4.0.0\" ><SubjectAreas><SubjectArea>PRICE_QUOTE</SubjectArea></SubjectAreas></ReturnOptions></GetReservationRQ>";
+                string strBrandedFare = $"<GetReservationRQ xmlns=\"http://webservices.sabre.com/pnrbuilder/v1_19\" Version=\"1.19.0\"><Locator>{rl}</Locator><RequestType>Stateful</RequestType><ReturnOptions PriceQuoteServiceVersion = \"4.0.0\" ><SubjectAreas><SubjectArea>PRICE_QUOTE</SubjectArea></SubjectAreas></ReturnOptions></GetReservationRQ>";
                 CoreLib.SendTrace(ProviderSystems.UserID, "PRICE_QUOTE", "PQ", strBrandedFare, ProviderSystems.LogUUID);
                 strBrandedFare = ttSA.SendMessage(strBrandedFare, "PRIVE_QUOTE", "GetReservationRQ", ConversationID);
                 strBrandedFare = CleanSabreReply(strBrandedFare);
