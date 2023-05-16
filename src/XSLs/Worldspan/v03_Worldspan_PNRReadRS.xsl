@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl" xmlns:cs="urn:cs">
 	<!-- 
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
@@ -79,6 +79,15 @@ Date: 23 Feb 2015 - Rastko
 ================================================================== 
 -->
 	<xsl:output method="xml" omit-xml-declaration="yes" />
+	
+	<msxsl:script language="C#" implements-prefix="cs">
+    <![CDATA[
+      public string datenow()
+     {
+        return(DateTime.Now.ToString("dd''MMM''yy"));
+     }
+     ]]>
+    </msxsl:script>
 
 	<xsl:key name="trPTC" match="//DPW8/PNR_4_INF/Line/@TR" use="." />
 	<xsl:key name="conCarr" match="//DPW8/AIR_SEG_INF/AIR_ITM/ARL_COD" use="." />
@@ -1927,9 +1936,11 @@ Date: 23 Feb 2015 - Rastko
 							<xsl:variable name="mo" select="substring($paxName,3,3)"/>
 							<xsl:variable name="yr" select="substring($paxName,6)"/>
 
+							<xsl:variable name="thisyr" select="number(substring(cs:datenow(),6))"/>
+
 							<xsl:if test="string-length($yr) = 2">
 								<xsl:choose>
-									<xsl:when test="$yr > 17">
+									<xsl:when test="$yr > $thisyr">
 										<xsl:text>19</xsl:text>
 									</xsl:when>
 									<xsl:otherwise>
