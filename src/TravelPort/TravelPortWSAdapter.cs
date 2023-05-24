@@ -205,8 +205,8 @@ namespace Travelport
         {
             try
             {
-                var ttTP = new TravelPortWSAdapter(ttProviderSystems);
-                var strResponse = ttTP.SendMessage($"<ter:CreateTerminalSessionReq xmlns:ter='http://www.travelport.com/schema/terminal_v33_0' xmlns:com='http://www.travelport.com/schema/common_v33_0' TargetBranch=\"{branch}\" Host=\"{host}\"><com:BillingPointOfSaleInfo OriginApplication=\"UAPI\"/></ter:CreateTerminalSessionReq>", TravelPortWSAdapter.enRequestType.TerminalService);
+                //var ttTP = new TravelPortWSAdapter(ttProviderSystems);
+                var strResponse = SendMessage($"<ter:CreateTerminalSessionReq xmlns:ter='http://www.travelport.com/schema/terminal_v33_0' xmlns:com='http://www.travelport.com/schema/common_v33_0' TargetBranch=\"{branch}\" Host=\"{host}\"><com:BillingPointOfSaleInfo OriginApplication=\"UAPI\"/></ter:CreateTerminalSessionReq>", TravelPortWSAdapter.enRequestType.TerminalService);
 
                 if (strResponse.Length > 36)
                 {

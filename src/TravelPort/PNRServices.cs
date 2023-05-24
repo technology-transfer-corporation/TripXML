@@ -77,7 +77,7 @@ namespace Travelport
 
                 var ttProviderSystems = ProviderSystems;
                 TravelPortWSAdapter ttTP = SetAdapter(ttProviderSystems);
-                bool inSession = SetConversationID(ttTP);
+                bool inSession = SetConversationID(ttTP, host, branch);
 
                 
 
@@ -195,7 +195,7 @@ namespace Travelport
                 //******************************************************************************* 
                 string strRetrieve;
 
-                bool inSession = SetConversationID(ttTP);
+                bool inSession = SetConversationID(ttTP, host, branch);
                 //ttTP.TracerID = ConversationID;
 
 
@@ -309,8 +309,7 @@ namespace Travelport
                 //******************************************************************************* 
 
                 var ttTP = SetAdapter(ttProviderSystems);
-                bool inSession = SetConversationID(ttTP);
-                var strToReplace = "";
+                bool inSession = SetConversationID(ttTP, host, branch);
 
                 if (Request.IndexOf("ListQueue") != -1)
                 {

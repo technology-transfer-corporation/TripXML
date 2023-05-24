@@ -133,7 +133,7 @@ namespace Travelport
             }
         }
 
-        protected bool SetConversationID(TravelPortWSAdapter ttTP)
+        protected bool SetConversationID(TravelPortWSAdapter ttTP, string host,string branch)
         {
             try
             {
@@ -156,6 +156,9 @@ namespace Travelport
                     ConversationID = oNodeSPL.InnerText.ToUpper().Replace("NONE", "");
 
                 //var token = ConversationID.Split(new[] { "|" }, StringSplitOptions.None);
+                if (string.IsNullOrEmpty(ConversationID))
+                    ConversationID = ttTP.CreateTerminalSession(branch, host);
+
                 if (!String.IsNullOrEmpty(ConversationID))
                 {
                     if (!string.IsNullOrEmpty(ConversationID) && ConversationID.Contains("Error"))

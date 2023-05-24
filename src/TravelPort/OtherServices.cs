@@ -27,12 +27,28 @@ namespace Travelport
                         ? oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText
                         : ProviderSystems.Profile.Text;
 
+                if (oRoot.HasAttribute("Target"))
+                {
+                    switch (oRoot.Attributes["Target"].Value)
+                    {
+                        case "WSP":
+                            host = "1P";
+                            break;
+                        case "GAL":
+                            host = "1G";
+                            break;
+                        default:
+                            host = "1V";
+                            break;
+                    }
+                }
+
                 // *******************************************************************************
                 //  Send Native Request to the Amadeus Adapter and Getting Native Response  *
                 // ******************************************************************************* 
                 var ttProviderSystems = ProviderSystems;
             TravelPortWSAdapter ttTP = SetAdapter(ttProviderSystems);
-            bool inSession = SetConversationID(ttTP);
+            bool inSession = SetConversationID(ttTP, host, branch);
 
             if (strRequest.Contains("AvailabilitySearchReq") || strRequest.Contains("AirPriceReq"))
                 strResponse = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.AirService);
@@ -192,6 +208,9 @@ namespace Travelport
                 TravelPortWSAdapter ttGA = SetAdapter(ProviderSystems);
                 // Create Session and Get Sesson Token
                 string token = ttGA.CreateTerminalSession(branch, host);
+
+                if (token.Contains("Error"))
+                    throw new Exception(token);
                 
                 // Build Response.
                 string strResponse = token.Length == 36 
