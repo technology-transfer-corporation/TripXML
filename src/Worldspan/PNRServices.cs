@@ -1026,6 +1026,65 @@ namespace Worldspan
                                     }
                                 }
                             }
+
+                            try
+                            {
+                                oDoc.LoadXml(strResponse);
+                                XmlElement oRootResponse = oDoc.DocumentElement;
+                                List<Dictionary<string, string>> attributes = new List<Dictionary<string, string>>();
+
+                                foreach (XmlNode node in oRootResponse.ChildNodes)
+                                {
+                                    if (node.Name.Equals("PricedItineraries"))
+                                    {
+                                        foreach(XmlNode node1 in node.ChildNodes)
+                                        {
+                                            if (node1.Name.Equals("PricedItinerary"))
+                                            {
+                                                if (node1.Attributes["SequenceNumber"].Value == "1")
+                                                {
+                                                    var ptcs = node1.FirstChild.SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown");
+                                                    foreach(XmlNode ptc in ptcs)
+                                                    {
+                                                        var dict = new Dictionary<string, string>();
+                                                        foreach(XmlAttribute attr in ptc.Attributes)
+                                                        {
+                                                            dict.Add(attr.Name, attr.Value);
+                                                        }
+                                                        attributes.Add(dict);
+                                                    }
+                                                }
+
+                                                if (node1.Attributes["SequenceNumber"].Value == "2")
+                                                {
+                                                    var ptcs = node1.FirstChild.SelectSingleNode("PTC_FareBreakdowns").SelectNodes("PTC_FareBreakdown");
+                                                    int index = 0;
+                                                    foreach (XmlNode ptc in ptcs)
+                                                    {
+                                                        foreach(var attr in attributes[index])
+                                                        {
+                                                            if(ptc.Attributes[attr.Key] == null)
+                                                            {
+                                                                XmlAttribute newAttr = oDoc.CreateAttribute(attr.Key);
+                                                                newAttr.Value = attr.Value;
+                                                                ptc.Attributes.SetNamedItem(newAttr);
+                                                            }
+                                                        }
+                                                        index++;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                strResponse = oRootResponse.OuterXml;
+                            }
+                            catch(Exception ex)
+                            {
+                                CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Attribute added error", ex.Message, ProviderSystems.LogUUID);
+                            }
+
                         }
                         // ---------------------------------------------
                     }
