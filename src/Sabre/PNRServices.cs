@@ -56,6 +56,64 @@ namespace Sabre
                     initDoc.LoadXml(strResponse);
                     XmlElement initRoot = initDoc.DocumentElement;
 
+                    foreach (var gi in new[] { "EH", "WH", "PA", "AT" })
+                    {
+                        var fcNodes = initRoot.SelectNodes("//FareCalc").Cast<XmlNode>();
+                        try
+                        {
+                            if (fcNodes.Any(x => x.InnerText.Contains($"*{gi}*")))
+                            {
+                                var withGI = fcNodes.First(x => x.InnerText.Contains($"*{gi}*"));
+                                foreach (var item in fcNodes.Where(x => !x.InnerText.Contains($"*{gi}*")))
+                                {
+                                    var toFix = item.InnerText;
+                                    var replacePattern = withGI.InnerText.Replace($"*{gi}*", "*");
+                                    do
+                                    {
+                                        var subP = replacePattern.Substring(replacePattern.IndexOf('*') - 3, 7);
+                                        if (toFix.Contains(subP))
+                                        {
+                                            toFix = toFix.Replace(subP, $"{subP.Substring(0, 3)}*{gi}*{subP.Substring(4, 3)}");
+                                            replacePattern = replacePattern.Remove(replacePattern.IndexOf(subP), subP.Length);
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    } while (replacePattern.Contains("*"));
+                                    item.InnerText = toFix;
+                                }
+                            }
+                            fcNodes = initRoot.SelectNodes("//FareCalculation/Text").Cast<XmlNode>();
+                            if (fcNodes.Any(x => x.InnerText.Contains($"*{gi}*")))
+                            {
+                                var withGI = fcNodes.First(x => x.InnerText.Contains($"*{gi}*"));
+                                foreach (var item in fcNodes.Where(x => !x.InnerText.Contains($"*{gi}*")))
+                                {
+                                    var toFix = item.InnerText;
+                                    var replacePattern = withGI.InnerText.Replace($"*{gi}*", "*");
+                                    do
+                                    {
+                                        var subP = replacePattern.Substring(replacePattern.IndexOf('*') - 3, 7);
+                                        if (toFix.Contains(subP))
+                                        {
+                                            toFix = toFix.Replace(subP, $"{subP.Substring(0, 3)}*{gi}*{subP.Substring(4, 3)}");
+                                            replacePattern = replacePattern.Remove(replacePattern.IndexOf(subP), subP.Length);
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    } while (replacePattern.Contains("*"));
+                                    item.InnerText = toFix;
+                                }
+                            }
+                            strResponse = initRoot.OuterXml;
+                        }
+                        catch (Exception) { }
+                    }
+
+
                     // Check for Errors
                     if (strResponse.Contains("Success") || Version == "v04_")
                     {
