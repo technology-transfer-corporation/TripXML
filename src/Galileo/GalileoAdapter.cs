@@ -111,10 +111,11 @@ namespace Galileo
                             : new wsGalileoCopy.XmlSelect { Url = ProviderSystems.URL };
                 }
                 // CoreLib.SendTrace(sb.Append($"{mstrUserID}").ToString(), "ttGalileoAdapter", "Create Session", mstrProfile, String.Empty)
-                CoreLib.SendTrace(ProviderSystems.UserID, "ttGalileoAdapter", "Create Session", "", ProviderSystems.LogUUID);
+                CoreLib.SendTrace(ProviderSystems.UserID, "ttGalileoAdapter", "Create Session", $"Creating session for \"{mstrProfile}\" - profile", ProviderSystems.LogUUID);
                 string token = ProviderSystems.System == "Production"
                     ? (ows as wsGalileoProd.XmlSelect).BeginSession(mstrProfile).ToString()
                     : ((wsGalileoCopy.XmlSelect)ows).BeginSession(mstrProfile).ToString();
+
 
                 // Write a procedure that will write a Log file with information on just opened session for SPLUNK
                 var trace = new JObject(new JProperty("Provider", ProviderSystems.Provider), new JProperty("ID", token), new JProperty("Type", "Open"), new JProperty("User", ProviderSystems.UserID), new JProperty("UUID", ProviderSystems.LogUUID), new JProperty("TimeStamp", DateTime.Now));
@@ -127,6 +128,7 @@ namespace Galileo
             }
             catch (Exception ex)
             {
+                CoreLib.SendTrace(ProviderSystems.UserID, $"ttGalileoAdapter", "Session Created Error", $"Failed to create session for \"{mstrProfile}\" - profile", ProviderSystems.LogUUID);
                 throw ex;
             }
         }
