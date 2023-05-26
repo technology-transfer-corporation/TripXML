@@ -98,6 +98,8 @@ Namespace wsTravelTalk
                             If Not String.IsNullOrEmpty(sessionID) Then
                                 request = request.Replace(sessionID, "")
                             End If
+                            ttDefProvider.AAAPCC = ttCredential.Providers(0).PCC
+                            ttCredential.Providers(0).PCC = "3M2Y"
                             PreServiceRequest(request, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, UUID, "", True)
                             response = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, request)
                             response = response.Replace("</OTA_PNRRepriceRS>", $"<ConversationID>{sessionID}</ConversationID></OTA_PNRRepriceRS>")
