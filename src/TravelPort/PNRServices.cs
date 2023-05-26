@@ -195,7 +195,7 @@ namespace Travelport
                 //******************************************************************************* 
                 string strRetrieve;
 
-                bool inSession = SetConversationID(ttTP, host, branch);
+                bool inSession = SetConversationID(ttTP, host);
                 //ttTP.TracerID = ConversationID;
 
 
@@ -225,8 +225,9 @@ namespace Travelport
                         if (isPricePublished && (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0 ))
                         {
                             //&& oRoot.SelectNodes("StoredFare[@FareType='Published']").Count > 0)
-                            //<PNR>{response}</PNR>
-                            modRQ = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{modRS}</Response></OTA_PNRRepriceRQ>").Replace("</OTA_PNRRepriceRQ>", $"<UpdatePrice>{airRS}</UpdatePrice></OTA_PNRRepriceRQ>");
+                            //<Response>{modRS}</Response>
+                            var universalRecord = modRS.Contains("AirPricingInfo") ? modRS : response;
+                            modRQ = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{universalRecord}</Response></OTA_PNRRepriceRQ>").Replace("</OTA_PNRRepriceRQ>", $"<UpdatePrice>{airRS}</UpdatePrice></OTA_PNRRepriceRQ>");
                             CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "UpdatePrice RQ", modRQ, ProviderSystems.LogUUID);
                             modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
                             CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Store Price RS", modRQ, ProviderSystems.LogUUID);

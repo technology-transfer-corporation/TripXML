@@ -133,7 +133,7 @@ namespace Travelport
             }
         }
 
-        protected bool SetConversationID(TravelPortWSAdapter ttTP, string host,string branch)
+        protected bool SetConversationID(TravelPortWSAdapter ttTP, string host,string branch = "P3998570") //Hardcoded branch is a value of 3M2Y which is Service Bureau
         {
             try
             {

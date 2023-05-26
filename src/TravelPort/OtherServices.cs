@@ -16,6 +16,7 @@ namespace Travelport
                 XmlDocument oReqDoc = new XmlDocument();
                 oReqDoc.LoadXml(strRequest);
                 XmlElement oRoot = oReqDoc.DocumentElement;
+                branch = ProviderSystems.Profile.Text;
 
                 if (oRoot.SelectSingleNode("Native") == null)
                     throw new Exception("Native Message is missing in the Request.");
@@ -23,7 +24,8 @@ namespace Travelport
                 string ConversationID = oRoot.SelectSingleNode("POS/TPA_Extensions/ConversationID").InnerText;
                 strRequest = oRoot.SelectSingleNode("Native").InnerXml;
 
-                branch = !string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText)
+                if(oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance") != null)
+                    branch = !string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText)
                         ? oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText
                         : ProviderSystems.Profile.Text;
 

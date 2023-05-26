@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Net;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -19,7 +19,11 @@ namespace Travelport
 
         public TravelPortWSAdapter(modCore.TripXMLProviderSystems providerSystems)
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            providerSystems.UserName = !providerSystems.UserName.Contains("Universal API/") ? $"Universal API/{providerSystems.UserName}" : providerSystems.UserName;
+
             ttProviderSystems = providerSystems;
+
         }
 
         public TravelPortWSAdapter(modCore.TripXMLProviderSystems providerSystems, string version)
