@@ -646,6 +646,9 @@ namespace Sabre
                             var convDoc = new XmlDocument();
                             foreach (XmlNode makrupNode in oDoc.SelectNodes("//StoredFare/Markup"))
                             {
+                                if (makrupNode.Attributes.Count == 0)
+                                    continue;
+
                                 var amount = makrupNode.Attributes["Amount"].Value;
                                 string strConv = $"<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>DC¥USD{amount}/{cur}</HostCommand></Request></SabreCommandLLSRQ>";
                                 var convResp = ttSA.SendMessage(strConv, $"DC¥USD{amount}/{cur}", "SabreCommandLLSRQ", ConversationID);
