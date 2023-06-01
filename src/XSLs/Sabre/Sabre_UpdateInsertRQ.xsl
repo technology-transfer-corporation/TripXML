@@ -246,6 +246,11 @@
                             <xsl:value-of select="'.'"/>
                             <xsl:value-of select="substring($comm,string-length($comm) - 1)"/>
                           </xsl:when>
+                          <xsl:when test="Markup/@DecimalPlaces='1'">
+                            <xsl:value-of select="substring($comm,1,string-length($comm) - 1)"/>
+                            <xsl:value-of select="'.'"/>
+                            <xsl:value-of select="substring($comm,string-length($comm))"/>
+                          </xsl:when>
                           <xsl:otherwise>
                             <xsl:value-of select="concat($comm,'.00')"/>
                           </xsl:otherwise>
@@ -272,6 +277,11 @@
                           <xsl:value-of select="substring($comm,1,string-length($comm) - 2)"/>
                           <xsl:value-of select="'.'"/>
                           <xsl:value-of select="substring($comm,string-length($comm) - 1)"/>
+                        </xsl:when>
+                        <xsl:when test="Commission/@DecimalPlaces='1'">
+                          <xsl:value-of select="substring($comm,1,string-length($comm) - 1)"/>
+                          <xsl:value-of select="'.'"/>
+                          <xsl:value-of select="substring($comm,string-length($comm))"/>
                         </xsl:when>
                         <xsl:otherwise>
                           <xsl:value-of select="concat($comm,'.00')"/>
