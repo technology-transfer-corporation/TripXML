@@ -74,6 +74,7 @@
 					</xsl:if>
 
 					<common_v50_0:BillingPointOfSaleInfo OriginApplication="UAPI"/>
+					<xsl:call-template name="EmulateOffice" />
 					<ProviderReservationInfo>
 						<xsl:attribute name="ProviderCode">
 							<xsl:choose>
@@ -164,6 +165,7 @@
 				<xsl:with-param name="action" select="'price'" />
 				<xsl:with-param name="pnr" select="$PNR" />
 			</xsl:call-template>
+			<xsl:call-template name="EmulateOfficePrice" />
 		</air:AirPriceReq>
 	</xsl:template>
 
@@ -231,6 +233,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 				</xsl:attribute>
 			</xsl:if>
 			<common_v50_0:BillingPointOfSaleInfo OriginApplication="UAPI"/>
+			<xsl:call-template name="EmulateOffice" />
 			<common_v50_0:ContinuityCheckOverride>Yes</common_v50_0:ContinuityCheckOverride>
 			<xsl:call-template name="passanger_air">
 				<xsl:with-param name="action" select="'new'" />
@@ -248,6 +251,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 				</xsl:with-param>
 			</xsl:call-template>
 			<common_v50_0:FileFinishingInfo/>
+
 		</universal:UniversalRecordModifyReq>
 	</xsl:template>
 
@@ -319,7 +323,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			</xsl:if>
 
 			<common_v50_0:BillingPointOfSaleInfo OriginApplication="UAPI"/>
-
+			<xsl:call-template name="EmulateOffice" />
 			<xsl:call-template name="mod_air">
 				<xsl:with-param name="pnr" select="msxsl:node-set($PNR)" />
 				<xsl:with-param name="airprice" select="$Price" />
@@ -334,8 +338,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 					</xsl:choose>
 				</xsl:with-param>
 			</xsl:call-template>
-
 			<common_v50_0:FileFinishingInfo/>
+
 		</universal:UniversalRecordModifyReq>
 	</xsl:template>
 
@@ -410,7 +414,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 				<xsl:when test="contains($priceType,'Published')">
 					<xsl:text>Guaranteed</xsl:text>
 				</xsl:when>
-				<xsl:otherwise>					
+				<xsl:otherwise>
 					<xsl:text>GuaranteedUsingAirlinePrivateFare</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
@@ -844,10 +848,18 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 		<xsl:for-each select="msxsl:node-set($groups)/elem/node()[1]">
 			<xsl:variable name="g" select="." />
 			<xsl:variable name="p" select="$priceList[@FarePriceGroup=$g]/PassengerType/@Code" />
-			<xsl:if test="msxsl:node-set($airprice)[1]/node()[air:PassengerType/@Code = msxsl:node-set($changePTC)/elem/node()[1][substring(.,1,1) = substring($p,1,1)]]">
+
+			<xsl:variable name="ptc">
+				<xsl:call-template name="price_ptc" >
+					<xsl:with-param name="sptc" select="$p"/>
+				</xsl:call-template>
+			</xsl:variable>
+
+			<!--<xsl:if test="msxsl:node-set($airprice)[1]/air:AirPricingInfo[air:PassengerType/@Code = msxsl:node-set($changePTC)/elem[1][substring(.,1,1) = substring($ptc,1,1)]]">-->
+			<xsl:if test="msxsl:node-set($airprice)[1]/air:AirPricingInfo[air:PassengerType/@Code = $ptc]">
 				<universal:UniversalModifyCmd>
 					<xsl:attribute name="Key">
-						<xsl:value-of select="position() + 1"/>
+						<xsl:value-of select="position() + 1"/>  b
 					</xsl:attribute>
 					<universal:AirAdd>
 						<xsl:attribute name="ReservationLocatorCode">
@@ -856,7 +868,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 						<xsl:call-template name="ModStoredFareJoined" >
 							<xsl:with-param name="pnr" select="$pnr" />
 							<xsl:with-param name="fares" select="$priceList[@FarePriceGroup=$g]" />
-							<xsl:with-param name="airprice" select="msxsl:node-set($airprice)[1]/node()[air:PassengerType/@Code = msxsl:node-set($changePTC)/elem/node()[1]]" />
+							<xsl:with-param name="airprice" select="msxsl:node-set($airprice)[1]/air:AirPricingInfo[air:PassengerType/@Code = $ptc]" />
 						</xsl:call-template>
 					</universal:AirAdd>
 				</universal:UniversalModifyCmd>
@@ -1201,7 +1213,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 				</xsl:attribute>
 				<xsl:attribute name="PlatingCarrier" >
 					<xsl:value-of select="@PlatingCarrier"/>
-				</xsl:attribute>			
+				</xsl:attribute>
 
 				<xsl:apply-templates select="." mode="markup">
 					<xsl:with-param name="storedFare" select="$storedFare"/>
@@ -1388,7 +1400,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 				<xsl:value-of select="@SegmentRef"/>
 			</xsl:attribute>
 			<xsl:for-each select="//StoredFare">
-				<xsl:variable name="sptc" select="PassengerType/@Code" />				
+				<xsl:variable name="sptc" select="PassengerType/@Code" />
 				<xsl:variable name="ptc">
 					<xsl:call-template name="price_ptc" >
 						<xsl:with-param name="sptc" select="$sptc"/>
@@ -1440,7 +1452,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 					</xsl:attribute>
 				</air:ManualFareAdjustment>
 			</xsl:for-each>
-		</xsl:if>		
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template name="tokenizeString">
@@ -1531,4 +1543,30 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 		</xsl:call-template>
 	</xsl:template>
 
+	<xsl:template name="EmulateOfficePrice">
+		<air:PCC>
+			<xsl:call-template name="EmulateOffice" />
+		</air:PCC>
+	</xsl:template>
+
+	<xsl:template name="EmulateOffice" >
+		<common_v50_0:OverridePCC>
+			<xsl:attribute name="ProviderCode">
+				<xsl:choose>
+					<xsl:when test="@Target='WSP'">
+						<xsl:value-of select="'1P'"/>
+					</xsl:when>
+					<xsl:when test="@Target='APL'">
+						<xsl:value-of select="'1V'"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="'1G'"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
+			<xsl:attribute name="PseudoCityCode">
+				<xsl:value-of select="//POS/Source/@PseudoCityCode"/>
+			</xsl:attribute>
+		</common_v50_0:OverridePCC>
+	</xsl:template>
 </xsl:stylesheet>
