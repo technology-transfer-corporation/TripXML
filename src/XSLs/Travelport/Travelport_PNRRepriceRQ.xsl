@@ -734,7 +734,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 							</universal:AirAdd>
 						</universal:UniversalModifyCmd>
 					</xsl:for-each>
-					<xsl:if test="count(//StoredFare/PassengerType/@Code) > count(msxsl:node-set($changePTC)/elem)">
+					<xsl:if test="count(msxsl:node-set($changePTC)/elem) > 0 and (count(//StoredFare/PassengerType/@Code) > count(msxsl:node-set($changePTC)/elem))">
 						<xsl:variable name="sibgroup">
 							<xsl:choose>
 								<xsl:when test="$pnr/air:AirReservation/preceding-sibling::air:AirPricingInfo/@AirPricingInfoGroup">
@@ -859,7 +859,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			<xsl:if test="msxsl:node-set($airprice)[1]/air:AirPricingInfo[air:PassengerType/@Code = $ptc]">
 				<universal:UniversalModifyCmd>
 					<xsl:attribute name="Key">
-						<xsl:value-of select="position() + 1"/>  b
+						<xsl:value-of select="position() + 1"/>
 					</xsl:attribute>
 					<universal:AirAdd>
 						<xsl:attribute name="ReservationLocatorCode">
