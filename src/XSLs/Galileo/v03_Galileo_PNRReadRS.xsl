@@ -4,7 +4,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
-  Date: 12 Jun 2023 - Kobelev - In CustomerInfo use LNameNum for Passanger number
+  Date: 12 Jun 2023 - Kobelev - In CustomerInfo use LNameNum for Passanger number added ProfileRefRS
   Date: 08 Mar 2022 - Kobelev - Not trying to read Age for P-JWZ.
   Date: 15 Dec 2022 - Kobelev - Formating childrens age for NET fare (JNN).
   Date: 28 Nov 2022 - Kobelev - Formating childrens age.
@@ -2377,6 +2377,11 @@
 					</xsl:variable>
 					<xsl:apply-templates select="../FreqCustInfo[LNameNum = $lnamenum]" />
 				</Customer>
+				<ProfileRefRS>
+					<xsl:attribute name="ID">
+						<xsl:value-of select="concat(./LNameNum, '.', ./NumPsgrs)"/>
+					</xsl:attribute>
+				</ProfileRefRS>
 			</CustomerInfo>
 			<xsl:call-template name="buildnames">
 				<xsl:with-param name="PsgrsTot">
