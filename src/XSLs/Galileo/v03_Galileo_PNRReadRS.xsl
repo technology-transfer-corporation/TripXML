@@ -4,6 +4,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 12 Jun 2023 - Kobelev - In CustomerInfo use LNameNum for Passanger number
   Date: 08 Mar 2022 - Kobelev - Not trying to read Age for P-JWZ.
   Date: 15 Dec 2022 - Kobelev - Formating childrens age for NET fare (JNN).
   Date: 28 Nov 2022 - Kobelev - Formating childrens age.
@@ -2268,11 +2269,9 @@
 			<xsl:variable name="ItemNo">
 				<xsl:value-of select="LNameNum" />
 			</xsl:variable>
-
 			<xsl:variable name="absNum">
 				<xsl:value-of select="../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/AbsNameNum" />
 			</xsl:variable>
-
 			<CustomerInfo>
 				<xsl:attribute name="RPH">
 					<xsl:choose>
@@ -2280,10 +2279,9 @@
 							<xsl:value-of select="$absNum" />
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="$PsgrsNum" />
+							<xsl:value-of select="LNameNum" />
 						</xsl:otherwise>
 					</xsl:choose>
-
 				</xsl:attribute>
 				<Customer>
 					<xsl:if test="../GenPNRInfo/OwningCRS = '1G'">
