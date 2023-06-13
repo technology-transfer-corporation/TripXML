@@ -4,6 +4,7 @@
 ================================================================== 
 v03_Worldspan_PNRReadRS.xsl 					     								       
 ==================================================================
+Date: 12 Jun 2023 - Kobelev - Added ProfileRefRS to response
 Date: 08 Feb 2023 - Kobelev - Endorsements fix.
 Date: 05 Jan 2023 - Samokhvalov - Baggege Node fixes.
 Date: 09 Dec 2022 - Samokhvalov - TPA_Extensions/AgencyCommission from SPE_RMK_INF added.
@@ -1992,6 +1993,11 @@ End Function
 				</PersonName>
 				<xsl:apply-templates select="../../PNR_INF/TEL_INF/TEL_NUM"/>
 			</Customer>
+			<ProfileRefRS>
+				<xsl:attribute name="ID">
+					<xsl:value-of select="NME_POS"/>
+				</xsl:attribute>
+			</ProfileRefRS>
 		</CustomerInfo>
 	</xsl:template>
 
