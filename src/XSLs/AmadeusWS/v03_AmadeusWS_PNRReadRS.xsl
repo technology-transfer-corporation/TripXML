@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 15 Jun 2023 - Kobelev - Calling for Ticket Image for Manual Electronic tickets.
    Date: 22 Feb 2023 - Kobelev - Price Type determination added specific condition for I0 FCMI.
    Date: 10 Jan 2023 - Samokhvalov - Farebasis fixes.
    Date: 09 Aug 2022 - Kobelev - Confirmation Number for FOP as part of CC.
@@ -4944,7 +4945,18 @@
 					</xsl:for-each>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:value-of select="otherDataFreetext/longFreetext"/>
+
+			<xsl:choose>
+				<xsl:when test="//ManualTickets/Ticket">
+					<xsl:variable name="tkt" select="substring(otherDataFreetext/longFreetext, 5, 14)" />													
+
+					<xsl:variable name="status" select="//ManualTickets/Ticket[@Number=$tkt]/text()" />
+					<xsl:value-of select="concat(otherDataFreetext/longFreetext, ' ', $status)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="otherDataFreetext/longFreetext"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</ElectronicTicket>
 	</xsl:template>
 	<!-- ************************************************************** -->
@@ -4978,7 +4990,18 @@
 					</xsl:for-each>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:value-of select="otherDataFreetext/longFreetext"/>
+
+			<xsl:choose>
+				<xsl:when test="//ManualTickets/Ticket">
+					<xsl:variable name="tkt" select="substring(otherDataFreetext/longFreetext, 4, 14)" />
+					<xsl:variable name="status" select="//ManualTickets/Ticket[Number = $tkt]" />
+					<xsl:value-of select="concat(otherDataFreetext/longFreetext, ' ', $status)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="otherDataFreetext/longFreetext"/>		
+				</xsl:otherwise>
+			</xsl:choose>
+			
 		</ManualTicket>
 	</xsl:template>
 	<!-- ************************************************************** -->
@@ -4995,7 +5018,7 @@
 						<xsl:if test="position() > 1">
 							<xsl:text> </xsl:text>
 						</xsl:if>
-						<xsl:value-of select="../../../../../travellerInfo/elementManagementPassenger[reference/number = $rph]/lineNumber"/>
+						<xsl:value-of select="//travellerInfo/elementManagementPassenger[reference/number = $rph]/lineNumber"/>
 					</xsl:for-each>
 				</xsl:attribute>
 			</xsl:if>
@@ -5008,7 +5031,7 @@
 						<xsl:if test="position() > 1">
 							<xsl:text> </xsl:text>
 						</xsl:if>
-						<xsl:value-of select="../../../../../originDestinationDetails/itineraryInfo/elementManagementItinerary[reference/number = $rph]/lineNumber"/>
+						<xsl:value-of select="//originDestinationDetails/itineraryInfo/elementManagementItinerary[reference/number = $rph]/lineNumber"/>
 					</xsl:for-each>
 				</xsl:attribute>
 			</xsl:if>
