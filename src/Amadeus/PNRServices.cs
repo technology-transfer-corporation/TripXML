@@ -8,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using static TripXMLMain.modCore.enAmadeusWSSchema;
+using WebSocketSharp;
+using System.Text.RegularExpressions;
 
 namespace AmadeusWS
 {
@@ -202,6 +204,7 @@ namespace AmadeusWS
                 }
                 #endregion
 
+                #region Split PNR Check
                 string strSplitPNR = string.Empty;
                 if (strResponse.Contains("<segmentName>SP</segmentName>"))
                 {
@@ -232,7 +235,9 @@ namespace AmadeusWS
                         }
                     }
                 }
+                #endregion
 
+                #region Process Coupon
                 string strCouponStatus = string.Empty;
                 if (ttProviderSystems.CouponStatus)
                 {
@@ -252,6 +257,30 @@ namespace AmadeusWS
 
                     }
                 }
+                #endregion
+
+                #region Process Electronic Manual or Automated Ticket                        
+
+                if (strResponse.Contains("<segmentName>FHE</segmentName>") || strResponse.Contains("<segmentName>FHA</segmentName>") || strResponse.Contains("<segmentName>FHM</segmentName>"))
+                {
+                    string strManualTicket = "<ManualTickets>";
+                    var oDocCS = new XmlDocument();
+                    oDocCS.LoadXml(strResponse);
+                    XmlElement oRootMT = oDocCS.DocumentElement;
+                    if (strResponse.Contains("<segmentName>FHE</segmentName>"))
+                        strManualTicket += ProcessFHTickets(ttAA, oRootMT.SelectNodes("dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FHE']/otherDataFreetext"));
+
+                    if (strResponse.Contains("<segmentName>FHA</segmentName>"))
+                        strManualTicket += ProcessFHTickets(ttAA, oRootMT.SelectNodes("dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FHA']/otherDataFreetext"));
+
+                    if (strResponse.Contains("<segmentName>FHM</segmentName>"))
+                        strManualTicket += ProcessFHTickets(ttAA, oRootMT.SelectNodes("dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FHM']/otherDataFreetext"));
+
+                    strManualTicket += "</ManualTickets>";
+                    strResponse = strResponse.Replace("</PNR_Reply>", $"{strManualTicket}</PNR_Reply>");
+                }
+
+                #endregion
 
                 //*****************************************************************
                 // Transform Native Amadeus PNRRead Response into OTA Response   *
@@ -1132,18 +1161,34 @@ namespace AmadeusWS
 
                         #region RTSVI Call
 
-                        string strRTSVI = SendCommandCryptically(ttAA, "RTSVI");
-
-                        var oDocCryptic = new XmlDocument();
-                        oDocCryptic.LoadXml(strRTSVI);
-                        XmlElement oRootCryptic = oDocCryptic.DocumentElement;
-                        string strScreen = oRootCryptic.SelectSingleNode("longTextString/textStringDetails").InnerText;
-
-                        strRTSVI = formatAmadeus(strScreen);
+                        string strRTSVI = HandleCrypticComands(ttAA, "RTSVI");
                         if (strRTSVI.Length > 0)
                         {
                             strRTSVI = $"<RTSVI>{strRTSVI.Replace("&", "&amp;")}</RTSVI>";
                             strResponse = strResponse.Replace("</PNR_Reply>", $"{strRTSVI}</PNR_Reply>");
+                        }
+
+                        #endregion
+
+                        #region Process Electronic Manual or Automated Ticket                        
+
+                        if (strResponse.Contains("<segmentName>FHE</segmentName>") || strResponse.Contains("<segmentName>FHA</segmentName>") || strResponse.Contains("<segmentName>FHM</segmentName>"))
+                        {
+                            string strManualTicket = "<ManualTickets>";
+                            var oDocCS = new XmlDocument();
+                            oDocCS.LoadXml(strResponse);
+                            XmlElement oRootMT = oDocCS.DocumentElement;
+                            if (strResponse.Contains("<segmentName>FHE</segmentName>"))
+                                strManualTicket += ProcessFHTickets(ttAA, oRootMT.SelectNodes("dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FHE']/otherDataFreetext"));                                
+                            
+                            if (strResponse.Contains("<segmentName>FHA</segmentName>"))
+                                strManualTicket += ProcessFHTickets(ttAA, oRootMT.SelectNodes("dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FHA']/otherDataFreetext"));                                
+
+                            if (strResponse.Contains("<segmentName>FHM</segmentName>"))
+                                strManualTicket += ProcessFHTickets(ttAA, oRootMT.SelectNodes("dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FHM']/otherDataFreetext"));
+
+                            strManualTicket += "</ManualTickets>";
+                            strResponse = strResponse.Replace("</PNR_Reply>", $"{strManualTicket}</PNR_Reply>");
                         }
 
                         #endregion
@@ -1254,7 +1299,7 @@ namespace AmadeusWS
 
             return strResponse;
         }
-
+                
         public string PNRReprice()
         {
             string strResponse;
@@ -3128,6 +3173,59 @@ namespace AmadeusWS
         //    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
         //    return strResponse;
         //}
+
+        private string HandleCrypticComands(AmadeusWSAdapter ttAA, string command)
+        {
+            try
+            {
+                string crypticRS = SendCommandCryptically(ttAA, command);
+                var oDocCryptic = new XmlDocument();
+                oDocCryptic.LoadXml(crypticRS);
+                XmlElement oRootCryptic = oDocCryptic.DocumentElement;
+                string strScreen = oRootCryptic.SelectSingleNode("longTextString/textStringDetails").InnerText;
+
+                crypticRS = formatAmadeus(strScreen);
+                return crypticRS;
+            }
+            catch (Exception ex)
+            {
+                return modCore.FormatErrorMessage(modCore.ttServices.SearchName, ex.Message, ttProviderSystems);
+            }
+        }
+
+        private string GetTicketStatus(string ticketImage)
+        {
+            try
+            {
+                var myRegex = new Regex(@"\d\s[A-Z]{3,4} ");
+                List<string> lines = ticketImage.Split(new[] { "<Line>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                var flightLines = lines.Where(f => myRegex.IsMatch(f)).ToList().FindAll(f => f.Contains(" V ") );                
+                return flightLines.Count.Equals(0) ? "E" : "V";
+            }
+            catch (Exception ex)
+            {
+                return modCore.FormatErrorMessage(modCore.ttServices.SearchName, ex.Message, ttProviderSystems);
+            }
+        }
+
+        private string ProcessFHTickets(AmadeusWSAdapter ttAA, XmlNodeList xmlNodeList)
+        {
+            var FHRS = string.Empty;
+
+            foreach (XmlNode oNodeFH in xmlNodeList)
+            {
+                string tktnum = oNodeFH.SelectSingleNode("longFreetext").InnerText;
+                if (string.IsNullOrEmpty(tktnum))
+                    break;
+
+                tktnum = tktnum.Substring(4, 14).Trim();
+                var mTicket = HandleCrypticComands(ttAA, $"TWD/TKT{tktnum}");
+                if (mTicket.Length > 0)
+                    FHRS += $"<Ticket Number=\"{tktnum}\">{GetTicketStatus(mTicket.Replace("&", "&amp;"))}</Ticket>";
+            }
+
+            return FHRS;
+        }
 
         public string SearchName()
         {
