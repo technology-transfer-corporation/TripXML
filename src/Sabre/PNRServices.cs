@@ -858,9 +858,12 @@ namespace Sabre
                                 strRepriceReq = strRepriceReq.Replace("<NameSelect>NS</NameSelect>", strPassengers);
                                 strPaxCombined += strPassengers;
                                 //TODO: Replace amount
-                                var amount = ptcMarkup[oRoot.SelectSingleNode($"StoredFare[position()={i}]/PassengerType/@Code").InnerText];
-                                var conAmount = amount * bsr;
-                                strRepriceReq = strRepriceReq.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount:#0.00}");
+                                if (!bsr.Equals(1M) && ptcMarkup != null && ptcMarkup.ContainsKey(oRoot.SelectSingleNode($"StoredFare[position()={i}]/PassengerType/@Code").InnerText))
+                                {
+                                    var amount = ptcMarkup[oRoot.SelectSingleNode($"StoredFare[position()={i}]/PassengerType/@Code").InnerText];
+                                    var conAmount = amount * bsr;
+                                    strRepriceReq = strRepriceReq.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount:#0.00}");
+                                }
 
                                 // here we get fare basis codes from PNR to include in reprice command when we have reprice with ticket designator and/or discount
                                 if (Request.Contains("<Discount") | Request.Contains("<TicketDesignator>"))
