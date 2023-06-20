@@ -711,12 +711,20 @@ namespace Sabre
                                 string strConv = $"<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>DC¥USD{amount}/{cur}</HostCommand></Request></SabreCommandLLSRQ>";
                                 var convResp = ttSA.SendMessage(strConv, $"DC¥USD{amount}/{cur}", "SabreCommandLLSRQ", ConversationID);
                                 convDoc.LoadXml(convResp);
-                                var conAmount = convDoc.DocumentElement.SelectSingleNode("//Response").InnerText.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Last()
-                                    .Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Skip(1).First();
+                                //var conAmount = convDoc.DocumentElement.SelectSingleNode("//Response").InnerText.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Last()
+                                //    .Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Skip(1).First();
                                 bsr = decimal.Parse(convDoc.DocumentElement.SelectSingleNode("//Response").InnerText.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                                     .First(x => x.Contains("BSR")).Split('-').Last().Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).First());
-                                strPriceCombined = strPriceCombined.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount}");
-                                strPrice = strPrice.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount}");
+                                break;
+                            }
+                            foreach (XmlNode makrupNode in oDoc.SelectNodes("//StoredFare/Markup"))
+                            {
+                                if (makrupNode.Attributes.Count == 0)
+                                    continue;
+                                var amount = decimal.TryParse(makrupNode.Attributes["Amount"].Value, out _) ? decimal.Parse(makrupNode.Attributes["Amount"].Value) : 0.0M;
+                                var conAmount = amount * bsr;
+                                strPriceCombined = strPriceCombined.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount:#0.00}");
+                                //strPrice = strPrice.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount:#0.00}");
                             }
 
                             foreach (XmlNode item in oRootResp.SelectNodes("//PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]"))
@@ -849,6 +857,10 @@ namespace Sabre
                                 string strRepriceReq = oNodePricer.OuterXml;
                                 strRepriceReq = strRepriceReq.Replace("<NameSelect>NS</NameSelect>", strPassengers);
                                 strPaxCombined += strPassengers;
+                                //TODO: Replace amount
+                                var amount = ptcMarkup[oRoot.SelectSingleNode($"StoredFare[position()={i}]/PassengerType/@Code").InnerText];
+                                var conAmount = amount * bsr;
+                                strRepriceReq = strRepriceReq.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount:#0.00}");
 
                                 // here we get fare basis codes from PNR to include in reprice command when we have reprice with ticket designator and/or discount
                                 if (Request.Contains("<Discount") | Request.Contains("<TicketDesignator>"))
@@ -904,7 +916,15 @@ namespace Sabre
                                 var tryCount = 2;
                                 do
                                 {
-                                    //strPriceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                    //foreach (XmlNode makrupNode in oDoc.SelectNodes("//StoredFare/Markup"))
+                                    //{
+                                    //    if (makrupNode.Attributes.Count == 0)
+                                    //        continue;
+                                    //    var amount = decimal.TryParse(makrupNode.Attributes["Amount"].Value, out _) ? decimal.Parse(makrupNode.Attributes["Amount"].Value) : 0.0M;
+                                    //    var conAmount = amount * bsr;
+                                    //    strPriceCombined = strPriceCombined.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount:#0.00}");
+                                    //    strPrice = strPrice.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount:#0.00}");
+                                    //}
 
                                     strPriceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                                     if (strPriceResp.Contains("FORMAT FARE BASIS NOT AVAILABLE") || strPriceResp.Contains("FARE BASIS NOT AVAIL"))
@@ -934,6 +954,7 @@ namespace Sabre
                                                         rItem.Attributes["Amount"].Value = (decimal.Parse(rItem.Attributes["Amount"].Value) + diff).ToString("#.##");
                                                     }
                                                     strRepriceReq = prcReqDoc.OuterXml;
+                                                    bsr = bsr + diff / ptcMarkup[ptcCode];
                                                 }
                                                 else
                                                 {
@@ -1080,6 +1101,7 @@ namespace Sabre
                                                         rItem.Attributes["Amount"].Value = (decimal.Parse(rItem.Attributes["Amount"].Value) + diff).ToString("#.##");
                                                     }
                                                     strPrice = prcReqDoc.OuterXml;
+                                                    bsr = bsr + diff / ptcMarkup[ptcCode];
                                                 }
                                                 else
                                                 {
@@ -1681,19 +1703,19 @@ namespace Sabre
             {
 
                 //string strPQ = oRoot.SelectSingleNode($"StoredFare[position()={i}]/@RPH").InnerText;
-                CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "stored fare number", strPQ, ProviderSystems.LogUUID);
+                //CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "stored fare number", strPQ, ProviderSystems.LogUUID);
 
                 foreach (string line in strPQS.Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries))
                 {
-                    CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "line.Substring(9,1)", line.Substring(9, 1), ProviderSystems.LogUUID);
+                    //CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "line.Substring(9,1)", line.Substring(9, 1), ProviderSystems.LogUUID);
                     if ((strPQ ?? "") == (line.Substring(9, 1) ?? ""))
                     {
                         strPassengers += $"<NameSelect NameNumber=\"{line.Substring(1, 3)}\"/>";
-                        CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "{line.Substring(2, 3)}", line.Substring(1, 3), ProviderSystems.LogUUID);
+                        //CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "{line.Substring(2, 3)}", line.Substring(1, 3), ProviderSystems.LogUUID);
                     }
                 }
 
-                CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "strPassengers", strPassengers, ProviderSystems.LogUUID);
+                //CoreLib.SendTrace(ProviderSystems.UserID, "strPQ", "strPassengers", strPassengers, ProviderSystems.LogUUID);
             }
             catch (Exception ex)
             {
