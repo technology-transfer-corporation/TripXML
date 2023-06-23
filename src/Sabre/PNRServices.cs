@@ -916,7 +916,8 @@ namespace Sabre
                                     strRepriceReq = AddValidatingCarrier(strRepriceReq, validatingCarrier);
 
                                 string strPriceResp = string.Empty;
-                                var tryCount = 2;
+                                var tryCount = 3;
+                                var savePrice = bsr.Equals(1M);
                                 do
                                 {
                                     //foreach (XmlNode makrupNode in oDoc.SelectNodes("//StoredFare/Markup"))
@@ -929,7 +930,7 @@ namespace Sabre
                                     //    strPrice = strPrice.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount:#0.00}");
                                     //}
 
-                                    strPriceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+                                    strPriceResp = ttSA.SendMessage(savePrice ? strRepriceReq : strRepriceReq.Replace("Retain=\"true\"", "Retain=\"false\""), "Price", "OTA_AirPriceLLSRQ", ConversationID);
                                     if (strPriceResp.Contains("FORMAT FARE BASIS NOT AVAILABLE") || strPriceResp.Contains("FARE BASIS NOT AVAIL"))
                                     {
                                         strRepriceReq = Regex.Replace(strRepriceReq, "(<FareBasis>.+)(CH)(</FareBasis>)", "$1$3");
@@ -941,39 +942,41 @@ namespace Sabre
                                         var priceDocResp = new XmlDocument();
                                         priceDocResp.LoadXml(strPriceResp);
 
-                                        foreach (XmlNode item in priceDocResp.DocumentElement.SelectNodes("//PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]"))
-                                        {
-                                            var ptcCode = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Code").Value;
-                                            var ptcAmaount = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/EquivFare/@Amount").Value;
-                                            try
+                                        if (savePrice)
+                                            tryCount = 0;
+                                        else
+                                            foreach (XmlNode item in priceDocResp.DocumentElement.SelectNodes("//PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]"))
                                             {
-                                                if (ptcFare.ContainsKey(ptcCode) && Math.Abs(decimal.Parse(ptcFare[ptcCode]) - decimal.Parse(ptcAmaount)) > ptcMarkup[ptcCode] + maxDiff)
+                                                var ptcCode = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Code").Value;
+                                                var ptcAmaount = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/EquivFare/@Amount").Value;
+                                                try
                                                 {
-                                                    var diff = (ptcMarkup[ptcCode] - (decimal.Parse(ptcAmaount) - decimal.Parse(ptcFare[ptcCode]))) * bsr;
-                                                    var prcReqDoc = new XmlDocument();
-                                                    prcReqDoc.LoadXml(strRepriceReq);
-                                                    foreach (XmlNode rItem in prcReqDoc.SelectNodes("//sx:PlusUp", nsmgr))
+                                                    var newMarkup = !ptcFare.ContainsKey(ptcCode) ? 0 : Math.Abs(decimal.Parse(ptcFare[ptcCode]) - decimal.Parse(ptcAmaount));
+                                                    if (ptcFare.ContainsKey(ptcCode) && (newMarkup > ptcMarkup[ptcCode] + maxDiff || newMarkup < ptcMarkup[ptcCode] - maxDiff))
                                                     {
-                                                        rItem.Attributes["Amount"].Value = (decimal.Parse(rItem.Attributes["Amount"].Value) + diff).ToString("#.##");
+                                                        var diff = (ptcMarkup[ptcCode] - (decimal.Parse(ptcAmaount) - decimal.Parse(ptcFare[ptcCode]))) * bsr;
+                                                        var prcReqDoc = new XmlDocument();
+                                                        prcReqDoc.LoadXml(strRepriceReq);
+                                                        foreach (XmlNode rItem in prcReqDoc.SelectNodes("//sx:PlusUp", nsmgr))
+                                                        {
+                                                            rItem.Attributes["Amount"].Value = (decimal.Parse(rItem.Attributes["Amount"].Value) + diff).ToString("#.##");
+                                                        }
+                                                        strRepriceReq = prcReqDoc.OuterXml;
+                                                        bsr = bsr + diff / ptcMarkup[ptcCode];
                                                     }
-                                                    strRepriceReq = prcReqDoc.OuterXml;
-                                                    bsr = bsr + diff / ptcMarkup[ptcCode];
+                                                    else
+                                                    {
+                                                        savePrice = true;
+                                                    }
                                                 }
-                                                else
+                                                catch
                                                 {
                                                     tryCount = 0;
                                                     break;
                                                 }
                                             }
-                                            catch
-                                            {
-                                                tryCount = 0;
-                                                break;
-                                            }
-                                        }
-
                                     }
-                                } while (!bsr.Equals(1M) && --tryCount > 0);
+                                } while (!bsr.Equals(1M) && tryCount-- > 0);
 
                                 strRepriceResp += strPriceResp;
                                 if (strRepriceResp.Contains("Error"))
@@ -1078,7 +1081,8 @@ namespace Sabre
 
                                 //strRepriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                                 string strPriceResp = string.Empty;
-                                var tryCount = 2;
+                                var tryCount = 3;
+                                var savePrice = bsr.Equals(1M);
                                 do
                                 {
                                     strPriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
@@ -1088,36 +1092,41 @@ namespace Sabre
                                         var priceDocResp = new XmlDocument();
                                         priceDocResp.LoadXml(strPriceResp);
 
-                                        foreach (XmlNode item in priceDocResp.DocumentElement.SelectNodes("//PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]"))
-                                        {
-                                            var ptcCode = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Code").Value;
-                                            var ptcAmaount = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/EquivFare/@Amount").Value;
-                                            try
+                                        if (savePrice)
+                                            tryCount = 0;
+                                        else
+                                            foreach (XmlNode item in priceDocResp.DocumentElement.SelectNodes("//PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]"))
                                             {
-                                                if (ptcFare.ContainsKey(ptcCode) && Math.Abs(decimal.Parse(ptcFare[ptcCode]) - decimal.Parse(ptcAmaount)) > ptcMarkup[ptcCode] + maxDiff)
+                                                var ptcCode = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Code").Value;
+                                                var ptcAmaount = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/EquivFare/@Amount").Value;
+                                                try
                                                 {
-                                                    var diff = (ptcMarkup[ptcCode] - (decimal.Parse(ptcAmaount) - decimal.Parse(ptcFare[ptcCode]))) * bsr;
-                                                    var prcReqDoc = new XmlDocument();
-                                                    prcReqDoc.LoadXml(strPrice);
-                                                    foreach (XmlNode rItem in prcReqDoc.SelectNodes("//sx:PlusUp", nsmgr))
+
+                                                    var newMarkup = !ptcFare.ContainsKey(ptcCode) ? 0 : Math.Abs(decimal.Parse(ptcFare[ptcCode]) - decimal.Parse(ptcAmaount));
+                                                    if (ptcFare.ContainsKey(ptcCode) && (newMarkup > ptcMarkup[ptcCode] + maxDiff || newMarkup < ptcMarkup[ptcCode] - maxDiff))
+                                                    //if (ptcFare.ContainsKey(ptcCode) && Math.Abs(decimal.Parse(ptcFare[ptcCode]) - decimal.Parse(ptcAmaount)) > ptcMarkup[ptcCode] /*+ maxDiff*/)
                                                     {
-                                                        rItem.Attributes["Amount"].Value = (decimal.Parse(rItem.Attributes["Amount"].Value) + diff).ToString("#.##");
+                                                        var diff = (ptcMarkup[ptcCode] - (decimal.Parse(ptcAmaount) - decimal.Parse(ptcFare[ptcCode]))) * bsr;
+                                                        var prcReqDoc = new XmlDocument();
+                                                        prcReqDoc.LoadXml(strPrice);
+                                                        foreach (XmlNode rItem in prcReqDoc.SelectNodes("//sx:PlusUp", nsmgr))
+                                                        {
+                                                            rItem.Attributes["Amount"].Value = (decimal.Parse(rItem.Attributes["Amount"].Value) + diff).ToString("#.##");
+                                                        }
+                                                        strPrice = prcReqDoc.OuterXml;
+                                                        bsr = bsr + diff / ptcMarkup[ptcCode];
                                                     }
-                                                    strPrice = prcReqDoc.OuterXml;
-                                                    bsr = bsr + diff / ptcMarkup[ptcCode];
+                                                    else
+                                                    {
+                                                        savePrice = true;
+                                                    }
                                                 }
-                                                else
+                                                catch
                                                 {
                                                     tryCount = 0;
                                                     break;
                                                 }
                                             }
-                                            catch
-                                            {
-                                                tryCount = 0;
-                                                break;
-                                            }
-                                        }
 
                                     }
                                 } while (!bsr.Equals(1M) && --tryCount > 0);
