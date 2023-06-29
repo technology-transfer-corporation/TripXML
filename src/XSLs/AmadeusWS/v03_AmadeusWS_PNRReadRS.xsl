@@ -4911,7 +4911,18 @@
 					</xsl:for-each>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:value-of select="otherDataFreetext/longFreetext"/>
+
+			<xsl:choose>
+				<xsl:when test="//ManualTickets/Ticket">
+					<xsl:variable name="tkt" select="substring(otherDataFreetext/longFreetext, 5, 14)" />
+
+					<xsl:variable name="status" select="//ManualTickets/Ticket[@Number=$tkt]/text()" />
+					<xsl:value-of select="concat(otherDataFreetext/longFreetext, ' ', $status)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="otherDataFreetext/longFreetext"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</AutomatedTicket>
 	</xsl:template>
 	<!-- ************************************************************** -->
