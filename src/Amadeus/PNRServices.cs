@@ -1179,10 +1179,10 @@ namespace AmadeusWS
                             oDocCS.LoadXml(strResponse);
                             XmlElement oRootMT = oDocCS.DocumentElement;
                             if (strResponse.Contains("<segmentName>FHE</segmentName>"))
-                                strManualTicket += ProcessFHTickets(ttAA, oRootMT.SelectNodes("dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FHE']/otherDataFreetext"));                                
-                            
+                                strManualTicket += ProcessFHTickets(ttAA, oRootMT.SelectNodes("dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FHE']/otherDataFreetext"));
+
                             if (strResponse.Contains("<segmentName>FHA</segmentName>"))
-                                strManualTicket += ProcessFHTickets(ttAA, oRootMT.SelectNodes("dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FHA']/otherDataFreetext"));                                
+                                strManualTicket += ProcessFHTickets(ttAA, oRootMT.SelectNodes("dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FHA']/otherDataFreetext"));
 
                             if (strResponse.Contains("<segmentName>FHM</segmentName>"))
                                 strManualTicket += ProcessFHTickets(ttAA, oRootMT.SelectNodes("dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FHM']/otherDataFreetext"));
@@ -1299,7 +1299,7 @@ namespace AmadeusWS
 
             return strResponse;
         }
-                
+
         public string PNRReprice()
         {
             string strResponse;
@@ -1458,8 +1458,8 @@ namespace AmadeusWS
                                 string strEndTransaction;
                                 var omitOptions = false;
                                 if (ffList.TrueForAll(x => string.IsNullOrEmpty(x.Item2))
-                                    && ffList.TrueForAll(r => System.Text.RegularExpressions.Regex.Replace(r.Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", "")
-                                        .Equals(System.Text.RegularExpressions.Regex.Replace(ffList.First().Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", ""))))//fbCode empty or Nego PNR
+                                    && ffList.TrueForAll(r => Regex.Replace(r.Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", "")
+                                        .Equals(Regex.Replace(ffList.First().Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", ""))))//fbCode empty or Nego PNR
                                 {
                                     ffList.Clear();
                                     ffList.Add(new Tuple<string, string, string>("", " ", ""));
@@ -1470,7 +1470,7 @@ namespace AmadeusWS
                                     retry_count = 3;
                                     do
                                     {
-                                        var fxOpt = System.Text.RegularExpressions.Regex.Replace(ff.Item2, @"\/ZO-0\*[A-Z0-9.,]*", "").Trim();
+                                        var fxOpt = Regex.Replace(ff.Item2, @"\/ZO-0\*[A-Z0-9.,]*", "").Trim();
                                         strHistFareRS = SendCommandCryptically(ttAA, $"FXX{strFareType}{fxOpt}");
                                         if (strHistFareRS.Contains("NO FARE FOR BOOKING CODE-TRY OTHER PRICING OPTIONS"))
                                         {
@@ -1554,7 +1554,7 @@ namespace AmadeusWS
                                             strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{ff.Item3}");
                                             if (strHistFareRS.Contains("TICKET DESIGNATOR TOO LONG TO PROCESS"))
                                             {
-                                                var fxOpt = System.Text.RegularExpressions.Regex.Replace(ff.Item3, @"\/ZO-0\*[A-Z0-9.,]*", "");
+                                                var fxOpt = Regex.Replace(ff.Item3, @"\/ZO-0\*[A-Z0-9.,]*", "");
                                                 strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{fxOpt}");
                                                 tktDesTooLong = true;
                                             }
@@ -1568,7 +1568,7 @@ namespace AmadeusWS
                                             strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{ff.Item2}");
                                             if (strHistFareRS.Contains("TICKET DESIGNATOR TOO LONG TO PROCESS"))
                                             {
-                                                var fxOpt = System.Text.RegularExpressions.Regex.Replace(ff.Item2, @"\/ZO-0\*[A-Z0-9.,]*", "");
+                                                var fxOpt = Regex.Replace(ff.Item2, @"\/ZO-0\*[A-Z0-9.,]*", "");
                                                 strHistFareRS = SendCommandCryptically(ttAA, $"FXP{strFareType}{fxOpt}");
                                                 tktDesTooLong = true;
                                             }
@@ -2573,9 +2573,8 @@ namespace AmadeusWS
 
                 List<string> tRes = new List<string>();
                 {
-                    var isInf = psg.Item2.Equals("PI");
-                    res.Add(new Tuple<string, string, string>("", "", $"/P{string.Join(",", psg.Item2.Where(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}{(isInf ? "/INF" : "")}" +
-                        $"{(psg.Item2.Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}{(tRes.Count.Equals(0) ? segs + tdes : "")}"));
+                    var isInf = psg.Item2.Any(x => x.Item2.Equals("PI"));
+                    res.Add(new Tuple<string, string, string>("", "", $"/P{string.Join(",", psg.Item2.Where(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}{(isInf ? "/INF" : "")}" + $"{(psg.Item2.Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}{(tRes.Count.Equals(0) ? segs + tdes : "")}"));
                 }
             }
             for (int i = 0; i < combRes.Count; i++)
@@ -3199,7 +3198,7 @@ namespace AmadeusWS
             {
                 var myRegex = new Regex(@"\d\s[A-Z]{3,4} ");
                 List<string> lines = ticketImage.Split(new[] { "<Line>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                var flightLines = lines.Where(f => myRegex.IsMatch(f)).ToList().FindAll(f => f.Contains(" V ") );                
+                var flightLines = lines.Where(f => myRegex.IsMatch(f)).ToList().FindAll(f => f.Contains(" V "));
                 return flightLines.Count.Equals(0) ? "E" : "V";
             }
             catch (Exception ex)
