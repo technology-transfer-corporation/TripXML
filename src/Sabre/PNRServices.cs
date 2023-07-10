@@ -948,13 +948,15 @@ namespace Sabre
                                             foreach (XmlNode item in priceDocResp.DocumentElement.SelectNodes("//PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]"))
                                             {
                                                 var ptcCode = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Code").Value;
+                                                var ptcCount = int.Parse(item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Quantity").Value);
                                                 var ptcAmaount = item.SelectSingleNode("PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/EquivFare/@Amount").Value;
                                                 try
                                                 {
                                                     var newMarkup = !ptcFare.ContainsKey(ptcCode) ? 0 : Math.Abs(decimal.Parse(ptcFare[ptcCode]) - decimal.Parse(ptcAmaount));
-                                                    if (ptcFare.ContainsKey(ptcCode) && (newMarkup > ptcMarkup[ptcCode] + maxDiff || newMarkup < ptcMarkup[ptcCode] - maxDiff))
+                                                    if (ptcFare.ContainsKey(ptcCode) && (newMarkup * ptcCount > ptcMarkup[ptcCode] * ptcCount + maxDiff
+                                                        || newMarkup * ptcCount < ptcMarkup[ptcCode] * ptcCount - maxDiff))
                                                     {
-                                                        var diff = (ptcMarkup[ptcCode] - (decimal.Parse(ptcAmaount) - decimal.Parse(ptcFare[ptcCode]))) * bsr;
+                                                        var diff = (ptcMarkup[ptcCode] * ptcCount - (decimal.Parse(ptcAmaount) * ptcCount - decimal.Parse(ptcFare[ptcCode]) * ptcCount)) * bsr;
                                                         var prcReqDoc = new XmlDocument();
                                                         prcReqDoc.LoadXml(strRepriceReq);
                                                         foreach (XmlNode rItem in prcReqDoc.SelectNodes("//sx:PlusUp", nsmgr))
