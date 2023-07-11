@@ -1463,7 +1463,23 @@ namespace AmadeusWS
                                 {
                                     ffList.Clear();
                                     ffList.Add(new Tuple<string, string, string>("", " ", ""));
+                                }
+                                if (ffList.TrueForAll(x => !string.IsNullOrEmpty(x.Item2)) && ffList.Any(x => Regex.IsMatch(x.Item2, @"FF(\d)*-"))
+                                    && ffList.TrueForAll(r => Regex.Replace(r.Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", "").Equals(Regex.Replace(ffList.First().Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", ""))))
+                                {
+                                    if (ffList.TrueForAll(x => ffList.TrueForAll(r => Regex.Replace(r.Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", "") // same price opts
+                                        .Equals(Regex.Replace(ffList.First().Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", "")))))
+                                    {
+                                        var ffp = ffList.First();
+                                        var tsts = string.Join(",", ffList.Select(x => x.Item1));
+                                        ffList.Clear();
+                                        ffList.Add(new Tuple<string, string, string>(tsts, Regex.Replace(ffp.Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", ""), Regex.Replace(ffp.Item3, @"\/(P\d+(,\d+)*|PAX|PI|INF)", "")));
+                                    }
+                                    else if ((ffList.TrueForAll(x => ffList.TrueForAll(r => Regex.Replace(r.Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)|\/ZO-0\*[A-Z0-9.,]*", "") // same price opts w/tktDes
+                                        .Equals(Regex.Replace(ffList.First().Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)|\/ZO-0\*[A-Z0-9.,]*", ""))))))
+                                    {
 
+                                    }
                                 }
                                 foreach (var ff in ffList.FindAll(x => !string.IsNullOrEmpty(x.Item2)).OrderBy(x => x.Item2))
                                 {
