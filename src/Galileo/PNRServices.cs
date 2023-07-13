@@ -55,7 +55,7 @@ namespace Galileo
                 string displayHTI = GetTicketHistory(ConversationID, ttGA);
                 response = response.Replace("</PNRBFManagement_53>", $"{displayHTI}</PNRBFManagement_53>");
                 #endregion
-                
+
 
                 #region Transform Native Worldspan PNRRead Response into OTA Response
 
@@ -70,15 +70,17 @@ namespace Galileo
                     //{
                     CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", response, ProviderSystems.LogUUID);
                     //}
-                    
+
                     var tagToReplace = response.Contains("</PNRBFManagement_17>")
                         ? "</PNRBFManagement_17>"
                         : "</PNRBFManagement_53>";
 
-                    if (inSession)
-                        response = response.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
+                    //if (inSession)
+                    //    response = response.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
 
                     response = CoreLib.TransformXML(response, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
+                    if (!inSession)
+                        response = response.Replace($"<ConversationID>{ConversationID}</ConversationID>", "<ConversationID/>");
                 }
                 catch (Exception ex)
                 {
@@ -442,10 +444,10 @@ namespace Galileo
                     {
 
                         // Send PNR Redisplay
-                        _request = "<PNRBFManagement_53><PNRBFRetrieveMods><CurrentPNR/></PNRBFRetrieveMods>" 
-                            + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" 
+                        _request = "<PNRBFManagement_53><PNRBFRetrieveMods><CurrentPNR/></PNRBFRetrieveMods>"
+                            + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>"
                             + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>2</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>"
-                            + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>3</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" 
+                            + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>3</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>"
                             + "</PNRBFManagement_53>";
                         strResponse = ttGA.SendMessage(_request, ConversationID);
 
@@ -586,7 +588,7 @@ namespace Galileo
 
         private string GetTicketHistory(string conversationID, GalileoAdapter ttGA)
         {
-            
+
             try
             {
                 string strDisplayHI = ttGA.SendCrypticMessage("*HTI", conversationID);
@@ -626,7 +628,7 @@ namespace Galileo
             {
 
                 // XK MOROZ/MARK-/0827854509002/-USD/876.48/ET /VOID
-                
+
                 foreach (string line in lstLines)
                 {
                     var strline = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
@@ -634,7 +636,7 @@ namespace Galileo
                     {
                         var elems = strline.Split(new[] { "-", " ", "/" }, StringSplitOptions.None).ToList();
                         string tkt = elems[4].Trim();
-                        if(!string.IsNullOrEmpty(tkt))
+                        if (!string.IsNullOrEmpty(tkt))
                             sbH.Append($"<Line TicketNumber='{tkt}'>{line}</Line>");
                     }
                 }
