@@ -7,6 +7,7 @@
 	================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 
+	Date: 18 Jul 2023 - Samokhvalov - CHD Age Fixes
 	Date: 30 Mar 2023 - Kobelev - Using of PlatingCarrier in AirPricingModifiers for Validating Carrier guarantee
 	Date: 01 Mar 2023 - Kobelev - Using Brand in FareInfo
 	Date: 27 Feb 2023 - Kobelev - Groupping by AirPricingInfoGroup and FarePriceGroup
@@ -897,6 +898,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 		</xsl:variable>
 		<xsl:variable name="age">
 			<xsl:choose>
+				<xsl:when test="//air:AirReservation/air:AirPricingInfo[air:PassengerType/@BookingTravelerRef=$key]/air:PassengerType/@Age!=''">
+					<xsl:value-of select="format-number(//air:AirReservation/air:AirPricingInfo[air:PassengerType/@BookingTravelerRef=$key]/air:PassengerType/@Age,'000')"/>
+				</xsl:when>
 				<xsl:when test="substring($sfptc, 1, 1) = 'C'">
 					<xsl:value-of select="concat('0',number(substring($sfptc, 2, 2)))"/>
 				</xsl:when>
