@@ -2554,7 +2554,7 @@ namespace AmadeusWS
 
                     string tdes = "";
                     var grpTd = psg.First().Item2.FindAll(x => x.Item2 == "TD").GroupBy(x => x.Item1);
-                    if (grpTd.Count().Equals(1))
+                    if (grpTd.Count().Equals(1) && paxFareSegsGrouped.First().Item2.FindAll(x => x.Item2 == "TD").Count.Equals(segCount))
                         tdes = grpTd.Select(x => $"/ZO-0*{x.Key}").First();
                     else
                     {
