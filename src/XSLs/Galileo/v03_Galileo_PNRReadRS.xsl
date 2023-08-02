@@ -1,9 +1,13 @@
 <?xml version="1.0"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:ttVB="urn:ttVB" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	            xmlns:msxsl="urn:schemas-microsoft-com:xslt"
+	            xmlns:ttVB="urn:ttVB"
+				version="1.0">
 	<!-- 
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 01 Aug 2023 - Samokhvalov - Reworked PTCFareBreakdown - FB-codes, Brands
   Date: 12 Jun 2023 - Kobelev - In CustomerInfo use LNameNum for Passanger number added ProfileRefRS
   Date: 08 Mar 2022 - Kobelev - Not trying to read Age for P-JWZ.
   Date: 15 Dec 2022 - Kobelev - Formating childrens age for NET fare (JNN).
@@ -397,35 +401,35 @@
 					</xsl:otherwise>
 				</xsl:choose>
 
-        <xsl:variable name="travRefs">
-          <xsl:for-each select="../AssocPsgrs/PsgrAry/Psgr/AbsNameNum">
-            <xsl:if test="position() > 1">
-              <xsl:text> </xsl:text>
-            </xsl:if>
-            <xsl:value-of select="."/>
-          </xsl:for-each>
-        </xsl:variable>
-        
-        <xsl:variable name="flightRefs">
-          <xsl:for-each select="../AssocSegs/SegNumAry/SegNum">
-            <xsl:if test="position() > 1">
-              <xsl:text> </xsl:text>
-            </xsl:if>
-            <xsl:value-of select="."/>
-          </xsl:for-each>
-        </xsl:variable>
+				<xsl:variable name="travRefs">
+					<xsl:for-each select="../AssocPsgrs/PsgrAry/Psgr/AbsNameNum">
+						<xsl:if test="position() > 1">
+							<xsl:text> </xsl:text>
+						</xsl:if>
+						<xsl:value-of select="."/>
+					</xsl:for-each>
+				</xsl:variable>
 
-        <xsl:attribute name="TravelerRefNumberRPHList">
-          <xsl:value-of select="$travRefs"/>
-        </xsl:attribute>
-      
-        <xsl:attribute name="FlightRefNumberRPHList">
-          <xsl:value-of select="$flightRefs"/>
-        </xsl:attribute>
-      
-        <xsl:attribute name="RPH">
-          <xsl:value-of select="position()"/>
-        </xsl:attribute>
+				<xsl:variable name="flightRefs">
+					<xsl:for-each select="../AssocSegs/SegNumAry/SegNum">
+						<xsl:if test="position() > 1">
+							<xsl:text> </xsl:text>
+						</xsl:if>
+						<xsl:value-of select="."/>
+					</xsl:for-each>
+				</xsl:variable>
+
+				<xsl:attribute name="TravelerRefNumberRPHList">
+					<xsl:value-of select="$travRefs"/>
+				</xsl:attribute>
+
+				<xsl:attribute name="FlightRefNumberRPHList">
+					<xsl:value-of select="$flightRefs"/>
+				</xsl:attribute>
+
+				<xsl:attribute name="RPH">
+					<xsl:value-of select="position()"/>
+				</xsl:attribute>
 			</AgencyCommission>
 		</xsl:if>
 	</xsl:template>
@@ -866,7 +870,6 @@
 		</xsl:variable>
 
 		<PTC_FareBreakdown>
-
 			<xsl:attribute name="PricingSource">
 				<xsl:choose>
 					<xsl:when test="QuoteType='P'">Private</xsl:when>
@@ -976,7 +979,7 @@
 								<xsl:otherwise>
 									<xsl:value-of select="$PsgrType" />
 								</xsl:otherwise>
-							</xsl:choose>							
+							</xsl:choose>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
@@ -985,24 +988,22 @@
 				</xsl:attribute>
 			</PassengerTypeQuantity>
 
-			<FareBasisCodes>
-				<xsl:for-each select="../SegRelatedInfo[UniqueKey=$paxno2]">
-					<FareBasisCode>
-						<xsl:variable name="fic">
-							<!--<xsl:value-of select="concat(FIC,'/',translate(TkDesignator, 'CH/', ''))" />-->
-							<xsl:value-of select="concat(FIC,'/',TkDesignator)" />
-						</xsl:variable>
+			<xsl:variable name="ptcFare">
+				<xsl:call-template name="getPTCQuoteDet">
+					<xsl:with-param name="uniqKey" select="$paxno2" />
+				</xsl:call-template>
+			</xsl:variable>
 
+			<FareBasisCodes>
+				<xsl:for-each select="msxsl:node-set($ptcFare)/SegRelatedInfo[UniqueKey=$paxno2]">
+					<FareBasisCode>
 						<xsl:choose>
-							<xsl:when test="string-length(FIC) = 8">
-								<!--<xsl:value-of select="concat(FIC,'/', translate(TkDesignator, 'CH/', ''))" />-->
+							<xsl:when test="string-length(FIC) = 8 and contains(concat(FIC,TkDesignator),'/')">
+								<xsl:value-of select="concat(FIC,TkDesignator)" />
+							</xsl:when>
+							<xsl:when test="string-length(FIC) = 8 and not(contains(concat(FIC,TkDesignator),'/'))">
 								<xsl:value-of select="concat(FIC,'/',TkDesignator)" />
 							</xsl:when>
-							<!--
-              <xsl:when test="contains(../FareConstruction/FareConstructText,$fic) and TkDesignator">
-                <xsl:value-of select="TkDesignator"/>
-              </xsl:when>
-              -->
 							<xsl:otherwise>
 								<xsl:value-of select="FIC" />
 							</xsl:otherwise>
@@ -1011,44 +1012,22 @@
 				</xsl:for-each>
 			</FareBasisCodes>
 
-			<xsl:if test="../BrandInformation">
+			<xsl:if test="msxsl:node-set($ptcFare)/BrandInformation">
 				<BrandedFares>
-					<xsl:for-each select="../SegRelatedInfo[UniqueKey=$paxno2]">
-
-						<xsl:variable name="fic">
-							<xsl:choose>
-								<xsl:when test="contains(FIC, '/')">
-									<xsl:value-of select="substring-before(FIC, '/')" />
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="FIC" />
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:variable>
-
-						<xsl:variable name="td">
-							<xsl:choose>
-								<xsl:when test="contains(TkDesignator, '/')">
-									<xsl:value-of select="substring-after(TkDesignator, '/')"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="TkDesignator" />
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:variable>
+					<xsl:for-each select="msxsl:node-set($ptcFare)/SegRelatedInfo[UniqueKey=$paxno2]">
 						<xsl:variable name="seg">
 							<xsl:value-of select="format-number(RelSegNum, '00')"/>
 						</xsl:variable>
 
-						<xsl:if test="../BrandInformation[FIC=$fic and contains(TkDesignator,$td) and contains(SegNumList,$seg)]/SegNumList">
+						<xsl:if test="msxsl:node-set($ptcFare)/BrandInformation[contains(SegNumList,$seg)]/SegNumList">
 							<FareFamily>
 								<xsl:attribute name="RPH">
 									<xsl:value-of select="format-number($seg, '0')"/>
 								</xsl:attribute>
 								<xsl:attribute name="Code">
-									<xsl:value-of select="../BrandInformation[FIC=$fic and contains(TkDesignator,$td) and contains(SegNumList,$seg)]/PricebyBrandModifier"/>
+									<xsl:value-of select="msxsl:node-set($ptcFare)/BrandInformation[contains(SegNumList,$seg)]/PricebyBrandModifier"/>
 								</xsl:attribute>
-								<xsl:value-of select="../BrandInformation[FIC=$fic and contains(TkDesignator,$td) and contains(SegNumList,$seg)]/BrandName"/>
+								<xsl:value-of select="msxsl:node-set($ptcFare)/BrandInformation[contains(SegNumList,$seg)]/BrandName"/>
 							</FareFamily>
 						</xsl:if>
 					</xsl:for-each>
@@ -1165,6 +1144,24 @@
 			</TPA_Extensions>
 
 		</PTC_FareBreakdown>
+	</xsl:template>
+
+	<xsl:template name="getPTCQuoteDet">
+		<xsl:param name="uniqKey" />
+		<xsl:variable name="qFollowing" select="../GenQuoteDetails[UniqueKey=$uniqKey]/following-sibling::*"/>
+
+		<xsl:variable name="qPreceding" select="../GenQuoteDetails[UniqueKey=$uniqKey+1]/preceding-sibling::*"/>
+
+		<xsl:choose>
+			<xsl:when test="not($qPreceding)">
+				<xsl:copy-of select="$qFollowing"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:variable name="qRQ" select="$qFollowing[.=$qPreceding]"/>
+				<xsl:copy-of select="$qRQ"/>
+			</xsl:otherwise>
+		</xsl:choose>
+
 	</xsl:template>
 
 	<!-- ************************************************************** -->
@@ -2331,7 +2328,7 @@
 									</xsl:attribute>
 								</xsl:when>
 							</xsl:choose>
-							
+
 						</xsl:if>
 					</xsl:if>
 					<PersonName>
@@ -2345,7 +2342,7 @@
 								<xsl:attribute name="NameType">
 									<xsl:choose>
 										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-C')">
-											<xsl:variable name="pCode" select="concat('0', substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'C'))" />											
+											<xsl:variable name="pCode" select="concat('0', substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'C'))" />
 											<xsl:value-of select="concat('C', substring($pCode, string-length($pCode)-1))"/>
 										</xsl:when>
 										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-J')">
