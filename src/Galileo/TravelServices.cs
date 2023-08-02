@@ -838,7 +838,7 @@ namespace Galileo
                     oDoc.LoadXml(strRequest);
                     oRoot = oDoc.DocumentElement;
                     strRead = oRoot.SelectSingleNode("PNRRead").InnerXml;
-                                        
+
                     strTicket = oRoot.SelectSingleNode("Ticket").InnerXml;
                     strVerifyATFQ = oRoot.SelectSingleNode("VerifyATFQ") != null ? oRoot.SelectSingleNode("VerifyATFQ").InnerXml : "";
                     strET = oRoot.SelectSingleNode("ET") != null ? oRoot.SelectSingleNode("ET").InnerXml : "";
@@ -1174,7 +1174,7 @@ namespace Galileo
 
 
                     #region Get existing fare
-                    
+
                     XmlNodeList oFareNodes;
                     XmlNode oFareNode;
                     XmlNode oSegNode;
@@ -1457,7 +1457,7 @@ namespace Galileo
 
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation of OTA PNRRead Request produced empty xml.");
-                                
+
                 // ****************************
                 // Retrieve existing PNR     *
                 // **************************** 
@@ -1466,8 +1466,8 @@ namespace Galileo
                 var oRoot = oDoc.DocumentElement;
                 var recLocator = oRoot.SelectSingleNode("UniqueID/@ID")?.InnerText ?? "";
 
-                string strCurrentPNR = 
-                 $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr /><CodeCheck /><RecLoc>{recLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods>" 
+                string strCurrentPNR =
+                 $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr /><CodeCheck /><RecLoc>{recLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods>"
                 + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>"
                 + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>2</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>"
                 + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>3</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>"
@@ -1556,17 +1556,17 @@ namespace Galileo
 
                     if (!string.IsNullOrEmpty(recLocator))
                     {
-                        
-                            // Send Retreive Request
-                            string strRTV = $"<PNRBFManagement_53><PNRBFRetrieveMods><PNRAddr><FileAddr/><CodeCheck/><RecLoc>{recLocator}</RecLoc></PNRAddr></PNRBFRetrieveMods>" +
-                            "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" +
-                            "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>2</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" +
-                            "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>3</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" +
-                            "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>4</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" +
-                            "</PNRBFManagement_53>";
-                            response = ttGA.SendMessage(strRTV, ConversationID);
-                            message = $"{strRTV}\r\n{response}";
-                        
+
+                        // Send Retreive Request
+                        string strRTV = $"<PNRBFManagement_53><PNRBFRetrieveMods>{(inSession ? "<CurrentPNR />" : $"<PNRAddr><FileAddr/><CodeCheck/><RecLoc>{recLocator}</RecLoc></PNRAddr>")}</PNRBFRetrieveMods>" +
+                        "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" +
+                        "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>2</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" +
+                        "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>3</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" +
+                        "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>4</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>" +
+                        "</PNRBFManagement_53>";
+                        response = ttGA.SendMessage(strRTV, ConversationID);
+                        message = $"{strRTV}\r\n{response}";
+
                     }
 
                     // ****************************************************************************
@@ -1590,7 +1590,7 @@ namespace Galileo
 
                     //CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response", strResponse, ProviderSystems.LogUUID);
                     CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", $"Final response size for version {Version}", response.Length.ToString(CultureInfo.InvariantCulture), ProviderSystems.LogUUID);
-                    
+
 
                     //if (response.Length > 1499)
                     //{
@@ -1635,7 +1635,7 @@ namespace Galileo
         {
             try
             {
-                var cmds = new List<string> { "*R", "IR" };                
+                var cmds = new List<string> { "*R", "IR" };
                 var replay = ttGA.SendCrypticMessage("*R", conversationID);
                 if (replay.Contains("IGNORE BEFORE PROCEEDING"))
                 {
@@ -1645,12 +1645,12 @@ namespace Galileo
                 {
                     replay = ttGA.SendCrypticMessage("R.T", conversationID);
                     replay = ttGA.SendCrypticMessage("ER", conversationID);
-                }                
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Failed to Handle SIM CHANGES. Error: {ex.Message}");
-            }            
+            }
         }
 
         public string VoidTicket()
