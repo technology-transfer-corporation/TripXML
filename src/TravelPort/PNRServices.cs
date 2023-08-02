@@ -57,7 +57,7 @@ namespace Travelport
                             host = "1V";
                             break;
                     }
-                }                
+                }
 
                 #endregion
 
@@ -79,7 +79,7 @@ namespace Travelport
                 TravelPortWSAdapter ttTP = SetAdapter(ttProviderSystems);
                 bool inSession = SetConversationID(ttTP, host, branch);
 
-                
+
 
                 // send retrieve universal record (UR)
                 strResponse = ttTP.SendMessage(strRetrieve, TravelPortWSAdapter.enRequestType.UniversalRecordService);
@@ -124,7 +124,7 @@ namespace Travelport
                 {
                     var strToReplace = "</universal:UniversalRecordRetrieveRsp>";
                     if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{ strToReplace}");
+                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
 
                     CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", strResponse, ProviderSystems.LogUUID);
 
@@ -198,7 +198,6 @@ namespace Travelport
                 bool inSession = SetConversationID(ttTP, host);
                 //ttTP.TracerID = ConversationID;
 
-
                 // send retrieve universal record (UR)                
                 response = ttTP.SendMessage(strRequest, TravelPortWSAdapter.enRequestType.UniversalRecordService);
 
@@ -221,8 +220,8 @@ namespace Travelport
                         modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
                         modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
                         strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
-                        
-                        if (isPricePublished && (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0 ))
+
+                        if (isPricePublished && (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0))
                         {
                             //&& oRoot.SelectNodes("StoredFare[@FareType='Published']").Count > 0)
                             //<Response>{modRS}</Response>
@@ -257,7 +256,7 @@ namespace Travelport
                 {
                     if (inSession)
                     {
-                        ttTP.CloseTerminalSession(branch, host, ttTP.TracerID);
+                        ttTP.CloseTerminalSession(branch, host, ConversationID);
                         ConversationID = string.Empty;
                     }
                 }
