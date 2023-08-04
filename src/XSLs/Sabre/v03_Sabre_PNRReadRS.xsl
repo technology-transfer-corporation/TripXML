@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 04 Aug 2023 - Samokhvalov - CustomerInfo/NameType fixes - bug #3
   Date: 21 Mar 2023 - Samokhvalov - Added Ticketing entry data to TravelItinerary\TPA_Extenstions\SupplementalInfo.
   Date: 20 Sep 2022 - Kobelev - VOIDed tickets display.
   Date: 28 Jul 2022 - Kobelev - PNR Read with unmasked CC
@@ -1675,8 +1676,11 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:when>
+				<xsl:when test="//TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote/PriceQuotePlus/PassengerInfo">
+					<xsl:value-of select="//TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote/PriceQuotePlus/PassengerInfo[number(concat(substring(PassengerData/@NameNumber,2,2),substring(PassengerData/@NameNumber,5,1)))=$paxref]/@PassengerType"/>
+				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="//DisplayPriceQuoteRS/PriceQuoteSummary/PTC_FareBreakdown/PassengerTypeQuantity[number(@NameNumber)=number($paxref)]/@Code"/>
+					<xsl:value-of select="//DisplayPriceQuoteRS/PriceQuoteSummary/PTC_FareBreakdown/PassengerTypeQuantity[number(@NameNumber)=$paxref]/@Code"/>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
@@ -3202,7 +3206,7 @@
 						</TotalFare>
 					</ItinTotalFare>
 					<PTC_FareBreakdowns>
-<!--        
+						<!--        
         <xsl:apply-templates select="PriceQuote[not(contains(ResponseHeader/Text[1],'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))][PricedItinerary/@InputMessage!='M-A']"/>
 -->
 						<xsl:apply-templates select="../../../DisplayPriceQuoteRS/PriceQuote">
@@ -3290,7 +3294,7 @@
 					</ItinTotalFare>
 					<PTC_FareBreakdowns>
 						<xsl:variable name="px" select="PricedItinerary/AirItineraryPricingInfo/PassengerTypeQuantity/@Code" />
-						
+
 						<xsl:apply-templates select="PriceQuote/PricedItinerary/AirItineraryPricingInfo"/>
 					</PTC_FareBreakdowns>
 				</AirFareInfo>
