@@ -1804,91 +1804,101 @@ namespace AmadeusWS
 
                             foreach (XmlNode oNode in oRootReq.SelectNodes("StoredFare[Markup]"))
                             {
-                                string updRequest = string.Empty;
-                                string tstRPH = oNode.SelectSingleNode("@RPH").InnerText;
-                                int iTSTRPH = Convert.ToInt16(tstRPH);
-                                string strBf = string.Empty;
-                                string strTf = string.Empty;
-                                string fareCurrency = string.Empty;
-                                if (paxAssoc.ContainsKey(new Tuple<string, int>(oNode.SelectSingleNode("PassengerType/@Code")?.InnerText, iTSTRPH)))
+                                var retry_count = 3;
+                                do
                                 {
-                                    var paxRPH = paxAssoc[new Tuple<string, int>(oNode.SelectSingleNode("PassengerType/@Code")?.InnerText, iTSTRPH)];
-                                    if (oRootStored != null)
+                                    string updRequest = string.Empty;
+                                    string tstRPH = oNode.SelectSingleNode("@RPH").InnerText;
+                                    int iTSTRPH = Convert.ToInt16(tstRPH);
+                                    string strBf = string.Empty;
+                                    string strTf = string.Empty;
+                                    string fareCurrency = string.Empty;
+                                    if (paxAssoc.ContainsKey(new Tuple<string, int>(oNode.SelectSingleNode("PassengerType/@Code")?.InnerText, iTSTRPH)))
                                     {
-                                        if (oNode.SelectSingleNode("PassengerType/@Code").InnerText.Equals("INF"))
+                                        var paxRPH = paxAssoc[new Tuple<string, int>(oNode.SelectSingleNode("PassengerType/@Code")?.InnerText, iTSTRPH)];
+                                        if (oRootStored != null)
                                         {
-                                            strBf = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag = 'INF']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'B']/fareAmount")?.InnerText;
-                                            strTf = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag = 'INF']/fareDataInformation/fareDataSupInformation[fareDataQualifier = '712']/fareAmount")?.InnerText;
-                                            fareCurrency = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag = 'INF']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'B']/fareCurrency")?.InnerText;
-                                            tstRPH = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag = 'INF']/fareReference/uniqueReference")?.InnerText;
+                                            if (oNode.SelectSingleNode("PassengerType/@Code").InnerText.Equals("INF"))
+                                            {
+                                                strBf = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag = 'INF']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'B']/fareAmount")?.InnerText;
+                                                strTf = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag = 'INF']/fareDataInformation/fareDataSupInformation[fareDataQualifier = '712']/fareAmount")?.InnerText;
+                                                fareCurrency = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag = 'INF']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'B']/fareCurrency")?.InnerText;
+                                                tstRPH = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag = 'INF']/fareReference/uniqueReference")?.InnerText;
+                                            }
+                                            else
+                                            {
+                                                strBf = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag != 'INF']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'B']/fareAmount")?.InnerText;
+                                                strTf = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag != 'INF']/fareDataInformation/fareDataSupInformation[fareDataQualifier = '712']/fareAmount")?.InnerText;
+                                                fareCurrency = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag != 'INF']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'B']/fareCurrency")?.InnerText;
+                                                tstRPH = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag != 'INF']/fareReference/uniqueReference")?.InnerText;
+                                            }
                                         }
-                                        else
-                                        {
-                                            strBf = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag != 'INF']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'B']/fareAmount")?.InnerText;
-                                            strTf = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag != 'INF']/fareDataInformation/fareDataSupInformation[fareDataQualifier = '712']/fareAmount")?.InnerText;
-                                            fareCurrency = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag != 'INF']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'B']/fareCurrency")?.InnerText;
-                                            tstRPH = oRootStored.SelectSingleNode($"fareList[paxSegReference/refDetails/refNumber = '{paxRPH}'  and statusInformation/firstStatusDetails/tstFlag != 'INF']/fareReference/uniqueReference")?.InnerText;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    //iTSTRPH += iTSTCount;
-                                    tstRPH = iTSTRPH.ToString(CultureInfo.InvariantCulture);
-                                    if (oRootStored != null)
-                                    {
-                                        strBf = oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{tstRPH}']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'B']/fareAmount")?.InnerText;
-                                        strTf = oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{tstRPH}']/fareDataInformation/fareDataSupInformation[fareDataQualifier = '712']/fareAmount")?.InnerText;
-                                        fareCurrency = oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{tstRPH}']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'B']/fareCurrency")?.InnerText;
-                                    }
-                                }
-                                var culture = new CultureInfo("en-US");
-                                decimal decMarkup = Convert.ToDecimal(oNode.SelectSingleNode("Markup/@Amount").InnerText, culture);
-                                decimal oldBF = Convert.ToDecimal(strBf, culture);
-                                decimal oldTF = Convert.ToDecimal(strTf, culture);
-                                string newBF = Convert.ToString(oldBF + decMarkup);
-                                string newTF = Convert.ToString(oldTF + decMarkup);
-
-                                if (fareCurrency != "USD")
-                                {
-                                    int decPoints;
-                                    if (strBf.Contains("."))
-                                    {
-                                        decPoints = strBf.Trim().Length - (strBf.IndexOf(".", StringComparison.Ordinal) + 1);
                                     }
                                     else
                                     {
-                                        decPoints = 0;
+                                        //iTSTRPH += iTSTCount;
+                                        tstRPH = iTSTRPH.ToString(CultureInfo.InvariantCulture);
+                                        if (oRootStored != null)
+                                        {
+                                            strBf = oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{tstRPH}']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'B']/fareAmount")?.InnerText;
+                                            strTf = oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{tstRPH}']/fareDataInformation/fareDataSupInformation[fareDataQualifier = '712']/fareAmount")?.InnerText;
+                                            fareCurrency = oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{tstRPH}']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'B']/fareCurrency")?.InnerText;
+                                        }
+                                    }
+                                    var culture = new CultureInfo("en-US");
+                                    decimal decMarkup = Convert.ToDecimal(oNode.SelectSingleNode("Markup/@Amount").InnerText, culture);
+                                    decimal oldBF = Convert.ToDecimal(strBf, culture);
+                                    decimal oldTF = Convert.ToDecimal(strTf, culture);
+                                    string newBF = Convert.ToString(oldBF + decMarkup);
+                                    string newTF = Convert.ToString(oldTF + decMarkup);
+
+                                    if (fareCurrency != "USD")
+                                    {
+                                        int decPoints;
+                                        if (strBf.Contains("."))
+                                        {
+                                            decPoints = strBf.Trim().Length - (strBf.IndexOf(".", StringComparison.Ordinal) + 1);
+                                        }
+                                        else
+                                        {
+                                            decPoints = 0;
+                                        }
+
+                                        var tstNode = oRootStored.SelectSingleNode("fareList/otherPricingInfo/attributeDetails[attributeType='FCA']/attributeDescription");
+                                        var fxxData = tstNode.InnerText.Split(new[] { '\r', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                                        var strROE = fxxData.Exists(s => s.StartsWith("ROE")) ? fxxData.Find(s => s.StartsWith("ROE")).Substring(3) : "1.0";
+                                        decimal roe = decimal.Parse(strROE);
+                                        decimal oldBFusd = Convert.ToDecimal(oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{tstRPH}']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'E']/fareAmount").InnerText, culture);
+
+                                        // Bug 624 - T-Robot - foreign Currency - no mark added
+                                        //AS: Added TST assoctiatin to TTK command
+                                        updRequest = $"TTK/T{tstRPH}/I{fareCurrency}{Math.Round(oldBF + decMarkup * roe, decPoints)}/EUSD{oldBFusd + decMarkup:0.00}";
+                                        //updRequest = String.Format("TTK/I{0}/EUSD{1}", fareCurrency + Convert.ToString(Math.Round(oldBF + decMarkup, decPoints)), Convert.ToString(oldBFusd + Math.Round((decMarkup / roe), 2)));
+
+                                        /*************************
+                                        var BSR = Convert.ToDecimal(oRootStored.SelectSingleNode("fareList/bankerRates/firstRateDetail/amount").InnerText, culture);
+                                        var newBFusd = Convert.ToString(Math.Round(((oldBF + decMarkup) * BSR), 2));
+                                        updRequest = String.Format("TTK/I{0}/EUSD{1}", fareCurrency + newBF, newBFusd);
+                                         *************************/
+                                    }
+                                    else
+                                    {
+                                        updRequest = $"TTK/T{tstRPH}/U{newBF}";
                                     }
 
-                                    var tstNode = oRootStored.SelectSingleNode("fareList/otherPricingInfo/attributeDetails[attributeType='FCA']/attributeDescription");
-                                    var fxxData = tstNode.InnerText.Split(new[] { '\r', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-                                    var strROE = fxxData.Exists(s => s.StartsWith("ROE")) ? fxxData.Find(s => s.StartsWith("ROE")).Substring(3) : "1.0";
-                                    decimal roe = decimal.Parse(strROE);
-                                    decimal oldBFusd = Convert.ToDecimal(oRootStored.SelectSingleNode($"fareList[fareReference/uniqueReference = '{tstRPH}']/fareDataInformation/fareDataSupInformation[fareDataQualifier = 'E']/fareAmount").InnerText, culture);
-
-                                    // Bug 624 - T-Robot - foreign Currency - no mark added
-                                    //AS: Added TST assoctiatin to TTK command
-                                    updRequest = $"TTK/T{tstRPH}/I{fareCurrency}{Math.Round(oldBF + decMarkup * roe, decPoints)}/EUSD{oldBFusd + decMarkup:0.00}";
-                                    //updRequest = String.Format("TTK/I{0}/EUSD{1}", fareCurrency + Convert.ToString(Math.Round(oldBF + decMarkup, decPoints)), Convert.ToString(oldBFusd + Math.Round((decMarkup / roe), 2)));
-
-                                    /*************************
-                                    var BSR = Convert.ToDecimal(oRootStored.SelectSingleNode("fareList/bankerRates/firstRateDetail/amount").InnerText, culture);
-                                    var newBFusd = Convert.ToString(Math.Round(((oldBF + decMarkup) * BSR), 2));
-                                    updRequest = String.Format("TTK/I{0}/EUSD{1}", fareCurrency + newBF, newBFusd);
-                                     *************************/
-                                }
-                                else
-                                { updRequest = $"TTK/T{tstRPH}/U{newBF}"; }
-
-                                SendCommandCryptically(ttAA, updRequest);
-                                if (bStoreFare)
-                                {
-                                    var saveCMDresp = SendCommandCryptically(ttAA, "RFTRIPXML;ER");
-                                    if (saveCMDresp.Contains("textStringDetails") && saveCMDresp.Contains("WARNING"))
-                                        saveCMDresp = SendCommandCryptically(ttAA, "ER");
-                                }
+                                    SendCommandCryptically(ttAA, updRequest);
+                                    if (bStoreFare)
+                                    {
+                                        var saveCMDresp = SendCommandCryptically(ttAA, "RFTRIPXML;ER");
+                                        if (saveCMDresp.Contains("textStringDetails") && saveCMDresp.Contains("WARNING"))
+                                            saveCMDresp = SendCommandCryptically(ttAA, "ER");
+                                        if (!saveCMDresp.Contains("SIMULTANEOUS CHANGES"))
+                                            break;
+                                    }
+                                    else
+                                        break;
+                                } while (retry_count-- > 0);
                             }
 
                             if (bStoreFare)
