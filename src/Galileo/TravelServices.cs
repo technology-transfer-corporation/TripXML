@@ -807,7 +807,6 @@ namespace Galileo
 
             try
             {
-
                 DateTime RequestTime = DateTime.Now;
                 string strRequest = SetRequest("Galileo_IssueTicketRQ.xsl");
 
@@ -872,7 +871,6 @@ namespace Galileo
                     strEmail += ex.Message;
                     // -----------------------------------------------------------
                     throw new Exception($"Error Loading Transformed Request XML Document. {ex.Message}");
-
                 }
 
                 // **********************
@@ -964,7 +962,6 @@ namespace Galileo
                     strEmail += $"{oNode.InnerText}\r\n{strResponse}";
                 }
 
-
                 try
                 {
                     strResponse = ttGA.SendMessage(strTicket, ConversationID);
@@ -1036,7 +1033,6 @@ namespace Galileo
                         ttGA = null;
                     }
                 }
-
             }
             catch (Exception exx)
             {
@@ -1135,22 +1131,17 @@ namespace Galileo
                         switch (oNd.SelectSingleNode("Status").InnerText ?? "")
                         {
                             case "D":
-                                {
-                                    throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Down");
-                                    break;
-                                }
-
+                                throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Down");
+                                break;
                             case "B":
+                                // Printer can be reset with status U: HMOM{oNd.SelectSingleNode("LNIATA").InnerText}–U(HMOMF82303–U)
+                                strResponse = ReLinkPrinters(strReLinkPrt, ref ttGA, ConversationID);
+                                if (strResponse.Contains("Error"))
                                 {
-                                    // Printer can be reset with status U: HMOM{oNd.SelectSingleNode("LNIATA").InnerText}–U(HMOMF82303–U)
-                                    strResponse = ReLinkPrinters(strReLinkPrt, ref ttGA, ConversationID);
-                                    if (strResponse.Contains("Error"))
-                                    {
-                                        throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Busy");
-                                    }
-
-                                    break;
+                                    throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Busy");
                                 }
+
+                                break;
                         }
                     }
                 }
@@ -1262,6 +1253,7 @@ namespace Galileo
                 {
                     strResponse = inSession
                         ? strResponse.Replace(strReplacementTag, $"<ConversationID>{ConversationID}</ConversationID>{strReplacementTag}")
+                                     .Replace("</TicketPrinterLinkage_1_0>", $"<ConversationID>{ConversationID}</ConversationID></TicketPrinterLinkage_1_0>")
                         : strResponse;
 
                     // If String.IsNullOrEmpty(strCheckPrt) Then
@@ -1761,16 +1753,11 @@ namespace Galileo
                     switch (oNd.SelectSingleNode("Status").InnerText ?? "")
                     {
                         case "D":
-                            {
-                                throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Down");
-                                break;
-                            }
-
+                            throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Down");
+                            break;
                         case "B":
-                            {
-                                throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Busy");
-                                break;
-                            }
+                            throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Busy");
+                            break;
                     }
                 }
 

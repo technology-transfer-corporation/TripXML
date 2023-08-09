@@ -160,7 +160,6 @@ namespace Galileo
                 //    throw new Exception(conv);
                 //}
 
-
                 #endregion
 
                 Request = Request.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "").Replace("<?xml version=\"1.0\"?>", "");

@@ -329,8 +329,6 @@ namespace Galileo
 
             try
             {
-
-
                 string strRequest = SetRequest("Galileo_QueueRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
