@@ -78,7 +78,7 @@
       <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt">
-      <Version>6.30.0</Version>
+      <Version>6.32.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
