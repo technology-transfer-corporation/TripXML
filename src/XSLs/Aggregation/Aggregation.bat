@@ -11,4 +11,4 @@ xcopy "*.dll"  "..\..\TripXMLMain\bin\Debug"  /c /d /i /y
 xcopy "*.dll"  "..\..\TripXMLMain\bin\Release"  /c /d /i /y
 xcopy "*.dll"  "C:\TripXML\Xsl\Aggregation"  /c /d /i /y
 
-#del "*.dll" 
+del "*.dll" 

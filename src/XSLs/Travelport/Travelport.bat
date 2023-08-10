@@ -15,4 +15,3 @@ xcopy "*.dll"  "..\..\TripXMLMain\Xsl\Travelport"  /c /d /i /y
 xcopy "*.dll"  "..\..\wsTripXML\Xsl\Travelport"  /c /d /i /y
 
 del "*.dll" 
-pause

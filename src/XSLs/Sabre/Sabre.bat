@@ -65,6 +65,7 @@ xsltc /settings:document+,script+ v03_Sabre_PNRReadRQ.xsl
 xsltc /settings:document+,script+ v03_Sabre_PNRReadRS.xsl
 xsltc /settings:document+,script+ v03_Sabre_TB_Errors.xsl
 xsltc /settings:document+,script+ v03_Sabre_TravelBuildRQ.xsl
+xsltc /settings:document+,script+ v03_Sabre_TravelBuildEnhcRQ.xsl 
 xsltc /settings:document+,script+ v04_Sabre_TravelBuildRQ.xsl
 xsltc /settings:document+,script+ v04_Sabre_PNRReadRQ.xsl
 xsltc /settings:document+,script+ v04_Sabre_PNRReadRS.xsl
@@ -80,4 +81,4 @@ xcopy "*.dll"  "..\..\TripXMLMain\Xsl\Sabre"  /c /d /i /y
 xcopy "*.dll"  "C:\TripXML\Xsl\Sabre"  /c /d /i /y
 
 del "*.dll" 
-#pause
+rem pause

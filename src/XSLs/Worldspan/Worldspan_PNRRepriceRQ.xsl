@@ -18,7 +18,7 @@
 	</xsl:template>
 	<xsl:template match="OTA_PNRRepriceRQ">
 		<xsl:choose>
-			<xsl:when test="/OTA_PNRRepriceRQ/@StoreFare and (StoredFare/Markup/@Amount or StoredFare/Markup/@Percent)">
+			<xsl:when test="StoredFare/Markup/@Amount or StoredFare/Markup/@Percent">
 				<Reprice>
 					<ScreenEntry>
 						<xsl:value-of select="concat('*',UniqueID/@ID)" />
@@ -43,12 +43,14 @@
 							<xsl:value-of select="'/#TR'"/>
 						</ScreenEntry>
 					</xsl:for-each>
+				</Reprice>
+				<RepriceSave>
 					<ScreenEntry>
 						<xsl:value-of select="'4PQCTRALL'" />
 					</ScreenEntry>
 					<ScreenEntry>6.TRIPXML</ScreenEntry>
 					<ScreenEntry>ER</ScreenEntry>
-				</Reprice>
+				</RepriceSave>
 			</xsl:when>
 			<xsl:otherwise>
 				<OTA_AirPriceRQ xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="1">
