@@ -745,9 +745,9 @@ namespace Sabre
                         }
                     }
                     var supplInfo = oRootResp.SelectSingleNode("TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]/PricedItinerary/@InputMessage");
-                    if (supplInfo != null && Regex.IsMatch(supplInfo.InnerText, "WPA(([0-9A-Z][A-Z])|([A-Z][0-9A-Z]))"))
+                    if (supplInfo != null && Regex.IsMatch(supplInfo.InnerText, "WPA(([0-9A-Z][A-Z])|([A-Z][0-9A-Z])).*"))
                     {
-                        var valAirline = Regex.Match(supplInfo.InnerText, "WPA(([0-9A-Z][A-Z])|([A-Z][0-9A-Z]))").Groups[1];
+                        var valAirline = Regex.Match(supplInfo.InnerText, "WPA(([0-9A-Z][A-Z])|([A-Z][0-9A-Z])).*").Groups[1];
                         strPrice = strPrice.Replace("<OptionalQualifiers>", $"<OptionalQualifiers><FlightQualifiers><VendorPrefs><Airline Code=\"{valAirline}\"/></VendorPrefs></FlightQualifiers>");
                         strPriceCombined = strPriceCombined.Replace("<OptionalQualifiers>", $"<OptionalQualifiers><FlightQualifiers><VendorPrefs><Airline Code=\"{valAirline}\"/></VendorPrefs></FlightQualifiers>");
                     }
