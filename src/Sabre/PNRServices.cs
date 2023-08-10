@@ -744,6 +744,13 @@ namespace Sabre
                             modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
                         }
                     }
+                    var supplInfo = oRootResp.SelectSingleNode("TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]/PricedItinerary/@InputMessage");
+                    if (supplInfo != null && Regex.IsMatch(supplInfo.InnerText, "WPA(([0-9A-Z][A-Z])|([A-Z][0-9A-Z]))"))
+                    {
+                        var valAirline = Regex.Match(supplInfo.InnerText, "WPA(([0-9A-Z][A-Z])|([A-Z][0-9A-Z]))").Groups[1];
+                        strPrice = strPrice.Replace("<OptionalQualifiers>", $"<OptionalQualifiers><FlightQualifiers><VendorPrefs><Airline Code=\"{valAirline}\"/></VendorPrefs></FlightQualifiers>");
+                        strPriceCombined = strPriceCombined.Replace("<OptionalQualifiers>", $"<OptionalQualifiers><FlightQualifiers><VendorPrefs><Airline Code=\"{valAirline}\"/></VendorPrefs></FlightQualifiers>");
+                    }
 
                     if (oRootResp.SelectSingleNode("TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote") is null)
                     {
