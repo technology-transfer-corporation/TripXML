@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 16 Aug 2023 - Samokhvalov - Added Indicator to AgencyCommission(FM-line).
    Date: 15 Jun 2023 - Kobelev - Calling for Ticket Image for Manual Electronic tickets.
    Date: 22 Feb 2023 - Kobelev - Price Type determination added specific condition for I0 FCMI.
    Date: 10 Jan 2023 - Samokhvalov - Farebasis fixes.
@@ -5168,7 +5169,6 @@
 
 	<xsl:template match="dataElementsIndiv" mode="commission">
 		<AgencyCommission>
-
 			<xsl:variable name="paxRef" select="referenceForDataElement/reference/number" />
 			<xsl:choose>
 				<xsl:when test="referenceForDataElement/reference/qualifier='PT'">
