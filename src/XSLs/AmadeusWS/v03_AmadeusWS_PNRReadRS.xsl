@@ -598,7 +598,7 @@
 					<xsl:when test="fareList[1]/pricingInformation/fcmi = 'R'">Private</xsl:when>
 					<xsl:when test="fareList[1]/pricingInformation/fcmi = '7'">Private</xsl:when>
 					<xsl:when test="fareList[1]/pricingInformation/fcmi = '9'">Private</xsl:when>
-					<xsl:when test="fareList[1]/pricingInformation/fcmi = 'G'">Private</xsl:when>					
+					<xsl:when test="fareList[1]/pricingInformation/fcmi = 'G'">Private</xsl:when>
 					<xsl:when test="contains($OptP,'RU')">Private</xsl:when>
 					<xsl:when test="contains($OptP,'RP')">Published</xsl:when>
 					<xsl:when test="contains($OptP,'RC')">Private</xsl:when>
@@ -865,7 +865,7 @@
 					<xsl:when test="pricingInformation/fcmi = 'R'">Private</xsl:when>
 					<xsl:when test="pricingInformation/fcmi = '7'">Private</xsl:when>
 					<xsl:when test="pricingInformation/fcmi = '9'">Private</xsl:when>
-					<xsl:when test="pricingInformation/fcmi = 'G'">Private</xsl:when>					
+					<xsl:when test="pricingInformation/fcmi = 'G'">Private</xsl:when>
 					<xsl:otherwise>
 						<xsl:choose>
 							<xsl:when test="pricingInformation/fcmi = '5'">
@@ -890,7 +890,7 @@
 										<xsl:when test="$adtfcmi = 'R'">Private</xsl:when>
 										<xsl:when test="$adtfcmi = '7'">Private</xsl:when>
 										<xsl:when test="$adtfcmi = '9'">Private</xsl:when>
-										<xsl:when test="$adtfcmi = 'G'">Private</xsl:when>										
+										<xsl:when test="$adtfcmi = 'G'">Private</xsl:when>
 										<xsl:when test="contains($priceOpt,'RU')">Private</xsl:when>
 										<xsl:when test="contains($priceOpt,'RP')">Published</xsl:when>
 										<xsl:when test="contains($priceOpt,'RC')">Private</xsl:when>
@@ -902,7 +902,7 @@
 								</xsl:variable>
 								<xsl:value-of select="$adttype"/>
 							</xsl:when>
-							<!-- -->							
+							<!-- -->
 							<xsl:when test="contains($priceOpt,'RU')">Private</xsl:when>
 							<xsl:when test="contains($priceOpt,'RP')">Published</xsl:when>
 							<xsl:when test="contains($priceOpt,'RC')">Private</xsl:when>
@@ -1356,7 +1356,7 @@
 		<xsl:variable name="paxnum">
 			<xsl:value-of select="../paxSegReference/refDetails/refNumber"/>
 		</xsl:variable>
-		
+
 		<xsl:choose>
 			<xsl:when test="(not(connexInformation/connecDetails/routingInformation) or connexInformation/connecDetails/routingInformation != 'ARNK') and fareQualifier/fareBasisDetails">
 				<xsl:variable name="fb">
@@ -4010,6 +4010,9 @@
 									</xsl:for-each>
 								</xsl:attribute>
 							</xsl:if>
+							<xsl:attribute name="Indicator">
+								<xsl:value-of select="substring(substring-after(fareElementData/freeText,'*'),1,1)"/>
+							</xsl:attribute>
 							<xsl:choose>
 								<xsl:when test="contains(fareElementData/freeText,'*M*') or contains(fareElementData/freeText,'*C*') or contains(fareElementData/freeText,'*G*') or contains(fareElementData/freeText,'*D*') or contains(fareElementData/freeText,'*F*')">
 									<xsl:variable name="comm1">
@@ -4959,7 +4962,7 @@
 
 			<xsl:choose>
 				<xsl:when test="//ManualTickets/Ticket">
-					<xsl:variable name="tkt" select="substring(otherDataFreetext/longFreetext, 5, 14)" />													
+					<xsl:variable name="tkt" select="substring(otherDataFreetext/longFreetext, 5, 14)" />
 
 					<xsl:variable name="status" select="//ManualTickets/Ticket[@Number=$tkt]/text()" />
 					<xsl:value-of select="concat(otherDataFreetext/longFreetext, ' ', $status)"/>
@@ -5009,10 +5012,10 @@
 					<xsl:value-of select="concat(otherDataFreetext/longFreetext, ' ', $status)"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="otherDataFreetext/longFreetext"/>		
+					<xsl:value-of select="otherDataFreetext/longFreetext"/>
 				</xsl:otherwise>
 			</xsl:choose>
-			
+
 		</ManualTicket>
 	</xsl:template>
 	<!-- ************************************************************** -->
@@ -5195,8 +5198,9 @@
 					</xsl:attribute>
 				</xsl:when>
 			</xsl:choose>
-
-
+			<xsl:attribute name="Indicator">
+				<xsl:value-of select="substring(substring-after(otherDataFreetext/longFreetext,'*'),1,1)"/>
+			</xsl:attribute>
 			<xsl:attribute name="RPH">
 				<xsl:value-of select="elementManagementData/lineNumber"/>
 			</xsl:attribute>
