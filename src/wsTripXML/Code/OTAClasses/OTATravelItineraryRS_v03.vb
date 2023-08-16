@@ -1702,6 +1702,9 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
         <System.Xml.Serialization.XmlAttributeAttribute>
         Public FlightRefNumberRPHList As String
 
+        <System.Xml.Serialization.XmlAttributeAttribute>
+        Public Indicator As String
+
     End Class
 
     '<remarks/>
