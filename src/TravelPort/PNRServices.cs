@@ -1,9 +1,11 @@
 ﻿using System.Xml;
 using TripXMLMain;
 using System.Text;
+using System.Text.RegularExpressions;
 using System;
 using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Travelport
 {
@@ -226,6 +228,7 @@ namespace Travelport
                             //&& oRoot.SelectNodes("StoredFare[@FareType='Published']").Count > 0)
                             //<Response>{modRS}</Response>
                             var universalRecord = modRS.Contains("AirPricingInfo") ? modRS : response;
+                            universalRecord = UpdateRQVesion(universalRecord, modRS);
                             modRQ = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{universalRecord}</Response></OTA_PNRRepriceRQ>").Replace("</OTA_PNRRepriceRQ>", $"<UpdatePrice>{airRS}</UpdatePrice></OTA_PNRRepriceRQ>");
                             CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "UpdatePrice RQ", modRQ, ProviderSystems.LogUUID);
                             modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
@@ -266,6 +269,12 @@ namespace Travelport
                 response = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
             }
             return response;
+        }
+
+        private string UpdateRQVesion(string universalRecord, string modRS)
+        {
+            var version = Regex.Match(modRS, @"<universal:UniversalRecord.*(\sVersion=""\d+"")").Groups[1];
+            return Regex.Replace(universalRecord, @"\sVersion=""\d+""", version.Value);
         }
 
         public string Queue()
