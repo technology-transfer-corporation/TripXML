@@ -17,6 +17,6 @@ steps:
   inputs:
     PackageId: 'wsTripXML'
     PackageFormat: 'NuPkg'
-    PackageVersion: '$(AssemblyInfo.AssemblyFileVersion)'    
-    AdditionalArguments: '/p:OctoPackEnforceAddingFiles=true'
+    PackageVersion: '$(AssemblyInfo.AssemblyFileVersion)'        
     Overwrite: true
+    NuGetAuthor: 'Technology Transfer Corp'
