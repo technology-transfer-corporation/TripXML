@@ -7,6 +7,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 18 Aug 2023 - Kobelev - Added Equivelent Amounts.
   Date: 01 Aug 2023 - Samokhvalov - Reworked PTCFareBreakdown - FB-codes, Brands
   Date: 12 Jun 2023 - Kobelev - In CustomerInfo use LNameNum for Passanger number added ProfileRefRS
   Date: 08 Mar 2022 - Kobelev - Not trying to read Age for P-JWZ.
@@ -636,9 +637,48 @@
 							<xsl:value-of select="GenQuoteDetails/TotCurrency" />
 						</xsl:attribute>
 						<xsl:attribute name="DecimalPlaces">
-							<xsl:value-of select="GenQuoteDetails/TotDecPos" />
+							<xsl:choose>
+								<xsl:when test="GenQuoteDetails/EquivAmt">
+									<xsl:value-of select="GenQuoteDetails/EquivDecPos" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="GenQuoteDetails/TotDecPos" />
+								</xsl:otherwise>
+							</xsl:choose>
+
 						</xsl:attribute>
 					</BaseFare>
+					<xsl:if test ="GenQuoteDetails/EquivAmt">	
+						<xsl:variable name="ptc" select="AgntEnteredPsgrDescInfo/AgntEnteredPsgrDesc"/>
+						<xsl:variable name="ef" select="GenQuoteDetails/BaseFareAmt" />
+						<xsl:variable name="cur">
+							<xsl:apply-templates select="GenQuoteDetails/BaseFareCurrency" mode="equivcur" />
+						</xsl:variable>
+						<EquivFare>
+							<xsl:variable name="eamttota">
+								<xsl:apply-templates select="GenQuoteDetails" mode="EQbasefare">
+									<xsl:with-param name="total">0</xsl:with-param>
+								</xsl:apply-templates>
+							</xsl:variable>
+							<xsl:variable name="eamttot">
+								<xsl:value-of select="substring-before($eamttota,'/')" />
+							</xsl:variable>							
+							<xsl:attribute name="Amount">
+								<xsl:value-of select="$eamttot"/>
+							</xsl:attribute>
+							<xsl:attribute name="CurrencyCode">
+								<xsl:choose>
+									<xsl:when test="$cur != ''">
+										<xsl:value-of select="$cur"/>
+									</xsl:when>
+									<xsl:otherwise>USD</xsl:otherwise>
+								</xsl:choose>
+							</xsl:attribute>
+							<xsl:attribute name="DecimalPlaces">
+								<xsl:value-of select="GenQuoteDetails/TotDecPos"/>
+							</xsl:attribute>
+						</EquivFare>
+					</xsl:if>
 					<Taxes>
 						<!--  
             <xsl:apply-templates select="GenQuoteDetails[1]" mode="TotalTax" />
@@ -707,6 +747,36 @@
 			<xsl:value-of select="$total + $thistotal" />
 		</xsl:variable>
 		<xsl:apply-templates select="following-sibling::GenQuoteDetails[1]" mode="basefare">
+			<xsl:with-param name="total">
+				<xsl:value-of select="$bigtotal" />
+			</xsl:with-param>
+		</xsl:apply-templates>
+		<xsl:value-of select="$bigtotal" />
+		<xsl:text>/</xsl:text>
+	</xsl:template>
+
+	<xsl:template match="GenQuoteDetails" mode="EQbasefare">
+		<xsl:param name="total" />
+		<xsl:variable name="uk">
+			<xsl:value-of select="format-number(UniqueKey,'0000')" />
+		</xsl:variable>
+		<xsl:variable name="totpax">
+			<xsl:value-of select="count(../AgntEnteredPsgrDescInfo[UniqueKey=$uk]/ApplesToAry/AppliesTo)"/>
+		</xsl:variable>
+		<xsl:variable name="thistotal">
+			<xsl:choose>
+				<xsl:when test="EquivAmt != '0'">
+					<xsl:value-of select="BaseFareAmt * $totpax" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="EquivAmt * $totpax" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="bigtotal">
+			<xsl:value-of select="$total + $thistotal" />
+		</xsl:variable>
+		<xsl:apply-templates select="following-sibling::GenQuoteDetails[1]" mode="EQbasefare">
 			<xsl:with-param name="total">
 				<xsl:value-of select="$bigtotal" />
 			</xsl:with-param>
@@ -1051,12 +1121,40 @@
 						</xsl:choose>
 					</xsl:attribute>
 					<xsl:attribute name="CurrencyCode">
-						<xsl:value-of select="TotCurrency" />
+						<xsl:choose>
+							<xsl:when test="EquivAmt">
+								<xsl:value-of select="EquivCurrency" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="BaseFareCurrency" />
+							</xsl:otherwise>
+						</xsl:choose>
+
 					</xsl:attribute>
 					<xsl:attribute name="DecimalPlaces">
-						<xsl:value-of select="TotDecPos" />
+						<xsl:choose>
+							<xsl:when test="EquivAmt">
+								<xsl:value-of select="EquivDecPos" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="TotDecPos" />
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:attribute>
 				</BaseFare>
+				<xsl:if test ="EquivAmt">
+					<EquivFare>
+						<xsl:attribute name="Amount">
+							<xsl:value-of select="BaseFareAmt"/>
+						</xsl:attribute>
+						<xsl:attribute name="CurrencyCode">
+							<xsl:value-of select="BaseFareCurrency"/>
+						</xsl:attribute>
+						<xsl:attribute name="DecimalPlaces">
+							<xsl:value-of select="TotDecPos"/>
+						</xsl:attribute>
+					</EquivFare>
+				</xsl:if>
 				<Taxes>
 					<xsl:apply-templates select="TaxDataAry/TaxData" mode="tax" />
 					<xsl:if test="not(TaxDataAry/TaxData/Amt)">
