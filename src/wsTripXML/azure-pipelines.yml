@@ -11,7 +11,7 @@ pool: default
 steps:
 - task: AssembyInfoReader@3
   inputs:
-    searchPattern: '**\My Project\AssemblyInfo.vb'
+    searchPattern: '.\My Project\AssemblyInfo.vb'
 
 - task: OctopusPackNuGet@6
   inputs:
