@@ -13,11 +13,9 @@ steps:
   inputs:
     searchPattern: '.\My Project\AssemblyInfo.vb'
 
-- task: OctopusPackNuGet@6
+- task: OctopusPack@4
   inputs:
     PackageId: 'wsTripXML'
-    PackageVersion: $(AssemblyInfo.AssemblyFileVersion)
-    NuGetDescription: 'Trip XML'
-    NuGetAuthors: 'Technology Transfer Corp'
-    Include: '"*.dll", "Web.config", "*.asmx", "*.xml", "*.aspx", "bin***.dll", "bin***.config", "bin***.pdb", "App_Data***.*", "Code/bin***.dll", "Tables/BL***.*", "Tables/Decoding***.xml", "Tables/Users***.*"'
-
+    PackageFormat: 'NuPkg'
+    PackageVersion: '$(AssemblyInfo.AssemblyFileVersion)'
+    Include: './*.dll, /bin/*.dll, /bin/*.pdb, ./*.asmx, ./*.xml'
