@@ -9,6 +9,9 @@ trigger:
 pool: default
 
 steps:
+- checkout: git://TripXML/TripXMLMain
+- checkout: git://TripXML/Sabre
+
 - task: AssembyInfoReader@3
   inputs:
     searchPattern: '.\My Project\AssemblyInfo.vb'
