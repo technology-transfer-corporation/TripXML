@@ -15,7 +15,8 @@ steps:
 
 - task: OctopusPackNuGet@6
   inputs:
-    PackageId: $(AssemblyInfo.AssemblyTitle)
+    PackageId: 'wsTripXML'
     PackageVersion: $(AssemblyInfo.AssemblyFileVersion)
     NuGetDescription: 'Trip XML'
     NuGetAuthors: 'Technology Transfer Corp'
+
