@@ -17,5 +17,6 @@ steps:
   inputs:
     PackageId: 'wsTripXML'
     PackageFormat: 'NuPkg'
-    PackageVersion: '$(AssemblyInfo.AssemblyFileVersion)'
-    Include: './*.dll, /bin/*.dll, /bin/*.pdb, ./*.asmx, ./*.xml'
+    PackageVersion: '$(AssemblyInfo.AssemblyFileVersion)'    
+    AdditionalArguments: '/p:OctoPackEnforceAddingFiles=true'
+    Overwrite: true
