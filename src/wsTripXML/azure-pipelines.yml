@@ -9,13 +9,13 @@ trigger:
 pool: default
 
 steps:
-
-- task: NuGetToolInstaller@1
+- task: AssembyInfoReader@3
   inputs:
-    versionSpec: '6.6.1'
+    searchPattern: '**\My Project\AssemblyInfo.vb'
 
-- task: Cake@2
+- task: OctopusPackNuGet@6
   inputs:
-    script: 'build.cake'
-    target: 'OctoPush'
-    verbosity: 'Verbose'
+    PackageId: '$(AssemblyInfo.Title)'
+    PackageVersion: '$(AssemblyInfo.AssemblyFileVersion)'
+    NuGetDescription: 'Trip XML'
+    NuGetAuthors: 'Technology Transfer Corp'
