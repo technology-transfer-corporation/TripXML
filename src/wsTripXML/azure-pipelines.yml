@@ -9,9 +9,9 @@ trigger:
 pool: default
 
 steps:
-- task: NuGetCommand@2
+
+- task: Cake@2
   inputs:
-    command: 'restore'
-    restoreSolution: '**/*.sln'
-    feedsToUse: 'select'
-    vstsFeed: 'f2c2dd7b-2f67-4fab-9386-792dea8186d9'
+    script: 'build.cake'
+    target: 'Default'
+    verbosity: 'Verbose'
