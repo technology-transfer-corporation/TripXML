@@ -13,5 +13,5 @@ steps:
 - task: Cake@2
   inputs:
     script: 'build.cake'
-    target: 'Default'
+    target: 'OctoPush'
     verbosity: 'Verbose'
