@@ -10,6 +10,10 @@ pool: default
 
 steps:
 
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: '6.6.1'
+
 - task: Cake@2
   inputs:
     script: 'build.cake'
