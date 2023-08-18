@@ -19,4 +19,5 @@ steps:
     PackageVersion: $(AssemblyInfo.AssemblyFileVersion)
     NuGetDescription: 'Trip XML'
     NuGetAuthors: 'Technology Transfer Corp'
+    Include: '*.dll, Web.config, *.asmx, *.xml, *.aspx, bin***.dll, bin***.config, bin***.pdb, App_Data***.*, Code/bin***.dll, Tables/BL***.*, Tables/Decoding***.xml, Tables/Users***.*'
 
