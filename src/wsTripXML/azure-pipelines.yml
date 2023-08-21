@@ -28,7 +28,7 @@ steps:
   inputs:
     PackageId: 'wsTripXML'
     PackageFormat: 'NuPkg'
-    PackageVersion: 'AssemblyInfo.AssemblyFileVersion'
+    PackageVersion: '$(AssemblyInfo.AssemblyFileVersion)'
     SourcePath: '.\wsTripXML'
-    NuGetTitle: 'AssemblyInfo.AssemblyTitle'
-    NuGetDescription: 'AssemblyInfo.AssemblyDescription'
+    NuGetTitle: '$(AssemblyInfo.AssemblyTitle)'
+    NuGetDescription: '$(AssemblyInfo.AssemblyDescription)'
