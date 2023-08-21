@@ -418,21 +418,17 @@ namespace Sabre
                 if (!string.IsNullOrEmpty(ttProviderSystems.AAAPCC) & (ttProviderSystems.AAAPCC ?? "") != (ttProviderSystems.PCC ?? ""))
                 {
                     // AAA into another PCC
-                    //strAAA = "<ChangeAAARQ xmlns=\"http://webservices.sabre.com/sabreXML/2003/07\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2003A.TsabreXML1.0.1\"><POS><Source PseudoCityCode=\"";
-                    //strAAA += $"{ttProviderSystems.AAAPCC}\"/></POS><AAA PseudoCityCode=\"{ttProviderSystems.PCC}\"/></ChangeAAARQ>";
-                    //strResponse = SendMessage(strAAA, "ChangeAAA", "ChangeAAALLSRQ", SecurityToken);
+                    //string strAAA = "<ContextChangeRQ  xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"  Version=\"2.0.3\"><ChangeAAA PseudoCityCode=\"";
+                    //strAAA += $"{ttProviderSystems.AAAPCC}\"/></ContextChangeRQ>";
+                    //strResponse = SendMessage(strAAA, "ChangeAAA", "ContextChangeLLSRQ", SecurityToken);
 
-                    string strAAA = "<ContextChangeRQ  xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"  Version=\"2.0.3\"><ChangeAAA PseudoCityCode=\"";
-                    strAAA += $"{ttProviderSystems.AAAPCC}\"/></ContextChangeRQ>";
-                    strResponse = SendMessage(strAAA, "ChangeAAA", "ContextChangeLLSRQ", SecurityToken);
-
-                    if (strResponse.Contains("PLEASE FINISH OR IGNORE THE CURRENT TRANSACTION"))
-                    {
-                        // Ignore current PNR
-                        string strER = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>I</HostCommand></Request></SabreCommandLLSRQ>";
-                        SendMessage(strER, "I", "SabreCommandLLSRQ", SecurityToken);
-                        strResponse = SendMessage(strAAA, "ChangeAAA", "ChangeAAALLSRQ", SecurityToken);
-                    }
+                    //if (strResponse.Contains("PLEASE FINISH OR IGNORE THE CURRENT TRANSACTION"))
+                    //{
+                    //    // Ignore current PNR
+                    //    string strER = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>I</HostCommand></Request></SabreCommandLLSRQ>";
+                    //    SendMessage(strER, "I", "SabreCommandLLSRQ", SecurityToken);
+                    //    strResponse = SendMessage(strAAA, "ChangeAAA", "ContextChangeLLSRQ", SecurityToken);
+                    //}
                 }
 
                 string body = $"<SessionCloseRQ><POS><Source PseudoCityCode='{ttProviderSystems.PCC}'/></POS></SessionCloseRQ>";

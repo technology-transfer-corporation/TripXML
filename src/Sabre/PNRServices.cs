@@ -20,7 +20,6 @@ namespace Sabre
         /// </summary>
         public string PNRRead()
         {
-
             string strResponse;
 
             // *****************************************************************
@@ -189,7 +188,7 @@ namespace Sabre
                                     var isCanced = lstLines.Exists(l => l.StartsWith(strline.Contains("CHECK") ? $"XFP  {fopElems.CCNumber}" : $"XFP  *{fopElems.CCType}{fopElems.CCNumber}"));
                                     var histLine = $"<PNR_HDK_FOP CCType=\"{fopElems.CCType}\" Exp=\"{fopElems.Exp}\" Active=\"{!isCanced}\">{fopElems.CCNumber}</PNR_HDK_FOP>";
 
-                                    if (!lstFOP.Exists(l => l.Equals(histLine)))
+                                    if (fopElems.CCNumber != "-CHECK" && !lstFOP.Exists(l => l.Equals(histLine)))
                                         lstFOP.Add(histLine);
                                 }
                             }
