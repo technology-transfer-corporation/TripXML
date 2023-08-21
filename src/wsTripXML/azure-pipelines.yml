@@ -18,6 +18,7 @@ steps:
 - checkout: git://TripXML/CompressionExtension
 - checkout: git://TripXML/TravelPort
 - checkout: git://TripXML/TripXMLTools
+- checkout: git://TripXML/XSLs
 
 - task: AssembyInfoReader@3
   inputs:
@@ -26,6 +27,10 @@ steps:
 - task: NuGetToolInstaller@1
   inputs:
     versionSpec: '6.6.1'
+
+- task: CmdLine@2
+  inputs:
+    script: './XSLs/AmadeusWS/AmadeusWS.bat'
 
 - task: MSBuild@1
   inputs:
