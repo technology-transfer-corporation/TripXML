@@ -22,6 +22,6 @@ steps:
 
 - task: Cake@2
   inputs:
-    script: 'build.cake'
+    script: '.\wsTripXML\build.cake'
     target: 'OctoPush'
     verbosity: 'Verbose'    
