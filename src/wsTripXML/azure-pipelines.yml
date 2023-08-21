@@ -27,10 +27,10 @@ steps:
   inputs:
     versionSpec: '6.6.1'
 
-- task: DotNetCoreCLI@2
+- task: MSBuild@1
   inputs:
-    command: 'build'
-    workingDirectory: './wsTripXML'
+    solution: './wsTripXML/wsTripXML.vbproj'    
+    restoreNugetPackages: true
 
 - task: OctopusPack@4
   inputs:
