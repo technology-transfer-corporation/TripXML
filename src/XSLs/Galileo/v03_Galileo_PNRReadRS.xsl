@@ -7,6 +7,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 21 Aug 2023 - Kobelev - Fixed BaseDecPos for Equivelent Amounts. 
   Date: 18 Aug 2023 - Kobelev - Added Equivelent Amounts.
   Date: 01 Aug 2023 - Samokhvalov - Reworked PTCFareBreakdown - FB-codes, Brands
   Date: 12 Jun 2023 - Kobelev - In CustomerInfo use LNameNum for Passanger number added ProfileRefRS
@@ -675,7 +676,7 @@
 								</xsl:choose>
 							</xsl:attribute>
 							<xsl:attribute name="DecimalPlaces">
-								<xsl:value-of select="GenQuoteDetails/TotDecPos"/>
+								<xsl:value-of select="GenQuoteDetails/BaseDecPos"/>
 							</xsl:attribute>
 						</EquivFare>
 					</xsl:if>
