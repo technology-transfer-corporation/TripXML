@@ -15,6 +15,9 @@ steps:
 - checkout: git://TripXML/Worldspan
 - checkout: git://TripXML/Amadeus
 - checkout: git://TripXML/Galileo
+- checkout: git://TripXML/CompressionExtension
+- checkout: git://TripXML/TravelPort
+- checkout: git://TripXML/TripXMLTools
 
 - task: AssembyInfoReader@3
   inputs:
@@ -23,6 +26,11 @@ steps:
 - task: NuGetToolInstaller@1
   inputs:
     versionSpec: '6.6.1'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    workingDirectory: './wsTripXML'
 
 - task: OctopusPack@4
   inputs:
