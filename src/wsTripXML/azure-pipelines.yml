@@ -9,17 +9,19 @@ trigger:
 pool: default
 
 steps:
+- checkout: git://TripXML/wsTripXML
 - checkout: git://TripXML/TripXMLMain
 - checkout: git://TripXML/Sabre
+- checkout: git://TripXML/Worldspan
+- checkout: git://TripXML/Amadeus
+- checkout: git://TripXML/Galileo
 
 - task: AssembyInfoReader@3
   inputs:
-    searchPattern: '.\My Project\AssemblyInfo.vb'
+    searchPattern: '.\wsTripXML\My Project\AssemblyInfo.vb'
 
-- task: OctopusPack@4
+- task: Cake@2
   inputs:
-    PackageId: 'wsTripXML'
-    PackageFormat: 'NuPkg'
-    PackageVersion: '$(AssemblyInfo.AssemblyFileVersion)'        
-    Overwrite: true
-    NuGetAuthor: 'Technology Transfer Corp'
+    script: 'build.cake'
+    target: 'OctoPush'
+    verbosity: 'Verbose'    
