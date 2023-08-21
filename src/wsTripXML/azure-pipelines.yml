@@ -1,0 +1,47 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool: default
+
+steps:
+- checkout: git://TripXML/wsTripXML
+- checkout: git://TripXML/TripXMLMain
+- checkout: git://TripXML/Sabre
+- checkout: git://TripXML/Worldspan
+- checkout: git://TripXML/Amadeus
+- checkout: git://TripXML/Galileo
+- checkout: git://TripXML/CompressionExtension
+- checkout: git://TripXML/TravelPort
+- checkout: git://TripXML/TripXMLTools
+- checkout: git://TripXML/XSLs
+
+- task: AssembyInfoReader@3
+  inputs:
+    searchPattern: '.\wsTripXML\My Project\AssemblyInfo.vb'
+
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: '6.6.1'
+
+- task: CmdLine@2
+  inputs:
+    script: './XSLs/AmadeusWS/AmadeusWS.bat'
+
+- task: MSBuild@1
+  inputs:
+    solution: './wsTripXML/wsTripXML.vbproj'    
+    restoreNugetPackages: true
+
+- task: OctopusPack@4
+  inputs:
+    PackageId: 'wsTripXML'
+    PackageFormat: 'NuPkg'
+    PackageVersion: '$(AssemblyInfo.AssemblyFileVersion)'
+    SourcePath: '.\wsTripXML'
+    NuGetTitle: '$(AssemblyInfo.AssemblyTitle)'
+    NuGetDescription: '$(AssemblyInfo.AssemblyDescription)'
