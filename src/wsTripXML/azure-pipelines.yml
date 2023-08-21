@@ -24,9 +24,11 @@ steps:
   inputs:
     versionSpec: '6.6.1'
 
-- task: Cake@2
+- task: OctopusPack@4
   inputs:
-    script: '.\wsTripXML\build.cake'
-    target: 'OctoPush'
-    verbosity: 'Verbose'    
-    useBuildAgentNuGetExe: true
+    PackageId: 'wsTripXML'
+    PackageFormat: 'NuPkg'
+    PackageVersion: 'AssemblyInfo.AssemblyFileVersion'
+    SourcePath: '.\wsTripXML'
+    NuGetTitle: 'AssemblyInfo.AssemblyTitle'
+    NuGetDescription: 'AssemblyInfo.AssemblyDescription'
