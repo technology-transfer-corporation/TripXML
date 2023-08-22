@@ -1819,10 +1819,21 @@ namespace Sabre
                             strNative = ttSA.SendMessage(strXPG, "XPG", "SabreCommandLLSRQ", ConversationID);
                         }
 
+                        if (strTickets.Contains("PNR HAS BEEN UPDATED-IGN AND RETRY"))
+                        {
+                            SendIR(ttSA);
+                            strTickets = ttSA.SendMessage(strTicket, "Air", "AirTicketLLSRQ", ConversationID);
+                        }
+
                         if (strTickets.Contains("*WARNING EDITS*") | strTickets.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strTickets.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
                             | strTickets.Contains("END OR IGNORE PNR") | strTickets.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | strTickets.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT") | strTickets.Contains("PLS ENTER UD8 WITH DTT PROFIT"))
                         {
                             strTickets = ttSA.SendMessage(strTicket, "Air", "AirTicketLLSRQ", ConversationID);
+                            if (strTickets.Contains("PNR HAS BEEN UPDATED-IGN AND RETRY"))
+                            {
+                                SendIR(ttSA);
+                                strTickets = ttSA.SendMessage(strTicket, "Air", "AirTicketLLSRQ", ConversationID);
+                            }
                             if (strTickets.Contains("*WARNING EDITS*") | strTickets.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | strTickets.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
                                 | strTickets.Contains("END OR IGNORE PNR") | strTickets.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | strTickets.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT"))
                             {
@@ -1833,6 +1844,11 @@ namespace Sabre
                                     Thread.Sleep(1000);
 
                                     strTickets = ttSA.SendMessage(strTicket, "Air", "AirTicketLLSRQ", ConversationID);
+                                    if (strTickets.Contains("PNR HAS BEEN UPDATED-IGN AND RETRY"))
+                                    {
+                                        SendIR(ttSA);
+                                        strTickets = ttSA.SendMessage(strTicket, "Air", "AirTicketLLSRQ", ConversationID);
+                                    }
                                     iTry += 1;
                                 }
                             }
@@ -1878,7 +1894,6 @@ namespace Sabre
 
                                     strResponse = ttSA.SendMessage(strInvoice, "Air", "SabreCommandLLSRQ", ConversationID);
                                     // TODO: Check for simultaneous changes - тут они игнорируются полностью
-
                                     iTry += 1;
                                 }
                             }
@@ -1937,13 +1952,7 @@ namespace Sabre
                     if (string.IsNullOrEmpty(strPrinter))
                     {
                         if (!string.IsNullOrEmpty(strEndTransact))
-                        {
                             readResp = ttSA.SendMessage(strRetrieve, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
-                        }
-                        else
-                        {
-                            // readResp = ttSA.SendMessage(strRead, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID)
-                        }
 
                         readResp = readResp.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
                         readResp = CoreLib.TransformXML(readResp, XslPath, $"{Version}Sabre_PNRReadRS.xsl");
@@ -1951,19 +1960,13 @@ namespace Sabre
                         oDoc.LoadXml(readResp);
                         oRoot = oDoc.DocumentElement;
                         if (oRoot.SelectNodes("TravelItinerary/ItineraryInfo/TPA_Extensions/IssuedTickets/IssuedTicket") is null)
-                        {
                             issuedList = null;
-                        }
                         else
-                        {
                             issuedList = oRoot.SelectNodes("TravelItinerary/ItineraryInfo/TPA_Extensions/IssuedTickets/IssuedTicket");
-                        }
 
                         if (issuedList != null)
-                        {
                             foreach (XmlNode oNodeResp in issuedList)
                                 strTemp += oNodeResp.OuterXml;
-                        }
 
                         CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "strTickets", strTickets, ProviderSystems.LogUUID);
                         CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "strTemp", $"<IssuedTickets>{strTemp}</IssuedTickets>", ProviderSystems.LogUUID);
@@ -1977,27 +1980,17 @@ namespace Sabre
                             oRoot = oDoc.DocumentElement;
                             CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "oRoot", oRoot.OuterXml, ProviderSystems.LogUUID);
                             if (oRoot.SelectSingleNode("Errors") is null)
-                            {
                                 strIssueTicket += "<Success/>";
-                            }
                             else if (oRoot.SelectSingleNode("Errors/Error/ErrorInfo/Message").InnerText.Contains("ETR MESSAGE PROCESSED"))
-                            {
                                 strIssueTicket += "<Success/>";
-                            }
                             else
-                            {
                                 strIssueTicket += oRoot.SelectSingleNode("Errors").OuterXml;
-                            }
                         }
                         else
-                        {
                             strIssueTicket += "<Success/>";
-                        }
 
                         if (strTemp.Trim().Length > 0)
-                        {
                             strIssueTicket += $"<IssuedTickets>{strTemp}</IssuedTickets>";
-                        }
 
                         if (inSession)
                             strIssueTicket += $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID></AirTicketRS>";
@@ -2010,11 +2003,9 @@ namespace Sabre
                     }
                     else
                     {
-
                         strResponse = strResponse.Contains("Error")
                             ? $"<AirTicketRS>{strResponse}</AirTicketRS>"
                             : $"<AirTicketRS><Success/></AirTicketRS>";
-
 
                         var strToReplace = "</AirTicketRS>";
 
@@ -2044,6 +2035,12 @@ namespace Sabre
             }
 
             return strResponse;
+
+            void SendIR(SabreAdapter ttSA)
+            {
+                string strIR = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>IR</HostCommand></Request></SabreCommandLLSRQ>";
+                ttSA.SendMessage(strIR, "IR", "SabreCommandLLSRQ", ConversationID);
+            }
         }
 
         public string TicketCoupon()
