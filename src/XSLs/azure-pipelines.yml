@@ -13,12 +13,16 @@ steps:
 
 - task: BatchScript@1
   inputs:
-    filename: './XSLs/Build.bat'
+    filename: './Build.bat'
+
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: '6.6.1'
 
 - task: NuGetCommand@2
   inputs:
     command: 'pack'
-    packagesToPack: './XSLs/XSLs.nuspec'
+    packagesToPack: './XSLs.nuspec'
     versioningScheme: 'byPrereleaseNumber'
     majorVersion: '1'
     minorVersion: '0'
