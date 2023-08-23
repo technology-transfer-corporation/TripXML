@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>XSLs</id>
+    <version>1.0.0</version>
+    <authors>Technology Transfer Corp</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <!-- <icon>icon.png</icon> -->
+    <projectUrl>https://ttc.visualstudio.com/TripXML/_git/XSLs</projectUrl>
+    <description>Compiled library of XSLTs</description>
+    <releaseNotes></releaseNotes>
+    <copyright>$copyright$</copyright>
+    <tags></tags>
+   </metadata>
+   <files>
+    <file src=".\DLLs\*.dll" target="" />
+   </files>  
+</package>
