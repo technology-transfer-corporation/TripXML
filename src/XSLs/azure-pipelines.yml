@@ -29,4 +29,9 @@ steps:
     patchVersion: '0'
     packTimezone: 'local'
 
-
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: 'deaaff32-b3aa-4f28-a563-1820fea6f8ba'
