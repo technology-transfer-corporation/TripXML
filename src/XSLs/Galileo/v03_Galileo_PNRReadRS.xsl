@@ -7,6 +7,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 01 Sep 2023 - Riasnenko - Fixed DecimalPlaces for Base Fare Amounts. 
   Date: 21 Aug 2023 - Kobelev - Fixed BaseDecPos for Equivelent Amounts. 
   Date: 18 Aug 2023 - Kobelev - Added Equivelent Amounts.
   Date: 01 Aug 2023 - Samokhvalov - Reworked PTCFareBreakdown - FB-codes, Brands
@@ -639,7 +640,7 @@
 						</xsl:attribute>
 						<xsl:attribute name="DecimalPlaces">
 							<xsl:choose>
-								<xsl:when test="GenQuoteDetails/EquivAmt">
+								<xsl:when test="GenQuoteDetails/EquivCurrency != ''">
 									<xsl:value-of select="GenQuoteDetails/EquivDecPos" />
 								</xsl:when>
 								<xsl:otherwise>
@@ -649,7 +650,7 @@
 
 						</xsl:attribute>
 					</BaseFare>
-					<xsl:if test ="GenQuoteDetails/EquivAmt">	
+					<xsl:if test ="GenQuoteDetails/EquivCurrency != ''">	
 						<xsl:variable name="ptc" select="AgntEnteredPsgrDescInfo/AgntEnteredPsgrDesc"/>
 						<xsl:variable name="ef" select="GenQuoteDetails/BaseFareAmt" />
 						<xsl:variable name="cur">
@@ -1123,7 +1124,7 @@
 					</xsl:attribute>
 					<xsl:attribute name="CurrencyCode">
 						<xsl:choose>
-							<xsl:when test="EquivAmt">
+							<xsl:when test="EquivCurrency != ''">
 								<xsl:value-of select="EquivCurrency" />
 							</xsl:when>
 							<xsl:otherwise>
@@ -1134,7 +1135,7 @@
 					</xsl:attribute>
 					<xsl:attribute name="DecimalPlaces">
 						<xsl:choose>
-							<xsl:when test="EquivAmt">
+							<xsl:when test="EquivCurrency != ''">
 								<xsl:value-of select="EquivDecPos" />
 							</xsl:when>
 							<xsl:otherwise>
@@ -1143,7 +1144,7 @@
 						</xsl:choose>
 					</xsl:attribute>
 				</BaseFare>
-				<xsl:if test ="EquivAmt">
+				<xsl:if test ="EquivCurrency != ''">
 					<EquivFare>
 						<xsl:attribute name="Amount">
 							<xsl:value-of select="BaseFareAmt"/>
