@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 01 Sep 2023 - Samokhvalov - CustomerInfo/NameType fixes - bug #4
   Date: 04 Aug 2023 - Samokhvalov - CustomerInfo/NameType fixes - bug #4
   Date: 21 Mar 2023 - Samokhvalov - Added Ticketing entry data to TravelItinerary\TPA_Extenstions\SupplementalInfo.
   Date: 20 Sep 2022 - Kobelev - VOIDed tickets display.
@@ -1676,7 +1677,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:when>
-				<xsl:when test="//TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote/PriceQuotePlus/PassengerInfo">
+				<xsl:when test="//TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote/PriceQuotePlus/PassengerInfo and //TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote/PriceQuotePlus/PassengerInfo[number(concat(substring(PassengerData/@NameNumber,2,2),substring(PassengerData/@NameNumber,5,1)))=$paxref]/@PassengerType">
 					<xsl:value-of select="//TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote/PriceQuotePlus/PassengerInfo[number(concat(substring(PassengerData/@NameNumber,2,2),substring(PassengerData/@NameNumber,5,1)))=$paxref]/@PassengerType"/>
 				</xsl:when>
 				<xsl:otherwise>
