@@ -37,6 +37,7 @@
 
 	<xsl:key name="storedFareSims" match="StoredFare" use="Markup"/>
 	<xsl:key name="ptclist" match="//Response/universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo/air:PassengerType/@Code" use="."/>
+	<xsl:key name="priceGroups" match="StoredFare/@FarePriceGroup" use="."/>
 
 	<xsl:template match="/">
 		<xsl:apply-templates select="OTA_PNRRepriceRQ"/>
@@ -656,8 +657,11 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 
 					<xsl:for-each select="//StoredFare">
 						<xsl:variable name="optc" select="PassengerType/@Code" />
-						<xsl:variable name="price" select="$pnr/air:AirReservation/air:AirPricingInfo[substring(air:PassengerType/@Code,1,1)=substring($optc, 1,1)]" />
+
+						<xsl:variable name="price" select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code=$optc]" />
+
 						<xsl:variable name="group" select="$price/@AirPricingInfoGroup" />
+
 						<xsl:variable name="sibgroup">
 							<xsl:choose>
 								<xsl:when test="$price/preceding-sibling::air:AirPricingInfo/@AirPricingInfoGroup">
@@ -670,22 +674,25 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 						</xsl:variable>
 						<xsl:variable name="pos" select="position()"/>
 						<xsl:variable name="ptc" select="$price/air:PassengerType/@Code" />
+						<xsl:variable name="pKey" select="$price/@Key" />
 						<xsl:choose>
 							<!-- According to Travelport you only need to use one AirpriceInfo Key if all of them sharing a group  and $pos=1-->
-							<xsl:when test="$group = $sibgroup and ($pos=1 or count(msxsl:node-set($pnrGroups)[1]/node()) = count(msxsl:node-set($sfGroups)[1]/node()))">
-								<universal:UniversalModifyCmd>
-									<xsl:attribute name="Key">
-										<xsl:value-of select="$pos"/>
-									</xsl:attribute>
-									<universal:AirDelete Element="AirPricingInfo">
+							<xsl:when test="($group = $sibgroup or contains($group,$sibgroup)) and ($pos=1 or count(msxsl:node-set($pnrGroups)[1]/node()) = count(msxsl:node-set($sfGroups)[1]/node()))">
+								<xsl:if  test="$pKey!=''">
+									<universal:UniversalModifyCmd>
 										<xsl:attribute name="Key">
-											<xsl:value-of select="$price/@Key"/>
+											<xsl:value-of select="$pos"/>
 										</xsl:attribute>
-										<xsl:attribute name="ReservationLocatorCode">
-											<xsl:value-of select="$pnr/air:AirReservation/@LocatorCode"/>
-										</xsl:attribute>
-									</universal:AirDelete>
-								</universal:UniversalModifyCmd>
+										<universal:AirDelete Element="AirPricingInfo">
+											<xsl:attribute name="Key">
+												<xsl:value-of select="$pKey"/>
+											</xsl:attribute>
+											<xsl:attribute name="ReservationLocatorCode">
+												<xsl:value-of select="$pnr/air:AirReservation/@LocatorCode"/>
+											</xsl:attribute>
+										</universal:AirDelete>
+									</universal:UniversalModifyCmd>
+								</xsl:if>
 							</xsl:when>
 							<xsl:when test="$group != $sibgroup">
 								<universal:UniversalModifyCmd>
@@ -694,7 +701,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 									</xsl:attribute>
 									<universal:AirDelete Element="AirPricingInfo">
 										<xsl:attribute name="Key">
-											<xsl:value-of select="$price/@Key"/>
+											<xsl:value-of select="$pKey"/>
 										</xsl:attribute>
 										<xsl:attribute name="ReservationLocatorCode">
 											<xsl:value-of select="$pnr/air:AirReservation/@LocatorCode"/>
@@ -705,7 +712,6 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 						</xsl:choose>
 					</xsl:for-each>
 					<xsl:variable name="keyElem" select="number(msxsl:node-set($sfGroups)[1]/elem[last()]/node()[1])" />
-
 					<xsl:variable name="priceList" select="//StoredFare" />
 					<xsl:for-each select="msxsl:node-set($sfGroups)/elem/node()[1]">
 						<xsl:variable name="g" select="." />
@@ -719,19 +725,19 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 									<xsl:value-of select="$resCode"/>
 								</xsl:attribute>
 								<xsl:choose>
-									<xsl:when test="$priceList[@FarePriceGroup=$g]/@FareType='Private'">										
-											<xsl:variable name="p" select="$priceList[@FarePriceGroup=$g][1]/PassengerType/@Code" />
-											<xsl:variable name="tprice" select="number(substring($pnr/air:AirReservation/air:AirPricingInfo[substring(air:FareInfo/@PassengerTypeCode,1,1) = substring($p,1,1)]/@TotalPrice,4))" />
+									<xsl:when test="$priceList[@FarePriceGroup=$g]/@FareType='Private'">
+										<xsl:variable name="p" select="$priceList[@FarePriceGroup=$g][1]/PassengerType/@Code" />
+										<xsl:variable name="tprice" select="number(substring($pnr/air:AirReservation/air:AirPricingInfo[substring(air:FareInfo/@PassengerTypeCode,1,1) = substring($p,1,1)]/@TotalPrice,4))" />
 
-											<xsl:variable name="muPrice" select="$tprice + number(Markup/@Amount)" />
+										<xsl:variable name="muPrice" select="$tprice + number(Markup/@Amount)" />
 
-											<xsl:if test="$pnr/air:AirReservation/air:AirPricingInfo/air:FareInfo[substring(@PassengerTypeCode,1,1) = substring($p,1,1)]">
-												<xsl:apply-templates select="$airprice[substring(air:FareInfo/@PassengerTypeCode,1,1) = substring($p,1,1)]" mode="brandFareStore">
-													<xsl:with-param name="delete" select="'true'" />
-													<xsl:with-param name="pnr" select="$pnr" />
-													<xsl:with-param name="storedFare" select="." />
-												</xsl:apply-templates>
-											</xsl:if>										
+										<xsl:if test="$pnr/air:AirReservation/air:AirPricingInfo/air:FareInfo[substring(@PassengerTypeCode,1,1) = substring($p,1,1)]">
+											<xsl:apply-templates select="$airprice[substring(air:FareInfo/@PassengerTypeCode,1,1) = substring($p,1,1)]" mode="brandFareStore">
+												<xsl:with-param name="delete" select="'true'" />
+												<xsl:with-param name="pnr" select="$pnr" />
+												<xsl:with-param name="storedFare" select="." />
+											</xsl:apply-templates>
+										</xsl:if>
 									</xsl:when>
 									<xsl:otherwise>
 										<xsl:for-each select="$priceList[@FarePriceGroup=$g]">
@@ -750,7 +756,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 										</xsl:for-each>
 									</xsl:otherwise>
 								</xsl:choose>
-								
+
 							</universal:AirAdd>
 						</universal:UniversalModifyCmd>
 					</xsl:for-each>
