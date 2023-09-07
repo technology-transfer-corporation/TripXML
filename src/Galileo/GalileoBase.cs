@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Xml;
 using TripXMLMain;
 
@@ -59,12 +60,13 @@ namespace Galileo
             return recordLocator;
         }
         
-        protected static string FormatGalileo(string strDisplay)
+        public static string FormatGalileo(string strDisplay)
         {
             string display = "";
             int bucket = 64;
             var count = (int)Math.Ceiling((double)strDisplay.Length / bucket);
 
+            //strDisplay = strDisplay.Replace("&gt;&lt;", "\r").Replace(" & ", " and ");
             strDisplay = strDisplay.Replace(" & ", " and ");
 
             var Lines = strDisplay.Contains("\n")
@@ -73,11 +75,16 @@ namespace Galileo
                                     .Select(_ => _ * bucket)
                                     .Select(_ => strDisplay.Substring(_, Math.Min(bucket, strDisplay.Length - _)))
                                     .ToList();
-            if (Lines.Any(l => l.Length > 64))
-                Lines = DeepFormating(Lines);
+            var _lines = new List<string>();
+
+            Lines.ForEach(l=> _lines.Add(l.Replace(";", "").Replace("&gt", "").Replace("&lt", "")));
+
+            if (_lines.Any(l => l.Length > 64))
+                _lines = DeepFormating(_lines);
+
             //Regex.Split(strDisplay, "(?<=^(.{64})+)").ToList();
 
-            Lines.ForEach(l => display += $"<Line>{l.Replace("<", "&lt;").Replace(">", "&gt;")}</Line>");
+            _lines.ForEach(l => display += $"<Line>{l.Replace("<", "&lt;").Replace(">", "&gt;")}</Line>");
 
             return $"<Screen>{display}</Screen>";
         }

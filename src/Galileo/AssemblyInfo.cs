@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Galileo webservices Layer")]
 [assembly: AssemblyCompany("Downtown Travel")]
 [assembly: AssemblyProduct("TripXML Platform")]
-[assembly: AssemblyCopyright("Copyright © Downtown Travel 2022")]
+[assembly: AssemblyCopyright("Copyright © Downtown Travel 2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: CLSCompliant(true)]
 
@@ -30,4 +30,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 
 [assembly: AssemblyVersion("1.0.0.*")]
-[assembly: AssemblyFileVersion("1.0.3.15")]
+[assembly: AssemblyFileVersion("1.0.3.16")]
