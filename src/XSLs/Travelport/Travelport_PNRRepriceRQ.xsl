@@ -1224,10 +1224,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 						<xsl:value-of select="$pnr/common_v50_0:BookingTraveler[substring(common_v50_0:NameRemark/common_v50_0:RemarkData/node()[1],1,3)='P-C' and
 						format-number(substring(common_v50_0:NameRemark/common_v50_0:RemarkData/node()[1], 4, 2),'0')=$ptcAge]/@Key"/>
 					</xsl:when>
-					<xsl:when test="$pnr/air:AirReservation/air:AirPricingInfo/air:PassengerType[@Code = $ptc]">
+					<xsl:otherwise>
 						<xsl:value-of select="$pnr/air:AirReservation/air:AirPricingInfo/air:PassengerType[@Code = $ptc]/@BookingTravelerRef"/>
-					</xsl:when>
-					<xsl:otherwise>""</xsl:otherwise>
+					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
 			<xsl:copy-of select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code=$ptc and 
@@ -1268,7 +1267,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:attribute name="BookingTravelerRef">
-						<xsl:value-of select="$pnr/air:AirReservation/air:AirPricingInfo/air:PassengerType[@Code = $ptc][number($paxPos)]/@BookingTravelerRef"/>
+						<xsl:value-of select="msxsl:node-set($bookingTrvKey)[1]/node()"/>
 					</xsl:attribute>
 				</air:PassengerType>
 			<!--</xsl:for-each>-->
