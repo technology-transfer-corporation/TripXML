@@ -7,6 +7,7 @@
 	================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 	
+	Date: 08 Sep 2023 - Kobelev - Reprice PUB PNR
 	Date: 06 Sep 2023 - Kobelev - Corrected Passanger @Key reference
 	Date: 30 Aug 2023 - Kobelev - Reprice PUB vs. NEGO
 	Date: 18 Jul 2023 - Samokhvalov - CHD Age Fixes
@@ -712,6 +713,28 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 									</universal:AirDelete>
 								</universal:UniversalModifyCmd>
 							</xsl:when>
+							<xsl:otherwise>
+								<xsl:if test="$pos=1">
+									<xsl:for-each select="msxsl:node-set($pnrGroups)[1]/node()">
+										<xsl:variable name="lgroup" select="node()[1]" />
+										<xsl:variable name="aprice" select="$pnr/air:AirReservation/air:AirPricingInfo[@AirPricingInfoGroup = $lgroup][1]" />
+										<xsl:variable name="lpos" select="position()"/>
+										<universal:UniversalModifyCmd>
+											<xsl:attribute name="Key">
+												<xsl:value-of select="$lpos"/>
+											</xsl:attribute>
+											<universal:AirDelete Element="AirPricingInfo">
+												<xsl:attribute name="Key">
+													<xsl:value-of select="$aprice/@Key"/>
+												</xsl:attribute>
+												<xsl:attribute name="ReservationLocatorCode">
+													<xsl:value-of select="$aprice[1]/../../air:AirReservation/@LocatorCode"/>
+												</xsl:attribute>
+											</universal:AirDelete>
+										</universal:UniversalModifyCmd>
+									</xsl:for-each>
+								</xsl:if>
+							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:for-each>
 					<xsl:variable name="keyElem" select="number(msxsl:node-set($sfGroups)[1]/elem[last()]/node()[1])" />
@@ -740,11 +763,11 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 													</xsl:otherwise>
 												</xsl:choose>
 											</xsl:variable>
-											
+
 											<xsl:variable name="tprice" select="number(substring($pnr/air:AirReservation/air:AirPricingInfo[air:FareInfo/@PassengerTypeCode = $p]/@TotalPrice,4))" />
 
 											<xsl:variable name="muPrice" select="$tprice + number(Markup/@Amount)" />
-											
+
 											<xsl:choose>
 												<xsl:when test="$pnr/air:AirReservation/air:AirPricingInfo/air:FareInfo[@PassengerTypeCode = $p]">
 													<xsl:apply-templates select="$airprice[air:FareInfo/@PassengerTypeCode = $p]" mode="brandFareStore">
@@ -1233,12 +1256,12 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			      (($bookingTrvKey!='' and air:PassengerType/@BookingTravelerRef=substring($bookingTrvKey,1,24)) or air:PassengerType/@Age=$ptcAge or $ptcAge='' or not($ptcAge))]/air:BookingInfo"/>
 			<!--<xsl:for-each select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code=$ptc and 
 				     (($bookingTrvKey!='' and air:PassengerType/@BookingTravelerRef=substring($bookingTrvKey,1,24)) or air:PassengerType/@Age=$ptcAge or $ptcAge='' or not($ptcAge))]/air:PassengerType">
-			<xsl:for-each select="air:PassengerType">		-->		
-				
-				<xsl:variable name="paxPos">
-					<xsl:value-of select="position()"/>
-				</xsl:variable>
-				<!--<xsl:variable name="age">
+			<xsl:for-each select="air:PassengerType">		-->
+
+			<xsl:variable name="paxPos">
+				<xsl:value-of select="position()"/>
+			</xsl:variable>
+			<!--<xsl:variable name="age">
 					<xsl:choose>
 						<xsl:when test="@Age!=''">
 							<xsl:value-of select="@Age"/>
@@ -1257,19 +1280,19 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>-->
-				<air:PassengerType>
-					<xsl:attribute name="Code">
-						<xsl:value-of select="$ptc"/>
+			<air:PassengerType>
+				<xsl:attribute name="Code">
+					<xsl:value-of select="$ptc"/>
+				</xsl:attribute>
+				<xsl:if test="$ptcAge != ''">
+					<xsl:attribute name="Age">
+						<xsl:value-of select="$ptcAge"/>
 					</xsl:attribute>
-					<xsl:if test="$ptcAge != ''">
-						<xsl:attribute name="Age">
-							<xsl:value-of select="$ptcAge"/>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:attribute name="BookingTravelerRef">
-						<xsl:value-of select="msxsl:node-set($bookingTrvKey)[1]/node()"/>
-					</xsl:attribute>
-				</air:PassengerType>
+				</xsl:if>
+				<xsl:attribute name="BookingTravelerRef">
+					<xsl:value-of select="msxsl:node-set($bookingTrvKey)[1]/node()"/>
+				</xsl:attribute>
+			</air:PassengerType>
 			<!--</xsl:for-each>-->
 			<xsl:variable name="priceType" select="@PricingMethod" />
 			<air:AirPricingModifiers>
