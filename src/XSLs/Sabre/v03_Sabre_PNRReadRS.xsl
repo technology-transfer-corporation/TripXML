@@ -4603,7 +4603,7 @@
 					<xsl:value-of select="substring(.,string-length(.)-1,2)" />
 				</xsl:attribute>
 				<xsl:attribute name="Amount">
-					<xsl:value-of select="substring(.,1,string-length(.)-2)" />
+					<xsl:value-of select="translate(substring(.,1,string-length(.)-2),'.','')" />
 				</xsl:attribute>
 				<xsl:attribute name="DecimalPlaces">
 					<xsl:value-of select="string-length(substring-after(.,'.'))-2"/>
