@@ -4468,7 +4468,7 @@
         End Function
 		
 		Function GetBirthDate(ByVal age As String) As String
-            Return DateTime.Now.AddYears(Convert.ToInt32(age) * -1).ToString("yyyy-MM-d")
+            Return DateTime.Now.AddYears(Convert.ToInt32(age) * -1).ToString("yyyy-MM-dd")
         End Function
 ]]>
 	</msxsl:script>

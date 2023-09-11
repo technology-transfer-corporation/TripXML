@@ -4,6 +4,7 @@
   ==================================================================
    Worldspan_PNRRepriceRQ.xsl															
   ================================================================== 
+   Date: 08 Sep 2023 - Kobelev - Reprice request corrected.
    Date: 31 Mar 2023 - Samokhvalov - Markup reworked.
    Date: 23 May 2022 - Kobelev - Ticket Designator fix.
    Date: 24 May 2019 - Kobelev - Added .SR for NEGO fares with markup (BUG 994)
@@ -43,14 +44,17 @@
 							<xsl:value-of select="'/#TR'"/>
 						</ScreenEntry>
 					</xsl:for-each>
+				<!--
 				</Reprice>
 				<RepriceSave>
+				-->
 					<ScreenEntry>
 						<xsl:value-of select="'4PQCTRALL'" />
 					</ScreenEntry>
 					<ScreenEntry>6.TRIPXML</ScreenEntry>
 					<ScreenEntry>ER</ScreenEntry>
-				</RepriceSave>
+				<!--</RepriceSave>-->
+				</Reprice>
 			</xsl:when>
 			<xsl:otherwise>
 				<OTA_AirPriceRQ xmlns="http://www.opentravel.org/OTA/2003/05" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="1">
