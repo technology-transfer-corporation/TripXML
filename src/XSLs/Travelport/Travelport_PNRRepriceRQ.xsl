@@ -662,14 +662,10 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:if test="$airprice!=''">
-
 					<xsl:for-each select="//StoredFare">
 						<xsl:variable name="optc" select="PassengerType/@Code" />
-
 						<xsl:variable name="price" select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code=$optc]" />
-
 						<xsl:variable name="group" select="$price/@AirPricingInfoGroup" />
-
 						<xsl:variable name="sibgroup">
 							<xsl:choose>
 								<xsl:when test="$price/preceding-sibling::air:AirPricingInfo/@AirPricingInfoGroup">
@@ -761,7 +757,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 										<xsl:for-each select="$priceList[@FarePriceGroup=$g]">
 											<xsl:variable name="p" >
 												<xsl:choose>
-													<xsl:when test="substring(PassengerType/@Code, 1,1) = 'C'">
+													<xsl:when test="string(number(substring(PassengerType/@Code, 2,2))) != 'NaN'">
 														<xsl:text>JNN</xsl:text>
 													</xsl:when>
 													<xsl:otherwise>
@@ -797,14 +793,24 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 									</xsl:when>
 									<xsl:otherwise>
 										<xsl:for-each select="$priceList[@FarePriceGroup=$g]">
-											<xsl:variable name="p" select="PassengerType/@Code" />
-											<xsl:variable name="tprice" select="number(substring($pnr/air:AirReservation/air:AirPricingInfo[substring(air:FareInfo/@PassengerTypeCode,1,1) = substring($p,1,1)]/@TotalPrice,4))" />
+											<xsl:variable name="p" >
+												<xsl:choose>
+													<xsl:when test="string(number(substring(PassengerType/@Code, 2,2))) != 'NaN'">
+														<xsl:text>CNN</xsl:text>
+													</xsl:when>
+													<xsl:otherwise>
+														<xsl:value-of select="PassengerType/@Code"/>
+													</xsl:otherwise>
+												</xsl:choose>
+											</xsl:variable>
+											
+											<xsl:variable name="tprice" select="number(substring($pnr/air:AirReservation/air:AirPricingInfo[air:FareInfo/@PassengerTypeCode = $p]/@TotalPrice,4))" />
 
 											<xsl:variable name="muPrice" select="$tprice + number(Markup/@Amount)" />
 
-											<xsl:if test="$pnr/air:AirReservation/air:AirPricingInfo/air:FareInfo[substring(@PassengerTypeCode,1,1) = substring($p,1,1)]">
+											<xsl:if test="$pnr/air:AirReservation/air:AirPricingInfo[air:FareInfo/@PassengerTypeCode = $p]">
 												<xsl:apply-templates select="$pnr/air:AirReservation/air:AirPricingInfo[air:FareInfo/@PassengerTypeCode = $p]" mode="brandFareStore">
-													<xsl:with-param name="airprice" select="$airprice[substring(air:FareInfo/@PassengerTypeCode,1,1) = substring($p,1,1)]" />
+													<xsl:with-param name="airprice" select="$airprice[air:FareInfo/@PassengerTypeCode = $p]" />
 													<xsl:with-param name="delete" select="'true'" />
 													<xsl:with-param name="pnr" select="$pnr" />
 													<xsl:with-param name="storedFare" select="." />
@@ -1076,7 +1082,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 		<xsl:param name="storedFare" select="//StoredFare[1]" />
 		<xsl:variable name="pos" select="position()"/>
 		<xsl:variable name="ptc" select="air:PassengerType/@Code" />
-		<xsl:variable name ="ptcAge" select="$airprice[1]/air:PassengerType/@Age" />
+		<xsl:variable name ="ptcAge" select="air:PassengerType/@Age" />
 		<xsl:variable name="comCount" select="count($storedFare[Markup])"/>
 		<xsl:variable name="group">
 			<xsl:choose>
@@ -1326,7 +1332,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 		</xsl:variable>
 		<xsl:variable name="ptc">
 			<xsl:choose>
-				<xsl:when test="substring(air:PassengerType/@Code, 1,1) = 'C'">
+				<xsl:when test="string(number(substring(PassengerType/@Code, 2,2))) != 'NaN'"> <!--test="substring(air:PassengerType/@Code, 1,1) = 'C'" -->
 					<xsl:variable name="pTemp" select="concat('C', substring(concat('0',air:PassengerType/@Age), string-length(air:PassengerType/@Age)))"/>
 					<xsl:choose>
 						<xsl:when test="//StoredFare[PassengerType/@Code=$pTemp]/Markup">
@@ -1509,7 +1515,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 		<xsl:param name="td" select="''"/>
 		<xsl:param name="pnrPrice" select="." />
 		<xsl:variable name="ptc" select="air:PassengerType/@Code" />
-		<xsl:variable name="pax" select="$pnrPrice/air:PassengerType[@Code = $ptc]/@BookingTravelerRef" />
+		<xsl:variable name="pax" select="air:PassengerType[@Code = $ptc]/@BookingTravelerRef" />
 		<xsl:variable name="mu" select="$storedFare/Markup" />
 		<xsl:if test ="$mu/@Amount and $storedFare/@FareType='Private'" >
 			<xsl:for-each select="$pax">
@@ -1548,11 +1554,11 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 		<xsl:param name="airPrice" select="." />
 		<xsl:variable name="ptc" select="air:PassengerType/@Code" />
 		
-		<xsl:if test ="$storedFare/Markup/@Amount and $storedFare/@FareType='Private'" >
+		<xsl:if test ="$storedFare/Markup/@Amount" > <!-- and $storedFare/@FareType='Private' -->
 			
 			<xsl:for-each select="air:PassengerType">
 				<xsl:variable name ="index" select="position()" />
-				<xsl:variable name ="ptcAge" select="$airPrice[position()=$index]/air:PassengerType/@Age" />				
+				<xsl:variable name ="ptcAge" select="@Age" />				
 				<air:PassengerType>
 					<xsl:attribute name="Code">
 						<xsl:value-of select="$ptc"/>
