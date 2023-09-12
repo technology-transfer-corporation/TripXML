@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 11 Sep 2023 - Samokhvalov - Taxes added
   Date: 01 Sep 2023 - Samokhvalov - CustomerInfo/NameType fixes - bug #4
   Date: 04 Aug 2023 - Samokhvalov - CustomerInfo/NameType fixes - bug #4
   Date: 21 Mar 2023 - Samokhvalov - Added Ticketing entry data to TravelItinerary\TPA_Extenstions\SupplementalInfo.
@@ -4596,7 +4597,20 @@
 	<!--					Individual Tax element 	 	      			                -->
 	<!--***********************************************************************************-->
 	<xsl:template match="Tax" mode="PTC">
-		<Tax>
+		<xsl:for-each select="../TaxBreakdownCode">
+			<Tax>
+				<xsl:attribute name="Code">
+					<xsl:value-of select="substring(.,string-length(.)-1,2)" />
+				</xsl:attribute>
+				<xsl:attribute name="Amount">
+					<xsl:value-of select="translate(substring(.,1,string-length(.)-2),'.','')" />
+				</xsl:attribute>
+				<xsl:attribute name="DecimalPlaces">
+					<xsl:value-of select="string-length(substring-after(.,'.'))-2"/>
+				</xsl:attribute>
+			</Tax>
+		</xsl:for-each>
+		<!--<Tax>
 			<xsl:attribute name="Amount">
 				<xsl:variable name="bf">
 					<xsl:value-of select="translate(string(@Amount),'.','')"/>
@@ -4620,7 +4634,7 @@
 			<xsl:attribute name="CurrencyCode">
 				<xsl:value-of select="../../TotalFare/@CurrencyCode"/>
 			</xsl:attribute>
-		</Tax>
+		</Tax>-->
 	</xsl:template>
 	<!--************************************************************************************-->
 	<!-- 						Telephone									    -->
