@@ -960,9 +960,9 @@ namespace Sabre
                                                 {
                                                     var newMarkup = !ptcFare.ContainsKey(ptcCode) ? 0 : Math.Abs(decimal.Parse(ptcFare[ptcCode]) - decimal.Parse(ptcAmaount));
                                                     if (ptcFare.ContainsKey(ptcCode) && (newMarkup * ptcCount > ptcMarkup[ptcCode] * ptcCount + maxDiff
-                                                        || newMarkup * ptcCount < ptcMarkup[ptcCode] * ptcCount - maxDiff))
+                                                        || newMarkup * ptcCount < ptcMarkup[ptcCode] * ptcCount - maxDiff) && !newMarkup.Equals(decimal.Round(ptcMarkup[ptcCode], 0)))
                                                     {
-                                                        var diff = (ptcMarkup[ptcCode] * ptcCount - (decimal.Parse(ptcAmaount) * ptcCount - decimal.Parse(ptcFare[ptcCode]) * ptcCount)) * bsr;
+                                                        var diff = (ptcMarkup[ptcCode] * ptcCount - (decimal.Parse(ptcAmaount) * ptcCount - decimal.Parse(ptcFare[ptcCode]) * ptcCount)) * bsr / ptcCount;
                                                         var prcReqDoc = new XmlDocument();
                                                         prcReqDoc.LoadXml(strRepriceReq);
                                                         foreach (XmlNode rItem in prcReqDoc.SelectNodes("//sx:PlusUp", nsmgr))
@@ -970,7 +970,7 @@ namespace Sabre
                                                             rItem.Attributes["Amount"].Value = (decimal.Parse(rItem.Attributes["Amount"].Value) + diff).ToString("#.##");
                                                         }
                                                         strRepriceReq = prcReqDoc.OuterXml;
-                                                        bsr = bsr + diff / ptcMarkup[ptcCode];
+                                                        bsr += diff / ptcMarkup[ptcCode];
                                                     }
                                                     else
                                                     {
