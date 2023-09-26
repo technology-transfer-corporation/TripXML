@@ -1768,7 +1768,9 @@ namespace AmadeusWS
                                     {
                                         strPriceRq = strRepriceRQ;
                                         respReprice = SendPricePNRWithBookingClass(ttAA, strRepriceRQ);
-                                        if (respReprice != null && (respReprice.Contains("NO VALID FARE/RULE COMBINATIONS FOR PRICING") || respReprice.Contains("NO FARE FOR BOOKING CODE-TRY OTHER PRICING OPTIONS")))
+                                        if (respReprice != null && 
+                                            (respReprice.Contains("NO VALID FARE/RULE COMBINATIONS FOR PRICING") 
+                                            || respReprice.Contains("NO FARE FOR BOOKING CODE-TRY OTHER PRICING OPTIONS"))) //|| respReprice.Contains("NO FARE FOUND")
                                         {
                                             excludeFFopts = true;
                                             strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{(excludeFFopts ? "" : xmlFareFamily)}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{(xmlFareFamily.Contains($">{strFareType}<") ? "" : $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>")}{strZap}</Fare_PricePNRWithBookingClass>";
@@ -1846,7 +1848,8 @@ namespace AmadeusWS
                                         }
                                     }
                                     var culture = new CultureInfo("en-US");
-                                    decimal decMarkup = Convert.ToDecimal(oNode.SelectSingleNode("Markup/@Amount").InnerText, culture);
+
+                                    decimal decMarkup = oNode.SelectSingleNode("Markup/@Amount") == null ? 0 : Convert.ToDecimal(oNode.SelectSingleNode("Markup/@Amount").InnerText, culture);
                                     decimal oldBF = Convert.ToDecimal(strBf, culture);
                                     decimal oldTF = Convert.ToDecimal(strTf, culture);
                                     string newBF = Convert.ToString(oldBF + decMarkup);
