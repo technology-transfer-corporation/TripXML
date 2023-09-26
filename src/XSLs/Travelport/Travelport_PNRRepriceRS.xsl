@@ -83,9 +83,18 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<Success/>
-				<xsl:if test="Warning!=''">
+				<xsl:if test="common_v50_0:ResponseMessage[@Type='Warning'] or //air:AirPriceRsp/common_v50_0:ResponseMessage[@Type='Warning']">
 					<Warnings>
-						<xsl:apply-templates select="Warning"/>
+						<xsl:if test="common_v50_0:ResponseMessage[@Type='Warning']">
+							<Warning Type="PNR">
+								<xsl:apply-templates select="common_v50_0:ResponseMessage[@Type='Warning']"/>
+							</Warning>
+						</xsl:if>
+						<xsl:if test="//air:AirPriceRsp/common_v50_0:ResponseMessage[@Type='Warning']">
+							<Warning Type="AirPrice">
+								<xsl:apply-templates select="//air:AirPriceRsp/common_v50_0:ResponseMessage[@Type='Warning']"/>
+							</Warning>
+						</xsl:if>
 					</Warnings>
 				</xsl:if>
 				<PricedItineraries>

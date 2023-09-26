@@ -37,7 +37,6 @@
     -->
 
 	<xsl:output method="xml" omit-xml-declaration="yes"/>
-
 	<xsl:key name="storedFareSims" match="StoredFare" use="Markup"/>
 	<xsl:key name="ptclist" match="//Response/universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo/air:PassengerType/@Code" use="."/>
 	<xsl:key name="priceGroups" match="StoredFare/@FarePriceGroup" use="."/>
