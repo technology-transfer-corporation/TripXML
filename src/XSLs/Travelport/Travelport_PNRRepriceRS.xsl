@@ -4,6 +4,7 @@
 	==================================================================
 	Travelport_PNRRepriceRS.xsl 										
 	==================================================================
+	Date: 27 Sep 2023 - Kobelev - Branded Fare Values.
 	Date: 27 Feb 2023 - Kobelev - BagAllowance Weight values.
 	Date: 02 Dec 2022 - Kobelev - Price Quote selection based on BookingCode.
 	Date: 23 Nov 2022 - Kobelev - Price Quote RPH number referenced correctly.
@@ -100,12 +101,22 @@
 				<PricedItineraries>
 					<xsl:apply-templates select="universal:UniversalRecord" mode="first"/>
 					<xsl:variable name="ver" select="//universal:UniversalRecord/@Version" />
+					<xsl:variable name="fb" select="//universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[1]/air:FareInfo/@FareBasis" />
+
 					<xsl:choose>
+						<xsl:when test="//air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution[contains(common_v50_0:HostToken, $fb)]">
+							<PricedItinerary>								
+								<xsl:attribute name="SequenceNumber">
+									<xsl:text>2</xsl:text>
+								</xsl:attribute>
+								<xsl:apply-templates select="//air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution[contains(common_v50_0:HostToken, $fb)]"/>
+							</PricedItinerary>
+						</xsl:when>
 						<xsl:when test="//universal:UniversalRecord[@Version=$ver[last()]]">
-							<xsl:apply-templates select="//universal:UniversalRecord[@Version=$ver[last()]]" mode="second"/>		
+							<xsl:apply-templates select="//universal:UniversalRecord[@Version=$ver[last()]]" mode="second"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:apply-templates select="air:AirPriceRsp/air:AirPriceResult"/>		
+							<xsl:apply-templates select="air:AirPriceRsp/air:AirPriceResult"/>
 						</xsl:otherwise>
 					</xsl:choose>
 				</PricedItineraries>
@@ -117,7 +128,7 @@
 			<xsl:value-of select="normalize-space(translate(.,'Â',''))"/>
 		</Warning>
 	</xsl:template>
-	
+
 	<!--
 	************************************************************************************
 				PNR Retrieve Errors                                           	    
@@ -153,21 +164,33 @@
 			<xsl:with-param name="fare" select="'new'"/>
 			<xsl:with-param name="sn" select="'2'"/>
 			<xsl:with-param name="class" select="//air:AirPricingInfo[1]/air:BookingInfo" />
+			<xsl:with-param name="fb" select="air:AirReservation/air:AirPricingInfo[1]/air:FareInfo/@FareBasis" />
 		</xsl:call-template>
 	</xsl:template>
 	<xsl:template name="AirPricingInfo">
 		<xsl:param name="fare"/>
 		<xsl:param name="sn"/>
 		<xsl:param name="class"/>
+		<xsl:param name="fb"/>
 		<xsl:variable name="price">
 			<xsl:choose>
 				<xsl:when test="air:AirReservation/air:AirPricingInfo[1]/@PricingMethod">
-					<xsl:value-of select="air:AirReservation/air:AirPricingInfo[1]/@PricingMethod"/> 	
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="//universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[1]/@PricingMethod"/>
-			</xsl:otherwise>
-			</xsl:choose>		
+					<xsl:value-of select="air:AirReservation/air:AirPricingInfo[1]/@PricingMethod"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="//universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[1]/@PricingMethod"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="airprice">
+			<xsl:choose>
+				<xsl:when test="//air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution[contains(common_v50_0:HostToken, $fb)]">
+					<xsl:copy-of select="//air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution[contains(common_v50_0:HostToken, $fb)]/air:AirPricingInfo"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:copy-of select="//air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution[1]/air:AirPricingInfo"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 		<PricedItinerary>
 			<!--<xsl:variable name="last" select="count(air:AirPricingSolution[air:AirPricingInfo/@PricingMethod=$price])"/>-->
@@ -178,7 +201,8 @@
 				<xsl:when test="$sn=1">
 					<xsl:apply-templates select="air:AirReservation" />
 				</xsl:when>
-				<xsl:when test="air:AirReservation"> <!-- //universal:UniversalRecordModifyRsp/universal:UniversalRecord/ -->
+				<xsl:when test="air:AirReservation">
+					<!-- //universal:UniversalRecordModifyRsp/universal:UniversalRecord/ -->
 					<!--<xsl:apply-templates select="//universal:UniversalRecordModifyRsp/universal:UniversalRecord/air:AirReservation" />-->
 					<xsl:variable name="td" select="air:AirReservation/air:AirPricingInfo[1]/air:FareInfo/air:FareTicketDesignator/@Value" />
 					<xsl:choose>
@@ -204,7 +228,7 @@
 						<xsl:otherwise>
 							<xsl:apply-templates select="air:AirPricingSolution[air:AirPricingInfo/@PricingMethod=$price and air:AirPricingInfo/air:BookingInfo/@BookingCode = $class/@BookingCode]" />
 						</xsl:otherwise>
-					</xsl:choose>					
+					</xsl:choose>
 				</xsl:otherwise>
 			</xsl:choose>
 		</PricedItinerary>
@@ -345,19 +369,19 @@
 				<xsl:choose>
 					<xsl:when test="air:AirPricingInfo[@PricingType='StoredFareQuote']">
 						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFareQuote']" />
-					</xsl:when>					
+					</xsl:when>
 					<xsl:when test="air:AirPricingInfo[@PricingType='StoredFare']">
 						<xsl:apply-templates select="air:AirPricingInfo[@PricingType='StoredFare']" />
-					</xsl:when>					
+					</xsl:when>
 					<xsl:otherwise>
-						<xsl:apply-templates select="air:AirPricingInfo" />						
+						<xsl:apply-templates select="air:AirPricingInfo" />
 					</xsl:otherwise>
 				</xsl:choose>
 			</PTC_FareBreakdowns>
 		</AirItineraryPricingInfo>
 	</xsl:template>
-	<xsl:template match="air:AirPricingInfo">
 
+	<xsl:template match="air:AirPricingInfo">
 		<xsl:variable name="key">
 			<xsl:choose>
 				<xsl:when test="@AirPricingInfoGroup">
@@ -368,7 +392,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		
 		<xsl:variable name="pnr">
 			<xsl:choose>
 				<xsl:when test="//universal:UniversalRecordRetrieveRsp/universal:UniversalRecord">
@@ -379,13 +402,11 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<PTC_FareBreakdown>
 			<xsl:variable name="pos" select="position()" />
 			<xsl:attribute name="RPH">
 				<xsl:value-of select="concat($key, '.', $pos)"/>
 			</xsl:attribute>
-
 			<xsl:attribute name="PricingSource">
 				<xsl:choose>
 					<xsl:when test="@PricingMethod = 'GuaranteedUsingAirlinePrivateFare'">Private</xsl:when>
@@ -403,7 +424,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-
 			<xsl:attribute name="TravelerRefNumberRPHList">
 				<xsl:for-each select="msxsl:node-set($ptcs)/air:PassengerType">
 					<xsl:variable name="paxref">
@@ -493,6 +513,11 @@
 				<FareBasisCodes>
 					<xsl:apply-templates select="air:FareInfo" mode="fb"/>
 				</FareBasisCodes>
+			</xsl:if>
+			<xsl:if test="air:FareInfo/air:Brand">
+				<BrandedFares>
+					<xsl:apply-templates select="air:FareInfo/air:Brand" mode="brand"/>
+				</BrandedFares>
 			</xsl:if>
 			<xsl:variable name="nip">
 				<xsl:value-of select="count(air:PassengerType)"/>
@@ -626,13 +651,13 @@
 									<xsl:attribute name="Unit">
 										<xsl:choose>
 											<xsl:when test="substring(air:BaggageAllowance/air:MaxWeight/@Unit,1,1)='K'">
-												<xsl:value-of select="substring(air:BaggageAllowance/air:MaxWeight/@Unit,1,1)"/>		
+												<xsl:value-of select="substring(air:BaggageAllowance/air:MaxWeight/@Unit,1,1)"/>
 											</xsl:when>
 											<xsl:otherwise>
 												<xsl:text>L</xsl:text>
 											</xsl:otherwise>
 										</xsl:choose>
-										
+
 									</xsl:attribute>
 								</xsl:otherwise>
 							</xsl:choose>
@@ -927,7 +952,7 @@
 			</TPA_Extensions>
 		</PTC_FareBreakdown>
 	</xsl:template>
-	
+
 	<xsl:template match="air:FareInfo" mode="fb">
 		<FareBasisCode>
 			<xsl:value-of select="@FareBasis"/>
@@ -1349,7 +1374,7 @@
 		</xsl:if>
 		<xsl:value-of select="$totalbf"/>
 	</xsl:template>
-	
+
 	<!--
 	************************************************************************************
 						Individual Tax element 	 	      			                
@@ -1371,7 +1396,7 @@
 			</xsl:attribute>
 		</Tax>
 	</xsl:template>
-	
+
 	<!--
 	************************************************************************************
 				Calculate Fare Totals per Passenger Type	 	                 
@@ -1556,7 +1581,7 @@
 			</TPA_Extensions>
 		</PTC_FareBreakdown>
 	</xsl:template>
-	
+
 	<!--
 	************************************************************************************
 				Calculate Fare Totals per Passenger Type	 	                 
@@ -1670,7 +1695,17 @@
 			<xsl:value-of select="."/>
 		</FareBasisCode>
 	</xsl:template>
-	
+	<xsl:template match="air:Brand" mode="brand">
+		<FareFamily>
+			<xsl:attribute name="RPH">
+				<xsl:value-of select="position()"/>
+			</xsl:attribute>
+			<xsl:attribute name="Code">
+				<xsl:value-of select="@BrandTier"/>
+			</xsl:attribute>
+			<xsl:value-of select="@Name"/>
+		</FareFamily>
+	</xsl:template>
 	<!--
 	************************************************************************************
 						Individual Tax element 	 	      			                
