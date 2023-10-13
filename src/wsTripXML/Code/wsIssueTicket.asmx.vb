@@ -70,39 +70,25 @@ Namespace wsTravelTalk
 
                 PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
                 ValidateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
+
                 sb.Remove(0, sb.Length())
 
                 Select Case ttCredential.Providers(0).Name.ToLower()
                     Case "amadeusws"
-
                         strResponse = SendTravelRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-
                     Case "apollo", "galileo"
-
                         strResponse = SendTravelRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-
                     Case "sabre"
-
-                        'ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
-                        'sb.Remove(0, sb.Length())
                         If ttProviderSystems.System Is Nothing Then
                             FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers(0).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers(0).Name)
                             sb.Remove(0, sb.Length())
                             Exit Select
                         End If
-
                         ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
-
                         strResponse = SendTravelRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-
                     Case Else
                         Throw New Exception(sb.Append("Provider ").Append(ttCredential.Providers(0).Name).Append(" Not Currently Supported.").ToString())
                 End Select
-
-                'Dim StartCounter As Date
-                'StartCounter = Now
-                ' Not Implemented DecodeIssueTicket(strResponse, ttCredential.UserID)
-                'CoreLib.SendTrace(ttCredential.UserID, "Performance", "Decoding = ").Append(CType(Now.Subtract(StartCounter).TotalMilliseconds, Integer), "")
 
                 PostServiceRequest(strResponse, ValidateXSDOut, ttServiceID, ttCredential.UserID)
 
