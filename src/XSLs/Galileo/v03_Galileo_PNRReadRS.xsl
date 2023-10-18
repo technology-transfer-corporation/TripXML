@@ -1199,7 +1199,7 @@
 					<xsl:value-of select="../PlatingAirVMod/AirV"/>
 				</ValidatingAirlineCode>
 
-				<xsl:if test="../SegRelatedInfo/BagInfo">
+				<xsl:if test="../SegRelatedInfo/BagInfo and string-length(../SegRelatedInfo/BagInfo) > 0">
 					<BagAllowance>
 						<xsl:choose>
 							<xsl:when test="contains(../SegRelatedInfo/BagInfo[1], 'PC')">

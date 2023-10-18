@@ -279,6 +279,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 		</xsl:variable>
 
 		<xsl:variable name="fareBasis" select="concat('01',msxsl:node-set($PNR)/air:AirReservation/air:AirPricingInfo/air:FareInfo[1]/@FareBasis)" />
+		<!--
 		<xsl:variable name="Price">
 			<xsl:choose>
 				<xsl:when test="air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution[contains(common_v50_0:HostToken, $fareBasis)]/air:AirPricingInfo">
@@ -289,6 +290,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		-->
 		<!--"air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution"-->
 		<universal:UniversalRecordModifyReq
 			xmlns="http://www.travelport.com/schema/universal_v50_0"
@@ -331,7 +333,16 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			<xsl:call-template name="EmulateOffice" />
 			<xsl:call-template name="mod_air">
 				<xsl:with-param name="pnr" select="msxsl:node-set($PNR)" />
-				<xsl:with-param name="airprice" select="$Price" />
+				<xsl:with-param name="airprice">
+					<xsl:choose>
+						<xsl:when test="air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution[contains(common_v50_0:HostToken, $fareBasis)]/air:AirPricingInfo">
+							<xsl:copy-of  select="air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution[contains(common_v50_0:HostToken, $fareBasis)]/air:AirPricingInfo"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:copy-of  select="air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution/air:AirPricingInfo"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
 				<xsl:with-param name="univers">
 					<xsl:choose>
 						<xsl:when test="//Response/universal:UniversalRecordRetrieveRsp">
@@ -810,7 +821,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 											<xsl:variable name="p" >
 												<xsl:apply-templates select="." mode="general">
 													<xsl:with-param name="pnrAirRes" select="$pnr/air:AirReservation" />
-												</xsl:apply-templates>												
+												</xsl:apply-templates>
 											</xsl:variable>
 											<xsl:variable name="tprice" select="number(substring($pnr/air:AirReservation/air:AirPricingInfo[air:FareInfo/@PassengerTypeCode = $p]/@TotalPrice,4))" />
 											<xsl:variable name="muPrice" select="$tprice + number(Markup/@Amount)" />
@@ -913,7 +924,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-				  
+
 
 	<xsl:template name="airPriceFilter">
 		<xsl:param name="airprice" />
@@ -961,7 +972,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			</xsl:attribute>
 		</universal:RecordIdentifier>
 
-		<xsl:variable name="changed" select="//StoredFare" />
+		<xsl:variable name="priceList" select="//StoredFare" />
 
 		<xsl:variable name="changePTC">
 			<xsl:call-template name="getChangedPTC">
@@ -971,17 +982,17 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 
 		<xsl:variable name="groups" >
 			<xsl:call-template name="DistictList">
-				<xsl:with-param name="list" select="//StoredFare/@FarePriceGroup"/>
+				<xsl:with-param name="list" select="$priceList/@FarePriceGroup"/>
 			</xsl:call-template>
 		</xsl:variable>
 
 		<xsl:variable name="keyElem" select="count(//StoredFare[Markup or TourCode or Endorsement])" />
-		<xsl:variable name="priceList" select="//StoredFare" />
+		<!--<xsl:variable name="priceList" select="//StoredFare" />-->
 
 		<xsl:for-each select="msxsl:node-set($groups)/elem/node()[1]">
 			<xsl:variable name="g" select="." />
 			<xsl:variable name="p" select="$priceList[@FarePriceGroup=$g]/PassengerType/@Code" />
-			
+
 			<xsl:variable name="ptc">
 				<xsl:call-template name="price_ptc" >
 					<xsl:with-param name="sptc" select="$p"/>
@@ -989,23 +1000,43 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			</xsl:variable>
 
 			<!--<xsl:if test="msxsl:node-set($airprice)[1]/air:AirPricingInfo[air:PassengerType/@Code = msxsl:node-set($changePTC)/elem[1][substring(.,1,1) = substring($ptc,1,1)]]">-->
-			<xsl:if test="msxsl:node-set($airprice)[1]/air:AirPricingInfo[air:PassengerType/@Code = $ptc]">
-				<universal:UniversalModifyCmd>
-					<xsl:attribute name="Key">
-						<xsl:value-of select="position() + 1"/>
-					</xsl:attribute>
-					<universal:AirAdd>
-						<xsl:attribute name="ReservationLocatorCode">
-							<xsl:value-of select="$pnr/air:AirReservation/@LocatorCode"/>
+			<xsl:choose>
+				<xsl:when test="msxsl:node-set($airprice)[1]/node()[1][air:PassengerType/@Code = $ptc]">
+					<universal:UniversalModifyCmd>
+						<xsl:attribute name="Key">
+							<xsl:value-of select="position() + 1"/>
 						</xsl:attribute>
-						<xsl:call-template name="ModStoredFareJoined" >
-							<xsl:with-param name="pnr" select="$pnr" />
-							<xsl:with-param name="fares" select="$priceList[@FarePriceGroup=$g]" />
-							<xsl:with-param name="airprice" select="msxsl:node-set($airprice)[1]/air:AirPricingInfo[air:PassengerType/@Code = $ptc]" />
-						</xsl:call-template>
-					</universal:AirAdd>
-				</universal:UniversalModifyCmd>
-			</xsl:if>
+						<universal:AirAdd>
+							<xsl:attribute name="ReservationLocatorCode">
+								<xsl:value-of select="$pnr/air:AirReservation/@LocatorCode"/>
+							</xsl:attribute>
+							<xsl:call-template name="ModStoredFareJoined" >
+								<xsl:with-param name="pnr" select="$pnr" />
+								<xsl:with-param name="fares" select="$priceList[@FarePriceGroup=$g]" />
+								<xsl:with-param name="airprice" select="msxsl:node-set($airprice)[1][air:PassengerType/@Code = $ptc]" />
+								<!--<xsl:with-param name="airprice" select="msxsl:node-set($airprice)[1]/air:AirPricingInfo[air:PassengerType/@Code = $ptc]" />-->
+							</xsl:call-template>
+						</universal:AirAdd>
+					</universal:UniversalModifyCmd>
+				</xsl:when>
+				<xsl:when test="count(msxsl:node-set($airprice)[1]/node()[1]) = 1">
+					<universal:UniversalModifyCmd>
+						<xsl:attribute name="Key">
+							<xsl:value-of select="position() + 1"/>
+						</xsl:attribute>
+						<universal:AirAdd>
+							<xsl:attribute name="ReservationLocatorCode">
+								<xsl:value-of select="$pnr/air:AirReservation/@LocatorCode"/>
+							</xsl:attribute>
+							<xsl:call-template name="ModStoredFareJoined" >
+								<xsl:with-param name="pnr" select="$pnr" />
+								<xsl:with-param name="fares" select="$priceList[@FarePriceGroup=$g]" />
+								<xsl:with-param name="airprice" select="msxsl:node-set($airprice)[1]/node()[1]" />
+							</xsl:call-template>
+						</universal:AirAdd>
+					</universal:UniversalModifyCmd>
+				</xsl:when>
+			</xsl:choose>
 		</xsl:for-each>
 
 	</xsl:template>
@@ -1162,8 +1193,14 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 
 		<!--
 		<xsl:variable name="brandTier" select="$pnr/air:AirReservation/air:AirPricingInfo[substring(air:PassengerType/@Code,1,1) = substring($ptc,1,1)]/air:FareInfo[position()=$pos]/air:Brand/@BrandTier" />
-		-->
-		<xsl:variable name="brandTier" select="air:FareInfo[position()=$pos]/air:Brand/@BrandTier" />
+		
+		<xsl:variable name="brandTier" select="air:FareInfo/air:Brand/@BrandTier" />
+-->
+		<xsl:variable name="brnds" >
+			<xsl:call-template name="DistictList">
+				<xsl:with-param name="list" select="air:FareInfo/air:Brand/@BrandTier"/>
+			</xsl:call-template>
+		</xsl:variable>
 
 		<air:AirPricingInfo>
 			<xsl:attribute name="Key">
@@ -1202,7 +1239,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			<xsl:attribute name="AirPricingInfoGroup">
 				<xsl:value-of select="$group"/>
 			</xsl:attribute>
-			<xsl:for-each select="air:FareInfo[air:Brand/@BrandTier = $brandTier]">
+
+			<!-- [contains(msxsl:node-set($brnds)[1]/node()/text(),air:Brand/@BrandTier)]  based on example: 5SBG08 -->
+			<xsl:for-each select="air:FareInfo">
 				<xsl:variable name="from" select="@Origin"/>
 				<xsl:variable name="to" select="@Destination"/>
 				<air:FareInfo xmlns:common_v50_0="http://www.travelport.com/schema/common_v50_0">
@@ -1307,6 +1346,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 					</xsl:if>
 				</air:FareInfo>
 			</xsl:for-each>
+
 			<xsl:variable name="bookingTrvKey">
 				<xsl:choose>
 					<xsl:when test="$pnr/common_v50_0:BookingTraveler[substring(common_v50_0:NameRemark/common_v50_0:RemarkData/node()[1],1,3)='P-C' and
@@ -1619,7 +1659,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 					</air:PassengerType>
 				</xsl:for-each>
 			</xsl:when>
-			<xsl:when test ="$storedFare/Markup/@Amount or $storedFare/BrandedFares">				
+			<xsl:when test ="$storedFare/Markup/@Amount or $storedFare/BrandedFares">
 				<xsl:for-each select="air:PassengerType">
 					<xsl:variable name ="index" select="position()" />
 					<xsl:variable name ="ptcAge" select="@Age" />
