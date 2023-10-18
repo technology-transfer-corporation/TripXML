@@ -4,6 +4,7 @@
  ================================================================== 
   Sabre_UpdateInsertRQ.xsl 														       
   ================================================================== 
+  Date: 18 Oct 2023 - Kobelev - added AddAccountingLine/AIN
   Date: 28 Mar 2023 - Kobelev - upgraded ReadRQ to version 3.10.0
   Date: 12 Dec 2019 - Kobelev - Tour Code has to start with UN prefex instead of just U as it was before. BUG 1160
   Date: 09 Feb 2018 - Samokhvalov - FPPQ command format changes - Endorsment replaces vs add
@@ -851,6 +852,17 @@
               </SabreCommandLLSRQ>
             </xsl:for-each>
           </BulkDocument>
+        </xsl:if>
+        <xsl:if test="Position/Element[@Operation='insert']/PNRData/AccountingLine">
+          <AddAccountingInfo>
+            <TravelItineraryAddInfoRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.2.1">
+              <CustomerInfo>
+                  <CustomerIdentifier>
+                      <xsl:value-of select="Position/Element[@Operation='insert']/PNRData/AccountingLine"/>
+                  </CustomerIdentifier>
+              </CustomerInfo>
+            </TravelItineraryAddInfoRQ>
+          </AddAccountingInfo>
         </xsl:if>
       </xsl:if>
       <xsl:if test="Position/Element[@Operation='insert']/Queue/@QueueNumber!=''">
