@@ -2601,6 +2601,20 @@ namespace Sabre
                                 }
                             }
 
+                            if (oRootTemp.SelectSingleNode("AddAccountingInfo") != null)
+                            {
+                                var strOther = oRootTemp.SelectSingleNode("AddAccountingInfo").InnerXml;
+                                strResponse = SendRequestSegment(ttSA, strOther, "AddAccountingInfo", "TravelItineraryAddInfo", "TravelItineraryAddInfoLLSRQ");
+
+                                // Fatal Error
+                                if (strResponse.Trim().Length > 0)
+                                {
+                                    strResponse = BuildOTAResponse(strResponse);
+                                    strResponse = strResponse.Replace("</OTA_TravelItineraryRS>", $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID></OTA_TravelItineraryRS>");
+                                    return strResponse;
+                                }
+                            }
+
                             if (oRootTemp.SelectSingleNode("BulkDocument") != null)
                             {
                                 XmlElement oRootBd;
