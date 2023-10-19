@@ -7,6 +7,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 19 Oct 2023 - Kobelev - Change RPH in PTC_FareBreakdown from combination of Fare Number and Unique key to Qoute number which is more correct use.
   Date: 01 Sep 2023 - Riasnenko - Fixed DecimalPlaces for Base Fare Amounts. 
   Date: 21 Aug 2023 - Kobelev - Fixed BaseDecPos for Equivelent Amounts. 
   Date: 18 Aug 2023 - Kobelev - Added Equivelent Amounts.
@@ -1011,7 +1012,8 @@
 			</xsl:variable>
 
 			<xsl:attribute name="RPH">
-				<xsl:value-of select="concat(../FareNumInfo/FareNumAry/FareNum,'.',UniqueKey)"/>
+				<!--<xsl:value-of select="concat(../FareNumInfo/FareNumAry/FareNum,'.',UniqueKey)"/>-->
+				<xsl:value-of select="QuoteNum"/>
 			</xsl:attribute>
 
 			<PassengerTypeQuantity>
@@ -1182,7 +1184,7 @@
 						<xsl:value-of select="../FareConstruction[UniqueKey=$paxno]/FareConstructText"/>
 					</FareCalculation>
 				</xsl:if>
-				<!-- 
+<!-- 
         <xsl:if test="bankerRates/firstRateDetail">
           <BSR>
             <xsl:value-of select="bankerRates/firstRateDetail/amount"/>
@@ -1194,7 +1196,7 @@
           </PaymentRestrictions>
         </xsl:if>
         
-        -->
+-->
 				<ValidatingAirlineCode>
 					<xsl:value-of select="../PlatingAirVMod/AirV"/>
 				</ValidatingAirlineCode>
