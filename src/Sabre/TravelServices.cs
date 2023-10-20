@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Threading;
 using System.Xml;
+using System.Xml.Serialization;
 using TripXMLMain;
 
 namespace Sabre
@@ -617,6 +620,7 @@ namespace Sabre
 
             return strResponse;
         }
+
         public string TravelBuild_V3()
         {
             string strResponse;
@@ -2036,11 +2040,161 @@ namespace Sabre
 
             return strResponse;
 
-            void SendIR(SabreAdapter ttSA)
+        }
+
+        private void SendIR(SabreAdapter ttSA)
+        {
+            string strIR = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>IR</HostCommand></Request></SabreCommandLLSRQ>";
+            ttSA.SendMessage(strIR, "IR", "SabreCommandLLSRQ", ConversationID);
+        }
+
+        public string IssueMCO()
+        {
+            var _response = string.Empty;
+            try
             {
-                string strIR = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>IR</HostCommand></Request></SabreCommandLLSRQ>";
-                ttSA.SendMessage(strIR, "IR", "SabreCommandLLSRQ", ConversationID);
+                var _request = SetRequest("Sabre_IssueMCORQ.xsl");
+                if (string.IsNullOrEmpty(_request))
+                    throw new Exception("Transformation produced empty xml.");
+
+                SabreAdapter ttSA = SetAdapter();
+                bool inSession = SetConversationID(ttSA);
+                                
+                // *************************
+                // Get Multiple Requests  *
+                // *************************
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(_request);
+                var oRoot = oDoc.DocumentElement;
+                var _pnrRead = oRoot.SelectSingleNode("PNRRead").InnerXml;
+                var _pnrRetrieve = oRoot.SelectSingleNode("PNRRetrieve").InnerXml;
+                var _mcosList = oRoot.SelectSingleNode("MCOs").InnerXml;
+
+                // ********************
+                // Retrieve the PNR  *
+                // ******************** 
+                _response = ttSA.SendMessage(_pnrRead, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
+                _response = _response.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
+                oDoc = new XmlDocument();
+                oDoc.LoadXml(_response);
+                oRoot = oDoc.DocumentElement;
+                var strPnrNo = oRoot.SelectSingleNode("TravelItinerary/ItineraryRef").Attributes["ID"].InnerText;
+
+                // Check for Errors
+                if (!_response.Contains("<CustomerInfo>"))
+                    throw new Exception("Cannot retrieve PNR to ticket");
+
+                string strER = @"<SabreCommandLLSRQ xmlns=""http://webservices.sabre.com/sabreXML/2011/10"" Version=""2.0.0""><Request Output=""SCREEN"" MDRSubset=""AD01"" CDATA=""true""><HostCommand>6P\ER</HostCommand></Request></SabreCommandLLSRQ>";
+                //strER = strER.Replace(@"6P\ER", "CC/PC");
+                //strNative = ttSA.SendMessage(strER, "CC/PC", "SabreCommandLLSRQ", ConversationID);
+                //strER = strER.Replace("CC/PC", @"6P\ER");
+                var _ticket = string.Empty;
+                if (!string.IsNullOrEmpty(_ticket))
+                {
+
+                    // Check for Errors
+                    if (strNative.Contains("UNABLE") | strNative.Contains("MIN CONNX TIME"))
+                    {
+                        string err = strNative.Substring(strNative.IndexOf("<Response>") + 10, strNative.IndexOf("</Response>") - (strNative.IndexOf("<Response>") + 10));
+                        throw new Exception(err);
+                    }
+
+                    var _mcos = ttSA.SendMessage(_ticket, "Air", "AirTicketLLSRQ", ConversationID);
+
+                    if (_mcos.Contains("PLS ENTER UD8 WITH DTT PROFIT"))
+                    {
+                        string strXPG = @"<SabreCommandLLSRQ xmlns=""http://webservices.sabre.com/sabreXML/2011/10"" Version=""2.0.0""><Request Output=""SCREEN"" MDRSubset=""AD01"" CDATA=""true""><HostCommand>XPG</HostCommand></Request></SabreCommandLLSRQ>";
+                        strNative = ttSA.SendMessage(strXPG, "XPG", "SabreCommandLLSRQ", ConversationID);
+                    }
+
+                    if (_mcos.Contains("PNR HAS BEEN UPDATED-IGN AND RETRY"))
+                    {
+                        SendIR(ttSA);
+                        _mcos = ttSA.SendMessage(_ticket, "Air", "AirTicketLLSRQ", ConversationID);
+                    }
+
+                    if (_mcos.Contains("*WARNING EDITS*") | _mcos.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | _mcos.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
+                        | _mcos.Contains("END OR IGNORE PNR") | _mcos.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | _mcos.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT") | _mcos.Contains("PLS ENTER UD8 WITH DTT PROFIT"))
+                    {
+                        _mcos = ttSA.SendMessage(_ticket, "Air", "AirTicketLLSRQ", ConversationID);
+                        if (_mcos.Contains("PNR HAS BEEN UPDATED-IGN AND RETRY"))
+                        {
+                            SendIR(ttSA);
+                            _mcos = ttSA.SendMessage(_ticket, "Air", "AirTicketLLSRQ", ConversationID);
+                        }
+                        if (_mcos.Contains("*WARNING EDITS*") | _mcos.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | _mcos.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
+                            | _mcos.Contains("END OR IGNORE PNR") | _mcos.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | _mcos.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT"))
+                        {
+                            int iTry = 0;
+                            while ((_mcos.Contains("*WARNING EDITS*") | _mcos.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | _mcos.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
+                                | _mcos.Contains("END OR IGNORE PNR") | _mcos.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | _mcos.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT")) & iTry < 5)
+                            {
+                                Thread.Sleep(1000);
+
+                                _mcos = ttSA.SendMessage(_ticket, "Air", "AirTicketLLSRQ", ConversationID);
+                                if (_mcos.Contains("PNR HAS BEEN UPDATED-IGN AND RETRY"))
+                                {
+                                    SendIR(ttSA);
+                                    _mcos = ttSA.SendMessage(_ticket, "Air", "AirTicketLLSRQ", ConversationID);
+                                }
+                                iTry += 1;
+                            }
+                        }
+                    }
+
+                    var readResp = ttSA.SendMessage(_pnrRead, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
+                    if (readResp.Contains("TICKETING IN PROGRESS"))
+                    {
+                        int iTry = 0;
+                        while (readResp.Contains("TICKETING IN PROGRESS") & iTry < 5)
+                        {
+                            Thread.Sleep(1000);
+
+                            readResp = ttSA.SendMessage(_pnrRead, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
+                            iTry += 1;
+                        }
+                    }
+
+                    // *****************************************************************
+                    // Transform Native Sabre IssueTicket Response into OTA Response   *
+                    // ***************************************************************** 
+
+                    try
+                    {
+
+                        _response = _response.Contains("Error")
+                            ? $"<AirTicketRS>{_response}</AirTicketRS>"
+                            : $"<AirTicketRS><Success/></AirTicketRS>";
+
+                        var strToReplace = "</AirTicketRS>";
+
+                        if (inSession)
+                            _response = _response.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
+
+                        _response = CoreLib.TransformXML(_response, XslPath, $"{Version}Sabre_IssueTicketRS.xsl");
+                        _response = _response.Replace("<UniqueID ID=\"\" />", "<UniqueID ID=\"" + strPnrNo + "\" />");
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                    }
+                    finally
+                    {
+                        if (!inSession)
+                        {
+                            ttSA.CloseSession(ConversationID);
+                            ConversationID = string.Empty;
+                        }
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+                _response = modCore.FormatErrorMessage(modCore.ttServices.IssueTicketSessioned, ex.Message, ProviderSystems);
+            }
+
+            return _response;
         }
 
         public string TicketCoupon()
@@ -2469,6 +2623,7 @@ namespace Sabre
                             var oDocTemp = new XmlDocument();
                             oDocTemp.LoadXml(strRequest);
                             var oRootTemp = oDocTemp.DocumentElement;
+
                             if (oRootTemp.SelectSingleNode("Queue") != null)
                             {
                                 strQueue = oRootTemp.SelectSingleNode("Queue").InnerXml.Replace(" xmlns=\"\"", "");
@@ -2802,5 +2957,7 @@ namespace Sabre
                 throw ex;
             }
         }
+
+        
     }
 }
