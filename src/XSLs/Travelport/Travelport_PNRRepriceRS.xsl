@@ -4,6 +4,7 @@
 	==================================================================
 	Travelport_PNRRepriceRS.xsl 										
 	==================================================================
+	Date: 19 Oct 2023 - Kobelev - PTC_FareBreakdown RPH get associated with Fare qoute number.
 	Date: 27 Sep 2023 - Kobelev - Branded Fare Values.
 	Date: 27 Feb 2023 - Kobelev - BagAllowance Weight values.
 	Date: 02 Dec 2022 - Kobelev - Price Quote selection based on BookingCode.
@@ -405,7 +406,8 @@
 		<PTC_FareBreakdown>
 			<xsl:variable name="pos" select="position()" />
 			<xsl:attribute name="RPH">
-				<xsl:value-of select="concat($key, '.', $pos)"/>
+				<!--<xsl:value-of select="concat($key, '.', $pos)"/>-->
+				<xsl:value-of select="$key"/>
 			</xsl:attribute>
 			<xsl:attribute name="PricingSource">
 				<xsl:choose>

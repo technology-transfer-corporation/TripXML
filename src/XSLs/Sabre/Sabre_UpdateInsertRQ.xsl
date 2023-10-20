@@ -4,7 +4,7 @@
  ================================================================== 
   Sabre_UpdateInsertRQ.xsl 														       
   ================================================================== 
-  Date: 18 Oct 2023 - Kobelev - added AddAccountingLine/AIN
+  Date: 18 Oct 2023 - Riasnenko - added AddAccountingLine/AIN
   Date: 28 Mar 2023 - Kobelev - upgraded ReadRQ to version 3.10.0
   Date: 12 Dec 2019 - Kobelev - Tour Code has to start with UN prefex instead of just U as it was before. BUG 1160
   Date: 09 Feb 2018 - Samokhvalov - FPPQ command format changes - Endorsment replaces vs add
