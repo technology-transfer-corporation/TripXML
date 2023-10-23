@@ -35,6 +35,8 @@ xsltc /settings:document+,script+ Galileo_HotelSearchRQ.xsl
 xsltc /settings:document+,script+ Galileo_HotelSearchRS.xsl
 xsltc /settings:document+,script+ Galileo_IssueTicketRQ.xsl
 xsltc /settings:document+,script+ Galileo_IssueTicketRS.xsl
+xsltc /settings:document+,script+ Galileo_IssueMCORQ.xsl
+xsltc /settings:document+,script+ Galileo_IssueMCORS.xsl
 xsltc /settings:document+,script+ Galileo_LowFarePlusRQ.xsl
 xsltc /settings:document+,script+ Galileo_LowFarePlusRQ1.xsl
 xsltc /settings:document+,script+ Galileo_LowFarePlusRS.xsl
