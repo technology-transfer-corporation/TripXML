@@ -1089,7 +1089,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			<xsl:attribute name="Code">
 				<xsl:value-of select="$ptc"/>
 			</xsl:attribute>
-			<xsl:if test="$age != ''">
+			<xsl:if test="$age != '' and $age != '0NaN'">
 				<xsl:attribute name="Age">
 					<xsl:value-of select="$age"/>
 				</xsl:attribute>
