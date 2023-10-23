@@ -4,6 +4,7 @@
 	==================================================================
 	Travelport_PNRRepriceRS.xsl 										
 	==================================================================
+	Date: 23 Oct 2023 - Riasnenko - PTC_FareBreakdown TotalFare by one passanger.
 	Date: 19 Oct 2023 - Kobelev - PTC_FareBreakdown RPH get associated with Fare qoute number.
 	Date: 27 Sep 2023 - Kobelev - Branded Fare Values.
 	Date: 27 Feb 2023 - Kobelev - BagAllowance Weight values.
@@ -526,10 +527,10 @@
 			</xsl:variable>
 			<PassengerFare>
 				<xsl:variable name="bfpax">
-					<xsl:value-of select="translate(substring(@BasePrice,4),'.','') * $nip"/>
+					<xsl:value-of select="translate(substring(@BasePrice,4),'.','')"/>
 				</xsl:variable>
 				<xsl:variable name="tfpax">
-					<xsl:value-of select="translate(substring(@TotalPrice,4),'.','') * $nip"/>
+					<xsl:value-of select="translate(substring(@TotalPrice,4),'.','')"/>
 				</xsl:variable>
 				<xsl:variable name="cur">
 					<xsl:value-of select="substring(@BasePrice,1,3)"/>
@@ -551,7 +552,7 @@
 				<Taxes>
 					<xsl:apply-templates select="air:TaxInfo">
 						<xsl:with-param name="nip">
-							<xsl:value-of select="$nip"/>
+							<xsl:value-of select="1"/>
 						</xsl:with-param>
 						<xsl:with-param name="dec">
 							<xsl:value-of select="$dec"/>
