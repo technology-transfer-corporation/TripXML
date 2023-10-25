@@ -7,6 +7,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 25 Oct 2023 - Samokhvalov - Added TourCode from DocProdDisplayStoredQuote/GenQuoteDetails/ITNum
   Date: 19 Oct 2023 - Kobelev - Change RPH in PTC_FareBreakdown from combination of Fare Number and Unique key to Qoute number which is more correct use.
   Date: 01 Sep 2023 - Riasnenko - Fixed DecimalPlaces for Base Fare Amounts. 
   Date: 21 Aug 2023 - Kobelev - Fixed BaseDecPos for Equivelent Amounts. 
@@ -322,9 +323,22 @@
 							<xsl:if test="VndRmk">
 								<xsl:apply-templates select="VndRmk" />
 							</xsl:if>
-							<xsl:if test="../DocProdDisplayStoredQuote/TourCode">
-								<xsl:apply-templates select="../DocProdDisplayStoredQuote[TourCode]" mode="tourcode"/>
-							</xsl:if>
+							<xsl:choose>
+								<xsl:when test="../DocProdDisplayStoredQuote/TourCode">
+									<xsl:apply-templates select="../DocProdDisplayStoredQuote[TourCode]" mode="tourcode"/>
+								</xsl:when>
+								<xsl:when test="../DocProdDisplayStoredQuote/GenQuoteDetails/ITNum">
+									<SpecialRemark>
+										<xsl:attribute name="RPH">
+											<xsl:value-of select="FareNumInfo/FareNumAry/FareNum"/>
+										</xsl:attribute>
+										<xsl:attribute name="RemarkType">TourCode</xsl:attribute>
+										<Text>
+											<xsl:value-of select="../DocProdDisplayStoredQuote/GenQuoteDetails/ITNum"/>
+										</Text>
+									</SpecialRemark>
+								</xsl:when>
+							</xsl:choose>
 							<xsl:if test="../DocProdDisplayStoredQuote/InfoMsg[MsgType='1']">
 								<xsl:apply-templates select="../DocProdDisplayStoredQuote[InfoMsg[MsgType='1']]" mode="EndorsementInfo"/>
 							</xsl:if>
@@ -651,7 +665,7 @@
 
 						</xsl:attribute>
 					</BaseFare>
-					<xsl:if test ="GenQuoteDetails/EquivCurrency != ''">	
+					<xsl:if test ="GenQuoteDetails/EquivCurrency != ''">
 						<xsl:variable name="ptc" select="AgntEnteredPsgrDescInfo/AgntEnteredPsgrDesc"/>
 						<xsl:variable name="ef" select="GenQuoteDetails/BaseFareAmt" />
 						<xsl:variable name="cur">
@@ -665,7 +679,7 @@
 							</xsl:variable>
 							<xsl:variable name="eamttot">
 								<xsl:value-of select="substring-before($eamttota,'/')" />
-							</xsl:variable>							
+							</xsl:variable>
 							<xsl:attribute name="Amount">
 								<xsl:value-of select="$eamttot"/>
 							</xsl:attribute>
@@ -1184,7 +1198,7 @@
 						<xsl:value-of select="../FareConstruction[UniqueKey=$paxno]/FareConstructText"/>
 					</FareCalculation>
 				</xsl:if>
-<!-- 
+				<!-- 
         <xsl:if test="bankerRates/firstRateDetail">
           <BSR>
             <xsl:value-of select="bankerRates/firstRateDetail/amount"/>
