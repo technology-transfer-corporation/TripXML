@@ -70,9 +70,9 @@ namespace Galileo
                     CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", response, ProviderSystems.LogUUID);
                     //}
 
-                    var tagToReplace = response.Contains("</PNRBFManagement_17>")
-                        ? "</PNRBFManagement_17>"
-                        : "</PNRBFManagement_53>";
+                    //var tagToReplace = response.Contains("</PNRBFManagement_17>")
+                    //    ? "</PNRBFManagement_17>"
+                    //    : "</PNRBFManagement_53>";
 
                     //if (inSession)
                     //    response = response.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
