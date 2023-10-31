@@ -56,7 +56,6 @@ namespace Galileo
                 response = response.Replace("</PNRBFManagement_53>", $"{displayHTI}</PNRBFManagement_53>");
                 #endregion
 
-
                 #region Transform Native Worldspan PNRRead Response into OTA Response
 
                 try
