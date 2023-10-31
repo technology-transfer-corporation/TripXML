@@ -1754,6 +1754,9 @@ Namespace wsTravelTalk
                             strResponse = .UpdateSessioned()
                         Case ttServices.TicketVoid
                             strResponse = .VoidTicket
+                        Case ttServices.IssueMCO
+                            strResponse = .IssueMCO
+
                         Case Else
                             Throw New Exception(String.Format("{0} Message is not supported by Galileo.", Service.ToString()))
                     End Select
@@ -1853,10 +1856,11 @@ Namespace wsTravelTalk
                             strResponse = .Update()
                         Case ttServices.UpdateSessioned
                             strResponse = .UpdateSessioned()
+                        Case ttServices.IssueMCO
+                            strResponse = .IssueMCO()
                         Case Else
                             Throw New Exception(String.Format("{0} Message is not supported by Sabre.", Service.ToString()))
                     End Select
-
                 End With
 
                 Return strResponse

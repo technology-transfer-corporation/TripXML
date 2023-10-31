@@ -121,6 +121,13 @@ Namespace wsTravelTalk
                                                 oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
                                                 oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
                                             End If
+                                        Else
+                                            attCode.Value = TripXMLLoad.EncodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
+
+                                            If Not String.IsNullOrEmpty(attCode.Value) Then
+                                                oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
+                                                oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
+                                            End If
                                         End If
                                     End If
                                 End If

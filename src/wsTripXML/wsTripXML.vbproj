@@ -344,6 +344,9 @@
     <Compile Include="Code\NDCClasses\OrderViewRS.vb" />
     <Compile Include="Code\NDCClasses\SeatAvailabilityRQ.vb" />
     <Compile Include="Code\NDCClasses\SeatAvailabilityRS.vb" />
+    <Compile Include="Code\OTAClasses\IssueMCOModels.vb" />
+    <Compile Include="Code\OTAClasses\IssueMCORQ.vb" />
+    <Compile Include="Code\OTAClasses\IssueMCORS.vb" />
     <Compile Include="Code\OTAClasses\PAY_DeleteVirtualCardRQ.vb" />
     <Compile Include="Code\OTAClasses\PAY_DeleteVirtualCardRS.vb" />
     <Compile Include="Code\OTAClasses\PAY_GenerateVirtualCardRS.vb" />
@@ -360,6 +363,9 @@
     <Compile Include="Code\OTAClasses\PAY_ScheduleVirtualCardLoadRS.vb" />
     <Compile Include="Code\OTAClasses\Ticket_AutomaticUpdateRQ.vb" />
     <Compile Include="Code\OTAClasses\Ticket_AutomaticUpdateRS.vb" />
+    <Compile Include="Code\wsIssueMCO.asmx.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Code\wsReIssueTicketSessioned.asmx.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -377,6 +383,7 @@
     <Content Include="wsCryptic.asmx" />
     <Content Include="wsDisplayTicket.asmx" />
     <Content Include="wsDisplayTicket_v03.asmx" />
+    <Content Include="wsIssueMCO.asmx" />
     <Content Include="wsReIssueTicketSessioned.asmx" />
     <Content Include="wsVirtualCreditCard.asmx" />
     <Content Include="wsInventoryManagement.asmx" />
