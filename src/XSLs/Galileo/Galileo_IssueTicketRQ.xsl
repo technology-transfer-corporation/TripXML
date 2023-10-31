@@ -14,7 +14,7 @@
 	
   <!-- 'User variable is not defined in local xsl'-->
   <xsl:variable name="User"><xsl:value-of select="TT_IssueTicketRQ/POS/Source/RequestorID/@ID"/></xsl:variable>
-	<!--=============================================-->  
+  <!--=============================================-->  
   
   <xsl:template match="/">
 		<TT_IssueTicketRQ>
@@ -86,15 +86,18 @@
 			</PNRBFManagement_53>
 		</PNRCurrentRead>
     
-		<!--xsl:for-each select="Ticketing/FareNumber">
+		<!--
+		<xsl:for-each select="Ticketing/FareNumber">
 			<CrypticTMU>
 				<xsl:text>TMU</xsl:text>
 				<xsl:value-of select="."/>
 				<xsl:text>Z0</xsl:text>
 			</CrypticTMU>
-		</xsl:for-each-->
+		</xsl:for-each>
+		-->
     
-		<!--VerifyATFQ>
+		<!--
+		<VerifyATFQ>
 			<PNRBFManagement_17>
 				<FareQuoteRepriceMods>
 					<ItemAry>
@@ -117,7 +120,8 @@
 					</ItemAry>
 				</FareQuoteVerifyMods>
 			</PNRBFManagement_17>
-		</VerifyATFQ-->
+		</VerifyATFQ>
+		-->
     
     <!-- below given if condition was not in the local xsl. But content was there--> 
 		<xsl:if test="$User = 'Nexus'">

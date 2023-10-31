@@ -77,6 +77,7 @@ xsltc /settings:document+,script+ v04_Galileo_PNRReadRS.xsl
 xsltc /settings:document+,script+ v04_Galileo_TB_Errors.xsl
 xsltc /settings:document+,script+ v04_Galileo_TravelBuildRQ.xsl
 xsltc /settings:document+,script+ v04_Galileo_QueueReadRQ.xsl
+xsltc /settings:document+,script+ Galileo_IssueMCORQ.xsl
 
 xcopy "*.dll" "..\DLLs" /c /d /i /y
 del "*.dll" 

@@ -7,6 +7,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 31 Oct 2023 - Kobelev - Idetifying CAT35 office settings in Special Remark under RemarkType="T"
   Date: 25 Oct 2023 - Samokhvalov - Added TourCode from DocProdDisplayStoredQuote/GenQuoteDetails/ITNum
   Date: 19 Oct 2023 - Kobelev - Change RPH in PTC_FareBreakdown from combination of Fare Number and Unique key to Qoute number which is more correct use.
   Date: 01 Sep 2023 - Riasnenko - Fixed DecimalPlaces for Base Fare Amounts. 
@@ -339,6 +340,16 @@
 									</SpecialRemark>
 								</xsl:when>
 							</xsl:choose>
+							
+							<xsl:if test="//DocProdDisplayStoredQuote/TkPsgrFareConstruct">
+								<SpecialRemark>
+									<xsl:attribute name="RemarkType">T</xsl:attribute>
+									<Text>
+										<xsl:text>CAT35</xsl:text>
+									</Text>
+								</SpecialRemark>
+							</xsl:if>
+									
 							<xsl:if test="../DocProdDisplayStoredQuote/InfoMsg[MsgType='1']">
 								<xsl:apply-templates select="../DocProdDisplayStoredQuote[InfoMsg[MsgType='1']]" mode="EndorsementInfo"/>
 							</xsl:if>
@@ -2281,7 +2292,7 @@
 		</SpecialRemark>
 	</xsl:template>
 	<!--************************************************************************************-->
-	<!--			Document Invoice	Remarks							    -->
+	<!--			Document Invoice	Remarks												-->
 	<!--************************************************************************************-->
 	<xsl:template match="InvoiceRmk"  mode="invrmk">
 		<SpecialRemark>
@@ -2315,16 +2326,16 @@
 	<!--  Vendor Record locators/Ticketing info      	     -->
 	<!-- ********************************************************** -->
 	<xsl:template match="GenPNRInfo">
-		<xsl:if test="../TAUTkArrangement or ../TkArrangement or ../../DocProdDisplayStoredQuote/AdditionalPsgrFareInfo/TkNum or TkNumExistInd='Y'">
+		<xsl:if test="../TAUTkArrangement or ../TkArrangement or //DocProdDisplayStoredQuote/AdditionalPsgrFareInfo/TkNum or TkNumExistInd='Y'">
 			<Ticketing>
 				<xsl:choose>
 					<xsl:when test="../TAUTkArrangement">
 						<xsl:attribute name="TicketType">
 							<xsl:choose>
-								<xsl:when test="../../DocProdDisplayStoredQuote/DocumentSelect/ETInd = 'P'">Paper</xsl:when>
-								<xsl:when test="../../DocProdDisplayStoredQuote/DocumentSelect/ETInd = 'Y'">eTicket</xsl:when>
-								<xsl:when test="../../DocProdDisplayStoredQuote/ExtendedQuoteInformation/ETkInd= 'N'">Paper</xsl:when>
-								<xsl:when test="../../DocProdDisplayStoredQuote/ExtendedQuoteInformation/ETkInd= 'Y'">eTicket</xsl:when>
+								<xsl:when test="//DocProdDisplayStoredQuote/DocumentSelect/ETInd = 'P'">Paper</xsl:when>
+								<xsl:when test="//DocProdDisplayStoredQuote/DocumentSelect/ETInd = 'Y'">eTicket</xsl:when>
+								<xsl:when test="//DocProdDisplayStoredQuote/ExtendedQuoteInformation/ETkInd= 'N'">Paper</xsl:when>
+								<xsl:when test="//DocProdDisplayStoredQuote/ExtendedQuoteInformation/ETkInd= 'Y'">eTicket</xsl:when>
 								<xsl:when test="ETkDataExistInd = 'Y'">eTicket</xsl:when>
 								<xsl:otherwise>Paper</xsl:otherwise>
 							</xsl:choose>
@@ -2332,25 +2343,25 @@
 						<TicketAdvisory>
 							<xsl:value-of select="../TAUTkArrangement/QTAUDt"/>
 							<xsl:text>/</xsl:text>
-							<xsl:value-of select="../TAUTkArrangement/Text"/>
+							<xsl:value-of select="../TAUTkArrangement/Text"/>							
 						</TicketAdvisory>
 					</xsl:when>
 					<xsl:when test="../TkArrangement">
 						<xsl:attribute name="TicketType">
 							<xsl:choose>
-								<xsl:when test="../../DocProdDisplayStoredQuote/DocumentSelect/ETInd = 'P'">Paper</xsl:when>
-								<xsl:when test="../../DocProdDisplayStoredQuote/DocumentSelect/ETInd = 'Y'">eTicket</xsl:when>
-								<xsl:when test="../../DocProdDisplayStoredQuote/ExtendedQuoteInformation/ETkInd= 'N'">Paper</xsl:when>
-								<xsl:when test="../../DocProdDisplayStoredQuote/ExtendedQuoteInformation/ETkInd= 'Y'">eTicket</xsl:when>
+								<xsl:when test="//DocProdDisplayStoredQuote/DocumentSelect/ETInd = 'P'">Paper</xsl:when>
+								<xsl:when test="//DocProdDisplayStoredQuote/DocumentSelect/ETInd = 'Y'">eTicket</xsl:when>
+								<xsl:when test="//DocProdDisplayStoredQuote/ExtendedQuoteInformation/ETkInd= 'N'">Paper</xsl:when>
+								<xsl:when test="//DocProdDisplayStoredQuote/ExtendedQuoteInformation/ETkInd= 'Y'">eTicket</xsl:when>
 								<xsl:when test="ETkDataExistInd = 'Y'">eTicket</xsl:when>
 								<xsl:otherwise>Paper</xsl:otherwise>
 							</xsl:choose>
 						</xsl:attribute>
-						<TicketAdvisory>
+						<TicketAdvisory>							
 							<xsl:value-of select="../TkArrangement/Text"/>
 						</TicketAdvisory>
 					</xsl:when>
-					<xsl:when test="../../DocProdDisplayStoredQuote/AdditionalPsgrFareInfo/TkNum != ''">
+					<xsl:when test="//DocProdDisplayStoredQuote/AdditionalPsgrFareInfo/TkNum != ''">
 						<xsl:choose>
 							<xsl:when test="ETkDataExistInd = 'Y'">
 								<xsl:attribute name="TicketType">eTicket</xsl:attribute>
@@ -2361,7 +2372,7 @@
 						</xsl:choose>
 						<xsl:if test="TkNumExistInd='Y'">
 							<xsl:attribute name="eTicketNumber">
-								<xsl:value-of select="../../DocProdDisplayStoredQuote/AdditionalPsgrFareInfo/TkNum" />
+								<xsl:value-of select="//DocProdDisplayStoredQuote/AdditionalPsgrFareInfo/TkNum" />
 							</xsl:attribute>
 						</xsl:if>
 					</xsl:when>
