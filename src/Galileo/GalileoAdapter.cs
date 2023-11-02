@@ -116,7 +116,17 @@ namespace Galileo
                     ? (ows as wsGalileoProd.XmlSelect).BeginSession(mstrProfile).ToString()
                     : ((wsGalileoCopy.XmlSelect)ows).BeginSession(mstrProfile).ToString();
 
-
+                if (!string.IsNullOrEmpty(ProviderSystems.AAAPCC) & (ProviderSystems.AAAPCC ?? "") != (ProviderSystems.PCC ?? ""))
+                {
+                    /*************************** 
+                    * Emulate into another PCC *                                       
+                    ***************************/
+                    if (ProviderSystems.AAAPCC != ProviderSystems.PCC)
+                    {
+                        string strAAA = $"<SessionEmulation_1_0><SessionMods><EmulatePCC><PCC>{ProviderSystems.AAAPCC}</PCC><Duty>AG</Duty></EmulatePCC></SessionMods></SessionEmulation_1_0>";
+                        string strResponse = SendMessage(strAAA, token);
+                    }
+                }
                 // Write a procedure that will write a Log file with information on just opened session for SPLUNK
                 var trace = new JObject(new JProperty("Provider", ProviderSystems.Provider), new JProperty("ID", token), new JProperty("Type", "Open"), new JProperty("User", ProviderSystems.UserID), new JProperty("UUID", ProviderSystems.LogUUID), new JProperty("TimeStamp", DateTime.Now));
                 string argmessage = "Session Manager";

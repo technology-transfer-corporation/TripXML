@@ -138,7 +138,9 @@ namespace Galileo
         protected GalileoAdapter SetAdapter(string version = "")
         {
             var argProviderSystems = ProviderSystems;
-            var tt = string.IsNullOrEmpty(version) ? new GalileoAdapter(argProviderSystems) : new GalileoAdapter(argProviderSystems, version);
+            var tt = string.IsNullOrEmpty(version) 
+                ? new GalileoAdapter(argProviderSystems) 
+                : new GalileoAdapter(argProviderSystems, version);
 
             ProviderSystems = argProviderSystems;
             return tt;
