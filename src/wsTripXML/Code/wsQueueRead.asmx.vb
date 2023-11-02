@@ -84,22 +84,24 @@ Namespace wsTravelTalk
                             If Not oNode.SelectSingleNode("OperatingAirline").Attributes("Code") Is Nothing Then
                                 If oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value <> "" Then
                                     oNode.SelectSingleNode("OperatingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
-                                    'GetDecodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
                                 ElseIf Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
                                     Dim attCode As XmlAttribute
                                     attCode = oDoc.CreateAttribute("Code")
-                                    attCode.Value = TripXMLLoad.EncodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
-                                    'GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                                    attCode.Value = EncodeValue(DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
                                     oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
-
                                     oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
                                 End If
+                            Else
+                                Dim attCode As XmlAttribute
+                                attCode = oDoc.CreateAttribute("Code")
+                                attCode.Value = EncodeValue(DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                                oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
+                                oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
                             End If
                         ElseIf Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
                             Dim attCode As XmlAttribute
                             attCode = oDoc.CreateAttribute("Code")
                             attCode.Value = EncodeValue(DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
-                            'GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
                             oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
                             oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
                         End If
@@ -173,6 +175,7 @@ Namespace wsTravelTalk
                     Case "amadeusws"
                         strResponse = SendPNRRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
                     Case "apollo", "galileo"
+                        ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
                         strResponse = SendPNRRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest)
                     Case "sabre"
                         'ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())

@@ -147,7 +147,7 @@ Namespace wsTravelTalk
                         '$"Access denied to {ttCredential.Providers(0).Name} - {ttCredential.System} system. Or invalid provider or PCC ({ttCredential.Providers(0).PCC})."
                         Throw New Exception($"Access denied to {ttCredential.Providers(0).Name} - {ttCredential.System} system. Or invalid provider or PCC ({ttCredential.Providers(0).PCC}).")
                     End If
-                    If (ttCredential.Providers(0).PCC.Trim.Length > 0 And ttCredential.Providers(0).Name <> "Sabre") Then
+                    If (ttCredential.Providers(0).PCC.Trim.Length > 0 And (ttCredential.Providers(0).Name <> "Sabre" And ttCredential.Providers(0).Name <> "Galileo")) Then
                         ttProviderSystems.PCC = ttCredential.Providers(0).PCC
                     End If
                 End If
