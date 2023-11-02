@@ -16,7 +16,7 @@ namespace TripXMLTools
         public static List<Txuser> UsersObject { get; set; }
         private static string Requestor { get; set; }
         public static Decoding DecodingTables { get; set; }
-        
+
         public static void TripXMLLoadObject()
         {
             if (UsersObject == null)
@@ -31,7 +31,7 @@ namespace TripXMLTools
             {
                 throw new ArgumentNullException(nameof(rqObject));
             }
-            
+
             var body = JsonConvert.SerializeObject(rqObject);
             var _response = GetServerData($"{WebConfigurationManager.AppSettings["HasuraEndpoint"]}/tripxmlload", body);
 
@@ -51,7 +51,7 @@ namespace TripXMLTools
             if (DecodingTables == null)
             {
                 var _response = GetServerData($"{WebConfigurationManager.AppSettings["HasuraEndpoint"]}/decoding");
-                var decoded = JsonConvert.DeserializeObject<Decoding>(_response);                
+                var decoded = JsonConvert.DeserializeObject<Decoding>(_response);
 
                 DecodingTables = decoded;
             }
@@ -117,12 +117,13 @@ namespace TripXMLTools
                     && u.Provider.Name == credentials.Providers[0].Name);
                 var providerPcc = credentials.Providers.Count().Equals(0)
                     ? provider.Provider.PCCs[0]
-                    : provider.Provider.PCCs.Find(p => p.Code == credentials.Providers.First().PCC || p.OpenTypes.Exists(ot=> ot.OfficeID.Equals(credentials.Providers.First().PCC)));
-                      //  : provider.Provider.PCCs.Select(p => new Pcc { Code = p.OpenTypes.Find(ot => ot.OfficeID.Equals(credentials.Providers.First().PCC)).OfficeID });
+                    : provider.Provider.PCCs.Find(p => p.Code == credentials.Providers.First().PCC || p.OpenTypes.Exists(ot => ot.OfficeID.Equals(credentials.Providers.First().PCC)));
+                //  : provider.Provider.PCCs.Select(p => new Pcc { Code = p.OpenTypes.Find(ot => ot.OfficeID.Equals(credentials.Providers.First().PCC)).OfficeID });
 
                 switch (credentials.Providers[0].Name)
                 {
                     case "Sabre":
+                    case "Galileo":
                         ttProviderSystem.PCC = providerPcc.Code;
                         ttProviderSystem.AAAPCC = providerPcc.Code;
                         break;
@@ -147,7 +148,7 @@ namespace TripXMLTools
                 ttProviderSystem.UserID = credentials.UserID;
                 ttProviderSystem.Password = providerPcc.Password;
                 ttProviderSystem.UserName = providerPcc.Username;
-                ttProviderSystem.SOAP2 = providerPcc.SOAPType==null ? false : providerPcc.SOAPType.Equals("SOAP2");
+                ttProviderSystem.SOAP2 = providerPcc.SOAPType == null ? false : providerPcc.SOAPType.Equals("SOAP2");
                 ttProviderSystem.SOAP4 = !ttProviderSystem.SOAP2;
                 ttProviderSystem.Profile.Origin = providerPcc.Profile.Origin;
                 ttProviderSystem.Profile.Xml = providerPcc.Profile.Xml;
@@ -193,7 +194,11 @@ namespace TripXMLTools
             switch (type)
             {
                 case DecodingType.Airline:
-                    return DecodingTables.Airlines.FirstOrDefault(c => c.Name == code)?.Code;
+                    var _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == code)?.Code;
+                    if (string.IsNullOrEmpty(_code))
+                        _code = EvaluateName(code);                       
+
+                    return _code;
                 case DecodingType.Airport:
                     return DecodingTables.Airports.FirstOrDefault(c => c.Name == code)?.Code;
                 case DecodingType.Equipment:
@@ -213,6 +218,82 @@ namespace TripXMLTools
                 default:
                     return string.Empty;
             }
+        }
+
+        private static string EvaluateName(string code)
+        {
+            var _code = string.Empty;
+
+            if (string.IsNullOrEmpty(code))
+                return string.Empty;
+
+            if (code.Contains("OPERATED BY"))
+                code = code.Replace("OPERATED BY ", "");
+
+            _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == code)?.Code;
+            if (!string.IsNullOrEmpty(_code))
+                return _code;
+
+            _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(code))?.Code;
+            if (!string.IsNullOrEmpty(_code))
+                return _code;
+
+            /******************************
+            'Try to cut Airline Name
+            'Example: Trans American Airlines F Ta
+            'But we need to look only at: Trans American Airlines
+            '******************************/
+            code = code.ToUpper().Replace("AIR LINES", "AIRLINES");
+            var _airlines = code.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var shortName = string.Empty;
+
+            if (code.ToUpper().Contains(" AS "))
+            {
+                foreach (var word in _airlines)
+                {
+                    if (word.Contains(" AS "))
+                        break;
+                    _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == word)?.Code;
+                    if (!string.IsNullOrEmpty(_code))
+                        return _code;
+
+                    _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(word))?.Code;
+                    if (!string.IsNullOrEmpty(_code))
+                        return _code;
+
+                }
+            }
+
+            if (code.ToUpper().Contains(" FOR "))
+            {
+                _airlines = code.Split(new[] { " FOR " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                foreach (var word in _airlines)
+                {
+                    _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == word)?.Code;
+                    if (!string.IsNullOrEmpty(_code))
+                        return _code;
+
+                    _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(word))?.Code;
+                    if (!string.IsNullOrEmpty(_code))
+                        return _code;
+
+                }
+            }
+
+            if (!code.ToUpper().Contains(" AS "))
+            {
+                var lastIndex = _airlines.Count() - 1;
+                if (Char.IsDigit(_airlines.Last(), 0) && _airlines[lastIndex - 1].Length.Equals(2))
+                    return _airlines[lastIndex - 1];
+
+                if (!Char.IsDigit(_airlines[lastIndex], 0) && _airlines[lastIndex].Length.Equals(2))
+                    return _airlines.Last();
+
+            }
+
+
+
+            return _code;
         }
 
         public static string DecodeValue(DecodingType type, string code)
