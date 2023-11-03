@@ -1734,39 +1734,70 @@ namespace Galileo
             return strResponse;
         }
 
-        public string ReLinkPrinters(string strReq, ref GalileoAdapter ttGA, string session)
+        public string ReLinkPrinters(string req, ref GalileoAdapter ttGA, string session)
         {
             try
             {
                 var oDoc = new XmlDocument();
-                string strResponse = ttGA.SendMessage(strReq, session);
+                string _response = ttGA.SendMessage(req, session);
 
-                oDoc.LoadXml(strResponse);
+                oDoc.LoadXml(req);
+                var oReQRoot = oDoc.DocumentElement;
+                
+
+                oDoc.LoadXml(_response);
                 var oRoot = oDoc.DocumentElement;
-                var oNd = oRoot.SelectSingleNode("LinkageUpdate/PrinterParameters[Type='T']");
-                if (oNd == null)
-                {
-                    throw new Exception("No ticket printer linked");
-                }
-                else
-                {
-                    switch (oNd.SelectSingleNode("Status").InnerText ?? "")
-                    {
-                        case "D":
-                            throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Down");
-                            break;
-                        case "B":
-                            throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Busy");
-                            break;
-                    }
-                }
 
-                return strResponse;
+                if (req.Contains("<Type>T</Type>"))
+                    CheckPrinterByType(oReQRoot.SelectSingleNode($"LinkageUpdateMods/PrinterParameters[Type='T']"), oRoot.SelectSingleNode($"LinkageUpdate/PrinterParameters[Type='T']"), "T");
+
+                if (req.Contains("<Type>I</Type>"))
+                    CheckPrinterByType(oReQRoot.SelectSingleNode($"LinkageUpdateMods/PrinterParameters[Type='I']"), oRoot.SelectSingleNode($"LinkageUpdate/PrinterParameters[Type='']"), "I");
+
+                if (req.Contains($"<Type>A</Type>"))
+                    CheckPrinterByType(oReQRoot.SelectSingleNode($"LinkageUpdateMods/PrinterParameters[Type='A']"), oRoot.SelectSingleNode($"LinkageUpdate/PrinterParameters[Type='A']"), "A");
+
+                if (oRoot.SelectSingleNode("LinkageUpdate/PrinterParameters") == null)
+                    throw new Exception($"No linked printers.");
+
+
+                return _response;
             }
             catch (Exception ex)
             {
                 return $"Error: {ex.Message}";
             }
+
+            
+        }
+
+        private void CheckPrinterByType(XmlNode request, XmlNode oNd, string printerType)
+        {
+            string lable = printerType.Equals("T")
+                ? "Ticketing"
+                : printerType.Equals("I")
+                    ? "Invoice" 
+                    : printerType.Equals("A") 
+                        ? "MIR"
+                        : throw new Exception("Unknowing type of the printer.");
+                        
+            if (oNd == null)
+                 throw new Exception($"No {lable} printer linked.");
+
+            if(!oNd.SelectSingleNode("LNIATA").InnerText.Equals(request.SelectSingleNode("LNIATA").InnerText))
+                throw new Exception($"No {lable} printer linked.");
+
+            //Check printer Status
+            switch (oNd.SelectSingleNode("Status").InnerText ?? "")
+            {
+                case "D":
+                    throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Down");
+                    break;
+                case "B":
+                    throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Busy");
+                    break;
+            }
+
         }
 
         public string ReSetPrinters(string strReq, ref GalileoAdapter ttGA, string session)
