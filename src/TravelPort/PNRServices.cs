@@ -1,11 +1,9 @@
 ﻿using System.Xml;
 using TripXMLMain;
-using System.Text;
 using System.Text.RegularExpressions;
 using System;
 using System.Globalization;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace Travelport
 {
@@ -25,8 +23,6 @@ namespace Travelport
                 string strRetrieve;
                 string strSearch;
                 string strImport;
-
-
 
                 #region Get Tracer ID
                 branch = ProviderSystems.Profile.Text;
