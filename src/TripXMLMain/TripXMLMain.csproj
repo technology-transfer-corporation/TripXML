@@ -510,6 +510,9 @@
     <Reference Include="Galileo_HotelSearchRS">
       <HintPath>Xsl\Galileo\Galileo_HotelSearchRS.dll</HintPath>
     </Reference>
+    <Reference Include="Galileo_IssueMCORQ">
+      <HintPath>Xsl\Galileo\Galileo_IssueMCORQ.dll</HintPath>
+    </Reference>
     <Reference Include="Galileo_IssueTicketRQ">
       <HintPath>Xsl\Galileo\Galileo_IssueTicketRQ.dll</HintPath>
     </Reference>

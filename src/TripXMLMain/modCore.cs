@@ -519,7 +519,8 @@ namespace TripXMLMain
             ScheduleVirtualCardLoad = 109,
             UpdateVirtualCard = 110,
             ReissueTicket = 111,
-            DisplayQueryReport = 112
+            DisplayQueryReport = 112,
+            IssueMCO = 113
             // --------------------------------------
         }
 
