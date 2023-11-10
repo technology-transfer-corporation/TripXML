@@ -37,8 +37,7 @@ Task("OctoPack")
     .IsDependentOn("Build")
     .Does(() => {
         var files = new List<string>(){"*.dll", "Web.config", "*.asmx", "*.xml", "*.aspx", 
-            "bin***.dll", "bin***.config", "bin***.pdb", "App_Data***.*", "Code/bin***.dll", "Tables/BL***.*", 
-            "Tables/Decoding***.xml", "Tables/Users***.*"};
+            "bin***.dll", "bin***.config", "bin***.pdb", "App_Data***.*", "Code/bin***.dll"};
        OctoPack(title, new OctopusPackSettings
        {
                 Title = title,  

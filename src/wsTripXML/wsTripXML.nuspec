@@ -21,8 +21,7 @@
 	<file src="..\TripXMLMain\Xsl\Travelport\*.dll" target="bin" />
 	<file src="..\TripXMLMain\Xsl\Sabre\*.dll" target="bin" />
 	<file src="..\TripXMLMain\Xsl\Worldspan\*.dll" target="bin" />
-	<file src="..\TripXMLMain\Xsl\TCML\*.dll" target="bin" />
-    <file src="Tables\**\*.*" target="Tables" />    
+	<file src="..\TripXMLMain\Xsl\TCML\*.dll" target="bin" />        
     <file src="App_Data\Admin\*.*" target="App_Data\Admin" />
     <file src="*.asmx" />
     <file src="*.aspx" />
