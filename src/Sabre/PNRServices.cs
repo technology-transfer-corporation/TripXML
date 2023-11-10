@@ -592,7 +592,6 @@ namespace Sabre
                         ConversationID = string.Empty;
                     }
                 }
-
             }
             catch (Exception ex)
             {
