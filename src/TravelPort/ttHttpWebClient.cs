@@ -76,12 +76,10 @@ namespace Travelport
 
         }
 
-        public string SendHttpRequest(string strMessage, modCore.TripXMLProviderSystems ttProviderSystems)
+        public string SendHttpRequest(string message, modCore.TripXMLProviderSystems ttProviderSystems)
         {
-            if (strMessage == null)
-            {
+            if (string.IsNullOrEmpty(message))
                 throw new ArgumentNullException("request");
-            }
 
             //mHttpRequest = this.CreateRequestObject();
             mHttpRequest = HttpConnect(ttProviderSystems);
@@ -103,16 +101,12 @@ namespace Travelport
             {
                 this.SetErrorMessage(exception);
 
-                if (exception.Response != null)
-                {
-                    // Although the request failed, we can still get a response that might
-                    // contain a better error message.
-                    receiveStream = exception.Response.GetResponseStream();
-                }
-                else
-                {
+                if (exception.Response == null)
                     return null;
-                }
+
+                // Although the request failed, we can still get a response that might
+                // contain a better error message.
+                receiveStream = exception.Response.GetResponseStream();
             }
 
             // Read output stream
