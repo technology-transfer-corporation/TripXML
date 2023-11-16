@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 15 Nov 2023 - Samokhvalov - ARNK reworked
   Date: 11 Sep 2023 - Samokhvalov - Taxes added
   Date: 01 Sep 2023 - Samokhvalov - CustomerInfo/NameType fixes - bug #4
   Date: 04 Aug 2023 - Samokhvalov - CustomerInfo/NameType fixes - bug #4
@@ -4084,7 +4085,12 @@
 			</xsl:variable>
 
 			<xsl:variable name="rph">
-				<xsl:for-each select="PTC_FareBreakdown/FlightSegment">
+				<xsl:for-each select="PTC_FareBreakdown/FareComponent/FlightSegmentNumbers/FlightSegmentNumber">
+					<xsl:if test="text()!='0'">
+						<xsl:value-of select="text()"/>
+						<xsl:text> </xsl:text>
+					</xsl:if>
+					<!--<xsl:for-each select="PTC_FareBreakdown/FlightSegment">
 					<xsl:variable name="flt">
 						<xsl:value-of select="@FlightNumber"/>
 					</xsl:variable>
@@ -4112,23 +4118,11 @@
 							</xsl:if>
 						</xsl:when>
 
-						<!--
-            <xsl:when test="../../../../../../ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flt,'#0000')]">
-              <xsl:value-of select="format-number(@SegmentNumber,'#0')"/>
-            </xsl:when>
-           -->
-
 						<xsl:when test="FareBasis/@Code='VOID'">
 							<xsl:value-of select="format-number(@SegmentNumber,'#0')"/>
 						</xsl:when>
-					</xsl:choose>
-
-					<!--<xsl:if test="position() > 1">-->
-					<xsl:text> </xsl:text>
-					<!--</xsl:if>-->
+					</xsl:choose>-->
 				</xsl:for-each>
-
-
 			</xsl:variable>
 
 			<xsl:attribute name="FlightRefNumberRPHList">
@@ -4158,7 +4152,7 @@
 			</PassengerTypeQuantity>
 
 			<FareBasisCodes>
-				<xsl:for-each select="PTC_FareBreakdown/FlightSegment/FareBasis">
+				<xsl:for-each select="PTC_FareBreakdown/FlightSegment[@FlightNumber]/FareBasis">
 					<FareBasisCode>
 						<xsl:value-of select="@Code"/>
 					</FareBasisCode>
