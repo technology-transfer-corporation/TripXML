@@ -4,6 +4,7 @@
 ================================================================== 
 Galileo_QueueRS.xsl 															
 ================================================================== 
+Date: 22 Nov 2023 - Kobelev - Added PNRBFRetrieve/QueueInfo for move PNR from one queue to another
 Date: 17 Feb 2020 - Kobelev - Added QueueProcessing_16/PNRBFRetrieve/QueueInfo
 Date: 11 Mar 2019 - Kobelev			
 Date: 02 Dec 2012 - Rastko													
@@ -17,6 +18,7 @@ Date: 02 Dec 2012 - Rastko
 			<xsl:apply-templates select="PNRBFManagement_53/EndTransaction/EndTransactResponse[RecLoc !='']"/>
 			<xsl:apply-templates select="PNRBFManagement_53[not(PNRBFRetrieve/ErrText)]/EndTransaction/EndTransactMessage[TypeInd ='E']"/>
 			<xsl:apply-templates select="PNRBFManagement_53/PNRBFRetrieve/ErrText[Text !='']"/>
+			<xsl:apply-templates select="PNRBFManagement_53" mode="move"/>
 			<xsl:apply-templates select="PoweredQueue_CountTotalReply/errorReturn"/>
 			<xsl:apply-templates select="PoweredQueue_ListReply/errorReturn"/>
 			<xsl:apply-templates select="PoweredQueue_MoveItemReply/goodResponse" mode="move"/>
@@ -28,6 +30,17 @@ Date: 02 Dec 2012 - Rastko
 			<xsl:apply-templates select="QueueProcessing_16/PNRBFRetrieve" mode="remove"/>
 			<AltLangID>Galileo</AltLangID>
 		</OTA_QueueRS>
+	</xsl:template>
+
+	<!-- Queue List -->
+	<xsl:template match="PNRBFManagement_53" mode="move">
+		<ListQueue>			
+			<QueueCategory>				
+				<QueueItems>
+					<xsl:apply-templates select="PNRBFRetrieve"/>					
+				</QueueItems>
+			</QueueCategory>
+		</ListQueue>
 	</xsl:template>
 
 	<!-- Queue Count -->
@@ -159,6 +172,7 @@ Date: 02 Dec 2012 - Rastko
 		</QueueItem>
 	</xsl:template>
 
+	<!-- Queue List Queues -->
 	<xsl:template match="PNRBFRetrieve">
 		<QueueItem>
 			<xsl:if test="agent/originatorDetails/inHouseIdentification2 != ''">
