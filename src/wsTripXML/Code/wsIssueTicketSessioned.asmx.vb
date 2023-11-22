@@ -88,12 +88,11 @@ Namespace wsTravelTalk
 
                         ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
                         strResponse = SendTravelRequestSabre(ttServiceID, ttCredential, ttProviderSystems, strRequest)
-
                     Case "worldspan"
                         strResponse = SendTravelRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest)
 
                     Case "apollo", "galileo"
-
+                        ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
                         strResponse = SendTravelRequestGalileo(ttServiceID, ttCredential, ttProviderSystems, strRequest)
                     Case Else
                         Throw New Exception(sb.Append("Provider ").Append(ttCredential.Providers(0).Name).Append(" Not Currently Supported.").ToString())
