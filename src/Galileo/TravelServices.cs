@@ -1753,7 +1753,7 @@ namespace Galileo
                     CheckPrinterByType(oReQRoot.SelectSingleNode($"LinkageUpdateMods/PrinterParameters[Type='T']"), oRoot.SelectSingleNode($"LinkageUpdate/PrinterParameters[Type='T']"), "T");
 
                 if (req.Contains("<Type>I</Type>"))
-                    CheckPrinterByType(oReQRoot.SelectSingleNode($"LinkageUpdateMods/PrinterParameters[Type='I']"), oRoot.SelectSingleNode($"LinkageUpdate/PrinterParameters[Type='']"), "I");
+                    CheckPrinterByType(oReQRoot.SelectSingleNode($"LinkageUpdateMods/PrinterParameters[Type='I']"), oRoot.SelectSingleNode($"LinkageUpdate/PrinterParameters[Type='I']") ?? oRoot.SelectSingleNode($"LinkageUpdate/PrinterParameters[Type='']"), "I");
 
                 if (req.Contains($"<Type>A</Type>"))
                     CheckPrinterByType(oReQRoot.SelectSingleNode($"LinkageUpdateMods/PrinterParameters[Type='A']"), oRoot.SelectSingleNode($"LinkageUpdate/PrinterParameters[Type='A']"), "A");

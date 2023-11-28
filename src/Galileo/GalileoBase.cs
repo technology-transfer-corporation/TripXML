@@ -207,6 +207,9 @@ namespace Galileo
                         return true;
                 }
 
+                if (!string.IsNullOrEmpty(ConversationID))
+                    ttAA.Emulate(ConversationID);
+
                 if (string.IsNullOrEmpty(ConversationID))
                     ConversationID = ttAA.CreateSession();
 

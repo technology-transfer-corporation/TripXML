@@ -118,14 +118,7 @@ namespace Galileo
 
                 if (!string.IsNullOrEmpty(ProviderSystems.AAAPCC) & (ProviderSystems.AAAPCC ?? "") != (ProviderSystems.PCC ?? ""))
                 {
-                    /*************************** 
-                    * Emulate into another PCC *                                       
-                    ***************************/
-                    if (ProviderSystems.AAAPCC != ProviderSystems.PCC)
-                    {
-                        string strAAA = $"<SessionEmulation_1_0><SessionMods><EmulatePCC><PCC>{ProviderSystems.AAAPCC}</PCC><Duty>AG</Duty></EmulatePCC></SessionMods></SessionEmulation_1_0>";
-                        string strResponse = SendMessage(strAAA, token);
-                    }
+                    Emulate(token);
                 }
                 // Write a procedure that will write a Log file with information on just opened session for SPLUNK
                 var trace = new JObject(new JProperty("Provider", ProviderSystems.Provider), new JProperty("ID", token), new JProperty("Type", "Open"), new JProperty("User", ProviderSystems.UserID), new JProperty("UUID", ProviderSystems.LogUUID), new JProperty("TimeStamp", DateTime.Now));
@@ -140,6 +133,18 @@ namespace Galileo
             {
                 CoreLib.SendTrace(ProviderSystems.UserID, $"ttGalileoAdapter", "Session Created Error", $"Failed to create session for \"{mstrProfile}\" - profile", ProviderSystems.LogUUID);
                 throw ex;
+            }
+        }
+
+        public void Emulate(string sessionid)
+        {
+            /*************************** 
+            * Emulate into another PCC *                                       
+            ***************************/
+            if (ProviderSystems.AAAPCC != ProviderSystems.PCC)
+            {
+                string strAAA = $"<SessionEmulation_1_0><SessionMods><EmulatePCC><PCC>{ProviderSystems.AAAPCC}</PCC><Duty>AG</Duty></EmulatePCC></SessionMods></SessionEmulation_1_0>";
+                string strResponse = SendMessage(strAAA, sessionid);
             }
         }
 
