@@ -1429,14 +1429,7 @@
         </xsl:attribute>
       </xsl:if>
       <xsl:attribute name="ExpireDate">
-        <xsl:variable name="zeroes">000</xsl:variable>
-        <xsl:variable name="expdate">
-          <xsl:value-of select="substring(string($zeroes),1,4-string-length(ExpDt))" />
-          <xsl:value-of select="ExpDt" />
-        </xsl:variable>
-        <xsl:value-of select="substring($expdate, 1, 2)" />
-        <xsl:text>/20</xsl:text>
-        <xsl:value-of select="substring($expdate, 3, 2)" />
+        <xsl:value-of select="ExpDt" />
       </xsl:attribute>
     </PaymentCard>
     <TPA_Extensions>
