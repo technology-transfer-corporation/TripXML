@@ -123,6 +123,45 @@
 				</TicketingMods>
 			</DocProdFareManipulation_29>
 		</GetTickets>
+
+		<ExchangeMCO>
+			<DocProdFareManipulation_29>
+				<TicketingMods>
+					<FareNumInfo>
+						<FareNumAry>
+							<FareNum/>
+						</FareNumAry>
+					</FareNumInfo>
+					<TicketingControl>
+						<TransType>TK</TransType>
+					</TicketingControl>
+					<ElectronicTicketFailed>
+						<CancelInd/>
+						<IssuePaperTkInd>Y</IssuePaperTkInd>
+					</ElectronicTicketFailed>
+					<AssocPsgrs>
+						<PsgrAry>
+							<Psgr>
+								<LNameNum>01</LNameNum>
+								<PsgrNum>01</PsgrNum>
+								<AbsNameNum>01</AbsNameNum>
+							</Psgr>
+						</PsgrAry>
+					</AssocPsgrs>
+					<OtherFOP>
+						<FOPID>13</FOPID>
+						<Type>0</Type>
+						<PmtCrncy>USD</PmtCrncy>
+						<AddlDataIDAry>
+							<AddlDataID>
+								<ID>9</ID>
+								<Dt/>
+							</AddlDataID>
+						</AddlDataIDAry>
+					</OtherFOP>
+				</TicketingMods>
+			</DocProdFareManipulation_29>
+		</ExchangeMCO>
 	</xsl:template>
 	
 	<xsl:template match="MCO">

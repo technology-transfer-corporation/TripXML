@@ -104,10 +104,9 @@
 					<xsl:apply-templates select="universal:UniversalRecord" mode="first"/>
 					<xsl:variable name="ver" select="//universal:UniversalRecord/@Version" />
 					<xsl:variable name="fb" select="//universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[1]/air:FareInfo/@FareBasis" />
-
 					<xsl:choose>
 						<xsl:when test="//air:AirPriceRsp/air:AirPriceResult/air:AirPricingSolution[contains(common_v50_0:HostToken, $fb)]">
-							<PricedItinerary>								
+							<PricedItinerary>
 								<xsl:attribute name="SequenceNumber">
 									<xsl:text>2</xsl:text>
 								</xsl:attribute>
@@ -208,7 +207,7 @@
 					<!--<xsl:apply-templates select="//universal:UniversalRecordModifyRsp/universal:UniversalRecord/air:AirReservation" />-->
 					<xsl:variable name="td" select="air:AirReservation/air:AirPricingInfo[1]/air:FareInfo/air:FareTicketDesignator/@Value" />
 					<xsl:choose>
-						<xsl:when test="$td != ''">
+						<xsl:when test="air:AirReservation/air:AirPricingInfo[1]/air:FareInfo/air:FareTicketDesignator/@Value">
 							<xsl:apply-templates select="air:AirReservation[air:AirPricingInfo/@PricingMethod=$price and air:AirPricingInfo/air:BookingInfo/@BookingCode = $class/@BookingCode and air:AirPricingInfo/air:FareInfo/air:FareTicketDesignator/@Value=$td]" />
 						</xsl:when>
 						<xsl:when test="$class/@BookingCode">
@@ -224,8 +223,8 @@
 				<xsl:otherwise>
 					<xsl:variable name="td" select="//universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[1]/air:FareInfo/air:FareTicketDesignator/@Value" />
 					<xsl:choose>
-						<xsl:when test="$td != ''">
-							<xsl:apply-templates select="air:AirPricingSolution[air:AirPricingInfo/@PricingMethod=$price and air:AirPricingInfo/air:BookingInfo/@BookingCode = $class/@BookingCode and air:AirPricingInfo/air:FareInfo/air:FareTicketDesignator/@Value=$td]" />
+						<xsl:when test="//universal:UniversalRecord/air:AirReservation/air:AirPricingInfo[1]/air:FareInfo/air:FareTicketDesignator/@Value">
+							<xsl:apply-templates select="//air:AirPricingSolution[air:AirPricingInfo/@PricingMethod=$price and air:AirPricingInfo/air:BookingInfo/@BookingCode = $class/@BookingCode and air:AirPricingInfo/air:FareInfo/air:FareTicketDesignator/@Value=$td]" />
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:apply-templates select="air:AirPricingSolution[air:AirPricingInfo/@PricingMethod=$price and air:AirPricingInfo/air:BookingInfo/@BookingCode = $class/@BookingCode]" />
@@ -518,9 +517,11 @@
 				</FareBasisCodes>
 			</xsl:if>
 			<xsl:if test="air:FareInfo/air:Brand">
-				<BrandedFares>
-					<xsl:apply-templates select="air:FareInfo/air:Brand" mode="brand"/>
-				</BrandedFares>
+				<xsl:if test="air:FareInfo/air:Brand/@BrandID">
+					<BrandedFares>
+						<xsl:apply-templates select="air:FareInfo/air:Brand" mode="brand"/>
+					</BrandedFares>
+				</xsl:if>
 			</xsl:if>
 			<xsl:variable name="nip">
 				<xsl:value-of select="count(air:PassengerType)"/>

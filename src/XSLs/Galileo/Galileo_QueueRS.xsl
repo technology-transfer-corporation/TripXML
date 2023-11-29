@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<!-- 
+	<xsl:import href="D:\WORK\DTT\GIT\TripXML\XSLs\Galileo\v03_Galileo_PNRReadRS.xsl"/>	
+<!-- 
 ================================================================== 
 Galileo_QueueRS.xsl 															
 ================================================================== 
+Date: 22 Nov 2023 - Kobelev - Added PNRBFRetrieve/QueueInfo for move PNR from one queue to another
 Date: 17 Feb 2020 - Kobelev - Added QueueProcessing_16/PNRBFRetrieve/QueueInfo
 Date: 11 Mar 2019 - Kobelev			
 Date: 02 Dec 2012 - Rastko													
@@ -17,6 +19,7 @@ Date: 02 Dec 2012 - Rastko
 			<xsl:apply-templates select="PNRBFManagement_53/EndTransaction/EndTransactResponse[RecLoc !='']"/>
 			<xsl:apply-templates select="PNRBFManagement_53[not(PNRBFRetrieve/ErrText)]/EndTransaction/EndTransactMessage[TypeInd ='E']"/>
 			<xsl:apply-templates select="PNRBFManagement_53/PNRBFRetrieve/ErrText[Text !='']"/>
+			<xsl:apply-templates select="PNRBFManagement_53" mode="move"/>
 			<xsl:apply-templates select="PoweredQueue_CountTotalReply/errorReturn"/>
 			<xsl:apply-templates select="PoweredQueue_ListReply/errorReturn"/>
 			<xsl:apply-templates select="PoweredQueue_MoveItemReply/goodResponse" mode="move"/>
@@ -25,9 +28,16 @@ Date: 02 Dec 2012 - Rastko
 			<xsl:apply-templates select="PoweredQueue_RemoveItemReply/errorReturn"/>
 			<xsl:apply-templates select="QueueProcessing_16/QueueErrText"/>
 			<xsl:apply-templates select="QueueProcessing_16/PNRBFRetrieve/QueueInfo" mode="remove"/>
-			<xsl:apply-templates select="QueueProcessing_16/PNRBFRetrieve" mode="remove"/>
+			<xsl:apply-templates select="QueueProcessing_16/PNRBFRetrieve" mode="remove"/>			
 			<AltLangID>Galileo</AltLangID>
 		</OTA_QueueRS>
+	</xsl:template>
+
+	<!-- Queue List -->
+	<xsl:template match="PNRBFManagement_53" mode="move">
+		<xsl:if test="not(EndTransaction)" >			
+			<xsl:apply-templates select="PNRBFRetrieve[last()]"/>
+		</xsl:if>					
 	</xsl:template>
 
 	<!-- Queue Count -->
@@ -159,7 +169,13 @@ Date: 02 Dec 2012 - Rastko
 		</QueueItem>
 	</xsl:template>
 
+	<!-- Queue List Queues -->
 	<xsl:template match="PNRBFRetrieve">
+		<!--		
+		<OTA_TravelItineraryRS Version="v03" AltLangID="Galileo">
+			<xsl:apply-imports/>			
+		</OTA_TravelItineraryRS>	
+
 		<QueueItem>
 			<xsl:if test="agent/originatorDetails/inHouseIdentification2 != ''">
 				<xsl:attribute name="AgentCode">
@@ -220,6 +236,19 @@ Date: 02 Dec 2012 - Rastko
 				</Flight>
 			</xsl:if>
 		</QueueItem>
+		-->
+		<PlaceQueue>
+			<!-- UniqueID Type="21" to let Robot that this is next PNR in the queue -->
+			<UniqueID Type="21">
+				<xsl:attribute name="ID">
+					<xsl:value-of select="GenPNRInfo/RecLoc"/>
+				</xsl:attribute>
+			</UniqueID>
+		</PlaceQueue>
+		<ConversationID>
+			<xsl:value-of select="//ConversationID" />
+		</ConversationID>
+	
 	</xsl:template>
 
 
@@ -323,6 +352,7 @@ Date: 02 Dec 2012 - Rastko
 	<!-- Queue Place -->
 	<xsl:template match="EndTransactResponse">
 		<PlaceQueue>
+			<!-- UniqueID Type="16" to let Robot that this was last PNR on the queue -->
 			<UniqueID Type="16">
 				<xsl:attribute name="ID">
 					<xsl:value-of select="RecLoc"/>

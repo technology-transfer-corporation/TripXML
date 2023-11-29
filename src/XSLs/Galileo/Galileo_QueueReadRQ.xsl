@@ -20,6 +20,7 @@
     <xsl:apply-templates select="ItemOnQueue"/>
     <xsl:apply-templates select="AccessQueue"/>
     <xsl:apply-templates select="ExitQueue"/>
+	<xsl:apply-templates select="ItemOnQueue[@Action = 'Redisplay']" mode="redisplay"/>
   </xsl:template>
 
   <xsl:template match="ItemOnQueue">

@@ -7,6 +7,7 @@
 	================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 	
+	Date: 17 Nov 2023 - Kobelev - Set default value for common_v50_0:SearchPassenger
 	Date: 11 Sep 2023 - Kobelev - Corrected "ptmarkup" template to recieve AirPriceOnfo from PNR instead of NewPrice.
 	Date: 08 Sep 2023 - Kobelev - Reprice PUB PNR
 	Date: 06 Sep 2023 - Kobelev - Corrected Passanger @Key reference
@@ -255,8 +256,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 					</xsl:choose>
 				</xsl:with-param>
 			</xsl:call-template>
-			<common_v50_0:FileFinishingInfo/>
-
+			<common_v50_0:FileFinishingInfo/>			
 		</universal:UniversalRecordModifyReq>
 	</xsl:template>
 
@@ -354,7 +354,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 					</xsl:choose>
 				</xsl:with-param>
 			</xsl:call-template>
-			<common_v50_0:FileFinishingInfo/>
+			<common_v50_0:FileFinishingInfo/>		
 
 		</universal:UniversalRecordModifyReq>
 	</xsl:template>
@@ -925,7 +925,6 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 		</xsl:choose>
 	</xsl:template>
 
-
 	<xsl:template name="airPriceFilter">
 		<xsl:param name="airprice" />
 		<xsl:param name="class" />
@@ -1087,7 +1086,15 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 				<xsl:value-of select="@Key"/>
 			</xsl:attribute>
 			<xsl:attribute name="Code">
-				<xsl:value-of select="$ptc"/>
+				<xsl:choose>
+					<xsl:when test="$ptc!=''">
+						<xsl:value-of select="$ptc"/>		
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>ADT</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+				
 			</xsl:attribute>
 			<xsl:if test="$age != '' and $age != '0NaN'">
 				<xsl:attribute name="Age">
