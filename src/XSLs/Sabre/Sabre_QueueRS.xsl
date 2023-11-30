@@ -215,7 +215,7 @@
 <!-- Queue Error -->
 <xsl:template match="MessagesOnly_Reply">
 	<Errors>
-		<Error Type="Amadeus">
+		<Error Type="Sabre">
 			<xsl:attribute name="Code"><xsl:value-of select="CAPI_Messages/ErrorCode"/></xsl:attribute>
 			<xsl:value-of select="CAPI_Messages/Text"/>
 		</Error>
@@ -239,7 +239,7 @@
 		</xsl:when>
 		<xsl:otherwise>
 			<Errors>
-				<Error Type="Amadeus">
+				<Error Type="Sabre">
 					<xsl:value-of select="ApplicationResults/Error/SystemSpecificResults/Message"/>
 				</Error>
 			</Errors>

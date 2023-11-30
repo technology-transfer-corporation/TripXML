@@ -7,6 +7,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 30 Nov 2023 - Kobelev - Fixed NameType in case when PNR has DOB in this format: P-C01 DOB01SEP22
   Date: 31 Oct 2023 - Kobelev - Idetifying CAT35 office settings in Special Remark under RemarkType="T"
   Date: 25 Oct 2023 - Samokhvalov - Added TourCode from DocProdDisplayStoredQuote/GenQuoteDetails/ITNum
   Date: 19 Oct 2023 - Kobelev - Change RPH in PTC_FareBreakdown from combination of Fare Number and Unique key to Qoute number which is more correct use.
@@ -2463,7 +2464,16 @@
 									<xsl:choose>
 										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-C')">
 											<xsl:variable name="pCode" select="concat('0', substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'C'))" />
-											<xsl:value-of select="concat('C', substring($pCode, string-length($pCode)-1))"/>
+											<xsl:choose>
+												<xsl:when test="contains($pCode, ' DOB')">
+													<xsl:value-of select="concat('C', substring(substring-before($pCode, ' '), 2))"/>
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:value-of select="concat('C', substring($pCode, string-length($pCode)-1))"/>
+												</xsl:otherwise>
+											
+											</xsl:choose>
+											
 										</xsl:when>
 										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-J')">
 											<xsl:variable name="pCode" select="concat('0', substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'J'))" />
