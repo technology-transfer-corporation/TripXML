@@ -212,7 +212,7 @@ xmlns:hotel="http://www.travelport.com/schema/hotel_v50_0"
 xmlns:passive="http://www.travelport.com/schema/passive_v50_0"
 xmlns:rail="http://www.travelport.com/schema/rail_v50_0"
 xmlns:vehicle="http://www.travelport.com/schema/vehicle_v50_0"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" AuthorizedBy="TRIPXML">
 
 			<xsl:attribute name="Version">
 				<xsl:choose>
@@ -300,7 +300,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
 			xmlns:passive="http://www.travelport.com/schema/passive_v50_0"
 			xmlns:rail="http://www.travelport.com/schema/rail_v50_0"
 			xmlns:vehicle="http://www.travelport.com/schema/vehicle_v50_0"
-			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true">
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" AuthorizedBy="TRIPXML">
 
 			<xsl:attribute name="Version">
 				<xsl:choose>

@@ -1,9 +1,10 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:stl="http://services.sabre.com/STL/v01"
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:ext="http://exslt.org/common" exclude-result-prefixes="ext">
-	<!-- 
+<!-- 
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 01 Dec 2023 - Kobelev - Segment Numbers for Tickets.
   Date: 15 Nov 2023 - Samokhvalov - ARNK reworked
   Date: 11 Sep 2023 - Samokhvalov - Taxes added
   Date: 01 Sep 2023 - Samokhvalov - CustomerInfo/NameType fixes - bug #4
@@ -1472,8 +1473,8 @@
 									<xsl:value-of select="format-number(@RPH,'000')-1"/>
 								</xsl:variable>
 								<xsl:choose>
-									<xsl:when test="../../SpecialServiceInfo/Service[@RPH=$rph]">
-										<xsl:variable name="paxRPH" select="../../SpecialServiceInfo/Service[@RPH=$rph]/PersonName/@NameNumber" />
+									<xsl:when test="//SpecialServiceInfo/Service[@RPH=$rph]">
+										<xsl:variable name="paxRPH" select="//SpecialServiceInfo/Service[@RPH=$rph]/PersonName/@NameNumber" />
 										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
 									</xsl:when>
 									<xsl:when test="PersonName/@NameNumbe">
@@ -1482,19 +1483,19 @@
 												<xsl:with-param name="rn" select="PersonName/@NameNumbe"/>
 											</xsl:call-template>
 										</xsl:variable>
-										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+										<xsl:value-of select="//CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
 									</xsl:when>
-									<xsl:when test="../../AccountingInfo/DocumentInfo/Document[@Number=substring($tkn,4)]">
+									<xsl:when test="//AccountingInfo/DocumentInfo/Document[@Number=substring($tkn,4)]">
 										<xsl:variable name="paxRPH">
 											<xsl:call-template name="rphFormat">
-												<xsl:with-param name="rn" select="../../AccountingInfo[DocumentInfo/Document/@Number=substring($tkn,4)]/PersonName/@NameNumber"/>
+												<xsl:with-param name="rn" select="//AccountingInfo[DocumentInfo/Document/@Number=substring($tkn,4)]/PersonName/@NameNumber"/>
 											</xsl:call-template>
 										</xsl:variable>
-										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+										<xsl:value-of select="//CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
 									</xsl:when>
-									<xsl:when test="../../SpecialServiceInfo/Service[contains(Text, $tkn)]">
+									<xsl:when test="//SpecialServiceInfo/Service[contains(Text, $tkn)]">
 										<xsl:variable name="paxRPH" select="../../SpecialServiceInfo/Service[contains(Text, $tkn)]/PersonName/@NameNumber" />
-										<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+										<xsl:value-of select="//CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
 									</xsl:when>
 									<xsl:otherwise>
 										<xsl:value-of select="format-number(@RPH,'0')-1"/>
@@ -1504,31 +1505,33 @@
 
 							<xsl:if test="string-length($tkn) > 0">
 								<xsl:variable name="fltRPH">
-									<xsl:for-each select="../../SpecialServiceInfo/Service[(contains(Text, $tkn) or contains(Text, $subtkt))and @SSR_Type='TKNE']">
+									<xsl:for-each select="//SpecialServiceInfo/Service[(contains(Text, $tkn) or contains(Text, $subtkt))and @SSR_Type='TKNE']">
 										<!-- Get City Pair  -->
 										<xsl:variable name="cityPair" select="substring(substring-after(Text, 'HK1 '), 1, 6)" />
 										<xsl:variable name="from" select="substring($cityPair, 1, 3)" />
 										<xsl:variable name="to" select="substring($cityPair, 4, 3)" />
-										<xsl:variable name="flightNum" select="format-number(../../ItineraryInfo/ReservationItems/Item[FlightSegment/OriginLocation/@LocationCode=$from and FlightSegment/DestinationLocation/@LocationCode=$to]/FlightSegment/@FlightNumber, '#0')" />
+										<xsl:variable name="flightNum" select="format-number(//ItineraryInfo/ReservationItems/Item[FlightSegment/OriginLocation/@LocationCode=$from and FlightSegment/DestinationLocation/@LocationCode=$to]/FlightSegment/@FlightNumber, '#0')" />
+										
+										<xsl:variable name="flightSeg" select="format-number(//ItineraryInfo/ReservationItems/Item[FlightSegment/OriginLocation/@LocationCode=$from and FlightSegment/DestinationLocation/@LocationCode=$to]/FlightSegment/@SegmentNumber, '#0')" />
 
-										<!--
-                  <xsl:variable name="fltRPH" select="../../../ItineraryInfo/ReservationItems/Item[FlightSegment/OriginLocation/@LocationCode=$from and FlightSegment/DestinationLocation/@LocationCode=$to]/@RPH" />
-                   <xsl:variable name="fltRPH" select="format-number(../../../FareFamily/PriceQuoteInfo/Details/SegmentInfo[Flight/Departure/CityCode=$from and Flight/MarketingFlight/@number=$flightNum]/@number, '#0')"/>
-                  -->
+<!--
+    <xsl:variable name="fltRPH" select="//ItineraryInfo/ReservationItems/Item[FlightSegment/OriginLocation/@LocationCode=$from and FlightSegment/DestinationLocation/@LocationCode=$to]/@RPH" />
+    <xsl:variable name="fltRPH" select="format-number(//FareFamily/PriceQuoteInfo/Details/SegmentInfo[Flight/Departure/CityCode=$from and Flight/MarketingFlight/@number=$flightNum]/@number, '#0')"/>
+-->
 
 
 										<xsl:variable name="itemNum">
-											<xsl:value-of select="format-number(@SegmentNumber,'#0')"/>
+											<xsl:value-of select="format-number($flightSeg,'#0')"/>
 										</xsl:variable>
 										<xsl:variable name="sqCount">
-											<xsl:value-of select="count(../../ItineraryInfo/ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')])"/>
+											<xsl:value-of select="count(//ItineraryInfo/ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')])"/>
 										</xsl:variable>
 										<xsl:choose>
 											<xsl:when test="$sqCount > 1">
-												<xsl:value-of select="format-number(../../ItineraryInfo/ReservationItems/Item[@RPH=$itemNum]/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')]/@SegmentNumber[not(../preceding-sibling::FlightSegment/@SegmentNumber = .)],'#0')"/>
+												<xsl:value-of select="format-number(//ItineraryInfo/ReservationItems/Item[@RPH=$itemNum]/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')]/@SegmentNumber[not(../preceding-sibling::FlightSegment/@SegmentNumber = .)],'#0')"/>
 											</xsl:when>
-											<xsl:when test="../../ItineraryInfo/ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')]">
-												<xsl:value-of select="format-number(../../ItineraryInfo/ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')]/@SegmentNumber[not(../preceding-sibling::FlightSegment/@SegmentNumber = .)],'#0')"/>
+											<xsl:when test="//ItineraryInfo/ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')]">
+												<xsl:value-of select="format-number(//ItineraryInfo/ReservationItems/Item/FlightSegment[format-number(@FlightNumber,'#0000')=format-number($flightNum,'#0000')]/@SegmentNumber[not(../preceding-sibling::FlightSegment/@SegmentNumber = .)],'#0')"/>
 												<xsl:if test="FareBasis/@Code='VOID'">
 													<xsl:value-of select="format-number(@SegmentNumber,'#0')"/>
 												</xsl:if>
@@ -1537,9 +1540,9 @@
 												<xsl:value-of select="format-number(@SegmentNumber,'#0')"/>
 											</xsl:when>
 										</xsl:choose>
-										<!--
-                  <xsl:variable name="fltRPH" select="format-number(../../../DisplayPriceQuoteRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/FlightSegment[OriginLocation/@LocationCode=$from and @FlightNumber=$flightNum]/@RPH, '#0')"/>
-                  -->
+<!--
+<xsl:variable name="fltRPH" select="format-number(//DisplayPriceQuoteRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/FlightSegment[OriginLocation/@LocationCode=$from and @FlightNumber=$flightNum]/@RPH, '#0')"/>
+-->
 										<xsl:text> </xsl:text>
 									</xsl:for-each>
 								</xsl:variable>
@@ -1556,8 +1559,8 @@
 
 							<xsl:variable name="tkt">
 								<xsl:choose>
-									<xsl:when test="../../ItineraryInfo/Ticketing[contains(@eTicketNumber,$tkn) and contains(@eTicketNumber,'VOID')]/@eTicketNumber">
-										<xsl:value-of select="../../ItineraryInfo/Ticketing[contains(@eTicketNumber,$tkn) and contains(@eTicketNumber,'VOID')]/@eTicketNumber"/>
+									<xsl:when test="//ItineraryInfo/Ticketing[contains(@eTicketNumber,$tkn) and contains(@eTicketNumber,'VOID')]/@eTicketNumber">
+										<xsl:value-of select="//ItineraryInfo/Ticketing[contains(@eTicketNumber,$tkn) and contains(@eTicketNumber,'VOID')]/@eTicketNumber"/>
 									</xsl:when>
 									<xsl:otherwise>
 										<xsl:value-of select="@eTicketNumber"/>
@@ -1586,7 +1589,7 @@
 								<xsl:with-param name="rn" select="PersonName/@NameNumber"/>
 							</xsl:call-template>
 						</xsl:variable>
-						<xsl:value-of select="../../CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
+						<xsl:value-of select="//CustomerInfo/PersonName[@NameNumber=$paxRPH]/@RPH"/>
 					</xsl:attribute>
 					<xsl:value-of select="@eTicketNumber"/>
 				</IssuedTicket>
