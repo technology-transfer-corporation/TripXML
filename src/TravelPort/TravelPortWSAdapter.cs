@@ -155,7 +155,7 @@ namespace Travelport
             }
             catch (Exception ex)
             {
-                strResponse = $"<Errors><Error>{ex.Message}</Error></Errors>";
+                //strResponse = $"<Errors><Error>{ex.Message}</Error></Errors>";
                 return strResponse;
             }
         }

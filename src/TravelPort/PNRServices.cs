@@ -113,6 +113,9 @@ namespace Travelport
                     //}
                 }
 
+                if (strResponse.StartsWith("<Errors"))
+                    strResponse = $"<universal:UniversalRecordRetrieveRsp>{strResponse}</universal:UniversalRecordRetrieveRsp>";
+
                 //strResponse = strResponse.Replace(" xmlns=\"http://xml.amadeus.com/" + ttProviderSystems.TravelportSchema.PNR_RetrieveByRecLocReply + "\"", "");
 
                 //*****************************************************************
