@@ -1927,7 +1927,14 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:attribute name="ExpireDate">
-        <xsl:value-of select="ExpDt" />
+        <xsl:choose>
+          <xsl:when test="string-length(ExpDt) = 3">
+            <xsl:value-of select="concat('0', ExpDt)" />
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="ExpDt"/>
+          </xsl:otherwise>
+        </xsl:choose>
 			</xsl:attribute>
 		</PaymentCard>
 		<TPA_Extensions>
