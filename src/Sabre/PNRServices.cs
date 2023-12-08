@@ -20,7 +20,8 @@ namespace Sabre
         /// </summary>
         public string PNRRead()
         {
-            string strResponse;
+            string _response;
+            string _recordLocator = string.Empty;
 
             // *****************************************************************
             // Transform OTA PNRRead Request into Native Sabre Request     *
@@ -28,8 +29,8 @@ namespace Sabre
 
             try
             {
-                string strRequest = SetRequest("Sabre_PNRReadRQ.xsl");
-                if (string.IsNullOrEmpty(strRequest))
+                string _request = SetRequest("Sabre_PNRReadRQ.xsl");
+                if (string.IsNullOrEmpty(_request))
                     throw new Exception("Transformation produced empty xml.");
 
                 SabreAdapter ttSA = SetAdapter();
@@ -42,17 +43,17 @@ namespace Sabre
                 {
                     var tagToReplace = Version == "v04_" ? "</GetReservationRS>" : "</TravelItineraryReadRS>";
                     string dqbResponse = "";
-                    strResponse = Version == "v04_"
-                        ? ttSA.SendMessage(strRequest, "GetReservationRQ", "GetReservationRQ", ConversationID)
-                        : ttSA.SendMessage(strRequest, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
+                    _response = Version == "v04_"
+                        ? ttSA.SendMessage(_request, "GetReservationRQ", "GetReservationRQ", ConversationID)
+                        : ttSA.SendMessage(_request, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
 
                     var oDoc = new XmlDocument();
                     oDoc.LoadXml(Request);
                     var oRoot = oDoc.DocumentElement;
-                    string strPNR = oRoot.SelectSingleNode("UniqueID/@ID").InnerText;
+                    _recordLocator = oRoot.SelectSingleNode("UniqueID/@ID").InnerText;
 
                     var initDoc = new XmlDocument();
-                    initDoc.LoadXml(strResponse);
+                    initDoc.LoadXml(_response);
                     XmlElement initRoot = initDoc.DocumentElement;
 
                     foreach (var gi in new[] { "EH", "WH", "PA", "AT" })
@@ -107,14 +108,14 @@ namespace Sabre
                                     item.InnerText = toFix;
                                 }
                             }
-                            strResponse = initRoot.OuterXml;
+                            _response = initRoot.OuterXml;
                         }
                         catch (Exception) { }
                     }
 
 
                     // Check for Errors
-                    if (strResponse.Contains("Success") || Version == "v04_")
+                    if (_response.Contains("Success") || Version == "v04_")
                     {
                         #region *DQB
                         if (oRoot.Attributes["CheckIssuedTicket"] != null)
@@ -150,7 +151,7 @@ namespace Sabre
                         string strFareDetails = $"<OTA_AirPriceRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2.17.0\"><PriceRequestInformation Retain=\"false\"><OptionalQualifiers><PricingQualifiers><BuyingDate>{priceDate}</BuyingDate></PricingQualifiers></OptionalQualifiers></PriceRequestInformation></OTA_AirPriceRQ>";
                         //CoreLib.SendTrace(ProviderSystems.UserID, "FareType", "PD", strFaretype, ProviderSystems.LogUUID);
                         strFareDetails = ttSA.SendMessage(strFareDetails, "Price", "OTA_AirPriceLLSRQ", ConversationID);
-                        strResponse = strResponse.Replace(tagToReplace, $"{strFaretype}{pricerq}{strFareDetails}<TimeStamp>{DateTime.Now.ToString("yyyy-MM-dd")}</TimeStamp>{dqbResponse}{tagToReplace}");
+                        _response = _response.Replace(tagToReplace, $"{strFaretype}{pricerq}{strFareDetails}<TimeStamp>{DateTime.Now.ToString("yyyy-MM-dd")}</TimeStamp>{dqbResponse}{tagToReplace}");
 
                         #region *H
                         List<string> lstFOP = new List<string>();
@@ -216,13 +217,13 @@ namespace Sabre
                         {
                             sbH.Append(string.Join("\r\n", lstFOP));
                         }
-                        strResponse = strResponse.Replace(tagToReplace, $"{sbH}{tagToReplace}");
+                        _response = _response.Replace(tagToReplace, $"{sbH}{tagToReplace}");
                         #endregion
                     }
                     else
                     {
                         string cryptic = "";
-                        strResponse = strResponse.Replace(tagToReplace, $"{cryptic}<TimeStamp>{DateTime.Now.ToString("yyyy-MM-dd")}</TimeStamp>{tagToReplace}");
+                        _response = _response.Replace(tagToReplace, $"{cryptic}<TimeStamp>{DateTime.Now.ToString("yyyy-MM-dd")}</TimeStamp>{tagToReplace}");
                     }
 
                     // ----------------------------------
@@ -240,7 +241,7 @@ namespace Sabre
                     // *****************************************************************
                     // Transform Native Sabre PNRRead Response into OTA Response   *
                     // ***************************************************************** 
-                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response size", strResponse.Length.ToString(), ProviderSystems.LogUUID);
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response size", _response.Length.ToString(), ProviderSystems.LogUUID);
                     //if (strResponse.Length > 5500)
                     //{
                     //    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", strResponse.Substring(0, (int)Math.Round(strResponse.Length / 2d)), ProviderSystems.LogUUID);
@@ -248,15 +249,15 @@ namespace Sabre
                     //}
                     //else
                     //{
-                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", strResponse, ProviderSystems.LogUUID);
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", _response, ProviderSystems.LogUUID);
                     //}
 
 
-                    strResponse = strResponse.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
+                    _response = _response.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.0.0\"", "");
                     if (inSession)
-                        strResponse = strResponse.Replace(tagToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{tagToReplace}");
+                        _response = _response.Replace(tagToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{tagToReplace}");
 
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRReadRS.xsl");
+                    _response = CoreLib.TransformXML(_response, XslPath, $"{Version}Sabre_PNRReadRS.xsl");
                 }
                 catch (Exception ex)
                 {
@@ -274,9 +275,9 @@ namespace Sabre
             catch (Exception exx)
             {
                 AddLog($"<M>{Request}<BL/>", ProviderSystems);
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, exx.Message, ProviderSystems);
+                _response = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, exx.Message, ProviderSystems, _recordLocator);
             }
-            return strResponse;
+            return _response;
         }
 
         private (string AFP, string CCType, string CCNumber, string Exp) SetFOP(string strline)
