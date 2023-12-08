@@ -102,19 +102,19 @@ namespace Travelport
             }
         }
 
-        private string GetResponseFromSoap(string strResponse, enRequestType requestType)
+        private string GetResponseFromSoap(string response, enRequestType requestType)
         {   
             try
             {
-                if (string.IsNullOrEmpty(strResponse))
+                if (string.IsNullOrEmpty(response))
                     throw new Exception("No response from Travelport");
 
                 // ********************************
                 //  Check for Errors in Response  *
                 // ********************************
-                if (strResponse.Contains("<SOAP-ENV:Fault") || strResponse.Contains("<SOAP:Fault"))
+                if (response.Contains("<SOAP-ENV:Fault") || response.Contains("<SOAP:Fault"))
                 {
-                    var xmlReader = XmlReader.Create(new StringReader(strResponse));
+                    var xmlReader = XmlReader.Create(new StringReader(response));
                     XDocument doc = XDocument.Load(xmlReader);                    
                     var xRoot = RemoveAllNamespaces(doc.Root);
                     var err = xRoot.XPathSelectElement("//detail/ErrorInfo/Description");
@@ -127,7 +127,7 @@ namespace Travelport
                 //  Get Response From Soap *
                 // *************************
                 XmlDocument oDoc = new XmlDocument();
-                oDoc.LoadXml(strResponse);
+                oDoc.LoadXml(response);
                 XmlElement oRoot = oDoc.DocumentElement;
                 //  Get The Body
                 XmlNode oNode = oRoot.LastChild;
@@ -135,12 +135,12 @@ namespace Travelport
                 if (requestType == enRequestType.CreateSession)
                 {
                     //  Get The Header
-                    if (!strResponse.Contains("<statusCode>P</statusCode>"))
+                    if (!response.Contains("<statusCode>P</statusCode>"))
                         throw new Exception("Cannot open session with Travelport");
 
                     oNode = oRoot.FirstChild;
                     oNode = oNode.LastChild;
-                    strResponse = oNode.InnerText;
+                    response = oNode.InnerText;
                 }
                 //else
                 //{
@@ -151,12 +151,12 @@ namespace Travelport
                 //    CoreLib.SendTrace(ttProviderSystems.UserID, "TravelportWSAdapter", "Soap body response", strResponse, ttProviderSystems.LogUUID);
                 //}
 
-                return strResponse;
+                return response;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //strResponse = $"<Errors><Error>{ex.Message}</Error></Errors>";
-                return strResponse;
+                return response;
             }
         }
 
