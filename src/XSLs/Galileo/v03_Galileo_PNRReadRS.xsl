@@ -7,6 +7,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 30 Nov 2023 - Kobelev - PassengerTypeQuantity Code will return first 3 letters of what ever code is in PNR. example MIL40 => MIL
   Date: 30 Nov 2023 - Kobelev - Fixed NameType in case when PNR has DOB in this format: P-C01 DOB01SEP22
   Date: 31 Oct 2023 - Kobelev - Idetifying CAT35 office settings in Special Remark under RemarkType="T"
   Date: 25 Oct 2023 - Samokhvalov - Added TourCode from DocProdDisplayStoredQuote/GenQuoteDetails/ITNum
@@ -1045,7 +1046,7 @@
 			<PassengerTypeQuantity>
 				<xsl:attribute name="Code">
 					<xsl:variable name="PsgrType">
-						<xsl:value-of select="../AgntEnteredPsgrDescInfo[UniqueKey=$paxno]/AgntEnteredPsgrDesc"/>
+						<xsl:value-of select="substring(../AgntEnteredPsgrDescInfo[UniqueKey=$paxno]/AgntEnteredPsgrDesc, 1,3)"/>
 					</xsl:variable>
 					<xsl:choose>
 						<xsl:when test="$PsgrType = 'AA'">ADT</xsl:when>

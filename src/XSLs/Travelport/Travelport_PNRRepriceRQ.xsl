@@ -256,7 +256,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" Author
 					</xsl:choose>
 				</xsl:with-param>
 			</xsl:call-template>
-			<common_v50_0:FileFinishingInfo/>			
+			<common_v50_0:FileFinishingInfo/>
 		</universal:UniversalRecordModifyReq>
 	</xsl:template>
 
@@ -354,7 +354,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" Author
 					</xsl:choose>
 				</xsl:with-param>
 			</xsl:call-template>
-			<common_v50_0:FileFinishingInfo/>		
+			<common_v50_0:FileFinishingInfo/>
 
 		</universal:UniversalRecordModifyReq>
 	</xsl:template>
@@ -497,8 +497,23 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" Author
 					<xsl:when test="$action='new'">
 						<xsl:for-each select="//StoredFare">
 							<xsl:variable name="optc" select="PassengerType/@Code" />
-							<xsl:variable name="price" select="$pnr/air:AirReservation/air:AirPricingInfo[substring(air:PassengerType/@Code,1,1)=substring($optc, 1,1)]" />
-							<xsl:variable name="group" select="$price/@AirPricingInfoGroup" />
+							<xsl:variable name="p_ptc">
+								<xsl:choose>
+									<xsl:when test="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code=$optc]">
+										<xsl:value-of select="$optc"/>									
+									</xsl:when>
+									<xsl:when test="$pnr/air:AirReservation/air:AirPricingInfo[substring(air:PassengerType/@Code,1,1)=substring($optc, 1,1)]">
+										<xsl:value-of select="$pnr/air:AirReservation/air:AirPricingInfo[substring(air:PassengerType/@Code,1,1)=substring($optc, 1,1)]/air:PassengerType/@Code"/>									
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:call-template name="nego_ptc" >
+											<xsl:with-param name="optc" select="$optc"/>
+										</xsl:call-template>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:variable>
+							<xsl:variable name="price" select="$pnr/air:AirReservation/air:AirPricingInfo[air:PassengerType/@Code=$p_ptc]"/>								
+								<xsl:variable name="group" select="$price/@AirPricingInfoGroup" />
 							<xsl:variable name="sibgroup">
 								<xsl:choose>
 									<xsl:when test="$price/preceding-sibling::air:AirPricingInfo/@AirPricingInfoGroup">
@@ -997,7 +1012,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" Author
 					<xsl:with-param name="sptc" select="$p"/>
 				</xsl:call-template>
 			</xsl:variable>
-
+			
 			<!--<xsl:if test="msxsl:node-set($airprice)[1]/air:AirPricingInfo[air:PassengerType/@Code = msxsl:node-set($changePTC)/elem[1][substring(.,1,1) = substring($ptc,1,1)]]">-->
 			<xsl:choose>
 				<xsl:when test="msxsl:node-set($airprice)[1]/node()[1][air:PassengerType/@Code = $ptc]">
@@ -1088,13 +1103,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" Author
 			<xsl:attribute name="Code">
 				<xsl:choose>
 					<xsl:when test="$ptc!=''">
-						<xsl:value-of select="$ptc"/>		
+						<xsl:value-of select="$ptc"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:text>ADT</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
-				
+
 			</xsl:attribute>
 			<xsl:if test="$age != '' and $age != '0NaN'">
 				<xsl:attribute name="Age">
@@ -1549,6 +1564,24 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" Author
 			</xsl:when>
 			<xsl:when test="$optc='WBC'">
 				<xsl:text>JWC</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$optc"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
+	<xsl:template name="nego_ptc">
+		<xsl:param name="optc"/>
+		<xsl:choose>
+			<xsl:when test="$optc='ADT'">
+				<xsl:text>JCB</xsl:text>
+			</xsl:when>
+			<xsl:when test="$optc='CHD'">
+				<xsl:text>JNN</xsl:text>
+			</xsl:when>
+			<xsl:when test="$optc='INF'">
+				<xsl:text>JNF</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="$optc"/>

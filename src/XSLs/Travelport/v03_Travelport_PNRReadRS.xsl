@@ -48,8 +48,11 @@
 			<xsl:when test="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/universal:ProviderReservationInfo">
 				<xsl:value-of select="universal:UniversalRecordRetrieveRsp/universal:UniversalRecord/universal:ProviderReservationInfo/@ProviderCode"/>
 			</xsl:when>
-			<xsl:otherwise>
+			<xsl:when test="//universal:UniversalRecordRetrieveRsp/universal:ProviderReservationInfo/@ProviderCode">
 				<xsl:value-of select="//universal:UniversalRecordRetrieveRsp/universal:ProviderReservationInfo/@ProviderCode"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>1P</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
@@ -63,13 +66,31 @@
 	<xsl:template match="detail" mode="error">
 		<OTA_TravelItineraryRS Version="v03" AltLangID="Travelport">
 			<Errors>
-				<Error Type="$provider">
+				<Error>
+					<xsl:attribute name="Type">
+						<xsl:value-of select="$provider"/>
+					</xsl:attribute>
 					<xsl:value-of select="../faultstring"/>
-					<!-- Allot of time Description containes XML that will break Transformation logic 
-					<xsl:value-of select="common_v50_0:ErrorInfo/common_v50_0:Description"/>
-					-->
 				</Error>
+				<xsl:for-each select="../detail/common_v50_0:ErrorInfo">
+					<xsl:variable name="eType" select="common_v50_0:Type"/>
+					<xsl:variable name="eCode" select="common_v50_0:Code"/>
+					<Error>
+						<xsl:attribute name="Type">
+							<xsl:value-of select="$eType"/>
+						</xsl:attribute>
+						<xsl:attribute name="Code">
+							<xsl:value-of select="$eCode"/>
+						</xsl:attribute>
+						<xsl:value-of select="common_v50_0:Description"/>
+					</Error>
+				</xsl:for-each>
 			</Errors>
+			<xsl:if test="../ConversationID!=''">
+				<ConversationID>
+					<xsl:value-of select="../ConversationID"/>
+				</ConversationID>
+			</xsl:if>
 		</OTA_TravelItineraryRS>
 	</xsl:template>
 	<xsl:template match="universal:UniversalRecord">
@@ -335,7 +356,10 @@
 		</OTA_TravelItineraryRS>
 	</xsl:template>
 	<xsl:template match="Error" mode="error">
-		<Error Type="$provider">
+		<Error>
+			<xsl:attribute name="Type">
+				<xsl:value-of select="$provider"/>
+			</xsl:attribute>
 			<xsl:value-of select="."/>
 		</Error>
 	</xsl:template>
@@ -345,7 +369,10 @@
 		</Text>
 	</xsl:template>
 	<xsl:template match="Error | Warning" mode="warning">
-		<Warning Type="$provider">
+		<Warning>
+			<xsl:attribute name="Type">
+				<xsl:value-of select="$provider"/>
+			</xsl:attribute>
 			<xsl:value-of select="."/>
 		</Warning>
 	</xsl:template>
@@ -817,7 +844,7 @@
 					<xsl:otherwise>
 						<xsl:value-of select="position()"/>
 					</xsl:otherwise>
-				</xsl:choose>				
+				</xsl:choose>
 			</xsl:attribute>
 			<xsl:variable name="ref">
 				<xsl:value-of select="@Key"/>
@@ -839,7 +866,7 @@
 					<xsl:choose>
 						<xsl:when test="@DOB !=''">
 							<xsl:attribute name="BirthDate">
-								<xsl:value-of select="@DOB" />											
+								<xsl:value-of select="@DOB" />
 							</xsl:attribute>
 						</xsl:when>
 						<xsl:otherwise>
@@ -867,7 +894,7 @@
 								</xsl:attribute>
 							</xsl:if>
 						</xsl:otherwise>
-					</xsl:choose>					
+					</xsl:choose>
 				</xsl:if>
 				<xsl:if test="@Gender">
 					<xsl:attribute name="Gender">
@@ -877,7 +904,7 @@
 							<xsl:otherwise>
 								<xsl:value-of select="@Gender" />
 							</xsl:otherwise>
-						</xsl:choose>						
+						</xsl:choose>
 					</xsl:attribute>
 				</xsl:if>
 				<PersonName>
