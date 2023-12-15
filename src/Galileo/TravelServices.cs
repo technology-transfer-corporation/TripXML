@@ -1068,14 +1068,14 @@ namespace Galileo
                 var oDoc = new XmlDocument();
                 oDoc.LoadXml(strRequest);
                 XmlElement oRoot = oDoc.DocumentElement;
-                string strRead = oRoot.SelectSingleNode("PNRRead").InnerXml;
-                string strCurrentRead = oRoot.SelectSingleNode("PNRCurrentRead").InnerXml;
+                string _read = oRoot.SelectSingleNode("PNRRead").InnerXml;
+                string _currentRead = oRoot.SelectSingleNode("PNRCurrentRead").InnerXml;
 
                 //string strVerifyATFQ = oRoot.SelectSingleNode("VerifyATFQ") != null ? oRoot.SelectSingleNode("VerifyATFQ").InnerXml : "";
-                string strET = oRoot.SelectSingleNode("ET") != null ? oRoot.SelectSingleNode("ET").InnerXml : "";
-                string strCrypticRULA = oRoot.SelectSingleNode("CrypticRULA") != null ? oRoot.SelectSingleNode("CrypticRULA").InnerXml : "";
-                string strGetTickets = oRoot.SelectSingleNode("GetTickets") != null ? oRoot.SelectSingleNode("GetTickets").InnerXml : "";
-                string strIssueTickets = oRoot.SelectSingleNode("Ticket") != null ? oRoot.SelectSingleNode("Ticket").InnerXml : "";
+                string _ET = oRoot.SelectSingleNode("ET") != null ? oRoot.SelectSingleNode("ET").InnerXml : "";
+                string _crypticRULA = oRoot.SelectSingleNode("CrypticRULA") != null ? oRoot.SelectSingleNode("CrypticRULA").InnerXml : "";
+                string _getTickets = oRoot.SelectSingleNode("GetTickets") != null ? oRoot.SelectSingleNode("GetTickets").InnerXml : "";
+                string _issueTickets = oRoot.SelectSingleNode("Ticket") != null ? oRoot.SelectSingleNode("Ticket").InnerXml : "";
 
                 var oDocReqOTA = new XmlDocument();
                 oDocReqOTA.LoadXml(Request);
@@ -1100,9 +1100,9 @@ namespace Galileo
                 }
                 ****************************************************/
 
-                string strCheckPrt = oRoot.SelectSingleNode("CheckPRT") != null ? oRoot.SelectSingleNode("CheckPRT").InnerXml : "";
+                string _checkPrt = oRoot.SelectSingleNode("CheckPRT") != null ? oRoot.SelectSingleNode("CheckPRT").InnerXml : "";
                 // TODO: following for possible future use
-                string strReLinkPrt = oRoot.SelectSingleNode("SetPRT") != null ? oRoot.SelectSingleNode("SetPRT").InnerXml : "";
+                string _reLinkPrt = oRoot.SelectSingleNode("SetPRT") != null ? oRoot.SelectSingleNode("SetPRT").InnerXml : "";
 
                 // **********************
                 // Create Session      *
@@ -1114,17 +1114,17 @@ namespace Galileo
                 // *****************************************
                 // Check if printer is up and running     *
                 // ***************************************** 
-                if (!string.IsNullOrEmpty(strCheckPrt))
+                if (!string.IsNullOrEmpty(_checkPrt))
                 {
                     oDoc = new XmlDocument();
-                    _response = ttGA.SendMessage(strCheckPrt, ConversationID);
+                    _response = ttGA.SendMessage(_checkPrt, ConversationID);
 
                     oDoc.LoadXml(_response);
                     oRoot = oDoc.DocumentElement;
                     var oNd = oRoot.SelectSingleNode("LinkageDisplay/PrinterParameters[Type='T']");
                     if (oNd == null)
                     {
-                        _response = ReLinkPrinters(strReLinkPrt, ref ttGA, ConversationID);
+                        _response = ReLinkPrinters(_reLinkPrt, ref ttGA, ConversationID);
                         if (_response.Contains("Error"))
                         {
                             throw new Exception("No ticket printer linked");
@@ -1139,7 +1139,7 @@ namespace Galileo
                                 break;
                             case "B":
                                 // Printer can be reset with status U: HMOM{oNd.SelectSingleNode("LNIATA").InnerText}–U(HMOMF82303–U)
-                                _response = ReLinkPrinters(strReLinkPrt, ref ttGA, ConversationID);
+                                _response = ReLinkPrinters(_reLinkPrt, ref ttGA, ConversationID);
                                 if (_response.Contains("Error"))
                                 {
                                     throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Busy");
@@ -1154,9 +1154,9 @@ namespace Galileo
                     // ********************
                     // Retrieve the PNR  *
                     // ********************                     
-                    _response = ttGA.SendMessage(strCurrentRead, ConversationID);
-                    strEmail += $"{strCurrentRead}\r\n{_response}";
-                    strMessage = $"{strCurrentRead}\r\n{_response}";
+                    _response = inSession ? ttGA.SendMessage(_currentRead, ConversationID) : ttGA.SendMessage(_read, ConversationID);
+                    strEmail += $"{_currentRead}\r\n{_response}";
+                    strMessage = $"{_currentRead}\r\n{_response}";
 
                     // Check for Errors
                     if (_response.Contains("<PNRBFRetrieve><ErrorCode>") && !_response.Contains("<DocProdDisplayStoredQuote><FareNumInfo>"))
@@ -1181,17 +1181,17 @@ namespace Galileo
                     int iCurNum = 0;
                     int iRangeNum = 0;
 
-                    if (!string.IsNullOrEmpty(strCrypticRULA))
+                    if (!string.IsNullOrEmpty(_crypticRULA))
                     {
-                        _response = ttGA.SendCrypticMessage(strCrypticRULA, ConversationID);
-                        strEmail += $"{strCrypticRULA}\r\n{_response}";
+                        _response = ttGA.SendCrypticMessage(_crypticRULA, ConversationID);
+                        strEmail += $"{_crypticRULA}\r\n{_response}";
                     }
 
-                    if (!string.IsNullOrEmpty(strET))
+                    if (!string.IsNullOrEmpty(_ET))
                     {
-                        _response = ttGA.SendMessage(strET, ConversationID);
-                        strEmail += $"{strET}\r\n{_response}";
-                        strMessage += $"{strET}\r\n{_response}";
+                        _response = ttGA.SendMessage(_ET, ConversationID);
+                        strEmail += $"{_ET}\r\n{_response}";
+                        strMessage += $"{_ET}\r\n{_response}";
                     }
                     var tktRQ = Request.Replace("</TT_IssueTicketRQ>", $"<PNR>{_response}</PNR></TT_IssueTicketRQ>");
                     CoreLib.SendTrace(ProviderSystems.UserID, "TicketingRQ", $"Ticketing", tktRQ, ProviderSystems.LogUUID);
@@ -1227,21 +1227,19 @@ namespace Galileo
 
                     strEmail += $"{strTicket}\r\n{_response}";
                     strMessage += $"{strTicket}\r\n{_response}";
-                    if (!string.IsNullOrEmpty(strGetTickets) & !_response.Contains("TransactionErrorCode") & _response.Contains("<TicketingControl><TransType>OK</TransType></TicketingControl>"))
+                    if (!string.IsNullOrEmpty(_getTickets) & !_response.Contains("TransactionErrorCode") & _response.Contains("<TicketingControl><TransType>OK</TransType></TicketingControl>"))
                     {
 
                         // ***********************************************
                         // Prior for Ticket request we have to reRead PNR
                         // ***********************************************
                         _response = ttGA.SendCrypticMessage("I", ConversationID);
-                        string strResp = ttGA.SendMessage(strRead, ConversationID);
-
-                        strMessage += $"\r\n{strRead}\r\n{strResp}";
-
-                        _response = ttGA.SendMessage(strGetTickets, ConversationID);
+                        string strResp = ttGA.SendMessage(_read, ConversationID);
+                        strMessage += $"\r\n{_read}\r\n{strResp}";
+                        _response = ttGA.SendMessage(_getTickets, ConversationID);
                         _response = _response.Replace("</DocProdFareManipulation_29>", $"{_response}</DocProdFareManipulation_29>");
-                        strEmail += $"{strGetTickets}\r\n{_response}";
-                        strMessage += $"\r\n{strGetTickets}\r\n{_response}";
+                        strEmail += $"{_getTickets}\r\n{_response}";
+                        strMessage += $"\r\n{_getTickets}\r\n{_response}";
                         strReplacementTag = "</DocProdFareManipulation_29>";
                     }
 
@@ -2091,7 +2089,6 @@ namespace Galileo
             return strResponse;
 
         }
-
         
         private string GetPassengerElement(string paxNum, string mcoResp)
         {
