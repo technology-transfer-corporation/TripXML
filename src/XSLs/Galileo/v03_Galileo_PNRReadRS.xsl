@@ -210,25 +210,25 @@
 					<ItineraryRef>
 						<xsl:attribute name="Type">PNR</xsl:attribute>
 						<xsl:attribute name="ID">
-							<xsl:value-of select="PNRBFRetrieve/GenPNRInfo/RecLoc" />
+							<xsl:value-of select="PNRBFRetrieve[last()]/GenPNRInfo/RecLoc" />
 						</xsl:attribute>
 						<xsl:attribute name="ID_Context">
-							<xsl:value-of select="PNRBFRetrieve/GenPNRInfo/CurAgncyPCC"/>
+							<xsl:value-of select="PNRBFRetrieve[last()]/GenPNRInfo/CurAgncyPCC"/>
 						</xsl:attribute>
 						<CompanyName>
 							<!-- 03MAR2020 | 20200227-->
 							<xsl:variable name="CreationDate">
-								<xsl:value-of select="substring(PNRBFRetrieve/GenPNRInfo/CreationDt,1,4)"/>
+								<xsl:value-of select="substring(PNRBFRetrieve[last()]/GenPNRInfo/CreationDt,1,4)"/>
 								<xsl:text>-</xsl:text>
-								<xsl:value-of select="substring(PNRBFRetrieve/GenPNRInfo/CreationDt,5,2)"/>
+								<xsl:value-of select="substring(PNRBFRetrieve[last()]/GenPNRInfo/CreationDt,5,2)"/>
 								<xsl:text>-</xsl:text>
-								<xsl:value-of select="substring(PNRBFRetrieve/GenPNRInfo/CreationDt,7,2)"/>
+								<xsl:value-of select="substring(PNRBFRetrieve[last()]/GenPNRInfo/CreationDt,7,2)"/>
 							</xsl:variable>
 							<xsl:attribute name="Code">
-								<xsl:value-of select="concat(PNRBFRetrieve/GenPNRInfo/CreatingAgncyIATANum, '|', $CreationDate)"/>
+								<xsl:value-of select="concat(PNRBFRetrieve[last()]/GenPNRInfo/CreatingAgncyIATANum, '|', $CreationDate)"/>
 							</xsl:attribute>
 							<xsl:attribute name="CodeContext">IATACode</xsl:attribute>
-							<xsl:value-of select="concat(translate(PNRBFRetrieve/GenPNRInfo/OwningAgncyPCC, ' ',''), '/', translate(PNRBFRetrieve/GenPNRInfo/CreatingAgntSignOn, ' ',''), PNRBFRetrieve/GenPNRInfo/CreatingAgntDuty)"/>
+							<xsl:value-of select="concat(translate(PNRBFRetrieve[last()]/GenPNRInfo/OwningAgncyPCC, ' ',''), '/', translate(PNRBFRetrieve/GenPNRInfo/CreatingAgntSignOn, ' ',''), PNRBFRetrieve[last()]/GenPNRInfo/CreatingAgntDuty)"/>
 							<!--  
                 <xsl:value-of select="PNR_HI_INF/Line[@PCC != ''][last()]/@PCC"/>
                 <xsl:variable name="agent">
@@ -240,7 +240,7 @@
                 -->
 						</CompanyName>
 					</ItineraryRef>
-					<xsl:apply-templates select="PNRBFRetrieve" />
+					<xsl:apply-templates select="PNRBFRetrieve[last()]" />
 				</TravelItinerary>
 			</xsl:otherwise>
 		</xsl:choose>

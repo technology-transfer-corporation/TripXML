@@ -4,6 +4,7 @@
   ================================================================== 
   Galileo_UpdateInsertRQ.xsl 														
   ================================================================== 
+  Date: 15 Dec 2023 - Kobelev - FareRedisplayMods included in Current PNR display
   Date: 01 Mar 2022 - Kobelev - Get Current PNR based on session or not.
   Date: 25 Feb 2022 - Kobelev - Isert Remarks fix.
   Date: 29 Jan 2021 - Kobelev - added Historical Remarks
@@ -90,9 +91,38 @@
 							</RecLoc>
 						</PNRAddr>
 					</xsl:otherwise>
-				</xsl:choose>
+				</xsl:choose>							
 			</PNRBFRetrieveMods>
-			
+			<FareRedisplayMods>
+				<DisplayAction>
+					<Action>D</Action>
+				</DisplayAction>
+				<FareNumInfo>
+					<FareNumAry>
+						<FareNum>1</FareNum>
+					</FareNumAry>
+				</FareNumInfo>
+			</FareRedisplayMods>
+			<FareRedisplayMods>
+				<DisplayAction>
+					<Action>D</Action>
+				</DisplayAction>
+				<FareNumInfo>
+					<FareNumAry>
+						<FareNum>2</FareNum>
+					</FareNumAry>
+				</FareNumInfo>
+			</FareRedisplayMods>
+			<FareRedisplayMods>
+				<DisplayAction>
+					<Action>D</Action>
+				</DisplayAction>
+				<FareNumInfo>
+					<FareNumAry>
+						<FareNum>3</FareNum>
+					</FareNumAry>
+				</FareNumInfo>
+			</FareRedisplayMods>
 			<PNRBFSecondaryBldChgMods>
 				<ItemAry>
 					<!-- create CHD OSI -->
@@ -126,7 +156,6 @@
 			<xsl:if test="@RemarkType=''">
 				<xsl:call-template name="FQDisplay" />
 			</xsl:if>
-
 		</xsl:if>
 		<xsl:if test="OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SeatRequests">
 			<SeatSellMods>
