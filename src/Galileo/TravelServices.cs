@@ -1127,7 +1127,7 @@ namespace Galileo
                         _response = ReLinkPrinters(_reLinkPrt, ref ttGA, ConversationID);
                         if (_response.Contains("Error"))
                         {
-                            throw new Exception("No ticket printer linked");
+                            throw new Exception(_response.Replace("Error:", "").Trim());
                         }
                     }
                     else
