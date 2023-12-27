@@ -280,6 +280,21 @@ namespace TripXMLTools
                 }
             }
 
+            if (code.ToUpper().Contains(" - "))
+            {
+                _airlines = code.Split(new[] { " - " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                foreach (var word in _airlines)
+                {
+                    _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == word)?.Code;
+                    if (!string.IsNullOrEmpty(_code))
+                        return _code;
+
+                    _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(word))?.Code;
+                    if (!string.IsNullOrEmpty(_code))                        
+                        return _code;
+                }
+            }
+
             if (!code.ToUpper().Contains(" AS "))
             {
                 var lastIndex = _airlines.Count() - 1;
@@ -288,7 +303,6 @@ namespace TripXMLTools
 
                 if (!Char.IsDigit(_airlines[lastIndex], 0) && _airlines[lastIndex].Length.Equals(2))
                     return _airlines.Last();
-
             }
 
 
