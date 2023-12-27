@@ -305,8 +305,6 @@ namespace TripXMLTools
                     return _airlines.Last();
             }
 
-
-
             return _code;
         }
 
@@ -400,7 +398,6 @@ namespace TripXMLTools
         public class Hotelroom : DecodingBase { }
         public class Hotelsubtitle : DecodingBase { }
         public class Hotel : DecodingBase { }
-
         public abstract class DecodingBase
         {
             public string Code { get; set; }
