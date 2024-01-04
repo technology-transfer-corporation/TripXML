@@ -1768,8 +1768,8 @@ namespace AmadeusWS
                                     {
                                         strPriceRq = strRepriceRQ;
                                         respReprice = SendPricePNRWithBookingClass(ttAA, strRepriceRQ);
-                                        if (respReprice != null && 
-                                            (respReprice.Contains("NO VALID FARE/RULE COMBINATIONS FOR PRICING") 
+                                        if (respReprice != null &&
+                                            (respReprice.Contains("NO VALID FARE/RULE COMBINATIONS FOR PRICING")
                                             || respReprice.Contains("NO FARE FOR BOOKING CODE-TRY OTHER PRICING OPTIONS"))) //|| respReprice.Contains("NO FARE FOUND")
                                         {
                                             excludeFFopts = true;
@@ -3246,7 +3246,8 @@ namespace AmadeusWS
                 if (string.IsNullOrEmpty(tktnum))
                     break;
 
-                tktnum = tktnum.Substring(4, 14).Trim();
+                if (tktnum.Length != 14)
+                    tktnum = tktnum.Substring(4, 14).Trim();
                 var mTicket = HandleCrypticComands(ttAA, $"TWD/TKT{tktnum}");
                 if (mTicket.Length > 0)
                     FHRS += $"<Ticket Number=\"{tktnum}\">{GetTicketStatus(mTicket.Replace("&", "&amp;"))}</Ticket>";
