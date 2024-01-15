@@ -2,7 +2,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	            xmlns:msxsl="urn:schemas-microsoft-com:xslt"
 	            xmlns:ttVB="urn:ttVB"
-				version="1.0">
+				version="1.0"
+				xmlns:str="http://exslt.org/strings">
 	<!-- 
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
@@ -342,7 +343,7 @@
 									</SpecialRemark>
 								</xsl:when>
 							</xsl:choose>
-							
+
 							<xsl:if test="//DocProdDisplayStoredQuote/TkPsgrFareConstruct">
 								<SpecialRemark>
 									<xsl:attribute name="RemarkType">T</xsl:attribute>
@@ -351,7 +352,7 @@
 									</Text>
 								</SpecialRemark>
 							</xsl:if>
-									
+
 							<xsl:if test="../DocProdDisplayStoredQuote/InfoMsg[MsgType='1']">
 								<xsl:apply-templates select="../DocProdDisplayStoredQuote[InfoMsg[MsgType='1']]" mode="EndorsementInfo"/>
 							</xsl:if>
@@ -1115,25 +1116,75 @@
 
 			<xsl:if test="msxsl:node-set($ptcFare)/BrandInformation">
 				<BrandedFares>
+					<xsl:variable name="arnk">
+							<xsl:value-of select="format-number(//PNRBFRetrieve/ARNK/SegNum, '00')"/>
+						</xsl:variable>
+							
 					<xsl:for-each select="msxsl:node-set($ptcFare)/SegRelatedInfo[UniqueKey=$paxno2]">
 						<xsl:variable name="seg">
-							<xsl:value-of select="format-number(RelSegNum, '00')"/>
+							<xsl:choose>
+								<xsl:when test="format-number(RelSegNum, '00') >= $arnk">
+									<xsl:value-of select="format-number(RelSegNum, '00') + 1"/>								
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="format-number(RelSegNum, '00')"/>								
+								</xsl:otherwise>								
+							</xsl:choose>							
+						</xsl:variable>					
+						
+						<FareFamily>
+							<xsl:attribute name="RPH">
+								<xsl:value-of select="format-number($seg, '0')"/>
+							</xsl:attribute>
+							<xsl:attribute name="Code">
+								<xsl:value-of select="msxsl:node-set($ptcFare)/BrandInformation[contains(SegNumList,$seg)]/PricebyBrandModifier"/>
+							</xsl:attribute>
+							<xsl:value-of select="msxsl:node-set($ptcFare)/BrandInformation[contains(SegNumList,$seg)]/BrandName"/>
+						</FareFamily>
+						
+					</xsl:for-each>
+				</BrandedFares>
+
+				<!-- 
+				<BrandedFares2>
+					<xsl:for-each select="msxsl:node-set($ptcFare)/BrandInformation[QuoteNum=$fqN]">
+						
+						<xsl:variable name="dList">
+							<xsl:call-template name="wrap">
+								<xsl:with-param name="text" select="SegNumList/text()"/>
+								<xsl:with-param name="line-length" select="2"/>
+							</xsl:call-template>
 						</xsl:variable>
 
-						<xsl:if test="msxsl:node-set($ptcFare)/BrandInformation[contains(SegNumList,$seg)]/SegNumList">
+						<xsl:variable name="elems">
+							<xsl:call-template name="tokenizeString">
+								<xsl:with-param name="list" select="$dList"/>
+								<xsl:with-param name="delimiter" select="'/'"/>
+							</xsl:call-template>
+						</xsl:variable>
+						
+						<xsl:variable name="brand" select="."/>						
+
+						<xsl:for-each select="msxsl:node-set($elems)/node()">
+							<xsl:variable name="seg">
+								<xsl:value-of select="format-number(node()[1], '00')"/>
+							</xsl:variable>
 							<FareFamily>
 								<xsl:attribute name="RPH">
 									<xsl:value-of select="format-number($seg, '0')"/>
 								</xsl:attribute>
 								<xsl:attribute name="Code">
-									<xsl:value-of select="msxsl:node-set($ptcFare)/BrandInformation[contains(SegNumList,$seg)]/PricebyBrandModifier"/>
+									<xsl:value-of select="$brand/PricebyBrandModifier"/>
 								</xsl:attribute>
-								<xsl:value-of select="msxsl:node-set($ptcFare)/BrandInformation[contains(SegNumList,$seg)]/BrandName"/>
+								<xsl:value-of select="$brand/BrandName"/>
 							</FareFamily>
-						</xsl:if>
-					</xsl:for-each>
+						</xsl:for-each>
 
-				</BrandedFares>
+
+					</xsl:for-each>
+				</BrandedFares2>
+				-->
+
 			</xsl:if>
 
 			<PassengerFare>
@@ -1928,14 +1979,14 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:attribute name="ExpireDate">
-        <xsl:choose>
-          <xsl:when test="string-length(ExpDt) = 3">
-            <xsl:value-of select="concat('0', ExpDt)" />
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:value-of select="ExpDt"/>
-          </xsl:otherwise>
-        </xsl:choose>
+				<xsl:choose>
+					<xsl:when test="string-length(ExpDt) = 3">
+						<xsl:value-of select="concat('0', ExpDt)" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="ExpDt"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:attribute>
 		</PaymentCard>
 		<TPA_Extensions>
@@ -2345,7 +2396,7 @@
 						<TicketAdvisory>
 							<xsl:value-of select="../TAUTkArrangement/QTAUDt"/>
 							<xsl:text>/</xsl:text>
-							<xsl:value-of select="../TAUTkArrangement/Text"/>							
+							<xsl:value-of select="../TAUTkArrangement/Text"/>
 						</TicketAdvisory>
 					</xsl:when>
 					<xsl:when test="../TkArrangement">
@@ -2359,7 +2410,7 @@
 								<xsl:otherwise>Paper</xsl:otherwise>
 							</xsl:choose>
 						</xsl:attribute>
-						<TicketAdvisory>							
+						<TicketAdvisory>
 							<xsl:value-of select="../TkArrangement/Text"/>
 						</TicketAdvisory>
 					</xsl:when>
@@ -2479,9 +2530,9 @@
 												<xsl:otherwise>
 													<xsl:value-of select="concat('C', substring($pCode, string-length($pCode)-1))"/>
 												</xsl:otherwise>
-											
+
 											</xsl:choose>
-											
+
 										</xsl:when>
 										<xsl:when test="contains(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, '-J')">
 											<xsl:variable name="pCode" select="concat('0', substring-after(../NameRmkInfo[LNameNum=$ItemNo and PsgrNum=$PsgrsNum]/NameRmk, 'J'))" />
@@ -3783,7 +3834,8 @@
 
 		Function GetBirthDate(ByVal age As String) As String
             Return DateTime.Now.AddYears(Convert.ToInt32(age) * -1).ToString("yyyy-MM-dd")
-        End Function
+        End Function	
+		
 ]]>
 	</msxsl:script>
 
@@ -4023,4 +4075,28 @@
 		</xsl:choose>
 	</xsl:template>
 
+	<xsl:template name="wrap">
+		<xsl:param name="text" select="."/>
+		<xsl:param name="line-length" select="29"/>
+		<xsl:param name="carry">
+			<xsl:variable name="lengths">
+				<xsl:for-each select="preceding-sibling::text()">
+					<length>
+						<xsl:value-of select="string-length()"/>
+					</length>
+				</xsl:for-each>
+			</xsl:variable>
+			<xsl:value-of select="sum(msxsl:node-set($lengths)/length) mod $line-length"/>
+		</xsl:param>
+
+		<xsl:value-of select="substring($text, 1, $line-length - $carry)"/>
+		<xsl:text>/</xsl:text>
+		<xsl:if test="$carry + string-length($text) > $line-length">
+			<!-- recursive call -->
+			<xsl:call-template name="wrap">
+				<xsl:with-param name="text" select="substring($text, $line-length - $carry + 1)"/>
+				<xsl:with-param name="carry" select="0"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
 </xsl:stylesheet>
