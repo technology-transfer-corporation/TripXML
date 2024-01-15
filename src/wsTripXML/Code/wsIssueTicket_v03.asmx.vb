@@ -152,10 +152,11 @@ Namespace wsTravelTalk
 
         End Function
 
-        <WebMethod(Description:="Process Issue Ticket Xml Messages Request.")> _
+        <WebMethod(Description:="Process Issue Ticket Xml Messages Request.")>
         Public Function wmIssueTicketXml(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.IssueTicket)
         End Function
+
 
 #End Region
 
