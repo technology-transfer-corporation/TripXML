@@ -249,6 +249,21 @@ namespace TripXMLTools
 
             if (code.ToUpper().Contains(" AS "))
             {
+                var airlines = code.Split(new[] { " AS " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == airlines.First())?.Code;
+                 if (!string.IsNullOrEmpty(_code))
+                    return _code;
+
+                for (int i = 0; i < airlines.Count; i++)
+                {
+                    if (airlines[i].Contains("AIRWAYS"))
+                        airlines[i] = airlines[i].Replace("AIRWAYS", "AIRLINE");
+                }
+
+                _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(airlines.First()))?.Code;
+                if (!string.IsNullOrEmpty(_code))
+                    return _code;
+
                 foreach (var word in _airlines)
                 {
                     if (word.Contains(" AS "))
@@ -257,10 +272,13 @@ namespace TripXMLTools
                     if (!string.IsNullOrEmpty(_code))
                         return _code;
 
-                    _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(word))?.Code;
+                    _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.StartsWith(word.TrimEnd()))?.Code;
                     if (!string.IsNullOrEmpty(_code))
                         return _code;
 
+                    _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(word.TrimEnd()))?.Code;
+                    if (!string.IsNullOrEmpty(_code))
+                        return _code;
                 }
             }
 
