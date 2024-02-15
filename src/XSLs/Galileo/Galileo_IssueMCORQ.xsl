@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" ?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:msxsl="urn:schemas-microsoft-com:xslt">
-<!-- 
+	<!-- 
   ================================================================== 
 	v04_Galileo_IssueMCORQ.xsl 													
   ================================================================== 
@@ -15,8 +15,16 @@
 
 	<xsl:template match="/">
 		<TT_IssueMCORQ>
-			<xsl:apply-templates select="TT_IssueMCORQ" />
+			<xsl:choose>
+				<xsl:when test="TT_IssueMCORQ/PNR">
+					<xsl:apply-templates select="TT_IssueMCORQ" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:apply-templates select="TT_IssueMCORQ" />
+				</xsl:otherwise>
+			</xsl:choose>
 		</TT_IssueMCORQ>
+
 	</xsl:template>
 
 	<xsl:template match="TT_IssueMCORQ">
@@ -83,7 +91,7 @@
 				</FareRedisplayMods>
 			</PNRBFManagement_53>
 		</PNRCurrentRead>
-		
+
 		<ET>
 			<PNRBFManagement_53>
 				<EndTransactionMods>
@@ -101,9 +109,9 @@
 				</EndTransactionMods>
 			</PNRBFManagement_53>
 		</ET>
-		
+
 		<MCOS>
-			<xsl:for-each select="MCOs/MCO" >
+			<xsl:for-each select="MCOs/MCOMask" >
 				<xsl:apply-templates select="." />
 			</xsl:for-each>
 		</MCOS>
@@ -123,48 +131,51 @@
 				</TicketingMods>
 			</DocProdFareManipulation_29>
 		</GetTickets>
-
-		<ExchangeMCO>
-			<DocProdFareManipulation_29>
-				<TicketingMods>
-					<FareNumInfo>
-						<FareNumAry>
-							<FareNum/>
-						</FareNumAry>
-					</FareNumInfo>
-					<TicketingControl>
-						<TransType>TK</TransType>
-					</TicketingControl>
-					<ElectronicTicketFailed>
-						<CancelInd/>
-						<IssuePaperTkInd>Y</IssuePaperTkInd>
-					</ElectronicTicketFailed>
-					<AssocPsgrs>
-						<PsgrAry>
-							<Psgr>
-								<LNameNum>01</LNameNum>
-								<PsgrNum>01</PsgrNum>
-								<AbsNameNum>01</AbsNameNum>
-							</Psgr>
-						</PsgrAry>
-					</AssocPsgrs>
-					<OtherFOP>
-						<FOPID>13</FOPID>
-						<Type>0</Type>
-						<PmtCrncy>USD</PmtCrncy>
-						<AddlDataIDAry>
-							<AddlDataID>
-								<ID>9</ID>
-								<Dt/>
-							</AddlDataID>
-						</AddlDataIDAry>
-					</OtherFOP>
-				</TicketingMods>
-			</DocProdFareManipulation_29>
+		
+		<ExchangeMCO>			
+				<DocProdFareManipulation_29>
+					<TicketingMods>
+						<FareNumInfo>
+							<FareNumAry>
+								<FareNum/>
+							</FareNumAry>
+						</FareNumInfo>
+						<TicketingControl>
+							<TransType>TK</TransType>
+						</TicketingControl>
+						<ElectronicTicketFailed>
+							<CancelInd/>
+							<IssuePaperTkInd>Y</IssuePaperTkInd>
+						</ElectronicTicketFailed>
+						<AssocPsgrs>
+							<PsgrAry>
+								<Psgr/>
+								<!--
+								<Psgr>
+									<LNameNum>01</LNameNum>
+									<PsgrNum>01</PsgrNum>
+									<AbsNameNum>01</AbsNameNum>
+								</Psgr>
+								-->
+							</PsgrAry>
+						</AssocPsgrs>
+						<OtherFOP>
+							<FOPID>13</FOPID>
+							<Type>0</Type>
+							<PmtCrncy>USD</PmtCrncy>
+							<AddlDataIDAry>
+								<AddlDataID>
+									<ID>9</ID>
+									<Dt/>
+								</AddlDataID>
+							</AddlDataIDAry>
+						</OtherFOP>
+					</TicketingMods>
+				</DocProdFareManipulation_29>			
 		</ExchangeMCO>
 	</xsl:template>
-	
-	<xsl:template match="MCO">
+
+	<xsl:template match="MCOMask">
 		<MiscellaneousChargeOrder_1_0>
 			<MCOProcessingMods>
 				<MCOTicketData>
@@ -183,17 +194,19 @@
 					<TourOperator>
 						<xsl:value-of select="To"/>
 					</TourOperator>
-					<Location><xsl:value-of select="AT" /></Location>					
+					<Location>
+						<xsl:value-of select="AT" />
+					</Location>
 					<RelatedTktNum/>
 					<Commission>0.00</Commission>
 					<MCOAmt>
 						<xsl:value-of select="Amount" />
 					</MCOAmt>
 					<Currency>
-						<xsl:value-of select="CurrencyCode" />					
+						<xsl:value-of select="CurrencyCode" />
 					</Currency>
 					<PlatingCarrier>AC</PlatingCarrier>
-				</MCOMainData>				
+				</MCOMainData>
 				<xsl:choose>
 					<xsl:when test="CreditCard != ''">
 						<xsl:apply-templates select="." mode="cc" />
@@ -204,12 +217,12 @@
 					<xsl:otherwise>
 						<xsl:apply-templates select="." mode="cash" />
 					</xsl:otherwise>
-				</xsl:choose>				
+				</xsl:choose>
 			</MCOProcessingMods>
 		</MiscellaneousChargeOrder_1_0>
 	</xsl:template>
 
-	<xsl:template match="MCO" mode="cc">
+	<xsl:template match="MCOMask" mode="cc">
 		<CreditCardFOP>
 			<ID>6</ID>
 			<Type>1</Type>
@@ -235,7 +248,7 @@
 		</CreditCardFOP>
 	</xsl:template>
 
-	<xsl:template match="MCO" mode="check">
+	<xsl:template match="MCOMask" mode="check">
 		<CheckFOP>
 			<ID>
 				<xsl:value-of select="Id" />
@@ -246,11 +259,11 @@
 			</Currency>
 			<Amt>
 				<xsl:value-of select="Amount" />
-			</Amt>			
+			</Amt>
 		</CheckFOP>
 	</xsl:template>
 
-	<xsl:template match="MCO" mode="cash">
+	<xsl:template match="MCOMask" mode="cash">
 		<OtherFOP>
 			<FOPID>01</FOPID>
 			<Type>2</Type>
@@ -263,7 +276,7 @@
 		</OtherFOP>
 	</xsl:template>
 
-<!--
+	<!--
   ############################################################
   ## Template to tokenize strings                           ##
   ############################################################

@@ -4,6 +4,7 @@
 	==================================================================
 	Travelport_PNRRepriceRS.xsl 										
 	==================================================================
+	Date: 15 Feb 2024 - Kobelev - Equivelent amounts.
 	Date: 23 Oct 2023 - Riasnenko - PTC_FareBreakdown TotalFare by one passanger.
 	Date: 19 Oct 2023 - Kobelev - PTC_FareBreakdown RPH get associated with Fare qoute number.
 	Date: 27 Sep 2023 - Kobelev - Branded Fare Values.
@@ -198,11 +199,12 @@
 			<xsl:attribute name="SequenceNumber">
 				<xsl:value-of select="$sn"/>
 			</xsl:attribute>
+			
 			<xsl:choose>
 				<xsl:when test="$sn=1">
 					<xsl:apply-templates select="air:AirReservation" />
 				</xsl:when>
-				<xsl:when test="air:AirReservation">
+				<xsl:when test="air:AirReservation/air:AirPricingInfo">
 					<!-- //universal:UniversalRecordModifyRsp/universal:UniversalRecord/ -->
 					<!--<xsl:apply-templates select="//universal:UniversalRecordModifyRsp/universal:UniversalRecord/air:AirReservation" />-->
 					<xsl:variable name="td" select="air:AirReservation/air:AirPricingInfo[1]/air:FareInfo/air:FareTicketDesignator/@Value" />
@@ -311,10 +313,25 @@
 				</xsl:choose>
 			</xsl:variable>
 			<xsl:variable name="curt">
-				<xsl:value-of select="substring(air:AirPricingInfo[1]/@BasePrice,1,3)"/>
+				<xsl:choose>
+					<xsl:when test="air:AirPricingInfo[1]/@EquivalentBasePrice">
+						<xsl:value-of select="substring(air:AirPricingInfo[1]/@EquivalentBasePrice,1,3)"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="substring(air:AirPricingInfo[1]/@BasePrice,1,3)"/>
+					</xsl:otherwise>
+				</xsl:choose>
+				
 			</xsl:variable>
 			<xsl:variable name="dect">
-				<xsl:value-of select="string-length(substring-after(substring(air:AirPricingInfo[1]/@BasePrice,4),'.'))"/>
+				<xsl:choose>
+				<xsl:when test="air:AirPricingInfo[1]/@EquivalentBasePrice">
+					<xsl:value-of select="string-length(substring-after(substring(air:AirPricingInfo[1]/@EquivalentBasePrice,4),'.'))"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="string-length(substring-after(substring(air:AirPricingInfo[1]/@BasePrice,4),'.'))"/>
+				</xsl:otherwise>
+				</xsl:choose>
 			</xsl:variable>
 			<ItinTotalFare>
 				<BaseFare>
@@ -328,6 +345,19 @@
 						<xsl:value-of select="$dect"/>
 					</xsl:attribute>
 				</BaseFare>
+				<xsl:if test="air:AirPricingInfo[1]/@EquivalentBasePrice">
+					<EquivFare>
+						<xsl:attribute name="Amount">
+							<xsl:value-of select="substring(translate(string(air:AirPricingInfo[1]/@BasePrice),'.',''), 4)"/>
+						</xsl:attribute>
+						<xsl:attribute name="DecimalPlaces">
+							<xsl:value-of select="string-length(substring-after(substring(air:AirPricingInfo[1]/@BasePrice,4),'.'))"/>
+						</xsl:attribute>
+						<xsl:attribute name="CurrencyCode">
+							<xsl:value-of select="substring(air:AirPricingInfo[1]/@BasePrice,1,3)"/>
+						</xsl:attribute>
+					</EquivFare>
+				</xsl:if>
 				<Taxes>
 					<xsl:attribute name="Amount">
 						<xsl:value-of select="$Taxf"/>
@@ -528,16 +558,39 @@
 			</xsl:variable>
 			<PassengerFare>
 				<xsl:variable name="bfpax">
-					<xsl:value-of select="translate(substring(@BasePrice,4),'.','')"/>
+					<xsl:choose>
+						<xsl:when test="@EquivalentBasePrice">
+							<xsl:value-of select="translate(substring(@EquivalentBasePrice,4),'.','')"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="translate(substring(@BasePrice,4),'.','')"/>
+						</xsl:otherwise>
+					</xsl:choose>					
 				</xsl:variable>
 				<xsl:variable name="tfpax">
 					<xsl:value-of select="translate(substring(@TotalPrice,4),'.','')"/>
 				</xsl:variable>
 				<xsl:variable name="cur">
-					<xsl:value-of select="substring(@BasePrice,1,3)"/>
+					<xsl:choose>
+						<xsl:when test="@EquivalentBasePrice">
+							<xsl:value-of select="substring(@EquivalentBasePrice,1,3)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="substring(@BasePrice,1,3)"/>
+						</xsl:otherwise>
+					</xsl:choose>
+					
 				</xsl:variable>
 				<xsl:variable name="dec">
-					<xsl:value-of select="string-length(substring-after(substring(@BasePrice,4),'.'))"/>
+					<xsl:choose>
+						<xsl:when test="@EquivalentBasePrice">
+							<xsl:value-of select="string-length(substring-after(substring(@EquivalentBasePrice,4),'.'))"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="string-length(substring-after(substring(@BasePrice,4),'.'))"/>
+						</xsl:otherwise>
+					</xsl:choose>
+					
 				</xsl:variable>
 				<BaseFare>
 					<xsl:attribute name="Amount">
@@ -550,6 +603,19 @@
 						<xsl:value-of select="$dec"/>
 					</xsl:attribute>
 				</BaseFare>
+				<xsl:if test="@EquivalentBasePrice">
+					<EquivFare>
+						<xsl:attribute name="Amount">
+							<xsl:value-of select="substring(translate(string(@BasePrice),'.',''), 4)"/>
+						</xsl:attribute>
+						<xsl:attribute name="DecimalPlaces">
+							<xsl:value-of select="string-length(substring-after(substring(@BasePrice,4),'.'))"/>
+						</xsl:attribute>
+						<xsl:attribute name="CurrencyCode">
+							<xsl:value-of select="substring(@BasePrice,1,3)"/>
+						</xsl:attribute>
+					</EquivFare>
+				</xsl:if>
 				<Taxes>
 					<xsl:apply-templates select="air:TaxInfo">
 						<xsl:with-param name="nip">
@@ -1752,11 +1818,18 @@
 		<xsl:variable name="pax">
 			<xsl:value-of select="count(air:PassengerType)"/>
 		</xsl:variable>
-
+		
 		<xsl:variable name="pq" select="@PricingType" />
 
 		<xsl:variable name="tot">
-			<xsl:value-of select="translate(substring(@BasePrice,4),'.','') * $pax"/>
+			<xsl:choose>
+				<xsl:when test="@EquivalentBasePrice != ''">
+					<xsl:value-of select="translate(substring(@EquivalentBasePrice,4),'.','') * $pax"/>		
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="translate(substring(@BasePrice,4),'.','') * $pax"/>
+				</xsl:otherwise>
+			</xsl:choose>			
 		</xsl:variable>
 
 		<xsl:choose>
@@ -1796,15 +1869,18 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+	
 	<xsl:template match="air:AirPricingInfo" mode="totalTax">
 		<xsl:param name="sum"/>
 		<xsl:param name="pos"/>
 		<xsl:variable name="nopt">
 			<xsl:value-of select="count(air:PassengerType)"/>
 		</xsl:variable>
+		
 		<xsl:variable name="tot">
 			<xsl:value-of select="translate(substring(@Taxes,4),'.','') * $nopt"/>
 		</xsl:variable>
+		
 		<xsl:variable name="pq" select="@PricingType" />
 		<xsl:choose>
 			<xsl:when test="../air:AirPricingInfo[@PricingType=$pq][$pos + 1]">
@@ -1822,6 +1898,7 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+	
 	<xsl:template match="air:AirPricingInfo" mode="totalprice">
 		<xsl:param name="sum"/>
 		<xsl:param name="pos"/>

@@ -8,6 +8,7 @@
   ================================================================== 
    Galileo_PNRReadRS.xsl - v03														
   ==================================================================
+  Date: 15 Jan 2024 - Kobelev - ARNK handling during FareFamily display
   Date: 30 Nov 2023 - Kobelev - PassengerTypeQuantity Code will return first 3 letters of what ever code is in PNR. example MIL40 => MIL
   Date: 30 Nov 2023 - Kobelev - Fixed NameType in case when PNR has DOB in this format: P-C01 DOB01SEP22
   Date: 31 Oct 2023 - Kobelev - Idetifying CAT35 office settings in Special Remark under RemarkType="T"
