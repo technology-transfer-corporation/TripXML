@@ -1,6 +1,9 @@
-﻿Namespace wsTravelTalk.wmIssueMCOModels
+﻿Imports System.Runtime.Serialization
+
+Namespace wsTravelTalk.wmIssueMCOModels
     '<remarks/>
     <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
+    <Serializable>
     Public Class MCO
 #Region "Request Fields"
         Public Property ErrorMessage As String
@@ -40,6 +43,8 @@
     End Class
     '<remarks/>
     <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
+    <KnownType(GetType(MCO))>
+    <Serializable>
     Public Class MCOMask
         Inherits MCO
         Public Sub New()
@@ -93,6 +98,7 @@
         Public Property IssueDocuments As Boolean
         Public Property IsDone As Boolean
 #End Region
+
 #Region "MCO Exchange Fields"
         Public Property MCONumber As String
         Public Property ChangeFeeAmount As String

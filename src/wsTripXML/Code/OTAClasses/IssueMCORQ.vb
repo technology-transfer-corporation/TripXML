@@ -19,7 +19,7 @@ Namespace wsTravelTalk.wmIssueMCOIn
         Public ConversationID As String
 
         '<remarks/>
-        Public MCOs() As wmIssueMCOModels.MCO
+        Public MCOs() As wmIssueMCOModels.MCOMask
 
         '<remarks/>
         <System.Xml.Serialization.XmlAttributeAttribute(),
