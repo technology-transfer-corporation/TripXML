@@ -1823,16 +1823,13 @@ namespace Galileo
 
         public string IssueMCO()
         {
-            string strResponse = "";
-            Version = string.IsNullOrEmpty(Version) ? "v03_" : Version;
-            string strEmail = string.Empty;
-
+            string _response = "";
+            //Version = string.IsNullOrEmpty(Version) ? "v03_" : Version;
+            
             try
             {
-                string strRequest = SetRequest("Galileo_IssueMCORQ.xsl");
-                DateTime RequestTime = DateTime.Now;
-                string strReSetPrt;
                 var _replacementTag = "</PNRBFManagement_53>";
+                string _request = SetRequest("Galileo_IssueMCORQ.xsl");
 
                 // **********************
                 // Create Session       *
@@ -1843,253 +1840,248 @@ namespace Galileo
                 // *************************
                 // Get Multiple Requests   *
                 // *************************
-                var oDoc = new XmlDocument();
-                oDoc.LoadXml(strRequest);
-                XmlElement oRoot = oDoc.DocumentElement;
-                string _read = oRoot.SelectSingleNode("PNRRead").InnerXml;
-                string _currentRead = oRoot.SelectSingleNode("PNRCurrentRead").InnerXml;
-                string _ET = oRoot.SelectSingleNode("ET") != null ? oRoot.SelectSingleNode("ET").InnerXml : "";                
-                string _getTickets = oRoot.SelectSingleNode("GetTickets") != null ? oRoot.SelectSingleNode("GetTickets").InnerXml : "";
-                XmlNodeList _mcos = oRoot.SelectSingleNode("MCOS") != null ? oRoot.SelectNodes("MCOS/MCO") : null;
-                string _mcoDisplay = "<MiscellaneousChargeOrder_1_0><MCODisplayMods></MCODisplayMods></MiscellaneousChargeOrder_1_0>";
+                //XmlDocument oDoc;
+                //XmlElement oRoot;
+                //
+                XmlNodeList _mcos;
+                string _read, _currentRead, _ET, _getTickets, _mcoDisplay;
+                var oCreate = GetInitialValues(_request);
 
-                var oDocReqOTA = new XmlDocument();
-                oDocReqOTA.LoadXml(Request);
-                var oRootReqOTA = oDocReqOTA.DocumentElement;
                 // **********************************************************
-                // Retrieve PNR
+                // Retrieve PNR (1.1) - referencies to PDF file "MCO Exchange Process"
                 // **********************************************************
-                var _pnr = GetPNR(_read, ttGA);
+                var _pnr = GetPNR(oCreate.ReadRQ, ttGA);
 
-                if (_mcos == null)
+                if (oCreate.MCOs == null)
                     throw new Exception("No MCO's were requested.");
 
                 // **********************************************************
                 // Start MCO creation process for each requested passanger
                 // **********************************************************
-                foreach (XmlNode mco in _mcos)
-                {
-                    // **********************************************************
-                    // Create MCO 
-                    // **********************************************************
-                    var _mcoResp = ttGA.SendMessage(mco.InnerXml, ConversationID);
-                    if (!_mcoResp.Contains("MCO DATA STORED"))
-                        throw new Exception("Failed to Create MCO.");
+                var _mcoResp = CreateMCOs(ttGA, oCreate.EndTrans, oCreate.MCOs);
+                _mcoResp = IssueMCOs(ttGA, oCreate.MCOs, oCreate.GetTickets, oCreate.MCODisplay);
+                //Retrive PNR
+                _pnr = GetPNR(oCreate.ReadRQ, ttGA);
 
-                    // **********************************************************
-                    // Save PNR
-                    // **********************************************************
-                    _mcoResp = ttGA.SendMessage(_ET, ConversationID);
-                    var _assocPsgrs = GetPassengerElement(mco.SelectSingleNode("PassengerNumber").InnerText, _mcoResp);
+                _mcoResp = ExchangeMCOs(ttGA, oCreate.MCOs, oCreate.GetTickets, oCreate.MCODisplay, oCreate.Exchange);
 
-                    // **********************************************************
-                    // Display MCO 
-                    // **********************************************************
-                    _mcoResp = ttGA.SendMessage(_mcoDisplay, ConversationID);
-
-                    // **********************************************************
-                    // Issue MCO 
-                    // **********************************************************
-                    _getTickets = _getTickets.Replace("<Num/>", $"<Num>{GetMCONumber(_mcoResp)}</Num>");
-                    _mcoResp = ttGA.SendMessage(_getTickets, ConversationID);
-                    if (!_mcoResp.Contains("OK-"))
-                        throw new Exception("Failed to Issue MCO.");
-
-                    // **********************************************************
-                    // Initiate MCO Exchange
-                    // **********************************************************
-                    _getTickets = _getTickets.Replace("<FareNum/>", $"<FareNum>{GetFareNumber(_mcoResp)}</FareNum>");
-                    _mcoResp = ttGA.SendMessage(_getTickets, ConversationID);
-                    if (!_mcoResp.Contains("OK-"))
-                        throw new Exception("Failed to Issue MCO.");
-
-                }
-
-
-                /******  Why would you need this?  *****************
-                if (oRootReqOTA.SelectSingleNode("POS/Source/@ISOCurrency") != null)
-                {
-                    string strAlternateCur = $":{oRootReqOTA.SelectSingleNode("POS / Source / @ISOCurrency").InnerXml}";
-                }
-                ****************************************************/
-
-                string strCheckPrt = oRoot.SelectSingleNode("CheckPRT") != null ? oRoot.SelectSingleNode("CheckPRT").InnerXml : "";
-                // TODO: following for possible future use
-                string strReLinkPrt = oRoot.SelectSingleNode("SetPRT") != null ? oRoot.SelectSingleNode("SetPRT").InnerXml : "";
-
-
-                string strMessage;
-
-                // *****************************************
-                // Check if printer is up and running      *
-                // ***************************************** 
-                if (!string.IsNullOrEmpty(strCheckPrt))
-                {
-                    oDoc = new XmlDocument();
-                    strResponse = ttGA.SendMessage(strCheckPrt, ConversationID);
-
-                    oDoc.LoadXml(strResponse);
-                    oRoot = oDoc.DocumentElement;
-                    var oNd = oRoot.SelectSingleNode("LinkageDisplay/PrinterParameters[Type='T']");
-                    if (oNd == null)
-                    {
-                        strResponse = ReLinkPrinters(strReLinkPrt, ref ttGA, ConversationID);
-                        if (strResponse.Contains("Error"))
-                        {
-                            throw new Exception("No ticket printer linked");
-                        }
-                    }
-                    else
-                    {
-                        switch (oNd.SelectSingleNode("Status").InnerText ?? "")
-                        {
-                            case "D":
-                                throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Down");
-                                break;
-                            case "B":
-                                // Printer can be reset with status U: HMOM{oNd.SelectSingleNode("LNIATA").InnerText}–U(HMOMF82303–U)
-                                strResponse = ReLinkPrinters(strReLinkPrt, ref ttGA, ConversationID);
-                                if (strResponse.Contains("Error"))
-                                {
-                                    throw new Exception($"Printer {oNd.SelectSingleNode("LNIATA").InnerText} is Busy");
-                                }
-
-                                break;
-                        }
-                    }
-                }
-                else
-                {
-                    // ********************
-                    // Retrieve the PNR   *
-                    // ********************                     
-                    strResponse = ttGA.SendMessage(_currentRead, ConversationID);
-                    strEmail += $"{_currentRead}\r\n{strResponse}";
-                    strMessage = $"{_currentRead}\r\n{strResponse}";
-
-                    // Check for Errors
-                    if (strResponse.Contains("<PNRBFRetrieve><ErrorCode>") && !strResponse.Contains("<DocProdDisplayStoredQuote><FareNumInfo>"))
-                        throw new Exception("Cannot retrieve PNR to ticket");
-
-                    // Check if stored fares exist
-                    if (strResponse.Contains("<DocProdDisplayStoredQuote />") | strResponse.Contains("<Text>NO FARES</Text>"))
-                        throw new Exception("Cannot issue ticket - no stored fares in PNR");
-
-                    #region Get existing fare
-
-                    XmlNodeList oFareNodes;
-                    XmlNode oFareNode;
-                    XmlNode oSegNode;
-                    bool bFQ = false;
-                    int i = 0;
-                    string strFQResp = "";
-                    string strSegNum = "";
-                    int iPrevNum = 0;
-                    int iCurNum = 0;
-                    int iRangeNum = 0;
-
-                    if (!string.IsNullOrEmpty(_ET))
-                    {
-                        strResponse = ttGA.SendMessage(_ET, ConversationID);
-                        strEmail += $"{_ET}\r\n{strResponse}";
-                        strMessage += $"{_ET}\r\n{strResponse}";
-                    }
-                    var tktRQ = Request.Replace("</TT_IssueTicketRQ>", $"<PNR>{strResponse}</PNR></TT_IssueTicketRQ>");
-                    CoreLib.SendTrace(ProviderSystems.UserID, "TicketingRQ", $"Ticketing", tktRQ, ProviderSystems.LogUUID);
-
-                    var fullResp = CoreLib.TransformXML(tktRQ, XslPath, $"{Version}Galileo_IssueTicketRQ.xsl");
-                    CoreLib.SendTrace(ProviderSystems.UserID, "TicketingRQ", $"Full Transformed", fullResp, ProviderSystems.LogUUID);
-
-                    var oDocResp = new XmlDocument();
-                    oDocResp.LoadXml(fullResp);
-                    var oRootResp = oDocResp.DocumentElement;
-                    string strTicket = oRootResp.SelectSingleNode("Ticket").InnerXml;
-                    CoreLib.SendTrace(ProviderSystems.UserID, "TicketingRQ", $"Ticketing Details", strTicket, ProviderSystems.LogUUID);
-
-                    strResponse = ttGA.SendMessage(strTicket, ConversationID);
-
-                    if (strResponse.Contains("<ErrText><Err>"))
-                    {
-                        oDocResp.LoadXml(strResponse);
-                        oRootResp = oDocResp.DocumentElement;
-                        var oErrorNodes = oRootResp.SelectSingleNode("Ticketing/ErrText/Text");
-                        throw new Exception(oErrorNodes.InnerText);
-                    }
-
-                    strEmail += $"{strTicket}\r\n{strResponse}";
-                    strMessage += $"{strTicket}\r\n{strResponse}";
-                    if (!string.IsNullOrEmpty(_getTickets) & !strResponse.Contains("TransactionErrorCode") & strResponse.Contains("<TicketingControl><TransType>OK</TransType></TicketingControl>"))
-                    {
-                        // ***********************************************
-                        // Prior for Ticket request we have to reRead PNR
-                        // ***********************************************
-                        strResponse = ttGA.SendCrypticMessage("I", ConversationID);
-                        string strResp = ttGA.SendMessage(_read, ConversationID);
-                        strMessage += $"\r\n{_read}\r\n{strResp}";
-                        strResponse = ttGA.SendMessage(_getTickets, ConversationID);
-                        strResponse = strResponse.Replace("</DocProdFareManipulation_29>", $"{strResponse}</DocProdFareManipulation_29>");
-                        strEmail += $"{_getTickets}\r\n{strResponse}";
-                        strMessage += $"\r\n{_getTickets}\r\n{strResponse}";
-                        _replacementTag = "</DocProdFareManipulation_29>";
-                    }
-
-                    #endregion
-                }
+                //Retrive PNR
+                _pnr = GetPNR(oCreate.ReadRQ, ttGA);
 
                 // *****************************************************************
                 // Transform Native Galileo IssueTicket Response into OTA Response   *
                 // ***************************************************************** 
-                try
-                {
-                    strResponse = inSession
-                        ? strResponse.Replace(_replacementTag, $"<ConversationID>{ConversationID}</ConversationID>{_replacementTag}")
-                                     .Replace("</TicketPrinterLinkage_1_0>", $"<ConversationID>{ConversationID}</ConversationID></TicketPrinterLinkage_1_0>")
-                        : strResponse;
-
-                    // If String.IsNullOrEmpty(strCheckPrt) Then
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_IssueTicketRS.xsl");
-                    strEmail += strResponse;
-                }
-                catch (Exception ex)
-                {
-                    strEmail += ex.Message;
-                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
-                }
-                finally
-                {
-                    if (!inSession)
-                    {
-                        ttGA.CloseSession(ConversationID);
-                        ConversationID = null;
-                        ttGA = null;
-                    }
-                }
+                FinilizeIssueMCO(ref _response, _replacementTag, ref ttGA, inSession);
             }
             catch (Exception exx)
             {
                 AddLog($"<M>{Request}<BL/>", ProviderSystems);
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.IssueTicketSessioned, exx.Message, ProviderSystems, "");
+                _response = modCore.FormatErrorMessage(modCore.ttServices.IssueTicketSessioned, exx.Message, ProviderSystems, "");
             }
             finally
             {
                 // ****************************************************
                 // below given if condition was not there in local code
                 // ----------------------------------------------------
-                if (Request.Contains("<System>Production</System>") & !strResponse.Contains("<Success"))
+                if (Request.Contains("<System>Production</System>") & !_response.Contains("<Success"))
                 {
                     // CoreLib.SendEmail("Galileo ticketing failure", strEmail, "Nexus")
-                    string argMessage = $"<Ticket>{strEmail}</Ticket>";
-                    LogMessageToFile("IssueMCO", ref argMessage, DateTime.Now, DateTime.Now);
+                    //string argMessage = $"<Ticket>{strEmail}</Ticket>";
+                    //LogMessageToFile("IssueMCO", ref argMessage, DateTime.Now, DateTime.Now);
                 }
                 // ----------------------------------------------------
 
                 GC.Collect();
             }
 
-            return strResponse;
+            return _response;
 
         }
-        
+
+        private void FinilizeIssueMCO(ref string _response, string _replacementTag, ref GalileoAdapter ttGA, bool inSession)
+        {
+            try
+            {
+                _response = inSession
+                    ? _response.Replace(_replacementTag, $"<ConversationID>{ConversationID}</ConversationID>{_replacementTag}")                                 
+                    : _response;
+
+                _response = CoreLib.TransformXML(_response, XslPath, $"{Version}Galileo_IssueMCORS.xsl");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+            }
+            finally
+            {
+                if (!inSession)
+                {
+                    ttGA.CloseSession(ConversationID);
+                    ConversationID = null;
+                    ttGA = null;
+                }
+            }
+        }
+
+        private static (string ReadRQ, string CurrentRead, string EndTrans, string GetTickets, string Exchange, string MCODisplay, XmlNodeList MCOs) GetInitialValues(string request)
+        {
+            var oDoc = new XmlDocument();
+            oDoc.LoadXml(request);
+            var oRoot = oDoc.DocumentElement;
+            var _read = oRoot.SelectSingleNode("PNRRead").InnerXml;
+            var _currentRead = oRoot.SelectSingleNode("PNRCurrentRead").InnerXml;
+            var _ET = oRoot.SelectSingleNode("ET") != null ? oRoot.SelectSingleNode("ET").InnerXml : "";
+            var _mcos = oRoot.SelectSingleNode("MCOS") != null ? oRoot.SelectNodes("MCOS") : null;
+            var _mcoDisplay = "<MiscellaneousChargeOrder_1_0><MCODisplayMods></MCODisplayMods></MiscellaneousChargeOrder_1_0>";
+            var _getTickets = oRoot.SelectSingleNode("GetTickets") != null ? oRoot.SelectSingleNode("GetTickets").InnerXml : "";
+            var _exchange = oRoot.SelectSingleNode("ExchangeMCO") != null ? oRoot.SelectSingleNode("ExchangeMCO").InnerXml : "";
+
+            return (_read, _currentRead, _ET, _getTickets, _exchange, _mcoDisplay, _mcos);
+        }
+
+        private string CreateMCOs(GalileoAdapter ttGA, string _ET, XmlNodeList mcos)
+        {
+            try
+            {
+                foreach (XmlNode mco in mcos)
+                {
+                    // **********************************************************
+                    // Create MCO 1.2
+                    // **********************************************************
+                    var _mcoResp = ttGA.SendMessage(mco.InnerXml, ConversationID);
+
+                    if(_mcoResp.Contains("<MCOProcessing><ErrText><Err>"))
+                        throw FormatMCOException(_mcoResp);
+
+                    if (!_mcoResp.Contains("MCO DATA STORED"))
+                        throw new Exception("Failed to Create MCO.");
+
+                    var _assocPsgrs = GetPassengerElement(mco.SelectSingleNode("PassengerNumber").InnerText, _mcoResp);
+                }
+
+                // **********************************************************
+                // Save PNR 1.3
+                // **********************************************************
+                var _resp = ttGA.SendMessage(_ET, ConversationID);                
+                return _resp;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return string.Empty;
+        }
+
+        private Exception FormatMCOException(string response)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(response))
+                    throw new Exception("Failed to Create MCO.");
+
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(response);
+                var oRoot = oDoc.DocumentElement;
+                var text = oRoot.SelectSingleNode("MCOProcessing/ErrText/Text").InnerText;
+                var num = oRoot.SelectSingleNode("MCOProcessing/ErrText/Err").InnerText;
+
+                return new Exception(text, new Exception("Failed to Create MCO."));
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private string IssueMCOs(GalileoAdapter ttGA, XmlNodeList mcos, string getTickets, string displayRQ)
+        {
+            try
+            {
+                // **********************************************************
+                // Display MCO 1.4
+                // **********************************************************                    
+                var _mcoDisp = ttGA.SendMessage(displayRQ, ConversationID);
+                
+                foreach (XmlNode mco in mcos)
+                {
+                    // **********************************************************
+                    // Issue MCO 1.5
+                    // **********************************************************
+                    getTickets = getTickets.Replace("<Num/>", $"<Num>{GetMCONumber(_mcoDisp, mco)}</Num>");
+                    _mcoDisp = ttGA.SendMessage(getTickets, ConversationID);
+                    if (!_mcoDisp.Contains("OK-"))
+                        throw new Exception("Failed to Issue MCO.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return string.Empty;
+        }
+
+        private string ExchangeMCOs(GalileoAdapter ttGA, XmlNodeList mcos, string ticketsTemplate, string mcoDisplay, string exchangeTemplate)
+        {
+            try
+            {
+                // **********************************************************
+                // Display MCO 1.4
+                // **********************************************************
+                var _mcoResp = ttGA.SendMessage(mcoDisplay, ConversationID);
+
+                var index = 1;
+                foreach (XmlNode mco in mcos)
+                {
+                    // **********************************************************
+                    // Ticketing Modification 1.6
+                    // **********************************************************
+                    var _exch = exchangeTemplate.Replace("<FareNum/>", $"<FareNum>{GetFareNumber(_mcoResp)}</FareNum>");
+                    _mcoResp = ttGA.SendMessage(ticketsTemplate, ConversationID);
+                    if (!_mcoResp.Contains("OK-"))
+                        throw new Exception("Failed to Issue MCO.");
+
+                    // **********************************************************
+                    // Initiate MCO Exchange 1.8
+                    // **********************************************************
+                    ticketsTemplate = ticketsTemplate.Replace("<FareNum/>", $"<FareNum>{GetFareNumber(_mcoResp)}</FareNum>");
+                    _mcoResp = ttGA.SendMessage(ticketsTemplate, ConversationID);
+                    if (!_mcoResp.Contains("OK-"))
+                        throw new Exception("Failed to Issue MCO.");
+
+                    // **********************************************************
+                    // Complite MCO Exchange 1.9
+                    // **********************************************************
+                    ticketsTemplate = ticketsTemplate.Replace("<FareNum/>", $"<FareNum>{GetFareNumber(_mcoResp)}</FareNum>");
+                    _mcoResp = ttGA.SendMessage(ticketsTemplate, ConversationID);
+                    if (!_mcoResp.Contains("OK-"))
+                        throw new Exception("Failed to Issue MCO.");
+
+                    // **********************************************************
+                    // Complite ADC Mask 1.10
+                    // **********************************************************
+                    ticketsTemplate = ticketsTemplate.Replace("<FareNum/>", $"<FareNum>{GetFareNumber(_mcoResp)}</FareNum>");
+                    _mcoResp = ttGA.SendMessage(ticketsTemplate, ConversationID);
+                    if (!_mcoResp.Contains("OK-"))
+                        throw new Exception("Failed to Issue MCO.");
+
+                    if (mcos.Count != index)
+                    {
+                        // **********************************************************
+                        // Retrive PNR 1.11
+                        // **********************************************************
+                        //var _pnr = GetPNR(_read, ttGA);
+                    }
+
+                    index++;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return string.Empty;
+        }
+
         private string GetPassengerElement(string paxNum, string mcoResp)
         {
             try
@@ -2113,7 +2105,7 @@ namespace Galileo
             }
         }
 
-        private string GetMCONumber(string mcoResp)
+        private string GetMCONumber(string mcoResp, XmlNode mco)
         {
             try
             {
@@ -2123,7 +2115,11 @@ namespace Galileo
                 var oDoc = new XmlDocument();
                 oDoc.LoadXml(mcoResp);
                 var oRoot = oDoc.DocumentElement;
-                var oNd = oRoot.SelectSingleNode("TicketingMods/MCONumber/Num");
+                var pax = mco.SelectSingleNode("MCOMainData/PsgrName");
+                var fv = mco.SelectSingleNode("MCOMainData/TourOperator");
+
+                //var oNd = oRoot.SelectSingleNode("TicketingMods/MCONumber/Num");
+                var oNd = oRoot.SelectSingleNode($"MCODisplay[MCOMainData/PsgrName='{pax}' and MCOMainData/TourOperator='{fv}']/MCONumber/Num");
                 if (oNd != null)
                     return oNd.InnerText;
 
