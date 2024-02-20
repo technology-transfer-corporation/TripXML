@@ -157,7 +157,21 @@ namespace Travelport
 
                 //var token = ConversationID.Split(new[] { "|" }, StringSplitOptions.None);
                 if (string.IsNullOrEmpty(ConversationID))
+                { 
                     ConversationID = ttTP.CreateTerminalSession(branch, host);
+                    if (!String.IsNullOrEmpty(ConversationID))
+                    {
+                        if (!string.IsNullOrEmpty(ConversationID) && ConversationID.Contains("Error"))
+                        {
+                            string conv = ConversationID.Substring(15, ConversationID.Length - 32);
+                            ConversationID = "";
+                            throw new Exception(conv);
+                        }
+                        //We had to create session means that session has to bekilled at the  end. Not in session
+                        return false;
+                    }
+
+                }
 
                 if (!String.IsNullOrEmpty(ConversationID))
                 {

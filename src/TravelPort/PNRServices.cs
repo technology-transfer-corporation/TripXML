@@ -172,6 +172,10 @@ namespace Travelport
                     ? oRoot.SelectSingleNode("UniqueID/@ID").Value
                     : string.Empty;
 
+                var oldSessionID = oRoot.SelectSingleNode("UniqueID/@ID") != null
+                    ? oRoot.SelectSingleNode("ConversationID").Value
+                    : string.Empty;
+
                 var isPricePublished = Request.Contains(" FareType=\"Published\" ") || Request.Contains("Markup") || Request.Contains("TourCode") || Request.Contains("Endorsement");
                 var withBrands = Request.Contains("BrandedFares");
 
@@ -210,30 +214,40 @@ namespace Travelport
                     strRequest = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{response}</Response></OTA_PNRRepriceRQ>");
                     var airRQ = CoreLib.TransformXML(strRequest, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
                     var airRS = ttTP.SendMessage(airRQ, TravelPortWSAdapter.enRequestType.AirService);
+
                     strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{airRS}</universal:UniversalRecordRetrieveRsp>");
-                    //TODO: Add call to XSLT in order to modify with TourCode, Endorsemenet and Commission
-                    if (Request.Contains("StoreFare=\"true\""))
+                    
+                    //Check RePrice response for correct FareBasis Codes
+                    var _FBCheck = CheckFareBasisCodes(airRS);
+                    if (!_FBCheck.IsChecked)
                     {
-                        string modRS = string.Empty; //response;
-
-                        // store new pricing in UR                        
-                        var modRQ = strRequest.Replace("</OTA_PNRRepriceRQ>", $"<NewPrice>{airRS}</NewPrice></OTA_PNRRepriceRQ>");
-                        modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
-                        modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
-                        strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
-
-                        if (isPricePublished && (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0))
+                        strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"<Errors>{_FBCheck.Message}</Errors></universal:UniversalRecordRetrieveRsp>");
+                    }
+                    else
+                    {
+                        if (Request.Contains("StoreFare=\"true\""))
                         {
-                            //&& oRoot.SelectNodes("StoredFare[@FareType='Published']").Count > 0)
-                            //<Response>{modRS}</Response>
-                            var universalRecord = modRS.Contains("AirPricingInfo") ? modRS : response;
-                            universalRecord = UpdateRQVesion(universalRecord, modRS);
-                            modRQ = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{universalRecord}</Response></OTA_PNRRepriceRQ>").Replace("</OTA_PNRRepriceRQ>", $"<UpdatePrice>{airRS}</UpdatePrice></OTA_PNRRepriceRQ>");
-                            CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "UpdatePrice RQ", modRQ, ProviderSystems.LogUUID);
+                            string modRS = string.Empty; //response;
+
+                            // store new pricing in UR                        
+                            var modRQ = strRequest.Replace("</OTA_PNRRepriceRQ>", $"<NewPrice>{airRS}</NewPrice></OTA_PNRRepriceRQ>");
                             modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
-                            CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Store Price RS", modRQ, ProviderSystems.LogUUID);
                             modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
                             strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
+
+                            if (isPricePublished && (oRoot.SelectNodes("StoredFare[TourCode or Endorsement or Markup]").Count > 0))
+                            {
+                                //&& oRoot.SelectNodes("StoredFare[@FareType='Published']").Count > 0)
+                                //<Response>{modRS}</Response>
+                                var universalRecord = modRS.Contains("AirPricingInfo") ? modRS : response;
+                                universalRecord = UpdateRQVesion(universalRecord, modRS);
+                                modRQ = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{universalRecord}</Response></OTA_PNRRepriceRQ>").Replace("</OTA_PNRRepriceRQ>", $"<UpdatePrice>{airRS}</UpdatePrice></OTA_PNRRepriceRQ>");
+                                CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "UpdatePrice RQ", modRQ, ProviderSystems.LogUUID);
+                                modRQ = CoreLib.TransformXML(modRQ, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
+                                CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Store Price RS", modRQ, ProviderSystems.LogUUID);
+                                modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+                                strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
+                            }
                         }
                     }
                 }
@@ -268,6 +282,37 @@ namespace Travelport
                 response = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
             }
             return response;
+        }
+
+        private (bool IsChecked, string Message) CheckFareBasisCodes(string airRS)
+        {
+            try
+            {
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(Request);
+                XmlElement oRoot = oDoc.DocumentElement;
+                var storedFares = oRoot.SelectNodes("StoredFare");
+
+                foreach (XmlNode fare in storedFares)
+                {
+                    var bExists = false;
+                    var fareBasis = fare.SelectNodes("FareSegments");
+                    foreach (XmlNode fb in fareBasis)
+                    {
+                        var fareB = fb.SelectSingleNode("AirSegments").InnerText;
+                        bExists = airRS.Contains($"FareBasis=\"{fareB}\"");
+                    }
+
+                    if (!bExists)
+                        throw new Exception("Returned price do not match to requested FareBasis.");
+                }
+
+                return (true, string.Empty);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"<Error>{ex.Message}</Error>");
+            }
         }
 
         private string UpdateRQVesion(string universalRecord, string modRS)
