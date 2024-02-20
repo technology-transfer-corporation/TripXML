@@ -7,6 +7,7 @@
 	================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 	
+	Date: 20 Feb 2024 - Kobelev - First step forPrice request added brand information 
 	Date: 17 Nov 2023 - Kobelev - Set default value for common_v50_0:SearchPassenger
 	Date: 11 Sep 2023 - Kobelev - Corrected "ptmarkup" template to recieve AirPriceOnfo from PNR instead of NewPrice.
 	Date: 08 Sep 2023 - Kobelev - Reprice PUB PNR
@@ -171,6 +172,12 @@
 				<xsl:with-param name="action" select="'price'" />
 				<xsl:with-param name="pnr" select="$PNR" />
 			</xsl:call-template>
+			
+			<!-- AirPrice Command -->
+			<xsl:apply-templates select="$PNR/air:AirReservation/air:AirPricingInfo[@PricingType='StoredFare'][1]" mode="brandFare">
+				<xsl:with-param name="ptc" select="$PNR/air:AirReservation/air:AirPricingInfo/air:PassengerType[1]/@Code" />
+			</xsl:apply-templates>
+			
 			<xsl:call-template name="EmulateOfficePrice" />
 		</air:AirPriceReq>
 	</xsl:template>
