@@ -172,9 +172,9 @@ namespace Travelport
                     ? oRoot.SelectSingleNode("UniqueID/@ID").Value
                     : string.Empty;
 
-                var oldSessionID = oRoot.SelectSingleNode("UniqueID/@ID") != null
-                    ? oRoot.SelectSingleNode("ConversationID").Value
-                    : string.Empty;
+                //var oldSessionID = oRoot.SelectSingleNode("UniqueID/@ID") != null
+                //    ? oRoot.SelectSingleNode("ConversationID").Value
+                //    : string.Empty;
 
                 var isPricePublished = Request.Contains(" FareType=\"Published\" ") || Request.Contains("Markup") || Request.Contains("TourCode") || Request.Contains("Endorsement");
                 var withBrands = Request.Contains("BrandedFares");
@@ -270,7 +270,7 @@ namespace Travelport
                 }
                 finally
                 {
-                    if (inSession)
+                    if (!inSession)
                     {
                         ttTP.CloseTerminalSession(branch, host, ConversationID);
                         ConversationID = string.Empty;
