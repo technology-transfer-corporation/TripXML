@@ -228,7 +228,7 @@ namespace Travelport
                 string strLine = $"<Message Type=\'{msgType}\' RequestTime=\'{requestTime.ToString("dd MMM yyyy HH:mm:ss")}\' ResponseTime=\'{responseTime.ToString("dd MMM yyyy HH:mm:ss")}\' Duration=\'{dur.TotalSeconds}\'><GalileoMessage>{message}</GalileoMessage></Message>";
                 AddLog(strLine, ProviderSystems);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //throw new Exception($"Error Transforming OTA Request. {ex.Message}");
             }
