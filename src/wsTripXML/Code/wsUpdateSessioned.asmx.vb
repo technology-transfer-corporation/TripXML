@@ -7,12 +7,13 @@ Imports System.Text
 Imports TripXMLMain.modCore
 Imports System.Globalization
 Imports TripXMLTools
+Imports TripXMLTools.TripXMLLoad
 
 Namespace wsTravelTalk
 
-    <Protocols.SoapDocumentService(RoutingStyle:=Protocols.SoapServiceRoutingStyle.RequestElement), WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsUpdateSessioned", _
-        Name:="wsUpdateSessioned", _
-        Description:="A TripXML Web Service to Process UpdateSessioned Messages Request.")> _
+    <Protocols.SoapDocumentService(RoutingStyle:=Protocols.SoapServiceRoutingStyle.RequestElement), WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsUpdateSessioned",
+        Name:="wsUpdateSessioned",
+        Description:="A TripXML Web Service to Process UpdateSessioned Messages Request.")>
     Public Class wsUpdateSessioned
         Inherits WebService
 
@@ -127,6 +128,51 @@ Namespace wsTravelTalk
 
                                 oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
                             End If
+                            'If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
+                            '    If Not oNode.SelectSingleNode("OperatingAirline").Attributes("Code") Is Nothing Then
+                            '        If oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value <> "" Then
+                            '            oNode.SelectSingleNode("OperatingAirline").InnerText = DecodeValue(DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                            '        ElseIf Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
+                            '            Dim attCode As XmlAttribute
+                            '            attCode = oDoc.CreateAttribute("Code")
+                            '            attCode.Value = TripXMLLoad.EncodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                            '            'GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                            '            oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
+
+                            '            oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
+                            '        End If
+                            '        'oNode.SelectSingleNode("OperatingAirline").InnerText = DecodeValue(DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                            '    Else
+                            '        If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
+                            '            Dim attCode As XmlAttribute
+                            '            attCode = oDoc.CreateAttribute("Code")
+                            '            If Not oNode.SelectSingleNode("OperatingAirline").Attributes("Code") Is Nothing Then
+                            '                attCode.Value = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
+                            '                'GetEncodeValue(ttAirlines, oNode.SelectSingleNode("OperatingAirline").InnerText)
+
+                            '                If Not String.IsNullOrEmpty(attCode.Value) Then
+                            '                    oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
+                            '                    oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
+                            '                End If
+                            '            Else
+                            '                attCode.Value = TripXMLLoad.EncodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
+
+                            '                If Not String.IsNullOrEmpty(attCode.Value) Then
+                            '                    oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
+                            '                    oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
+                            '                End If
+                            '            End If
+                            '        End If
+                            '    End If
+                            'ElseIf Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
+                            '    Dim attCode As XmlAttribute
+                            '    attCode = oDoc.CreateAttribute("Code")
+                            '    attCode.Value = TripXMLLoad.EncodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                            '    'GetEncodeValue(ttAirlinesNames, oNode.SelectSingleNode("OperatingAirline").InnerText)
+                            '    oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode)
+
+                            '    oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower())
+                            'End If
 
                             If Not oNode.SelectSingleNode("MarketingAirline") Is Nothing Then
                                 oNode.SelectSingleNode("MarketingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
@@ -195,6 +241,8 @@ Namespace wsTravelTalk
                     Select Case .Providers(0).Name.ToLower
                         Case "amadeusws"
                             strResponse = SendTravelRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
+
+                            strResponse = DecodePNRRead(strResponse, ttCredential.UserID, uuID)
                         Case "apollo", "galileo"
                             sb.Remove(0, sb.Length())
                             If ttProviderSystems.System Is Nothing Then
@@ -250,7 +298,7 @@ Namespace wsTravelTalk
 
 #Region " Web Methods "
 
-        <CompressionExtension.CompressionExtension()> _
+        <CompressionExtension.CompressionExtension()>
         <WebMethod(Description:="Process UpdateSessioned Info Messages Request.")>
         <Protocols.SoapHeader("tXML")>
         Public Function wmUpdateSessioned(ByVal OTA_UpdateSessionedRQ As wmUpdateSessionedIn.OTA_UpdateSessionedRQ) As <XmlElementAttribute("OTA_TravelItineraryRS")> wmTravelItineraryOut_v03.OTA_TravelItineraryRS
@@ -314,7 +362,7 @@ Namespace wsTravelTalk
 
         End Function
 
-        <WebMethod(Description:="Process UpdateSessioned Info Xml Messages Request.")> _
+        <WebMethod(Description:="Process UpdateSessioned Info Xml Messages Request.")>
         Public Function wmUpdateSessionedXml(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.UpdateSessioned)
         End Function
