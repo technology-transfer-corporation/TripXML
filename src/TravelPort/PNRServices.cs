@@ -214,6 +214,13 @@ namespace Travelport
                     strRequest = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{response}</Response></OTA_PNRRepriceRQ>");
                     var airRQ = CoreLib.TransformXML(strRequest, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
                     var airRS = ttTP.SendMessage(airRQ, TravelPortWSAdapter.enRequestType.AirService);
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Price Request", airRS, ProviderSystems.LogUUID);
+                    //Repeat call if response is empty
+                    if (string.IsNullOrEmpty(airRS))
+                    { 
+                        airRS = ttTP.SendMessage(airRQ, TravelPortWSAdapter.enRequestType.AirService);
+                        CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Repeated Price Request", airRS, ProviderSystems.LogUUID);
+                    }
 
                     strRetrieve = strRetrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{airRS}</universal:UniversalRecordRetrieveRsp>");
                     
