@@ -242,7 +242,7 @@ Namespace wsTravelTalk
                         Case "amadeusws"
                             strResponse = SendTravelRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
 
-                            strResponse = DecodePNRRead(strResponse, ttCredential.UserID, uuID)
+
                         Case "apollo", "galileo"
                             sb.Remove(0, sb.Length())
                             If ttProviderSystems.System Is Nothing Then
@@ -271,15 +271,13 @@ Namespace wsTravelTalk
                             'PreServiceRequest(sTPRequest, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, uuID, "", True)
                             'strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, sTPRequest, "v03")
 
-                            strResponse = DecodePNRRead(strResponse, ttCredential.UserID, uuID)
                         Case Else
                             GotResponse(FormatErrorMessage(ttServiceID, sb.Append("Provider ").Append(.Providers(0).Name).Append(" Not Currently Supported.").ToString(), .Providers(0).Name))
                             sb.Remove(0, sb.Length())
                     End Select
-
                 End With
-
-                ' DecodeUpdateSessioned(strResponse) Not Implemented.
+                strResponse = DecodePNRRead(strResponse, ttCredential.UserID, uuID)
+                'DecodeUpdateSessioned(strResponse) Not Implemented.
 
                 PostServiceRequest(strResponse, validateXSDOut, ttServiceID, ttCredential.UserID)
 

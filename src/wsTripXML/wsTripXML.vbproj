@@ -66,8 +66,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoTicket.Domain, Version=1.1.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoTicket.Domain.1.1.12\lib\net48\AutoTicket.Domain.dll</HintPath>
+    <Reference Include="AutoTicket.Domain, Version=1.1.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoTicket.Domain.1.1.14\lib\net48\AutoTicket.Domain.dll</HintPath>
     </Reference>
     <Reference Include="AutoTicket.Infrastructure, Version=1.0.17.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoTicket.Infrastructure.1.0.17\lib\net48\AutoTicket.Infrastructure.dll</HintPath>
