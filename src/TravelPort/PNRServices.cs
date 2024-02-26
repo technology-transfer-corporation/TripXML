@@ -305,20 +305,44 @@ namespace Travelport
                 {
                     var bExists = false;
                     var fareBasis = fare.SelectNodes("FareSegments");
+                    var brands = fare.SelectNodes("BrandedFares");
                     if (fareBasis.Count.Equals(0))
                         continue;
 
-                    foreach (XmlNode fb in fareBasis)
+                    if (brands.Count > 0)
                     {
-                        var fareB = fb.SelectSingleNode("AirSegments").InnerText;
-                        bExists = airRS.Contains($"FareBasis=\"{fareB}\"");
+                        var index = 0;
+                        foreach (XmlNode fb in fareBasis)
+                        {
+                            var fareB = fb.SelectSingleNode("AirSegments").InnerText;
+
+                            /********************************************************
+                            //According to Irina we will check only Adult FareBasis, since they usually do not containes additional last two letters.
+                            if (fareB.Length > 7)
+                                fareB = fareB.Substring(0, 7);
+                            ********************************************************/
+
+                            var brand = brands.Item(index).SelectSingleNode("FareFamily").InnerText;
+                            bExists = string.IsNullOrEmpty(brand) 
+                                    ? airRS.Contains($"FareBasis=\"{fareB}\"") 
+                                    : airRS.Contains($"FareBasis=\"{fareB}\"") && airRS.ToUpper().Contains($"NAME=\"{brand}\"");
+                            index++;
+                        }
+                    }
+                    else 
+                    {
+                        foreach (XmlNode fb in fareBasis)
+                        {
+                            var fareB = fb.SelectSingleNode("AirSegments").InnerText;
+                            bExists = airRS.Contains($"FareBasis=\"{fareB}\"");
+                        }
                     }
 
-                    if (!bExists)
-                        throw new Exception("Returned price do not match to requested FareBasis.");
+                    if (bExists)
+                        return (true, string.Empty);
                 }
 
-                return (true, string.Empty);
+                throw new Exception("Returned price do not match to requested FareBasis.");
             }
             catch (Exception ex)
             {
