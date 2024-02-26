@@ -333,8 +333,7 @@ namespace Travelport
                     {
                         foreach (XmlNode fb in fareBasis)
                         {
-                            var fareB = fb.SelectSingleNode("AirSegments").InnerText;
-                            bExists = airRS.Contains($"FareBasis=\"{fareB}\"");
+                            bExists = airRS.Contains($"FareBasis=\"{fb.SelectSingleNode("AirSegments").InnerText}\"");
                         }
                     }
 
