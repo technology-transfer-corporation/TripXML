@@ -197,6 +197,7 @@
 					<Location>
 						<xsl:value-of select="AT" />
 					</Location>
+					<ValidFor>DEPOST FOR FUTURE TRANSPORTATION</ValidFor>
 					<RelatedTktNum/>
 					<Commission>0.00</Commission>
 					<MCOAmt>
@@ -207,6 +208,7 @@
 					</Currency>
 					<PlatingCarrier>AC</PlatingCarrier>
 				</MCOMainData>
+				<!--
 				<xsl:choose>
 					<xsl:when test="CreditCard != ''">
 						<xsl:apply-templates select="." mode="cc" />
@@ -218,6 +220,7 @@
 						<xsl:apply-templates select="." mode="cash" />
 					</xsl:otherwise>
 				</xsl:choose>
+				-->
 			</MCOProcessingMods>
 		</MiscellaneousChargeOrder_1_0>
 	</xsl:template>
