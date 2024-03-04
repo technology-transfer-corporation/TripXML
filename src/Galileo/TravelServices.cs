@@ -1166,8 +1166,6 @@ namespace Galileo
                     if (_response.Contains("<DocProdDisplayStoredQuote />") | _response.Contains("<Text>NO FARES</Text>"))
                         throw new Exception("Cannot issue ticket - no stored fares in PNR");
 
-
-
                     #region Get existing fare
 
                     XmlNodeList oFareNodes;
@@ -1850,7 +1848,7 @@ namespace Galileo
                 // **********************************************************
                 // Retrieve PNR (1.1) - referencies to PDF file "MCO Exchange Process"
                 // **********************************************************
-                var _pnr = GetPNR(oCreate.ReadRQ, ttGA);
+                var _pnr = GetPNR(oCreate.CurrentRead, ttGA);
 
                 if (oCreate.MCOs == null)
                     throw new Exception("No MCO's were requested.");
@@ -1956,7 +1954,8 @@ namespace Galileo
                     if (!_mcoResp.Contains("MCO DATA STORED"))
                         throw new Exception("Failed to Create MCO.");
 
-                    var _assocPsgrs = GetPassengerElement(mco.SelectSingleNode("PassengerNumber").InnerText, _mcoResp);
+                    //Why do we need this here?
+                    //var _assocPsgrs = GetPassengerElement(mco, pnr);
                 }
 
                 // **********************************************************
@@ -2007,7 +2006,7 @@ namespace Galileo
                     // **********************************************************
                     // Issue MCO 1.5
                     // **********************************************************
-                    getTickets = getTickets.Replace("<Num/>", $"<Num>{GetMCONumber(_mcoDisp, mco)}</Num>");
+                    getTickets = getTickets.Replace("<Num />", $"<Num>{GetMCONumber(_mcoDisp, mco)}</Num>");
                     _mcoDisp = ttGA.SendMessage(getTickets, ConversationID);
                     if (!_mcoDisp.Contains("OK-"))
                         throw new Exception("Failed to Issue MCO.");
@@ -2082,17 +2081,24 @@ namespace Galileo
             return string.Empty;
         }
 
-        private string GetPassengerElement(string paxNum, string mcoResp)
+        private string GetPassengerElement(XmlNode mco, string pnr)
         {
             try
             {
-                var numbrs = paxNum.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries);
-                if (string.IsNullOrEmpty(mcoResp))
-                    throw new Exception("Missing request");
+                var paxName = mco.SelectSingleNode("MiscellaneousChargeOrder_1_0/MCOProcessingMods/MCOMainData/PsgrName").InnerText;
 
                 var oDoc = new XmlDocument();
-                oDoc.LoadXml(mcoResp);
+                oDoc.LoadXml(Request);
                 var oRoot = oDoc.DocumentElement;
+                var paxNum = oRoot.SelectSingleNode($"MCOs/MCOMask[PassengerName='{paxName}']/PassengerNumber").InnerText;
+
+                var numbrs = paxNum.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries);
+                if (string.IsNullOrEmpty(pnr))
+                    throw new Exception("Missing request");
+
+                oDoc = new XmlDocument();
+                oDoc.LoadXml(pnr);
+                oRoot = oDoc.DocumentElement;
                 var oNd = oRoot.SelectSingleNode($"DocProdDisplayStoredQuote/AssocPsgrs[PsgrAry/Psgr/PsgrNum={numbrs[0].ToString().PadLeft(2, '0')} and PsgrAry/Psgr/AbsNameNum={numbrs[1].ToString().PadLeft(2, '0')}]");
                 if (oNd != null)
                     return oNd.InnerXml;
@@ -2115,8 +2121,8 @@ namespace Galileo
                 var oDoc = new XmlDocument();
                 oDoc.LoadXml(mcoResp);
                 var oRoot = oDoc.DocumentElement;
-                var pax = mco.SelectSingleNode("MCOMainData/PsgrName");
-                var fv = mco.SelectSingleNode("MCOMainData/TourOperator");
+                var pax = oRoot.SelectSingleNode("MCODisplay/MCOMainData/PsgrName").InnerText;
+                var fv = oRoot.SelectSingleNode("MCODisplay/MCOMainData/TourOperator").InnerText;
 
                 //var oNd = oRoot.SelectSingleNode("TicketingMods/MCONumber/Num");
                 var oNd = oRoot.SelectSingleNode($"MCODisplay[MCOMainData/PsgrName='{pax}' and MCOMainData/TourOperator='{fv}']/MCONumber/Num");
