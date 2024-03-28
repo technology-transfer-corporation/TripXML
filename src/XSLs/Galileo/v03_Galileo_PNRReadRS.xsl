@@ -368,14 +368,18 @@
 						</SpecialRemarks>
 					</xsl:if>
 				</SpecialRequestDetails>
-			</xsl:if>
-			<xsl:if test="../DocProdDisplayStoredQuote/AdditionalPsgrFareInfo">
+			</xsl:if>			
 				<TPA_Extensions>
 					<IssuedTickets>
-						<xsl:apply-templates select="../DocProdDisplayStoredQuote/AdditionalPsgrFareInfo[TkNum != '']" mode="IssuedTicket" />
+						<xsl:if test="../DocProdDisplayStoredQuote/AdditionalPsgrFareInfo">
+							<xsl:apply-templates select="../DocProdDisplayStoredQuote/AdditionalPsgrFareInfo[TkNum != '']" mode="IssuedTicket" />
+						</xsl:if>
+						<xsl:if test="//VndRmk[contains(Rmk, 'MCO')]">
+							<xsl:apply-templates select="//VndRmk[contains(Rmk, 'DEPOST FOR FUTURE')]" mode="mco" />
+						</xsl:if>
 					</IssuedTickets>
 				</TPA_Extensions>
-			</xsl:if>
+			
 		</ItineraryInfo>
 		<!--******************************************************-->
 		<!--			Form of Payment                               -->
@@ -1118,21 +1122,21 @@
 			<xsl:if test="msxsl:node-set($ptcFare)/BrandInformation">
 				<BrandedFares>
 					<xsl:variable name="arnk">
-							<xsl:value-of select="format-number(//PNRBFRetrieve/ARNK/SegNum, '00')"/>
-						</xsl:variable>
-							
+						<xsl:value-of select="format-number(//PNRBFRetrieve/ARNK/SegNum, '00')"/>
+					</xsl:variable>
+
 					<xsl:for-each select="msxsl:node-set($ptcFare)/SegRelatedInfo[UniqueKey=$paxno2]">
 						<xsl:variable name="seg">
 							<xsl:choose>
 								<xsl:when test="format-number(RelSegNum, '00') >= $arnk">
-									<xsl:value-of select="format-number(RelSegNum, '00') + 1"/>								
+									<xsl:value-of select="format-number(RelSegNum, '00') + 1"/>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:value-of select="format-number(RelSegNum, '00')"/>								
-								</xsl:otherwise>								
-							</xsl:choose>							
-						</xsl:variable>					
-						
+									<xsl:value-of select="format-number(RelSegNum, '00')"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:variable>
+
 						<FareFamily>
 							<xsl:attribute name="RPH">
 								<xsl:value-of select="format-number($seg, '0')"/>
@@ -1142,7 +1146,7 @@
 							</xsl:attribute>
 							<xsl:value-of select="msxsl:node-set($ptcFare)/BrandInformation[contains(SegNumList,$seg)]/BrandName"/>
 						</FareFamily>
-						
+
 					</xsl:for-each>
 				</BrandedFares>
 
@@ -1826,6 +1830,15 @@
 			<xsl:with-param name="PsgrsNum">1</xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
+	
+	<xsl:template name="GetPaxNum">
+		<xsl:param name="firstName" />
+		<xsl:param name="lastName" />
+
+		<xsl:variable name="lNum" select="//LNameInfo[LName=$lastName]/LNameNum"/>		
+		<xsl:value-of select="//FNameInfo[PsgrNum=$lNum and FName=$firstName]/AbsNameNum"/>
+		
+	</xsl:template>
 	<!--************************************************************************************-->
 	<!-- 						Telephone									    -->
 	<!--************************************************************************************-->
@@ -2030,7 +2043,6 @@
 		<DirectBill>
 			<xsl:attribute name="DirectBill_ID">Check</xsl:attribute>
 		</DirectBill>
-
 		<xsl:if test="Amt != ''">
 			<xsl:variable name="amt">
 				<xsl:value-of select="Amt"/>
@@ -2074,11 +2086,82 @@
 				</xsl:when>
 			</xsl:choose>
 		</xsl:if>
-
 		<TPA_Extensions>
 			<xsl:attribute name="FOPType">CHECK</xsl:attribute>
 		</TPA_Extensions>
 	</xsl:template>
+
+	<!-- 
+    ************************************************************** 
+    FOP For Other cases	   		                                    
+    ************************************************************** 
+    -->
+	<xsl:template match="ETR_PMT_INF" mode="OTHER">
+		<FormOfPayment>
+			<xsl:attribute name="RPH">
+				<xsl:value-of select="position()" />
+			</xsl:attribute>
+			<xsl:if test="not(contains(/DPW8/PNR_DH_INF/Line[1],'NO DOC HISTORY'))">
+				<xsl:for-each select="/DPW8/PNR_DH_INF/Line[contains(text(), '*M')]">
+					<xsl:if test="not(/DPW8/ETR_INF/MIS_INF/EXG_REI_INF[TIC_NUM = substring-after(@TicketNumber, 'M')])">
+						<MiscChargeOrder>
+							<xsl:attribute name="TicketNumber">
+								<xsl:value-of  select="@TicketNumber" />
+							</xsl:attribute>
+							<xsl:value-of  select="." />
+						</MiscChargeOrder>
+					</xsl:if>
+				</xsl:for-each>
+			</xsl:if>
+			<xsl:if test="not(contains(/DPW8/PNR_DHV_INF/Line[1],'NO DOC HISTORY'))">
+				<xsl:for-each select="/DPW8/PNR_DHV_INF/Line[contains(text(), '*M')]">
+					<xsl:if test="not(/DPW8/ETR_INF/MIS_INF/EXG_REI_INF[TIC_NUM = substring-after(@TicketNumber, 'M')])">
+						<MiscChargeOrder>
+							<xsl:attribute name="TicketNumber">
+								<xsl:value-of  select="@TicketNumber" />
+							</xsl:attribute>
+							<xsl:value-of  select="concat(., ' *VOID* ')" />
+						</MiscChargeOrder>
+					</xsl:if>
+				</xsl:for-each>
+			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="PMT_COD = 'CA'">
+					<DirectBill>
+						<xsl:attribute name="DirectBill_ID">Cash</xsl:attribute>
+					</DirectBill>
+				</xsl:when>
+				<xsl:when test="PMT_COD = 'CK'">
+					<DirectBill>
+						<xsl:attribute name="DirectBill_ID">Check</xsl:attribute>
+					</DirectBill>
+				</xsl:when>
+				<xsl:otherwise>
+					<PaymentCard>
+						<xsl:attribute name="CardCode">
+							<xsl:choose>
+								<xsl:when test="CC_TYP = 'CA'">MC</xsl:when>
+								<xsl:when test="CC_TYP = 'DC'">DN</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="CC_TYP"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:attribute>
+						<xsl:attribute name="CardNumber">
+							<xsl:value-of select="CC_NUM"/>
+						</xsl:attribute>
+						<xsl:attribute name="ExpireDate">
+							<xsl:value-of select="CC_EXP_DAT"/>
+						</xsl:attribute>
+					</PaymentCard>
+					<TPA_Extensions>
+						<xsl:attribute name="FOPType">CC</xsl:attribute>
+					</TPA_Extensions>
+				</xsl:otherwise>
+			</xsl:choose>
+		</FormOfPayment>
+	</xsl:template>
+
 	<!--************************************************************************************-->
 	<!--						Seats Processing		  				           -->
 	<!--************************************************************************************-->
@@ -3911,7 +3994,7 @@
 
 		</IssuedTicket>
 
-		<xsl:if test="//MIS_INF[contains(ORI_TIC_NUM,$tkt)]">
+		<xsl:if test="//VndRmk[contains(Rmk,$tkt)]">
 			<ExchangeDocument>
 				<xsl:attribute name="TravelerRefNumberRPHList">
 					<xsl:value-of select="AbsNameNum"/>
@@ -3954,11 +4037,11 @@
 
 				<xsl:variable name="mco">
 					<xsl:choose>
-						<xsl:when test="//MIS_INF/ORI_TIC_NUM">
-							<xsl:value-of select="//MIS_INF/ORI_TIC_NUM"/>
+						<xsl:when test="//VndRmk[contains(Rmk,'MCO')]">
+							<xsl:value-of select="//VndRmk[contains(Rmk,'MCO')][1]/Rmk"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="//MIS_INF/EXG_REI_INF/TIC_NUM"/>
+							<xsl:value-of select="//VndRmk[contains(Rmk,'MCO')]/Rmk"/>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
@@ -3981,6 +4064,51 @@
 			</ExchangeDocument>
 		</xsl:if>
 
+	</xsl:template>
+
+	<xsl:template match="VndRmk" mode="mco">
+		<xsl:variable name="mcoN">
+			<xsl:value-of select="substring-before(substring-after(Rmk, 'MCO'), ' USD')"/>
+		</xsl:variable>
+		<xsl:variable name="lpax">
+			<xsl:value-of select="substring-before(substring-after(Rmk, 'FUTURE TRANSPORTATION-'),'/')"/>
+		</xsl:variable>
+		<xsl:variable name="fpax">
+			<xsl:value-of select="substring-after(substring-after(Rmk, 'FUTURE TRANSPORTATION-'),'/')"/>
+		</xsl:variable>
+		<xsl:variable name="paxNum" >
+			<xsl:call-template name="GetPaxNum">
+				<xsl:with-param name="firstName" select="$fpax" />
+				<xsl:with-param name="lastName" select="$lpax" />
+			</xsl:call-template>
+		</xsl:variable>
+		<ExchangeDocument>
+			<xsl:attribute name="TravelerRefNumberRPHList">
+				<xsl:value-of select="$paxNum"/>
+			</xsl:attribute>
+
+			<xsl:variable name="mco">
+				<xsl:value-of select="Rmk"/>
+				<!--
+				<xsl:choose>
+					<xsl:when test="//VndRmk[contains(Rmk,'MCO')]">
+						<xsl:value-of select="//VndRmk[contains(Rmk,'MCO')][1]/Rmk"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="//VndRmk[contains(Rmk,'MCO')]/Rmk"/>
+					</xsl:otherwise>
+				</xsl:choose>
+				-->
+			</xsl:variable>
+			<xsl:choose>
+				<xsl:when test="//VndRmk[contains(Rmk, $mcoN) and contains(Rmk, 'VMCO ')]">
+					<xsl:value-of select="concat(substring($mco,1,3),' ',substring($mco,5,24), '-*VOID*')"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="concat(substring($mco,1,3),' ',substring($mco,5,24), '-OK')"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</ExchangeDocument>
 	</xsl:template>
 
 	<xsl:variable name="whitespace" select="'&#09;&#10;&#13; '" />

@@ -39,6 +39,7 @@
 						</RecLoc>
 					</PNRAddr>
 				</PNRBFRetrieveMods>
+				<!--
 				<FareRedisplayMods>
 					<DisplayAction>
 						<Action>D</Action>
@@ -60,6 +61,7 @@
 						</FareNumAry>
 					</FareNumInfo>
 				</FareRedisplayMods>
+				-->
 			</PNRBFManagement_53>
 		</PNRRead>
 
@@ -68,6 +70,7 @@
 				<PNRBFRetrieveMods>
 					<CurrentPNR />
 				</PNRBFRetrieveMods>
+				<!--
 				<FareRedisplayMods>
 					<DisplayAction>
 						<Action>D</Action>
@@ -89,6 +92,7 @@
 						</FareNumAry>
 					</FareNumInfo>
 				</FareRedisplayMods>
+				-->
 			</PNRBFManagement_53>
 		</PNRCurrentRead>
 
@@ -131,48 +135,150 @@
 				</TicketingMods>
 			</DocProdFareManipulation_29>
 		</GetTickets>
-		
-		<ExchangeMCO>			
-				<DocProdFareManipulation_29>
-					<TicketingMods>
-						<FareNumInfo>
-							<FareNumAry>
-								<FareNum/>
-							</FareNumAry>
-						</FareNumInfo>
-						<TicketingControl>
-							<TransType>TK</TransType>
-						</TicketingControl>
-						<ElectronicTicketFailed>
-							<CancelInd/>
-							<IssuePaperTkInd>Y</IssuePaperTkInd>
-						</ElectronicTicketFailed>
-						<AssocPsgrs>
-							<PsgrAry>
-								<Psgr/>
-								<!--
-								<Psgr>
-									<LNameNum>01</LNameNum>
-									<PsgrNum>01</PsgrNum>
-									<AbsNameNum>01</AbsNameNum>
-								</Psgr>
-								-->
-							</PsgrAry>
-						</AssocPsgrs>
-						<OtherFOP>
-							<FOPID>13</FOPID>
-							<Type>0</Type>
-							<PmtCrncy>USD</PmtCrncy>
-							<AddlDataIDAry>
-								<AddlDataID>
-									<ID>9</ID>
-									<Dt/>
-								</AddlDataID>
-							</AddlDataIDAry>
-						</OtherFOP>
-					</TicketingMods>
-				</DocProdFareManipulation_29>			
+
+		<ExchangeMCO>
+			<DocProdFareManipulation_29>
+				<TicketingMods>
+					<ElectronicTicketFailed>
+						<CancelInd />
+						<IssuePaperTkInd>Y</IssuePaperTkInd>
+					</ElectronicTicketFailed>
+					<FareNumInfo>
+						<FareNumAry>
+							<FareNum/>
+						</FareNumAry>
+					</FareNumInfo>					
+					<ElectronicTicketFailed>
+						<CancelInd/>
+						<IssuePaperTkInd>Y</IssuePaperTkInd>
+					</ElectronicTicketFailed>
+					<AssocPsgrs>
+						<PsgrAry>
+							<Psgr/>
+						</PsgrAry>
+					</AssocPsgrs>
+					<TicketingControl>
+						<TransType>TK</TransType>
+					</TicketingControl>
+					<OtherFOP>
+						<FOPID>13</FOPID>
+						<Type>0</Type>
+						<PmtCrncy>USD</PmtCrncy>
+						<AddlDataIDAry>
+							<AddlDataID>
+								<ID>9</ID>
+								<Dt/>
+							</AddlDataID>
+						</AddlDataIDAry>
+					</OtherFOP>
+				</TicketingMods>
+			</DocProdFareManipulation_29>
 		</ExchangeMCO>
+		<CompliteExchangeMCO>
+			<DocProdFareManipulation_29>
+				<TicketingMods>
+					<FareNumInfo>
+						<FareNumAry>
+							<FareNum />
+						</FareNumAry>
+					</FareNumInfo>
+					<TicketingControl>
+						<TransType>EX</TransType>
+					</TicketingControl>
+					<AssocPsgrs>
+						<PsgrAry>
+							<Psgr />
+						</PsgrAry>
+					</AssocPsgrs>
+					<PassengerInfo>
+						<Name>SMITH</Name>
+						<Title>GABBY</Title>
+						<Type/>
+						<Age>0</Age>
+					</PassengerInfo>
+					<ExcRefundTktCoupon>
+						<BeginExchTktNum>01499039678043</BeginExchTktNum>
+						<EndExchTktNum/>
+						<TotCouponNum>1</TotCouponNum>
+						<CouponAry>
+							<Coupon>1</Coupon>
+						</CouponAry>
+					</ExcRefundTktCoupon>
+					<ExchangeOldFareDataBase>
+						<BaseFareCrncy/>
+						<BaseFareAmt>0</BaseFareAmt>
+						<BaseFareNumDec/>
+						<TotFareCrncy>USD</TotFareCrncy>
+						<TotFareAmt>10000</TotFareAmt>
+						<TotFareNumDec>2</TotFareNumDec>
+						<EquivFareCrncy/>
+						<EquivFareAmt>0</EquivFareAmt>
+						<EquivFareNumDec/>
+						<BankSettlementRate/>
+					</ExchangeOldFareDataBase>
+					<TaxInfo>
+						<TaxType>OLD</TaxType>
+						<CrncyCD/>
+						<NumDec/>
+						<MaxNumOfTaxes>20</MaxNumOfTaxes>
+						<TaxInfoAry/>
+					</TaxInfo>
+					<ExcOrigEchangedInfo>
+						<OrigFOP>CC</OrigFOP>
+						<FirstOrigTktNum/>
+						<LastOrigTktNum/>
+						<OrigInvNum/>
+						<OriginCityCd>PHL</OriginCityCd>
+						<FirstDestCityCd>PHL</FirstDestCityCd>
+						<OrigCity>PHL</OrigCity>
+						<OrigTktIssueDt>20220113</OrigTktIssueDt>
+						<IATACD>3386328</IATACD>
+					</ExcOrigEchangedInfo>
+					<ExcNewFareDataBase>
+						<NetFareInd/>
+						<BaseFareCrncy>CAD</BaseFareCrncy>
+						<BaseFareAmt>72200</BaseFareAmt>
+						<BaseFareNumDec>2</BaseFareNumDec>
+						<TotFareCrncy/>
+						<TotFareAmt/>
+						<TotFareNumDec/>
+						<TotFareCrncyOrigTkt/>
+						<TotFareCrncyExchTkt/>
+						<EquivFareCrncy>USD</EquivFareCrncy>
+						<EquivFareAmt>58300</EquivFareAmt>
+						<EquivFareNumDec>2</EquivFareNumDec>
+					</ExcNewFareDataBase>
+					<TaxInfo>
+						<TaxType>NEW</TaxType>
+						<CrncyCD/>
+						<NumDec>2</NumDec>
+						<MaxNumOfTaxes>4</MaxNumOfTaxes>
+						<TaxInfoAry>
+							<TaxInfo>
+								<TaxCD>SQ</TaxCD>
+								<TaxExemptInd/>
+								<TaxAmt>2420</TaxAmt>
+							</TaxInfo>
+							<TaxInfo>
+								<TaxCD>XG</TaxCD>
+								<TaxExemptInd/>
+								<TaxAmt>3036</TaxAmt>
+							</TaxInfo>
+							<TaxInfo>
+								<TaxCD />
+								<TaxExemptInd />
+								<TaxAmt>0</TaxAmt>
+							</TaxInfo>
+							<TaxInfo>
+								<TaxCD />
+								<TaxExemptInd />
+								<TaxAmt>0</TaxAmt>
+							</TaxInfo>
+						</TaxInfoAry>
+					</TaxInfo>
+				</TicketingMods>
+			</DocProdFareManipulation_29>
+		</CompliteExchangeMCO>
 	</xsl:template>
 
 	<xsl:template match="MCOMask">
@@ -206,9 +312,10 @@
 					<Currency>
 						<xsl:value-of select="CurrencyCode" />
 					</Currency>
-					<PlatingCarrier>AC</PlatingCarrier>
+					<PlatingCarrier>
+						<xsl:value-of select="TicketingAirlineCode" />
+					</PlatingCarrier>
 				</MCOMainData>
-				<!--
 				<xsl:choose>
 					<xsl:when test="CreditCard != ''">
 						<xsl:apply-templates select="." mode="cc" />
@@ -220,7 +327,6 @@
 						<xsl:apply-templates select="." mode="cash" />
 					</xsl:otherwise>
 				</xsl:choose>
-				-->
 			</MCOProcessingMods>
 		</MiscellaneousChargeOrder_1_0>
 	</xsl:template>
@@ -229,19 +335,23 @@
 		<CreditCardFOP>
 			<ID>6</ID>
 			<Type>1</Type>
+			<!--
 			<Currency>
 				<xsl:value-of select="CurrencyCode" />
 			</Currency>
 			<Amt>
 				<xsl:value-of select="Amount" />
 			</Amt>
+			-->
 			<ExpDt>
 				<xsl:value-of select="Expiration" />
 			</ExpDt>
-			<TransType/>
-			<ApprovalInd/>
-			<AcceptOverride/>
+			<!--
+			<ApprovalInd>A</ApprovalInd>
+			<AcceptOverride>Y</AcceptOverride>
 			<ValidationBypassReq>N</ValidationBypassReq>
+			<TransType/>			
+			-->
 			<Vnd>
 				<xsl:value-of select="Vendor" />
 			</Vnd>
@@ -257,12 +367,15 @@
 				<xsl:value-of select="Id" />
 			</ID>
 			<Type>2</Type>
+
+			<!--
 			<Currency>
 				<xsl:value-of select="CurrencyCode" />
 			</Currency>
 			<Amt>
 				<xsl:value-of select="Amount" />
 			</Amt>
+			-->
 		</CheckFOP>
 	</xsl:template>
 
@@ -270,12 +383,16 @@
 		<OtherFOP>
 			<FOPID>01</FOPID>
 			<Type>2</Type>
+
+			<!--
 			<PmtCrncy>
 				<xsl:value-of select="CurrencyCode" />
 			</PmtCrncy>
 			<Amt>
 				<xsl:value-of select="Amount" />
 			</Amt>
+			-->
+
 		</OtherFOP>
 	</xsl:template>
 
