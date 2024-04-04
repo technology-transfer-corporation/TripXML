@@ -520,7 +520,8 @@ namespace TripXMLMain
             UpdateVirtualCard = 110,
             ReissueTicket = 111,
             DisplayQueryReport = 112,
-            IssueMCO = 113
+            IssueMCO = 113,
+            DisplayMCO = 114
             // --------------------------------------
         }
 
@@ -958,7 +959,18 @@ namespace TripXMLMain
                             version = "v03";
                             break;
                         }
-
+                    case ttServices.IssueMCO:
+                        {
+                            tag = "TT_IssueMCORS";
+                            version = "1.001";
+                            break;
+                        }
+                    case ttServices.DisplayMCO:
+                        {
+                            tag = "TT_MCODisplay";
+                            version = "1.001";
+                            break;
+                        }
                     default:
                         {
                             tag = "";
