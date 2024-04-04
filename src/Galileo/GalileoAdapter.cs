@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Xml;
+using System.Xml.Serialization;
 using TripXMLMain;
 
 namespace Galileo
@@ -39,6 +41,7 @@ namespace Galileo
             try
             {
                 provider.UserName = !provider.UserName.Contains("GWS/") ? $"GWS/{provider.UserName}" : provider.UserName;
+                
                 ProviderSystems = provider;
 
                 ows = ProviderSystems.System == "Production"

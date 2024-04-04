@@ -137,6 +137,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CarServices.cs" />
+    <Compile Include="Classes\clsMCOClasses.cs" />
     <Compile Include="CruiseServices.cs" />
     <Compile Include="GalileoAdapter.cs">
       <SubType>Code</SubType>
