@@ -119,8 +119,7 @@ namespace TripXMLTools
                     ? provider.Provider.PCCs[0]
                     : provider.Provider.PCCs.Find(p => p.Code == credentials.Providers.First().PCC || p.OpenTypes.Exists(ot => ot.OfficeID.Equals(credentials.Providers.First().PCC)));
                 //  : provider.Provider.PCCs.Select(p => new Pcc { Code = p.OpenTypes.Find(ot => ot.OfficeID.Equals(credentials.Providers.First().PCC)).OfficeID });
-
-                switch (credentials.Providers[0].Name)
+                                switch (credentials.Providers[0].Name)
                 {
                     case "Sabre":
                     case "Galileo":
@@ -222,13 +221,17 @@ namespace TripXMLTools
 
         private static string EvaluateName(string code)
         {
+
             var _code = string.Empty;
 
             if (string.IsNullOrEmpty(code))
                 return string.Empty;
-
+                        
             if (code.Contains("OPERATED BY"))
                 code = code.Replace("OPERATED BY ", "");
+
+            if (code.Length.Equals(2))
+                return code;
 
             _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == code)?.Code;
             if (!string.IsNullOrEmpty(_code))
@@ -279,7 +282,7 @@ namespace TripXMLTools
                     _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(word.TrimEnd()))?.Code;
                     if (!string.IsNullOrEmpty(_code))
                         return _code;
-                }
+                }               
             }
 
             if (code.ToUpper().Contains(" FOR "))
@@ -322,6 +325,10 @@ namespace TripXMLTools
                 if (!Char.IsDigit(_airlines[lastIndex], 0) && _airlines[lastIndex].Length.Equals(2))
                     return _airlines.Last();
             }
+
+            _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(_airlines.First()))?.Code;
+            if (!string.IsNullOrEmpty(_code))
+                return _code;
 
             return _code;
         }
