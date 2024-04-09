@@ -14,7 +14,7 @@ namespace Sabre
 
         public string CreateSession()
         {
-            string strResponse;
+            string response;
 
             // *******************************************************************************
             // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
@@ -27,8 +27,8 @@ namespace Sabre
                 ConversationID = ConversationID.Replace("<", "&lt;").Replace(">", "&gt;");
 
                 // Build Response.
-                strResponse = "<SessionCreateRS Version='1.001'><Success/>";
-                strResponse += $"<ConversationID>{ConversationID}</ConversationID></SessionCreateRS>";
+                response = "<SessionCreateRS Version='1.001'><Success/>";
+                response += $"<ConversationID>{ConversationID}</ConversationID></SessionCreateRS>";
                 
             }
             catch (Exception ex)
@@ -36,12 +36,12 @@ namespace Sabre
                 throw new Exception(ex.Message);
             }
 
-            return strResponse;
+            return response;
         }
 
         public string CloseSession()
         {
-            string strResponse;
+            string response;
 
             // *********************
             // Get ConversationID *
@@ -53,85 +53,71 @@ namespace Sabre
 
                 // ****************************
                 // Close Session with Token  *
-                // ****************************
-                try
-                {
-                    ttSA.CloseSession(ConversationID);
-                    ConversationID = string.Empty;
+                // ****************************                
+                ttSA.CloseSession(ConversationID);
+                ConversationID = string.Empty;
 
-                    strResponse = "<SessionCloseRS Version='1.001'><Success/></SessionCloseRS>";
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
-                }
+                response = "<SessionCloseRS Version='1.001'><Success/></SessionCloseRS>";
+
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.CloseSession, ex.Message, ProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.CloseSession, ex.Message, ProviderSystems);
             }
 
-            return strResponse;
+            return response;
         }
 
         public string ShowMileage()
         {
-            string strResponse;
+            string response;
 
             try
             {
-                
                 // *****************************************************************
                 // Transform OTA ShowMileage Request into Native Sabre Request     *
                 // ***************************************************************** 
-                string strRequest = SetRequest("Sabre_ShowMileageRQ.xsl");
-                if (string.IsNullOrEmpty(strRequest))
+                bool inSession = false;
+                string request = SetRequest("Sabre_ShowMileageRQ.xsl");
+                if (string.IsNullOrEmpty(request))
                     throw new Exception("Transformation produced empty xml.");
 
                 SabreAdapter ttSA = SetAdapter();
-                bool inSession = SetConversationID(ttSA);
-                // *******************************************************************************
-                // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
-                // ******************************************************************************* 
-                strResponse = ttSA.SendMessage(strRequest, "Mileage", "MileageLLSRQ", ConversationID);
 
+                if (request.Contains("HostCommand"))
+                {                 
+                    // *******************************************************************************
+                    // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
+                    // ******************************************************************************* 
+                    response = ttSA.SendMessage(request, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
+                    response = response.Replace("\r\n", "&#xA;").Replace("</SabreCommandLLSRS>", "<ConversationID /></SabreCommandLLSRS>");
+                    inSession = true; //This needed in order not to try to close session when it's already closed
+                }
+                else
+                {
+                    inSession = SetConversationID(ttSA);
+                    // *******************************************************************************
+                    // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
+                    // ******************************************************************************* 
+                    response = ttSA.SendMessage(request, "Mileage", "MileageLLSRQ", ConversationID);
+                }
                 // *****************************************************************
                 // Transform Native Sabre ShowMileage Response into OTA Response   *
                 // ***************************************************************** 
 
-                try
-                {
-                    var strToReplace = "</ShowMileageRS>";
-
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_ShowMileageRS.xsl");
-
-                    if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
-                }
-                finally
-                {
-                    if (!inSession)
-                    {
-                        ttSA.CloseSession(ConversationID);
-                        ConversationID = string.Empty;
-                    }
-                }
+                response = FinalizeResponse(response, ttSA, inSession, "</OTA_ShowMileageRS>", $"{Version}Sabre_ShowMileageRS.xsl");
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.ShowMileage, ex.Message, ProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.ShowMileage, ex.Message, ProviderSystems);
             }
 
-            return strResponse;
+            return response;
         }
-
+                
         public string Cryptic()
         {
-            string strResponse;
+            string response;
             try
             {
                 string cdataToken = "";
@@ -139,8 +125,8 @@ namespace Sabre
                 // *****************************************************************
                 // Transform OTA Cryptic Request into Native Sabre Request     *
                 // ***************************************************************** 
-                string strRequest = SetRequest("Sabre_CrypticRQ.xsl");
-                if (string.IsNullOrEmpty(strRequest))
+                string request = SetRequest("Sabre_CrypticRQ.xsl");
+                if (string.IsNullOrEmpty(request))
                     throw new Exception("Transformation produced empty xml.");
 
                 var oReqDoc = new XmlDocument();
@@ -162,51 +148,32 @@ namespace Sabre
                 // *******************************************************************************
                 // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
                 // ******************************************************************************* 
-                strResponse = ttSA.SendMessage(strRequest, "SabreCommand", "SabreCommandLLSRQ", ConversationID, cdataToken);
-
+                response = ttSA.SendMessage(request, "SabreCommand", "SabreCommandLLSRQ", ConversationID, cdataToken);
+                
                 // *****************************************************************
                 // Transform Native Sabre Cryptic Response into OTA Response   *
                 // ***************************************************************** 
-                try
-                {
-                    var strToReplace = "</SabreCommandLLSRS>";
-
-                    if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
-
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_CrypticRS.xsl");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
-                }
-                finally
-                {
-                    if (!inSession)
-                    {
-                        ttSA.CloseSession(ConversationID);
-                        ConversationID = string.Empty;
-                    }
-                }
+                response = FinalizeResponse(response, ttSA, inSession, "</SabreCommandLLSRS>", $"{Version}Sabre_CrypticRS.xsl");
+                
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.Cryptic, ex.Message, ProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.Cryptic, ex.Message, ProviderSystems);
             }
 
-            return strResponse;
+            return response;
         }
 
         public string SalesReport()
         {
 
-            string strResponse;
+            string response;
             try
             {
                 string cdataToken = string.Empty;
 
-                string strRequest = SetRequest("Sabre_SalesReportRQ.xsl");
-                if (string.IsNullOrEmpty(strRequest))
+                string request = SetRequest("Sabre_SalesReportRQ.xsl");
+                if (string.IsNullOrEmpty(request))
                     throw new Exception("Transformation produced empty xml.");
 
                 SabreAdapter ttSA = SetAdapter();
@@ -215,50 +182,32 @@ namespace Sabre
                 // *******************************************************************************
                 // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
                 // ******************************************************************************* 
-                strResponse = ttSA.SendMessage(strRequest, "SabreCommand", "DailySalesReportLLSRQ", ConversationID, cdataToken);
+                response = ttSA.SendMessage(request, "SabreCommand", "DailySalesReportLLSRQ", ConversationID, cdataToken);
 
                 // *****************************************************************
                 // Transform Native Sabre Cryptic Response into OTA Response   *
                 // ***************************************************************** 
-                try
-                {
-                    if (inSession)
-                        strResponse = strResponse.Replace("</DailySalesReportLLSRQ>", $"<ConversationID>{ConversationID}</ConversationID></DailySalesReportLLSRQ>");
-
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_SalesReportRS.xsl");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
-                }
-                finally
-                {
-                    if (!inSession)
-                    {
-                        ttSA.CloseSession(ConversationID);
-                        ConversationID = string.Empty;
-                    }
-                }
+                response = FinalizeResponse(response, ttSA, inSession, "</DailySalesReportLLSRQ>", $"{Version}Sabre_SalesReportRS.xsl");
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
             }
 
-            return strResponse;
+            return response;
         }
 
         public string CreditCardValid()
         {
-            string strResponse;
+            string response;
 
             try
             {
                 // *****************************************************************
                 // Transform OTA CCValid Request into Native Sabre Request     *
                 // ***************************************************************** 
-                string strRequest = SetRequest("Sabre_CCValidRQ.xsl");
-                if (string.IsNullOrEmpty(strRequest))
+                string request = SetRequest("Sabre_CCValidRQ.xsl");
+                if (string.IsNullOrEmpty(request))
                     throw new Exception("Transformation produced empty xml.");
 
                 SabreAdapter ttSA = SetAdapter();
@@ -267,53 +216,32 @@ namespace Sabre
                 // *******************************************************************************
                 // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
                 // ******************************************************************************* 
-                strResponse = ttSA.SendMessage(strRequest, "Air", "SabreCommandLLSRQ", ConversationID);
+                response = ttSA.SendMessage(request, "Air", "SabreCommandLLSRQ", ConversationID);
 
                 // *****************************************************************
                 // Transform Native Sabre CCValid Response into OTA Response   *
                 // ***************************************************************** 
-
-                try
-                {
-                    var strToReplace = "</CCValidRS>";
-
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_CCValidRS.xsl");
-
-                    if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
-                }
-                finally
-                {
-                    if (!inSession)
-                    {
-                        ttSA.CloseSession(ConversationID);
-                        ConversationID = string.Empty;
-                    }
-                }
+                response = FinalizeResponse(response, ttSA, inSession, "</CCValidRS>", $"{Version}Sabre_CCValidRS.xsl");
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.CCValid, ex.Message, ProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.CCValid, ex.Message, ProviderSystems);
             }
 
-            return strResponse;
+            return response;
         }
 
         public string CurrencyConvertion()
         {
-            string strResponse;
+            string response;
 
             try
             {
                 // *****************************************************************
                 // Transform OTA CurConv Request into Native Sabre Request     *
                 // ***************************************************************** 
-                string strRequest = SetRequest("Sabre_CurConvRQ.xsl");
-                if (string.IsNullOrEmpty(strRequest))
+                string request = SetRequest("Sabre_CurConvRQ.xsl");
+                if (string.IsNullOrEmpty(request))
                     throw new Exception("Transformation produced empty xml.");
 
                 SabreAdapter ttSA = SetAdapter();
@@ -323,52 +251,33 @@ namespace Sabre
                 // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
                 // ******************************************************************************* 
                 ttSA = new SabreAdapter(ProviderSystems);
-                strResponse = ttSA.SendMessage(strRequest, "Air", "SabreCommandLLSRQ", ConversationID);
+                response = ttSA.SendMessage(request, "Air", "SabreCommandLLSRQ", ConversationID);
 
                 // *****************************************************************
                 // Transform Native Sabre CurConv Response into OTA Response   *
                 // ***************************************************************** 
-                try
-                {
-                    var strToReplace = "</CurConvRS>";
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_CurConvRS.xsl");
-
-                    if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
-                }
-                finally
-                {
-                    if (!inSession)
-                    {
-                        ttSA.CloseSession(ConversationID);
-                        ConversationID = string.Empty;
-                    }
-                }
+                response = FinalizeResponse(response, ttSA, inSession, "</CurConvRS>", $"{Version}Sabre_CurConvRS.xsl");                
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.CurConv, ex.Message, ProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.CurConv, ex.Message, ProviderSystems);
             }
 
 
-            return strResponse;
+            return response;
         }
 
         public string TimeDifference()
         {
-            string strResponse;
+            string response;
 
             try
             {
                 // *****************************************************************
                 // Transform OTA TimeDiff Request into Native Sabre Request     *
                 // ***************************************************************** 
-                string strRequest = SetRequest("Sabre_TimeDiffRQ.xsl");
-                if (string.IsNullOrEmpty(strRequest))
+                string request = SetRequest("Sabre_TimeDiffRQ.xsl");
+                if (string.IsNullOrEmpty(request))
                     throw new Exception("Transformation produced empty xml.");
 
                 SabreAdapter ttSA = SetAdapter();
@@ -377,43 +286,24 @@ namespace Sabre
                 // *******************************************************************************
                 // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
                 // ******************************************************************************* 
-                strResponse = ttSA.SendMessage(strRequest, "Air", "SabreCommandLLSRQ", ConversationID);
+                response = ttSA.SendMessage(request, "Air", "SabreCommandLLSRQ", ConversationID);
 
                 // *****************************************************************
                 // Transform Native Sabre TimeDiff Response into OTA Response   *
                 // ***************************************************************** 
-                try
-                {
-                    var strToReplace = "</TimeDiffRS>";
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_TimeDiffRS.xsl");
-
-                    if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
-                }
-                finally
-                {
-                    if (!inSession)
-                    {
-                        ttSA.CloseSession(ConversationID);
-                        ConversationID = string.Empty;
-                    }
-                }
+                response = FinalizeResponse(response, ttSA, inSession, "</TimeDiffRS>", $"{Version}Sabre_TimeDiffRS.xsl");                
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.TimeDiff, ex.Message, ProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.TimeDiff, ex.Message, ProviderSystems);
             }
 
-            return strResponse;
+            return response;
         }
 
         public string Native()
         {
-            string strResponse;
+            string response;
 
             // *********************
             // Get ConversationID *
@@ -428,46 +318,53 @@ namespace Sabre
                 if (oRoot.SelectSingleNode("Native") == null)
                     throw new Exception("Native Message is missing in the Request.");
                 
-                string strRequest = oRoot.SelectSingleNode("Native")?.InnerXml;
+                string request = oRoot.SelectSingleNode("Native")?.InnerXml;
 
                 SabreAdapter ttSA = SetAdapter();
                 bool inSession = SetConversationID(ttSA);
                 // *******************************************************************************
                 // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
                 // ******************************************************************************* 
-                strResponse = ttSA.SendNativeMessage(strRequest, ConversationID);
+                response = ttSA.SendNativeMessage(request, ConversationID);
 
                 // ********************
                 // Build Response    *
                 // ********************
-                try
-                {
-                    var strToReplace = "</NativeRS>";
-
-                    strResponse = $"<NativeRS><Success/><Response>{strResponse.Replace("<", "&lt;").Replace(">", "&gt;")}</Response></NativeRS>";
-
-                    if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ strToReplace}");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error in Native Response.\r\n{ex.Message}");
-                }
-                finally
-                {
-                    if (!inSession)
-                    {
-                        ttSA.CloseSession(ConversationID);
-                        ConversationID = string.Empty;
-                    }
-                }
+                response = $"<NativeRS><Success/><Response>{response.Replace("<", "&lt;").Replace(">", "&gt;")}</Response></NativeRS>";
+                response = FinalizeResponse(response, ttSA, inSession, "</NativeRS>");                
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.Native, ex.Message, ProviderSystems);
+                response = modCore.FormatErrorMessage(modCore.ttServices.Native, ex.Message, ProviderSystems);
             }
 
-            return strResponse;
+            return response;
+        }
+
+        private string FinalizeResponse(string response, SabreAdapter ttSA, bool inSession, string tagToReplace, string stylesheet = "")
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(stylesheet))
+                    response = CoreLib.TransformXML(response, XslPath, stylesheet);
+
+                if (inSession)
+                    response = response.Replace(tagToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ tagToReplace}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+            }
+            finally
+            {
+                if (!inSession)
+                {
+                    ttSA.CloseSession(ConversationID);
+                    ConversationID = string.Empty;
+                }
+            }
+
+            return response;
         }
     }
 }
