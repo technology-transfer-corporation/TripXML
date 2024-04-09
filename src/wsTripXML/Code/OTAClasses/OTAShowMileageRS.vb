@@ -59,23 +59,39 @@ Namespace wsTravelTalk.wmShowMileageOut
         Public FromCity As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlElementAttribute("ToCity")> _
-        Public ToCity() As ToCity
+        <System.Xml.Serialization.XmlElementAttribute("ToCity")>
+        Public ToCity As ToCity
 
         '<remarks/>
         Public TotalMileage As String
 
         '<remarks/>
+        <System.Xml.Serialization.XmlElementAttribute("OperatingCarrier")>
+        Public OperatingCarrier As String
+
+        '<remarks/>
         Public ConversationID As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public Version As String
+
+        '<remarks/>
+        <System.Xml.Serialization.XmlElementAttribute("Remarks")>
+        Public Remarks As Remarks
     End Class
 
     '<remarks/>
-    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)> _
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
     Public Class Success
+    End Class
+
+    '<remarks/>
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
+    Public Class Remarks
+        '<remarks/>
+        <System.Xml.Serialization.XmlElementAttribute("Remark")>
+        Public Remark() As String
     End Class
 
     '<remarks/>

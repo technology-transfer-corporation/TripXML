@@ -20,7 +20,7 @@ Imports wsTripXML.wsTravelTalk.wmCryptic
 Namespace wsTravelTalk.wmShowMileageIn
 
     '<remarks/>
-    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)> _
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
     Public Class OTA_ShowMileageRQ
 
         '<remarks/>
@@ -30,8 +30,30 @@ Namespace wsTravelTalk.wmShowMileageIn
         Public FromCity As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlElementAttribute("ToCity")> _
+        <System.Xml.Serialization.XmlElementAttribute("ToCity")>
         Public ToCity() As String
+
+    End Class
+
+    '<remarks/>
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
+    Public Class OTA_ShowMilesRQ
+
+        '<remarks/>
+        Public POS As POS
+
+        '<remarks/>
+        <System.Xml.Serialization.XmlElementAttribute("CarrierCode")>
+        Public CarrierCode As String
+
+        '<remarks/>
+        <System.Xml.Serialization.XmlElementAttribute("FlightNummber")>
+        Public FlightNummber As String
+
+        '<remarks/>
+        <System.Xml.Serialization.XmlElementAttribute("TravelDate")>
+        Public TravelDate As String
+
     End Class
 
     '<remarks/>
