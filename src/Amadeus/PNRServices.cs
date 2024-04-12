@@ -1473,7 +1473,8 @@ namespace AmadeusWS
                                         var ffp = ffList.First();
                                         var tsts = string.Join(",", ffList.Select(x => x.Item1));
                                         ffList.Clear();
-                                        ffList.Add(new Tuple<string, string, string>(tsts, Regex.Replace(ffp.Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", ""), Regex.Replace(ffp.Item3, @"\/(P\d+(,\d+)*|PAX|PI|INF)", "")));
+                                        ffList.Add(new Tuple<string, string, string>(tsts, Regex.Replace(ffp.Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)", ""),
+                                            Regex.Replace(ffp.Item3, @"\/(P\d+(,\d+)*|PAX|PI|INF)", "")));
                                     }
                                     else if ((ffList.TrueForAll(x => ffList.TrueForAll(r => Regex.Replace(r.Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)|\/ZO-0\*[A-Z0-9.,]*", "") // same price opts w/tktDes
                                         .Equals(Regex.Replace(ffList.First().Item2, @"\/(P\d+(,\d+)*|PAX|PI|INF)|\/ZO-0\*[A-Z0-9.,]*", ""))))))
@@ -2471,7 +2472,7 @@ namespace AmadeusWS
             doc.LoadXml(request);
             XmlElement root = doc.DocumentElement;
 
-            var res = new List<Tuple<string, string, string>>();
+            var temRes = new List<Tuple<string, string, string>>();
 
             XmlNodeList nodes = root.SelectNodes("//StoredFare");
 
@@ -2536,10 +2537,8 @@ namespace AmadeusWS
 
             if (paxFareSegsGrouped.SelectMany(x => x.Item2).ToList().FindAll(x => x.Item2 == "S").TrueForAll(s => s.Item1 == paxFareSegsGrouped.First().Item2.First(x => x.Item2 == "S").Item1) &&
                 paxFareSegsGrouped.SelectMany(x => x.Item2).ToList().FindAll(x => x.Item2 == "S").Distinct().Count().Equals(segCount) &&
-                paxFareSegsGrouped.SelectMany(x => x.Item2).ToList().FindAll(x => x.Item2 == "TD").Distinct().Count().Equals(segCount) &&
-                paxFareSegsGrouped.TrueForAll(p => p.Item2.FindAll(x => x.Item2 == "TD").OrderBy(x => x.Item3).SequenceEqual(
-                          paxFareSegsGrouped.First().Item2.FindAll(x => x.Item2 == "TD").OrderBy(x => x.Item3)))
-                )
+                (!paxFareSegsGrouped.SelectMany(x => x.Item2).ToList().Any(x => x.Item2 == "TD") || (paxFareSegsGrouped.SelectMany(x => x.Item2).ToList().FindAll(x => x.Item2 == "TD").Distinct().Count().Equals(segCount) &&
+                paxFareSegsGrouped.TrueForAll(p => p.Item2.FindAll(x => x.Item2 == "TD").OrderBy(x => x.Item3).SequenceEqual(paxFareSegsGrouped.First().Item2.FindAll(x => x.Item2 == "TD").OrderBy(x => x.Item3))))))
             {
                 string tdes = "";
                 var grpTd = paxFareSegsGrouped.First().Item2.FindAll(x => x.Item2 == "TD").GroupBy(x => x.Item1);
@@ -2586,9 +2585,9 @@ namespace AmadeusWS
             }
             foreach (var psg in paxFareSegsGrouped)
             {
-                var segs = psg.Item2.FindAll(p => p.Item2.StartsWith("S")).TrueForAll(s => s.Item1.Equals(psg.Item2.First().Item1)) && psg.Item2.FindAll(p => p.Item2.StartsWith("S")).Count.Equals(segCount) ?
-                $"/FF-{psg.Item2.First(x => x.Item2 == "S").Item1}" :
-                    $"{string.Join("", psg.Item2.FindAll(p => p.Item2.StartsWith("S")).SelectMany(s => $"/FF{s.Item3}-{s.Item1}"))}";
+                var segs = psg.Item2.FindAll(p => p.Item2.StartsWith("S")).TrueForAll(s => s.Item1.Equals(psg.Item2.First().Item1))
+                    && psg.Item2.FindAll(p => p.Item2.StartsWith("S")).Count.Equals(segCount) ? $"/FF-{psg.Item2.First(x => x.Item2 == "S").Item1}" :
+                        string.Join("", psg.Item2.FindAll(p => p.Item2.StartsWith("S")).SelectMany(s => $"/FF{s.Item3}-{s.Item1}"));
 
                 string tdes = "";
                 var grpTd = psg.Item2.FindAll(x => x.Item2 == "TD").GroupBy(x => x.Item1);
@@ -2603,12 +2602,14 @@ namespace AmadeusWS
                 List<string> tRes = new List<string>();
                 {
                     var isInf = psg.Item2.Any(x => x.Item2.Equals("PI"));
-                    res.Add(new Tuple<string, string, string>("", "", $"/P{string.Join(",", psg.Item2.Where(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}{(isInf ? "/INF" : "")}" + $"{(psg.Item2.Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}{(tRes.Count.Equals(0) ? segs + tdes : "")}"));
+                    temRes.Add(new Tuple<string, string, string>("", "", $"/P{string.Join(",", psg.Item2.Where(p => p.Item2.StartsWith("P")).SelectMany(s => $"{s.Item3}"))}{(isInf ? "/INF" : "")}" + $"{(psg.Item2.Any(p => p.Item2.Equals("PA")) ? "/PAX" : "")}{(tRes.Count.Equals(0) ? segs + tdes : "")}"));
                 }
             }
+            var res = new List<Tuple<string, string, string>>();
+
             for (int i = 0; i < combRes.Count; i++)
             {
-                res[i] = new Tuple<string, string, string>(combRes[i].Item1, combRes[i].Item2, res[i].Item3);
+                res.Add(new Tuple<string, string, string>(combRes[i].Item1, combRes[i].Item2, temRes.Count.Equals(combRes.Count) ? temRes[i].Item3 : combRes[i].Item2));
             }
 
             return res;
