@@ -345,11 +345,11 @@ namespace Sabre
         {
             try
             {
-                if (!string.IsNullOrEmpty(stylesheet))
-                    response = CoreLib.TransformXML(response, XslPath, stylesheet);
-
                 if (inSession)
                     response = response.Replace(tagToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{ tagToReplace}");
+
+                if (!string.IsNullOrEmpty(stylesheet))
+                    response = CoreLib.TransformXML(response, XslPath, stylesheet);
             }
             catch (Exception ex)
             {
