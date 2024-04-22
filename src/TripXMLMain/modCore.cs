@@ -519,7 +519,9 @@ namespace TripXMLMain
             ScheduleVirtualCardLoad = 109,
             UpdateVirtualCard = 110,
             ReissueTicket = 111,
-            DisplayQueryReport = 112
+            DisplayQueryReport = 112,
+            IssueMCO = 113,
+            DisplayMCO = 114
             // --------------------------------------
         }
 
@@ -957,7 +959,18 @@ namespace TripXMLMain
                             version = "v03";
                             break;
                         }
-
+                    case ttServices.IssueMCO:
+                        {
+                            tag = "TT_IssueMCORS";
+                            version = "1.001";
+                            break;
+                        }
+                    case ttServices.DisplayMCO:
+                        {
+                            tag = "TT_MCODisplay";
+                            version = "1.001";
+                            break;
+                        }
                     default:
                         {
                             tag = "";
@@ -968,8 +981,9 @@ namespace TripXMLMain
 
                 if (!string.IsNullOrEmpty(OTA_Version))
                     version = OTA_Version;
+
                 var lstError = new List<string>();
-                if (!message.Contains(Environment.NewLine))
+                if (!message.Contains(Environment.NewLine) || !message.Contains("\r\n"))
                 {
                     lstError.Add(message);
                 }
@@ -979,12 +993,15 @@ namespace TripXMLMain
                 }
 
                 var trace = new JObject(
-                    new JProperty("@Status", tag.Contains("OTA_CancelRS") ? "" : "Unsuccessful"), 
-                    new JProperty("@Version", version), 
-                    new JProperty("@TransactionIdentifier", providerSystems.Provider), 
-                    new JProperty("@UniqueID", !string.IsNullOrEmpty(recordLocator) ? recordLocator : ""), 
-                    new JProperty("@TimeStamp", DateTime.Now), 
-                    new JProperty("Errors", GetListToJSON(lstError)));
+                    new JProperty("@Status", tag.Contains("OTA_CancelRS") ? "" : "Unsuccessful"),
+                    new JProperty("@Version", version),
+                    new JProperty("@TransactionIdentifier", providerSystems.Provider),
+                    new JProperty("@UniqueID", recordLocator ?? "" ),
+                    new JProperty("@TimeStamp", DateTime.Now),
+                    new JProperty("Errors", 
+                        new JObject( new JProperty("Error", GetListToJSON(lstError))))
+                );
+
 
                 AddLog(LogType.Error, ref tag, providerSystems, trace);
                 string jsonTrace = JsonConvert.SerializeObject(trace);
@@ -1011,7 +1028,7 @@ namespace TripXMLMain
         public static string FormatErrorMessage(ttServices service, string message, string provider, string recordLocator = "", bool messageIsNode = false, string OTA_Version = "")
         {
             string _response;
-            
+
             try
             {
                 string version = OTA_Version;
@@ -1466,14 +1483,32 @@ namespace TripXMLMain
             // <OTA_TravelItineraryRS Version="v03" TransactionIdentifier="Amadeus"><Errors><Error Type="E">/QUEUE CATEGORY EMPTY</Error></Errors></OTA_TravelItineraryRS>
             try
             {
-                var elements = new JArray(from cont in list
-                                          select new JObject(new JProperty("Error", new JObject(new JProperty("@Type", "E"), new JProperty("#text", cont)))));
+                IEnumerable<JObject> content()
+                {
+                    foreach (var cont in list)
+                    {
+                        //yield return JObject.FromObject(new Error() { Type = "E", Value = cont });
+                        yield return new JObject(new JProperty("@Type", "E"), new JProperty("#text", cont));
+                    }
+                }
+
+                var elements = new JArray(content());
                 return elements;
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return (JArray)JsonConvert.DeserializeObject(string.Format("<Error Type='E'>{0}</Error>", string.Join(",", list)));
             }
+        }
+
+        
+        private class Error
+        {
+            [System.Xml.Serialization.XmlAttributeAttribute]
+            public string Type { get; set; }
+            [System.Xml.Serialization.XmlTextAttribute]
+            public string Value { get; set; }
         }
 
         #endregion

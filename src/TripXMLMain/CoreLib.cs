@@ -8,10 +8,8 @@ using System.Threading;
 using System.Collections.Concurrent;
 using WebSocket = WebSocketSharp.WebSocket;
 using WebSocketState = WebSocketSharp.WebSocketState;
-using System.Runtime.Remoting.Messaging;
 using System.Configuration;
 using System.Collections.Generic;
-using System.Configuration;
 
 namespace TripXMLMain
 {
@@ -97,9 +95,9 @@ namespace TripXMLMain
                 item = item.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "");
                 item = item.Replace("<?xml version='1.0' encoding='utf-8'?>", "");
                 item = item.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>", "");
-                item = item.Replace("<?xml version=\"1.0\"  encoding=\"ISO-8859-1\" standalone=\"yes\" ?>", "");
+                item = item.Replace("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\" ?>", "");
                 item = item.Replace("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"  standalone=\"yes\"?>", "");
-                item = item.Replace("<?xml version=\"1.0\"   encoding=\"ISO-8859-1\"  standalone=\"yes\" ?>", "");
+                item = item.Replace("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"  standalone=\"yes\" ?>", "");
                 item = item.Replace("xmlns = \"\"", "");
 
                 userID = userID ?? "";                
