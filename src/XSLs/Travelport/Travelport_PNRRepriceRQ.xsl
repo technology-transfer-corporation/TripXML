@@ -1904,4 +1904,41 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" Author
 			</xsl:attribute>
 		</common_v50_0:OverridePCC>
 	</xsl:template>
+
+	<!--  *****************  -->
+	<!--  ***** End T *****  -->
+	<!--  *****************  -->
+	<xsl:template match="OTA_PNRRepriceRQ" mode="et">
+		<PNRBFEnd_7_0>
+			<EndTransactionMods>
+				<xsl:choose>
+					<xsl:when test="OTA_AirBookRQ/Queue">
+						<TypeInd>Q</TypeInd>
+						<RcvdFrom>
+							<xsl:value-of select="TRIPXML" />
+						</RcvdFrom>
+						<ChgQEPQual>
+							<PCC>
+								<xsl:value-of select="OTA_AirBookRQ/Queue/@PseudoCityCode" />
+							</PCC>
+							<PCCQNum>
+								<xsl:value-of select="OTA_AirBookRQ/Queue/@QueueNumber" />
+							</PCCQNum>
+							<xsl:if test="OTA_AirBookRQ/Queue/@QueueCategory">
+								<QCat>
+									<xsl:value-of select="OTA_AirBookRQ/Queue/@QueueCategory" />
+								</QCat>
+							</xsl:if>
+						</ChgQEPQual>
+					</xsl:when>
+					<xsl:otherwise>
+						<TypeInd>E</TypeInd>
+						<RcvdFrom>
+							<xsl:value-of select="POS/Source/@AgentSine" />
+						</RcvdFrom>
+					</xsl:otherwise>
+				</xsl:choose>
+			</EndTransactionMods>
+		</PNRBFEnd_7_0>
+	</xsl:template>
 </xsl:stylesheet>

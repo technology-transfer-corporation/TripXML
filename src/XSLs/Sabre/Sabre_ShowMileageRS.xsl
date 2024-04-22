@@ -28,7 +28,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 
-			<xsl:if test="ConversationID != ''">
+			<xsl:if test="SabreCommandLLSRS/ConversationID != ''">
 				<ConversationID>
 					<xsl:value-of select="SabreCommandLLSRS/ConversationID"/>
 				</ConversationID>
@@ -43,9 +43,9 @@
 					<xsl:value-of select="SabreCommandLLSRS/Response"/>
 				</Error>
 			</Errors>
-			<xsl:if test="ConversationID != ''">
+			<xsl:if test="SabreCommandLLSRS/ConversationID != ''">
 				<ConversationID>
-					<xsl:value-of select="ConversationID"/>
+					<xsl:value-of select="SabreCommandLLSRS/ConversationID"/>
 				</ConversationID>
 			</xsl:if>
 		</OTA_ShowMileageRS>
