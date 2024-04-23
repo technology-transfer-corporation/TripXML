@@ -82,6 +82,7 @@ namespace Sabre
                 if (string.IsNullOrEmpty(request))
                     throw new Exception("Transformation produced empty xml.");
 
+                var closingTag = string.Empty;
                 SabreAdapter ttSA = SetAdapter();
 
                 if (request.Contains("HostCommand"))
@@ -90,8 +91,9 @@ namespace Sabre
                     // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
                     // ******************************************************************************* 
                     response = ttSA.SendMessage(request, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
-                    response = response.Replace("\r\n", "&#xA;").Replace("</SabreCommandLLSRS>", "<ConversationID /></SabreCommandLLSRS>");
+                    response = response.Replace("\r\n", "&#xA;");
                     inSession = true; //This needed in order not to try to close session when it's already closed
+                    closingTag = "</SabreCommandLLSRS>";
                 }
                 else
                 {
@@ -100,12 +102,13 @@ namespace Sabre
                     // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
                     // ******************************************************************************* 
                     response = ttSA.SendMessage(request, "Mileage", "MileageLLSRQ", ConversationID);
+                    closingTag = "</OTA_ShowMileageRS>";
                 }
                 // *****************************************************************
                 // Transform Native Sabre ShowMileage Response into OTA Response   *
                 // ***************************************************************** 
-
-                response = FinalizeResponse(response, ttSA, inSession, "</OTA_ShowMileageRS>", $"{Version}Sabre_ShowMileageRS.xsl");
+                
+                response = FinalizeResponse(response, ttSA, inSession, closingTag, $"{Version}Sabre_ShowMileageRS.xsl");
             }
             catch (Exception ex)
             {
