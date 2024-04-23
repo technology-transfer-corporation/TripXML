@@ -12,6 +12,7 @@ namespace TripXMLTools
 {
     public static class SettingsService
     {
+        static string _version = "";
         public static TripXmlSettings GetAppSettings(NameValueCollection headers)
         {
             var settings = new TripXmlSettings();
@@ -49,9 +50,18 @@ namespace TripXMLTools
 
         public static TripXmlVersion GetAppVersion()
         {
-            Assembly assembly = Assembly.GetCallingAssembly();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-            return new TripXmlVersion { Version = fvi.FileVersion };
+            if (string.IsNullOrEmpty(_version))
+            {
+                Assembly[] assembly = AppDomain.CurrentDomain.GetAssemblies();
+                var main = assembly.FirstOrDefault(a => a.FullName.StartsWith("wsTripXML"));
+                FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(main.Location);
+                _version = fvi.FileVersion;
+                return new TripXmlVersion { Version = fvi.FileVersion };
+            }
+            else
+            {
+                return new TripXmlVersion { Version = _version };
+            }
         }
 
         private static bool Authorize(NameValueCollection headers)
