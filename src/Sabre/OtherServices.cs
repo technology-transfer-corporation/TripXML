@@ -359,6 +359,7 @@ namespace Sabre
             {
                 if (!inSession)
                 {
+                    
                     ttSA.CloseSession(ConversationID);
                     ConversationID = string.Empty;
                 }
