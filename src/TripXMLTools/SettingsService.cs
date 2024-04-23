@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Reflection;
 using System.Web.Configuration;
 using System.Xml.Serialization;
 
@@ -43,6 +45,13 @@ namespace TripXMLTools
             }
 
             return settings;
+        }
+
+        public static TripXmlVersion GetAppVersion()
+        {
+            Assembly assembly = Assembly.GetCallingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            return new TripXmlVersion { Version = fvi.FileVersion };
         }
 
         private static bool Authorize(NameValueCollection headers)
@@ -91,6 +100,13 @@ namespace TripXMLTools
     {
         [XmlElement]
         public List<Setting> Setting { get; set; } = new List<Setting>();
+    }
+
+    [XmlRoot(ElementName = "TripXmlVersion")]
+    public class TripXmlVersion
+    {
+        [XmlElement]
+        public string Version { get; set; }
     }
 
     [XmlRoot(ElementName = "Setting")]
