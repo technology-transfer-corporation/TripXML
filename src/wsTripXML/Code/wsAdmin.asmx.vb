@@ -105,5 +105,10 @@ Namespace wsTravelTalk
             Return SettingsService.GetAppSettings(Context.Request.Headers)
         End Function
 
+        <WebMethod(Description:="Get Server Version.")>
+        Public Function GetServerVersion() As <XmlElementAttribute("TripXmlVersion")> TripXmlVersion
+            Return SettingsService.GetAppVersion()
+        End Function
+
     End Class
 End Namespace
