@@ -258,6 +258,13 @@ Namespace wsTravelTalk
             Try
                 'DPTR ARVL               MEALS EQP ELPD ACCUM MILES SM
                 'JFK IST 100P 650A\u00871 M    333 9.50  9.50  5000 N
+                'Error: ChrW(135) & "INVALID FLT"
+
+                If response.Errors?.ToList().Exists(Function(e) e.Value?.Contains("INVALID FLT")) Then
+                    response.OperatingCarrier = "INVALID FLT"
+                    Return
+                End If
+
                 Dim elems As List(Of String) = response.Remarks.Remark(1).Split(" ").ToList
                 response.FromCity = elems(enMile.FromCity)
                 response.ToCity = New ToCity With {.Value = elems(enMile.ToCity), .Mileage = elems(enMile.MILES), .AccumulativeMileage = elems(enMile.ACCUM)}
