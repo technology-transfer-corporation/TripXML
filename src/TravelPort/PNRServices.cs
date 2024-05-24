@@ -332,7 +332,7 @@ namespace Travelport
                                 fareB = fareB.Substring(0, 7);
                             ********************************************************/
 
-                            var brand = brands.Item(index).SelectSingleNode("FareFamily").InnerText;
+                            var brand = brands.Item(index).SelectSingleNode("FareFamily").InnerText.ToUpper();
                             bExists = string.IsNullOrEmpty(brand) 
                                     ? airRS.Contains($"FareBasis=\"{fareB}\"") 
                                     : airRS.Contains($"FareBasis=\"{fareB}\"") && airRS.ToUpper().Contains($"NAME=\"{brand}\"");
