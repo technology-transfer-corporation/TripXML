@@ -213,6 +213,7 @@ namespace Travelport
                     // create and send pricing message
                     strRequest = Request.Replace("</OTA_PNRRepriceRQ>", $"<Response>{response}</Response></OTA_PNRRepriceRQ>");
                     var airRQ = CoreLib.TransformXML(strRequest, XslPath, $"{Version}Travelport_PNRRepriceRQ.xsl", false);
+
                     var airRS = ttTP.SendMessage(airRQ, TravelPortWSAdapter.enRequestType.AirService);
                     CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Price Request", airRS, ProviderSystems.LogUUID);
                     
@@ -256,6 +257,14 @@ namespace Travelport
                                 modRS = ttTP.SendMessage(modRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
                                 _retrieve = _retrieve.Replace("</universal:UniversalRecordRetrieveRsp>", $"{modRS}</universal:UniversalRecordRetrieveRsp>");
                             }
+
+                            //Save information in PNR
+                            var pnrETRQ = "<EndTransactionMods><TypeInd>E</TypeInd><RcvdFrom>TRIPXML</RcvdFrom></EndTransactionMods>";                            
+                            var pnrRS = ttTP.SendMessage(pnrETRQ, TravelPortWSAdapter.enRequestType.UniversalRecordService);
+
+                            CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Save PNR RS", pnrRS, ProviderSystems.LogUUID);
+
+
                         }
                     }
                 }
