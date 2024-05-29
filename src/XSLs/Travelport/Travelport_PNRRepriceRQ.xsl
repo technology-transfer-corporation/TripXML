@@ -7,6 +7,7 @@
 	================================================================== 
 	Travelport_PNRRepriceRQ.xsl															
 	================================================================== 	
+	Date: 29 May 2024 - Kobelev - Second RePrice Request on PNR with ARNK
 	Date: 27 Feb 2024 - Kobelev - CabinClass attribute added to AirSegmentPricingModifiers
 	Date: 20 Feb 2024 - Kobelev - First step forPrice request added brand information 
 	Date: 17 Nov 2023 - Kobelev - Set default value for common_v50_0:SearchPassenger
@@ -1156,7 +1157,14 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" Author
 								<xsl:value-of select="@Key"/>
 							</xsl:attribute>							
 							<xsl:attribute name="BrandTier">
-								<xsl:value-of select="$bn[@RPH=$pos]/@Code"/>
+								<xsl:choose>
+									<xsl:when test="$bn[@RPH=$pos]/@Code!=''">
+										<xsl:value-of select="$bn[@RPH=$pos]/@Code"/>		
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:value-of select="$bn[$pos]/@Code"/>
+									</xsl:otherwise>
+								</xsl:choose>								
 							</xsl:attribute>							
 							<air:PermittedBookingCodes>
 								<air:BookingCode>
@@ -1910,34 +1918,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" Author
 	<!--  *****************  -->
 	<xsl:template match="OTA_PNRRepriceRQ" mode="et">
 		<PNRBFEnd_7_0>
-			<EndTransactionMods>
-				<xsl:choose>
-					<xsl:when test="OTA_AirBookRQ/Queue">
-						<TypeInd>Q</TypeInd>
-						<RcvdFrom>
-							<xsl:value-of select="TRIPXML" />
-						</RcvdFrom>
-						<ChgQEPQual>
-							<PCC>
-								<xsl:value-of select="OTA_AirBookRQ/Queue/@PseudoCityCode" />
-							</PCC>
-							<PCCQNum>
-								<xsl:value-of select="OTA_AirBookRQ/Queue/@QueueNumber" />
-							</PCCQNum>
-							<xsl:if test="OTA_AirBookRQ/Queue/@QueueCategory">
-								<QCat>
-									<xsl:value-of select="OTA_AirBookRQ/Queue/@QueueCategory" />
-								</QCat>
-							</xsl:if>
-						</ChgQEPQual>
-					</xsl:when>
-					<xsl:otherwise>
-						<TypeInd>E</TypeInd>
-						<RcvdFrom>
-							<xsl:value-of select="POS/Source/@AgentSine" />
-						</RcvdFrom>
-					</xsl:otherwise>
-				</xsl:choose>
+			<EndTransactionMods>				
+				<TypeInd>E</TypeInd>
+				<RcvdFrom>TRIPXML</RcvdFrom>				
 			</EndTransactionMods>
 		</PNRBFEnd_7_0>
 	</xsl:template>

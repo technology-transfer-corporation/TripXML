@@ -14,17 +14,24 @@
 	</xsl:variable>
 
 	<xsl:template match="/">
-		<TT_IssueMCORQ>
-			<xsl:choose>
-				<xsl:when test="TT_IssueMCORQ/PNR">
-					<xsl:apply-templates select="TT_IssueMCORQ" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:apply-templates select="TT_IssueMCORQ" />
-				</xsl:otherwise>
-			</xsl:choose>
-		</TT_IssueMCORQ>
 
+		<xsl:choose>
+			<xsl:when test="TT_IssueMCORQ">
+				<TT_IssueMCORQ>
+					<xsl:choose>
+						<xsl:when test="TT_IssueMCORQ/PNR">
+							<xsl:apply-templates select="TT_IssueMCORQ" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates select="TT_IssueMCORQ" />
+						</xsl:otherwise>
+					</xsl:choose>
+				</TT_IssueMCORQ>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates select="DocProdFareManipulation_29" mode="exchMask" />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="TT_IssueMCORQ">
@@ -39,7 +46,7 @@
 						</RecLoc>
 					</PNRAddr>
 				</PNRBFRetrieveMods>
-				<!--
+				<!-- -->
 				<FareRedisplayMods>
 					<DisplayAction>
 						<Action>D</Action>
@@ -61,7 +68,7 @@
 						</FareNumAry>
 					</FareNumInfo>
 				</FareRedisplayMods>
-				-->
+
 			</PNRBFManagement_53>
 		</PNRRead>
 
@@ -70,7 +77,7 @@
 				<PNRBFRetrieveMods>
 					<CurrentPNR />
 				</PNRBFRetrieveMods>
-				<!--
+				<!-- -->
 				<FareRedisplayMods>
 					<DisplayAction>
 						<Action>D</Action>
@@ -92,7 +99,7 @@
 						</FareNumAry>
 					</FareNumInfo>
 				</FareRedisplayMods>
-				-->
+
 			</PNRBFManagement_53>
 		</PNRCurrentRead>
 
@@ -147,7 +154,7 @@
 						<FareNumAry>
 							<FareNum/>
 						</FareNumAry>
-					</FareNumInfo>					
+					</FareNumInfo>
 					<ElectronicTicketFailed>
 						<CancelInd/>
 						<IssuePaperTkInd>Y</IssuePaperTkInd>
@@ -174,111 +181,27 @@
 				</TicketingMods>
 			</DocProdFareManipulation_29>
 		</ExchangeMCO>
-		<CompliteExchangeMCO>
-			<DocProdFareManipulation_29>
-				<TicketingMods>
-					<FareNumInfo>
-						<FareNumAry>
-							<FareNum />
-						</FareNumAry>
-					</FareNumInfo>
-					<TicketingControl>
-						<TransType>EX</TransType>
-					</TicketingControl>
-					<AssocPsgrs>
-						<PsgrAry>
-							<Psgr />
-						</PsgrAry>
-					</AssocPsgrs>
-					<PassengerInfo>
-						<Name>SMITH</Name>
-						<Title>GABBY</Title>
-						<Type/>
-						<Age>0</Age>
-					</PassengerInfo>
-					<ExcRefundTktCoupon>
-						<BeginExchTktNum>01499039678043</BeginExchTktNum>
-						<EndExchTktNum/>
-						<TotCouponNum>1</TotCouponNum>
-						<CouponAry>
-							<Coupon>1</Coupon>
-						</CouponAry>
-					</ExcRefundTktCoupon>
-					<ExchangeOldFareDataBase>
-						<BaseFareCrncy/>
-						<BaseFareAmt>0</BaseFareAmt>
-						<BaseFareNumDec/>
-						<TotFareCrncy>USD</TotFareCrncy>
-						<TotFareAmt>10000</TotFareAmt>
-						<TotFareNumDec>2</TotFareNumDec>
-						<EquivFareCrncy/>
-						<EquivFareAmt>0</EquivFareAmt>
-						<EquivFareNumDec/>
-						<BankSettlementRate/>
-					</ExchangeOldFareDataBase>
-					<TaxInfo>
-						<TaxType>OLD</TaxType>
-						<CrncyCD/>
-						<NumDec/>
-						<MaxNumOfTaxes>20</MaxNumOfTaxes>
-						<TaxInfoAry/>
-					</TaxInfo>
-					<ExcOrigEchangedInfo>
-						<OrigFOP>CC</OrigFOP>
-						<FirstOrigTktNum/>
-						<LastOrigTktNum/>
-						<OrigInvNum/>
-						<OriginCityCd>PHL</OriginCityCd>
-						<FirstDestCityCd>PHL</FirstDestCityCd>
-						<OrigCity>PHL</OrigCity>
-						<OrigTktIssueDt>20220113</OrigTktIssueDt>
-						<IATACD>3386328</IATACD>
-					</ExcOrigEchangedInfo>
-					<ExcNewFareDataBase>
-						<NetFareInd/>
-						<BaseFareCrncy>CAD</BaseFareCrncy>
-						<BaseFareAmt>72200</BaseFareAmt>
-						<BaseFareNumDec>2</BaseFareNumDec>
-						<TotFareCrncy/>
-						<TotFareAmt/>
-						<TotFareNumDec/>
-						<TotFareCrncyOrigTkt/>
-						<TotFareCrncyExchTkt/>
-						<EquivFareCrncy>USD</EquivFareCrncy>
-						<EquivFareAmt>58300</EquivFareAmt>
-						<EquivFareNumDec>2</EquivFareNumDec>
-					</ExcNewFareDataBase>
-					<TaxInfo>
-						<TaxType>NEW</TaxType>
-						<CrncyCD/>
-						<NumDec>2</NumDec>
-						<MaxNumOfTaxes>4</MaxNumOfTaxes>
-						<TaxInfoAry>
-							<TaxInfo>
-								<TaxCD>SQ</TaxCD>
-								<TaxExemptInd/>
-								<TaxAmt>2420</TaxAmt>
-							</TaxInfo>
-							<TaxInfo>
-								<TaxCD>XG</TaxCD>
-								<TaxExemptInd/>
-								<TaxAmt>3036</TaxAmt>
-							</TaxInfo>
-							<TaxInfo>
-								<TaxCD />
-								<TaxExemptInd />
-								<TaxAmt>0</TaxAmt>
-							</TaxInfo>
-							<TaxInfo>
-								<TaxCD />
-								<TaxExemptInd />
-								<TaxAmt>0</TaxAmt>
-							</TaxInfo>
-						</TaxInfoAry>
-					</TaxInfo>
-				</TicketingMods>
-			</DocProdFareManipulation_29>
-		</CompliteExchangeMCO>
+
+	</xsl:template>
+
+	<xsl:template match="DocProdFareManipulation_29" mode="exchMask">
+		<DocProdFareManipulation_29>
+			<TicketingMods>
+				<xsl:copy-of select="Ticketing/FareNumInfo"/>
+				<xsl:copy-of select="Ticketing/TicketingControl"/>
+				<xsl:copy-of select="Ticketing/AssocPsgrs"/>
+				<xsl:copy-of select="Ticketing/PassengerInfo"/>
+
+				<xsl:copy-of select="Ticketing/ExcRefundTktCoupon"/>
+
+				<xsl:copy-of select="Ticketing/ExchangeOldFareDataBase"/>
+				<xsl:copy-of select="Ticketing/TaxInfo[TaxType='OLD']"/>
+				<xsl:copy-of select="Ticketing/ExcOrigEchangedInfo"/>
+				<xsl:copy-of select="Ticketing/ExcNewFareDataBase"/>
+				<xsl:copy-of select="Ticketing/TaxInfo[TaxType='NEW']"/>
+			</TicketingMods>
+		</DocProdFareManipulation_29>
+
 	</xsl:template>
 
 	<xsl:template match="MCOMask">
