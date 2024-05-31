@@ -982,6 +982,7 @@ Namespace wsTravelTalk
         <WebMethod(Description:="Process Low Fare Messages Request.")>
         <System.Web.Services.Protocols.SoapHeader("tXML")>
         Public Function wmLowFarePlus(ByVal OTA_AirLowFareSearchPlusRQ As wmLowFarePlusIn_v03.OTA_AirLowFareSearchPlusRQ) As <XmlElementAttribute("OTA_AirLowFareSearchPlusRS")> wmLowFarePlusOut.OTA_AirLowFareSearchPlusRS
+
             Dim oSerializer As XmlSerializer = New XmlSerializer(GetType(wmLowFarePlusIn_v03.OTA_AirLowFareSearchPlusRQ))
 
             Dim oWriter As IO.StringWriter = New System.IO.StringWriter(New System.Text.StringBuilder)

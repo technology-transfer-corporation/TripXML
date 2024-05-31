@@ -240,16 +240,13 @@ Namespace wsTravelTalk
                                 End Try
                             Case "sabre"
                                 Try
-                                    ttProviderSystems = Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString())
-                                    sb.Remove(0, sb.Length())
                                     If ttProviderSystems.System Is Nothing Then
-                                        GotResponse(FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(.System).Append(" system. Or invalid provider.").ToString(), .Providers(i).Name))
+                                        FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers(0).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers(0).Name)
                                         sb.Remove(0, sb.Length())
                                         Exit Select
                                     End If
 
-                                    ttProviderSystems.AAAPCC = .Providers(i).PCC
-
+                                    ttProviderSystems.AAAPCC = ttCredential.Providers(0).PCC
                                     'If ttCredential.Providers(i).PCC.Trim.Length > 0 Then
                                     '    ttProviderSystems.PCC = ttCredential.Providers(i).PCC
                                     'End If
