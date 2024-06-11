@@ -45,20 +45,22 @@
 			<xsl:attribute name="Version">1.001</xsl:attribute>
 			<xsl:attribute name="TransactionIdentifier">Sabre</xsl:attribute>
 			<xsl:choose>
-				<xsl:when test="Errors/Error != ''">
+				<xsl:when test="Errors/Error[@Type='SERVER'] != ''">
 					<Errors>
+						<xsl:for-each select="Errors/Error[@Type='SERVER']">
 						<Error>
 							<xsl:attribute name="Type">Sabre</xsl:attribute>
 							<xsl:attribute name="Code">
 								<xsl:choose>
-									<xsl:when test="Errors/Error/@Code != ''">
-										<xsl:value-of select="Errors/Error/@Code" />
+									<xsl:when test="@Code != ''">
+										<xsl:value-of select="@Code" />
 									</xsl:when>
 									<xsl:otherwise>E</xsl:otherwise>
 								</xsl:choose>
 							</xsl:attribute>
-							<xsl:value-of select="Errors/Error" />
+							<xsl:value-of select="." />
 						</Error>
+						</xsl:for-each>
 					</Errors>
 				</xsl:when>
 				<xsl:when test="not(PricedItineraries/PricedItinerary) and not(Errors/Error)">

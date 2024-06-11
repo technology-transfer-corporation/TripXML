@@ -718,11 +718,9 @@
         <xsl:value-of select="EndTm"/>
       </xsl:variable>
       <xsl:attribute name="DepartureDateTime">
-        <xsl:value-of select="substring(StartDt,1,4)"/>-<xsl:value-of select="substring(StartDt,5,2)"/>-<xsl:value-of select="substring(StartDt,7,2)"/>T<xsl:value-of select="substring($DepTime,1,2)"/>:<xsl:value-of select="substring($DepTime,3,2)"/>:00
-      </xsl:attribute>
+        <xsl:value-of select="substring(StartDt,1,4)"/>-<xsl:value-of select="substring(StartDt,5,2)"/>-<xsl:value-of select="substring(StartDt,7,2)"/>T<xsl:value-of select="substring($DepTime,1,2)"/>:<xsl:value-of select="substring($DepTime,3,2)"/>:00</xsl:attribute>
       <xsl:attribute name="ArrivalDateTime">
-        <xsl:value-of select="substring(EndDt,1,4)"/>-<xsl:value-of select="substring(EndDt,5,2)"/>-<xsl:value-of select="substring(EndDt,7,2)"/>T<xsl:value-of select="substring($ArrTime,1,2)"/>:<xsl:value-of select="substring($ArrTime,3,2)"/>:00
-      </xsl:attribute>
+        <xsl:value-of select="substring(EndDt,1,4)"/>-<xsl:value-of select="substring(EndDt,5,2)"/>-<xsl:value-of select="substring(EndDt,7,2)"/>T<xsl:value-of select="substring($ArrTime,1,2)"/>:<xsl:value-of select="substring($ArrTime,3,2)"/>:00</xsl:attribute>
       <xsl:attribute name="StopQuantity">
         <xsl:value-of select="NumStops"/>
       </xsl:attribute>
