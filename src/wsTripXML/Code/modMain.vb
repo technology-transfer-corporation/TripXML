@@ -1,12 +1,10 @@
 Imports System.Xml
 Imports System.Linq
 Imports TripXMLMain
-Imports System.Web.Configuration
 Imports System.Threading
 Imports System.Net
 Imports TripXMLMain.modCore
 Imports PaymentServices
-Imports TripXMLMain.modCore.enAmadeusWSSchema
 
 
 Namespace wsTravelTalk

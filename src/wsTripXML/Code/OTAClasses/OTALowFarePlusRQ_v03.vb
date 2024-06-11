@@ -1495,6 +1495,9 @@ Namespace wsTravelTalk.wmLowFarePlusIn_v03
         Public POS As POS
 
         '<remarks/>
+        Public ConversationID As String
+
+        '<remarks/>
         <System.Xml.Serialization.XmlElementAttribute("OriginDestinationInformation")> _
         Public OriginDestinationInformation() As OriginDestinationInformation
 

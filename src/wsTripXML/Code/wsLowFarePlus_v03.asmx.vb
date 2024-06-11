@@ -369,8 +369,8 @@ Namespace wsTravelTalk
 
 #Region " Process Service Request All GDS "
 
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
-            Dim strResponse As String = ""
+        Private Function ServiceRequest(ByVal request As String, ByVal ttServiceID As Integer) As String
+            Dim _response As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
             Dim ValidateXSDOut As Boolean
@@ -413,7 +413,7 @@ Namespace wsTravelTalk
 
 
                 oDoc = New XmlDocument
-                oDoc.LoadXml(strRequest)
+                oDoc.LoadXml(request)
                 oRoot = oDoc.DocumentElement
 
                 ' temporary quick fix for Tomtours to be removed as soon as it is fixed on ResVoyage
@@ -430,12 +430,11 @@ Namespace wsTravelTalk
                         farPrefs += farPref
                     Next
 
-                    strRequest = oRoot.OuterXml
-                    strRequest = strRequest.Replace("</FaringPreferences>", farPrefs + "</FaringPreferences>")
-                    oDoc.LoadXml(strRequest)
+                    request = oRoot.OuterXml
+                    request = request.Replace("</FaringPreferences>", $"{farPrefs}</FaringPreferences>")
+                    oDoc.LoadXml(request)
                     oRoot = oDoc.DocumentElement
                 End If
-                ' end of temporary fix for Tomtours
 
                 If Not oRoot.SelectSingleNode("@SearchODByOneWay") Is Nothing Then
                     If oRoot.SelectSingleNode("@SearchODByOneWay").InnerText = "true" Then
@@ -445,23 +444,11 @@ Namespace wsTravelTalk
 
                 sb.Append("<OTA_AirLowFareSearchPlusRQ>").Append("<POS>").Append(oRoot.SelectSingleNode("POS/Source").OuterXml).Append("<TPA_Extensions>").Append("<Provider>").Append("providerNameToReplace").Append(oRoot.SelectSingleNode("POS/TPA_Extensions/Provider/System").OuterXml).Append(oRoot.SelectSingleNode("POS/TPA_Extensions/Provider/Userid").OuterXml).Append(oRoot.SelectSingleNode("POS/TPA_Extensions/Provider/Password").OuterXml).Append("</Provider>").Append("</TPA_Extensions>").Append("</POS>")
 
-                'sb.Append(oRoot.SelectSingleNode("TravelerInfoSummary").OuterXml)
-                'sb.Append("<FaringPreferences>").ToString()
-
                 TravelSum = sb.ToString()
                 uTravelSum = oRoot.SelectSingleNode("TravelerInfoSummary").InnerXml.ToString()
-
-                'For Each oNode In oRoot.SelectNodes("FaringPreferences/FaringPreference")
-                '    'For Each oNode In oRoot.SelectNodes("FaringPreference")
-                '    'FaringPreference = oNode.InnerXml
-                '    sb.Append(oNode.OuterXml)
-                '    lfstrRequest(j) = sb.Append(oNode.OuterXml).Append("</FaringPreferences></OTA_AirLowFareSearchPlusRQ>").ToString
-                '    j += 1
-                'Next
-
                 sb.Remove(0, sb.Length)
 
-                PreServiceRequestPool(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
+                PreServiceRequestPool(request, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
                 sb.Append("XSD").Append(ttCredential.UserID).Append("Out")
                 ValidateXSDOut = Application.Get(sb.ToString())
                 sb.Remove(0, sb.Length)
@@ -556,8 +543,7 @@ Namespace wsTravelTalk
                                                     Dim tPCC As String
 
                                                     tPCC = ttCredential.Providers(i).PCC.Replace("*", "")
-
-                                                    ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(tPCC).ToString())
+                                                    'ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(tPCC).ToString())
                                                     sb.Remove(0, sb.Length)
 
                                                     If ttProviderSystems.System Is Nothing Then
@@ -680,9 +666,9 @@ Namespace wsTravelTalk
                                                 'ttProviderSystems.PCC = pseudoCityCode
 
                                                 Try
-                                                    sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC.ToUpper())
-                                                    ttProviderSystems = Application.Get(sb.ToString())
-                                                    sb.Remove(0, sb.Length)
+                                                    'sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC.ToUpper())
+                                                    'ttProviderSystems = Application.Get(sb.ToString())
+                                                    'sb.Remove(0, sb.Length)
 
                                                     If ttProviderSystems.System Is Nothing Then
                                                         sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
@@ -936,41 +922,41 @@ Namespace wsTravelTalk
 
                 'If ttCredential.Providers.Length > 1 Then
                 If j > 1 Then
-                    strResponse = String.Concat("<SuperRS>", mstrResponse + strRequest, "</SuperRS>")
+                    _response = String.Concat("<SuperRS>", mstrResponse + request, "</SuperRS>")
                     ' Aggregate
-                    cAggregation.Aggregate(ttServiceID, gXslPath, "", strResponse)
+                    cAggregation.Aggregate(ttServiceID, gXslPath, "", _response)
 
                     ' Filter Flights
 
                     If ttProviderSystems.AggFilter = True Then
                         sb.Append("ttFP").Append(ttCredential.UserID)
-                        FilterFlights(strResponse, CType(Application.Get(sb.ToString()), String))
+                        FilterFlights(_response, CType(Application.Get(sb.ToString()), String))
                         sb.Remove(0, sb.Length)
                     End If
                 Else
-                    strResponse = mstrResponse
+                    _response = mstrResponse
                 End If
 
                 StartCounter = Now
-                strResponse = DecodeLowFarePlus(strResponse, ttCredential.UserID)
+                _response = DecodeLowFarePlus(_response, ttCredential.UserID)
                 sb.Append("Decoding = ").Append(CType(Now.Subtract(StartCounter).TotalMilliseconds, Integer))
                 CoreLib.SendTrace(ttCredential.UserID, "Performance", sb.ToString(), "", ttProviderSystems.LogUUID)
 
-                If strResponse.IndexOf("<SearchPromotionsResponse>") <> -1 Then
-                    cAggregation.ProcessMarkup(gXslPath, "", strResponse)
+                If _response.IndexOf("<SearchPromotionsResponse>") <> -1 Then
+                    cAggregation.ProcessMarkup(gXslPath, "", _response)
                 End If
 
-                PostServiceRequest(strResponse, ValidateXSDOut, ttServiceID, ttCredential.UserID)
+                PostServiceRequest(_response, ValidateXSDOut, ttServiceID, ttCredential.UserID)
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(ttServiceID, ex.Message, "")
+                _response = FormatErrorMessage(ttServiceID, ex.Message, "")
             Finally
-                LogResponse(strResponse, ttCredential, StartTime, ttServiceID, Server.MachineName, UUID)
-                LogDeals(strRequest, strResponse)
-                If Trace Then CoreLib.SendTrace(ttCredential.UserID, "wsLowFarePlus_v03", "============= OTA Response ============= ", strResponse, ttProviderSystems.LogUUID)
+                LogResponse(_response, ttCredential, StartTime, ttServiceID, Server.MachineName, UUID)
+                LogDeals(request, _response)
+                If Trace Then CoreLib.SendTrace(ttCredential.UserID, "wsLowFarePlus_v03", "============= OTA Response ============= ", _response, ttProviderSystems.LogUUID)
             End Try
 
-            Return strResponse
+            Return _response
 
         End Function
 
