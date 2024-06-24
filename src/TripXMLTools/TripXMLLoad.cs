@@ -326,11 +326,26 @@ namespace TripXMLTools
                     return _airlines.Last();
             }
 
+            if (code.ToUpper().Contains(" DBA "))
+            {
+                _airlines = code.Split(new[] { " DBA " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                foreach (var word in _airlines)
+                {
+                    _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == word)?.Code;
+                    if (!string.IsNullOrEmpty(_code))
+                        return _code;
+
+                    _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(word))?.Code;
+                    if (!string.IsNullOrEmpty(_code))
+                        return _code;
+                }
+            }
+
             _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(_airlines.First()))?.Code;
             if (!string.IsNullOrEmpty(_code))
                 return _code;
 
-            return _code;
+            return _code ?? string.Empty;
         }
 
         public static string DecodeValue(DecodingType type, string code)
