@@ -11,6 +11,7 @@
 Option Strict Off
 Option Explicit On
 
+Imports System.Runtime.Serialization
 Imports System.Xml.Serialization
 
 '
@@ -1145,21 +1146,18 @@ Namespace wsTravelTalk.wmLowFarePlusIn_v03
     End Class
 
     '<remarks/>
-    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)> _
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
+    <KnownType(GetType(AirportLocation))>
     Public Class DestinationLocation
+        Inherits AirportLocation
 
-        '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
-        Public LocationCode As String
+    End Class
 
-        '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute(), _
-         System.ComponentModel.DefaultValueAttribute("IATA")> _
-        Public CodeContext As String = "IATA"
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
+    <KnownType(GetType(AirportLocation))>
+    Public Class OriginLocation
+        Inherits AirportLocation
 
-        '<remarks/>
-        <System.Xml.Serialization.XmlTextAttribute()> _
-        Public Value As String
     End Class
 
     '<remarks/>
@@ -1488,7 +1486,7 @@ Namespace wsTravelTalk.wmLowFarePlusIn_v03
     End Class
 
     '<remarks/>
-    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)> _
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
     Public Class OTA_AirLowFareSearchPlusRQ
 
         '<remarks/>
@@ -1498,7 +1496,7 @@ Namespace wsTravelTalk.wmLowFarePlusIn_v03
         Public ConversationID As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlElementAttribute("OriginDestinationInformation")> _
+        <System.Xml.Serialization.XmlElementAttribute("OriginDestinationInformation")>
         Public OriginDestinationInformation() As OriginDestinationInformation
 
         '<remarks/>
@@ -1514,65 +1512,65 @@ Namespace wsTravelTalk.wmLowFarePlusIn_v03
         Public FaringPreferences As FaringPreferences
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public EchoToken As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public TimeStamp As Date
 
         '<remarks/>
-        <System.Xml.Serialization.XmlIgnoreAttribute()> _
+        <System.Xml.Serialization.XmlIgnoreAttribute()>
         Public TimeStampSpecified As Boolean
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute(), _
-         System.ComponentModel.DefaultValueAttribute(OTA_AirLowFareSearchPlusRQTarget.Production)> _
+        <System.Xml.Serialization.XmlAttributeAttribute(),
+         System.ComponentModel.DefaultValueAttribute(OTA_AirLowFareSearchPlusRQTarget.Production)>
         Public Target As OTA_AirLowFareSearchPlusRQTarget = OTA_AirLowFareSearchPlusRQTarget.Production
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public Version As Double
 
         '<remarks/>
-        <System.Xml.Serialization.XmlIgnoreAttribute()> _
+        <System.Xml.Serialization.XmlIgnoreAttribute()>
         Public VersionSpecified As Boolean
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public SequenceNmbr As Integer
 
         '<remarks/>
-        <System.Xml.Serialization.XmlIgnoreAttribute()> _
+        <System.Xml.Serialization.XmlIgnoreAttribute()>
         Public SequenceNmbrSpecified As Boolean
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public PrimaryLangID As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public AltLangID As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public MaxResponses As Integer
 
         '<remarks/>
-        <System.Xml.Serialization.XmlIgnoreAttribute()> _
+        <System.Xml.Serialization.XmlIgnoreAttribute()>
         Public MaxResponsesSpecified As Boolean
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute(), _
-         System.ComponentModel.DefaultValueAttribute(False)> _
+        <System.Xml.Serialization.XmlAttributeAttribute(),
+         System.ComponentModel.DefaultValueAttribute(False)>
         Public DirectFlightsOnly As Boolean = False
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public AvailableFlightsOnly As Boolean
 
         '<remarks/>
-        <System.Xml.Serialization.XmlIgnoreAttribute()> _
+        <System.Xml.Serialization.XmlIgnoreAttribute()>
         Public AvailableFlightsOnlySpecified As Boolean
     End Class
 
@@ -1727,7 +1725,12 @@ Namespace wsTravelTalk.wmLowFarePlusIn_v03
     End Class
 
     '<remarks/>
-    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)> _
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
+    <KnownType(GetType(OriginLocation))>
+    <KnownType(GetType(DestinationLocation))>
+    <KnownType(GetType(DepartureDateTime))>
+    <KnownType(GetType(ArrivalDateTime))>
+    <KnownType(GetType(ConnectionLocation))>
     Public Class OriginDestinationInformation
 
         '<remarks/>
@@ -1748,20 +1751,20 @@ Namespace wsTravelTalk.wmLowFarePlusIn_v03
     End Class
 
     '<remarks/>
-    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)> _
-    Public Class OriginLocation
+    <System.Xml.Serialization.XmlRootAttribute(IsNullable:=False)>
+    Public Class AirportLocation
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
+        <System.Xml.Serialization.XmlAttributeAttribute()>
         Public LocationCode As String
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute(), _
-         System.ComponentModel.DefaultValueAttribute("IATA")> _
+        <System.Xml.Serialization.XmlAttributeAttribute(),
+         System.ComponentModel.DefaultValueAttribute("IATA")>
         Public CodeContext As String = "IATA"
 
         '<remarks/>
-        <System.Xml.Serialization.XmlTextAttribute()> _
+        <System.Xml.Serialization.XmlTextAttribute()>
         Public Value As String
     End Class
 

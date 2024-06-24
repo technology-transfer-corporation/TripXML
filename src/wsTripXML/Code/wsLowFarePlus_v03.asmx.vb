@@ -10,8 +10,8 @@ Namespace wsTravelTalk
 
     <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
         System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/tripxml/wsLowFarePlus",
-        Name:="wsLowFarePlus_v03",
-        Description:="A TripXML Web Service to Process Low Fare Plus Messages Request.")>
+        Name:="wsLowFarePlus",
+        Description:="A TripXML Web Service to Process Low Fare Plus Messages Request - version 03.")>
     Public Class wsLowFarePlus_v03
         Inherits System.Web.Services.WebService
 
