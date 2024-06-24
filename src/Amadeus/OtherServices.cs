@@ -476,8 +476,7 @@ namespace AmadeusWS
                 // *******************************************************************************
                 //  Send Native Request to the Amadeus Adapter and Getting Native Response  *
                 // ******************************************************************************* 
-                try
-                {
+
                     if (Request.StartsWith("<Command_Cryptic>"))
                         strResponse = SendRequestCryptically(ttAA, Request);
                     else if (Request.StartsWith("<Air_FlightInfo>"))
@@ -623,11 +622,7 @@ namespace AmadeusWS
                     else if (Request.StartsWith("<Fare_MetaPricerCalendar>"))
                         strResponse = SendFareMetaPricerCalendar(ttAA, Request);
 
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+
 
                 // ********************
                 //  Build Response    *

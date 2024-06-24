@@ -80,31 +80,8 @@ namespace AmadeusWS
         }
 
         public string TravelBuild()
-        {
-            XmlNodeList oNodesHotels = null;
-            XmlNodeList oNodesPrices = null;
-            XmlNode oNodeExchange = null;
-            XmlNode oNodeMSCC = null;
-            string strResponse = "";
-            string strAir = "";
-            string strCars = "";
-            string strCarsAvail = "";
-            string strMCO = "";
-            string strFQTV = "";
-            string strEchoToken = "";
-            string strRTSVC = "";
-            int iFareList = 0;
-            int i = 0;
-            string vRPH;
-            string uri = "";
-            //session = new Soap4Session(TransactionStatusCode.Start);
-            //*******************************************************
-            // These below given variables were not in shahsin's code
-            //*******************************************************
-
-            string ProfileCompanyName = "";
-            bool bReferenceOnly = false; ;
-
+        {            
+            string _response = "";
             try
             {
                 //**************************************************************** 
@@ -126,178 +103,53 @@ namespace AmadeusWS
 
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-
-                bool Air;
-                bool Car;
-                bool Hotel;
-                bool price;
-                bool MCO;
-                bool FQTV;
-                bool EXCHANGE;
                 XmlElement oRoot = null;
-                string strMandatory = "";
-                string strEpay = "";
-                string strEndTransaction = "";
-                bool PBN = false;
-                //******************** 
+                XmlNode oNodeMSCC = null;
+
+                //session = new Soap4Session(TransactionStatusCode.Start);
+                //*******************************************************
+                // These below given variables were not in shahsin's code
+                //*******************************************************
+                                
+                var _mElement = SetItineraryPart("MasterPricer", strRequest, oRootRequest);
+                bool Air = _mElement.isPresent;
+                string strAir = _mElement.field;
+
+                _mElement = SetItineraryPart("FQTV", strRequest, oRootRequest);
+                string strFQTV = _mElement.field;
+                bool FQTV = _mElement.isPresent;
+
+                _mElement = SetItineraryPart("MCO", strRequest, oRootRequest);
+                string strMCO = _mElement.field;
+                bool MCO = _mElement.isPresent;
+
+                _mElement = SetItineraryPart("Cars", strRequest, oRootRequest);
+                string strCars = _mElement.field;
+                string strCarsAvail = (string)_mElement.field2;
+                bool Car = _mElement.isPresent;
+
+                _mElement = SetItineraryPart("Hotels", strRequest, oRootRequest);
+                XmlNodeList oNodesHotels = (XmlNodeList)_mElement.field2;
+                bool Hotel = _mElement.isPresent;
+
+                _mElement = SetItineraryPart("Pricing", strRequest, oRootRequest);
+                XmlNodeList oNodesPrices = (XmlNodeList)_mElement.field2;
+                bool price = _mElement.isPresent;
+
+                _mElement = SetItineraryPart("Exchange", strRequest, oRootRequest);
+                XmlNode oNodeExchange = (XmlNode)_mElement.field2;
+                bool EXCHANGE = _mElement.isPresent;
+
+                _mElement = SetItineraryPart("PBN", strRequest, oRootRequest);
+                bool PBN = _mElement.isPresent;
+                string ProfileCompanyName = (string)_mElement.field2;
+
                 // Get All Requests * 
-                //******************** 
-                try
-                {
-                    XmlDocument oDoc = new XmlDocument();
-                    oDoc.LoadXml(strRequest);
-                    oRoot = oDoc.DocumentElement;
-
-                    if (oRoot.SelectSingleNode("MultiElements") == null)
-                    {
-                        throw new Exception("Request is missing mandatory elements.");
-                    }
-                    else
-                    {
-                        strMandatory = oRoot.SelectSingleNode("MultiElements").InnerXml;
-
-                        if (strMandatory.Contains("<depDate>HOLDDATE</depDate>"))
-                        {
-                            DateTime curDate = DateTime.Now.AddDays(359);
-                            strMandatory = strMandatory.Replace("<depDate>HOLDDATE</depDate>", "<depDate>" + curDate.ToString("ddMMyy") + "</depDate>");
-                        }
-
-                        //****************************************************
-                        //This 'if' block had been deleted from shashin's code
-                        //****************************************************
-
-                        if (oRootRequest.SelectSingleNode("POS/TPA_Extensions/Provider/Userid").InnerText == "euroaviamobile"
-                            || oRootRequest.SelectSingleNode("POS/TPA_Extensions/Provider/Userid").InnerText == "euroavia")
-                        {
-                            string depDate = oRootRequest.SelectSingleNode("OTA_AirBookRQ/AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment/@DepartureDateTime").InnerText;
-                            DateTime flightDate = Convert.ToDateTime(depDate);
-                            TimeSpan tkDate = flightDate.Date - DateTime.Now.Date;
-
-                            XmlDocument oDocTkt = null;
-                            XmlElement oRootTkt = null;
-                            XmlNode oNodeTkt = null;
-
-                            oDocTkt = new XmlDocument();
-                            oDocTkt.LoadXml(strMandatory);
-                            oRootTkt = oDocTkt.DocumentElement;
-                            oNodeTkt = oRootTkt.SelectSingleNode("dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='TK']/ticketElement/ticket");
-
-                            if (tkDate.Days < 8)
-                            {
-                                oNodeTkt.SelectSingleNode("date").InnerText = DateTime.Now.ToString("ddMMyy");
-                            }
-                            else
-                            {
-                                oNodeTkt.SelectSingleNode("date").InnerText = DateTime.Now.AddDays(2).ToString("ddMMyy");
-                            }
-
-                            oNodeTkt.SelectSingleNode("indicator").InnerText = "XL";
-                            oNodeTkt.SelectSingleNode("time").InnerText = "2359";
-                            strMandatory = oRootTkt.OuterXml;
-                        }
-
-                    }
-
-                    if (oRoot.SelectSingleNode("MasterPricer/Air_SellFromRecommendation") == null)
-                    {
-                        Air = false;
-                    }
-                    else
-                    {
-                        strAir = oRoot.SelectSingleNode("MasterPricer").InnerXml;
-                        Air = strAir.Length > 0;
-                    }
-
-                    if (oRoot.SelectSingleNode("FQTV") == null)
-                    {
-                        FQTV = false;
-                    }
-                    else
-                    {
-                        strFQTV = oRoot.SelectSingleNode("FQTV").OuterXml;
-                        FQTV = strFQTV.Length > 0;
-                    }
-
-                    if (oRoot.SelectSingleNode("MCO") == null)
-                    {
-                        MCO = false;
-                    }
-                    else
-                    {
-                        strMCO = oRoot.SelectSingleNode("MCO").InnerXml;
-                        MCO = strMCO.Length > 0;
-                    }
-
-                    if (oRoot.SelectSingleNode("Cars") == null)
-                    {
-                        Car = false;
-                    }
-                    else
-                    {
-                        if (oRoot.SelectSingleNode("Cars/CarAvail") != null)
-                        {
-                            strCarsAvail = oRoot.SelectSingleNode("Cars/CarAvail").InnerXml;
-                        }
-                        strCars = oRoot.SelectSingleNode("Cars/CarSell").InnerXml;
-                        Car = strCars.Length > 0;
-                    }
-
-                    if (oRoot.SelectSingleNode("Hotels") == null)
-                    {
-                        Hotel = false;
-                    }
-                    else
-                    {
-                        oNodesHotels = oRoot.SelectNodes("Hotels");
-                        Hotel = true;
-                    }
-
-                    if (oRoot.SelectSingleNode("Pricing/Command_Cryptic") == null && oRoot.SelectSingleNode("Pricing/Fare_PricePNRWithBookingClass") == null)
-                    {
-                        price = false;
-                    }
-                    else
-                    {
-                        oNodesPrices = oRoot.SelectNodes("Pricing");
-                        price = true;
-                    }
-
-                    EXCHANGE = oRoot.SelectSingleNode("Exchange") == null;
-
-                    if (!EXCHANGE)
-                    {
-                        oNodeExchange = oRoot.SelectSingleNode("Exchange").SelectSingleNode("EXCH");
-                        oNodeMSCC = oRoot.SelectSingleNode("Exchange").SelectSingleNode("MSCC");
-                    }
-
-                    //*************************************************
-                    // This 'if' block was deleted from shashin's code
-                    //*************************************************
-
-                    if (oRoot.SelectSingleNode("PBN") == null)
-                    {
-                        PBN = false;
-                    }
-                    else
-                    {
-                        ProfileCompanyName = oRoot.SelectSingleNode("PBN").InnerXml;
-                        PBN = ProfileCompanyName.Length > 0;
-                    }
-
-                    if (oRootRequest.SelectSingleNode("@ReferenceOnly") != null && oRootRequest.SelectSingleNode("@ReferenceOnly").InnerText == "true")
-                    {
-                        bReferenceOnly = true;
-                    }
-
-                    //---------------------------------------------------
-
-                    strEndTransaction = oRoot.SelectSingleNode("ET").InnerXml;
-                    strEpay = oRoot.SelectSingleNode("EPAY").InnerXml;
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error Loading Transformed Request XML Document.\r\n{ex.Message}");
-                }
+                //********************                 
+                bool bReferenceOnly = SetItineraryPart("ReferenceOnly", strRequest, oRootRequest).isPresent;
+                string strMandatory = SetItineraryPart("MultiElements", strRequest, oRootRequest).field;
+                string strEpay = SetItineraryPart("EPAY", strRequest, oRootRequest).field;
+                string strEndTransaction = SetItineraryPart("ET", strRequest, oRootRequest).field;
 
                 // ******************* 
                 // Create Session * 
@@ -305,663 +157,653 @@ namespace AmadeusWS
                 var ttAA = SetAdapter();
                 bool inSession = SetConversationID(ttAA);
                 var strResponseTST = string.Empty;
+                string strRTSVC = "";
+                string uri;
                 // ******************* 
                 // Send the Requests * 
                 // ******************* 
 
-                try
+
+                // Send Air elements 
+                if (Air)
                 {
-                    // Send Air elements 
-                    if (Air)
-                    {
-                        strResponse = SendRequestSegment(ttAA, strAir, "Air", ttProviderSystems.AmadeusWSSchema[Air_SellFromRecommendation], ttProviderSystems.AmadeusWSSchema[Air_SellFromRecommendationReply]);
-
-                        // Fatal Error 
-                        if (!string.IsNullOrEmpty(strResponse))
-                        {
-                            strResponse = BuildOTAResponse(strResponse);
-                            return strResponse;
-                        }
-                    }
-                    //*************************************************
-                    //    This 'if' was deleted from shashin's code
-                    //*************************************************
-                    if (PBN)
-                    {
-                        strResponse = SendCommandCryptically(ttAA, ProfileCompanyName);
-                        Message += strResponse;
-                    }
-
-                    //--------------------------------------------------
-
-                    // Send Mandatory elements 
-                    strResponse = SendRequestSegment(ttAA, strMandatory, "MultiElements", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
-
-                    // Get the native response multi elements 
-                    XmlDocument oDocResp = new XmlDocument();
-                    oDocResp.LoadXml(nativeResp);
-                    XmlElement oRootResp = oDocResp.DocumentElement;
-                    uri = oDocResp.DocumentElement.GetAttribute("xmlns");
-                    XmlNamespaceManager nsmgr = new XmlNamespaceManager(oDocResp.NameTable);
-                    nsmgr.AddNamespace("bk", uri);
+                    _response = SendRequestSegment(ttAA, strAir, "Air", ttProviderSystems.AmadeusWSSchema[Air_SellFromRecommendation], ttProviderSystems.AmadeusWSSchema[Air_SellFromRecommendationReply]);
 
                     // Fatal Error 
-                    if (strResponse.Length > 0)
+                    if (!string.IsNullOrEmpty(_response))
                     {
+                        _response = BuildOTAResponse(_response);
+                        return _response;
+                    }
+                }
+                //*************************************************
+                //    This 'if' was deleted from shashin's code
+                //*************************************************
+                if (PBN)
+                {
+                    _response = SendCommandCryptically(ttAA, ProfileCompanyName);
+                    Message += _response;
+                }
 
-                        if (strResponse.IndexOf("Flight") != -1)
+                //--------------------------------------------------
+
+                // Send Mandatory elements 
+                _response = SendRequestSegment(ttAA, strMandatory, "MultiElements", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
+
+                // Get the native response multi elements 
+                XmlDocument oDocResp = new XmlDocument();
+                oDocResp.LoadXml(nativeResp);
+                XmlElement oRootResp = oDocResp.DocumentElement;
+                uri = oDocResp.DocumentElement.GetAttribute("xmlns");
+                XmlNamespaceManager nsmgr = new XmlNamespaceManager(oDocResp.NameTable);
+                nsmgr.AddNamespace("bk", uri);
+
+                int i = 0;
+                // Fatal Error 
+                if (string.IsNullOrEmpty(_response))
+                {
+                    if (_response.Contains("Flight"))
+                    {
+                        var strBlackListResp = _response;
+
+                        // try to book next recommendation 
+                        if (ttProviderSystems.RebookNextFlight == true)
                         {
+                            // first cancel booked itinerary if any 
+                            int iPax = 0;
+                            int iSegs = 0;
+                            int iErr = 0;
+                            XmlDocument oDocErr = null;
+                            XmlElement oRootErr = null;
+                            string strSegs = "";
 
-                            var strBlackListResp = strResponse;
+                            iErr = 0;
+                            iPax = oRoot.SelectNodes("MultiElements/PNR_AddMultiElements/travellerInfo").Count;
+                            iSegs = oRoot.SelectNodes("MultiElements/PNR_AddMultiElements/originDestinationDetails/itineraryInfo").Count;
 
-                            // try to book next recommendation 
-                            if (ttProviderSystems.RebookNextFlight == true)
+                            oDocErr = new XmlDocument();
+                            oDocErr.LoadXml($"<Err>{_response}</Err>");
+                            oRootErr = oDocErr.DocumentElement;
+
+                            foreach (XmlNode oNodeErr in oRootErr.ChildNodes)
                             {
-                                // first cancel booked itinerary if any 
-                                int iPax = 0;
-                                int iSegs = 0;
-                                int iErr = 0;
-                                XmlDocument oDocErr = null;
-                                XmlElement oRootErr = null;
-                                string strSegs = "";
-
-                                iErr = 0;
-                                iPax = oRoot.SelectNodes("MultiElements/PNR_AddMultiElements/travellerInfo").Count;
-                                iSegs = oRoot.SelectNodes("MultiElements/PNR_AddMultiElements/originDestinationDetails/itineraryInfo").Count;
-
-                                oDocErr = new XmlDocument();
-                                oDocErr.LoadXml($"<Err>{strResponse}</Err>");
-                                oRootErr = oDocErr.DocumentElement;
-
-                                foreach (XmlNode oNodeErr in oRootErr.ChildNodes)
+                                if (oNodeErr.InnerText.IndexOf("WAIT LIST") == -1)
                                 {
-                                    if (oNodeErr.InnerText.IndexOf("WAIT LIST") == -1)
-                                    {
-                                        iErr++;
-                                    }
-                                }
-
-                                if (iErr < iSegs)
-                                {
-                                    if (iSegs - iErr > 1)
-                                    {
-                                        strSegs = $"-{iPax + iSegs - iErr}";
-                                    }
-                                    strRequest = $"<Command_Cryptic><messageAction><messageFunctionDetails><messageFunction>M</messageFunction></messageFunctionDetails></messageAction><longTextString><textStringDetails>XE{iPax + 1}{strSegs}</textStringDetails></longTextString></Command_Cryptic>";
-                                    Message += strRequest;
-                                    strResponse = SendCommandCryptically(ttAA, strRequest);
-                                    Message += strResponse;
-                                }
-
-                                string strValuePricer = "";
-                                // send value pricer request 
-                                if (oRoot.SelectSingleNode("ValuePricer") != null)
-                                {
-                                    strValuePricer = oRoot.SelectSingleNode("ValuePricer").InnerXml;
-                                    strResponse = SendRequestSegment(ttAA, strValuePricer, "ValuePricer", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
-
-                                    // Fatal Error 
-                                    if (strResponse.Length > 0)
-                                    {
-                                        strResponse = BuildOTAResponse(strResponse);
-                                        return strResponse;
-                                    }
-                                }
-
-                                // book first recommendation that does not contain the failed flights 
-                                strResponse = "";
-                                i = 1;
-                                while (!strResponse.Contains("ITINERARY REBOOKED") & !strResponse.Contains("INVALID RECOMMENDATION NUMBER") & i < 21)
-                                {
-                                    strValuePricer = $"<Command_Cryptic><messageAction><messageFunctionDetails><messageFunction>M</messageFunction></messageFunctionDetails></messageAction><longTextString><textStringDetails>FXZ{i}</textStringDetails></longTextString></Command_Cryptic>";
-                                    Message += strValuePricer;
-                                    strResponse = SendCommandCryptically(ttAA, strValuePricer);
-                                    Message += strResponse;
-                                    i++;
-                                }
-
-                                if (strResponse.Contains("INVALID RECOMMENDATION NUMBER"))
-                                {
-                                    strResponse = BuildOTAResponse("NO FLIGHTS AVAILABLE ON ITINERARY");
-                                    return strResponse;
-                                }
-                                else if ((oRoot.SelectSingleNode("SSRs") != null))
-                                {
-                                    string strSSRs = oRoot.SelectSingleNode("SSRs").InnerXml;
-                                    strResponse = SendRequestSegment(ttAA, strSSRs, "SSRs", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
-
-                                    //Potencially we can do this.
-                                    //strResponse = SendAddMultiElements(ttAA, strSSRs, "SSRs");
-
-                                    // Fatal Error 
-                                    if (strResponse.Length > 0)
-                                    {
-                                        strResponse = BuildOTAResponse(strResponse);
-                                        return strResponse;
-                                    }
+                                    iErr++;
                                 }
                             }
-                            else
+
+                            if (iErr < iSegs)
                             {
-                                strResponse = BuildOTAResponse(strResponse);
-                                return strResponse;
+                                if (iSegs - iErr > 1)
+                                {
+                                    strSegs = $"-{iPax + iSegs - iErr}";
+                                }
+                                strRequest = $"<Command_Cryptic><messageAction><messageFunctionDetails><messageFunction>M</messageFunction></messageFunctionDetails></messageAction><longTextString><textStringDetails>XE{iPax + 1}{strSegs}</textStringDetails></longTextString></Command_Cryptic>";
+                                Message += strRequest;
+                                _response = SendCommandCryptically(ttAA, strRequest);
+                                Message += _response;
+                            }
+
+                            string strValuePricer = "";
+                            // send value pricer request 
+                            if (oRoot.SelectSingleNode("ValuePricer") != null)
+                            {
+                                strValuePricer = oRoot.SelectSingleNode("ValuePricer").InnerXml;
+                                _response = SendRequestSegment(ttAA, strValuePricer, "ValuePricer", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
+
+                                // Fatal Error 
+                                if (_response.Length > 0)
+                                {
+                                    _response = BuildOTAResponse(_response);
+                                    return _response;
+                                }
+                            }
+
+                            // book first recommendation that does not contain the failed flights 
+                            _response = "";
+                            i = 1;
+                            while (!_response.Contains("ITINERARY REBOOKED") & !_response.Contains("INVALID RECOMMENDATION NUMBER") & i < 21)
+                            {
+                                strValuePricer = $"<Command_Cryptic><messageAction><messageFunctionDetails><messageFunction>M</messageFunction></messageFunctionDetails></messageAction><longTextString><textStringDetails>FXZ{i}</textStringDetails></longTextString></Command_Cryptic>";
+                                Message += strValuePricer;
+                                _response = SendCommandCryptically(ttAA, strValuePricer);
+                                Message += _response;
+                                i++;
+                            }
+
+                            if (_response.Contains("INVALID RECOMMENDATION NUMBER"))
+                            {
+                                _response = BuildOTAResponse("NO FLIGHTS AVAILABLE ON ITINERARY");
+                                return _response;
+                            }
+                            else if ((oRoot.SelectSingleNode("SSRs") != null))
+                            {
+                                string strSSRs = oRoot.SelectSingleNode("SSRs").InnerXml;
+                                _response = SendRequestSegment(ttAA, strSSRs, "SSRs", ttProviderSystems.AmadeusWSSchema[PNR_AddMultiElements], ttProviderSystems.AmadeusWSSchema[PNR_Reply]);
+
+                                //Potencially we can do this.
+                                //strResponse = SendAddMultiElements(ttAA, strSSRs, "SSRs");
+
+                                // Fatal Error 
+                                if (_response.Length > 0)
+                                {
+                                    _response = BuildOTAResponse(_response);
+                                    return _response;
+                                }
                             }
                         }
                         else
                         {
-                            strResponse = BuildOTAResponse(strResponse);
-                            return strResponse;
+                            _response = BuildOTAResponse(_response);
+                            return _response;
                         }
                     }
-
-                    if (FQTV)
+                    else
                     {
-                        XmlDocument oDocFQTV = null;
-                        XmlElement oRootFQTV = null;
-
-                        oDocFQTV = new XmlDocument();
-                        oDocFQTV.LoadXml(strFQTV);
-                        oRootFQTV = oDocFQTV.DocumentElement;
-                        int ipos = 1;
-
-                        foreach (XmlNode oNodeFQTV in oRootFQTV.ChildNodes)
-                        {
-                            string strFqtv = oNodeFQTV.SelectSingleNode("longTextString/textStringDetails").InnerText;
-                            string paxref = strFqtv.Substring(strFqtv.LastIndexOf("/P")).Substring(2);
-                            XmlNode oPax = oRootRequest.SelectSingleNode($"TPA_Extensions/PNRData/Traveler[TravelerRefNumber/@RPH='{paxref}']");
-                            string lName = oPax.SelectSingleNode("PersonName/Surname").InnerText.ToUpper();
-                            string fName = oPax.SelectSingleNode("PersonName/GivenName").InnerText.ToUpper();
-
-                            if (oPax.SelectSingleNode("PersonName/NamePrefix") != null)
-                            {
-                                if (oPax.SelectSingleNode("PersonName/NamePrefix").InnerText != "")
-                                    fName += $" {oPax.SelectSingleNode("PersonName/NamePrefix").InnerText.ToUpper()}";
-                            }
-                            string a = $"travellerInfo[passengerData/travellerInformation/traveller/surname = '{lName}' and passengerData/travellerInformation/passenger/firstName = '{fName}']/elementManagementPassenger/lineNumber";
-                            oPax = oRootResp.SelectSingleNode(a);
-
-                            if (oPax != null)
-                            {
-                                strFqtv = oNodeFQTV.OuterXml.Substring(0, oNodeFQTV.OuterXml.IndexOf("/P"));
-                                strFqtv += $"/P{oPax.InnerText}{oNodeFQTV.OuterXml.Substring(oNodeFQTV.OuterXml.IndexOf("/P") + 3)}";
-                                strResponse = SendRequestSegment(ttAA, strFqtv, "FQTV", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
-
-                                // Fatal Error 
-                                if (strResponse.Length > 0)
-                                {
-                                    strResponse = BuildOTAResponse(strResponse);
-                                    return strResponse;
-                                }
-                            }
-                            ipos += 1;
-                        }
-                        oDocFQTV = null;
-                        oRootFQTV = null;
+                        _response = BuildOTAResponse(_response);
+                        return _response;
                     }
+                }
 
-                    if (MCO)
+                if (FQTV)
+                {
+                    XmlDocument oDocFQTV = null;
+                    XmlElement oRootFQTV = null;
+
+                    oDocFQTV = new XmlDocument();
+                    oDocFQTV.LoadXml(strFQTV);
+                    oRootFQTV = oDocFQTV.DocumentElement;
+                    int ipos = 1;
+
+                    foreach (XmlNode oNodeFQTV in oRootFQTV.ChildNodes)
                     {
-                        XmlDocument oDocMCO = null;
-                        XmlElement oRootMCO = null;
-                        XmlNode oNodeMCOPax = null;
-                        string strMCOPax = "";
-                        string strMCOTattoo = "";
-                        strMCO = $"<MCO>{strMCO}</MCO>";
+                        string strFqtv = oNodeFQTV.SelectSingleNode("longTextString/textStringDetails").InnerText;
+                        string paxref = strFqtv.Substring(strFqtv.LastIndexOf("/P")).Substring(2);
+                        XmlNode oPax = oRootRequest.SelectSingleNode($"TPA_Extensions/PNRData/Traveler[TravelerRefNumber/@RPH='{paxref}']");
+                        string lName = oPax.SelectSingleNode("PersonName/Surname").InnerText.ToUpper();
+                        string fName = oPax.SelectSingleNode("PersonName/GivenName").InnerText.ToUpper();
 
-                        oDocMCO = new XmlDocument();
-                        oDocMCO.LoadXml(strMCO);
-                        oRootMCO = oDocMCO.DocumentElement;
-
-                        foreach (XmlNode oNodeMCO in oRootMCO.ChildNodes)
+                        if (oPax.SelectSingleNode("PersonName/NamePrefix") != null)
                         {
-                            oNodeMCOPax = oNodeMCO.SelectSingleNode("mcoData/paxTattoo/otherPaxDetails/uniqueCustomerIdentifier");
+                            if (oPax.SelectSingleNode("PersonName/NamePrefix").InnerText != "")
+                                fName += $" {oPax.SelectSingleNode("PersonName/NamePrefix").InnerText.ToUpper()}";
+                        }
+                        string a = $"travellerInfo[passengerData/travellerInformation/traveller/surname = '{lName}' and passengerData/travellerInformation/passenger/firstName = '{fName}']/elementManagementPassenger/lineNumber";
+                        oPax = oRootResp.SelectSingleNode(a);
 
-                            if (oNodeMCOPax != null)
-                                strMCOPax = oNodeMCOPax.InnerXml;
-
-                            strMCOTattoo = oRootResp.SelectSingleNode($"travellerInfo/elementManagementPassenger[lineNumber = '{strMCOPax}']/reference/number").InnerXml;
-                            oNodeMCOPax.InnerXml = strMCOTattoo;
-                            strResponse = SendRequestSegment(ttAA, oNodeMCO.OuterXml, "MCO", "", "");
+                        if (oPax != null)
+                        {
+                            strFqtv = oNodeFQTV.OuterXml.Substring(0, oNodeFQTV.OuterXml.IndexOf("/P"));
+                            strFqtv += $"/P{oPax.InnerText}{oNodeFQTV.OuterXml.Substring(oNodeFQTV.OuterXml.IndexOf("/P") + 3)}";
+                            _response = SendRequestSegment(ttAA, strFqtv, "FQTV", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
 
                             // Fatal Error 
-                            if (strResponse.Length > 0)
+                            if (_response.Length > 0)
                             {
-                                strResponse = BuildOTAResponse(strResponse);
-                                oDocMCO = null;
-                                oRootMCO = null;
-                                oNodeMCOPax = null;
-                                return strResponse;
+                                _response = BuildOTAResponse(_response);
+                                return _response;
                             }
                         }
+                        ipos += 1;
+                    }
+                    oDocFQTV = null;
+                    oRootFQTV = null;
+                }
 
-                        oDocMCO = null;
-                        oRootMCO = null;
-                        oNodeMCOPax = null;
+                if (MCO)
+                {
+                    XmlDocument oDocMCO = null;
+                    XmlElement oRootMCO = null;
+                    XmlNode oNodeMCOPax = null;
+                    string strMCOPax = "";
+                    string strMCOTattoo = "";
+                    strMCO = $"<MCO>{strMCO}</MCO>";
+
+                    oDocMCO = new XmlDocument();
+                    oDocMCO.LoadXml(strMCO);
+                    oRootMCO = oDocMCO.DocumentElement;
+
+                    foreach (XmlNode oNodeMCO in oRootMCO.ChildNodes)
+                    {
+                        oNodeMCOPax = oNodeMCO.SelectSingleNode("mcoData/paxTattoo/otherPaxDetails/uniqueCustomerIdentifier");
+
+                        if (oNodeMCOPax != null)
+                            strMCOPax = oNodeMCOPax.InnerXml;
+
+                        strMCOTattoo = oRootResp.SelectSingleNode($"travellerInfo/elementManagementPassenger[lineNumber = '{strMCOPax}']/reference/number").InnerXml;
+                        oNodeMCOPax.InnerXml = strMCOTattoo;
+                        _response = SendRequestSegment(ttAA, oNodeMCO.OuterXml, "MCO", "", "");
+
+                        // Fatal Error 
+                        if (_response.Length > 0)
+                        {
+                            _response = BuildOTAResponse(_response);
+                            oDocMCO = null;
+                            oRootMCO = null;
+                            oNodeMCOPax = null;
+                            return _response;
+                        }
                     }
 
-                    XmlNode oNodeResp = null;
-                    //-----------------------------------------------------
+                    oDocMCO = null;
+                    oRootMCO = null;
+                    oNodeMCOPax = null;
+                }
 
-                    // Send Cars Request 
-                    if (Car)
+                XmlNode oNodeResp = null;
+                //-----------------------------------------------------
+
+                // Send Cars Request 
+                if (Car)
+                {
+                    string query = "bk:travellerInfo[bk:passengerData/bk:travellerInformation/bk:passenger/bk:type != 'INF' and bk:passengerData/bk:travellerInformation/bk:passenger/bk:type != 'CHD']/bk:elementManagementPassenger/bk:reference/bk:number";
+                    oNodeResp = oRootResp.SelectSingleNode(query, nsmgr);
+                    if (oNodeResp == null)
                     {
-                        string query = "bk:travellerInfo[bk:passengerData/bk:travellerInformation/bk:passenger/bk:type != 'INF' and bk:passengerData/bk:travellerInformation/bk:passenger/bk:type != 'CHD']/bk:elementManagementPassenger/bk:reference/bk:number";
-                        oNodeResp = oRootResp.SelectSingleNode(query, nsmgr);
-                        if (oNodeResp == null)
+                        throw new Exception("Car cannot be associated to child or infant");
+                    }
+
+                    strCars = strCars.Replace("<value>X</value>", $"<value>{oNodeResp.InnerText}</value>");
+
+                    if (!string.IsNullOrEmpty(strCarsAvail))
+                        _response = SendRequestSegment(ttAA, strCarsAvail, "CarAvail", ttProviderSystems.AmadeusWSSchema[Car_SingleAvailability], ttProviderSystems.AmadeusWSSchema[Car_SingleAvailabilityReply]);
+
+                    if (_response.Length == 0)
+                    {
+                        XmlDocument oDocCar = null;
+                        XmlElement oRootCar = null;
+                        XmlNode oNodeCar = null;
+
+                        oDocCar = new XmlDocument();
+                        oDocCar.LoadXml(nativeResp);
+                        oRootCar = oDocCar.DocumentElement;
+
+                        oNodeCar = oRootCar.SelectSingleNode("companyLocationInfo/availabilityLine[1]/sellFromAvailabilityGroup");
+
+                        if (oNodeCar != null)
                         {
-                            throw new Exception("Car cannot be associated to child or infant");
-                        }
+                            strCars = strCars.Replace("<sellFromAvailabilitylGroup />", oNodeCar.OuterXml.Replace("sellFromAvailabilityGroup", "sellFromAvailabilitylGroup")).Replace("<unit>MIN</unit>", "");
 
-                        strCars = strCars.Replace("<value>X</value>", $"<value>{oNodeResp.InnerText}</value>");
-
-                        if (!string.IsNullOrEmpty(strCarsAvail))
-                            strResponse = SendRequestSegment(ttAA, strCarsAvail, "CarAvail", ttProviderSystems.AmadeusWSSchema[Car_SingleAvailability], ttProviderSystems.AmadeusWSSchema[Car_SingleAvailabilityReply]);
-
-                        if (strResponse.Length == 0)
-                        {
-                            XmlDocument oDocCar = null;
-                            XmlElement oRootCar = null;
-                            XmlNode oNodeCar = null;
-
-                            oDocCar = new XmlDocument();
-                            oDocCar.LoadXml(nativeResp);
-                            oRootCar = oDocCar.DocumentElement;
-
-                            oNodeCar = oRootCar.SelectSingleNode("companyLocationInfo/availabilityLine[1]/sellFromAvailabilityGroup");
+                            oNodeCar = oRootCar.SelectSingleNode("companyLocationInfo/availabilityLine[1]/rateDetailsInfo/tariffInfo/rateIdentifier");
 
                             if (oNodeCar != null)
-                            {
-                                strCars = strCars.Replace("<sellFromAvailabilitylGroup />", oNodeCar.OuterXml.Replace("sellFromAvailabilityGroup", "sellFromAvailabilitylGroup")).Replace("<unit>MIN</unit>", "");
-
-                                oNodeCar = oRootCar.SelectSingleNode("companyLocationInfo/availabilityLine[1]/rateDetailsInfo/tariffInfo/rateIdentifier");
-
-                                if (oNodeCar != null)
-                                    strCars = strCars.Replace("<rateType />", $"<rateType>{oNodeCar.InnerText}</rateType>");
-                            }
-
-                            strResponse = SendRequestSegment(ttAA, strCars, "CarSell", ttProviderSystems.AmadeusWSSchema[Car_Sell], ttProviderSystems.AmadeusWSSchema[Car_SellReply]);
+                                strCars = strCars.Replace("<rateType />", $"<rateType>{oNodeCar.InnerText}</rateType>");
                         }
 
-                        if (strResponse.Length > 0)
-                        {
-                            strResponse = BuildOTAResponse(strResponse);
-                            return strResponse;
-                        }
+                        _response = SendRequestSegment(ttAA, strCars, "CarSell", ttProviderSystems.AmadeusWSSchema[Car_Sell], ttProviderSystems.AmadeusWSSchema[Car_SellReply]);
                     }
 
-                    // Send Hotels Request 
-                    if (Hotel)
+                    if (_response.Length > 0)
                     {
-                        // here we loop on hotels we might have in request
-                        // so you can ceate an index that corresponds to the hotel booking we are processing
-                        //int iHotel = 0;
-                        foreach (XmlNode oNodeHotel in oNodesHotels)
-                        {
-                            string strHotelAvail = "";
-                            string strHotels = "";
-
-                            if (ttProviderSystems.HotelVersion == "2")
-                            {
-                                if (oNodeHotel.SelectSingleNode("HotelAvail2") != null)
-                                {
-                                    strHotelAvail = oNodeHotel.SelectSingleNode("HotelAvail2").InnerXml;
-                                }
-
-                                if (oNodeHotel.SelectSingleNode("HotelSell2") != null)
-                                {
-                                    strHotels = oNodeHotel.SelectSingleNode("HotelSell2").InnerXml;
-
-                                    XmlNode oHotel = oRootRequest_2.SelectSingleNode("OTA_HotelResRQ/HotelReservations").SelectNodes("HotelReservation")[i];
-                                    // now we point to same hotel in input xml
-                                    // then you need to test if RPH is provided in input for that hotel
-
-                                    if (oHotel.SelectSingleNode("RoomStays").SelectSingleNode("RoomStay").SelectSingleNode("ResGuestRPHs") != null)
-                                    {
-                                        vRPH = oHotel.SelectSingleNode("RoomStays/RoomStay/ResGuestRPHs/ResGuestRPH/@RPH").InnerText;
-                                        oNodeResp = oRootResp.SelectSingleNode("travellerInfo[passengerData/travellerInformation/passenger/type != 'INF' and passengerData/travellerInformation/passenger/type != 'CHD'][elementManagementPassenger/lineNumber='" + vRPH + "']/elementManagementPassenger/reference/number");
-                                    }
-                                    else
-                                    {
-                                        // here you have to pick the amadeus ref of first passenger as there is no RPH oin input
-                                        oNodeResp = oRootResp.SelectSingleNode("travellerInfo[passengerData/travellerInformation/passenger/type != 'INF' and passengerData/travellerInformation/passenger/type != 'CHD'][elementManagementPassenger/lineNumber='1']/elementManagementPassenger/reference/number");
-                                    }
-
-                                    if (oNodeResp == null)
-                                    {
-                                        throw new Exception("Hotel cannot be associated to child or infant");
-                                    }
-
-                                    if (strHotels.IndexOf("<value>X</value>") != -1)
-                                    {
-                                        // here you will get the RPH number from input XML, from ResGuestRPHs/ResGuestRPH RPH="1"
-                                        // and then match it to the line number of the passenger in Amadeus reply
-                                        strHotels = strHotels.Replace("<value>X</value>", $"<value>{oNodeResp.InnerText}</value>");
-                                    }
-                                }
-
-                                if (!string.IsNullOrEmpty(strHotelAvail))
-                                    strResponse = SendRequestSegment(ttAA, strHotelAvail, "HotelAvail2", ttProviderSystems.AmadeusWSSchema[Hotel_MultiSingleAvailability], ttProviderSystems.AmadeusWSSchema[Hotel_MultiSingleAvailability]);
-
-                                if (!string.IsNullOrEmpty(strHotelAvail))
-                                    strResponse = SendRequestSegment(ttAA, strHotels, "HotelSell2", ttProviderSystems.AmadeusWSSchema[Hotel_Sell], ttProviderSystems.AmadeusWSSchema[Hotel_SellReply]);
-
-                                if (strResponse.Length > 0)
-                                {
-                                    strResponse = BuildOTAResponse(strResponse);
-                                    return strResponse;
-                                }
-                            }
-                            else
-                            {
-                                if (oNodeHotel.SelectSingleNode("HotelAvail") != null)
-                                {
-                                    strHotelAvail = oNodeHotel.SelectSingleNode("HotelAvail").InnerXml;
-                                }
-
-                                if (oNodeHotel.SelectSingleNode("HotelSell") != null)
-                                {
-                                    strHotels = oNodeHotel.SelectSingleNode("HotelSell").InnerXml;
-
-                                    // this node points to passenger names already, the only thing you need to do is to make it point to passenger with RPH number from input file
-                                    // if varibale vRPH contains that number from input, you would just add this to it:
-                                    // VRPH woudl have the RPH number from input and now the node oNodeResp would point to its Amadeus internal number
-
-                                    XmlNode oHotel = oRootRequest_2.SelectSingleNode("OTA_HotelResRQ/HotelReservations").SelectNodes("HotelReservation")[i];
-                                    // now we point to same hotel in input xml
-                                    // then you need to test if RPH is provided in input for that hotel
-
-                                    if (oHotel.SelectSingleNode("RoomStays").SelectSingleNode("RoomStay").SelectSingleNode("ResGuestRPHs") != null)
-                                    {
-                                        vRPH = oHotel.SelectSingleNode("RoomStays/RoomStay/ResGuestRPHs/ResGuestRPH/@RPH").InnerText;
-                                        oNodeResp = oRootResp.SelectSingleNode("travellerInfo[passengerData/travellerInformation/passenger/type != 'INF' and passengerData/travellerInformation/passenger/type != 'CHD'][elementManagementPassenger/lineNumber='" + vRPH + "']/elementManagementPassenger/reference/number");
-                                    }
-                                    else
-                                    {
-                                        // here you have to pick the amadeus ref of first passenger as there is no RPH oin input
-                                        oNodeResp = oRootResp.SelectSingleNode("travellerInfo[passengerData/travellerInformation/passenger/type != 'INF' and passengerData/travellerInformation/passenger/type != 'CHD'][elementManagementPassenger/lineNumber='1']/elementManagementPassenger/reference/number");
-                                    }
-
-                                    if (oNodeResp == null)
-                                    {
-                                        throw new Exception("Hotel cannot be associated to child or infant");
-                                    }
-
-                                    if (strHotels.IndexOf("<value>X</value>") != -1)
-                                    {
-                                        // here you will get the RPH number from input XML, from ResGuestRPHs/ResGuestRPH RPH="1"
-                                        // and then match it to the line number of the passenger in Amadeus reply
-                                        strHotels = strHotels.Replace("<value>X</value>", $"<value>{oNodeResp.InnerText}</value>");
-                                    }
-                                }
-
-                                if (!string.IsNullOrEmpty(strHotelAvail))
-                                {
-                                    strResponse = SendRequestSegment(ttAA, strHotelAvail, "HotelAvail", ttProviderSystems.AmadeusWSSchema[Hotel_SingleAvailability], ttProviderSystems.AmadeusWSSchema[Hotel_SingleAvailabilityReply]);
-                                }
-
-                                if (!string.IsNullOrEmpty(strHotelAvail))
-                                {
-                                    strResponse = SendRequestSegment(ttAA, strHotels, "HotelSell", ttProviderSystems.AmadeusWSSchema[Hotel_Sell], ttProviderSystems.AmadeusWSSchema[Hotel_SellReply]);
-                                }
-
-                                if (strResponse.Length > 0)
-                                {
-                                    strResponse = BuildOTAResponse(strResponse);
-                                    return strResponse;
-                                }
-                            }
-
-                        }
+                        _response = BuildOTAResponse(_response);
+                        return _response;
                     }
+                }
 
-                    //******************************************************
-                    // In shashin code this if contains (Price) as condition
-                    //******************************************************
-
-                    if (price && Air)
+                // Send Hotels Request 
+                if (Hotel)
+                {
+                    // here we loop on hotels we might have in request
+                    // so you can ceate an index that corresponds to the hotel booking we are processing
+                    //int iHotel = 0;
+                    foreach (XmlNode oNodeHotel in oNodesHotels)
                     {
-                        decimal totalFare = 0;
-                        foreach (XmlNode oNodePrice in oNodesPrices)
+                        string strHotelAvail = "";
+                        string strHotels = "";
+
+                        string vRPH;
+                        if (ttProviderSystems.HotelVersion == "2")
                         {
-                            string strPricing = oNodePrice.InnerXml;
-
-                            strResponse = strPricing.Contains("<Command_Cryptic>")
-                                ? SendRequestSegment(ttAA, strPricing, "Price", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply])
-                                : SendRequestSegment(ttAA, strPricing, "Price", ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClass], ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClassReply]);
-
-                            oDocResp.LoadXml(nativeResp);
-                            oRootResp = oDocResp.DocumentElement;
-
-                            // Fatal Error 
-                            if (strResponse.Length > 0)
+                            if (oNodeHotel.SelectSingleNode("HotelAvail2") != null)
                             {
-                                strResponse = BuildOTAResponse(strResponse);
-                                return strResponse;
+                                strHotelAvail = oNodeHotel.SelectSingleNode("HotelAvail2").InnerXml;
                             }
 
-                            if (!strPricing.Contains("<Cryptic_GetScreen_Query>"))
+                            if (oNodeHotel.SelectSingleNode("HotelSell2") != null)
                             {
-                                string strStorePrice = "<Ticket_CreateTSTFromPricing>";
-                                iFareList = 1;
+                                strHotels = oNodeHotel.SelectSingleNode("HotelSell2").InnerXml;
 
-                                foreach (XmlNode oNodeResps in oRootResp.SelectNodes("fareList"))
+                                XmlNode oHotel = oRootRequest_2.SelectSingleNode("OTA_HotelResRQ/HotelReservations").SelectNodes("HotelReservation")[i];
+                                // now we point to same hotel in input xml
+                                // then you need to test if RPH is provided in input for that hotel
+
+                                if (oHotel.SelectSingleNode("RoomStays").SelectSingleNode("RoomStay").SelectSingleNode("ResGuestRPHs") != null)
                                 {
-                                    strStorePrice += $"<psaList><itemReference><referenceType>TST</referenceType><uniqueReference>{iFareList}</uniqueReference></itemReference></psaList>";
-                                    if (oNodeResps.SelectSingleNode("fareDataInformation/fareDataSupInformation[2]") != null)
-                                    {
-                                        totalFare += decimal.Parse(oNodeResps.SelectSingleNode("fareDataInformation/fareDataSupInformation[2]/fareAmount").InnerText);
-                                    }
-                                    iFareList++;
+                                    vRPH = oHotel.SelectSingleNode("RoomStays/RoomStay/ResGuestRPHs/ResGuestRPH/@RPH").InnerText;
+                                    oNodeResp = oRootResp.SelectSingleNode("travellerInfo[passengerData/travellerInformation/passenger/type != 'INF' and passengerData/travellerInformation/passenger/type != 'CHD'][elementManagementPassenger/lineNumber='" + vRPH + "']/elementManagementPassenger/reference/number");
                                 }
-                                // this code is for Avianca to test price differences
-                                if (ttProviderSystems.CheckBookedFare)
+                                else
                                 {
-                                    if (oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo") != null)
+                                    // here you have to pick the amadeus ref of first passenger as there is no RPH oin input
+                                    oNodeResp = oRootResp.SelectSingleNode("travellerInfo[passengerData/travellerInformation/passenger/type != 'INF' and passengerData/travellerInformation/passenger/type != 'CHD'][elementManagementPassenger/lineNumber='1']/elementManagementPassenger/reference/number");
+                                }
+
+                                if (oNodeResp == null)
+                                {
+                                    throw new Exception("Hotel cannot be associated to child or infant");
+                                }
+
+                                if (strHotels.IndexOf("<value>X</value>") != -1)
+                                {
+                                    // here you will get the RPH number from input XML, from ResGuestRPHs/ResGuestRPH RPH="1"
+                                    // and then match it to the line number of the passenger in Amadeus reply
+                                    strHotels = strHotels.Replace("<value>X</value>", $"<value>{oNodeResp.InnerText}</value>");
+                                }
+                            }
+
+                            if (!string.IsNullOrEmpty(strHotelAvail))
+                                _response = SendRequestSegment(ttAA, strHotelAvail, "HotelAvail2", ttProviderSystems.AmadeusWSSchema[Hotel_MultiSingleAvailability], ttProviderSystems.AmadeusWSSchema[Hotel_MultiSingleAvailability]);
+
+                            if (!string.IsNullOrEmpty(strHotelAvail))
+                                _response = SendRequestSegment(ttAA, strHotels, "HotelSell2", ttProviderSystems.AmadeusWSSchema[Hotel_Sell], ttProviderSystems.AmadeusWSSchema[Hotel_SellReply]);
+
+                            if (_response.Length > 0)
+                            {
+                                _response = BuildOTAResponse(_response);
+                                return _response;
+                            }
+                        }
+                        else
+                        {
+                            if (oNodeHotel.SelectSingleNode("HotelAvail") != null)
+                            {
+                                strHotelAvail = oNodeHotel.SelectSingleNode("HotelAvail").InnerXml;
+                            }
+
+                            if (oNodeHotel.SelectSingleNode("HotelSell") != null)
+                            {
+                                strHotels = oNodeHotel.SelectSingleNode("HotelSell").InnerXml;
+
+                                // this node points to passenger names already, the only thing you need to do is to make it point to passenger with RPH number from input file
+                                // if varibale vRPH contains that number from input, you would just add this to it:
+                                // VRPH woudl have the RPH number from input and now the node oNodeResp would point to its Amadeus internal number
+
+                                XmlNode oHotel = oRootRequest_2.SelectSingleNode("OTA_HotelResRQ/HotelReservations").SelectNodes("HotelReservation")[i];
+                                // now we point to same hotel in input xml
+                                // then you need to test if RPH is provided in input for that hotel
+
+                                if (oHotel.SelectSingleNode("RoomStays").SelectSingleNode("RoomStay").SelectSingleNode("ResGuestRPHs") != null)
+                                {
+                                    vRPH = oHotel.SelectSingleNode("RoomStays/RoomStay/ResGuestRPHs/ResGuestRPH/@RPH").InnerText;
+                                    oNodeResp = oRootResp.SelectSingleNode("travellerInfo[passengerData/travellerInformation/passenger/type != 'INF' and passengerData/travellerInformation/passenger/type != 'CHD'][elementManagementPassenger/lineNumber='" + vRPH + "']/elementManagementPassenger/reference/number");
+                                }
+                                else
+                                {
+                                    // here you have to pick the amadeus ref of first passenger as there is no RPH oin input
+                                    oNodeResp = oRootResp.SelectSingleNode("travellerInfo[passengerData/travellerInformation/passenger/type != 'INF' and passengerData/travellerInformation/passenger/type != 'CHD'][elementManagementPassenger/lineNumber='1']/elementManagementPassenger/reference/number");
+                                }
+
+                                if (oNodeResp == null)
+                                {
+                                    throw new Exception("Hotel cannot be associated to child or infant");
+                                }
+
+                                if (strHotels.IndexOf("<value>X</value>") != -1)
+                                {
+                                    // here you will get the RPH number from input XML, from ResGuestRPHs/ResGuestRPH RPH="1"
+                                    // and then match it to the line number of the passenger in Amadeus reply
+                                    strHotels = strHotels.Replace("<value>X</value>", $"<value>{oNodeResp.InnerText}</value>");
+                                }
+                            }
+
+                            if (!string.IsNullOrEmpty(strHotelAvail))
+                            {
+                                _response = SendRequestSegment(ttAA, strHotelAvail, "HotelAvail", ttProviderSystems.AmadeusWSSchema[Hotel_SingleAvailability], ttProviderSystems.AmadeusWSSchema[Hotel_SingleAvailabilityReply]);
+                            }
+
+                            if (!string.IsNullOrEmpty(strHotelAvail))
+                            {
+                                _response = SendRequestSegment(ttAA, strHotels, "HotelSell", ttProviderSystems.AmadeusWSSchema[Hotel_Sell], ttProviderSystems.AmadeusWSSchema[Hotel_SellReply]);
+                            }
+
+                            if (_response.Length > 0)
+                            {
+                                _response = BuildOTAResponse(_response);
+                                return _response;
+                            }
+                        }
+
+                    }
+                }
+
+                int iFareList = 0;
+                //******************************************************
+                // In shashin code this if contains (Price) as condition
+                //******************************************************
+
+                if (price && Air)
+                {
+                    decimal totalFare = 0;
+                    foreach (XmlNode oNodePrice in oNodesPrices)
+                    {
+                        string strPricing = oNodePrice.InnerXml;
+
+                        _response = strPricing.Contains("<Command_Cryptic>")
+                            ? SendRequestSegment(ttAA, strPricing, "Price", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply])
+                            : SendRequestSegment(ttAA, strPricing, "Price", ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClass], ttProviderSystems.AmadeusWSSchema[Fare_PricePNRWithBookingClassReply]);
+
+                        oDocResp.LoadXml(nativeResp);
+                        oRootResp = oDocResp.DocumentElement;
+
+                        // Fatal Error 
+                        if (_response.Length > 0)
+                        {
+                            _response = BuildOTAResponse(_response);
+                            return _response;
+                        }
+
+                        if (!strPricing.Contains("<Cryptic_GetScreen_Query>"))
+                        {
+                            string strStorePrice = "<Ticket_CreateTSTFromPricing>";
+                            iFareList = 1;
+
+                            foreach (XmlNode oNodeResps in oRootResp.SelectNodes("fareList"))
+                            {
+                                strStorePrice += $"<psaList><itemReference><referenceType>TST</referenceType><uniqueReference>{iFareList}</uniqueReference></itemReference></psaList>";
+                                if (oNodeResps.SelectSingleNode("fareDataInformation/fareDataSupInformation[2]") != null)
+                                {
+                                    totalFare += decimal.Parse(oNodeResps.SelectSingleNode("fareDataInformation/fareDataSupInformation[2]/fareAmount").InnerText);
+                                }
+                                iFareList++;
+                            }
+                            // this code is for Avianca to test price differences
+                            if (ttProviderSystems.CheckBookedFare)
+                            {
+                                if (oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo") != null && oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails") != null)
+                                {
+                                    if (oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks") != null && oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks/SpecialRemark") != null)
                                     {
-                                        if (oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails") != null)
+                                        if (oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks/SpecialRemark").HasChildNodes && oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks/SpecialRemark").Attributes["RemarkType"] != null && oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks/SpecialRemark").Attributes["RemarkType"].InnerText == "T")
                                         {
-                                            if (oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks") != null)
+                                            string totFare = oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks/SpecialRemark/Text").InnerXml;
+                                            decimal reqTotalFare = decimal.Parse(totFare.Substring(3, totFare.Length - 3));
+                                            if (totalFare > reqTotalFare)
                                             {
-                                                if (oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks/SpecialRemark") != null)
-                                                {
-                                                    if (oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks/SpecialRemark").HasChildNodes && oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks/SpecialRemark").Attributes["RemarkType"] != null)
-                                                    {
-                                                        if (oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks/SpecialRemark").Attributes["RemarkType"].InnerText == "T")
-                                                        {
-                                                            string totFare = oRootRequest.SelectSingleNode("OTA_AirBookRQ/TravelerInfo/SpecialReqDetails/SpecialRemarks/SpecialRemark/Text").InnerXml;
-                                                            decimal reqTotalFare = decimal.Parse(totFare.Substring(3, totFare.Length - 3));
-                                                            if (totalFare > reqTotalFare)
-                                                            {
-                                                                string strIgnore = "<Command_Cryptic><messageAction><messageFunctionDetails><messageFunction>M</messageFunction></messageFunctionDetails></messageAction><longTextString><textStringDetails>IG</textStringDetails></longTextString></Command_Cryptic>";
-                                                                strResponse = SendCommandCryptically(ttAA, strIgnore);
-                                                                throw new Exception("Price is different from previous price.New price will be " + totalFare.ToString());
-                                                            }
-                                                        }
-                                                    }
-                                                }
+                                                string strIgnore = "<Command_Cryptic><messageAction><messageFunctionDetails><messageFunction>M</messageFunction></messageFunctionDetails></messageAction><longTextString><textStringDetails>IG</textStringDetails></longTextString></Command_Cryptic>";
+                                                _response = SendCommandCryptically(ttAA, strIgnore);
+                                                throw new Exception("Price is different from previous price.New price will be " + totalFare.ToString());
                                             }
                                         }
                                     }
-
                                 }
 
-                                strStorePrice += "</Ticket_CreateTSTFromPricing>";
-                                strResponse = SendRequestSegment(ttAA, strStorePrice, "StorePrice", ttProviderSystems.AmadeusWSSchema[Ticket_CreateTSTFromPricing], ttProviderSystems.AmadeusWSSchema[Ticket_CreateTSTFromPricingReply]);
                             }
+
+                            strStorePrice += "</Ticket_CreateTSTFromPricing>";
+                            _response = SendRequestSegment(ttAA, strStorePrice, "StorePrice", ttProviderSystems.AmadeusWSSchema[Ticket_CreateTSTFromPricing], ttProviderSystems.AmadeusWSSchema[Ticket_CreateTSTFromPricingReply]);
                         }
                     }
-                    if (!EXCHANGE)
+                }
+                if (!EXCHANGE)
+                {
+                    int PAXTypeCount = 0;
+
+                    PAXTypeCount = oRootRequest.SelectSingleNode("TPA_Extensions").SelectSingleNode("PriceData").SelectNodes("PassengerTypeQuantity").Count;
+                    PAXTypeCount++;
+                    if (PAXTypeCount < iFareList)
                     {
-                        int PAXTypeCount = 0;
-
-                        PAXTypeCount = oRootRequest.SelectSingleNode("TPA_Extensions").SelectSingleNode("PriceData").SelectNodes("PassengerTypeQuantity").Count;
-                        PAXTypeCount++;
-                        if (PAXTypeCount < iFareList)
-                        {
-                            PAXTypeCount = iFareList;
-                        }
-
-                        for (int exch = 1; exch < PAXTypeCount; exch++)
-                        {
-                            string strEXC = oNodeExchange.InnerXml;
-                            strEXC = strEXC.Replace("/Tnn", "/T" + exch.ToString());
-
-                            strResponse = SendRequestSegment(ttAA, strEXC, "Exchange", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
-                        }
-                        string strMSCC = oNodeMSCC.InnerXml;
-                        strResponse = SendRequestSegment(ttAA, strMSCC, "Exchange", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_Cryptic]);
+                        PAXTypeCount = iFareList;
                     }
 
-                    // Send End Transaction Request 
-                    Message += strEndTransaction;
-                    strResponse = SendAddMultiElements(ttAA, strEndTransaction);
-
-                    Message += strResponse;
-                    native += $"{strEndTransaction}{strResponse}";
-
-                    oDocResp.LoadXml(strResponse);
-                    oRootResp = oDocResp.DocumentElement;
-
-                    //******************************************************
-                    //Below given code line was different in shahsin's codes
-                    //oNodeResp = oRootResp.SelectSingleNode("pnrHeader/reservationInfo/reservation/controlNumber");
-                    //******************************************************
-                    oNodeResp = oRootResp.SelectSingleNode("pnrHeader[not(reservationInfo/reservation/controlType)]/reservationInfo/reservation/controlNumber");
-                    //------------------------------------------------------
-
-                    if (oNodeResp == null && strResponse.Contains("<text>WARNING"))
+                    for (int exch = 1; exch < PAXTypeCount; exch++)
                     {
-                        strResponse = SendAddMultiElements(ttAA, strEndTransaction);
+                        string strEXC = oNodeExchange.InnerXml;
+                        strEXC = strEXC.Replace("/Tnn", "/T" + exch.ToString());
+
+                        _response = SendRequestSegment(ttAA, strEXC, "Exchange", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_CrypticReply]);
+                    }
+                    string strMSCC = oNodeMSCC.InnerXml;
+                    _response = SendRequestSegment(ttAA, strMSCC, "Exchange", ttProviderSystems.AmadeusWSSchema[Command_Cryptic], ttProviderSystems.AmadeusWSSchema[Command_Cryptic]);
+                }
+
+                // Send End Transaction Request 
+                Message += strEndTransaction;
+                _response = SendAddMultiElements(ttAA, strEndTransaction);
+
+                Message += _response;
+                native += $"{strEndTransaction}{_response}";
+
+                oDocResp.LoadXml(_response);
+                oRootResp = oDocResp.DocumentElement;
+
+                //******************************************************
+                //Below given code line was different in shahsin's codes
+                //oNodeResp = oRootResp.SelectSingleNode("pnrHeader/reservationInfo/reservation/controlNumber");
+                //******************************************************
+                oNodeResp = oRootResp.SelectSingleNode("pnrHeader[not(reservationInfo/reservation/controlType)]/reservationInfo/reservation/controlNumber");
+                //------------------------------------------------------
+
+                if (oNodeResp == null && _response.Contains("<text>WARNING"))
+                {
+                    _response = SendAddMultiElements(ttAA, strEndTransaction);
+                }
+
+                // Check for Errors 
+                strEndTransaction = CoreLib.TransformXML(_response, XslPath, $"{Version}AmadeusWS_TB_Errors.xsl", false);
+
+                if (strEndTransaction.Length > 0)
+                {
+                    if (strEndTransaction.IndexOf("PAYMENT INFORMATION MANDATORY - ENTER SSR EPAY") != -1)
+                    {
+                        strEpay = strEpay.Replace("XX", strEndTransaction.Substring(strEndTransaction.IndexOf("ENTER SSR EPAY") + 17, 2));
+                        // Send EPAY Request 
+                        Message += strEpay;
+                        _response = SendAddMultiElements(ttAA, strEpay);
+                        Message += _response;
+
+                        native += $"{strEpay}{_response}";
+                        strEndTransaction = CoreLib.TransformXML(_response, XslPath, $"{Version}AmadeusWS_TB_Errors.xsl", false);
                     }
 
-                    // Check for Errors 
-                    strEndTransaction = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_TB_Errors.xsl", false);
-
-                    if (strEndTransaction.Length > 0)
+                    if (strEndTransaction.Contains("<Error"))
                     {
-                        if (strEndTransaction.IndexOf("PAYMENT INFORMATION MANDATORY - ENTER SSR EPAY") != -1)
-                        {
-                            strEpay = strEpay.Replace("XX", strEndTransaction.Substring(strEndTransaction.IndexOf("ENTER SSR EPAY") + 17, 2));
-                            // Send EPAY Request 
-                            Message += strEpay;
-                            strResponse = SendAddMultiElements(ttAA, strEpay);
-                            Message += strResponse;
-
-                            native += $"{strEpay}{strResponse}";
-                            strEndTransaction = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_TB_Errors.xsl", false);
-                        }
-
-                        if (strEndTransaction.Contains("<Error"))
-                        {
-                            // Fatal Error 
-                            return BuildOTAResponse(strEndTransaction);
-                        }
-                        else if (strEndTransaction.IndexOf("<Warning>") >= 0)
-                        {
-                            Warnings += strEndTransaction;
-                        }
+                        // Fatal Error 
+                        return BuildOTAResponse(strEndTransaction);
                     }
-
-                    oDocResp.LoadXml(strResponse);
-                    oRootResp = oDocResp.DocumentElement;
-                    //********************************************************
-                    //The below given code line was diffrent in shashin's code
-                    //oNodeResp = oRootResp.SelectSingleNode("pnrHeader/reservationInfo/reservation/controlNumber");
-                    //********************************************************
-                    oNodeResp = oRootResp.SelectSingleNode("pnrHeader[not(reservationInfo/reservation/controlType)]/reservationInfo/reservation/controlNumber");
-
-                    //--------------------------------------------------------
-
-                    if ((oNodeResp != null) && bReferenceOnly == false)
+                    else if (strEndTransaction.IndexOf("<Warning>") >= 0)
                     {
-                        string RecordLocator = oNodeResp.InnerText;
+                        Warnings += strEndTransaction;
+                    }
+                }
 
-                        if (!string.IsNullOrEmpty(RecordLocator))
+                oDocResp.LoadXml(_response);
+                oRootResp = oDocResp.DocumentElement;
+                //********************************************************
+                //The below given code line was diffrent in shashin's code
+                //oNodeResp = oRootResp.SelectSingleNode("pnrHeader/reservationInfo/reservation/controlNumber");
+                //********************************************************
+                oNodeResp = oRootResp.SelectSingleNode("pnrHeader[not(reservationInfo/reservation/controlType)]/reservationInfo/reservation/controlNumber");
+
+                //--------------------------------------------------------
+
+                if ((oNodeResp != null) && bReferenceOnly == false)
+                {
+                    string RecordLocator = oNodeResp.InnerText;
+
+                    if (!string.IsNullOrEmpty(RecordLocator))
+                    {
+                        // Send Retreive Request 
+                        string strRTV = $"<PNR_RetrieveByRecLoc><sbrRecLoc><reservation><controlNumber>{RecordLocator}</controlNumber></reservation></sbrRecLoc></PNR_RetrieveByRecLoc>";
+                        double dTime = 0;
+                        dTime = DateTime.Now.TimeOfDay.TotalSeconds;
+
+                        //// wait 1 seconds and retrive PNR again
+                        //while (!(DateTime.Now.TimeOfDay.TotalSeconds - dTime > 1))
+                        //{
+                        //}
+                        Thread.Sleep(1000);
+
+                        Message += strRTV;
+                        _response = SendRetrivePNRbyRL(ttAA, strRTV);
+                        Message += _response;
+                        native += $"{strRTV}{_response}";
+
+                        oDocResp.LoadXml(_response);
+                        oRootResp = oDocResp.DocumentElement;
+                        oNodeResp = oRootResp.SelectSingleNode("originDestinationDetails/itineraryInfo[itineraryReservationInfo/reservation/controlNumber='']");
+
+                        // check if we have a case where airline record locator is not in PNR yet
+                        if (Air && (null == oRootResp.SelectSingleNode("originDestinationDetails/itineraryInfo/itineraryReservationInfo") || null != oNodeResp))
                         {
-                            // Send Retreive Request 
-                            string strRTV = $"<PNR_RetrieveByRecLoc><sbrRecLoc><reservation><controlNumber>{RecordLocator}</controlNumber></reservation></sbrRecLoc></PNR_RetrieveByRecLoc>";
-                            double dTime = 0;
+                            // wait 2 seconds and retrive PNR again
                             dTime = DateTime.Now.TimeOfDay.TotalSeconds;
-
-                            //// wait 1 seconds and retrive PNR again
-                            //while (!(DateTime.Now.TimeOfDay.TotalSeconds - dTime > 1))
+                            //while (!(DateTime.Now.TimeOfDay.TotalSeconds - dTime > 2))
                             //{
                             //}
-                            Thread.Sleep(1000);
+                            Thread.Sleep(2000);
+                            _response = SendRetrivePNRbyRL(ttAA, strRTV);
 
-                            Message += strRTV;
-                            strResponse = SendRetrivePNRbyRL(ttAA, strRTV);
-                            Message += strResponse;
-                            native += $"{strRTV}{strResponse}";
-
-                            oDocResp.LoadXml(strResponse);
+                            oDocResp.LoadXml(_response);
                             oRootResp = oDocResp.DocumentElement;
                             oNodeResp = oRootResp.SelectSingleNode("originDestinationDetails/itineraryInfo[itineraryReservationInfo/reservation/controlNumber='']");
 
-                            // check if we have a case where airline record locator is not in PNR yet
-                            if (Air && (null == oRootResp.SelectSingleNode("originDestinationDetails/itineraryInfo/itineraryReservationInfo") || null != oNodeResp))
+                            // check if airline record locator is still not in PNR 
+                            if (Air && (oRootResp.SelectSingleNode("originDestinationDetails/itineraryInfo/itineraryReservationInfo") == null || oNodeResp != null))
                             {
-                                // wait 2 seconds and retrive PNR again
+                                // wait 3 seconds and retrive PNR again
                                 dTime = DateTime.Now.TimeOfDay.TotalSeconds;
-                                //while (!(DateTime.Now.TimeOfDay.TotalSeconds - dTime > 2))
+                                //while (!(DateTime.Now.TimeOfDay.TotalSeconds - dTime > 3))
                                 //{
                                 //}
                                 Thread.Sleep(2000);
-                                strResponse = SendRetrivePNRbyRL(ttAA, strRTV);
+                                _response = SendRetrivePNRbyRL(ttAA, strRTV);
 
-                                oDocResp.LoadXml(strResponse);
+                                oDocResp.LoadXml(_response);
                                 oRootResp = oDocResp.DocumentElement;
                                 oNodeResp = oRootResp.SelectSingleNode("originDestinationDetails/itineraryInfo[itineraryReservationInfo/reservation/controlNumber='']");
 
-                                // check if airline record locator is still not in PNR 
-                                if (Air && (oRootResp.SelectSingleNode("originDestinationDetails/itineraryInfo/itineraryReservationInfo") == null || oNodeResp != null))
-                                {
-                                    // wait 3 seconds and retrive PNR again
-                                    dTime = DateTime.Now.TimeOfDay.TotalSeconds;
-                                    //while (!(DateTime.Now.TimeOfDay.TotalSeconds - dTime > 3))
-                                    //{
-                                    //}
-                                    Thread.Sleep(2000);
-                                    strResponse = SendRetrivePNRbyRL(ttAA, strRTV);
-
-                                    oDocResp.LoadXml(strResponse);
-                                    oRootResp = oDocResp.DocumentElement;
-                                    oNodeResp = oRootResp.SelectSingleNode("originDestinationDetails/itineraryInfo[itineraryReservationInfo/reservation/controlNumber='']");
-
-                                    if (oNodeResp != null)
-                                        Warnings += "<Warning>AIRLINE RECORD LOCATOR NOT IN PNR</Warning>";
-                                }
+                                if (oNodeResp != null)
+                                    Warnings += "<Warning>AIRLINE RECORD LOCATOR NOT IN PNR</Warning>";
                             }
                         }
                     }
-
-                    //***********************************************************
-                    // Below given if condition was diffrent in shashin's code
-                    // if (strResponse.IndexOf("<longFreetext>--- TST ") != -1 )
-                    //***********************************************************
-
-                    if (strResponse.Contains("<longFreetext>--- TST ") && bReferenceOnly == false)
-                    {
-                        strRequest = "<Ticket_DisplayTST><displayMode><attributeDetails><attributeType>ALL</attributeType></attributeDetails></displayMode></Ticket_DisplayTST>";
-
-                        Message += strRequest;
-                        strResponse = SendDisplayTST(ttAA);
-                        Message += strResponseTST;
-                        native += $"{strRequest}{strResponseTST}";
-                    }
-
-                    if (strResponse.IndexOf("SUBSIDIARY/FRANCHISE") != -1)
-                    {
-                        strRequest = "<Command_Cryptic><messageAction><messageFunctionDetails><messageFunction>M</messageFunction></messageFunctionDetails></messageAction><longTextString><textStringDetails>RTSVC</textStringDetails></longTextString></Command_Cryptic>";
-                        strRTSVC = SendCommandCryptically(ttAA, strRequest);
-                    }
                 }
-                catch (Exception ex)
+
+                //***********************************************************
+                // Below given if condition was diffrent in shashin's code
+                // if (strResponse.IndexOf("<longFreetext>--- TST ") != -1 )
+                //***********************************************************
+
+                if (_response.Contains("<longFreetext>--- TST ") && bReferenceOnly == false)
                 {
-                    throw ex;
+                    strRequest = "<Ticket_DisplayTST><displayMode><attributeDetails><attributeType>ALL</attributeType></attributeDetails></displayMode></Ticket_DisplayTST>";
+
+                    Message += strRequest;
+                    _response = SendDisplayTST(ttAA);
+                    Message += strResponseTST;
+                    native += $"{strRequest}{strResponseTST}";
+                }
+
+                if (_response.IndexOf("SUBSIDIARY/FRANCHISE") != -1)
+                {
+                    strRequest = "<Command_Cryptic><messageAction><messageFunctionDetails><messageFunction>M</messageFunction></messageFunctionDetails></messageAction><longTextString><textStringDetails>RTSVC</textStringDetails></longTextString></Command_Cryptic>";
+                    strRTSVC = SendCommandCryptically(ttAA, strRequest);
                 }
 
 
+
+                string strEchoToken = "";
                 //**************************************************************************** 
                 // Add Previous Errors and Warnings To Amadeus Native End Transact Response * 
                 //**************************************************************************** 
@@ -976,37 +818,12 @@ namespace AmadeusWS
                     strEchoToken = $"<EchoToken>{oRootReq.Attributes.GetNamedItem("EchoToken").Value}</EchoToken>";
                 }
 
-                strResponse = strResponse.Replace("</PNR_RetrieveByRecLocReply>", $"{Errors}{Warnings}{strResponseTST}{strEchoToken}{strRTSVC}{Request}</PNR_RetrieveByRecLocReply>");
+                _response = _response.Replace("</PNR_RetrieveByRecLocReply>", $"{Errors}{Warnings}{strResponseTST}{strEchoToken}{strRTSVC}{Request}</PNR_RetrieveByRecLocReply>");
 
                 //***************************************************************** 
                 // Transform Native Amadeus TravelBuild Response into OTA Response * 
                 //***************************************************************** 
-
-                try
-                {
-                    strResponse = strResponse.Replace($"xmlns=\"{uri}\"", "");
-                    strResponse = inSession
-                        ? strResponse.Replace("</PNR_RetrieveByRecLocReply>", $"<ConversationID>{ConversationID}</ConversationID></PNR_RetrieveByRecLocReply>")
-                        : strResponse;
-
-
-                    CoreLib.SendTrace(ttProviderSystems.UserID, "TravelBuild", "Final response", strResponse, ttProviderSystems.LogUUID);
-
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl", false);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
-                }
-                finally
-                {
-                    if (!inSession)
-                    {
-                        ttAA.CloseSession(ConversationID);
-                        ConversationID = null;
-                        ttAA = null;
-                    }
-                }
+                FinalizeResponse(ref _response, ref ttAA, inSession, uri);
 
                 DateTime ResponseTime = default(DateTime);
                 ResponseTime = DateTime.Now;
@@ -1014,14 +831,186 @@ namespace AmadeusWS
             catch (Exception exx)
             {
                 addLog($"<M>{Request}<BL/>", ttProviderSystems);
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.TravelBuild, exx.Message, ttProviderSystems, "");
+                _response = modCore.FormatErrorMessage(modCore.ttServices.TravelBuild, exx.Message, ttProviderSystems, "");
             }
             finally
             {
                 GC.Collect();
             }
 
-            return strResponse;
+            return _response;
+        }
+
+        private void FinalizeResponse(ref string strResponse, ref AmadeusWSAdapter ttAA, bool inSession, string uri)
+        {
+            try
+            {
+                strResponse = strResponse.Replace($"xmlns=\"{uri}\"", "");
+                strResponse = inSession
+                    ? strResponse.Replace("</PNR_RetrieveByRecLocReply>", $"<ConversationID>{ConversationID}</ConversationID></PNR_RetrieveByRecLocReply>")
+                    : strResponse;
+
+                CoreLib.SendTrace(ttProviderSystems.UserID, "TravelBuild", "Final response", strResponse, ttProviderSystems.LogUUID);
+
+                strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl", false);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+            }
+            finally
+            {
+                if (!inSession)
+                {
+                    ttAA.CloseSession(ConversationID);
+                    ConversationID = null;
+                    ttAA = null;
+                }
+            }
+        }
+
+        private static (string field, object field2, bool isPresent) SetItineraryPart(string element, string request, XmlElement rootRequest)
+        {
+            try
+            {
+                XmlDocument oDoc = new XmlDocument();
+                oDoc.LoadXml(request);
+                var oRoot = oDoc.DocumentElement;
+
+                switch (element)
+                {
+                    case "MultiElements":
+                        #region MultiElements
+                        if (oRoot.SelectSingleNode("MultiElements") == null)
+                            throw new Exception("Request is missing mandatory elements.");
+
+                        var _mandatory = oRoot.SelectSingleNode("MultiElements").InnerXml;
+
+                        if (_mandatory.Contains("<depDate>HOLDDATE</depDate>"))
+                        {
+                            DateTime curDate = DateTime.Now.AddDays(359);
+                            _mandatory = _mandatory.Replace("<depDate>HOLDDATE</depDate>", "<depDate>" + curDate.ToString("ddMMyy") + "</depDate>");
+                        }
+
+                        //****************************************************
+                        //This 'if' block had been deleted from shashin's code
+                        //****************************************************
+                        if (rootRequest.SelectSingleNode("POS/TPA_Extensions/Provider/Userid").InnerText == "euroaviamobile"
+                            || rootRequest.SelectSingleNode("POS/TPA_Extensions/Provider/Userid").InnerText == "euroavia")
+                        {
+                            string depDate = rootRequest.SelectSingleNode("OTA_AirBookRQ/AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment/@DepartureDateTime").InnerText;
+                            DateTime flightDate = Convert.ToDateTime(depDate);
+                            TimeSpan tkDate = flightDate.Date - DateTime.Now.Date;
+
+                            XmlDocument oDocTkt = null;
+                            XmlElement oRootTkt = null;
+                            XmlNode oNodeTkt = null;
+
+                            oDocTkt = new XmlDocument();
+                            oDocTkt.LoadXml(_mandatory);
+                            oRootTkt = oDocTkt.DocumentElement;
+                            oNodeTkt = oRootTkt.SelectSingleNode("dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='TK']/ticketElement/ticket");
+                            oNodeTkt.SelectSingleNode("date").InnerText = tkDate.Days < 8 ? DateTime.Now.ToString("ddMMyy") : DateTime.Now.AddDays(2).ToString("ddMMyy");
+                            oNodeTkt.SelectSingleNode("indicator").InnerText = "XL";
+                            oNodeTkt.SelectSingleNode("time").InnerText = "2359";
+                            _mandatory = oRootTkt.OuterXml;
+                        }
+
+                        return (_mandatory, null, true);
+                    #endregion
+                    case "MasterPricer":
+                        #region MasterPricer
+                        if (oRoot.SelectSingleNode("MasterPricer/Air_SellFromRecommendation") == null)
+                            return (string.Empty, null, false);
+
+                        var _air = oRoot.SelectSingleNode("MasterPricer").InnerXml;
+                        return (_air, null, _air.Length > 0);
+                    #endregion
+                    case "FQTV":
+                        #region FQTV
+                        if (oRoot.SelectSingleNode("FQTV") == null)
+                            return (string.Empty, null, false);
+
+                        var _FQTV = oRoot.SelectSingleNode("FQTV").OuterXml;
+                        return (_FQTV, null, _FQTV.Length > 0);
+                        #endregion
+                    case "MCO":
+                        #region MCO
+                        if (oRoot.SelectSingleNode("MCO") == null)
+                            return (string.Empty, null, false);
+
+                        var _MCO = oRoot.SelectSingleNode("MCO").InnerXml;
+                        return (_MCO, null, _MCO.Length > 0);
+                        #endregion
+                    case "Cars":
+                        #region Cars
+                        if (oRoot.SelectSingleNode("Cars") == null)
+                            return (string.Empty, null, false);
+
+                        var _CarsAvail = oRoot.SelectSingleNode("Cars/CarAvail") != null ? oRoot.SelectSingleNode("Cars/CarAvail").InnerXml : string.Empty;
+                        var _Cars = oRoot.SelectSingleNode("Cars/CarSell").InnerXml;
+                        return (_Cars, _CarsAvail, _Cars.Length > 0);
+                        #endregion
+                    case "Hotels":
+                        #region Hotels
+                        if (oRoot.SelectSingleNode("Hotels") == null)
+                            return (string.Empty, null, false);
+
+                        var oNodesHotels = oRoot.SelectNodes("Hotels");
+                        return (string.Empty, oNodesHotels, true);
+                        #endregion
+                    case "Pricing":
+                        #region Pricing
+                        if (oRoot.SelectSingleNode("Pricing/Command_Cryptic") == null && oRoot.SelectSingleNode("Pricing/Fare_PricePNRWithBookingClass") == null)
+                            return (string.Empty, null, false);
+
+                        var oNodesPrices = oRoot.SelectNodes("Pricing");
+                        return (string.Empty, oNodesPrices, true);
+                        #endregion
+                    case "Exchange":
+                        #region Exchange
+                        if (oRoot.SelectSingleNode("Exchange") == null)
+                            return (string.Empty, null, false);
+
+                        var oNodeExchange = oRoot.SelectSingleNode("Exchange").SelectSingleNode("EXCH").InnerText;
+                        var oNodeMSCC = oRoot.SelectSingleNode("Exchange").SelectSingleNode("MSCC").InnerText;
+                        return (oNodeExchange, oNodeMSCC, true);
+                        #endregion
+                    case "PBN":
+                        #region PBN
+                        if (oRoot.SelectSingleNode("PBN") == null)
+                            return (string.Empty, null, false);
+                        
+                        var ProfileCompanyName = oRoot.SelectSingleNode("PBN").InnerXml;
+                        return (string.Empty, ProfileCompanyName, ProfileCompanyName.Length > 0);
+                        #endregion
+                    case "ET":
+                        #region ET
+                        if (oRoot.SelectSingleNode("ET") == null)
+                            return (string.Empty, string.Empty, false);
+                        return (oRoot.SelectSingleNode("ET").InnerXml, null, true);
+                        #endregion
+                    case "EPAY":
+                        #region EPAY
+                        if (oRoot.SelectSingleNode("EPAY") == null)
+                            return (string.Empty, string.Empty, false);
+
+                        return(oRoot.SelectSingleNode("EPAY").InnerXml, null, true);
+                        #endregion
+                    case "ReferenceOnly":
+                        #region Reference
+                        if (rootRequest.SelectSingleNode("@ReferenceOnly") != null && rootRequest.SelectSingleNode("@ReferenceOnly").InnerText == "true")                        
+                            return(string.Empty, null, true);
+                        return (string.Empty, null, false);
+                    #endregion
+                    default:
+                        return (string.Empty, null, false);
+                }                
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error Loading Transformed Request XML Document.\r\n{ex.Message}");
+            }
         }
 
         public string IssueTicket()

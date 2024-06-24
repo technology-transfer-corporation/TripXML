@@ -721,9 +721,9 @@ namespace AmadeusWS
                 var request = "<Ticket_DisplayTST><displayMode><attributeDetails><attributeType>ALL</attributeType></attributeDetails></displayMode></Ticket_DisplayTST>";
                 return SendGDSMessage(ttAA, request, ttProviderSystems.AmadeusWSSchema[Ticket_DisplayTST], ttProviderSystems.AmadeusWSSchema[Ticket_DisplayTSTReply]); ;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception($"Error Sending Retrieve TST.\r\n{ex.Message}");
             }
         }
 

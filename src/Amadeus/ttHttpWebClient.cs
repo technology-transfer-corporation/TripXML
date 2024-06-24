@@ -172,7 +172,6 @@ public class ttHttpWebClient
                 {
                     var oHttpResponse = (HttpWebResponse)fi.GetValue(mHttpRequest);
                     Stream stream = oHttpResponse.GetResponseStream();
-
                     if (ttProviderSystems.ProxyURL != "")
                         oReader = new StreamReader(stream);
                     else
