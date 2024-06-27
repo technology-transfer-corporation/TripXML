@@ -622,7 +622,208 @@ namespace AmadeusWS
                     else if (Request.StartsWith("<Fare_MetaPricerCalendar>"))
                         strResponse = SendFareMetaPricerCalendar(ttAA, Request);
 
+                // ********************
+                //  Build Response    *
+                // ********************
+                try
+                {
+                    var strSession = "";
+                    //  Insert ConversationID
+                    if (inSession)
+                        strSession = $"<ConversationID>{ConversationID}</ConversationID>";
 
+                    strResponse = $"<NativeRS><Success/><Response>{strResponse.Replace("<", "&lt;").Replace(">", "&gt;")}</Response>{strSession}</NativeRS>";
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error in Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttAA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.Native, ex.Message, ttProviderSystems);
+            }
+
+            return strResponse;
+        }
+
+        public string TripXMLNative()
+        {
+            string strResponse = "";
+
+            try
+            {
+                var ttAA = SetAdapter();
+                bool inSession = SetConversationID(ttAA);
+
+                XmlDocument oReqDoc = new XmlDocument();
+                oReqDoc.LoadXml(Request);
+                XmlElement oRoot = oReqDoc.DocumentElement;
+                if (oRoot.SelectSingleNode("Native") == null)
+                {
+                    throw new Exception("Native Message is missing in the Request.");
+                }
+                else
+                {
+                    Request = oRoot.SelectSingleNode("Native").InnerXml;
+                }
+
+                // *******************************************************************************
+                //  Send Native Request to the Amadeus Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+
+                if (Request.StartsWith("<OTA_AirLowFareSearchPlusRQ>"))
+                    strResponse = SendLowFareSearchPlus(Request);
+                else if (Request.StartsWith("<OTA_AirAvailRQ>"))
+                    strResponse = SendAirAvail(Request);
+                //else if (Request.StartsWith("<OTA_AirBookRQ>"))
+                //    strResponse = SendAddMultiElements(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_PricePNRWithLowerFares>"))
+                //    strResponse = SendPricePNRWithLowerFares(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_PricePNRWithBookingClass>"))
+                //    strResponse = SendPricePNRWithBookingClass(ttAA, Request);
+                //else if (Request.StartsWith("<Air_SellFromRecommendation>"))
+                //    strResponse = SendAirSellFromRecommendation(ttAA, Request);
+                //else if (Request.StartsWith("<Air_RetrieveSeatMap>"))
+                //    strResponse = SendRetrieveSeatMap(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_DisplayFaresForCityPair>"))
+                //    strResponse = SendFareDisplayFaresForCityPair(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_GetFareFamilyDescription>"))
+                //    strResponse = SendGetFareFamilyDescription(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_CheckRules>"))
+                //    strResponse = SendFareCheckRules(ttAA, Request);
+                //else if (Request.StartsWith("<Air_MultiAvailability>"))
+                //    strResponse = SendAirMultiAvailability(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_MasterPricerExpertSearch>"))
+                //    strResponse = SendMasterPricerExpertSearch(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_MasterPricerTravelBoardSearch>"))
+                //    strResponse = SendMasterPricerTravelBoardSearch(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_MasterPricerCalendar>"))
+                //    strResponse = SendMasterPricerCalendar(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_InformativePricingWithoutPNR>"))
+                //    strResponse = SendInformativePricingWithoutPNR(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_InformativeBestPricingWithoutPNR>"))
+                //    strResponse = SendFareInformativeBestPricingWithoutPNR(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_SellByFareCalendar>"))
+                //    strResponse = SendSellByFareCalendar(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_SellByFareSearch>"))
+                //    strResponse = SendSellByFareSearch(ttAA, Request);
+                //else if (Request.StartsWith("<OTA_HotelAvailRQ EchoToken=\"Pricing\""))
+                //    strResponse = SendHotelEnhancedPricing(ttAA, Request);
+                //else if (Request.StartsWith("<OTA_HotelAvailRQ"))
+                //    strResponse = SendHotelMultiSingleAvailability(ttAA, Request);
+                //else if (Request.StartsWith("<Hotel_AvailabilityMultiProperties>"))
+                //    strResponse = SendHotelAvailabilityMultiProperties(ttAA, Request);
+                //else if (Request.StartsWith("<Hotel_SingleAvailability>"))
+                //    strResponse = SendHotelSingleAvailability(ttAA, Request);
+                //else if (Request.StartsWith("<Hotel_RateChange>"))
+                //    strResponse = SendHotelRateChange(ttAA, Request);
+                //else if (Request.StartsWith("<Hotel_Features>"))
+                //    strResponse = SendHotelFeatures(ttAA, Request);
+                //else if (Request.StartsWith("<Hotel_Terms>"))
+                //    strResponse = SendHotelTerms(ttAA, Request);
+                //else if (Request.StartsWith("<Hotel_List>"))
+                //    strResponse = SendHotelList(ttAA, Request);
+                //else if (Request.StartsWith("<Hotel_StructuredPricing>"))
+                //    strResponse = SendHotelStructuredPricing(ttAA, Request);
+                //else if (Request.StartsWith("<Hotel_Sell>"))
+                //    strResponse = SendHotelSell(ttAA, Request);
+                //else if (Request.StartsWith("<Car_SingleAvailability>"))
+                //    strResponse = SendCarSingleAvailability(ttAA, Request);
+                //else if (Request.StartsWith("<Car_MultiAvailability>"))
+                //    strResponse = SendCarMultiAvailability(ttAA, Request);
+                //else if (Request.StartsWith("<Car_Policy>"))
+                //    strResponse = SendCarPolicy(ttAA, Request);
+                //else if (Request.StartsWith("<Car_RateInformationFromAvailability>"))
+                //    strResponse = SendCarRateInformationFromAvailability(ttAA, Request);
+                //else if (Request.StartsWith("<Car_InformationImage>"))
+                //    strResponse = SendCarInformationImage(ttAA, Request);
+                //else if (Request.StartsWith("<Car_Sell>"))
+                //    strResponse = SendCarSell(ttAA, Request);
+                //else if (Request.StartsWith("<Car_LocationList>"))
+                //    strResponse = SendCarLocationList(ttAA, Request);
+                //else if (Request.StartsWith("<Car_Availability>"))
+                //    strResponse = SendCarAvailability(ttAA, Request);
+                //else if (Request.StartsWith("<Ticket_CreditCardCheck>"))
+                //    strResponse = SendTicketCreditCardCheck(ttAA, Request);
+                //else if (Request.StartsWith("<PNR_Retrieve>"))
+                //    strResponse = SendRetrievePNR(ttAA, Request);
+                //else if (Request.StartsWith("<PNR_RetrieveByRecLoc>"))
+                //    strResponse = SendRetrivePNRbyRL(ttAA, Request);
+                //else if (Request.StartsWith("<Ticket_DisplayTST>"))
+                //    strResponse = SendDisplayTST(ttAA);
+                //else if (Request.StartsWith("<Ticket_DeleteTST>"))
+                //    strResponse = SendDeleteTST(ttAA);
+                //else if (Request.StartsWith("<Ticket_CreateTSTFromPricing>"))
+                //    strResponse = SendCreateTSTFromPricing(ttAA, Request);
+                //else if (Request.StartsWith("<Ticket_UpdateTST>"))
+                //    strResponse = SendUpdateTST(ttAA, Request);
+                //else if (Request.StartsWith("<Ticket_ProcessETicket>"))
+                //    strResponse = SendETicketProcess(ttAA, Request);
+                //else if (Request.StartsWith("<Ticket_AutomaticUpdate>"))
+                //    strResponse = SendAutomaticUpdate(ttAA, Request);
+                //else if (Request.StartsWith("<Queue_PlacePNR>"))
+                //    strResponse = SendQueuePlacePNR(ttAA, Request);
+                //else if (Request.StartsWith("<Queue_MoveItem>"))
+                //    strResponse = SendQueueMoveItem(ttAA, Request);
+                //else if (Request.StartsWith("<Queue_RemoveItem>"))
+                //    strResponse = SendQueueRemoveItem(ttAA, Request);
+                //else if (Request.StartsWith("<DocIssuance_IssueTicket>"))
+                //    strResponse = SendIssueTicket(ttAA, Request);
+                //else if (Request.StartsWith("<PNR_Cancel>"))
+                //    strResponse = SendCancelPNR(ttAA, Request);
+                //else if (Request.StartsWith("<DocRefund_CalculateRefund>"))
+                //    strResponse = SendCalculateRefund(ttAA, Request);
+                //else if (Request.StartsWith("<DocRefund_IgnoreRefund>"))
+                //    strResponse = SendIgnoreRefund(ttAA, Request);
+                //else if (Request.StartsWith("<DocRefund_InitRefund>"))
+                //    strResponse = SendInitRefund(ttAA, Request);
+                //else if (Request.StartsWith("<DocRefund_ProcessRefund>"))
+                //    strResponse = SendProcessRefund(ttAA, Request);
+                //else if (Request.StartsWith("<DocRefund_SearchRefundRule>"))
+                //    strResponse = SendSearchRefund(ttAA, Request);
+                //else if (Request.StartsWith("<DocRefund_UpdateRefund>"))
+                //    strResponse = SendUpdateRefund(ttAA, Request);
+                //else if (Request.StartsWith("<Security_Authenticate>"))
+                //    strResponse = SendSecurityAuthenticate(ttAA, Request);
+                //else if (Request.StartsWith("<Security_SignOut>"))
+                //    strResponse = SendSecuritySignOut(ttAA, Request);
+                //else if (Request.StartsWith("<OTA_HotelDescriptiveInfoRQ"))
+                //    strResponse = SendHotelDescriptiveInfo(ttAA, Request);
+                //else if (Request.StartsWith("<MiniRule_GetFromPricing"))
+                //    strResponse = SendGetFromPricing(ttAA, Request);
+                //else if (Request.StartsWith("<MiniRule_GetFromPricingRec"))
+                //    strResponse = SendGetFromPricingRecLoc(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_FlexPricerUpsell"))
+                //    strResponse = SendFareFlexPriceUpsell(ttAA, Request);
+                //else if (Request.StartsWith("<Ticket_ATCShopperMasterPricerTravelBoardSearch"))
+                //    strResponse = SendShopperMasterPricerTravelBoardSearch(ttAA, Request);
+                //else if (Request.StartsWith("<Ticket_CancelDocument"))
+                //    strResponse = SendCancelDocument(ttAA, Request);
+                //else if (Request.StartsWith("<Ticket_CheckEligibility"))
+                //    strResponse = SendCheckEligibility(ttAA, Request);
+                //else if (Request.StartsWith("<Ticket_ProcessEDoc"))
+                //    strResponse = SendProcessEDoc(ttAA, Request);
+                //else if (Request.StartsWith("<Ticket_RepricePNRWithBookingClass"))
+                //    strResponse = SendRepricePNRWithBookingClass(ttAA, Request);
+                //else if (Request.StartsWith("<PNR_TransferOwnership"))
+                //    strResponse = SendPNRTransferOwnership(ttAA, Request);
+                //else if (Request.StartsWith("<PNR_Split"))
+                //    strResponse = SendSplitPNR(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_QuoteItinerary"))
+                //    strResponse = SendFareQuoteItinerary(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_MetaPricerTravelboardSearch>"))
+                //    strResponse = SendFareMetaPricerTravelboardSearch(ttAA, Request);
+                //else if (Request.StartsWith("<Fare_MetaPricerCalendar>"))
+                //    strResponse = SendFareMetaPricerCalendar(ttAA, Request);
 
                 // ********************
                 //  Build Response    *

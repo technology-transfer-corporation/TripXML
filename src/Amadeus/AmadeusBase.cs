@@ -799,7 +799,7 @@ namespace AmadeusWS
                 throw;
             }
         }
-
+        
         protected string SendFlightInfo(AmadeusWSAdapter ttAA, string strRequest)
         {
             try
@@ -1754,6 +1754,47 @@ namespace AmadeusWS
             }
         }
 
+        #endregion
+
+        #region Native TripXML Messages
+        protected string SendLowFareSearchPlus(string strRequest)
+        {
+            try
+            {
+                AirServices _req = new AirServices { Request = strRequest, ttProviderSystems = ttProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.LowFarePlus();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        protected string SendAirAvail(string strRequest)
+        {
+            try
+            {
+                AirServices _req = new AirServices { Request = strRequest, ttProviderSystems = ttProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.AirAvail();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        protected string SendAirFlifo(string strRequest)
+        {
+            try
+            {
+                AirServices _req = new AirServices { Request = strRequest, ttProviderSystems = ttProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.AirFlifo();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         #endregion
     }
 }
