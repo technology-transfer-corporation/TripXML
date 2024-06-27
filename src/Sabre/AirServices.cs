@@ -714,8 +714,8 @@ namespace Sabre
                     }
                     else
                     {
-                        strResponse = strResponse.Replace("</OTA_AirLowFareSearchRS>", oNodeTIS.OuterXml + "</OTA_AirLowFareSearchRS>");
-                        strResponse = strResponse.Replace("</OTA_AirLowFareSearchRS>", Request + "</OTA_AirLowFareSearchRS>");
+                        strResponse = strResponse.Replace("</OTA_AirLowFareSearchRS>", $"{oNodeTIS.OuterXml}</OTA_AirLowFareSearchRS>");
+                        strResponse = strResponse.Replace("</OTA_AirLowFareSearchRS>", $"{Request}</OTA_AirLowFareSearchRS>");
                     }
 
                     if (!string.IsNullOrEmpty(echoToken))

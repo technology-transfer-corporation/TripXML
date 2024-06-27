@@ -344,6 +344,51 @@ namespace Sabre
             return response;
         }
 
+        public string TripXMLNative()
+        {
+            string response;
+
+            // *********************
+            // Get ConversationID *
+            // *********************
+
+            try
+            {
+                var oReqDoc = new XmlDocument();
+                oReqDoc.LoadXml(Request);
+                var oRoot = oReqDoc.DocumentElement;
+
+                if (oRoot.SelectSingleNode("Native") == null)
+                    throw new Exception("Native Message is missing in the Request.");
+
+                string request = oRoot.SelectSingleNode("Native")?.InnerXml;
+
+                SabreAdapter ttSA = SetAdapter();
+                bool inSession = SetConversationID(ttSA);
+                // *******************************************************************************
+                // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+                if (Request.StartsWith("<OTA_AirLowFareSearchPlusRQ>"))
+                    response = SendLowFareSearchPlus(Request);
+                else if (Request.StartsWith("<OTA_AirAvailRQ>"))
+                    response = SendAirAvail(Request);
+                else
+                    throw new Exception("Request not implemented");
+
+                // ********************
+                // Build Response    *
+                // ********************
+                response = $"<NativeRS><Success/><Response>{response.Replace("<", "&lt;").Replace(">", "&gt;")}</Response></NativeRS>";
+                response = FinalizeResponse(response, ttSA, inSession, "</NativeRS>");
+            }
+            catch (Exception ex)
+            {
+                response = modCore.FormatErrorMessage(modCore.ttServices.Native, ex.Message, ProviderSystems);
+            }
+
+            return response;
+        }
+
         private string FinalizeResponse(string response, SabreAdapter ttSA, bool inSession, string tagToReplace, string stylesheet = "")
         {
             try

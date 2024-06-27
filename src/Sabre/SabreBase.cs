@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Xml;
@@ -190,6 +191,51 @@ namespace Sabre
                 throw new Exception($"Error Creating Session.\r\n{ex.Message}");
             }
         }
+
+
+        #region Native TripXML Messages
+
+        protected string SendLowFareSearchPlus(string strRequest)
+        {
+            try
+            {
+                var ttCities = new DataView();
+                AirServices _req = new AirServices { Request = strRequest, ProviderSystems = ProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.LowFarePlus(ref ttCities);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        protected string SendAirAvail(string strRequest)
+        {
+            try
+            {
+                AirServices _req = new AirServices { Request = strRequest, ProviderSystems = ProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.AirAvail();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        protected string LowFareSchedule(string strRequest)
+        {
+            try
+            {
+                var ttCities = new DataView();
+                AirServices _req = new AirServices { Request = strRequest, ProviderSystems = ProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.LowFareSchedule(ref ttCities);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        #endregion
 
     }
 }
