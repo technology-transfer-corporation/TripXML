@@ -7,6 +7,77 @@ namespace Travelport
 {
     public class OtherServices : TravelportBase
     {
+        public string TripXMLNative()
+        {
+            string response = "";
+            try
+            {
+                string _request = Request;
+                XmlDocument oReqDoc = new XmlDocument();
+                oReqDoc.LoadXml(_request);
+                XmlElement oRoot = oReqDoc.DocumentElement;
+                branch = ProviderSystems.Profile.Text;
+
+                if (oRoot.SelectSingleNode("Native") == null)
+                    throw new Exception("Native Message is missing in the Request.");
+
+                string ConversationID = oRoot.SelectSingleNode("POS/TPA_Extensions/ConversationID").InnerText;
+                _request = oRoot.SelectSingleNode("Native").InnerXml;
+
+                if (oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance") != null)
+                    branch = !string.IsNullOrEmpty(oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText)
+                        ? oRoot.SelectSingleNode("POS/Source/RequestorID/@Instance").InnerText
+                        : ProviderSystems.Profile.Text;
+
+                if (oRoot.HasAttribute("Target"))
+                {
+                    switch (oRoot.Attributes["Target"].Value)
+                    {
+                        case "WSP":
+                            host = "1P";
+                            break;
+                        case "GAL":
+                            host = "1G";
+                            break;
+                        default:
+                            host = "1V";
+                            break;
+                    }
+                }
+
+                // *******************************************************************************
+                //  Send Native Request to the Amadeus Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+                var ttProviderSystems = ProviderSystems;
+                TravelPortWSAdapter ttTP = SetAdapter(ttProviderSystems);
+                bool inSession = SetConversationID(ttTP, host, branch);
+
+                if (Request.StartsWith("<OTA_AirLowFareSearchPlusRQ>"))
+                    response = SendLowFareSearchPlus(Request);
+                else if (Request.StartsWith("<OTA_AirAvailRQ>"))
+                    response = SendAirAvail(Request);
+                else
+                    throw new Exception("Request not implemented");
+
+                // ********************
+                //  Build Response    *
+                // ********************
+
+                //  Insert ConversationID
+                if (!string.IsNullOrEmpty(ConversationID))
+                    ConversationID = $"<ConversationID>{ConversationID}</ConversationID>";
+
+                response = $"<NativeRS><Success/><Response>{response.Replace("<", "&lt;").Replace(">", "&gt;")}</Response>{ConversationID}</NativeRS>";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = modCore.FormatErrorMessage(modCore.ttServices.Native, ex.Message, ProviderSystems);
+            }
+
+            return response;
+        }
+
         public string Native()
         {
             string strResponse = "";

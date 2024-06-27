@@ -23,6 +23,8 @@ namespace Travelport
 
         public string Request { get; set; } = "";
 
+        public string ConversationID { get; set; } = "";
+
         public string Version
         {
             get

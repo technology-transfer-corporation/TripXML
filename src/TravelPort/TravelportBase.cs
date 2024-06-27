@@ -272,5 +272,47 @@ namespace Travelport
                 throw new Exception($"Error adding line to Log.", ex);
             }
         }
+
+        #region Native TripXML Messages
+
+        protected string SendLowFareSearchPlus(string request)
+        {
+            try
+            {
+                AirServices _req = new AirServices { Request = request, ProviderSystems = ProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.LowFarePlus();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        protected string SendAirAvail(string request)
+        {
+            try
+            {
+                AirServices _req = new AirServices { Request = request, ProviderSystems = ProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.AirPrice();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        protected string SendAirSeatMap(string request)
+        {
+            try
+            {
+                AirServices _req = new AirServices { Request = request, ProviderSystems = ProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.AirSeatMap();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        #endregion
     }
 }
