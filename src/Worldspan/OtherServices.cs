@@ -198,5 +198,67 @@ namespace Worldspan
 
             return strResponse;
         }
+
+        public string TripXMLNative()
+        {
+            string response;
+
+            // ************************************************
+            // Get ConversationID If Any and Native Request  *
+            // ************************************************
+            try
+            {
+                var ttWA = SetAdapter(ProviderSystems);
+                bool inSession = SetConversationID(ttWA);
+
+                XmlDocument oReqDoc = new XmlDocument();
+                oReqDoc.LoadXml(Request);
+                XmlElement oRoot = oReqDoc.DocumentElement;
+                if (oRoot.SelectSingleNode("Native") == null)
+                    throw new Exception("Native Message is missing in the Request.");
+
+                Request = oRoot.SelectSingleNode("Native").InnerXml;
+                // *******************************************************************************
+                // Send Transformed Request to the Worldspan Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+
+                if (Request.StartsWith("<OTA_AirLowFareSearchPlusRQ>"))
+                    response = SendLowFareSearchPlus(Request);
+                else if (Request.StartsWith("<OTA_AirAvailRQ>"))
+                    response = SendAirAvail(Request);
+                else
+                    throw new Exception("Request not implemented");
+
+                // *******************
+                // Build Response   *
+                // *******************
+                try
+                {
+                    var strSession = "";
+                    //  Insert ConversationID
+                    if (inSession)
+                        strSession = $"<ConversationID>{ConversationID}</ConversationID>";
+                    response = $"<NativeRS><Success/><Response>{response.Replace("<", "&lt;").Replace(">", "&gt;")}</Response></NativeRS>";
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error in Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttWA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response = modCore.FormatErrorMessage(modCore.ttServices.Native, ex.Message, ProviderSystems);
+            }
+
+            return response;
+        }
     }
 }

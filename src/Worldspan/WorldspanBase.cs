@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -256,5 +257,49 @@ namespace Worldspan
                 throw new Exception($"Error adding line to Log.", ex);
             }
         }
+
+        #region Native TripXML Messages
+
+        protected string SendLowFareSearchPlus(string request)
+        {
+            try
+            {
+                var ttCities = new DataView();
+                AirServices _req = new AirServices { Request = request, ProviderSystems = ProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.LowFarePlus(ref ttCities);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        protected string SendAirAvail(string request)
+        {
+            try
+            {
+                AirServices _req = new AirServices { Request = request, ProviderSystems = ProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.AirPrice();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        protected string SendAirSeatMap(string request)
+        {
+            try
+            {
+                var ttCities = new DataView();
+                AirServices _req = new AirServices { Request = request, ProviderSystems = ProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.AirSeatMap();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        #endregion
     }
 }
