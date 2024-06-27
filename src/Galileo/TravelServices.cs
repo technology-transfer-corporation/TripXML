@@ -1926,13 +1926,16 @@ namespace Galileo
                 var index = 0;
                 foreach (XmlNode mco in mcos)
                 {
-                    //check to see if MCO mask already exists for this passanger.
-                    if (MCOinDisplay(initMCOs.MCOMask[index], mcoDisp.MCOs.FindAll(mco => !mco.IsVoided)))
-                        continue;
-
+                    if (initMCOs != null)
+                    {
+                        //check to see if MCO mask already exists for this passanger.
+                        if (MCOinDisplay(initMCOs.MCOMask[index], mcoDisp.MCOs.FindAll(mco => !mco.IsVoided)))
+                            continue;
+                    }
                     // **********************************************************
                     // Create MCO 1.2
                     // **********************************************************
+                    CoreLib.SendTrace(ProviderSystems.UserID, "CreateMCO", "Create MCO 1.2", mco.OuterXml, ProviderSystems.LogUUID);
                     var _mcoResp = ttGA.SendMessage(mco.OuterXml, ConversationID);
 
                     if (_mcoResp.Contains("<MCOProcessing><ErrText><Err>") || _mcoResp.Contains("AppErrorSeverityLevel"))
@@ -1991,9 +1994,9 @@ namespace Galileo
                 {
                     // **********************************************************
                     // Issue MCO 1.5
-                    // **********************************************************
-
+                    // **********************************************************                    
                     var _getTix = oCreate.GetTickets.Replace("<Num />", $"<Num>{_mcoDisp.MCOs[index].MCONumber.Num}</Num>");
+                    CoreLib.SendTrace(ProviderSystems.UserID, "IssueMCOs", "Issue MCO 1.5", _getTix, ProviderSystems.LogUUID);
                     var _tix = ttGA.SendMessage(_getTix, ConversationID);
                     if (!_tix.Contains("OK"))
                         throw FormatMCOException(_tix);
@@ -2027,31 +2030,39 @@ namespace Galileo
                 var index = 0;
                 foreach (XmlNode mco in oCreate.MCOs)
                 {
-                    var fareNumber = oCreate.initMCOs.MCOMask[index].PQNumber; //GetFareNumber(oCreate.initMCOs.MCOMask[index]);
-                    var paxInfo = GetPassengerElement(oCreate.initMCOs.MCOMask[index], _pnr);
+                    var _mco = oCreate.initMCOs.MCOMask[index];
+                    
+                    var paxInfo = GetPassengerElement(_mco, _pnr);
 
                     // **********************************************************
                     // Initiate MCO Exchange 2.4
                     // **********************************************************
-                    var _exch = oCreate.Exchange.Replace("<FareNum />", $"<FareNum>{fareNumber}</FareNum>");
+                    var _exch = oCreate.Exchange.Replace("<FareNum />", $"<FareNum>{_mco.PQNumber}</FareNum>");
                     _exch = _exch.Replace("<Psgr />", $"{paxInfo}");
                     //_exch = _exch.Replace("<TransType>TK</TransType>", $"<TransType>{_mcoDisp.MCOs[index].Carrier}</TransType>");
+                    CoreLib.SendTrace(ProviderSystems.UserID, "ExchangeMCOs", "Initiate MCO Exchange 2.4", _exch, ProviderSystems.LogUUID);
                     var _mcoResp = ttGA.SendMessage(_exch, ConversationID);
-                    if (!_mcoResp.Contains("OK"))
+                    if (!_mcoResp.Contains("<ExchangeOldFareDataBase>"))
                         throw new Exception("Failed to Initialize MCO Exchange.");
 
                     // **********************************************************
-                    // Complite MCO Exchange 2.5
+                    // Complete MCO Exchange 2.5
                     // **********************************************************
-                    oCreate.GetTickets = oCreate.GetTickets.Replace("<FareNum/>", $"<FareNum>{fareNumber}</FareNum>");
-                    _mcoResp = ttGA.SendMessage(oCreate.GetTickets, ConversationID);
-                    if (!_mcoResp.Contains("OK"))
+                    var _exMask = CoreLib.TransformXML(_mcoResp, XslPath, $"{Version}Galileo_IssueMCORQ.xsl");
+
+                    _exMask = _exMask.Replace("<BeginExchTktNum/>", $"<BeginExchTktNum>{_mco.TicketNumber}</BeginExchTktNum>");
+                    _exMask = _exMask.Replace("<TotCouponNum/>", $"<TotCouponNum>{index + 1}</TotCouponNum>");
+                    _exMask = _exMask.Replace("<CouponAry/>", $"<CouponAry><Coupon>{index + 1}</Coupon></CouponAry>");
+                    CoreLib.SendTrace(ProviderSystems.UserID, "ExchangeMCOs", "Complite MCO Exchange 2.5", _exMask, ProviderSystems.LogUUID);
+                    _mcoResp = ttGA.SendMessage(_exMask, ConversationID);
+                    if (!_mcoResp.Contains("<TransType>MR</TransType>"))
                         throw new Exception("Failed to Complite MCO Exchange.");
 
                     // **********************************************************
-                    // Complite Additional Collection 2.6
+                    // Complete Additional Collection 2.6
                     // **********************************************************
-                    oCreate.GetTickets = oCreate.GetTickets.Replace("<FareNum/>", $"<FareNum>{fareNumber}</FareNum>");
+                    oCreate.GetTickets = oCreate.GetTickets.Replace("<FareNum/>", $"<FareNum>{_mco.PQNumber}</FareNum>");
+                    CoreLib.SendTrace(ProviderSystems.UserID, "ExchangeMCOs", "Complite Additional Collection 2.6", oCreate.GetTickets, ProviderSystems.LogUUID);
                     _mcoResp = ttGA.SendMessage(oCreate.GetTickets, ConversationID);
                     if (!_mcoResp.Contains("OK"))
                         throw new Exception("Failed to Complite Additional Collection.");
@@ -2112,9 +2123,7 @@ namespace Galileo
             // Display MCO 1.4
             // **********************************************************
             var _mcoResp = ttGA.SendMessage(mcoDisplay, ConversationID);
-            if (_mcoResp.Contains("NO MCO DATA EXISTS"))
-                throw new Exception("Failed to Issue MCO");
-
+            
             var _mcoDisp = new MCODisplayList( new MCODisplay(_mcoResp));            
             
             if (_mcoDisp.MCOs.Exists(mco => !string.IsNullOrEmpty(mco.MCOIssueData.TktIssueDt)) && !string.IsNullOrEmpty(pnr))

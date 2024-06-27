@@ -308,5 +308,46 @@ namespace Galileo
                 Console.WriteLine(ex.Message);
             }
         }
+
+        #region Native TripXML Messages
+        protected string SendLowFareSearchPlus(string strRequest)
+        {
+            try
+            {
+                AirServices _req = new AirServices { Request = strRequest, ProviderSystems = ProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.LowFarePlus();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        protected string SendAirAvail(string strRequest)
+        {
+            try
+            {
+                AirServices _req = new AirServices { Request = strRequest, ProviderSystems = ProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.AirAvail();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        protected string SendAirFlifo(string strRequest)
+        {
+            try
+            {
+                AirServices _req = new AirServices { Request = strRequest, ProviderSystems = ProviderSystems, XslPath = XslPath, ConversationID = ConversationID, Version = Version };
+                return _req.AirFlifo();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        #endregion
     }
 }

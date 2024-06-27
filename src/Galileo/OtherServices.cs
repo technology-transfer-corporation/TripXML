@@ -400,6 +400,66 @@ namespace Galileo
             return strResponse;
         }
 
+        public string TripXMLNative()
+        {
+            string response;
+
+            try
+            {
+                var ttAA = SetAdapter();
+                bool inSession = SetConversationID(ttAA);
+
+                XmlDocument oReqDoc = new XmlDocument();
+                oReqDoc.LoadXml(Request);
+                XmlElement oRoot = oReqDoc.DocumentElement;
+                if (oRoot.SelectSingleNode("Native") == null)
+                    throw new Exception("Native Message is missing in the Request.");
+                
+                Request = oRoot.SelectSingleNode("Native").InnerXml;                
+
+                // *******************************************************************************
+                //  Send Native Request to the Amadeus Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+                if (Request.StartsWith("<OTA_AirLowFareSearchPlusRQ>"))
+                    response = SendLowFareSearchPlus(Request);
+                else if (Request.StartsWith("<OTA_AirAvailRQ>"))
+                    response = SendAirAvail(Request);
+                else
+                    throw new Exception("Request not implemented");
+
+                // ********************
+                //  Build Response    *
+                // ********************
+                try
+                {
+                    var strSession = "";
+                    //  Insert ConversationID
+                    if (inSession)
+                        strSession = $"<ConversationID>{ConversationID}</ConversationID>";
+
+                    response = $"<NativeRS><Success/><Response>{response.Replace("<", "&lt;").Replace(">", "&gt;")}</Response>{strSession}</NativeRS>";
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error in Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttAA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                response = modCore.FormatErrorMessage(modCore.ttServices.Native, ex.Message, ProviderSystems);
+            }
+
+            return response;
+        }
+
         public string ETicketVerify()
         {
             string strResponse;
