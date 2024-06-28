@@ -146,17 +146,16 @@
 		<ExchangeMCO>
 			<DocProdFareManipulation_29>
 				<TicketingMods>
-					<ElectronicTicketFailed>
-						<CancelInd />
-						<IssuePaperTkInd>Y</IssuePaperTkInd>
-					</ElectronicTicketFailed>
 					<FareNumInfo>
 						<FareNumAry>
 							<FareNum/>
 						</FareNumAry>
 					</FareNumInfo>
+					<TicketingControl>
+						<TransType>TK</TransType>
+					</TicketingControl>
 					<ElectronicTicketFailed>
-						<CancelInd/>
+						<CancelInd />
 						<IssuePaperTkInd>Y</IssuePaperTkInd>
 					</ElectronicTicketFailed>
 					<AssocPsgrs>
@@ -164,20 +163,35 @@
 							<Psgr/>
 						</PsgrAry>
 					</AssocPsgrs>
-					<TicketingControl>
-						<TransType>TK</TransType>
-					</TicketingControl>
-					<OtherFOP>
-						<FOPID>13</FOPID>
-						<Type>0</Type>
-						<PmtCrncy>USD</PmtCrncy>
-						<AddlDataIDAry>
-							<AddlDataID>
-								<ID>9</ID>
-								<Dt/>
-							</AddlDataID>
-						</AddlDataIDAry>
-					</OtherFOP>
+					<xsl:choose>
+						<xsl:when test="MCOs/MCOMask[1]/CreditCard != ''">
+							<OtherFOP>
+								<FOPID>13</FOPID>
+								<Type>1</Type>
+								<PmtCrncy>USD</PmtCrncy>
+								<AddlDataIDAry>
+									<AddlDataID>
+										<ID>9</ID>
+										<Dt/>
+									</AddlDataID>
+								</AddlDataIDAry>
+							</OtherFOP>
+						</xsl:when>
+						<xsl:otherwise>
+							<OtherFOP>
+								<FOPID>13</FOPID>
+								<Type>2</Type>
+								<PmtCrncy>USD</PmtCrncy>
+								<AddlDataIDAry>
+									<AddlDataID>
+										<ID>9</ID>
+										<Dt/>
+									</AddlDataID>
+								</AddlDataIDAry>
+							</OtherFOP>
+						</xsl:otherwise>
+					</xsl:choose>
+					
 				</TicketingMods>
 			</DocProdFareManipulation_29>
 		</ExchangeMCO>

@@ -4997,9 +4997,11 @@
 
 				<xsl:choose>
 					<xsl:when test="(Text='CHECK') or (Text='CASH')">
+						<!--
 						<xsl:attribute name="RPH">
 							<xsl:value-of select="format-number(@RPH,'#0')"/>
 						</xsl:attribute>
+						-->
 						<DirectBill>
 							<xsl:attribute name="DirectBill_ID">
 								<xsl:value-of select="Text"/>
@@ -5013,7 +5015,15 @@
 								<xsl:choose>
 									<xsl:when test="contains(Text, 'XXXX')">
 
-										<xsl:variable name="cardID" select="substring(translate(substring-before(Text, '?'), 'X',''), string-length(translate(substring-before(Text, '?'), 'X','')) - 3)">
+										<xsl:variable name="cardID">
+											<xsl:choose>
+												<xsl:when test="substring(translate(substring-before(Text, '?'), 'X',''), string-length(translate(substring-before(Text, '?'), 'X','')) - 3) = ''">
+													<xsl:value-of select="substring(translate(substring-before(Text, '¥'), 'X',''), string-length(translate(substring-before(Text, '¥'), 'X','')) - 3)"/>
+												</xsl:when>
+												<xsl:otherwise>
+													<xsl:value-of select="substring(translate(substring-before(Text, '?'), 'X',''), string-length(translate(substring-before(Text, '?'), 'X','')) - 3)"/>
+											</xsl:otherwise>
+											</xsl:choose>
 										</xsl:variable>
 										<xsl:choose>
 											<xsl:when test="../../../../../PNR_HDK_FOP[contains(text(), $cardID)]">

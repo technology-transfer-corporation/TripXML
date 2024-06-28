@@ -38,6 +38,8 @@
 	</xsl:template>
 	<xsl:template match="OTA_ShowMilesRQ">
 		<SabreCommandLLSRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.0.0" ReturnHostCommand="true" >
+			D:\WORK\DTT\GIT\TripXML\XSLs\Sabre\Sabre_ShowMileageRQ.xslD:\WORK\DTT\GIT\TripXML\XSLs\Sabre\Sabre_ShowMileageRQ.xslD:\WORK\DTT\GIT\TripXML\XSLs\SabreD:\WORK\DTT\GIT\TripXML\XSLs\Sabre
+			
 			<xsl:apply-templates select="OTA_ShowMilesRQ" />
 		</SabreCommandLLSRQ>
 	</xsl:template>
@@ -47,7 +49,14 @@
 			<xsl:attribute name="MDRSubset">AD01</xsl:attribute>
 			<xsl:attribute name="CDATA">true</xsl:attribute>
 			<xsl:element name="HostCommand">
-				<xsl:value-of select="concat('V*', CarrierCode, FlightNummber,'/',TravelDate)" />
+				<xsl:choose>
+					<xsl:when test="TravelDate = ''">
+						<xsl:value-of select="concat('V*', CarrierCode, FlightNummber)" />					
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="concat('V*', CarrierCode, FlightNummber,'/',TravelDate)" />
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:element>
 		</xsl:element>
 	</xsl:template>
