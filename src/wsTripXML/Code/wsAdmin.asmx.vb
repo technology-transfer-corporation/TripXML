@@ -1,6 +1,7 @@
 ﻿Imports System
 Imports System.Web.Services
 Imports System.ComponentModel
+Imports System.Threading.Tasks
 Imports TripXMLMain
 Imports TripXMLMain.modCore
 Imports TripXMLTools
@@ -108,6 +109,11 @@ Namespace wsTravelTalk
         <WebMethod(Description:="Get Server Version.")>
         Public Function GetServerVersion() As <XmlElementAttribute("TripXmlVersion")> TripXmlVersion
             Return SettingsService.GetAppVersion()
+        End Function
+
+        <WebMethod(Description:="Update Cached Objects.")>
+        Public Async Function UpdateCache() As Task(Of String)
+            Return Await TripXMLLoad.UpdateCachedObjects()
         End Function
 
     End Class
