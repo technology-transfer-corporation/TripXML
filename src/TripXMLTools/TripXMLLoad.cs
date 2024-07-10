@@ -5,6 +5,8 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Xml.Linq;
 using static TripXMLMain.modCore;
@@ -16,12 +18,32 @@ namespace TripXMLTools
         public static List<Txuser> UsersObject { get; set; }
         private static string Requestor { get; set; }
         public static Decoding DecodingTables { get; set; }
+        static SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
 
         public static void TripXMLLoadObject()
         {
             if (UsersObject == null)
             {
                 UsersObject = GetProvidersObject(new { id = new Guid(WebConfigurationManager.AppSettings["ServerGuid"]) });
+            }
+        }
+
+        public static async Task<string> UpdateCachedObjects()
+        {
+            await _semaphoreSlim.WaitAsync();
+            try
+            {
+                UsersObject = GetProvidersObject(new { id = new Guid(WebConfigurationManager.AppSettings["ServerGuid"]) });
+
+                return "Cache has been updated";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
             }
         }
 
@@ -119,7 +141,7 @@ namespace TripXMLTools
                     ? provider.Provider.PCCs[0]
                     : provider.Provider.PCCs.Find(p => p.Code == credentials.Providers.First().PCC || p.OpenTypes.Exists(ot => ot.OfficeID.Equals(credentials.Providers.First().PCC)));
                 //  : provider.Provider.PCCs.Select(p => new Pcc { Code = p.OpenTypes.Find(ot => ot.OfficeID.Equals(credentials.Providers.First().PCC)).OfficeID });
-                                switch (credentials.Providers[0].Name)
+                switch (credentials.Providers[0].Name)
                 {
                     case "Sabre":
                     case "Galileo":
@@ -195,7 +217,7 @@ namespace TripXMLTools
                 case DecodingType.Airline:
                     var _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == code)?.Code;
                     if (string.IsNullOrEmpty(_code))
-                        _code = EvaluateName(code);                       
+                        _code = EvaluateName(code);
 
                     return _code;
                 case DecodingType.Airport:
@@ -226,7 +248,7 @@ namespace TripXMLTools
 
             if (string.IsNullOrEmpty(code))
                 return string.Empty;
-                        
+
             if (code.Contains("OPERATED BY"))
                 code = code.Replace("OPERATED BY ", "");
 
@@ -254,7 +276,7 @@ namespace TripXMLTools
             {
                 var airlines = code.Split(new[] { " AS " }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == airlines.First())?.Code;
-                 if (!string.IsNullOrEmpty(_code))
+                if (!string.IsNullOrEmpty(_code))
                     return _code;
 
                 for (int i = 0; i < airlines.Count; i++)
@@ -282,7 +304,7 @@ namespace TripXMLTools
                     _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(word.TrimEnd()))?.Code;
                     if (!string.IsNullOrEmpty(_code))
                         return _code;
-                }               
+                }
             }
 
             if (code.ToUpper().Contains(" FOR "))
@@ -311,7 +333,7 @@ namespace TripXMLTools
                         return _code;
 
                     _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(word))?.Code;
-                    if (!string.IsNullOrEmpty(_code))                        
+                    if (!string.IsNullOrEmpty(_code))
                         return _code;
                 }
             }
