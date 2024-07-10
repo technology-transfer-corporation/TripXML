@@ -20,9 +20,9 @@ namespace TripXMLTools
         public static Decoding DecodingTables { get; set; }
         static SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
 
-        public static void TripXMLLoadObject()
+        public static void TripXMLLoadObject(bool isRefresh = false)
         {
-            if (UsersObject == null)
+            if (UsersObject == null || isRefresh)
             {
                 UsersObject = GetProvidersObject(new { id = new Guid(WebConfigurationManager.AppSettings["ServerGuid"]) });
             }
@@ -33,7 +33,8 @@ namespace TripXMLTools
             await _semaphoreSlim.WaitAsync();
             try
             {
-                UsersObject = GetProvidersObject(new { id = new Guid(WebConfigurationManager.AppSettings["ServerGuid"]) });
+                TripXMLLoadObject(true);
+                GetDecodingTables(true);
 
                 return "Cache has been updated";
             }
@@ -68,9 +69,9 @@ namespace TripXMLTools
                 return default;
         }
 
-        public static void GetDecodingTables()
+        public static void GetDecodingTables(bool isRefresh = false)
         {
-            if (DecodingTables == null)
+            if (DecodingTables == null || isRefresh)
             {
                 var _response = GetServerData($"{WebConfigurationManager.AppSettings["HasuraEndpoint"]}/decoding");
                 var decoded = JsonConvert.DeserializeObject<Decoding>(_response);
