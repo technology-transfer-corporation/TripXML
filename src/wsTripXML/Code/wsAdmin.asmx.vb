@@ -112,8 +112,8 @@ Namespace wsTravelTalk
         End Function
 
         <WebMethod(Description:="Update Cached Objects.")>
-        Public Async Function UpdateCache() As Task(Of String)
-            Return Await TripXMLLoad.UpdateCachedObjects()
+        Public Function UpdateCache() As <XmlElementAttribute("UpdateCacheResponse")> UpdateCacheResponse
+            Return TripXMLLoad.UpdateCachedObjects().Result
         End Function
 
     End Class
