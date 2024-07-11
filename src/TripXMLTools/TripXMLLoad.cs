@@ -28,7 +28,7 @@ namespace TripXMLTools
             }
         }
 
-        public static async Task<string> UpdateCachedObjects()
+        public static async Task<UpdateCacheResponse> UpdateCachedObjects()
         {
             await _semaphoreSlim.WaitAsync();
             try
@@ -36,11 +36,18 @@ namespace TripXMLTools
                 TripXMLLoadObject(true);
                 GetDecodingTables(true);
 
-                return "Cache has been updated";
+                return new UpdateCacheResponse
+                {
+                    Updated = true
+                };
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return new UpdateCacheResponse
+                {
+                    Updated = false,
+                    Message = ex.Message
+                };
             }
             finally
             {
