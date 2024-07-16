@@ -146,23 +146,18 @@
 		<ExchangeMCO>
 			<DocProdFareManipulation_29>
 				<TicketingMods>
+					<CommissionMod>
+						<Amt>0.00</Amt>
+					</CommissionMod>
+					<ElectronicTicketFailed>
+						<CancelInd />
+						<IssuePaperTkInd>Y</IssuePaperTkInd>
+					</ElectronicTicketFailed>
 					<FareNumInfo>
 						<FareNumAry>
 							<FareNum/>
 						</FareNumAry>
 					</FareNumInfo>
-					<TicketingControl>
-						<TransType>TK</TransType>
-					</TicketingControl>
-					<ElectronicTicketFailed>
-						<CancelInd />
-						<IssuePaperTkInd>Y</IssuePaperTkInd>
-					</ElectronicTicketFailed>
-					<AssocPsgrs>
-						<PsgrAry>
-							<Psgr/>
-						</PsgrAry>
-					</AssocPsgrs>
 					<xsl:choose>
 						<xsl:when test="MCOs/MCOMask[1]/CreditCard != ''">
 							<OtherFOP>
@@ -191,7 +186,14 @@
 							</OtherFOP>
 						</xsl:otherwise>
 					</xsl:choose>
-					
+					<AssocPsgrs>
+						<PsgrAry>
+							<Psgr/>
+						</PsgrAry>
+					</AssocPsgrs>					
+					<TicketingControl>
+						<TransType>TK</TransType>
+					</TicketingControl>					
 				</TicketingMods>
 			</DocProdFareManipulation_29>
 		</ExchangeMCO>

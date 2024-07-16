@@ -38,8 +38,6 @@
 	</xsl:template>
 	<xsl:template match="OTA_ShowMilesRQ">
 		<SabreCommandLLSRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.0.0" ReturnHostCommand="true" >
-			D:\WORK\DTT\GIT\TripXML\XSLs\Sabre\Sabre_ShowMileageRQ.xslD:\WORK\DTT\GIT\TripXML\XSLs\Sabre\Sabre_ShowMileageRQ.xslD:\WORK\DTT\GIT\TripXML\XSLs\SabreD:\WORK\DTT\GIT\TripXML\XSLs\Sabre
-			
 			<xsl:apply-templates select="OTA_ShowMilesRQ" />
 		</SabreCommandLLSRQ>
 	</xsl:template>
