@@ -80,24 +80,6 @@ Namespace wsTravelTalk
                 strRequest = strRequest.Replace("&lt;", "<").Replace("&gt;", ">")
 
                 Select Case ttCredential.Providers(0).Name.ToLower
-                    Case "amadeus"
-                        'Dim ttAA As AmadeusAPIAdapter
-
-                        'ttAA = Application.Get(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
-                        'sb.Remove(0, sb.Length())
-                        'If ttAA Is Nothing Then
-                        '    Throw New Exception(sb.Append("Access denied to Amadeus - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString())
-                        '    sb.Remove(0, sb.Length())
-                        'End If
-
-                        'If ttCredential.Providers(0).PCC.Trim.Length > 0 Then
-                        '    ttAA.SourcePCC = ttCredential.Providers(0).PCC
-                        'End If
-
-                        'strResponse = SendOtherRequestAmadeus(ttServiceID, ttCredential, ttAA, strRequest)
-                        'Application.Set(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).ToString(), ttAA)
-                        'sb.Remove(0, sb.Length())
-
                     Case "amadeusws"
                         strResponse = SendOtherRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
                     Case "apollo", "galileo"
@@ -172,6 +154,36 @@ Namespace wsTravelTalk
             xmlMessage = xmlMessage.Replace("&amp;lt;", "&lt;").Replace("&amp;gt;", "&gt;")
 
             xmlMessage = ServiceRequest(xmlMessage, ttServices.Native)
+
+            Try
+                oSerializer = Nothing
+                oSerializer = New XmlSerializer(type:=GetType(wmNativeOut.NativeRS))
+                oReader = New System.IO.StringReader(xmlMessage)
+                oNativeRS = CType(oSerializer.Deserialize(oReader), wmNativeOut.NativeRS)
+            Catch ex As Exception
+                CoreLib.SendTrace("", "wsNative", "Error Deserialing OTA Response", ex.Message, String.Empty)
+            End Try
+
+            Return oNativeRS
+
+        End Function
+
+        <CompressionExtension.CompressionExtension()>
+        <WebMethod(Description:="Process TripXML Native Messages Request.")>
+        <System.Web.Services.Protocols.SoapHeader("tXML")>
+        Public Function wmTripXMLNative(ByVal request As wmNativeIn.NativeRQ) As <XmlElementAttribute("NativeRS")> wmNativeOut.NativeRS
+            Dim oNativeRS As wmNativeOut.NativeRS = Nothing
+            Dim oSerializer As XmlSerializer
+            Dim oWriter As System.IO.StringWriter
+            Dim oReader As System.IO.StringReader
+
+            oSerializer = New XmlSerializer(GetType(wmNativeIn.NativeRQ))
+            oWriter = New System.IO.StringWriter(New System.Text.StringBuilder)
+            oSerializer.Serialize(oWriter, request)
+            Dim xmlMessage = oWriter.ToString
+            xmlMessage = xmlMessage.Replace(" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""", "")
+
+            xmlMessage = ServiceRequest(xmlMessage, ttServices.TripXMLNative)
 
             Try
                 oSerializer = Nothing

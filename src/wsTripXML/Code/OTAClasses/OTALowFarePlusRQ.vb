@@ -1481,8 +1481,8 @@ Namespace wsTravelTalk.wmLowFarePlusIn
         Public TravelerInfoSummary As TravelerInfoSummary
 
         '<remarks/>
-        <System.Xml.Serialization.XmlAttributeAttribute()> _
-        Public EchoToken As String
+        <System.Xml.Serialization.XmlAttributeAttribute()>
+        Public ConversationID As String
 
         '<remarks/>
         <System.Xml.Serialization.XmlAttributeAttribute()> _

@@ -2117,6 +2117,8 @@ Namespace wsTravelTalk
                             strResponse = .SalesReport()
                         Case ttServices.Native
                             strResponse = .Native()
+                        Case ttServices.TripXMLNative
+                            strResponse = .TripXMLNative()
                         Case Else
                             Throw New Exception(String.Format("{0} Message is not supported by Amadeus.", Service.ToString()))
                     End Select

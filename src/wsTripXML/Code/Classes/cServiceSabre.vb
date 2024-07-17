@@ -15,56 +15,12 @@ Namespace wsTravelTalk
 #Region " Properties "
         Private sb As StringBuilder = New StringBuilder()
 
-        Private mintServiceID As Integer
-        Private mstrRequest As String = ""
-        Private mstrVersion As String = ""
-        Private ttProviderSystems As TripXMLProviderSystems
-        Private mttCities As DataView
 
         Public Property ServiceID() As Integer
-            Get
-                Return mintServiceID
-            End Get
-            Set(ByVal Value As Integer)
-                mintServiceID = Value
-            End Set
-        End Property
-
-        Public Property Request() As String
-            Get
-                Return mstrRequest
-            End Get
-            Set(ByVal Value As String)
-                mstrRequest = Value
-            End Set
-        End Property
-
-        Public Property Version() As String
-            Get
-                Return mstrVersion
-            End Get
-            Set(ByVal Value As String)
-                mstrVersion = Value
-            End Set
-        End Property
-
+        Public Property Request() As String = ""
+        Public Property Version() As String = ""
         Public Property ProviderSystems() As TripXMLProviderSystems
-            Get
-                Return ttProviderSystems
-            End Get
-            Set(ByVal Value As TripXMLProviderSystems)
-                ttProviderSystems = Value
-            End Set
-        End Property
-
         Public Property ttCities() As DataView
-            Get
-                Return mttCities
-            End Get
-            Set(ByVal Value As DataView)
-                mttCities = Value
-            End Set
-        End Property
 
 #End Region
 
@@ -92,13 +48,13 @@ Namespace wsTravelTalk
                 ttService = New Sabre.AirServices
 
                 With ttService
-                    .Version = mstrVersion
+                    .Version = Version
                     .XslPath = XslPath
-                    .ProviderSystems = ttProviderSystems
-                    .Request = mstrRequest
+                    .ProviderSystems = ProviderSystems
+                    .Request = Request
 
                     oDocReq = New XmlDocument
-                    oDocReq.LoadXml(mstrRequest)
+                    oDocReq.LoadXml(Request)
                     oRootReq = oDocReq.DocumentElement
                     oNode = oRootReq.SelectSingleNode("POS/Source")
                     'oNode1 = oRootReq.SelectSingleNode("POS/Source")
@@ -142,18 +98,18 @@ Namespace wsTravelTalk
                     'End If
 
 
-                    Select Case mintServiceID
+                    Select Case ServiceID
                         Case ttServices.AirAvail
                             strResponse = .AirAvail()
                             strMsg = "AirAvail"
                         Case ttServices.LowFare
-                            strResponse = .LowFare(mttCities)
+                            strResponse = .LowFare(ttCities)
                             strMsg = "LowFare"
                         Case ttServices.LowFarePlus
-                            strResponse = .LowFarePlus(mttCities)
+                            strResponse = .LowFarePlus(ttCities)
                             strMsg = "LowFare"
                         Case ttServices.LowFareSchedule
-                            strResponse = .LowFareSchedule(mttCities)
+                            strResponse = .LowFareSchedule(ttCities)
                             strMsg = "LowFare"
                         Case Else
                             Throw New Exception("Invalid request or message not supported by Sabre air services.")
@@ -162,7 +118,7 @@ Namespace wsTravelTalk
                     ''''''''''''''''''Air line class filtering -  shashin''''''''''''''''''
 
                     If dt.Rows.Count > 0 Then
-                        Select Case mintServiceID
+                        Select Case ServiceID
                             Case 6, 7
                                 strResponse = FilterAirLineClasses(strResponse, dt)
                             Case 68
@@ -172,11 +128,11 @@ Namespace wsTravelTalk
 
                     ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-                    If ttProviderSystems.AAAPCC.Length > 0 Then
-                        strResponse = strResponse.Replace("TransactionIdentifier=""Sabre", sb.Append("TransactionIdentifier=""Sabre").Append("-").Append(ttProviderSystems.AAAPCC).ToString())
+                    If ProviderSystems.AAAPCC.Length > 0 Then
+                        strResponse = strResponse.Replace("TransactionIdentifier=""Sabre", sb.Append("TransactionIdentifier=""Sabre").Append("-").Append(ProviderSystems.AAAPCC).ToString())
                         sb.Remove(0, sb.Length())
-                    ElseIf ttProviderSystems.PCC.Length > 0 Then
-                        strResponse = strResponse.Replace("TransactionIdentifier=""Sabre", sb.Append("TransactionIdentifier=""Sabre").Append("-").Append(ttProviderSystems.PCC).ToString())
+                    ElseIf ProviderSystems.PCC.Length > 0 Then
+                        strResponse = strResponse.Replace("TransactionIdentifier=""Sabre", sb.Append("TransactionIdentifier=""Sabre").Append("-").Append(ProviderSystems.PCC).ToString())
                         sb.Remove(0, sb.Length())
                     End If
 
@@ -186,7 +142,7 @@ Namespace wsTravelTalk
                         Try
                             oDoc.Load(.ProviderSystems.BLFile)
                         Catch exr As Exception
-                            CoreLib.SendTrace("", "cServiceSabre", "Error Loading business logic file", exr.Message, ttProviderSystems.LogUUID)
+                            CoreLib.SendTrace("", "cServiceSabre", "Error Loading business logic file", exr.Message, ProviderSystems.LogUUID)
                             Throw exr
                         End Try
 
@@ -195,13 +151,13 @@ Namespace wsTravelTalk
                         sb.Remove(0, sb.Length())
 
                         If Not oNode Is Nothing Then
-                            If ttProviderSystems.AAAPCC <> "" Then
-                                strPCC = ttProviderSystems.AAAPCC
+                            If ProviderSystems.AAAPCC <> "" Then
+                                strPCC = ProviderSystems.AAAPCC
                             Else
-                                strPCC = ttProviderSystems.PCC
+                                strPCC = ProviderSystems.PCC
                             End If
                             ' check if non ticketable flights/fares to eliminate
-                            sb.Append("NoTktAirline[@Name='Sabre'][@System='").Append(ttProviderSystems.System).Append("'][@PCC='").Append(strPCC.ToUpper()).Append("']")
+                            sb.Append("NoTktAirline[@Name='Sabre'][@System='").Append(ProviderSystems.System).Append("'][@PCC='").Append(strPCC.ToUpper()).Append("']")
                             oBLNode = oNode.SelectSingleNode(sb.ToString())
                             sb.Remove(0, sb.Length)
 
@@ -212,7 +168,7 @@ Namespace wsTravelTalk
                             End If
 
                             ' check if no mix airline to eliminate
-                            sb.Append("NoMixAirline[@Name='Sabre'][@System='").Append(ttProviderSystems.System).Append("'][@PCC='").Append(strPCC.ToUpper()).Append("']")
+                            sb.Append("NoMixAirline[@Name='Sabre'][@System='").Append(ProviderSystems.System).Append("'][@PCC='").Append(strPCC.ToUpper()).Append("']")
                             oBLNode = oNode.SelectSingleNode(sb.ToString())
                             sb.Remove(0, sb.Length)
 
@@ -223,7 +179,7 @@ Namespace wsTravelTalk
                             End If
 
                             ' check if No Fare Type to eliminate
-                            sb.Append("NoFareType[@Name='Sabre'][@System='").Append(ttProviderSystems.System).Append("'][@PCC='").Append(strPCC.ToUpper()).Append("']")
+                            sb.Append("NoFareType[@Name='Sabre'][@System='").Append(ProviderSystems.System).Append("'][@PCC='").Append(strPCC.ToUpper()).Append("']")
                             oBLNode = oNode.SelectSingleNode(sb.ToString())
                             sb.Remove(0, sb.Length)
 
@@ -246,7 +202,7 @@ Namespace wsTravelTalk
                 End With
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(mintServiceID, ex.Message, "Sabre", "", False, mstrVersion)
+                strResponse = FormatErrorMessage(ServiceID, ex.Message, "Sabre", "", False, Version)
             Finally
                 If Not ttService Is Nothing Then ttService = Nothing
                 RaiseEvent GotResponse(strResponse)
@@ -264,10 +220,10 @@ Namespace wsTravelTalk
                 With ttService
                     .Version = Version
                     .XslPath = XslPath
-                    .ProviderSystems = ttProviderSystems
-                    .Request = mstrRequest
+                    .ProviderSystems = ProviderSystems
+                    .Request = Request
 
-                    Select Case mintServiceID
+                    Select Case ServiceID
                         Case ttServices.CarAvail
                             strResponse = .CarAvail()
                         Case Else
@@ -277,7 +233,7 @@ Namespace wsTravelTalk
                 End With
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(mintServiceID, ex.Message, "Sabre", "", False, mstrVersion)
+                strResponse = FormatErrorMessage(ServiceID, ex.Message, "Sabre", "", False, Version)
             Finally
                 If Not ttService Is Nothing Then ttService = Nothing
                 RaiseEvent GotResponse(strResponse)
@@ -295,10 +251,10 @@ Namespace wsTravelTalk
                 With ttService
                     .Version = Version
                     .XslPath = XslPath
-                    .ProviderSystems = ttProviderSystems
-                    .Request = mstrRequest
+                    .ProviderSystems = ProviderSystems
+                    .Request = Request
 
-                    Select Case mintServiceID
+                    Select Case ServiceID
                         Case ttServices.HotelAvail
                             strResponse = .HotelAvail
                         Case ttServices.HotelSearch
@@ -310,7 +266,7 @@ Namespace wsTravelTalk
                 End With
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(mintServiceID, ex.Message, "Sabre", "", False, mstrVersion)
+                strResponse = FormatErrorMessage(ServiceID, ex.Message, "Sabre", "", False, Version)
             Finally
                 If Not ttService Is Nothing Then ttService = Nothing
                 RaiseEvent GotResponse(strResponse)
@@ -469,9 +425,9 @@ Namespace wsTravelTalk
                 sb1.Remove(0, sb1.Length())
                 strResponse = strResponse.Replace("<Success></Success>", sb1.Append(strBusiness).Append("<Success></Success>").ToString())
                 sb1.Remove(0, sb1.Length())
-                CoreLib.SendTrace("", "cServiceSabre", sb1.Append("Before ").Append(strMsg).Append(" business logic").ToString(), strResponse, ttProviderSystems.LogUUID)
+                CoreLib.SendTrace("", "cServiceSabre", sb1.Append("Before ").Append(strMsg).Append(" business logic").ToString(), strResponse, ProviderSystems.LogUUID)
                 sb1.Remove(0, sb1.Length())
-                strResponse = CoreLib.TransformXML(strResponse, xslPath, sb1.Append(mstrVersion).Append("BL_").Append(strMsg).Append(strExt).Append("RS.xsl").ToString())
+                strResponse = CoreLib.TransformXML(strResponse, xslPath, sb1.Append(Version).Append("BL_").Append(strMsg).Append(strExt).Append("RS.xsl").ToString())
                 sb1.Remove(0, sb1.Length())
             End If
             sb1 = Nothing
