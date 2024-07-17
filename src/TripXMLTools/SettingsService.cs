@@ -127,4 +127,13 @@ namespace TripXMLTools
         [XmlText]
         public string Value { get; set; }
     }
+
+    [XmlRoot(ElementName = "UpdateCacheResponse")]
+    public class UpdateCacheResponse
+    {
+        [XmlElement]
+        public bool Updated { get; set; }
+        [XmlElement]
+        public string Message { get; set; }
+    }
 }
