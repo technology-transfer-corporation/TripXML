@@ -2030,7 +2030,7 @@ namespace Galileo
                 var index = 0;
                 foreach (XmlNode mco in oCreate.MCOs)
                 {
-                    var _mco = oCreate.initMCOs.MCOMask[index];
+                    var _mco = GetFullMCOObject(oCreate.initMCOs.MCOMask[index], _mcoDisp);
                     
                     var paxInfo = GetPassengerElement(_mco, _pnr);
 
@@ -2050,9 +2050,9 @@ namespace Galileo
                     // **********************************************************
                     var _exMask = CoreLib.TransformXML(_mcoResp, XslPath, $"{Version}Galileo_IssueMCORQ.xsl");
 
-                    _exMask = _exMask.Replace("<BeginExchTktNum/>", $"<BeginExchTktNum>{_mco.TicketNumber}</BeginExchTktNum>");
-                    _exMask = _exMask.Replace("<TotCouponNum/>", $"<TotCouponNum>{index + 1}</TotCouponNum>");
-                    _exMask = _exMask.Replace("<CouponAry/>", $"<CouponAry><Coupon>{index + 1}</Coupon></CouponAry>");
+                    _exMask = _exMask.Replace("<BeginExchTktNum />", $"<BeginExchTktNum>{_mco.TicketNumber}</BeginExchTktNum>");
+                    _exMask = _exMask.Replace("<TotCouponNum />", $"<TotCouponNum>{index + 1}</TotCouponNum>");
+                    _exMask = _exMask.Replace("<CouponAry />", $"<CouponAry><Coupon>{index + 1}</Coupon></CouponAry>");
                     CoreLib.SendTrace(ProviderSystems.UserID, "ExchangeMCOs", "Complite MCO Exchange 2.5", _exMask, ProviderSystems.LogUUID);
                     _mcoResp = ttGA.SendMessage(_exMask, ConversationID);
                     if (!_mcoResp.Contains("<TransType>MR</TransType>"))
@@ -2075,6 +2075,25 @@ namespace Galileo
                 throw;
             }
             return string.Empty;
+        }
+
+        private MCOMask GetFullMCOObject(MCOMask mcoMask, MCODisplayList mcoDisp)
+        {
+            try
+            {
+                var _mcoD = mcoDisp.MCOs.Find(mco => mco.MCOMainData.Location == mcoMask.AT && mco.MCOMainData.PsgrName == mcoMask.PassengerName && mco.MCOMainData.TourOperator == mcoMask.To);
+                if(_mcoD != null)
+                {
+                    mcoMask.TicketNumber = _mcoD.MCOIssueData.DocNum.ToString();
+                    return mcoMask;
+                }
+            }
+            catch (Exception ex)
+            {
+                mcoMask.ErrorMessage = ex.Message;
+            }
+
+            return mcoMask;
         }
 
         #endregion

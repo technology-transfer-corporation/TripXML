@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.SqlServer.Server;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -252,29 +253,90 @@ namespace Galileo.Classes
             MCOMainData = new List<MCOMainData>();
 
         }
-        public MCODisplay(string xml)
+        public MCODisplay(string xml/*, bool isReload = false*/)
         {
-            strMCO = xml.Replace("<MiscellaneousChargeOrder_1_0 xmlns=\"\">", "").Replace("</MiscellaneousChargeOrder_1_0>", "");
+            strMCO = xml.Replace("<MiscellaneousChargeOrder_1_0 xmlns=\"\">", "").Replace("</MiscellaneousChargeOrder_1_0>", "").Replace("<MiscellaneousChargeOrder_1_0 xmlns=''>", "");
+            
             try
             {
-                using (StringReader reader = new StringReader(strMCO))
-                {
-                    var oSerializer = new XmlSerializer(typeof(MCODisplay));
-                    var _mco = (MCODisplay)oSerializer.Deserialize(reader);
-                    MCONumber = _mco.MCONumber;
-                    MCOTicketData = _mco.MCOTicketData;
-                    MCOIssue = _mco.MCOIssue;
-                    MCOReasonCode = _mco.MCOReasonCode;
-                    MCOMainData = _mco.MCOMainData;
-                    MCOIssueData = _mco.MCOIssueData;
-                    CreditCardFOP = _mco.CreditCardFOP;
-                }
+                //if (isReload) {
+                    using (StringReader reader = new StringReader(strMCO))
+                    {
+                        var oSerializer = new XmlSerializer(typeof(MCODisplay));
+                        var _mco = (MCODisplay)oSerializer.Deserialize(reader);
+                        MCONumber = _mco.MCONumber;
+                        MCOTicketData = _mco.MCOTicketData;
+                        MCOIssue = _mco.MCOIssue;
+                        MCOReasonCode = _mco.MCOReasonCode;
+                        MCOMainData = _mco.MCOMainData;
+                        MCOIssueData = _mco.MCOIssueData;
+                        CreditCardFOP = _mco.CreditCardFOP;
+                    }
+                    return;
+                //}
+
+                //var _lMCO = TryGetMCOs(strMCO);
+
+                //if (_lMCO.Count > 0)
+                //{
+                //    MCONumber = _lMCO.Last().MCONumber;
+                //    MCOTicketData = _lMCO.Last().MCOTicketData;
+                //    MCOIssue = _lMCO.Last().MCOIssue;
+                //    MCOReasonCode = _lMCO.Last().MCOReasonCode;
+                //    MCOMainData = _lMCO.Last().MCOMainData;
+                //    MCOIssueData = _lMCO.Last().MCOIssueData;
+                //    CreditCardFOP = _lMCO.Last().CreditCardFOP;
+                //}
             }
             catch (Exception ex)
             {
                 Error = ex.Message;
             }
         }
+
+
+        //private List<MCODisplay> TryGetMCOs(string mcoDisplayRS)
+        //{
+        //    List<MCODisplay> _mcoDispList = new List<MCODisplay>();
+        //    try
+        //    {
+                
+        //        XmlDocument xDoc = new XmlDocument();
+        //        xDoc.LoadXml(mcoDisplayRS);
+        //        // получим корневой элемент
+        //        XmlElement? xRoot = xDoc.DocumentElement;
+        //        if (xRoot != null)
+        //        {
+        //            var _mcoSub = string.Empty;
+        //            var i = 0;
+        //            // обход всех узлов в корневом элементе
+        //            foreach (XmlElement xnode in xRoot)
+        //            {
+        //                if (xnode.Name == "MCONumber")
+        //                {
+        //                    if (!string.IsNullOrEmpty(_mcoSub))
+        //                    {
+        //                        _mcoSub += $"</MCODisplay>";
+        //                        _mcoDispList.Add(new MCODisplay(_mcoSub, true));                                
+        //                    }
+        //                    _mcoSub = $"<MCODisplay>";
+        //                }
+        //                _mcoSub += xnode.OuterXml;
+                        
+        //            }
+        //            //Last time to add
+        //            _mcoSub += $"</MCODisplay>";
+        //            _mcoDispList.Add(new MCODisplay(_mcoSub, true));
+        //            return _mcoDispList;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
+        //    return _mcoDispList;
+        //}
+
     }
 
     [XmlRoot(ElementName = "MCODisplayItem")]
@@ -372,7 +434,7 @@ namespace Galileo.Classes
                 oDoc.LoadXml(pnr);
                 var oRoot = oDoc.DocumentElement;
                 var exchTicket = oRoot.SelectNodes("TravelItinerary/ItineraryInfo/TPA_Extensions/IssuedTickets/ExchangeDocument");
-                var _carrirer = oRoot.SelectNodes("//ValidatingAirlineCode")[1].InnerText;
+                var _carrirer = oRoot.SelectSingleNode("//ValidatingAirlineCode[1]").InnerText;
                 var exMCO = MCOs.FindAll(mco => !string.IsNullOrEmpty(mco.MCOIssueData.TktIssueDt));
 
                 foreach (XmlNode exch in exchTicket)
@@ -396,7 +458,7 @@ namespace Galileo.Classes
     {
 
         [XmlElement(ElementName = "ErrorMessage")]
-        public object ErrorMessage { get; set; }
+        public string ErrorMessage { get; set; }
 
         [XmlElement(ElementName = "Amount")]
         public double Amount { get; set; }
@@ -432,28 +494,28 @@ namespace Galileo.Classes
         public int PQNumber { get; set; }
 
         [XmlElement(ElementName = "TourNumber")]
-        public object TourNumber { get; set; }
+        public string TourNumber { get; set; }
 
         [XmlElement(ElementName = "TicketNumber")]
-        public object TicketNumber { get; set; }
+        public string TicketNumber { get; set; }
 
         [XmlElement(ElementName = "CurrencyCode")]
         public string CurrencyCode { get; set; }
 
         [XmlElement(ElementName = "EquivelentAmount")]
-        public object EquivelentAmount { get; set; }
+        public double EquivelentAmount { get; set; }
 
         [XmlElement(ElementName = "EquivCurrencyCode")]
-        public object EquivCurrencyCode { get; set; }
+        public string EquivCurrencyCode { get; set; }
 
         [XmlElement(ElementName = "RateOfExchange")]
-        public object RateOfExchange { get; set; }
+        public string RateOfExchange { get; set; }
 
         [XmlElement(ElementName = "CommissionPercentage")]
-        public object CommissionPercentage { get; set; }
+        public double CommissionPercentage { get; set; }
 
         [XmlElement(ElementName = "CommissionAmount")]
-        public object CommissionAmount { get; set; }
+        public double CommissionAmount { get; set; }
 
         [XmlElement(ElementName = "InternationalItin")]
         public bool InternationalItin { get; set; }
@@ -474,19 +536,19 @@ namespace Galileo.Classes
         public int Expiration { get; set; }
 
         [XmlElement(ElementName = "ApprovalCode")]
-        public object ApprovalCode { get; set; }
+        public string ApprovalCode { get; set; }
 
         [XmlElement(ElementName = "Vendor")]
         public string Vendor { get; set; }
 
         [XmlElement(ElementName = "Total")]
-        public object Total { get; set; }
+        public double Total { get; set; }
 
         [XmlElement(ElementName = "Id")]
         public int Id { get; set; }
 
         [XmlElement(ElementName = "StatementInformation")]
-        public object StatementInformation { get; set; }
+        public string StatementInformation { get; set; }
 
         [XmlElement(ElementName = "Ignore")]
         public bool Ignore { get; set; }
@@ -501,13 +563,13 @@ namespace Galileo.Classes
         public bool IsSuppressed { get; set; }
 
         [XmlElement(ElementName = "SGR")]
-        public object SGR { get; set; }
+        public string SGR { get; set; }
 
         [XmlElement(ElementName = "Other")]
-        public object Other { get; set; }
+        public string Other { get; set; }
 
         [XmlElement(ElementName = "GTR")]
-        public object GTR { get; set; }
+        public string GTR { get; set; }
 
         [XmlElement(ElementName = "IgnoreTJR")]
         public bool IgnoreTJR { get; set; }
