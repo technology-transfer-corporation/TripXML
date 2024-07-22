@@ -164,7 +164,6 @@ namespace Travelport
         //{
         //    string strResponse = "";
         //    bool CloseThisSession = false;
-
         //    try
         //    {
         //        if (SessionToken.Length == 0)
@@ -176,31 +175,24 @@ namespace Travelport
         //        {
         //            CloseThisSession = false;
         //        }
-
         //        CoreLib.SendTrace(sb.Append(mstrUserID).Append(" - ").Append(mstrProfile).ToString(), "ttTravelPortAdapter", "Send to TravelPort", Message);
         //        sb.Remove(0, sb.Length);
-
         //        strResponse = this.SubmitTerminalTransaction(SessionToken, Message);
-
         //        CoreLib.SendTrace(sb.Append(mstrUserID).Append(" - ").Append(mstrProfile).ToString(), "ttTravelPortAdapter", "Receive from Travel Port", strResponse);
         //        sb.Remove(0, sb.Length);
-
         //        if (CloseThisSession)
         //        {
         //            CloseCrypticSession(SessionToken);
         //        }
-
         //    }
         //    catch (Exception ex)
         //    {
         //        string errText = ex.Message;
-
         //        CoreLib.SendTrace(sb.Append(mstrUserID).Append(" - ").Append(mstrProfile).ToString(), "ttTravelPortAdapter", "TravelPort exception error", errText);
         //        sb.Remove(0, sb.Length);
         //        //TODO: We need to handle the error responses here. 
         //        throw new Exception(errText, ex);
         //    }
-
         //    return strResponse;
         //}
 
@@ -231,8 +223,7 @@ namespace Travelport
             catch (Exception ex)
             {
                 throw new Exception($"Session was not Created.\r\n{ex.Message}");
-            }
-            
+            }            
         }
 
         public string CloseTerminalSession(string branch, string host, string strTokenid)
