@@ -25,6 +25,8 @@ namespace Galileo.Classes
         public XmlNodeList MCOs { get; set; }
         public MCOs initMCOs { get; set; }
         public string Error { get; set; }
+        public string RL { get; set; }
+        public string IATA { get; set; }
 
         private void Initialize()
         {
@@ -38,6 +40,8 @@ namespace Galileo.Classes
             Error = string.Empty;
             MCOs = null;
             initMCOs = null;
+            RL = string.Empty;
+            IATA = string.Empty;
         }
         #endregion
 
@@ -64,6 +68,8 @@ namespace Galileo.Classes
                 GetTickets = oRoot.SelectSingleNode("GetTickets") != null ? oRoot.SelectSingleNode("GetTickets").InnerXml : "";
                 Exchange = oRoot.SelectSingleNode("ExchangeMCO") != null ? oRoot.SelectSingleNode("ExchangeMCO").InnerXml : "";
                 IgnorePNR = "<PNRBFManagement_53><IgnoreAndRedisplayMods></IgnoreAndRedisplayMods></PNRBFManagement_53>";
+                RL = oRoot.SelectSingleNode("Config/RecordLocator") != null ? oRoot.SelectSingleNode("Config/RecordLocator").InnerText : "";
+                IATA = oRoot.SelectSingleNode("Config/IATA") != null ? oRoot.SelectSingleNode("Config/IATA").InnerText : "";
 
                 oDoc = new XmlDocument();
                 oDoc.LoadXml(initRequest);
