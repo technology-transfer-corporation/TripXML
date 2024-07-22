@@ -35,6 +35,13 @@
 	</xsl:template>
 
 	<xsl:template match="TT_IssueMCORQ">
+		<Config>
+			<RecordLocator><xsl:value-of select="UniqueID/@ID"/></RecordLocator>
+			<IATA>
+				<xsl:value-of select="@EchoToken"/>
+			</IATA>
+		</Config>
+		
 		<PNRRead>
 			<PNRBFManagement_53>
 				<PNRBFRetrieveMods>
@@ -207,9 +214,7 @@
 				<xsl:copy-of select="Ticketing/TicketingControl"/>
 				<xsl:copy-of select="Ticketing/AssocPsgrs"/>
 				<xsl:copy-of select="Ticketing/PassengerInfo"/>
-
 				<xsl:copy-of select="Ticketing/ExcRefundTktCoupon"/>
-
 				<xsl:copy-of select="Ticketing/ExchangeOldFareDataBase"/>
 				<xsl:copy-of select="Ticketing/TaxInfo[TaxType='OLD']"/>
 				<xsl:copy-of select="Ticketing/ExcOrigEchangedInfo"/>
