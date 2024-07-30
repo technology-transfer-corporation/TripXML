@@ -416,9 +416,13 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" Author
 			<xsl:attribute name="ArrivalTime">
 				<xsl:value-of select="@ArrivalTime"/>
 			</xsl:attribute>
-			<xsl:attribute name="ETicketability">
-				<xsl:value-of select="@ETicketability"/>
-			</xsl:attribute>
+			
+			<!--<xsl:if test="@ETicketability = 'Yes'">-->
+				<xsl:attribute name="ETicketability">
+					<xsl:value-of select="@ETicketability"/>
+				</xsl:attribute>
+			<!--</xsl:if>-->
+			
 			<xsl:attribute name="Equipment">
 				<xsl:choose>
 					<xsl:when test="air:FlightDetails/@Equipment">

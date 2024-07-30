@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 30 Jul 2023 - Kobelev - Setting up a PrimaryLangID tag withinformation frm the Header Object.
    Date: 16 Aug 2023 - Samokhvalov - Added Indicator to AgencyCommission(FM-line).
    Date: 15 Jun 2023 - Kobelev - Calling for Ticket Image for Manual Electronic tickets.
    Date: 22 Feb 2023 - Kobelev - Price Type determination added specific condition for I0 FCMI.
@@ -228,6 +229,14 @@
 			</xsl:attribute>
 			<xsl:attribute name="AltLangID">
 				<xsl:value-of select="'Amadeus'"/>
+			</xsl:attribute>
+			<xsl:attribute name="PrimaryLangID">
+				<xsl:for-each select="pnrHeaderTag/statusInformation/indicator">
+					<xsl:value-of select="."/>
+					<xsl:if test="position() != last()">
+						<xsl:text>|</xsl:text>
+					</xsl:if>
+				</xsl:for-each>				
 			</xsl:attribute>
 			<xsl:if test="EchoToken!=''">
 				<xsl:attribute name="EchoToken">
