@@ -1,7 +1,3 @@
-Imports System
-Imports System.Web
-Imports System.Xml
-Imports System.Web.SessionState
 Imports TripXMLMain
 
 Namespace wsTravelTalk
@@ -64,7 +60,7 @@ Namespace wsTravelTalk
         End Sub
 
         Sub Application_End(ByVal sender As Object, ByVal e As EventArgs)
-
+            ' Fires when an end occurs
         End Sub
 
     End Class

@@ -66,8 +66,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoTicket.Domain, Version=1.1.19.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoTicket.Domain.1.1.19\lib\net48\AutoTicket.Domain.dll</HintPath>
+    <Reference Include="AutoTicket.Domain, Version=1.1.24.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoTicket.Domain.1.1.24\lib\net48\AutoTicket.Domain.dll</HintPath>
     </Reference>
     <Reference Include="AutoTicket.Infrastructure, Version=1.0.18.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoTicket.Infrastructure.1.0.18\lib\net48\AutoTicket.Infrastructure.dll</HintPath>
@@ -152,6 +152,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Management" />
     <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
