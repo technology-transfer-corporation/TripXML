@@ -84,39 +84,53 @@ namespace Travelport
             //mHttpRequest = this.CreateRequestObject();
             mHttpRequest = HttpConnect(ttProviderSystems);
             byte[] requestBytes = ComposeMessage();
+            string result = ProcessRequest(requestBytes);
 
-            //Send request to the server
-            Stream stream = mHttpRequest.GetRequestStream();
-            stream.Write(requestBytes, 0, requestBytes.Length);
-            stream.Close();
+            // Remove SOAP elements
+            XmlDocument filteredDocument = this.GetResponseDocument(result);
 
+            return filteredDocument.OuterXml.ToString();
+        }
+
+        private string ProcessRequest(byte[] requestBytes)
+        {
             //Receive response
             Stream receiveStream;
+            StreamReader streamReader;
             try
             {
+                //Send request to the server
+                Stream stream = mHttpRequest.GetRequestStream();
+                stream.Write(requestBytes, 0, requestBytes.Length);
+                stream.Close();
+                                
                 HttpWebResponse webResponse = (HttpWebResponse)mHttpRequest.GetResponse();
                 receiveStream = webResponse.GetResponseStream();
+
+                // Read output stream
+                streamReader = new StreamReader(receiveStream, Encoding.UTF8);
             }
             catch (WebException exception)
             {
                 this.SetErrorMessage(exception);
 
                 if (exception.Response == null)
-                    return null;
+                    return string.Empty;
 
                 // Although the request failed, we can still get a response that might
                 // contain a better error message.
                 receiveStream = exception.Response.GetResponseStream();
+
+                // Read output stream
+                streamReader = new StreamReader(receiveStream, Encoding.UTF8);
+            }
+            catch(Exception ex)
+            {
+                this.LastError = ex.Message;
+                return string.Empty;
             }
 
-            // Read output stream
-            StreamReader streamReader = new StreamReader(receiveStream, Encoding.UTF8);
-            string result = streamReader.ReadToEnd();
-
-            // Remove SOAP elements
-            XmlDocument filteredDocument = this.GetResponseDocument(result);
-
-            return filteredDocument.OuterXml.ToString();
+            return streamReader.ReadToEnd();
         }
 
         private void SetErrorMessage(WebException exception)

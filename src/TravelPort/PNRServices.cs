@@ -77,8 +77,6 @@ namespace Travelport
                 TravelPortWSAdapter ttTP = SetAdapter(ttProviderSystems);
                 bool inSession = SetConversationID(ttTP, host, branch);
 
-
-
                 // send retrieve universal record (UR)
                 strResponse = ttTP.SendMessage(strRetrieve, TravelPortWSAdapter.enRequestType.UniversalRecordService);
 
