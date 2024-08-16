@@ -2067,8 +2067,8 @@ namespace Galileo
                     _exMask = _exMask.Replace("<OriginCityCd />", $"<OriginCityCd>{_mco.AT}</OriginCityCd>");
                     _exMask = _exMask.Replace("<FirstDestCityCd />", $"<FirstDestCityCd>{_mco.AT}</FirstDestCityCd>");
                     _exMask = _exMask.Replace("<OrigCity />", $"<OrigCity>{_mcoDisp.MCOs[index].MCOMainData.Location}</OrigCity>");
-                    _exMask = _exMask.Replace("<OrigTktIssueDt />", $"<OrigTktIssueDt>{_mcoDisp.MCOs[index].MCOIssueData.TktIssueDt}</OrigTktIssueDt>");
-                    _exMask = _exMask.Replace("<OrigTktIssueDt>0</OrigTktIssueDt>", $"<OrigTktIssueDt>{_mcoDisp.MCOs[index].MCOIssueData.TktIssueDt}</OrigTktIssueDt>");
+                    _exMask = _exMask.Replace("<OrigTktIssueDt />", $"<OrigTktIssueDt>{FormatToGalileoDate(_mcoDisp.MCOs[index].MCOIssueData.TktIssueDt)}</OrigTktIssueDt>");
+                    _exMask = _exMask.Replace("<OrigTktIssueDt>0</OrigTktIssueDt>", $"<OrigTktIssueDt>{FormatToGalileoDate(_mcoDisp.MCOs[index].MCOIssueData.TktIssueDt)}</OrigTktIssueDt>");
 
                     var _baseFareAmt = GetPassengerBaseFare(paxInfo, _pnr);
 
@@ -2077,6 +2077,13 @@ namespace Galileo
                     _exMask = _exMask.Replace("<BaseFareAmt>0</BaseFareAmt>", $"<BaseFareAmt>{_baseFareAmt.BaseFare}</BaseFareAmt>");
                     _exMask = _exMask.Replace("<BaseFareNumDec />", $"<BaseFareNumDec>2</BaseFareNumDec>");
                     _exMask = _exMask.Replace("<IATACD />", $"<IATACD>{oCreate.IATA}</IATACD>");
+
+                    var _totalFareAmt = GetPassengerTotalFare(paxInfo, _pnr);
+                    _exMask = _exMask.Replace("<TotFareCrncy />", $"<TotFareCrncy>{_totalFareAmt.Currency}</TotFareCrncy>");
+                    _exMask = _exMask.Replace("<TotFareAmt />", $"<TotFareAmt>{_totalFareAmt.TotalFare}</TotFareAmt>");
+                    _exMask = _exMask.Replace("<TotFareAmt>0</TotFareAmt>", $"<TotFareAmt>{_totalFareAmt.TotalFare}</TotFareAmt>");
+                    _exMask = _exMask.Replace("<TotFareNumDec />", $"<TotFareNumDec>2</TotFareNumDec>");
+                    _exMask = _exMask.Replace("<TotFareNumDec>0</TotFareNumDec>", $"<TotFareNumDec>2</TotFareNumDec>");
 
                     CoreLib.SendTrace(ProviderSystems.UserID, "ExchangeMCOs", "Complite MCO Exchange 2.5", _exMask, ProviderSystems.LogUUID);
                     _mcoResp = ttGA.SendMessage(_exMask, ConversationID);
@@ -2105,7 +2112,21 @@ namespace Galileo
             }
             return string.Empty;
         }
-                
+
+        private object FormatToGalileoDate(string tktIssueDate)
+        {
+            //19JUL24
+            try
+            {
+                var dtTKT = DateTime.ParseExact(tktIssueDate, "yyMMdd", CultureInfo.InvariantCulture);
+                return dtTKT.ToString("yyyyMMdd").ToUpper();
+            }
+            catch (Exception)
+            {
+                return tktIssueDate;
+            }
+        }
+
         private string GetFOPInformation(MCODisplayItem mcoDisp)
         {
             try
@@ -2140,6 +2161,8 @@ namespace Galileo
         {
             try
             {
+
+                //Pass first 13 digits of document number with trailing letter P
                 if (mcoMask == null)
                 {
                     return new MCOMask
@@ -2147,7 +2170,7 @@ namespace Galileo
                         PassengerName = mcoDisp.MCOMainData.PsgrName,
                         AT = mcoDisp.MCOMainData.Location,
                         To = mcoDisp.MCOMainData.TourOperator,
-                        TicketNumber = mcoDisp.MCOIssueData.DocNum.ToString()
+                        TicketNumber = mcoDisp.MCOIssueData.DocNum.ToString().Take(13).ToString() + "P",
                     };
                 }
 
@@ -2260,6 +2283,30 @@ namespace Galileo
                 var oRoot = oDoc.DocumentElement;
                 var oBF = oRoot.SelectSingleNode("DocProdDisplayStoredQuote/GenQuoteDetails/BaseFareAmt").InnerText;
                 var oCR = oRoot.SelectSingleNode("DocProdDisplayStoredQuote/GenQuoteDetails/BaseFareCurrency").InnerText;
+                return (oBF, oCR);
+
+                throw new Exception("Failed to get Passenger BaseFare.");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private (string TotalFare, string Currency) GetPassengerTotalFare(string paxNum, string pnr)
+        {
+            try
+            {
+
+                var numbrs = paxNum.Split(new[] { "." }, StringSplitOptions.RemoveEmptyEntries);
+                if (string.IsNullOrEmpty(pnr))
+                    throw new Exception("Missing request");
+
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(pnr);
+                var oRoot = oDoc.DocumentElement;
+                var oBF = oRoot.SelectSingleNode("DocProdDisplayStoredQuote/GenQuoteDetails/TotFareAmt").InnerText;
+                var oCR = oRoot.SelectSingleNode("DocProdDisplayStoredQuote/GenQuoteDetails/TotFareCrncy").InnerText;
                 return (oBF, oCR);
 
                 throw new Exception("Failed to get Passenger BaseFare.");
