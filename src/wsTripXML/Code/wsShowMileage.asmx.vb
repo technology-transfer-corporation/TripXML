@@ -96,6 +96,7 @@ Namespace wsTravelTalk
             '*ATL-SLC OPERATED BY DELTA AIR LINES FOR LATAM AIRLINES GROUP.
             '*FLL-ATL OPERATED BY DELTA AIR LINES INC.
             '*MCO-FRA OPERATED BY EW DISCOVER GMBH.
+            '*MSP-YYZ OPERATED BY /AIR CANADA EXPRESS - JAZZ.
             Try
                 Dim index As Integer = remark.IndexOf("OPERATED BY")
                 Dim endIndex As Integer = remark.IndexOf("/")
@@ -111,6 +112,12 @@ Namespace wsTravelTalk
                         '*YUL-MCO OPERATED BY /AIR CANADA ROUGE.
                         'In this correct answer is AIR CANADA ROUGE
                         _remark = remark.Substring(endIndex + 1)
+
+                        If _remark.Contains(" - ") Then
+                            Dim elem As List(Of String) = _remark.Split({" - "}, StringSplitOptions.None).ToList()
+                            _remark = elem(0).Trim
+                        End If
+
                     End If
 
                 Else
