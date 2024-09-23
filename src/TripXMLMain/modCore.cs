@@ -153,6 +153,7 @@ namespace TripXMLMain
         }
 
         public static NameValueCollection AmadeusWSSchemaDic { get; set; } = new NameValueCollection();
+
         public enum enAmadeusWSSchema
         {
             Air_FlightInfo,
@@ -521,7 +522,8 @@ namespace TripXMLMain
             ReissueTicket = 111,
             DisplayQueryReport = 112,
             IssueMCO = 113,
-            DisplayMCO = 114
+            DisplayMCO = 114,
+            TripXMLNative = 113
             // --------------------------------------
         }
 
