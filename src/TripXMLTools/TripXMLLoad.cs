@@ -259,17 +259,29 @@ namespace TripXMLTools
 
             if (code.Contains("OPERATED BY"))
                 code = code.Replace("OPERATED BY ", "");
+            if (DecodingTables.Airlines.FindAll(c => c.Name == code).Count.Equals(1))
+            {
+                _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == code)?.Code;
+                if (!string.IsNullOrEmpty(_code))
+                    return _code;
+            }
 
+            if (DecodingTables.Airlines.FindAll(c => c.Name.Contains(code)).Count.Equals(1))
+            {
+                _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(code))?.Code;
+                if (!string.IsNullOrEmpty(_code))
+                    return _code;
+            }
+
+            if (DecodingTables.Airlines.FindAll(c => c.Name.StartsWith(code)).Count.Equals(1))
+            {
+                _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.StartsWith(code))?.Code;
+                if (!string.IsNullOrEmpty(_code))
+                    return _code;
+            }
+            
             if (code.Length.Equals(2))
                 return code;
-
-            _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == code)?.Code;
-            if (!string.IsNullOrEmpty(_code))
-                return _code;
-
-            _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name.Contains(code))?.Code;
-            if (!string.IsNullOrEmpty(_code))
-                return _code;
 
             /******************************
             'Try to cut Airline Name
