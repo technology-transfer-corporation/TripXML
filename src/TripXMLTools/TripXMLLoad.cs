@@ -259,6 +259,7 @@ namespace TripXMLTools
 
             if (code.Contains("OPERATED BY"))
                 code = code.Replace("OPERATED BY ", "");
+
             if (DecodingTables.Airlines.FindAll(c => c.Name == code).Count.Equals(1))
             {
                 _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == code)?.Code;
