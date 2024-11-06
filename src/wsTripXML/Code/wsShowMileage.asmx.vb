@@ -103,9 +103,10 @@ Namespace wsTravelTalk
                 Dim _remark = remark.Substring(index).Replace(".", "")
 
                 If remark.Contains("/") Then
-                    Dim _reg As New Regex("\s([A-Z]){2}/")
+                    Dim _reg As New Regex("\s\w{2,}/")
                     If _reg.IsMatch(_remark) Then
                         '*DTW-CMH OPERATED BY DL/REPUBLIC AIRWAYS DELTA CONNECTION FOR DELTA AIR LINES.
+                        '*FRA-MEX OPERATED BY LUFTHANSA/DEUTSCHE LUFTHANSA AG.
                         'In this case correct answer is DL
                         _remark = remark.Substring(index, endIndex - index)
                     Else
