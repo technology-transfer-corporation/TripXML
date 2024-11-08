@@ -65,6 +65,9 @@
     <Content Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="FuzzierSharp">
+      <Version>3.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions">
       <Version>8.0.0</Version>
     </PackageReference>

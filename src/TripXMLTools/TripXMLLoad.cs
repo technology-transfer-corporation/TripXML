@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FuzzierSharp;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -251,7 +252,6 @@ namespace TripXMLTools
 
         private static string EvaluateName(string code)
         {
-
             var _code = string.Empty;
 
             if (string.IsNullOrEmpty(code))
@@ -260,12 +260,22 @@ namespace TripXMLTools
             if (code.Contains("OPERATED BY"))
                 code = code.Replace("OPERATED BY ", "");
 
+            if (code.Length.Equals(2))
+                return code;
+
             if (DecodingTables.Airlines.FindAll(c => c.Name == code).Count.Equals(1))
             {
                 _code = DecodingTables.Airlines.FirstOrDefault(c => c.Name == code)?.Code;
                 if (!string.IsNullOrEmpty(_code))
                     return _code;
             }
+            var ratioLst = DecodingTables.Airlines.Select(a => new { Ratio = Fuzz.WeightedRatio(a.Name, code), a.Code });
+            var firstRatio = ratioLst.OrderByDescending(x => x.Ratio).First();
+            if (firstRatio.Ratio >= 90)
+                return firstRatio.Code;
+            //ratioLst = DecodingTables.Airlines.Select(a => new { Ratio = Fuzz.Ratio(a.Name, code), a.Code });
+            //ratioLst = DecodingTables.Airlines.Select(a => new { Ratio = Fuzz.TokenSortRatio(a.Name, code), a.Code });
+            //ratioLst = DecodingTables.Airlines.Select(a => new { Ratio = Fuzz.PartialTokenSetRatio(a.Name, code), a.Code });
 
             if (DecodingTables.Airlines.FindAll(c => c.Name.Contains(code)).Count.Equals(1))
             {
@@ -280,9 +290,6 @@ namespace TripXMLTools
                 if (!string.IsNullOrEmpty(_code))
                     return _code;
             }
-            
-            if (code.Length.Equals(2))
-                return code;
 
             /******************************
             'Try to cut Airline Name
