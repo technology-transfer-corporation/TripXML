@@ -2290,7 +2290,7 @@
 
 			<xsl:if test="count(../FlightSegment) > 1">
 				<xsl:choose>
-					<xsl:when test="position() = 1">
+					<xsl:when test="position() != last()">
 						<StopInfo>
 							<xsl:attribute name="LocationCode">
 								<xsl:value-of select="DestinationLocation/@LocationCode"/>
