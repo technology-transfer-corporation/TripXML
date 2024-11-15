@@ -11,12 +11,12 @@
 		<TT_IssueTicketRS>
 			<xsl:attribute name="Version">1.000</xsl:attribute>
 			<xsl:apply-templates select="DocProdFareManipulation_10" />
-      <xsl:apply-templates select="DocProdFareManipulation_29" />
+			<xsl:apply-templates select="DocProdFareManipulation_29" />
 			<xsl:apply-templates select="PNRBFManagement_53" />
-			<xsl:apply-templates select="Screen"/>
+			<xsl:apply-templates select="Screen"/>			
 		</TT_IssueTicketRS>
 	</xsl:template>
-	
+
 	<xsl:template match="DocProdFareManipulation_10 | DocProdFareManipulation_29">
 		<xsl:choose>
 			<xsl:when test="TicketNumberData/ETicketNum/FirstTkNum!=''">
@@ -28,25 +28,27 @@
 			<xsl:when test="HostApplicationError">
 				<xsl:apply-templates select="HostApplicationError"/>
 			</xsl:when>
-      
-      <!-- below given when block was not tehre in the local xsl file-->
+
+			<!-- below given when block was not tehre in the local xsl file-->
 			<xsl:when test="TransactionErrorCode">
 				<xsl:apply-templates select="TransactionErrorCode"/>
 			</xsl:when>
-      <!--===========================================================-->
-      
+			<!--===========================================================-->
+
 			<xsl:otherwise>
 				<xsl:apply-templates select="Ticketing" mode="Unsuccessful" />
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
+
 	<xsl:template match="TicketNumberData" mode="Success">
 		<Success />
 		<xsl:if test="TextMsg/Txt != ''">
 			<Warnings>
 				<xsl:for-each select="TextMsg">
-					<Warning><xsl:value-of select="Txt"/></Warning>
+					<Warning>
+						<xsl:value-of select="Txt"/>
+					</Warning>
 				</xsl:for-each>
 			</Warnings>
 		</xsl:if>
@@ -71,7 +73,9 @@
 					<xsl:value-of select="concat(AirV,FirstTkNum)"/>
 				</xsl:attribute>
 				<xsl:if test="Name!=''">
-					<Name><xsl:value-of select="Name"/></Name>
+					<Name>
+						<xsl:value-of select="Name"/>
+					</Name>
 				</xsl:if>
 				<xsl:if test="Fare!=''">
 					<Fare>
@@ -86,12 +90,85 @@
 			</Ticket>
 		</xsl:for-each>
 	</xsl:template>
-	
+
 	<xsl:template match="PNRBFManagement_53">
-		<xsl:apply-templates select="PNRBFRetrieve" mode="Unsuccessful"/>
+		<xsl:choose>
+			<xsl:when test="PNRBFRetrieve/GenPNRInfo/MCODataExists = 'Y'">
+				<xsl:apply-templates select="PNRBFRetrieve" mode="mco"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates select="PNRBFRetrieve" mode="Unsuccessful"/>		
+			</xsl:otherwise>
+		</xsl:choose>
+		
 		<xsl:apply-templates select="PNRBFSecondaryBldChg"/>
 	</xsl:template>
+
+	<xsl:template match="PNRBFRetrieve" mode="mco">
+		<Success />
+		<xsl:if test="TextMsg/Txt != ''">
+			<Warnings>
+				<xsl:for-each select="TextMsg">
+					<Warning>
+						<xsl:value-of select="Txt"/>
+					</Warning>
+				</xsl:for-each>
+			</Warnings>
+		</xsl:if>
+		<UniqueID>
+			<xsl:attribute name="ID">
+				<xsl:value-of select="GenPNRInfo/RecLoc"/>
+			</xsl:attribute>
+		</UniqueID>
+		<TicketingControl>
+			<Type>OK</Type>
+		</TicketingControl>
 	
+		<xsl:for-each select="../DocProdDisplayStoredQuote/AdditionalPsgrFareInfo[TkNum != '']">
+			<Ticket>
+				<xsl:attribute name="Type">
+					<xsl:choose>
+						<xsl:when test="TkType='E'">Electronic</xsl:when>
+						<xsl:when test="TkType='P'">Paper</xsl:when>
+						<xsl:when test="TkType='M'">MCO</xsl:when>
+					</xsl:choose>
+				</xsl:attribute>
+				<xsl:attribute name="Number">
+					<xsl:value-of select="TkNum"/>
+				</xsl:attribute>
+				<xsl:if test="Name!=''">
+					<Name>						
+						<xsl:value-of select="concat(//FNameInfo[PsgrNum=PsgrNum and AbsNameNum=AbsNameNum]/FName, ' ',//LNameInfo[LNameNum=LNameNum]/LName)"/> 
+					</Name>
+				</xsl:if>				
+			</Ticket>
+		</xsl:for-each>
+		<xsl:for-each select="VndRmk[contains(Rmk, 'MCO ')]">
+			<Ticket>
+				<xsl:attribute name="Type">					
+						<xsl:text>MCO</xsl:text>					
+				</xsl:attribute>
+				<xsl:attribute name="Number">
+					<xsl:apply-templates select="Rmk" mode="number" />
+				</xsl:attribute>
+				<xsl:if test="Name!=''">
+					<Name>
+						<xsl:apply-templates select="Rmk" mode="name" />
+					</Name>
+				</xsl:if>
+				
+				<Fare>
+					<xsl:attribute name="Amount">
+						<xsl:apply-templates select="Rmk" mode="amount" />
+					</xsl:attribute>
+					<xsl:attribute name="Currency">
+						<xsl:apply-templates select="Rmk" mode="currency" />
+					</xsl:attribute>
+				</Fare>				
+			</Ticket>
+		</xsl:for-each>
+	</xsl:template>
+
 	<xsl:template match="Ticketing | PNRBFRetrieve | ManualFareUpdate" mode="Unsuccessful">
 		<Errors>
 			<Error>
@@ -100,7 +177,7 @@
 			</Error>
 		</Errors>
 	</xsl:template>
-	
+
 	<xsl:template match="PNRBFSecondaryBldChg | HostApplicationError">
 		<Errors>
 			<Error>
@@ -109,7 +186,7 @@
 			</Error>
 		</Errors>
 	</xsl:template>
-  
+
 	<!--below given template was not there in local xsl-->
 	<xsl:template match="TransactionErrorCode">
 		<Errors>
@@ -120,8 +197,25 @@
 		</Errors>
 	</xsl:template>
 	<!--================================================-->
-  
-  
+	<xsl:template match="Rmk" mode="number">
+		<!-- MCO 0168998572117 USD402.30 DEPOST FOR FUTURE TRANSPORTATION-ROBIN/ELLE -->
+		<xsl:value-of select="substring-before(substring-after(., 'MCO '), ' ')"/>
+	</xsl:template>
+	<xsl:template match="Rmk" mode="name">
+		<!-- MCO 0168998572117 USD402.30 DEPOST FOR FUTURE TRANSPORTATION-ROBIN/ELLE -->
+		<xsl:value-of select="translate(substring-after(., 'TRANSPORTATION-'), '/', ' ')"/>
+	</xsl:template>
+	<xsl:template match="Rmk" mode="amount">
+		<!-- 1234567890123456789-->
+		<!-- MCO 0168998572117 USD402.30 DEPOST FOR FUTURE TRANSPORTATION-ROBIN/ELLE -->
+		<xsl:value-of select="translate(substring-before(substring-after(substring(., 8), ' '), ' '), 'USD','')"/>
+	</xsl:template>
+	<xsl:template match="Rmk" mode="currency">
+		<!-- 1234567890123456789-->
+		<!-- MCO 0168998572117 USD402.30 DEPOST FOR FUTURE TRANSPORTATION-ROBIN/ELLE -->
+		<xsl:value-of select="substring(., 19, 3)"/>
+	</xsl:template>
+
 	<xsl:template match="Screen">
 		<xsl:variable name="lines">
 			<xsl:for-each select="Line">
@@ -133,11 +227,15 @@
 				<Success />
 				<Warnings>
 					<xsl:for-each select="Line">
-						<Warning><xsl:value-of select="."/></Warning>
+						<Warning>
+							<xsl:value-of select="."/>
+						</Warning>
 					</xsl:for-each>
 				</Warnings>
 				<UniqueID>
-					<xsl:variable name="recloc"><xsl:value-of select="substring-after($lines,'RECORD LOCATOR: *')"/></xsl:variable>
+					<xsl:variable name="recloc">
+						<xsl:value-of select="substring-after($lines,'RECORD LOCATOR: *')"/>
+					</xsl:variable>
 					<xsl:attribute name="ID">
 						<xsl:value-of select="substring($recloc,1,6)"/>
 					</xsl:attribute>
@@ -149,7 +247,9 @@
 			<xsl:otherwise>
 				<Errors>
 					<xsl:for-each select="Line">
-						<Error><xsl:value-of select="."/></Error>
+						<Error>
+							<xsl:value-of select="."/>
+						</Error>
 					</xsl:for-each>
 				</Errors>
 			</xsl:otherwise>

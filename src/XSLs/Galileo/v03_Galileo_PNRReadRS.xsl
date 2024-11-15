@@ -1824,6 +1824,8 @@
 	<!--						 Passenger Information         		                        -->
 	<!--************************************************************************************-->
 	<xsl:template match="LNameInfo" mode="pax">
+		<xsl:variable name="ances" select="sum(preceding-sibling::LNameInfo/NumPsgrs)" />
+
 		<xsl:call-template name="buildnames">
 			<xsl:with-param name="lastNameNum">
 				<xsl:value-of select="LNameNum" />
@@ -1831,8 +1833,19 @@
 			<xsl:with-param name="PsgrsNum">
 				<xsl:value-of select="NumPsgrs" />
 			</xsl:with-param>
+			<!-- Absolut number is an index of the passanger regardless of the last name group -->
 			<xsl:with-param name="absNum">
-				<xsl:value-of select="LNameNum" />
+				<xsl:choose>
+					<xsl:when test="$ances=0">
+						<xsl:value-of select="LNameNum" />
+					</xsl:when>
+					<xsl:when test="NumPsgrs=1">
+						<xsl:value-of select="number($ances + NumPsgrs)" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="number(number(LNameNum - 1) + NumPsgrs)" />
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
@@ -1842,8 +1855,14 @@
 		<xsl:param name="lastName" />
 
 		<xsl:variable name="lNum" select="//LNameInfo[LName=$lastName]/LNameNum"/>
-		<xsl:value-of select="//FNameInfo[PsgrNum=$lNum and FName=$firstName]/AbsNameNum"/>
-
+		<xsl:choose>
+			<xsl:when test="//FNameInfo[PsgrNum=$lNum and FName=$firstName]/AbsNameNum">
+				<xsl:value-of select="//FNameInfo[PsgrNum=$lNum and FName=$firstName]/AbsNameNum"/>			
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="//FNameInfo[FName=$firstName]/AbsNameNum"/>			
+			</xsl:otherwise>		
+		</xsl:choose>
 	</xsl:template>
 	<!--************************************************************************************-->
 	<!-- 						Telephone									    -->
@@ -2534,13 +2553,13 @@
 		<xsl:param name="lastNameNum" />
 		<xsl:param name="absNum" select="1" />
 
-		
-			<xsl:variable name="PsgrNum" select="../FNameInfo[AbsNameNum=$absNum]/PsgrNum" />
-			<xsl:variable name="ItemNo">
-				<xsl:value-of select="$lastNameNum" />
-			</xsl:variable>
-			
-		    <!--
+
+		<xsl:variable name="PsgrNum" select="../FNameInfo[AbsNameNum=$absNum]/PsgrNum" />
+		<xsl:variable name="ItemNo">
+			<xsl:value-of select="$lastNameNum" />
+		</xsl:variable>
+
+		<!--
 			<xsl:variable name="absNum">
 				<xsl:choose>
 					<xsl:when test="../NameRmkInfo[LNameNum=$lastNameNum and PsgrNum=$PsgrNum]/AbsNameNum">
@@ -2555,128 +2574,121 @@
 				</xsl:choose>
 			</xsl:variable>
 			-->
-		
-			<CustomerInfo>
-				<xsl:attribute name="RPH">
-					<xsl:choose>
-						<xsl:when test="NumPsgrs=1">
-							<xsl:value-of select="$lastNameNum" />
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="$PsgrNum" />
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:attribute>
-				<Customer>
-					<xsl:variable name="nmRmk" select="../NameRmkInfo[LNameNum=$lastNameNum and PsgrNum=$PsgrNum and AbsNameNum=$absNum]/NameRmk" />
-					<xsl:if test="../GenPNRInfo/OwningCRS = '1G'">
-						<xsl:if test="$nmRmk != ''">							
-							<xsl:choose>
-								<xsl:when test="string-length($nmRmk) > 5">
-									<xsl:if test="contains($nmRmk,'JAN') or contains($nmRmk,'FEB') or contains($nmRmk,'MAR') or contains($nmRmk,'APR') or contains($nmRmk,'MAY') or contains($nmRmk,'JUN') or contains($nmRmk,'JUL') or contains($nmRmk,'AUG') or contains($nmRmk,'SEP') or contains($nmRmk,'OCT') or contains($nmRmk,'NOV') or contains($nmRmk,'DEC')">
-										<xsl:attribute name="BirthDate">
-											<xsl:call-template name="bdt">
-												<xsl:with-param name="bdt">
-													<!-- 
+
+		<CustomerInfo>
+			<xsl:attribute name="RPH">
+				<xsl:value-of select="$absNum" />
+			</xsl:attribute>
+			<Customer>
+				<xsl:variable name="nmRmk" select="../NameRmkInfo[LNameNum=$lastNameNum and PsgrNum=$PsgrNum and AbsNameNum=$absNum]/NameRmk" />
+				<xsl:if test="../GenPNRInfo/OwningCRS = '1G'">
+					<xsl:if test="$nmRmk != ''">
+						<xsl:choose>
+							<xsl:when test="string-length($nmRmk) > 5">
+								<xsl:if test="contains($nmRmk,'JAN') or contains($nmRmk,'FEB') or contains($nmRmk,'MAR') or contains($nmRmk,'APR') or contains($nmRmk,'MAY') or contains($nmRmk,'JUN') or contains($nmRmk,'JUL') or contains($nmRmk,'AUG') or contains($nmRmk,'SEP') or contains($nmRmk,'OCT') or contains($nmRmk,'NOV') or contains($nmRmk,'DEC')">
+									<xsl:attribute name="BirthDate">
+										<xsl:call-template name="bdt">
+											<xsl:with-param name="bdt">
+												<!-- 
 													<NameRmk>23FEB20</NameRmk> 
 													<NameRmk>10MAY22 P-INF</NameRmk>
 													<NameRmk>10MAY22 P-JNF</NameRmk>
 													<NameRmk>PO-C10</NameRmk>
 													-->
-													<xsl:choose>
-														<xsl:when test="contains($nmRmk, '-INF')">
-															<xsl:value-of select="substring(substring-before($nmRmk, '-INF'), 1,7)" />
-														</xsl:when>
-														<xsl:when test="contains($nmRmk, '-JNF')">
-															<xsl:value-of select="substring(substring-before($nmRmk, '-JNF'), 1,7)" />
-														</xsl:when>
-														<xsl:when test="contains($nmRmk, 'INF')">
-															<xsl:value-of select="substring-after($nmRmk, 'INF')" />
-														</xsl:when>
-														<xsl:when test="contains($nmRmk, 'JNF')">
-															<xsl:value-of select="substring-after($nmRmk, 'JNF')" />
-														</xsl:when>
-														<xsl:when test="contains($nmRmk, 'CHD')">
-															<xsl:value-of select="substring-after($nmRmk, 'CHD')" />
-														</xsl:when>
-														<xsl:otherwise>
-															<xsl:value-of select="$nmRmk" />
-														</xsl:otherwise>
-													</xsl:choose>
-												</xsl:with-param>
-											</xsl:call-template>
-										</xsl:attribute>
-									</xsl:if>
-								</xsl:when>
-								<xsl:when test="not(contains($nmRmk, '-JWZ')) and (contains($nmRmk, 'P-') or contains($nmRmk, 'PO-')) and not(contains($nmRmk, 'P-JCB'))">
-									<xsl:attribute name="BirthDate">
-										<xsl:call-template name="bdt_years">
-											<xsl:with-param name="bdt" select="substring(substring-after($nmRmk, '-'), 2,2)" />
+												<xsl:choose>
+													<xsl:when test="contains($nmRmk, '-INF')">
+														<xsl:value-of select="substring(substring-before($nmRmk, '-INF'), 1,7)" />
+													</xsl:when>
+													<xsl:when test="contains($nmRmk, '-JNF')">
+														<xsl:value-of select="substring(substring-before($nmRmk, '-JNF'), 1,7)" />
+													</xsl:when>
+													<xsl:when test="contains($nmRmk, 'INF')">
+														<xsl:value-of select="substring-after($nmRmk, 'INF')" />
+													</xsl:when>
+													<xsl:when test="contains($nmRmk, 'JNF')">
+														<xsl:value-of select="substring-after($nmRmk, 'JNF')" />
+													</xsl:when>
+													<xsl:when test="contains($nmRmk, 'CHD')">
+														<xsl:value-of select="substring-after($nmRmk, 'CHD')" />
+													</xsl:when>
+													<xsl:otherwise>
+														<xsl:value-of select="$nmRmk" />
+													</xsl:otherwise>
+												</xsl:choose>
+											</xsl:with-param>
 										</xsl:call-template>
 									</xsl:attribute>
-								</xsl:when>
-							</xsl:choose>
-
-						</xsl:if>
-					</xsl:if>
-					<PersonName>
-						<xsl:choose>
-							<xsl:when test="../GenPNRInfo/OwningCRS = '1V'">
-								<xsl:attribute name="NameType">
-									<xsl:value-of select="$nmRmk" />
+								</xsl:if>
+							</xsl:when>
+							<xsl:when test="not(contains($nmRmk, '-JWZ')) and (contains($nmRmk, 'P-') or contains($nmRmk, 'PO-')) and not(contains($nmRmk, 'P-JCB'))">
+								<xsl:attribute name="BirthDate">
+									<xsl:call-template name="bdt_years">
+										<xsl:with-param name="bdt" select="substring(substring-after($nmRmk, '-'), 2,2)" />
+									</xsl:call-template>
 								</xsl:attribute>
 							</xsl:when>
-							<xsl:otherwise>
-								<xsl:attribute name="NameType">
-									<xsl:choose>
-										<xsl:when test="contains($nmRmk, '-C')">
-											<xsl:variable name="pCode" select="concat('0', substring-after($nmRmk, 'C'))" />
-											<xsl:choose>
-												<xsl:when test="contains($pCode, ' DOB')">
-													<xsl:value-of select="concat('C', substring(substring-before($pCode, ' '), 2))"/>
-												</xsl:when>
-												<xsl:otherwise>
-													<xsl:value-of select="concat('C', substring($pCode, string-length($pCode)-1))"/>
-												</xsl:otherwise>
-
-											</xsl:choose>
-
-										</xsl:when>
-										<xsl:when test="contains($nmRmk, '-J')">
-											<xsl:variable name="pCode" select="concat('0', substring-after($nmRmk, 'J'))" />
-											<xsl:value-of select="concat('J', substring($pCode, string-length($pCode)-1))"/>
-										</xsl:when>
-										<xsl:when test="$nmRmk != '' and NameType = ''">
-											<xsl:value-of select="$nmRmk"/>
-										</xsl:when>
-										<xsl:when test="$nmRmk != '' and NameType = 'I'">INF</xsl:when>
-										<xsl:otherwise>ADT</xsl:otherwise>
-									</xsl:choose>
-								</xsl:attribute>
-							</xsl:otherwise>
 						</xsl:choose>
-						<GivenName>
-							<xsl:value-of select="following-sibling::FNameInfo[position()=$PsgrNum]/FName" />
-						</GivenName>
-						<Surname>
-							<xsl:value-of select="LName" />
-						</Surname>
-					</PersonName>
-					<xsl:apply-templates select="../PhoneInfo" mode="Phone" />
-					<xsl:apply-templates select="../Email" />
-					<xsl:apply-templates select="../AddrInfo" />
-					<xsl:apply-templates select="../DeliveryAddrInfo" />
-					<!--<xsl:variable name="lnamenum">
+
+					</xsl:if>
+				</xsl:if>
+				<PersonName>
+					<xsl:choose>
+						<xsl:when test="../GenPNRInfo/OwningCRS = '1V'">
+							<xsl:attribute name="NameType">
+								<xsl:value-of select="$nmRmk" />
+							</xsl:attribute>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:attribute name="NameType">
+								<xsl:choose>
+									<xsl:when test="contains($nmRmk, '-C')">
+										<xsl:variable name="pCode" select="concat('0', substring-after($nmRmk, 'C'))" />
+										<xsl:choose>
+											<xsl:when test="contains($pCode, ' DOB')">
+												<xsl:value-of select="concat('C', substring(substring-before($pCode, ' '), 2))"/>
+											</xsl:when>
+											<xsl:otherwise>
+												<xsl:value-of select="concat('C', substring($pCode, string-length($pCode)-1))"/>
+											</xsl:otherwise>
+
+										</xsl:choose>
+
+									</xsl:when>
+									<xsl:when test="contains($nmRmk, '-J')">
+										<xsl:variable name="pCode" select="concat('0', substring-after($nmRmk, 'J'))" />
+										<xsl:value-of select="concat('J', substring($pCode, string-length($pCode)-1))"/>
+									</xsl:when>
+									<xsl:when test="$nmRmk != '' and NameType = ''">
+										<xsl:value-of select="$nmRmk"/>
+									</xsl:when>
+									<xsl:when test="$nmRmk != '' and NameType = 'I'">INF</xsl:when>
+									<xsl:otherwise>ADT</xsl:otherwise>
+								</xsl:choose>
+							</xsl:attribute>
+						</xsl:otherwise>
+					</xsl:choose>
+					<GivenName>
+						<xsl:value-of select="following-sibling::FNameInfo[position()=$PsgrNum]/FName" />
+					</GivenName>
+					<Surname>
+						<xsl:value-of select="LName" />
+					</Surname>
+				</PersonName>
+				<xsl:apply-templates select="../PhoneInfo" mode="Phone" />
+				<xsl:apply-templates select="../Email" />
+				<xsl:apply-templates select="../AddrInfo" />
+				<xsl:apply-templates select="../DeliveryAddrInfo" />
+				<!--<xsl:variable name="lnamenum">
 					<xsl:value-of select="LNameNum"/>
 				</xsl:variable>-->
-					<xsl:apply-templates select="../FreqCustInfo[LNameNum = $lastNameNum]" />
-				</Customer>
-				<ProfileRefRS>
-					<xsl:attribute name="ID">
-						<xsl:value-of select="concat($lastNameNum, '.', $PsgrNum)"/>
-					</xsl:attribute>
-				</ProfileRefRS>
-			</CustomerInfo>
+				<xsl:apply-templates select="../FreqCustInfo[LNameNum = $lastNameNum]" />
+			</Customer>
+			<ProfileRefRS>
+				<xsl:attribute name="ID">
+					<xsl:value-of select="concat($lastNameNum, '.', $PsgrNum, '.', $absNum)"/>
+				</xsl:attribute>
+			</ProfileRefRS>
+		</CustomerInfo>
 
 		<xsl:if test="$PsgrsNum > 1">
 			<xsl:call-template name="buildnames">

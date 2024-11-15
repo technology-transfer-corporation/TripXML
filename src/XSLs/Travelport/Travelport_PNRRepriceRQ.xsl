@@ -1583,11 +1583,9 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" Author
 								</xsl:attribute>
 							</xsl:when>
 							<xsl:when test="$crr/Markup/@Percent">
-
 								<xsl:attribute name="Modifier">
 									<xsl:text>SupplementaryPercent</xsl:text>
 								</xsl:attribute>
-
 								<xsl:attribute name="Percentage">
 									<xsl:value-of select="$crr/Markup/@Percent"/>
 								</xsl:attribute>
@@ -1595,6 +1593,14 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ReturnRecord="true" Author
 									<xsl:text>PercentTotal</xsl:text>
 								</xsl:attribute>
 							</xsl:when>
+							<xsl:otherwise>
+								<xsl:attribute name="Amount">
+									<xsl:text>0</xsl:text>
+								</xsl:attribute>
+								<xsl:attribute name="Type">
+									<xsl:text>Flat</xsl:text>
+								</xsl:attribute>
+							</xsl:otherwise>
 						</xsl:choose>
 					</common_v50_0:Commission>
 				</xsl:if>
