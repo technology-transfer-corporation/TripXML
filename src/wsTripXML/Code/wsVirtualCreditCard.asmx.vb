@@ -1,7 +1,6 @@
 Imports System.Web.Services
 Imports TripXMLMain
 Imports System.Xml.Serialization
-
 Imports TripXMLMain.modCore
 Imports TripXML.Core.Models
 Imports TripXML.Core.Models.Base
@@ -10,7 +9,6 @@ Imports TripXML.Core.Enums
 Imports wsTripXML.wsTravelTalk.wmCancelVirtualCardLoad
 
 Namespace wsTravelTalk
-
     <System.Web.Services.Protocols.SoapDocumentService(RoutingStyle:=System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement),
         System.Web.Services.WebService(Namespace:="http://tripxml.downtowntravel.com/wsVirtualCreditCard",
                                        Name:="wsVirtualCreditCard",
@@ -68,10 +66,8 @@ Namespace wsTravelTalk
 
             Try
                 startTime = Now
-
                 Dim strRequest As String = SerializeRequest(request)
                 PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, startTime, ttServiceID, Server.MachineName, uuid)
-
                 Select Case request.BankSource
                     Case VirtualCardSourceType.ConnexPay
                         responseObj = SendPaymentRequest(ttServiceID, ttCredential, ttProviderSystems, request)
@@ -89,9 +85,7 @@ Namespace wsTravelTalk
                                 responseObj = TripXMLSerializer.Deserialize(Of T)(strResponse)
                         End Select
                 End Select
-
                 validateXSDOut = Application.Get($"XSD{ttCredential.UserID}Out")
-
                 PostServiceRequest(strResponse, validateXSDOut, ttServiceID, ttCredential.UserID)
             Catch ex As Exception
                 strResponse = FormatErrorMessage(ttServiceID, ex.Message, ttCredential.Providers(0).Name)
@@ -112,13 +106,11 @@ Namespace wsTravelTalk
         <Protocols.SoapHeader("tXML")>
         Public Function GenerateVirtualCard(ByVal PAY_GenerateVirtualCardRQ As PAY_GenerateVirtualCardRQ) As <XmlElementAttribute("PAY_GenerateVirtualCardRS")> PAY_GenerateVirtualCardRS
             Dim oVCCRS As PAY_GenerateVirtualCardRS = Nothing
-
             Try
                 oVCCRS = ServiceRequest(Of PAY_GenerateVirtualCardRS)(PAY_GenerateVirtualCardRQ, ttServices.GenerateVirtualCard)
             Catch ex As Exception
                 CoreLib.SendTrace("", "GenerateVirtualCard", "Error Deserialing OTA Response", ex.Message, String.Empty)
             End Try
-
             Return oVCCRS
         End Function
 
@@ -188,7 +180,6 @@ Namespace wsTravelTalk
         End Function
 
 #End Region
-
 
 #Region "Serializer / Desirializer"
         Public Function SerializeRequest(ByVal request As Object) As String
