@@ -83,6 +83,7 @@ xsltc /settings:document+,script+ v04_Galileo_PNRReadRS.xsl
 xsltc /settings:document+,script+ v04_Galileo_TB_Errors.xsl
 xsltc /settings:document+,script+ v04_Galileo_TravelBuildRQ.xsl
 xsltc /settings:document+,script+ v04_Galileo_QueueReadRQ.xsl
+xsltc /settings:document+,script+ v03_Galileo_PNREndRQ.xsl
 
 xcopy "*.dll"  "..\..\wsTripXML\bin"  /c /d /i /y
 xcopy "*.dll"  "..\..\TripXMLMain\Xsl\Galileo"  /c /d /i /y

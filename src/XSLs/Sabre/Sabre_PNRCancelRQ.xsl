@@ -66,7 +66,7 @@
                     <xsl:when test="POS/Source/@AgentSine != ''">
                       <xsl:value-of select="POS/Source/@AgentSine"/>
                     </xsl:when>
-                    <xsl:otherwise>TRAVELTALK</xsl:otherwise>
+                    <xsl:otherwise>TRIPXML</xsl:otherwise>
                   </xsl:choose>
                 </GivenName>
               </AccessPerson>
