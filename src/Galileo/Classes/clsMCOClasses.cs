@@ -192,7 +192,7 @@ namespace Galileo.Classes
         public string Currency { get; set; }
 
         [XmlElement(ElementName = "Amt")]
-        public int Amt { get; set; }
+        public string Amt { get; set; }
 
         [XmlElement(ElementName = "ExpDt")]
         public int ExpDt { get; set; }

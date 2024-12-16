@@ -318,6 +318,86 @@ namespace Galileo
             return response;
         }
 
+        public string PNREnd()
+        {
+            string response;
+
+            try
+            {
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
+                //*****************************************************************
+                // Transform OTA PNREnd Request into Native Amadeus Request     *
+                //***************************************************************** 
+                string _request = SetRequest($"Galileo_PNREndRQ.xsl");
+                if (string.IsNullOrEmpty(_request))
+                    throw new Exception("Transformation produced empty xml.");
+
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(_request);
+                var oRoot = oDoc.DocumentElement;
+                var _recloc = oRoot.SelectSingleNode("PNRBFRetrieveMods/PNRAddr/RecLoc").InnerText;
+
+                //*******************************************************************************
+                // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
+                //******************************************************************************* 
+                response = ttGA.SendMessage(_request, ConversationID);
+                var warning = string.Empty;
+
+                // ***************************************
+                // Check for End Transaction Warnings    
+                // ***************************************
+                if (response.Contains("<ErrSeverityInd>W</ErrSeverityInd>"))
+                {
+                    // *******************************************************************
+                    // Send Transformed Request End Transaction to the Galileo Adapter  *
+                    // *******************************************************************                     
+                    // End Transaction Request
+                    ttGA.SendCrypticMessage("ER", ConversationID);
+                    response = ttGA.SendMessage(_request, ConversationID);
+                }
+
+
+                // *****************************************************************
+                // Transform Native Galileo PNRCancel Response into OTA Response   *
+                // ***************************************************************** 
+                try
+                {
+                    var tagToReplace = response.Contains("</PNRBFManagement_17>")
+                        ? "</PNRBFManagement_17>"
+                        : "</PNRBFManagement_53>";
+
+                    if (inSession)
+                        response = response.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
+
+                    response = CoreLib.TransformXML(response, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
+
+                    if (response.Contains("<UniqueID ID=\"\""))
+                    {
+                        response = response.Replace("<UniqueID ID=\"\"", $"<UniqueID ID=\"{_recloc}\"");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+            }
+            catch (Exception exx)
+            {
+                response = modCore.FormatErrorMessage(modCore.ttServices.PNREnd, exx.Message, ProviderSystems);
+            }
+            return response;
+        }
+
         public string Queue()
         {
             string strResponse;
