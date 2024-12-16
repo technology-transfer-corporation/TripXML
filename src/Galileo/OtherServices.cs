@@ -61,12 +61,12 @@ namespace Galileo
             string strResponse;
             try
             {
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
                 string strRequest = SetRequest("Galileo_ShowMileageRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-
-                var ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
 
                 // *******************************************************************************
                 //  Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
@@ -113,6 +113,9 @@ namespace Galileo
 
             try
             {
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
                 string strScreen = string.Empty;
                 // ************************************************************
                 //  Transform OTA Cryptic Request into Native Galileo Request *
@@ -120,10 +123,8 @@ namespace Galileo
                 string strRequest = SetRequest("Galileo_CrypticRQ.xsl");
 
                 if (string.IsNullOrEmpty(strRequest))
-                    throw new Exception("Transformation produced empty xml.");
-
-                var ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
+                    throw new Exception("Transformation produced empty xml.");                
+                
                 var recordLocator = "";
                 // *******************************************************************************
                 //  Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
@@ -191,12 +192,12 @@ namespace Galileo
             string strResponse;
             try
             {
+                GalileoAdapter ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
                 string strRequest = SetRequest("Galileo_CCValidRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-
-                GalileoAdapter ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
 
                 // *******************************************************************************
                 //  Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
@@ -242,13 +243,13 @@ namespace Galileo
             string strResponse;
             try
             {
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
                 string strRequest = SetRequest("Galileo_CurConvRQ.xsl");
 
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-
-                var ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
 
                 // *******************************************************************************
                 //  Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
@@ -296,6 +297,9 @@ namespace Galileo
             try
             {
 
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
                 // ****************************************************************
                 //  Transform OTA TimeDiff Request into Native Amadeus Request    *
                 // **************************************************************** 
@@ -303,8 +307,6 @@ namespace Galileo
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
 
-                var ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
                 // *******************************************************************************
                 //  Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                 // ******************************************************************************* 
@@ -466,6 +468,10 @@ namespace Galileo
             try
             {
 
+                // Create Session
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
                 // *****************************************************************
                 // Transform OTA ETicketVerify Request into Native Galileo Request     *
                 // ***************************************************************** 
@@ -489,10 +495,6 @@ namespace Galileo
                 {
                     throw new Exception($"Error Loading Transformed Request XML Document. {ex.Message}");
                 }
-
-                // Create Session
-                var ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
 
                 // *************************************************************************************
                 // Send Transformed Request ETicketVerify PNRBFManagement_7_9 to the Galileo Adapter  *
@@ -672,6 +674,9 @@ namespace Galileo
 
             try
             {
+                GalileoAdapter ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
                 strRequest = SetRequest("Galileo_ProfileReadRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
@@ -680,8 +685,6 @@ namespace Galileo
                 // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
                 // ******************************************************************************* 
 
-                GalileoAdapter ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
                 strResponse = ttGA.SendMessage(strRequest);
 
                 // ***************************************************************************
@@ -730,6 +733,9 @@ namespace Galileo
 
             try
             {
+                GalileoAdapter ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
                 string strRequest = SetRequest("Galileo_ProfileCreateRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
@@ -738,8 +744,6 @@ namespace Galileo
                 // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
                 // ******************************************************************************* 
 
-                GalileoAdapter ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
                 strResponse = ttGA.SendMessage(strRequest);
 
                 // ***************************************************************************
@@ -783,6 +787,9 @@ namespace Galileo
 
             try
             {
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
                 // ************************************************************
                 //  Transform SalesReport Request into Native Amadeus Request *
                 // ************************************************************ 
@@ -790,8 +797,6 @@ namespace Galileo
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
 
-                var ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
                 // *******************************************************************************
                 //  Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                 // ******************************************************************************* 

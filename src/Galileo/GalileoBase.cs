@@ -154,10 +154,12 @@ namespace Galileo
                 var otaDoc = new XmlDocument();
                 otaDoc.LoadXml(Request);
                 var otaElement = otaDoc.DocumentElement;
-                ConversationID =
-                    otaElement != null && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value != null
-                        ? otaElement.Attributes["EchoToken"].Value
-                        : "";
+
+                if(string.IsNullOrEmpty(ConversationID))
+                    ConversationID =
+                        otaElement != null && otaElement.HasAttribute("EchoToken") && otaElement.Attributes["EchoToken"].Value != null
+                            ? otaElement.Attributes["EchoToken"].Value
+                            : "";
 
                 //if (String.IsNullOrEmpty(ConversationID))
                 //    ConversationID = ProviderSystems.SessionPool ? ttGA.CheckSessionV2() : ttGA.CreateSession();

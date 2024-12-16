@@ -23,16 +23,17 @@ namespace Galileo
 
                 #region Get Tracer ID
 
-                string strRequest = SetRequest("Galileo_PNRReadRQ.xsl");
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
+                string _request = SetRequest("Galileo_PNRReadRQ.xsl");
 
                 if (string.IsNullOrEmpty(Version))
                     Version = "v03_";
 
-                if (string.IsNullOrEmpty(strRequest))
+                if (string.IsNullOrEmpty(_request))
                     throw new Exception("Transformation produced empty xml.");
 
-                var ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
 
                 #endregion
 
@@ -40,8 +41,8 @@ namespace Galileo
 
 
                 // CoreLib.SendTrace(ProviderSystems.UserID, "Galileo", "PNR Read Request", strRequest, ProviderSystems.LogUUID)
-                response = ttGA.SendMessage(strRequest, ConversationID);
-                var strMessage = $"{strRequest}\r\n{response}";
+                response = ttGA.SendMessage(_request, ConversationID);
+                var strMessage = $"{_request}\r\n{response}";
 
 
                 #endregion
@@ -112,6 +113,10 @@ namespace Galileo
             {
                 var requestTime = DateTime.Now;
 
+                // Create Session
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
                 // *****************************************************************
                 // Transform OTA PNRCancel Request into Native Galileo Request     *
                 // ***************************************************************** 
@@ -124,10 +129,6 @@ namespace Galileo
 
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
-
-                // Create Session
-                var ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
 
                 // ************************************************************
                 // Send Transformed Request PNR Read to the Galileo Adapter  *
@@ -198,6 +199,11 @@ namespace Galileo
             {
                 bool bStoreFare = false;
 
+
+                // Create Session
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
                 #region Transform OTA PNRRead Request into Native Sabre Request
 
                 string strRequest = SetRequest("Galileo_PNRRePriceRQ.xsl");
@@ -212,9 +218,6 @@ namespace Galileo
 
                 if (oRoot.SelectSingleNode("@StoreFare") != null)
                     bStoreFare = Convert.ToBoolean(oRoot.SelectSingleNode("@StoreFare")?.InnerText);
-
-                var ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
 
                 #endregion
 
@@ -335,16 +338,21 @@ namespace Galileo
                     throw new Exception("Transformation produced empty xml.");
 
                 var oDoc = new XmlDocument();
-                oDoc.LoadXml(_request);
+                oDoc.LoadXml(Request);
                 var oRoot = oDoc.DocumentElement;
-                var _recloc = oRoot.SelectSingleNode("PNRBFRetrieveMods/PNRAddr/RecLoc").InnerText;
+                var _recloc = oRoot.SelectSingleNode("UniqueID/@ID").InnerText;
+
+                oDoc.LoadXml(_request);
+                oRoot = oDoc.DocumentElement;
+                var _read = oRoot.SelectSingleNode("Read").InnerXml;
+                var _et = oRoot.SelectSingleNode("ET").InnerXml;
 
                 //*******************************************************************************
                 // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
                 //******************************************************************************* 
-                response = ttGA.SendMessage(_request, ConversationID);
+                /* 
+                response = ttGA.SendMessage(_et, ConversationID);
                 var warning = string.Empty;
-
                 // ***************************************
                 // Check for End Transaction Warnings    
                 // ***************************************
@@ -357,7 +365,23 @@ namespace Galileo
                     ttGA.SendCrypticMessage("ER", ConversationID);
                     response = ttGA.SendMessage(_request, ConversationID);
                 }
+                */
 
+                response = ttGA.SendCrypticMessage("R.TRIPXML,ER", ConversationID);
+                if (response.Contains("*"))
+                    response = ttGA.SendCrypticMessage("ER", ConversationID);
+
+                if (response.Contains("CONFIRM SEGMENT"))
+                    response = ttGA.SendCrypticMessage("ER", ConversationID);
+
+                if (response.StartsWith(_recloc))
+                {
+                    //response = ttGA.SendCrypticMessage("ER", ConversationID);
+                    if (string.IsNullOrEmpty(Version))
+                        Version = "v03_";
+
+                    response = ttGA.SendMessage(_read, ConversationID);
+                }
 
                 // *****************************************************************
                 // Transform Native Galileo PNRCancel Response into OTA Response   *
@@ -408,13 +432,14 @@ namespace Galileo
 
             try
             {
+
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
                 string strRequest = SetRequest("Galileo_QueueRQ.xsl");
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
 
-
-                var ttGA = SetAdapter();
-                bool inSession = SetConversationID(ttGA);
 
                 // check if action is queue count or anything else
                 if (strRequest.Contains("<Action>QCT</Action>"))
@@ -494,16 +519,17 @@ namespace Galileo
                 //if (string.IsNullOrEmpty(Version))
                 Version = "";
 
-                string _request = SetRequest("Galileo_QueueReadRQ.xsl");
-                if (string.IsNullOrEmpty(_request))
-                    throw new Exception("Transformation produced empty xml.");
-
                 // *******************************************************************************
                 // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
                 // ******************************************************************************* 
                 var ttGA = SetAdapter();
                 bool inSession = true; /* This service will always return Session. Will either create one or return existing */
                 SetConversationID(ttGA);
+
+                string _request = SetRequest("Galileo_QueueReadRQ.xsl");
+                if (string.IsNullOrEmpty(_request))
+                    throw new Exception("Transformation produced empty xml.");
+
 
                 try
                 {
