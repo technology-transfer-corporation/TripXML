@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using TripXMLMain;
 using System.Collections.Generic;
 using System.Xml.Schema;
+using System.Threading;
 
 namespace Sabre
 {
@@ -488,7 +489,7 @@ namespace Sabre
         /// </summary>
         public string PNRCancel()
         {
-            string strResponse;
+            string _response;
 
             // *****************************************************************
             // Transform OTA PNRCancel Request into Native Sabre Request     *
@@ -550,56 +551,170 @@ namespace Sabre
                 // ******************************************************************************* 
 
                 CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ReadPNR", "", ProviderSystems.LogUUID);
-                strResponse = ttSA.SendMessage(strRead, "OTA_TravelItineraryReadRQ", "OTA_TravelItineraryReadRQ", ConversationID);
+                _response = ttSA.SendMessage(strRead, "OTA_TravelItineraryReadRQ", "OTA_TravelItineraryReadRQ", ConversationID);
 
                 // Check for Errors
-                if (strResponse.Contains("Success"))
+                if (_response.Contains("Success"))
                 {
-                    CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "strResponse", strResponse, ProviderSystems.LogUUID);
+                    CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "strResponse", _response, ProviderSystems.LogUUID);
                     CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "Cancel Segments", "", ProviderSystems.LogUUID);
-                    strResponse = ttSA.SendMessage(strCancel, "Cancel", "OTA_CancelLLSRQ", ConversationID);
+                    _response = ttSA.SendMessage(strCancel, "Cancel", "OTA_CancelLLSRQ", ConversationID);
 
                     // Check for Errors
-                    if (strResponse.Contains("Success"))
+                    if (_response.Contains("Success"))
                     {
-                        CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "strResponse", strResponse, ProviderSystems.LogUUID);
+                        CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "strResponse", _response, ProviderSystems.LogUUID);
                         CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ET", "", ProviderSystems.LogUUID);
-                        strResponse = ttSA.SendMessage(strEndTransaction, "EndTransaction", "EndTransactionLLSRQ", ConversationID);
+                        _response = ttSA.SendMessage(strEndTransaction, "EndTransaction", "EndTransactionLLSRQ", ConversationID);
                     }
                 }
 
                 // *****************************************************************
                 // Transform Native Sabre PNRCancel Response into OTA Response   *
-                // ***************************************************************** 
-                try
-                {
-                    var strToReplace = "</OTA_CancelLLSRS>";
-
-                    if (inSession)
-                        strResponse = strResponse.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
-
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRCancelRS.xsl");
-
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
-                }
-                finally
-                {
-                    if (!inSession)
-                    {
-                        ttSA.CloseSession(ConversationID);
-                        ConversationID = string.Empty;
-                    }
-                }
+                // *****************************************************************                 
+                _response = FinalizeResponse("</OTA_CancelLLSRS>", _response, ttSA, inSession, $"{Version}Sabre_PNRCancelRS.xsl");
+                
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRCancel, ex.Message, ProviderSystems);
+                _response = modCore.FormatErrorMessage(modCore.ttServices.PNRCancel, ex.Message, ProviderSystems);
             }
 
-            return strResponse;
+            return _response;
+        }
+
+        /// <summary>
+        /// End Transact PNR Method
+        /// </summary>
+        public string PNREnd()
+        {
+            string _response;
+
+            // *****************************************************************
+            // Transform OTA PNRCancel Request into Native Sabre Request       *
+            // ***************************************************************** 
+            try
+            {
+                string request = SetRequest("Sabre_PNREndRQ.xsl");
+
+                if (string.IsNullOrEmpty(request))
+                    throw new Exception("Transformation produced empty xml.");
+
+                // ********************
+                // Get All Requests  * 
+                // ********************
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(request);
+                var oRoot = oDoc.DocumentElement;
+
+                string _read = oRoot.SelectSingleNode("Read").InnerXml.Replace(" xmlns=\"\"", "");
+                
+                if (oRoot.SelectSingleNode("ET") is null)
+                    throw new Exception("Request is missing mandatory ET elements.");
+
+                string _endTransaction = oRoot.SelectSingleNode("ET").InnerXml.Replace(" xmlns=\"\"", "");
+
+                // *******************
+                // Create Session    *
+                // *******************                
+                var ttSA = SetAdapter();
+                bool inSession = SetConversationID(ttSA);
+
+                // *******************************************************************************
+                // Send Transformed Request to the Sabre Adapter and Getting Native Response     *
+                // *******************************************************************************                 
+                //CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "EndTransactionRQ", "", ProviderSystems.LogUUID);
+                //_response = ttSA.SendMessage(_endTransaction, "EndTransaction", "EndTransactionLLSRQ", ConversationID);
+                //// Check for Errors
+                //if (_response.Contains("Success"))
+                //{
+                //    CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ReadPNR", "", ProviderSystems.LogUUID);
+                //    _response = ttSA.SendMessage(_read, "OTA_TravelItineraryReadRQ", "OTA_TravelItineraryReadRQ", ConversationID);
+                //}
+                // *****************************************************************
+
+                CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ET", "", ProviderSystems.LogUUID);
+                _response = SendET(ttSA);
+
+                if (_response.Contains("*PAC TO VERIFY CORRECT NBR OF ACCTG LINES"))
+                {
+                    _response = SendET(ttSA, "*PAC");
+                    _response = SendET(ttSA);
+                }
+
+                if (_response.Contains("*WARNING EDITS*") | _response.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | _response.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
+                    | _response.Contains("END OR IGNORE PNR") | _response.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | _response.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT"))
+                {
+                    _response = SendET(ttSA);
+                    if (_response.Contains("*WARNING EDITS*") | _response.Contains("VERIFY ORDER OF ITINERARY SEGMENTS") | _response.Contains("TOO MANY PNR ERRORS - EDIT SUSPENDED")
+                            | _response.Contains("END OR IGNORE PNR") | _response.Contains("INFANT DETAILS REQUIRED IN SSR - ENTER 3INFT") | _response.Contains("FF MILEAGE AGREEMENT EXISTS, SEE PT"))
+                    {
+                        Thread.Sleep(1000);
+                        _response = SendET(ttSA);
+                    }
+                }
+
+                var iTry = 0;
+                while (_response.Contains("CTP EDITS IN PROGRESS....PLEASE WAIT") && iTry < 5)
+                {
+                    Thread.Sleep(1000);
+                    _response = SendET(ttSA);
+                    iTry++;
+                }
+
+                if(_response.Contains("CTP EDITS IN PROGRESS....PLEASE WAIT"))
+                    _response = SendET(ttSA, "IG");
+
+                if (_response.Contains("*"))
+                {
+                    CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ReadPNR", "", ProviderSystems.LogUUID);                    
+                    _response = ttSA.SendMessage(_read, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
+                }
+
+                // *****************************************************************
+                // Transform Native Sabre PNRCancel Response into OTA Response     *
+                // *****************************************************************
+                // Transform PNR Read
+                Version = Version != "v04_" ? "v03" : Version;
+                _response = FinalizeResponse("</TravelItineraryReadRS>", _response, ttSA, inSession, $"{Version}Sabre_PNRReadRS.xsl");
+            }
+            catch (Exception ex)
+            {
+                _response = modCore.FormatErrorMessage(modCore.ttServices.PNRCancel, ex.Message, ProviderSystems);
+            }
+
+            return _response;
+        }
+
+        private string FinalizeResponse(string strToReplace, string _response, SabreAdapter ttSA, bool inSession, string xslSheet)
+        {
+            try
+            {
+                if (inSession)
+                    _response = _response.Replace(strToReplace, $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID>{strToReplace}");
+
+                _response = CoreLib.TransformXML(_response, XslPath, xslSheet);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+            }
+            finally
+            {
+                if (!inSession)
+                {
+                    ttSA.CloseSession(ConversationID);
+                    ConversationID = string.Empty;
+                }
+            }
+
+            return _response;
+        }
+
+        private string SendET(SabreAdapter ttSA, string command = "6P,ER")
+        {
+            string strER = $"<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>{command}</HostCommand></Request></SabreCommandLLSRQ>";
+            return ttSA.SendMessage(strER, command, "SabreCommandLLSRQ", ConversationID);
         }
 
         /// <summary>
