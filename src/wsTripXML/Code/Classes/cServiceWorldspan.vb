@@ -114,6 +114,8 @@ Namespace wsTravelTalk
                             strResponse = .PNRRead()
                         Case ttServices.PNRCancel
                             strResponse = .PNRCancel()
+                        Case ttServices.PNRCancel
+                            strResponse = .PNREnd()
                         Case Else
                             Throw New Exception("Invalid request or message not supported by Worldspan PNR services.")
                     End Select

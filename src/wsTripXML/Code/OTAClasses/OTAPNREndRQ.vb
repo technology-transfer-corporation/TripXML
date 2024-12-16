@@ -32,6 +32,8 @@ Namespace wsTravelTalk.wmPNREndIn
         '<remarks/>
         Public ConversationID As String
 
+        Public UniqueID As UniqueID
+
         '<remarks/>
         <System.Xml.Serialization.XmlAttributeAttribute()> _
         Public EchoToken As String
