@@ -211,10 +211,8 @@ namespace Worldspan
 
                         bool bEMD = pRead.Contains("EMDL");
                         string emdDisplay = bEMD ? ttWA.SendCryptic("EMDL(") : "";
-
                         if (!strResponse.Contains("SECURED PNR") && !pRead.Contains("Error"))
                         {
-
                             #region 4*
 
                             string str4Display = ttWA.SendCryptic("4*");
@@ -518,7 +516,7 @@ namespace Worldspan
                             {
                                 xResp.DocumentElement.SelectNodes("//AIR_SEG_INF/AIR_ITM[FLI_NUM!='ARNK']").Cast<XmlNode>().ToList().Select(x =>
                                     new//(string segNum, string depCity, string arrCity)
-                                    {
+                        {
                                         segNum = x.SelectSingleNode("SEG_NUM").InnerText,
                                         depCity = x.SelectSingleNode("DEP_ARP").InnerText,
                                         arrCity = x.SelectSingleNode("ARR_ARP").InnerText
@@ -763,6 +761,456 @@ namespace Worldspan
             }
 
             return strResponse;
+        }
+
+        public string PNREnd()
+        {
+            string _response;
+
+            // *****************************************************************
+            // Transform OTA PNRCancel Request into Native Worldspan Request   *
+            // *****************************************************************
+            try
+            {
+                string _request = SetRequest("Worldspan_PNREndRQ.xsl");
+                if (string.IsNullOrEmpty(_request))
+                    throw new Exception("Transformation produced empty xml.");
+
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(Request);
+                var oRoot = oDoc.DocumentElement;
+                var _recloc = oRoot.SelectSingleNode("UniqueID/@ID").InnerText;
+
+                // *******************************************************************************
+                // Send Transformed Request to the Worldspan Adapter and Getting Native Response *
+                // ******************************************************************************* 
+                var ttWA = SetAdapter(ProviderSystems, modCore.ProfileType.Cryptic);
+                bool inSession = SetConversationID(ttWA);
+                _response = ttWA.SendCryptic("ER");
+
+                if (_response.Contains("CK ITIN"))
+                {
+                    _response = ttWA.SendCryptic("ER");
+                    if (_response.ToUpper().Contains(" ERROR "))
+                        throw new Exception("Failed to Save PNR");
+                }
+
+                if (_response.Contains("NO CHANGES MADE - MODIFY OR IGNORE RECORD"))
+                {
+                    _response = ttWA.SendCryptic("IR");
+                    if (_response.ToUpper().Contains(" ERROR "))
+                        throw new Exception("Failed to Save PNR");
+                }
+
+                List<string> trElems = new List<string>();
+
+                #region ReRead PNR
+                //ttProviderSystems.Profile = ProviderSystems.Profile.Xml;
+                ttWA = SetAdapter(ProviderSystems, modCore.ProfileType.Xml);
+                _response = ttWA.SendMessage($"<DPC8><MSG_VERSION>8</MSG_VERSION><REC_LOC>{_recloc}</REC_LOC><ETR_INF>Y</ETR_INF><ALL_PNR_INF>Y</ALL_PNR_INF><PRC_INF>Y</PRC_INF></DPC8>");
+                #endregion
+
+                #region 4*
+                //ttProviderSystems.Profile = ProviderSystems.Profile.Cryptic;
+                ttWA = SetAdapter(ProviderSystems, modCore.ProfileType.Cryptic);
+                inSession = SetConversationID(ttWA);
+                string pnr = ttWA.SendCryptic($"*{_recloc}");
+                bool bEMD = pnr.Contains("**  ELECTRONIC MISC DOCUMENT LIST  **  >EMDL");
+
+                string emdDisplay = bEMD ? ttWA.SendCryptic("EMDL") : "";
+                string str4Display = ttWA.SendCryptic("4*");
+
+                var lstLines = str4Display.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                // Conduct Move Down (MD)
+                if (lstLines.Last().Contains(")&gt;"))
+                {
+                    string str4More = ttWA.SendCryptic("MD");
+                    var lstMoreLines = str4More.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    foreach (string line in lstMoreLines)
+                    {
+                        if (!lstLines.Contains(line))
+                        {
+                            lstLines.Add(line);
+                        }
+                    }
+                }
+                ttWA.CloseSession();
+                inSession = false;
+                var sb4 = new StringBuilder("<PNR_4_INF>");
+                var ptcPos = 0;
+                foreach (string line in lstLines)
+                {
+                    var trNum = "";
+                    var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                    if (!string.IsNullOrEmpty(strLine))
+                    {
+                        var index = lstLines.IndexOf(line);
+                        //TR-   1. 4P*FSR.SR                           8YQ/LV 23JUL
+                        //TR-   2. 4P*FSR.SR/-$P10.00/#TR           1P/0G3/RO 23JUL 1819Z
+                        //TR-   3. 4P*FSR.SR/-$P0.00/#TR            1P/0G3/RO 23JUL 1819Z
+                        //TR-   4. 4P*FSR.SR/-$P10.00/#TR           1P/0G3/RO 23JUL 1819Z
+                        if (strLine.StartsWith("TR-   ") && index > 1)
+                        {
+                            ptcPos++;
+                            _response = FilterPricePNRByTR(_response, line, ptcPos);
+                            trNum = line.Split(new[] { "TR-", " ", ". ", }, StringSplitOptions.RemoveEmptyEntries).ToList()[0];
+                            trElems.Add(trNum);
+                        }
+                        sb4.Append(strLine.StartsWith("TR-   ") && ptcPos > 0 ? $"<Line ID=\"{ptcPos}\" TR=\"{trNum}\">{strLine}</Line>" : $"<Line>{strLine}</Line>");
+
+                    }
+
+                }
+
+                sb4.Append("</PNR_4_INF>");
+                _response = _response.Replace("</DPW8>", $"{sb4}</DPW8>");
+                #endregion
+
+                #region EMDL
+                if (bEMD)
+                {
+                    var emdLines = emdDisplay.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                    if (emdLines.Last().Contains(")&gt;"))
+                    {
+                        string str4More = ttWA.SendCryptic("MD");
+                        var lstMoreLines = str4More.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        foreach (string line in lstMoreLines)
+                        {
+                            if (!emdLines.Contains(line))
+                            {
+                                emdLines.Add(line);
+                            }
+                        }
+                    }
+                    var sbEMD = new StringBuilder("<PNR_EMD_INF>");
+
+                    //EMDL - ELECTRONIC MISCELLANEOUS DOCUMENT LIST
+                    //  1.LA 0458302220183
+                    //MARKOVA / ALLA
+                    //          I 29APR22  181139 Z
+                    //***** END OF LIST *****                    
+
+                    foreach (string line in emdLines)
+                    {
+                        if (!string.IsNullOrEmpty(line))
+                        {
+                            if (line.Contains("END OF LIST"))
+                                break;
+
+                            if (line.Contains("EMDL - ELECTRONIC MISCELLANEOUS DOCUMENT LIST"))
+                                continue;
+
+                            var bStart = Regex.IsMatch(line, "\\d+\\.\\s*[A-Z]{2}\\s(\\d+)");
+
+                            if (bStart)
+                            {
+                                var index = emdLines.IndexOf(line);
+                                var trElem = line.Trim().Replace(")&gt;", "").Replace("&gt;", "").Split(new[] { ".", " " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                                var trNum = trElem[2];
+                                var strLine = $"{emdLines[index + 1].Trim()} {emdLines[index + 2].Trim()}";
+                                sbEMD.Append($"<Line ID=\"{trElem[0]}\" EMD=\"{trNum}\">{strLine}</Line>");
+                            }
+                        }
+                    }
+
+                    sbEMD.Append("</PNR_EMD_INF>");
+                    _response = _response.Replace("</DPW8>", $"{sbEMD}</DPW8>");
+                }
+                #endregion
+
+                #region *DH
+
+                string strDisplayDHA = ttWA.SendCryptic("*DH");
+                lstLines = strDisplayDHA.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                    StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                // Conduct Move Down (MD)
+                if (lstLines.Last().Contains(")&gt;"))
+                {
+                    string strDHMore = ttWA.SendCryptic("MD");
+                    var lstMoreLines = strDHMore
+                        .Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                            StringSplitOptions.RemoveEmptyEntries).ToList();
+                    foreach (string line in lstMoreLines)
+                    {
+                        if (!lstLines.Contains(line))
+                        {
+                            lstLines.Add(line);
+                        }
+                    }
+                }
+
+                if (lstLines.Exists(l => l.Contains("**DOCUMENT COMMANDS**")))
+                {
+                    // lstTemp = lstLines.GetRange(1, 2) - Thi sis in Case if we would need name of the passanger
+                    var lstTemp = lstLines.GetRange(0, 2);
+                    lstLines = lstTemp;
+                }
+
+                var sbDH = new StringBuilder("<PNR_DH_INF>");
+                foreach (string line in lstLines.GetRange(1, lstLines.Count - 1))
+                {
+                    var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                    var lineElem = strLine.Split(new string[] { " ", "*" },
+                        StringSplitOptions.RemoveEmptyEntries).ToList();
+                    // If Not String.IsNullOrEmpty(line) AndAlso (line.Length > 40 OrElse line.Trim.StartsWith("NO DOC HISTORY DATA FOUND")) Then
+                    if (!string.IsNullOrEmpty(strLine) && (lineElem.Count > 3 || strLine.Trim().StartsWith("NO DOC HISTORY DATA FOUND")))
+                    {
+                        sbDH.Append($"<Line TicketNumber='{lineElem[3]}'>{strLine}</Line>");
+                    }
+                }
+
+                sbDH.Append("</PNR_DH_INF>");
+
+                #endregion
+
+                #region *DHV
+
+
+                string strDisplayDHV = ttWA.SendCryptic("*DHV");
+                lstLines = strDisplayDHV.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                    StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                // Conduct Move Down (MD)
+                if (lstLines.Last().Contains(")&gt;"))
+                {
+                    string strDHMore = ttWA.SendCryptic("MD", conversationID: ConversationID);
+                    var lstMoreLines = strDHMore
+                        .Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                            StringSplitOptions.RemoveEmptyEntries).ToList();
+                    foreach (string line in lstMoreLines)
+                    {
+                        if (!lstLines.Contains(line))
+                        {
+                            lstLines.Add(line);
+                        }
+                    }
+                }
+
+                if (lstLines.Exists(l => l.Contains("**DOCUMENT COMMANDS** ")))
+                {
+                    // lstTemp = lstLines.GetRange(1, 2) - Thi sis in Case if we would need name of the passanger
+                    var lstTemp = lstLines.GetRange(0, 2);
+                    lstLines = lstTemp;
+                }
+
+                var sbDHV = new StringBuilder("<PNR_DHV_INF>");
+                foreach (string line in lstLines.GetRange(1, lstLines.Count - 1))
+                {
+                    var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                    if (!string.IsNullOrEmpty(strLine) && (strLine.Length > 34 || strLine.Trim().StartsWith("NO DOC HISTORY DATA FOUND")))
+                    {
+                        var lineElem = strLine.Split(new string[] { " ", "*" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        if (lineElem.Count > 3)
+                        {
+                            sbDHV.Append($"<Line TicketNumber='{lineElem[3]}'>{strLine}</Line>");
+                        }
+                    }
+                }
+
+                sbDHV.Append("</PNR_DHV_INF>");
+
+                #endregion
+
+                #region *HI
+
+
+                string strDisplayHI = ttWA.SendCryptic("*HI");
+                lstLines = strDisplayHI.Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                    StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                // Conduct Move Bottom (MB)
+                if (lstLines.Last().Equals(")"))
+                {
+                    string strDHMore = ttWA.SendCryptic("MB", conversationID: ConversationID);
+                    var lstMoreLines = strDHMore
+                        .Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                            StringSplitOptions.RemoveEmptyEntries).ToList();
+                    foreach (string line in lstMoreLines)
+                    {
+                        if (!lstLines.Contains(line))
+                        {
+                            lstLines.Add(line);
+                        }
+                    }
+                }
+
+                if (lstLines.Exists(l => l.Contains("**DOCUMENT COMMANDS**")))
+                {
+                    // lstTemp = lstLines.GetRange(1, 2) - Thi sis in Case if we would need name of the passanger
+                    var lstTemp = lstLines.GetRange(0, 2);
+                    lstLines = lstTemp;
+                }
+
+                // R-FLYUSRX-DIR -CR- 1QE/1P GS RS 05MAR20 0112Z 10C7F9 ***
+                // R-FLYUSRX-DIR -CR- 1QE/1P GS RS 05MAR20 0112Z 4A02D4 ***
+                // R-0571788MSG -CR- DTK@93D/1P GS XP 04MAR20 1920Z CBB07D ***
+
+                var sbH = new StringBuilder("<PNR_HI_INF>");
+                var bBookElem = false;
+                foreach (string line in lstLines.GetRange(1, lstLines.Count - 1))
+                {
+                    var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                    if (!string.IsNullOrEmpty(strLine) && strLine.Trim().StartsWith("R-") && strLine.Trim().Contains(" -CR- ") && bBookElem)
+                    {
+                        var elems = strLine.Split(new string[] { "-", " ", "/", "*" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        string pcc = string.Empty;
+                        string agent = string.Empty;
+                        foreach (string elem in elems)
+                        {
+                            if (elem.Equals("CR"))
+                            {
+                                int index = elems.IndexOf(elem);
+                                pcc = elems[index + 1].Contains("@")
+                                    ? elems[index + 1].Substring(elems[index + 1].Length - 3)
+                                    : elems[index + 1];
+                                agent = elems[index + 4];
+                                break;
+                            }
+                        }
+
+                        sbH.Append($"<Line PCC='{pcc}' Agent='{agent}'>{strLine}</Line>");
+                    }
+                    else
+                    {
+                        bBookElem = line.Trim().StartsWith("AS ");
+                    }
+                }
+
+                sbH.Append("</PNR_HI_INF>");
+
+                #endregion
+
+                #region *4PR
+               
+                var xResp = new XmlDocument();
+                xResp.LoadXml(_response);
+
+                var prcs = xResp.DocumentElement.SelectNodes("//DPW8/PRC_INF/PRC_QUO/PTC_FAR_DTL/FAR_SHE_ORI").Cast<XmlNode>().Select(x => x.InnerText).ToList();
+                var prc_opts = string.Empty;
+                if (prcs.Any(s => s.EndsWith(" SR")))
+                {
+                    if (prcs.Any(s => s.Contains("JWZ")))
+                        prc_opts = "FSR";
+                    else
+                        prc_opts = "FSR.SR";
+                }
+                string str4P = ttWA.SendCryptic($"4P{prc_opts}");
+                string str4PR = ttWA.SendCryptic("4PRC");
+                lstLines = str4PR.Split(new string[] { "<Screen>", "</Line><Line>", "</Screen>", "<Line>", "</Line>" }, StringSplitOptions.None).ToList();
+                // Conduct Move Down (MD)
+                if (lstLines.Last().Contains(")&gt;"))
+                {
+                    string strDHMore = ttWA.SendCryptic("MD", conversationID: ConversationID);
+                    var lstMoreLines = strDHMore
+                        .Split(new string[] { "<Screen>", "<Line>", "</Screen>", "</Line>" },
+                            StringSplitOptions.RemoveEmptyEntries).ToList();
+                    foreach (string line in lstMoreLines)
+                    {
+                        if (!lstLines.Contains(line))
+                        {
+                            lstLines.Add(line);
+                        }
+                    }
+                }
+                var sb4PR = new StringBuilder("<PNR_4PR>");
+
+                var flSegs = new List<flSegsData>();
+                try
+                {
+                    xResp.DocumentElement.SelectNodes("//AIR_SEG_INF/AIR_ITM[FLI_NUM!='ARNK']").Cast<XmlNode>().ToList().Select(x =>
+                        new//(string segNum, string depCity, string arrCity)
+                        {
+                            segNum = x.SelectSingleNode("SEG_NUM").InnerText,
+                            depCity = x.SelectSingleNode("DEP_ARP").InnerText,
+                            arrCity = x.SelectSingleNode("ARR_ARP").InnerText
+                        }).ToList().ForEach(x => flSegs.Add(new flSegsData { segNum = x.segNum, depCity = x.depCity, arrCity = x.arrCity }));
+                }
+                catch { }
+
+                if (flSegs.Any())
+                {
+
+                    var stop = false;
+                    foreach (string line in lstLines.GetRange(1, lstLines.Count - 1))
+                    {
+                        var strLine = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                        if (!string.IsNullOrEmpty(strLine) && (strLine.Length > 34) && !strLine.StartsWith("PTC   FARE  FARE"))
+                        {
+                            var lineElem = strLine.Split(new string[] { " ", "*" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                            switch (lineElem.Count)
+                            {
+                                case 6:
+                                    sb4PR.Append($"<Line PTC='{lineElem[1]}' CC='{lineElem.Last()}' Flights='{GetFlightRefs(lineElem[3], lineElem[4], ref flSegs)}'>{lineElem[3]}{lineElem[4]}</Line>");
+                                    stop = true;
+                                    break;
+                                case 7:
+                                    sb4PR.Append($"<Line PTC='{lineElem[2]}' CC='{lineElem.Last()}' Flights='{GetFlightRefs(lineElem[4], lineElem[5], ref flSegs)}'>{lineElem[4]}{lineElem[5]}</Line>");
+                                    stop = true;
+                                    break;
+                            }
+                        }
+                        else if (string.IsNullOrEmpty(strLine) && stop)
+                            break;
+                    }
+                    sb4PR.Append("</PNR_4PR>");
+                }
+                else
+                    sb4PR.Clear();
+                #endregion
+
+                #region Add Segments Node to PRC_INF/TIC_REC_PRC_QUO
+                var prcNode = xResp.SelectSingleNode("//PRC_INF/TIC_REC_PRC_QUO[contains(PRC_QUO_CMD,'*S')]/PRC_QUO_CMD");
+                if (prcNode != null)
+                {
+                    var prc_command = prcNode.InnerText.Substring(prcNode.InnerText.IndexOf("*S") + 2);
+                    if (prc_command.Contains("#"))
+                        prc_command = prc_command.Substring(0, prc_command.IndexOf("#"));
+                    prc_command = Regex.Replace(prc_command, @"(BF\d+)", "");
+                    prc_command = prc_command.Replace("*", "").Replace(":", "").Replace("/", " ");
+                    var segsNode = xResp.CreateElement("SEGMENTS");
+                    segsNode.InnerText = prc_command;
+                    var prc = xResp.SelectSingleNode("//PRC_INF/TIC_REC_PRC_QUO[contains(PRC_QUO_CMD,'*S')]");
+                    prc.InsertAfter(segsNode, prc.FirstChild);
+
+                    _response = xResp.OuterXml;
+                }
+
+                #endregion
+
+                _response = _response.Replace("</DPW8>", $"{sb4}{sbDH}{sbDHV}{sbH}{sb4PR}</DPW8>"); //
+                // *****************************************************************
+                // Transform Native Worldspan PNRCancel Response into OTA Response *
+                // *****************************************************************
+                try
+                {
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNREnd", "Final response", _response, ProviderSystems.LogUUID);
+                    var strToReplace = "</DPW8>";
+                    if (inSession)
+                        _response = _response.Replace(strToReplace, $"<ConversationID>{ConversationID}</ConversationID>{strToReplace}");
+
+                    _response = CoreLib.TransformXML(_response, XslPath, $"{Version}Worldspan_PNRReadRS.xsl");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttWA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _response = modCore.FormatErrorMessage(modCore.ttServices.PNREnd, ex.Message, ProviderSystems);
+            }
+
+            return _response;
         }
 
         public string PNRReprice()
