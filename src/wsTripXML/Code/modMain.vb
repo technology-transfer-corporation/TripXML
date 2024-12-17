@@ -1614,7 +1614,7 @@ Namespace wsTravelTalk
                         Case ttServices.PNRReprice
                             strResponse = .PNRReprice
                         Case ttServices.PNREnd
-                            strResponse = .PNREnd
+                            strResponse = .PNREnd()
                         Case Else
                             Throw New Exception(String.Format("{0} Message is not supported by Galileo.", Service.ToString()))
                     End Select
