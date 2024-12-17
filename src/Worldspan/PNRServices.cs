@@ -772,9 +772,9 @@ namespace Worldspan
             // *****************************************************************
             try
             {
-                string _request = SetRequest("Worldspan_PNREndRQ.xsl");
-                if (string.IsNullOrEmpty(_request))
-                    throw new Exception("Transformation produced empty xml.");
+                //string _request = SetRequest("Worldspan_PNREndRQ.xsl");
+                //if (string.IsNullOrEmpty(_request))
+                //    throw new Exception("Transformation produced empty xml.");
 
                 var oDoc = new XmlDocument();
                 oDoc.LoadXml(Request);
@@ -808,6 +808,7 @@ namespace Worldspan
                 //ttProviderSystems.Profile = ProviderSystems.Profile.Xml;
                 ttWA = SetAdapter(ProviderSystems, modCore.ProfileType.Xml);
                 _response = ttWA.SendMessage($"<DPC8><MSG_VERSION>8</MSG_VERSION><REC_LOC>{_recloc}</REC_LOC><ETR_INF>Y</ETR_INF><ALL_PNR_INF>Y</ALL_PNR_INF><PRC_INF>Y</PRC_INF></DPC8>");
+                ttWA.CloseSession();
                 #endregion
 
                 #region 4*
@@ -834,7 +835,7 @@ namespace Worldspan
                         }
                     }
                 }
-                ttWA.CloseSession();
+                //ttWA.CloseSession();
                 inSession = false;
                 var sb4 = new StringBuilder("<PNR_4_INF>");
                 var ptcPos = 0;
@@ -1158,6 +1159,8 @@ namespace Worldspan
                 }
                 else
                     sb4PR.Clear();
+
+                ttWA.CloseSession();
                 #endregion
 
                 #region Add Segments Node to PRC_INF/TIC_REC_PRC_QUO
