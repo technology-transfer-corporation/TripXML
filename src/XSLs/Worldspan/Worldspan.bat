@@ -35,6 +35,7 @@ xsltc /settings:document+,script+ v03_Worldspan_PNRReadRQ.xsl
 xsltc /settings:document+,script+ v03_Worldspan_PNRReadRS.xsl
 xsltc /settings:document+,script+ v03_Worldspan_LowFarePlusRQ.xsl
 xsltc /settings:document+,script+ v03_Worldspan_LowFarePlusRS.xsl
+xsltc /settings:document+,script+ Worldspan_PNREndRQ.xsl
 
 xcopy "*.dll"  "..\..\wsTripXML\bin"  /c /d /i /y
 xcopy "*.dll"  "..\..\TripXMLMain\Xsl\Worldspan"  /c /d /i /y
