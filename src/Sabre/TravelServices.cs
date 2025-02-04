@@ -2689,7 +2689,7 @@ namespace Sabre
                                 oDocFPI.LoadXml(oRootTemp.SelectSingleNode("FuturePriceInfo").OuterXml);
                                 oRootFPI = oDocFPI.DocumentElement;
                                 var nsmgr = new XmlNamespaceManager(oDocFPI.NameTable);
-                                nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2003/07");
+                                nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2011/10");
 
                                 // Dim strPrinter As String = oRootFPI.SelectSingleNode("sx:DesignatePrinterRQ", nsmgr).OuterXml
                                 // strResponse = SendRequestSegment(strPrinter, "AirTicket", "AirTicket", "DesignatePrinterLLSRQ")
@@ -2697,6 +2697,7 @@ namespace Sabre
                                 foreach (XmlNode oNodeFPI in oRootFPI.SelectNodes("sx:SabreCommandLLSRQ", nsmgr))
                                 {
                                     string argstrRequest = oNodeFPI.OuterXml;
+                                    //<Fault><faultcode>soap-env:Client.AuthorizationFailed</faultcode><faultstring>Requested service SabreCommandLLSRQ version 2003A.TsabreXML1.6.1 is deprecated</faultstring><detail><StackTrace>com.sabre.universalservices.base.security.AuthorizationException: errors.authorization.USG_SERVICE_VERSION_DEPRECATED</StackTrace></detail></Fault>
                                     strResponse = SendRequestSegment(ttSA, argstrRequest, "FuturePriceInfo", "SabreCommand", "SabreCommandLLSRQ");
 
                                     // Fatal Error
@@ -2777,7 +2778,7 @@ namespace Sabre
                                 oDocBD.LoadXml(oRootTemp.SelectSingleNode("BulkDocument").OuterXml);
                                 oRootBd = oDocBD.DocumentElement;
                                 var nsmgr = new XmlNamespaceManager(oDocBD.NameTable);
-                                nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2003/07");
+                                nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2011/10");
                                 foreach (XmlNode oNodeBD in oRootBd.SelectNodes("sx:SabreCommandLLSRQ", nsmgr))
                                 {
                                     string argstrRequest3 = oNodeBD.OuterXml;
