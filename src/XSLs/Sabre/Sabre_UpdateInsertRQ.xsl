@@ -1138,7 +1138,7 @@
   <!--  		Customer Information                                -->
   <!--************************************************************-->
   <xsl:template match="PNRData" mode="ixplore">
-    <TravelItineraryAddInfoRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.6.1">
+    <TravelItineraryAddInfoRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.6.1">
       <POS>
         <Source>
           <xsl:attribute name="PseudoCityCode">
@@ -1259,7 +1259,7 @@
   </xsl:template>
 
   <xsl:template match="PNRData" mode="other">
-    <TravelItineraryAddInfoRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.6.1">
+    <TravelItineraryAddInfoRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.6.1">
       <POS>
         <Source>
           <xsl:attribute name="PseudoCityCode">
