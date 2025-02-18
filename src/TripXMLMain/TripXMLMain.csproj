@@ -976,7 +976,7 @@
       <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="System.Configuration.ConfigurationManager">
-      <Version>8.0.0</Version>
+      <Version>9.0.1</Version>
     </PackageReference>
     <PackageReference Include="WebSocketSharp-netstandard">
       <Version>1.0.1</Version>
