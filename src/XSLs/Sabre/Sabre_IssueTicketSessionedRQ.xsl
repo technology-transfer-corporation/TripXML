@@ -3,6 +3,7 @@
   ================================================================== 
   Sabre_IssueTicketSessionedRQ.xsl										
   ================================================================== 
+  Date: 02 Feb 2024 - Riasnenko - upgraded SabreCommandLLSRQ to version 2.6.1
   Date: 28 Mar 2023 - Kobelev - upgraded ReadRQ to version 3.10.0
   Date: 29 Mar 2016 - Rastko - upgraded ReadRQ to version 3.6.0		
   Date: 13 Feb 2015 - Rastko - changed if condition to determine when to send ET	
