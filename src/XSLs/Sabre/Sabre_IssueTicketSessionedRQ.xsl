@@ -131,7 +131,7 @@
 					</InvoiceItineraryInfo>
 				</InvoiceItineraryRQ>
         -->
-        <SabreCommandLLSRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.6.1">
+        <SabreCommandLLSRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.6.1">
           <xsl:element name="Request">
             <xsl:attribute name="Output">SCREEN</xsl:attribute>
             <xsl:attribute name="MDRSubset">AD01</xsl:attribute>
