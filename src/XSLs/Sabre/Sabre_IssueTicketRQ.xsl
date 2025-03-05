@@ -3,6 +3,7 @@
   ================================================================== 
   Sabre_IssueTicketRQ.xsl															
   ================================================================== 
+  Date: 05 Mar 2024 - Riasnenko - updated AirTicketRQ to 2.14.0
   Date: 28 Mar 2023 - Kobelev - upgraded ReadRQ to version 3.10.0
   Date: 29 Mar 2016 - Rastko - upgraded ReadRQ to version 3.6.0			
   Date: 09 May 2012- Kasun- include End Transact logic after issuing an ETicket		
@@ -31,15 +32,15 @@
       </TravelItineraryReadRQ>
     </PNRRead>
     <TicketCryptic>
-      <AirTicketRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.9.1">
-        <POS>
+      <AirTicketRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.14.0" NumResponses="5">
+        <!--<POS>
           <Source>
             <xsl:attribute name="PseudoCityCode">
               <xsl:value-of select="POS/Source/@PseudoCityCode"/>
             </xsl:attribute>
           </Source>
         </POS>
-        <NumResponses Count="1"/>
+        <NumResponses Count="1"/>-->
         <TicketingInfo TicketType="ETR"/>
         <OptionalQualifiers>
           <MiscQualifiers>

@@ -3,6 +3,7 @@
   ================================================================== 
   Sabre_IssueTicketSessionedRQ.xsl										
   ================================================================== 
+  Date: 05 Mar 2024 - Riasnenko - updated AirTicketRQ to 2.14.0
   Date: 02 Feb 2024 - Riasnenko - upgraded SabreCommandLLSRQ to version 2.6.1
   Date: 28 Mar 2023 - Kobelev - upgraded ReadRQ to version 3.10.0
   Date: 29 Mar 2016 - Rastko - upgraded ReadRQ to version 3.6.0		
@@ -77,32 +78,36 @@
     </xsl:if>
     <xsl:if test="not(Ticketing/@IssueInvoiceOnly='true') and not(Ticketing/@DesignatePrinter='true')">
       <AirTicket>
-        <AirTicketRQ xmlns="http://webservices.sabre.com/sabreXML/2003/07" Version="2003A.TsabreXML1.9.1">
-          <POS>
+        <AirTicketRQ xmlns="http://webservices.sabre.com/sabreXML/2011/10" Version="2.14.0" NumResponses="5">
+          <!--<POS>
             <Source>
               <xsl:attribute name="PseudoCityCode">
                 <xsl:value-of select="POS/Source/@PseudoCityCode"/>
               </xsl:attribute>
             </Source>
           </POS>
-          <NumResponses Count="1"/>
+          <NumResponses Count="1"/>-->
           <xsl:choose>
             <xsl:when test="Ticketing/FutureTicket/Number!=''">
-              <FutureTicket>
-                <xsl:for-each select="Ticketing/FutureTicket/Number">
-                  <Line Number="{.}"/>
-                </xsl:for-each>
-              </FutureTicket>
-            </xsl:when>
+				<OptionalQualifiers>
+					<MiscQualifiers>
+						<FutureTicket>
+							<xsl:for-each select="Ticketing/FutureTicket/Number">
+								<Line Number="{.}"/>
+							</xsl:for-each>
+						</FutureTicket>
+					</MiscQualifiers>
+				</OptionalQualifiers>
+			</xsl:when>
             <xsl:otherwise>
               <TicketingInfo TicketType="ETR"/>
             </xsl:otherwise>
           </xsl:choose>
           <xsl:if test="Ticketing/FareNumber!=''">
             <OptionalQualifiers>
-              <PricingQualifiers>
-                <BasicPrice PQNumber="{Ticketing/FareNumber}"/>
-              </PricingQualifiers>
+				<PriceQuote>
+					<Record  Number="{Ticketing/FareNumber}"/>
+                </PriceQuote>
               <!--MiscQualifiers>
 								<VendorPref Code="xx"/>
 							</MiscQualifiers-->
