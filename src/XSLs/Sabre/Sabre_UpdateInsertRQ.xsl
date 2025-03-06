@@ -389,7 +389,7 @@
                                     </Source>
                                 </POS>-->
                                 <RefundDocument>
-									<AccountableDocument>
+									<SupplierDocument>
 										<FOP_Info>
 											<xsl:variable name="ccType"
 														  select="FOPInfo/@Type" />
@@ -561,6 +561,7 @@
 													<xsl:value-of select="SupplierInfo/Document/@Number" />
 												</xsl:attribute>
 											</Document>
+											<Invoice Number="11111" Type="F" />
 										</SupplierInfo>
 
 										<Type>
@@ -569,7 +570,7 @@
 											</xsl:attribute>
 										</Type>
 
-									</AccountableDocument>
+									</SupplierDocument>
                                 </RefundDocument>
                             </AddAccountingLineRQ>
                         </xsl:for-each>
