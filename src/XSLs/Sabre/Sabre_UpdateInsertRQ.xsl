@@ -561,7 +561,24 @@
 													<xsl:value-of select="SupplierInfo/Document/@Number" />
 												</xsl:attribute>
 											</Document>
-											<Invoice Number="11111" Type="F" />
+											<Invoice>
+												<xsl:attribute name="Number">
+													<xsl:value-of select="SupplierInfo/Invoice/@Number" />
+												</xsl:attribute>
+												<xsl:variable name="invoiceType">
+													<xsl:choose>
+														<xsl:when test="SupplierInfo/Invoice/@Type='Full'">
+															<xsl:value-of select="'F'" />
+														</xsl:when>
+														<xsl:otherwise>
+															<xsl:value-of select="SupplierInfo/Invoice/@Type" />
+														</xsl:otherwise>
+													</xsl:choose>
+												</xsl:variable>
+												<xsl:attribute name="Type">
+													<xsl:value-of select="$invoiceType" />
+												</xsl:attribute>
+											</Invoice>
 										</SupplierInfo>
 
 										<Type>
