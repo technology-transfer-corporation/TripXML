@@ -1587,7 +1587,7 @@ namespace Sabre
 
                 try
                 {
-                    var strTicket = "<AirTicketRQ xmlns=\"http://webservices.sabre.com/sabreXML/2003/07\" Version=\"2003A.TsabreXML1.9.1\" ><POS><Source PseudoCityCode=\"" + ProviderSystems.PCC + "\"/></POS>" +
+                    var strTicket = "<AirTicketRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.14.0\" NumResponses=\"5\" ><POS><Source PseudoCityCode=\"" + ProviderSystems.PCC + "\"/></POS>" +
                                     "<NumResponses Count=\"1\"/><TicketingInfo TicketType=\"ETR\"/><OptionalQualifiers><MiscQualifiers><VendorPref Code=\"" + validatingCarrier + "\"/></MiscQualifiers></OptionalQualifiers></AirTicketRQ>";
                     strResponse = ttSA.SendMessage(strTicket, "Air", "AirTicketLLSRQ", ConversationID);
                     strEndTransact = strEndTransact.Replace("<GivenName>TRIPXML</GivenName>", $"<GivenName>{ProviderSystems.UserID}</GivenName>");
@@ -1715,7 +1715,7 @@ namespace Sabre
                 {
                     strInvoice = oRoot.SelectSingleNode("Invoice").InnerXml;
                 }
-
+                //<SabreCommandLLSRQ Version="2003A.TsabreXML1.6.1" xmlns="http://webservices.sabre.com/sabreXML/2003/07"><Request Output="SCREEN" MDRSubset="AD01" CDATA="true"><HostCommand>DIN'DP'A1/2'R</HostCommand></Request></SabreCommandLLSRQ>
                 if (oRoot.SelectSingleNode("ET") != null)
                 {
                     strEndTransact = oRoot.SelectSingleNode("ET").InnerXml;
@@ -2716,7 +2716,7 @@ namespace Sabre
                                 oDocRD.LoadXml(oRootTemp.SelectSingleNode("RefundDocument").OuterXml);
                                 var oRootRD = oDocRD.DocumentElement;
                                 var nsmgr = new XmlNamespaceManager(oDocRD.NameTable);
-                                nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2003/07");
+                                nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2011/10");
                                 foreach (XmlNode oNodeRd in oRootRD.SelectNodes("sx:AddAccountingLineRQ", nsmgr))
                                 {
                                     string argstrRequest1 = oNodeRd.OuterXml;
@@ -2741,7 +2741,7 @@ namespace Sabre
                                 oDocRD.LoadXml(oRootTemp.SelectSingleNode("AccountableDocument").OuterXml);
                                 oRootRD = oDocRD.DocumentElement;
                                 var nsmgr = new XmlNamespaceManager(oDocRD.NameTable);
-                                nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2003/07");
+                                nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2011/10");
                                 foreach (XmlNode oNodeRD in oRootRD.SelectNodes("sx:AddAccountingLineRQ", nsmgr))
                                 {
                                     string argstrRequest2 = oNodeRD.OuterXml;
