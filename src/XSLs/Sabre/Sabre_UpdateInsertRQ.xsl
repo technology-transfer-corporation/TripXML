@@ -561,12 +561,23 @@
 													<xsl:value-of select="SupplierInfo/Document/@Number" />
 												</xsl:attribute>
 											</Document>
-											<Invoice>
+											<Invoice>												
+												<xsl:variable name="pType" select="SupplierInfo/Invoice/@Type" />
 												<xsl:attribute name="Number">
 													<xsl:value-of select="SupplierInfo/Invoice/@Number" />
 												</xsl:attribute>
+												<xsl:variable name="invoiceType">
+													<xsl:choose>
+														<xsl:when test="substring($pType, 1, 1) ='F'">
+															<xsl:value-of select="'F'" />
+														</xsl:when>
+														<xsl:otherwise>
+															<xsl:value-of select="SupplierInfo/Invoice/@Type" />
+														</xsl:otherwise>
+													</xsl:choose>
+												</xsl:variable>
 												<xsl:attribute name="Type">
-													<xsl:value-of select="SupplierInfo/Invoice/@Type" />
+													<xsl:value-of select="$invoiceType" />
 												</xsl:attribute>
 											</Invoice>
 										</SupplierInfo>
