@@ -1983,12 +1983,13 @@ namespace Sabre
                             oDoc.LoadXml(strTickets);
                             oRoot = oDoc.DocumentElement;
                             CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "oRoot", oRoot.OuterXml, ProviderSystems.LogUUID);
-                            if (oRoot.SelectSingleNode("Errors") is null)
+                            if (oRoot.SelectSingleNode("//Error") is null)
                                 strIssueTicket += "<Success/>";
-                            else if (oRoot.SelectSingleNode("Errors/Error/ErrorInfo/Message").InnerText.Contains("ETR MESSAGE PROCESSED"))
+                            else if (oRoot.SelectSingleNode("//Error/SystemSpecificResults/Message") != null
+                                && oRoot.SelectSingleNode("//Error/SystemSpecificResults/Message").InnerText.Contains("ETR MESSAGE PROCESSED"))
                                 strIssueTicket += "<Success/>";
                             else
-                                strIssueTicket += oRoot.SelectSingleNode("Errors").OuterXml;
+                                strIssueTicket += oRoot.InnerXml;
                         }
                         else
                             strIssueTicket += "<Success/>";
