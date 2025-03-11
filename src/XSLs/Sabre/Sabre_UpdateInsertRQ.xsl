@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version="1.0">
-  <!-- ******************************************************************
+  <!-- 
   ================================================================== 
   Sabre_UpdateInsertRQ.xsl 														       
   ================================================================== 
@@ -22,7 +22,7 @@
   Date: 05 Dec 2013 - Rastko - added support for UpdateSessioned message		       
   Date: 24 Dec 2010 - Rastko - new file												       
   ================================================================== 
-  ********************************************************************* -->
+  -->
     <xsl:output method="xml"
                 omit-xml-declaration="yes" />
     <xsl:variable name="PCC">
