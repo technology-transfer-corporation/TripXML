@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version="1.0">
-    <!-- ******************************************************************
+  <!-- ******************************************************************
   ================================================================== 
   Sabre_UpdateInsertRQ.xsl 														       
   ================================================================== 
@@ -561,13 +561,14 @@
 													<xsl:value-of select="SupplierInfo/Document/@Number" />
 												</xsl:attribute>
 											</Document>
-											<Invoice>
+											<Invoice>												
+												<xsl:variable name="pType" select="SupplierInfo/Invoice/@Type" />
 												<xsl:attribute name="Number">
 													<xsl:value-of select="SupplierInfo/Invoice/@Number" />
 												</xsl:attribute>
 												<xsl:variable name="invoiceType">
 													<xsl:choose>
-														<xsl:when test="SupplierInfo/Invoice/@Type='Full'">
+														<xsl:when test="substring($pType, 1, 1) ='F'">
 															<xsl:value-of select="'F'" />
 														</xsl:when>
 														<xsl:otherwise>
@@ -580,7 +581,6 @@
 												</xsl:attribute>
 											</Invoice>
 										</SupplierInfo>
-
 										<Type>
 											<xsl:attribute name="Info">
 												<xsl:value-of select="Type/@Info" />
