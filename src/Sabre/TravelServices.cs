@@ -1903,11 +1903,12 @@ namespace Sabre
                             }
                         }
 
-                        while (strResponse.Contains("CTP EDITS IN PROGRESS....PLEASE WAIT"))
-                        {
-                            Thread.Sleep(1000);
-                            strResponse = ttSA.SendMessage(strInvoice, "Air", "SabreCommandLLSRQ", ConversationID);
-                        }
+                        //https://github.com/Downtown-Travel-TT/TicketingRobot/issues/350 Ticketing Robot - Multiple Invoices issued at the end of Ticketing #350
+                        //while (strResponse.Contains("CTP EDITS IN PROGRESS....PLEASE WAIT"))
+                        //{
+                        //    Thread.Sleep(1000);
+                        //    strResponse = ttSA.SendMessage(strInvoice, "Air", "SabreCommandLLSRQ", ConversationID);
+                        //}
 
                         readResp = ttSA.SendMessage(strRead, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
                     }
