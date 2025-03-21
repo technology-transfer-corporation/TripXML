@@ -1,18 +1,17 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<!-- 
-	================================================================== 
-	 Sabre_IssueTicketRS.xsl 															
-	================================================================== 
-     Date: 19 May 2014 - Suraj Chaged the code to read the e ticket no	
-	 Date: 27 Mar 2014 - added support for designate printer errors		
-	 Date: 05 Mar 2014 - corrected mapping of ticket control type		
-	 Date: 21 Feb 2014 - indicate a ticket when it is void				
-	 Date: 29 Jan 2014 - added optional ConversationID mapping			
-	 Date: 09 May 2012- Kasun done the mapping of ETicket no			
-	 Date: 10 Dec 2010 - Rastko											
-	================================================================== 
-	-->
+	<!-- ================================================================== -->
+	<!-- Sabre_IssueTicketRS.xsl 															-->
+	<!-- ================================================================== -->
+	<!-- Date: 11 Mar 2025 - Riasnenko Fixed Error messages				-->
+    <!-- Date: 19 May 2014 - Suraj Chaged the code to read the e ticket no				-->
+	<!-- Date: 27 Mar 2014 - added support for designate printer errors					-->
+	<!-- Date: 05 Mar 2014 - corrected mapping of ticket control type					-->
+	<!-- Date: 21 Feb 2014 - indicate a ticket when it is void								-->
+	<!-- Date: 29 Jan 2014 - added optional ConversationID mapping					-->
+	<!-- Date: 09 May 2012- Kasun done the mapping of ETicket no					-->
+	<!-- Date: 10 Dec 2010 - Rastko														-->
+	<!-- ================================================================== -->
 	<xsl:output method="xml" omit-xml-declaration="yes"/>
 	<xsl:template match="/">
 		<xsl:apply-templates select="AirTicketRS"/>
@@ -20,11 +19,11 @@
 	<xsl:template match="AirTicketRS">
 		<TT_IssueTicketRS Version="1.001">
 			<xsl:choose>
-				<xsl:when test="Errors">
+				<xsl:when test="ApplicationResults/Error">
 					<Errors>
 						<Error>
 							<xsl:attribute name="Type">Sabre</xsl:attribute>
-							<xsl:value-of select="Errors/Error/ErrorInfo/Message"/>
+							<xsl:value-of select="ApplicationResults/Error/SystemSpecificResults/Message"/>
 						</Error>
 					</Errors>
 				</xsl:when>
