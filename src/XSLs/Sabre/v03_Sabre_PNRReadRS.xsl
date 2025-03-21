@@ -5813,7 +5813,7 @@
 							<xsl:value-of select="$delem"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:text>&#xA;</xsl:text>
+							<xsl:text>|</xsl:text>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:when>
