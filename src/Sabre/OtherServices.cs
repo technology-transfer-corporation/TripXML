@@ -91,7 +91,7 @@ namespace Sabre
                     // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
                     // ******************************************************************************* 
                     response = ttSA.SendMessage(request, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
-                    response = response.Replace("\r\n", "&#xA;");
+                    response = response.Replace("\r\n", "|");
                     inSession = true; //This needed in order not to try to close session when it's already closed
                     closingTag = "</SabreCommandLLSRS>";
                 }
