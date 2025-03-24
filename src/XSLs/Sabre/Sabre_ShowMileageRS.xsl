@@ -11,9 +11,7 @@
 				<xsl:otherwise>
 					<xsl:call-template name="good"/>
 				</xsl:otherwise>
-			</xsl:choose>
-
-		
+			</xsl:choose>		
 	</xsl:template>
 
 	<xsl:template name="good">
