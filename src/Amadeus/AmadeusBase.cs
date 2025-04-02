@@ -67,6 +67,35 @@ namespace AmadeusWS
         }
 
         #region Functional Methods
+        /// <summary>
+        /// This method will return XMLTransformed response.
+        /// </summary>
+        /// <param name="ttAA"></param>
+        /// <param name="inSession"></param>
+        /// <param name="strPNRReplay"></param>
+        /// <param name="methodName"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        protected string GetFinalResponse(AmadeusWSAdapter ttAA, bool inSession, ref string strPNRReplay, string methodName)
+        {
+            try
+            {               
+                CoreLib.SendTrace(ttProviderSystems.UserID, methodName, "Final response", strPNRReplay, ttProviderSystems.LogUUID);
+                return CoreLib.TransformXML(strPNRReplay, XslPath, $"{Version}AmadeusWS_{methodName}RS.xsl");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+            }
+            finally
+            {
+                if (!inSession)
+                {
+                    ttAA.CloseSession(ConversationID);
+                    ConversationID = string.Empty;
+                }
+            }            
+        }
 
         protected bool AllDigits(string txt)
         {
@@ -380,7 +409,7 @@ namespace AmadeusWS
             }
         }
 
-        protected string BuildOTAResponse(string strResponse)
+        protected string BuildOTAResponse(AmadeusWSAdapter ttAA,string strResponse)
         {
             string strEchoToken = "";
             try
@@ -402,8 +431,8 @@ namespace AmadeusWS
                 }
 
                 strResponse = $"<PNR_Reply>{strResponse}{strEchoToken}</PNR_Reply>";
-                strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
-                return strResponse;
+
+                return GetFinalResponse(ttAA, false, ref strResponse, "PNRRead");                
             }
             catch (Exception ex)
             {

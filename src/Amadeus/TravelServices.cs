@@ -172,7 +172,7 @@ namespace AmadeusWS
                     // Fatal Error 
                     if (!string.IsNullOrEmpty(_response))
                     {
-                        _response = BuildOTAResponse(_response);
+                        _response = BuildOTAResponse(ttAA, _response);
                         return _response;
                     }
                 }
@@ -255,7 +255,7 @@ namespace AmadeusWS
                                 // Fatal Error 
                                 if (_response.Length > 0)
                                 {
-                                    _response = BuildOTAResponse(_response);
+                                    _response = BuildOTAResponse(ttAA, _response);
                                     return _response;
                                 }
                             }
@@ -274,7 +274,7 @@ namespace AmadeusWS
 
                             if (_response.Contains("INVALID RECOMMENDATION NUMBER"))
                             {
-                                _response = BuildOTAResponse("NO FLIGHTS AVAILABLE ON ITINERARY");
+                                _response = BuildOTAResponse(ttAA, "NO FLIGHTS AVAILABLE ON ITINERARY");
                                 return _response;
                             }
                             else if ((oRoot.SelectSingleNode("SSRs") != null))
@@ -288,20 +288,20 @@ namespace AmadeusWS
                                 // Fatal Error 
                                 if (_response.Length > 0)
                                 {
-                                    _response = BuildOTAResponse(_response);
+                                    _response = BuildOTAResponse(ttAA, _response);
                                     return _response;
                                 }
                             }
                         }
                         else
                         {
-                            _response = BuildOTAResponse(_response);
+                            _response = BuildOTAResponse(ttAA, _response);
                             return _response;
                         }
                     }
                     else
                     {
-                        _response = BuildOTAResponse(_response);
+                        _response = BuildOTAResponse(ttAA, _response);
                         return _response;
                     }
                 }
@@ -341,7 +341,7 @@ namespace AmadeusWS
                             // Fatal Error 
                             if (_response.Length > 0)
                             {
-                                _response = BuildOTAResponse(_response);
+                                _response = BuildOTAResponse(ttAA, _response);
                                 return _response;
                             }
                         }
@@ -378,7 +378,7 @@ namespace AmadeusWS
                         // Fatal Error 
                         if (_response.Length > 0)
                         {
-                            _response = BuildOTAResponse(_response);
+                            _response = BuildOTAResponse(ttAA, _response);
                             oDocMCO = null;
                             oRootMCO = null;
                             oNodeMCOPax = null;
@@ -436,7 +436,7 @@ namespace AmadeusWS
 
                     if (_response.Length > 0)
                     {
-                        _response = BuildOTAResponse(_response);
+                        _response = BuildOTAResponse(ttAA, _response);
                         return _response;
                     }
                 }
@@ -500,7 +500,7 @@ namespace AmadeusWS
 
                             if (_response.Length > 0)
                             {
-                                _response = BuildOTAResponse(_response);
+                                _response = BuildOTAResponse(ttAA, _response);
                                 return _response;
                             }
                         }
@@ -559,7 +559,7 @@ namespace AmadeusWS
 
                             if (_response.Length > 0)
                             {
-                                _response = BuildOTAResponse(_response);
+                                _response = BuildOTAResponse(ttAA, _response);
                                 return _response;
                             }
                         }
@@ -589,7 +589,7 @@ namespace AmadeusWS
                         // Fatal Error 
                         if (_response.Length > 0)
                         {
-                            _response = BuildOTAResponse(_response);
+                            _response = BuildOTAResponse(ttAA, _response);
                             return _response;
                         }
 
@@ -699,7 +699,7 @@ namespace AmadeusWS
                     if (strEndTransaction.Contains("<Error"))
                     {
                         // Fatal Error 
-                        return BuildOTAResponse(strEndTransaction);
+                        return BuildOTAResponse(ttAA, strEndTransaction);
                     }
                     else if (strEndTransaction.IndexOf("<Warning>") >= 0)
                     {
@@ -2206,7 +2206,7 @@ namespace AmadeusWS
                         if (strResponse.IndexOf("<Error") >= 0)
                         {
                             // Fatal Error 
-                            return BuildOTAResponse(strResponse);
+                            return BuildOTAResponse(ttAA, strResponse);
                         }
                         else if (strResponse.IndexOf("<Warning>") >= 0)
                         {
@@ -2228,7 +2228,7 @@ namespace AmadeusWS
                         if (strEndTransaction.Contains("<Error"))
                         {
                             // Fatal Error 
-                            return BuildOTAResponse(strEndTransaction);
+                            return BuildOTAResponse(ttAA, strEndTransaction);
                         }
                         else if (strEndTransaction.Contains("<Warning>"))
                         {
@@ -2365,7 +2365,7 @@ namespace AmadeusWS
 
                         if (strRequest.IndexOf("<Error>") != -1)
                         {
-                            return BuildOTAResponse(strRequest.Substring(strRequest.IndexOf("<Error>"), (strRequest.IndexOf("</Error>") + 8) - strRequest.IndexOf("<Error>")));
+                            return BuildOTAResponse(ttAA, strRequest.Substring(strRequest.IndexOf("<Error>"), (strRequest.IndexOf("</Error>") + 8) - strRequest.IndexOf("<Error>")));
                         }
 
                         //************************************** 
@@ -2386,7 +2386,7 @@ namespace AmadeusWS
                             if (strErrorResp.IndexOf("<Error") >= 0)
                             {
                                 // Fatal Error 
-                                return BuildOTAResponse(strErrorResp);
+                                return BuildOTAResponse(ttAA, strErrorResp);
                             }
                             else if (strErrorResp.IndexOf("<Warning>") >= 0)
                             {
@@ -2430,7 +2430,7 @@ namespace AmadeusWS
                                 // Fatal Error 
                                 if (strResponse.Length > 0)
                                 {
-                                    strResponse = BuildOTAResponse(strResponse);
+                                    strResponse = BuildOTAResponse(ttAA, strResponse);
                                     return strResponse;
                                 }
 
@@ -2442,7 +2442,7 @@ namespace AmadeusWS
                                     // Fatal Error 
                                     if (strResponse.Length > 0)
                                     {
-                                        strResponse = BuildOTAResponse(strResponse);
+                                        strResponse = BuildOTAResponse(ttAA, strResponse);
                                         return strResponse;
                                     }
                                 }
@@ -2456,7 +2456,7 @@ namespace AmadeusWS
                                 // Fatal Error 
                                 if (strResponse.Length > 0)
                                 {
-                                    strResponse = BuildOTAResponse(strResponse);
+                                    strResponse = BuildOTAResponse(ttAA, strResponse);
                                     return strResponse;
                                 }
                             }
@@ -2501,7 +2501,7 @@ namespace AmadeusWS
                                     // Fatal Error 
                                     if (strResponse.Length > 0)
                                     {
-                                        strResponse = BuildOTAResponse(strResponse);
+                                        strResponse = BuildOTAResponse(ttAA, strResponse);
                                         return strResponse;
                                     }
                                     ifareList++;
@@ -2510,7 +2510,7 @@ namespace AmadeusWS
                                 // Fatal Error 
                                 if (strResponse.Length > 0)
                                 {
-                                    strResponse = BuildOTAResponse(strResponse);
+                                    strResponse = BuildOTAResponse(ttAA, strResponse);
                                     return strResponse;
                                 }
                             }
@@ -2524,7 +2524,7 @@ namespace AmadeusWS
                                 // Fatal Error 
                                 if (strResponse.Length > 0)
                                 {
-                                    strResponse = BuildOTAResponse(strResponse);
+                                    strResponse = BuildOTAResponse(ttAA, strResponse);
                                     return strResponse;
                                 }
                             }
@@ -2578,7 +2578,7 @@ namespace AmadeusWS
                                 if (strResponse.IndexOf("<Error") >= 0)
                                 {
                                     // Fatal Error 
-                                    return BuildOTAResponse(strResponse);
+                                    return BuildOTAResponse(ttAA, strResponse);
                                 }
                                 else if (strResponse.IndexOf("<Warning>") >= 0)
                                 {
@@ -2610,7 +2610,7 @@ namespace AmadeusWS
                         if (strEndTransaction.Contains("<Error"))
                         {
                             // Fatal Error 
-                            return BuildOTAResponse(strEndTransaction);
+                            return BuildOTAResponse(ttAA, strEndTransaction);
                         }
                         else if (strEndTransaction.Contains("<Warning>"))
                         {
@@ -2769,7 +2769,7 @@ namespace AmadeusWS
 
                     if (strRequest.Contains("<Error>"))
                     {
-                        return BuildOTAResponse(strRequest.Substring(strRequest.IndexOf("<Error>"), strRequest.IndexOf("</Error>") + 8 - strRequest.IndexOf("<Error>")));
+                        return BuildOTAResponse(ttAA, strRequest.Substring(strRequest.IndexOf("<Error>"), strRequest.IndexOf("</Error>") + 8 - strRequest.IndexOf("<Error>")));
                     }
 
                     //************************************** 
@@ -2790,7 +2790,7 @@ namespace AmadeusWS
                         if (strErrorResp.IndexOf("<Error") >= 0)
                         {
                             // Fatal Error 
-                            return BuildOTAResponse(strErrorResp);
+                            return BuildOTAResponse(ttAA, strErrorResp);
                         }
                         else if (strErrorResp.IndexOf("<Warning>") >= 0)
                         {
@@ -2843,7 +2843,7 @@ namespace AmadeusWS
                             // Fatal Error 
                             if (strResponse.Length > 0)
                             {
-                                strResponse = BuildOTAResponse(strResponse);
+                                strResponse = BuildOTAResponse(ttAA, strResponse);
                                 return strResponse;
                             }
 
@@ -2855,7 +2855,7 @@ namespace AmadeusWS
                                 // Fatal Error 
                                 if (strResponse.Length > 0)
                                 {
-                                    strResponse = BuildOTAResponse(strResponse);
+                                    strResponse = BuildOTAResponse(ttAA, strResponse);
                                     return strResponse;
                                 }
                             }
@@ -2883,7 +2883,7 @@ namespace AmadeusWS
                                     strErrMess = strResponse;
                                 else
                                 {
-                                    strResponse = BuildOTAResponse(strResponse);
+                                    strResponse = BuildOTAResponse(ttAA, strResponse);
                                     return strResponse;
                                 }
                             }
@@ -2953,7 +2953,7 @@ namespace AmadeusWS
                             if (strErrorResp.Contains("<Error"))
                             {
                                 // Fatal Error 
-                                return BuildOTAResponse(strErrorResp);
+                                return BuildOTAResponse(ttAA, strErrorResp);
                             }
                             else if (strErrorResp.Contains("<Warning>"))
                             {

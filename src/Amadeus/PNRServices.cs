@@ -296,18 +296,9 @@ namespace AmadeusWS
                 if (!string.IsNullOrEmpty(GetPricingOptionsTST))
                     strResponse = strResponse.Replace(strToReplace, $"{GetPricingOptionsTST}{strToReplace}");
 
-                CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response size", strResponse.Length.ToString(CultureInfo.InvariantCulture), ttProviderSystems.LogUUID);
-                //if (strResponse.Length > 5500)
-                //{
-                //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response", strResponse.Substring(0, strResponse.Length / 2), ttProviderSystems.LogUUID);
-                //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response II", strResponse.Substring(strResponse.Length / 2), ttProviderSystems.LogUUID);
-                //}
-                //else
-                //{
+                //CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response size", strResponse.Length.ToString(CultureInfo.InvariantCulture), ttProviderSystems.LogUUID);
                 CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response", strResponse, ttProviderSystems.LogUUID);
-                //}
-
-
+                
                 // check if fare rule requested to be returned
                 if (Request.Contains("ReturnRules=\"true\""))
                 {
@@ -343,9 +334,11 @@ namespace AmadeusWS
                     strResponse = strResponse.Replace("</PNR_RetrieveByRecLocReply>", $"{strFlifoRS}</PNR_RetrieveByRecLocReply>");
                 }
 
+
+                strResponse = ConvertToTripXMLMessage(ttAA, Request, inSession, strResponse);
                 try
                 {
-                    strResponse = ConvertToTripXMLMessage(Request, inSession, strResponse);
+                    
 
                     DateTime responseTime = DateTime.Now;
                     String strMeessege = sbNativeLog.ToString();
@@ -1302,7 +1295,7 @@ namespace AmadeusWS
 
         public string PNRReprice()
         {
-            string strResponse;
+            string _response;
             //*****************************************************************
             // Transform OTA PNRRead Request into Native Amadeus Request     *
             //***************************************************************** 
@@ -1489,10 +1482,13 @@ namespace AmadeusWS
                                     {
                                         var fxOpt = Regex.Replace(ff.Item2, @"\/ZO-0\*[A-Z0-9.,]*", "").Trim();
                                         strHistFareRS = SendCommandCryptically(ttAA, $"FXX{strFareType}{fxOpt}");
+
+                                        //https://github.com/Downtown-Travel-TT/TicketingRobot/issues/341
                                         if (strHistFareRS.Contains("NO FARE FOR BOOKING CODE-TRY OTHER PRICING OPTIONS"))
                                         {
-
+                                            strHistFareRS = SendCommandCryptically(ttAA, $"FXA{strFareType}{fxOpt}");
                                         }
+
                                         if (!string.IsNullOrEmpty(ff.Item1) &&
                                             ffList.FindAll(x => !string.IsNullOrEmpty(x.Item2)).Count == ffList.Count)
                                         {
@@ -2339,10 +2335,10 @@ namespace AmadeusWS
                         oDocStored = new XmlDocument();
                         oDocStored.LoadXml(strResponseReprice);
                         oRootStored = oDocStored.DocumentElement;
-                        strResponse = CoreLib.TransformXML(strResponseReprice, XslPath, $"{Version}AmadeusWS_TB_Errors.xsl");
+                        _response = CoreLib.TransformXML(strResponseReprice, XslPath, $"{Version}AmadeusWS_TB_Errors.xsl");
 
                         // Fatal Error 
-                        if (!strResponse.Contains("<Error"))
+                        if (!_response.Contains("<Error"))
                         {
                             string strStorePrice = "<Ticket_CreateTSTFromPricing>";
                             int iFareList = 1;
@@ -2354,11 +2350,11 @@ namespace AmadeusWS
                             }
 
                             strStorePrice += "</Ticket_CreateTSTFromPricing>";
-                            strResponse = SendCreateTSTFromPricing(ttAA, strStorePrice);
+                            _response = SendCreateTSTFromPricing(ttAA, strStorePrice);
 
                             strResponseReprice = $"<strResponseReprice>{SendDisplayTST(ttAA)}</strResponseReprice>";
                             string strEndTransaction = !inSession ? "<PNR_AddMultiElements><pnrActions><optionCode>10</optionCode></pnrActions><dataElementsMaster><marker1/><dataElementsIndiv><elementManagementData><segmentName>RF</segmentName></elementManagementData><freetextData><freetextDetail><subjectQualifier>3</subjectQualifier><type>P22</type></freetextDetail><longFreetext>TRIPXML</longFreetext></freetextData></dataElementsIndiv></dataElementsMaster></PNR_AddMultiElements>" : "<PNR_AddMultiElements><pnrActions><optionCode>11</optionCode></pnrActions><dataElementsMaster><marker1/><dataElementsIndiv><elementManagementData><segmentName>RF</segmentName></elementManagementData><freetextData><freetextDetail><subjectQualifier>3</subjectQualifier><type>P22</type></freetextDetail><longFreetext>TRIPXML</longFreetext></freetextData></dataElementsIndiv></dataElementsMaster></PNR_AddMultiElements>";
-                            strResponse = SendAddMultiElements(ttAA, strEndTransaction);
+                            _response = SendAddMultiElements(ttAA, strEndTransaction);
                         }
                     }
                 }
@@ -2366,47 +2362,22 @@ namespace AmadeusWS
                 //*****************************************************************
                 // Transform Native Amadeus PNRRead Response into OTA Response   *
                 //***************************************************************** 
-                try
-                {
-                    strPNRReplay = strPNRReplay.Replace("PNR_Reply", "PNR_RetrieveByRecLocReply");
+                strPNRReplay = strPNRReplay.Replace("PNR_Reply", "PNR_RetrieveByRecLocReply");
 
-                    if (inSession)
-                        strPNRReplay = strPNRReplay.Replace("</PNR_RetrieveByRecLocReply>", $"{strResponseTST}{strResponseReprice}{Request}<ConversationID>{ConversationID}</ConversationID></PNR_RetrieveByRecLocReply>");
+                if (inSession)
+                    strPNRReplay = strPNRReplay.Replace("</PNR_RetrieveByRecLocReply>", $"{strResponseTST}{strResponseReprice}{Request}<ConversationID>{ConversationID}</ConversationID></PNR_RetrieveByRecLocReply>");
 
-                    //if (strPNRReplay.Length > 5500)
-                    //{
-                    //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response", strPNRReplay.Substring(0, (int)Math.Round(strPNRReplay.Length / 2d)), ttProviderSystems.LogUUID);
-                    //    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response II", strPNRReplay.Substring((int)Math.Round(strPNRReplay.Length / 2d)), ttProviderSystems.LogUUID);
-                    //}
-                    //else
-                    //{
-                    CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response", strPNRReplay, ttProviderSystems.LogUUID);
-                    //}
-
-                    //CoreLib.SendTrace(ttProviderSystems.UserID, "PNRReprice", "Final response", strPNRReplay, ttProviderSystems.LogUUID);
-                    strResponse = CoreLib.TransformXML(strPNRReplay, XslPath, $"{Version}AmadeusWS_PNRRepriceRS.xsl");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
-                }
-                finally
-                {
-                    if (!inSession)
-                    {
-                        ttAA.CloseSession(ConversationID);
-                        ConversationID = string.Empty;
-                    }
-                }
+                _response = GetFinalResponse(ttAA, inSession, ref strPNRReplay, "PNRReprice");
             }
             catch (Exception exx)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, exx.Message, ttProviderSystems);
+                _response = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, exx.Message, ttProviderSystems);
             }
 
-            return strResponse;
+            return _response;
         }
 
+        
         private string FilterPricePNRWithBookingClassResponseByPax(string response, string request, bool skipFFopts)
         {
             if (string.IsNullOrEmpty(request))
@@ -3141,24 +3112,11 @@ namespace AmadeusWS
                 if (!string.IsNullOrEmpty(GetPricingOptionsTST))
                     response = response.Replace(tagToReplace, $"{GetPricingOptionsTST}{tagToReplace}");
 
-                try
-                {
-                    response = ConvertToTripXMLMessage(strRequest, inSession, response, strResponseTST);
-                    if (!string.IsNullOrEmpty(warning))
-                        response = response.Replace("<Success />", $"<Success />{warning}");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
-                }
-                finally
-                {
-                    if (!inSession)
-                    {
-                        ttAA.CloseSession(ConversationID);
-                        ConversationID = "";
-                    }
-                }
+
+                response = ConvertToTripXMLMessage(ttAA, strRequest, inSession, response, strResponseTST);
+                if (!string.IsNullOrEmpty(warning))
+                    response = response.Replace("<Success />", $"<Success />{warning}");
+                
             }
             catch (Exception exx)
             {
@@ -3167,7 +3125,7 @@ namespace AmadeusWS
             return response;
         }
 
-        private string ConvertToTripXMLMessage(string request, bool inSession, string response, string responseTST = "")
+        private string ConvertToTripXMLMessage(AmadeusWSAdapter ttAA, string request, bool inSession, string response, string responseTST = "")
         {
             //*****************************************************************
             // Transform Native Amadeus PNRRead Response into OTA Response   *
@@ -3180,7 +3138,7 @@ namespace AmadeusWS
                     response = response.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
 
                 Version = "v03_";
-                response = CoreLib.TransformXML(response, XslPath, $"{Version}AmadeusWS_PNRReadRS.xsl");
+                response = GetFinalResponse(ttAA, inSession, ref response, "PNRRead");
             }
             catch (Exception ex)
             {
