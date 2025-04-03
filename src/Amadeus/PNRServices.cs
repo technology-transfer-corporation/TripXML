@@ -1486,7 +1486,7 @@ namespace AmadeusWS
                                         //https://github.com/Downtown-Travel-TT/TicketingRobot/issues/341
                                         if (strHistFareRS.Contains("NO FARE FOR BOOKING CODE-TRY OTHER PRICING OPTIONS"))
                                         {
-                                            strHistFareRS = SendCommandCryptically(ttAA, $"FXA{strFareType}{fxOpt}");
+                                            //strHistFareRS = SendCommandCryptically(ttAA, $"FXA{strFareType}{fxOpt}");
                                         }
 
                                         if (!string.IsNullOrEmpty(ff.Item1) &&
