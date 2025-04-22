@@ -78,15 +78,17 @@ namespace Galileo
             var _lines = new List<string>();
 
             Lines.ForEach(l=> _lines.Add(l.Replace(";", "").Replace("&gt", "").Replace("&lt", "")));
-
+            _lines = _lines.FindAll(l => !string.IsNullOrEmpty(l));
             if (_lines.Any(l => l.Length > 64))
                 _lines = DeepFormating(_lines);
 
             //Regex.Split(strDisplay, "(?<=^(.{64})+)").ToList();
 
-            _lines.ForEach(l => display += $"<Line>{l.Replace("<", "&lt;").Replace(">", "&gt;")}</Line>");
+            //_lines.ForEach(l => display += $"<Line>{l.Replace("<", "&lt;").Replace(">", "&gt;")}</Line>");
+            //return $"<Screen>{display}</Screen>";
 
-            return $"<Screen>{display}</Screen>";
+            display = string.Join("\r\n", _lines);            
+            return display;
         }
 
         private static List<string> DeepFormating(List<string> display)

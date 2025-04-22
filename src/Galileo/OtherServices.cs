@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Galileo.Mappers;
+using System;
 using System.Xml;
 using TripXMLMain;
 
@@ -109,7 +110,7 @@ namespace Galileo
         public string Cryptic()
         {
 
-            string strResponse;
+            string _response;
 
             try
             {
@@ -120,9 +121,10 @@ namespace Galileo
                 // ************************************************************
                 //  Transform OTA Cryptic Request into Native Galileo Request *
                 // ************************************************************ 
-                string strRequest = SetRequest("Galileo_CrypticRQ.xsl");
+                //string strRequest = SetRequest("Galileo_CrypticRQ.xsl");
+                string _request = CrypticMapper.MapRequest(Request);
 
-                if (string.IsNullOrEmpty(strRequest))
+                if (string.IsNullOrEmpty(_request))
                     throw new Exception("Transformation produced empty xml.");                
                 
                 var recordLocator = "";
@@ -131,19 +133,19 @@ namespace Galileo
                 // ******************************************************************************* 
                 try
                 {
-                    strResponse = ttGA.SendCrypticMessage(strRequest, ConversationID);
-                    CoreLib.SendTrace(ProviderSystems.UserID, "Cryptic", "Getting Native Response", strResponse, ProviderSystems.LogUUID);
+                    _response = ttGA.SendCrypticMessage(_request, ConversationID);
+                    CoreLib.SendTrace(ProviderSystems.UserID, "Cryptic", "Getting Native Response", _response, ProviderSystems.LogUUID);
 
-                    if (strResponse.Contains("|Session|Inactive conversation"))
-                        CoreLib.SendTrace(ProviderSystems.UserID, "Cryptic", "Getting Native Second Response", strResponse, ProviderSystems.LogUUID);
+                    if (_response.Contains("|Session|Inactive conversation"))
+                        CoreLib.SendTrace(ProviderSystems.UserID, "Cryptic", "Getting Native Second Response", _response, ProviderSystems.LogUUID);
 
-                    if (strResponse.Contains("NEED RECEIVED FROM"))
+                    if (_response.Contains("NEED RECEIVED FROM"))
                         throw new Exception("NEED RECEIVED FROM");
 
                     // ********************************************************************************
                     // parse the response and create screen with lines                               *
                     // ******************************************************************************** 
-                    strScreen = strResponse.Replace("\r", "\r\n");
+                    strScreen = _response.Replace("\r", "\r\n");
                     strScreen = FormatGalileo(strScreen);
                 }
                 catch (Exception ex)
@@ -159,11 +161,11 @@ namespace Galileo
                 // ********************************************************************************
                 try
                 {
-                    strResponse = $"<CrypticRS><Response>{strResponse.Replace(" & ", " and ")}</Response>{strScreen}</CrypticRS>";
-                    if (inSession)
-                        strResponse = strResponse.Replace("</CrypticRS>", $"<ConversationID>{ConversationID}</ConversationID></CrypticRS>");
-
-                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_CrypticRS.xsl");
+                    //_response = $"<CrypticRS><Response>{_response.Replace(" & ", " and ")}</Response>{strScreen}</CrypticRS>";
+                    //if (inSession)
+                    //    _response = _response.Replace("</CrypticRS>", $"<ConversationID>{ConversationID}</ConversationID></CrypticRS>");
+                    //_response = CoreLib.TransformXML(_response, XslPath, $"{Version}Galileo_CrypticRS.xsl");
+                    _response = CrypticMapper.MapResponse(_response, strScreen, ConversationID);
                 }
                 catch (Exception ex)
                 {
@@ -180,10 +182,10 @@ namespace Galileo
             }
             catch (Exception ex)
             {
-                strResponse = modCore.FormatErrorMessage(modCore.ttServices.Cryptic, ex.Message, ProviderSystems);
+                _response = modCore.FormatErrorMessage(modCore.ttServices.Cryptic, ex.Message, ProviderSystems);
             }
 
-            return strResponse;
+            return _response;
 
         }
 

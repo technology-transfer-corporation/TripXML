@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="CarServices.cs" />
     <Compile Include="Classes\clsMCOClasses.cs" />
+    <Compile Include="Mappers\CrypticMapper.cs" />
     <Compile Include="CruiseServices.cs" />
     <Compile Include="GalileoAdapter.cs">
       <SubType>Code</SubType>
@@ -246,6 +247,9 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="System.Xml.XDocument">
+      <Version>4.3.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
