@@ -258,7 +258,11 @@ namespace TripXMLTools
                 return string.Empty;
 
             if (code.Contains("OPERATED BY"))
+            {
                 code = code.Replace("OPERATED BY ", "");
+                if (code.Contains(" FOR "))
+                    code = code.Substring(0, code.IndexOf(" FOR "));
+            }
 
             if (code.Length.Equals(2))
                 return code;
