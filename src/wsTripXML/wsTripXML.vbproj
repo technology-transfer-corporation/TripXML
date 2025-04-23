@@ -115,7 +115,7 @@
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PaymentServices, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PaymentServices.1.0.26\lib\net48\PaymentServices.dll</HintPath>
+      <HintPath>..\packages\PaymentServices.1.0.27\lib\net48\PaymentServices.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -235,8 +235,8 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="TripXML.Core, Version=1.0.0.5, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TripXML.Core.1.0.12\lib\net48\TripXML.Core.dll</HintPath>
+    <Reference Include="TripXML.Core, Version=1.0.14.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TripXML.Core.1.0.14\lib\net48\TripXML.Core.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -396,8 +396,6 @@
     <Content Include="wsHotelInfo.asmx" />
     <Content Include="wsHotelModify.asmx" />
     <Content Include="wsHotelSearch.asmx" />
-    <Content Include="wsInsuranceBook.asmx" />
-    <Content Include="wsInsuranceQuote.asmx" />
     <Content Include="wsIssueTicket.asmx" />
     <Content Include="wsIssueTicket_v03.asmx" />
     <Content Include="wsLowFare.asmx" />
