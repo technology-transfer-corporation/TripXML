@@ -134,9 +134,9 @@ namespace Sabre
                         //string cryptic = "<SabreCommandLLSRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.0.0\"><Request Output=\"SCREEN\" MDRSubset=\"AD01\" CDATA=\"true\"><HostCommand>*PQS</HostCommand></Request></SabreCommandLLSRQ>";
                         //CoreLib.SendTrace(ProviderSystems.UserID, "SabreCommand", "PQS", "", ProviderSystems.LogUUID);
                         //cryptic = ttSA.SendMessage(cryptic, "SabreCommand", "SabreCommandLLSRQ", ConversationID);
-                        string pricerq = ttSA.SendMessage("<DisplayPriceQuoteRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2.5.1\"><AirItineraryPricingInfo><Summary Ind=\"true\"/></AirItineraryPricingInfo></DisplayPriceQuoteRQ>", "FareType", "DisplayPriceQuoteLLSRQ", ConversationID);
+                        string pricerq = ttSA.SendMessage("<DisplayPriceQuoteRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2.5.2\"><AirItineraryPricingInfo><Summary Ind=\"true\"/></AirItineraryPricingInfo></DisplayPriceQuoteRQ>", "FareType", "DisplayPriceQuoteLLSRQ", ConversationID);
 
-                        string strFaretype = "<DisplayPriceQuoteRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.3.0\"><AirItineraryPricingInfo><Record/></AirItineraryPricingInfo></DisplayPriceQuoteRQ>";
+                        string strFaretype = "<DisplayPriceQuoteRQ xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\" Version=\"2.5.2\"><AirItineraryPricingInfo><Record/></AirItineraryPricingInfo></DisplayPriceQuoteRQ>";
                         CoreLib.SendTrace(ProviderSystems.UserID, "FareType", "PD", strFaretype, ProviderSystems.LogUUID);
                         strFaretype = ttSA.SendMessage(strFaretype, "FareType", "DisplayPriceQuoteLLSRQ", ConversationID);
                         //strResponse = strResponse.Replace(tagToReplace, $"{cryptic}{strFaretype}<TimeStamp>{DateTime.Now.ToString("yyyy-MM-dd")}</TimeStamp>{dqbResponse}{tagToReplace}");
