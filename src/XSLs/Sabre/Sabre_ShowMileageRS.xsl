@@ -11,9 +11,7 @@
 				<xsl:otherwise>
 					<xsl:call-template name="good"/>
 				</xsl:otherwise>
-			</xsl:choose>
-
-		
+			</xsl:choose>		
 	</xsl:template>
 
 	<xsl:template name="good">
@@ -128,7 +126,7 @@
 		<xsl:param name="text" select="."/>
 		<xsl:if test="string-length($text) > 0">
 			<xsl:variable name="output-text">
-				<xsl:value-of select="normalize-space(substring-before(concat($text, '&#xA;'), '&#xA;'))"/>
+				<xsl:value-of select="normalize-space(substring-before(concat($text, '|'), '|'))"/>
 			</xsl:variable>
 			<xsl:choose>
 				<xsl:when test="string-length($output-text) &lt; 63">
@@ -139,7 +137,7 @@
 					</xsl:if>
 
 					<xsl:call-template name="split">
-						<xsl:with-param name="text" select="substring-after($text, '&#xA;')"/>
+						<xsl:with-param name="text" select="substring-after($text, '|')"/>
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
