@@ -65,7 +65,7 @@ Date: 10 Oct 2013  - Rastko - new file
 	</xsl:template>
 	
 	<xsl:template match="AccessQueue">
-		<QueueAccessRQ Version="2.0.2" xmlns="http://webservices.sabre.com/sabreXML/2011/10">
+		<QueueAccessRQ Version="2.1.1" xmlns="http://webservices.sabre.com/sabreXML/2011/10">
 			<QueueIdentifier>
 				<xsl:attribute name="Number"><xsl:value-of select="@Number"/></xsl:attribute>
 				<xsl:if test="@PseudoCityCode != ''">
