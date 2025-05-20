@@ -859,11 +859,14 @@ namespace Sabre
                         }
                     }
                     var supplInfo = oRootResp.SelectSingleNode("TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote[not(contains(MiscInformation/SignatureLine/@Status,'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))]/PricedItinerary/@InputMessage");
+
+                    var addedFlightQualifiers = false;
                     if (supplInfo != null && Regex.IsMatch(supplInfo.InnerText, "WPA(([0-9A-Z][A-Z])|([A-Z][0-9A-Z])).*"))
                     {
                         var valAirline = Regex.Match(supplInfo.InnerText, "WPA(([0-9A-Z][A-Z])|([A-Z][0-9A-Z])).*").Groups[1];
                         strPrice = strPrice.Replace("<OptionalQualifiers>", $"<OptionalQualifiers><FlightQualifiers><VendorPrefs><Airline Code=\"{valAirline}\"/></VendorPrefs></FlightQualifiers>");
                         strPriceCombined = strPriceCombined.Replace("<OptionalQualifiers>", $"<OptionalQualifiers><FlightQualifiers><VendorPrefs><Airline Code=\"{valAirline}\"/></VendorPrefs></FlightQualifiers>");
+                        addedFlightQualifiers = true;
                     }
 
                     if (oRootResp.SelectSingleNode("TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote") is null)
@@ -909,7 +912,7 @@ namespace Sabre
 
                                 strRepriceReq = strRepriceReq.Replace("<NameSelect>NS</NameSelect>", strPassengers);
 
-                                if (!string.IsNullOrEmpty(validatingCarrier))
+                                if (!string.IsNullOrEmpty(validatingCarrier) && !addedFlightQualifiers)
                                     strRepriceReq = AddValidatingCarrier(strRepriceReq, validatingCarrier);
 
                                 var priceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
@@ -942,7 +945,7 @@ namespace Sabre
                             string strPassengers = GetPassangerInfo(strPQS, strPQ);
                             strPrice = strPrice.Replace("<NameSelect>NS</NameSelect>", strPassengers);
 
-                            if (!string.IsNullOrEmpty(validatingCarrier))
+                            if (!string.IsNullOrEmpty(validatingCarrier) && !addedFlightQualifiers)
                                 strPrice = AddValidatingCarrier(strPrice, validatingCarrier);
 
                             strRepriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
@@ -1033,7 +1036,7 @@ namespace Sabre
                                     CoreLib.SendTrace(ProviderSystems.UserID, "strRepriceReq", "strRepriceReq", strRepriceReq, ProviderSystems.LogUUID);
                                 }
 
-                                if (!string.IsNullOrEmpty(validatingCarrier))
+                                if (!string.IsNullOrEmpty(validatingCarrier) && !addedFlightQualifiers)
                                     strRepriceReq = AddValidatingCarrier(strRepriceReq, validatingCarrier);
 
                                 string strPriceResp = string.Empty;
@@ -1144,7 +1147,7 @@ namespace Sabre
 
                                     strRepriceReq = strRepriceReq.Replace("<NameSelect>NS</NameSelect>", strPassengers);
 
-                                    if (!string.IsNullOrEmpty(validatingCarrier))
+                                    if (!string.IsNullOrEmpty(validatingCarrier) && !addedFlightQualifiers)
                                         strRepriceReq = AddValidatingCarrier(strRepriceReq, validatingCarrier);
 
                                     //strRepriceResp += ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
@@ -1199,7 +1202,7 @@ namespace Sabre
                             {
                                 strPrice = strPrice.Replace("<NameSelect>NS</NameSelect>", "").Replace("<Price>", "").Replace("</Price>", "");
 
-                                if (!string.IsNullOrEmpty(validatingCarrier))
+                                if (!string.IsNullOrEmpty(validatingCarrier) && !addedFlightQualifiers)
                                     strPrice = AddValidatingCarrier(strPrice, validatingCarrier);
 
                                 //strRepriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
@@ -1263,7 +1266,7 @@ namespace Sabre
                     {
                         strPriceCombined = strPriceCombined.Replace("<NameSelect>NS</NameSelect>", strPaxCombined);
 
-                        if (!string.IsNullOrEmpty(validatingCarrier))
+                        if (!string.IsNullOrEmpty(validatingCarrier) && !addedFlightQualifiers)
                             strPriceCombined = AddValidatingCarrier(strPriceCombined, validatingCarrier);
 
                         strRepriceResp = ttSA.SendMessage(strPriceCombined, "Price", "OTA_AirPriceLLSRQ", ConversationID);
