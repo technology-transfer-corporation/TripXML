@@ -232,8 +232,8 @@
     <Reference Include="TripXML.Core, Version=1.0.14.5, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\TripXML.Core.1.0.14\lib\net48\TripXML.Core.dll</HintPath>
     </Reference>
-    <Reference Include="PaymentServices, Version=1.0.0.28, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PaymentServices.1.0.28\lib\net48\PaymentServices.dll</HintPath>
+    <Reference Include="PaymentServices, Version=1.0.29.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PaymentServices.1.0.29\lib\net48\PaymentServices.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
