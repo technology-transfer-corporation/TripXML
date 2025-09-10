@@ -15,7 +15,8 @@
   Date: 31 Jan 2014 - Rastko - added designate invoice printer					
   Date: 29 Jan 2014 - Rastko - made all entries but PNRRead optional			
   Date: 24 Jan 2014 - Rastko - redisplay PNR instead of retrieve with record locator		
-  Date: 21 Jan 2014 - Rastko - New file												
+  Date: 21 Jan 2014 - Rastko - New file					
+  Date: 10 Sep 2025 - Riasnenko - upgraded DesignatePrinterRQ	to version 2.0.1									
   ================================================================== 
   -->
   <xsl:output method="xml" omit-xml-declaration="yes"/>
@@ -50,18 +51,11 @@
     </PNRRetrieve>
     <xsl:if test="Ticketing/@DesignatePrinter='true'">
       <DesignatePrinter>
-        <DesignatePrinterRQ Version="1.2.1" xmlns="http://webservices.sabre.com/sabreXML/2003/07">
-          <POS>
-            <Source>
-              <xsl:attribute name="PseudoCityCode">
-                <xsl:value-of select="POS/Source/@PseudoCityCode"/>
-              </xsl:attribute>
-            </Source>
-          </POS>
+        <DesignatePrinterRQ Version="2.0.1" xmlns="http://webservices.sabre.com/sabreXML/2011/10">
           <Printers>
             <xsl:if test="Ticketing/TicketingPrinter!=''">
               <Ticket>
-                <xsl:attribute name="LineAddress">
+                <xsl:attribute name="LNIATA">
                   <xsl:value-of select="Ticketing/TicketingPrinter"/>
                 </xsl:attribute>
                 <xsl:attribute name="CountryCode">
@@ -70,7 +64,7 @@
               </Ticket>
             </xsl:if>
             <xsl:if test="Ticketing/InvoicePrinter!=''">
-              <InvoiceItinerary LineAddress="{Ticketing/InvoicePrinter}"/>
+              <InvoiceItinerary LNIATA="{Ticketing/InvoicePrinter}"/>
             </xsl:if>
           </Printers>
         </DesignatePrinterRQ>
