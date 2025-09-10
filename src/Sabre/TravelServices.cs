@@ -1743,7 +1743,7 @@ namespace Sabre
                     oDocPrinter.LoadXml(strPrinter);
                     oRootPrinter = oDocPrinter.DocumentElement;
                     var nsmgr = new XmlNamespaceManager(oDocPrinter.NameTable);
-                    nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2003/07");
+                    nsmgr.AddNamespace("sx", "http://webservices.sabre.com/sabreXML/2011/10");
                     foreach (XmlNode oNodePrinter in oRootPrinter.SelectNodes("sx:DesignatePrinterRQ", nsmgr))
                         strResponse = ttSA.SendMessage(oNodePrinter.OuterXml, "Air", "DesignatePrinterLLSRQ", ConversationID);
 
