@@ -826,6 +826,10 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
         Public FareCalculation As String
 
         '<remarks/>
+        <System.Xml.Serialization.XmlElementAttribute("FareSource")>
+        Public FareSource As String
+
+        '<remarks/>
         <System.Xml.Serialization.XmlElementAttribute("BSR")>
         Public BSR As String
 

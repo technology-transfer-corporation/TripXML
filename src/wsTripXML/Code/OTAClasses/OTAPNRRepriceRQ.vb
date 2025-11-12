@@ -361,6 +361,9 @@ Namespace wsTravelTalk.wmPNRRepriceIn
         '<remarks/>
         Public Endorsement As String
 
+        '<remarks/>
+        Public CorporateId As String
+
     End Class
 
     '<remarks/>
