@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 31 Oct 2025 - Samokhvalov - FareFamilyCode fixes
   Date: 01 Dec 2023 - Kobelev - Segment Numbers for Tickets.
   Date: 15 Nov 2023 - Samokhvalov - ARNK reworked
   Date: 11 Sep 2023 - Samokhvalov - Taxes added
@@ -4338,7 +4339,8 @@
 			<xsl:choose>
 				<xsl:when test="contains($brID, '$')">
 					<xsl:call-template name="string-trim">
-						<xsl:with-param name="string" select="translate(substring-before($brID, '$'), '$RQ', '')" />
+						<!--<xsl:with-param name="string" select="translate(substring-before($brID, '$'), '$RQ', '')" />-->
+						<xsl:with-param name="string" select="substring-before($brID, '$')" />
 					</xsl:call-template>
 				</xsl:when>
 				<xsl:otherwise>
