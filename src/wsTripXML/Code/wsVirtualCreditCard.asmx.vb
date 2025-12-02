@@ -72,6 +72,9 @@ Namespace wsTravelTalk
                     Case VirtualCardSourceType.ConnexPay
                         responseObj = SendPaymentRequest(ttServiceID, ttCredential, ttProviderSystems, request)
                         strResponse = TripXMLSerializer.Serialize(responseObj)
+                    Case VirtualCardSourceType.Airwallex
+                        responseObj = SendPaymentRequest(ttServiceID, ttCredential, ttProviderSystems, request)
+                        strResponse = TripXMLSerializer.Serialize(responseObj)
                     Case VirtualCardSourceType.USBank
                         Select Case ttCredential.Providers(0).Name.ToLower
                             Case "amadeusws"
