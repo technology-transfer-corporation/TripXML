@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Xml;
 using System.Xml.Linq;
-using TripXMLMain;
-using System.Collections.Generic;
 using System.Xml.Schema;
-using System.Threading;
+using TripXMLMain;
 
 namespace Sabre
 {
@@ -573,7 +574,7 @@ namespace Sabre
                 // Transform Native Sabre PNRCancel Response into OTA Response   *
                 // *****************************************************************                 
                 _response = FinalizeResponse("</OTA_CancelLLSRS>", _response, ttSA, inSession, $"{Version}Sabre_PNRCancelRS.xsl");
-                
+
             }
             catch (Exception ex)
             {
@@ -608,7 +609,7 @@ namespace Sabre
                 var oRoot = oDoc.DocumentElement;
 
                 string _read = oRoot.SelectSingleNode("Read").InnerXml.Replace(" xmlns=\"\"", "");
-                
+
                 if (oRoot.SelectSingleNode("ET") is null)
                     throw new Exception("Request is missing mandatory ET elements.");
 
@@ -662,12 +663,12 @@ namespace Sabre
                     iTry++;
                 }
 
-                if(_response.Contains("CTP EDITS IN PROGRESS....PLEASE WAIT"))
+                if (_response.Contains("CTP EDITS IN PROGRESS....PLEASE WAIT"))
                     _response = SendET(ttSA, "IG");
 
                 if (_response.Contains("*"))
                 {
-                    CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ReadPNR", "", ProviderSystems.LogUUID);                    
+                    CoreLib.SendTrace(ProviderSystems.UserID, "ttSabreService", "ReadPNR", "", ProviderSystems.LogUUID);
                     _response = ttSA.SendMessage(_read, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
                 }
 
@@ -793,8 +794,11 @@ namespace Sabre
                     // strReadResp = strReadResp.Replace("<or:", "<").Replace("</or:", "</").Replace("xsi:type=""or:", "type=""")
 
                     var oDocResp = new XmlDocument();
+
                     oDocResp.LoadXml(strReadResp);
                     var oRootResp = oDocResp.DocumentElement;
+
+                    var corporateFareInfo = GetCorporateFareInfo(oDocResp);
 
                     var validatingCarrier = string.Empty;
                     if (oRootResp.SelectSingleNode("TravelItinerary/ItineraryInfo/ItineraryPricing/PriceQuote[MiscInformation/SignatureLine/@Status='ACTIVE']") != null)
@@ -915,6 +919,11 @@ namespace Sabre
                                 if (!string.IsNullOrEmpty(validatingCarrier) && !addedFlightQualifiers)
                                     strRepriceReq = AddValidatingCarrier(strRepriceReq, validatingCarrier);
 
+                                if (corporateFareInfo.Item1 != CorporateFareType.None)
+                                {
+                                    strRepriceReq = AddCorporateFareInfo(strRepriceReq, corporateFareInfo);
+                                }
+
                                 var priceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                                 if (priceResp.Contains("FORMAT FARE BASIS NOT AVAILABLE") || priceResp.Contains("FARE BASIS NOT AVAIL"))
                                 {
@@ -947,6 +956,12 @@ namespace Sabre
 
                             if (!string.IsNullOrEmpty(validatingCarrier) && !addedFlightQualifiers)
                                 strPrice = AddValidatingCarrier(strPrice, validatingCarrier);
+
+
+                            if (corporateFareInfo.Item1 != CorporateFareType.None)
+                            {
+                                strPrice = AddCorporateFareInfo(strPrice, corporateFareInfo);
+                            }
 
                             strRepriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                         }
@@ -1054,6 +1069,11 @@ namespace Sabre
                                     //    strPrice = strPrice.Replace($"PlusUp Amount=\"{amount}", $"PlusUp Amount=\"{conAmount:#0.00}");
                                     //}
 
+                                    if (corporateFareInfo.Item1 != CorporateFareType.None)
+                                    {
+                                        strRepriceReq = AddCorporateFareInfo(strRepriceReq, corporateFareInfo);
+                                    }
+
                                     strPriceResp = ttSA.SendMessage(savePrice ? strRepriceReq : strRepriceReq.Replace("Retain=\"true\"", "Retain=\"false\""), "Price", "OTA_AirPriceLLSRQ", ConversationID);
                                     if (strPriceResp.Contains("FORMAT FARE BASIS NOT AVAILABLE") || strPriceResp.Contains("FARE BASIS NOT AVAIL"))
                                     {
@@ -1155,6 +1175,11 @@ namespace Sabre
                                     var tryCount = 2;
                                     do
                                     {
+                                        if (corporateFareInfo.Item1 != CorporateFareType.None)
+                                        {
+                                            strRepriceReq = AddCorporateFareInfo(strRepriceReq, corporateFareInfo);
+                                        }
+
                                         strPriceResp = ttSA.SendMessage(strRepriceReq, "Price", "OTA_AirPriceLLSRQ", ConversationID);
 
                                         if (!bsr.Equals(1M))
@@ -1211,6 +1236,12 @@ namespace Sabre
                                 var savePrice = bsr.Equals(1M);
                                 do
                                 {
+
+                                    if (corporateFareInfo.Item1 != CorporateFareType.None)
+                                    {
+                                        strPrice = AddCorporateFareInfo(strPrice, corporateFareInfo);
+                                    }
+
                                     strPriceResp = ttSA.SendMessage(strPrice, "Price", "OTA_AirPriceLLSRQ", ConversationID);
 
                                     if (!bsr.Equals(1M))
@@ -1268,6 +1299,11 @@ namespace Sabre
 
                         if (!string.IsNullOrEmpty(validatingCarrier) && !addedFlightQualifiers)
                             strPriceCombined = AddValidatingCarrier(strPriceCombined, validatingCarrier);
+
+                        if (corporateFareInfo.Item1 != CorporateFareType.None)
+                        {
+                            strPriceCombined = AddCorporateFareInfo(strPriceCombined, corporateFareInfo);
+                        }
 
                         strRepriceResp = ttSA.SendMessage(strPriceCombined, "Price", "OTA_AirPriceLLSRQ", ConversationID);
                         strRepriceResp = strRepriceResp.Replace("<OTA_AirPriceRS Version=\"2.17.0\">", "").Replace("</OTA_AirPriceRS>", "");
@@ -1930,5 +1966,101 @@ namespace Sabre
                 return "";
             }
         }
+
+        private (CorporateFareType, string) GetCorporateFareInfo(XmlDocument doc)
+        {
+            XmlNode node = doc.DocumentElement.SelectSingleNode("//NetTicketingInfo");
+            if (node != null)
+            {
+                string accountCode = node.Attributes["AccountCode"]?.Value;
+                string corporateId = node.Attributes["CorporateId"]?.Value;
+
+                if (!string.IsNullOrEmpty(accountCode))
+                {
+                    return (CorporateFareType.AccountCode, accountCode);
+                }
+                else if (!string.IsNullOrEmpty(corporateId))
+                {
+                    return (CorporateFareType.CorporateId, corporateId);
+                }
+            }
+
+            return (CorporateFareType.None, string.Empty);
+        }
+
+        private string AddCorporateFareInfo(string request, (CorporateFareType, string) info)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(request);
+
+            var nsm = new XmlNamespaceManager(doc.NameTable);
+            nsm.AddNamespace("ns", "http://webservices.sabre.com/sabreXML/2011/10");
+
+            XmlNode pricingQualifiers = doc.SelectSingleNode("//ns:PricingQualifiers", nsm);
+            if (pricingQualifiers == null)
+                return request;
+
+            string nsUri = "http://webservices.sabre.com/sabreXML/2011/10";
+
+            if (info.Item1 == CorporateFareType.AccountCode)
+            {
+                XmlElement account = doc.CreateElement("Account", nsUri);
+                account.SetAttribute("Force", "true");
+
+                XmlElement code = doc.CreateElement("Code", nsUri);
+                code.InnerText = info.Item2;
+                account.AppendChild(code);
+
+                // INSERT BEFORE FIRST CHILD
+                pricingQualifiers.InsertBefore(account, pricingQualifiers.FirstChild);
+
+                return doc.OuterXml;
+            }
+
+            if (info.Item1 == CorporateFareType.CorporateId)
+            {
+                XmlElement corporate = doc.CreateElement("Corporate", nsUri);
+                corporate.SetAttribute("Force", "true");
+
+                XmlElement id = doc.CreateElement("ID", nsUri);
+                id.InnerText = info.Item2;
+                corporate.AppendChild(id);
+
+                string[] orderBeforeCorporate =
+                {
+                    "Account", "AlternativePricing", "BankersSellingRate", "BargainFinder",
+                    "BasicEconomyExclude", "Brand", "BuyingDate", "Cabin",
+                    "CommandPricing", "CommissionContract"
+                };
+
+                XmlNode insertAfter = null;
+
+                foreach (XmlNode node in pricingQualifiers.ChildNodes)
+                {
+                    if (orderBeforeCorporate.Contains(node.LocalName))
+                        insertAfter = node;
+                }
+
+                if (insertAfter != null)
+                {
+                    pricingQualifiers.InsertAfter(corporate, insertAfter);
+                }
+                else
+                {
+                    pricingQualifiers.InsertBefore(corporate, pricingQualifiers.FirstChild);
+                }
+
+                return doc.OuterXml;
+            }
+
+            return request;
+        }
+    }
+
+        public enum CorporateFareType
+    {
+        None,
+        CorporateId,
+        AccountCode
     }
 }
