@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Xml;
-using TripXMLMain;
-using System.Text;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Xml.Linq;
-using static TripXMLMain.modCore.enAmadeusWSSchema;
-using WebSocketSharp;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Web.UI.WebControls;
+using System.Xml;
+using System.Xml.Linq;
+using TripXMLMain;
+using WebSocketSharp;
+using static TripXMLMain.modCore.enAmadeusWSSchema;
 
 namespace AmadeusWS
 {
@@ -1398,6 +1399,9 @@ namespace AmadeusWS
                                 GetPricingOptionsTST += tstPricingOption;
                             }
                     }
+
+                    var isCorporateFare = IsCorporateFare(GetPricingOptionsTST, out var pricingOptionsGroup, out var corporateId);
+
                     #endregion
 
                     XmlDocument oDocStored;
@@ -1429,7 +1433,10 @@ namespace AmadeusWS
                             {
                                 strFareType = "";
 
-                                if (oRootReq.SelectSingleNode("StoredFare").SelectSingleNode("@FareType") != null)
+                                if (isCorporateFare)
+                                {
+                                    strFareType = $"/R,U*{corporateId}";
+                                } else if (oRootReq.SelectSingleNode("StoredFare").SelectSingleNode("@FareType") != null)
                                 {
                                     if (oRootReq.SelectSingleNode("StoredFare").SelectSingleNode("@FareType").InnerXml == "Private")
                                         strFareType = "/R,U";
@@ -1758,9 +1765,22 @@ namespace AmadeusWS
                                 var excludeFFopts = false;
                                 foreach (var xmlFareFamily in sXmlFareFamily)
                                 {
+                                    string strRepriceRQ = string.Empty;
                                     var respReprice = string.Empty;
                                     //TODO: Recheck duplicated command
-                                    string strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{(excludeFFopts ? "" : xmlFareFamily)}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{(xmlFareFamily.Contains($">{strFareType}<") ? "" : $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>")}{strZap}</Fare_PricePNRWithBookingClass>";
+                                    if(isCorporateFare)
+                                    {
+                                        strRepriceRQ = $"<Fare_PricePNRWithBookingClass>" +
+                                            $"{(excludeFFopts ? "" : xmlFareFamily)}" +
+                                            $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>" +
+                                            $"{pricingOptionsGroup}{strZap}" +
+                                            $"</Fare_PricePNRWithBookingClass>";
+                                    }
+                                    else
+                                    {
+                                        strRepriceRQ = $"<Fare_PricePNRWithBookingClass>{(excludeFFopts ? "" : xmlFareFamily)}<pricingOptionGroup><pricingOptionKey><pricingOptionKey>RLO</pricingOptionKey></pricingOptionKey></pricingOptionGroup>{(xmlFareFamily.Contains($">{strFareType}<") ? "" : $"<pricingOptionGroup><pricingOptionKey><pricingOptionKey>{strFareType}</pricingOptionKey></pricingOptionKey></pricingOptionGroup>")}{strZap}</Fare_PricePNRWithBookingClass>";
+                                    }
+
                                     if (!strPriceRq.Equals(strRepriceRQ))
                                     {
                                         strPriceRq = strRepriceRQ;
@@ -3268,5 +3288,31 @@ namespace AmadeusWS
             return strResponse;
         }
 
+        private bool IsCorporateFare(string pricingOptions, out string pricingOptionsGroup, out string corporateId)
+        {
+            var doc = XDocument.Parse(pricingOptions);
+            corporateId = string.Empty;
+
+            var rwGroup = doc
+                .Descendants("pricingOptionsGroup")
+                .FirstOrDefault(g =>
+                    (string)g.Element("pricingOptionKey")
+                            ?.Element("pricingOptionKey") == "RW");
+
+            if (rwGroup != null)
+            {
+                corporateId = rwGroup.Element("optionDetail")
+                   ?.Element("criteriaDetails")
+                   ?.Element("attributeType")
+                   ?.Value;
+
+                pricingOptionsGroup = rwGroup.ToString().Replace("pricingOptionsGroup", "pricingOptionGroup");
+                
+                return true;
+            }
+
+            pricingOptionsGroup = string.Empty;
+            return false;
+        }
     }
 }
