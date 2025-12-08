@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 08 Dec 2025 - Riasnenko - Added Corporate Fare 
   Date: 31 Oct 2025 - Samokhvalov - FareFamilyCode fixes
   Date: 01 Dec 2023 - Kobelev - Segment Numbers for Tickets.
   Date: 15 Nov 2023 - Samokhvalov - ARNK reworked
@@ -4325,6 +4326,16 @@
 					<SupplementalInfo>
 						<xsl:value-of select="../@InputMessage"/>
 					</SupplementalInfo>
+				</xsl:if>
+				<xsl:if test="../../PricedItinerary/NetTicketingInfo">
+					<CorporateFareInfo>
+						<xsl:attribute name="CorporateId">
+							<xsl:value-of select="../../PricedItinerary/NetTicketingInfo/@CorporateId"/>
+						</xsl:attribute>
+						<xsl:attribute name="AccountCode">
+							<xsl:value-of select="../../PricedItinerary/NetTicketingInfo/@AccountCode"/>
+						</xsl:attribute>
+					</CorporateFareInfo>
 				</xsl:if>
 			</TPA_Extensions>
 		</PTC_FareBreakdown>

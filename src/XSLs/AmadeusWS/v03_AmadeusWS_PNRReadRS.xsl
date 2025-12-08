@@ -4,6 +4,7 @@
    ================================================================== 
    v03_AmadeusWS_PNRReadRS.xsl 												       
    ================================================================== 
+   Date: 08 Dec 2025 - Riasnenko - Added Corporate Fare 
    Date: 30 Jul 2023 - Kobelev - Setting up a PrimaryLangID tag withinformation frm the Header Object.
    Date: 16 Aug 2023 - Samokhvalov - Added Indicator to AgencyCommission(FM-line).
    Date: 15 Jun 2023 - Kobelev - Calling for Ticket Image for Manual Electronic tickets.
@@ -1321,6 +1322,16 @@
 					<SupplementalInfo>
 						<xsl:value-of select="$priceOpt"/>
 					</SupplementalInfo>
+				</xsl:if>
+
+				<xsl:variable name="rwGroup" select="../../Ticket_GetPricingOptionsReply/documentInformation/pricingOptionsGroup[pricingOptionKey/pricingOptionKey='RW']"/>
+
+				<xsl:if test="$rwGroup">
+					<CorporateFareInfo>
+						<xsl:attribute name="CorporateId">
+							<xsl:value-of select="$rwGroup/optionDetail/criteriaDetails/attributeType"/>
+						</xsl:attribute>
+					</CorporateFareInfo>
 				</xsl:if>
 
 			</TPA_Extensions>
