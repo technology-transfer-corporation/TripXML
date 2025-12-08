@@ -1,9 +1,10 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:stl="http://services.sabre.com/STL/v01"
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:ext="http://exslt.org/common" exclude-result-prefixes="ext">
-<!-- 
+	<!-- 
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 05 Dec 2025 - Samokhvalov - FormOfPayment-MCO fixes
   Date: 31 Oct 2025 - Samokhvalov - FareFamilyCode fixes
   Date: 01 Dec 2023 - Kobelev - Segment Numbers for Tickets.
   Date: 15 Nov 2023 - Samokhvalov - ARNK reworked
@@ -1512,10 +1513,10 @@
 										<xsl:variable name="from" select="substring($cityPair, 1, 3)" />
 										<xsl:variable name="to" select="substring($cityPair, 4, 3)" />
 										<xsl:variable name="flightNum" select="format-number(//ItineraryInfo/ReservationItems/Item[FlightSegment/OriginLocation/@LocationCode=$from and FlightSegment/DestinationLocation/@LocationCode=$to]/FlightSegment/@FlightNumber, '#0')" />
-										
+
 										<xsl:variable name="flightSeg" select="format-number(//ItineraryInfo/ReservationItems/Item[FlightSegment/OriginLocation/@LocationCode=$from and FlightSegment/DestinationLocation/@LocationCode=$to]/FlightSegment/@SegmentNumber, '#0')" />
 
-<!--
+										<!--
     <xsl:variable name="fltRPH" select="//ItineraryInfo/ReservationItems/Item[FlightSegment/OriginLocation/@LocationCode=$from and FlightSegment/DestinationLocation/@LocationCode=$to]/@RPH" />
     <xsl:variable name="fltRPH" select="format-number(//FareFamily/PriceQuoteInfo/Details/SegmentInfo[Flight/Departure/CityCode=$from and Flight/MarketingFlight/@number=$flightNum]/@number, '#0')"/>
 -->
@@ -1541,7 +1542,7 @@
 												<xsl:value-of select="format-number(@SegmentNumber,'#0')"/>
 											</xsl:when>
 										</xsl:choose>
-<!--
+										<!--
 <xsl:variable name="fltRPH" select="format-number(//DisplayPriceQuoteRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/FlightSegment[OriginLocation/@LocationCode=$from and @FlightNumber=$flightNum]/@RPH, '#0')"/>
 -->
 										<xsl:text> </xsl:text>
@@ -4990,11 +4991,16 @@
 					<xsl:value-of select="@RPH"/>
 				</xsl:attribute>
 
+				<xsl:variable name="tkn">
+					<xsl:value-of select="$accMCO[TicketingInfo/OriginalTicketNumber]/TicketingInfo/OriginalTicketNumber"/>
+				</xsl:variable>
+				
 				<xsl:if test="count($accMCO) > 0">
-					<xsl:if test="$accMCO[Airline/@Code='XD']">
-						<xsl:apply-templates select="$accMCO[Airline/@Code='XD']" mode="mco">
-						</xsl:apply-templates>
-					</xsl:if>
+					<xsl:apply-templates select="$accMCO[DocumentInfo/Document[@Number=substring($tkn,4)] or 
+											 substring(DocumentInfo/Document[@Number=substring($tkn,4)],1,3)=890 or
+										     Airline/@Code='XD']" mode="mco">
+					</xsl:apply-templates>
+
 				</xsl:if>
 
 				<xsl:choose>
@@ -5024,7 +5030,7 @@
 												</xsl:when>
 												<xsl:otherwise>
 													<xsl:value-of select="substring(translate(substring-before(Text, '?'), 'X',''), string-length(translate(substring-before(Text, '?'), 'X','')) - 3)"/>
-											</xsl:otherwise>
+												</xsl:otherwise>
 											</xsl:choose>
 										</xsl:variable>
 										<xsl:choose>
