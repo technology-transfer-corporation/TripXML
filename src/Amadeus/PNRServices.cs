@@ -3316,12 +3316,14 @@ namespace AmadeusWS
 
                 pricingOptionsGroup = string.Empty;
                 return false;
-            } catch
+            }
+            catch
             {
                 pricingOptionsGroup = string.Empty;
                 corporateId = string.Empty;
                 return false;
 
             }
+        }
     }
 }
