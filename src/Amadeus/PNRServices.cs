@@ -3290,29 +3290,38 @@ namespace AmadeusWS
 
         private bool IsCorporateFare(string pricingOptions, out string pricingOptionsGroup, out string corporateId)
         {
-            var doc = XDocument.Parse(pricingOptions);
-            corporateId = string.Empty;
 
-            var rwGroup = doc
-                .Descendants("pricingOptionsGroup")
-                .FirstOrDefault(g =>
-                    (string)g.Element("pricingOptionKey")
-                            ?.Element("pricingOptionKey") == "RW");
-
-            if (rwGroup != null)
+            try
             {
-                corporateId = rwGroup.Element("optionDetail")
-                   ?.Element("criteriaDetails")
-                   ?.Element("attributeType")
-                   ?.Value;
+                var doc = XDocument.Parse($"<root>{pricingOptions}</root>");
+                corporateId = string.Empty;
 
-                pricingOptionsGroup = rwGroup.ToString().Replace("pricingOptionsGroup", "pricingOptionGroup");
-                
-                return true;
+                var rwGroup = doc
+                    .Descendants("pricingOptionsGroup")
+                    .FirstOrDefault(g =>
+                        (string)g.Element("pricingOptionKey")
+                                ?.Element("pricingOptionKey") == "RW");
+
+                if (rwGroup != null)
+                {
+                    corporateId = rwGroup.Element("optionDetail")
+                       ?.Element("criteriaDetails")
+                       ?.Element("attributeType")
+                       ?.Value;
+
+                    pricingOptionsGroup = rwGroup.ToString().Replace("pricingOptionsGroup", "pricingOptionGroup");
+
+                    return true;
+                }
+
+                pricingOptionsGroup = string.Empty;
+                return false;
+            } catch
+            {
+                pricingOptionsGroup = string.Empty;
+                corporateId = string.Empty;
+                return false;
+
             }
-
-            pricingOptionsGroup = string.Empty;
-            return false;
-        }
     }
 }
