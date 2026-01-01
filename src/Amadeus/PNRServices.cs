@@ -299,7 +299,7 @@ namespace AmadeusWS
 
                 //CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response size", strResponse.Length.ToString(CultureInfo.InvariantCulture), ttProviderSystems.LogUUID);
                 CoreLib.SendTrace(ttProviderSystems.UserID, "PNRRead", "Final response", strResponse, ttProviderSystems.LogUUID);
-                
+
                 // check if fare rule requested to be returned
                 if (Request.Contains("ReturnRules=\"true\""))
                 {
@@ -339,7 +339,7 @@ namespace AmadeusWS
                 strResponse = ConvertToTripXMLMessage(ttAA, Request, inSession, strResponse);
                 try
                 {
-                    
+
 
                     DateTime responseTime = DateTime.Now;
                     String strMeessege = sbNativeLog.ToString();
@@ -1436,7 +1436,8 @@ namespace AmadeusWS
                                 if (isCorporateFare)
                                 {
                                     strFareType = $"/R,U*{corporateId}";
-                                } else if (oRootReq.SelectSingleNode("StoredFare").SelectSingleNode("@FareType") != null)
+                                }
+                                else if (oRootReq.SelectSingleNode("StoredFare").SelectSingleNode("@FareType") != null)
                                 {
                                     if (oRootReq.SelectSingleNode("StoredFare").SelectSingleNode("@FareType").InnerXml == "Private")
                                         strFareType = "/R,U";
@@ -1768,7 +1769,7 @@ namespace AmadeusWS
                                     string strRepriceRQ = string.Empty;
                                     var respReprice = string.Empty;
                                     //TODO: Recheck duplicated command
-                                    if(isCorporateFare)
+                                    if (isCorporateFare)
                                     {
                                         strRepriceRQ = $"<Fare_PricePNRWithBookingClass>" +
                                             $"{(excludeFFopts ? "" : xmlFareFamily)}" +
@@ -2397,7 +2398,7 @@ namespace AmadeusWS
             return _response;
         }
 
-        
+
         private string FilterPricePNRWithBookingClassResponseByPax(string response, string request, bool skipFFopts)
         {
             if (string.IsNullOrEmpty(request))
@@ -3136,7 +3137,7 @@ namespace AmadeusWS
                 response = ConvertToTripXMLMessage(ttAA, strRequest, inSession, response, strResponseTST);
                 if (!string.IsNullOrEmpty(warning))
                     response = response.Replace("<Success />", $"<Success />{warning}");
-                
+
             }
             catch (Exception exx)
             {
@@ -3307,7 +3308,7 @@ namespace AmadeusWS
                    ?.Value;
 
                 pricingOptionsGroup = rwGroup.ToString().Replace("pricingOptionsGroup", "pricingOptionGroup");
-                
+
                 return true;
             }
 
