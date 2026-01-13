@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 13 Jan 2026 - Riasnenko - Fixed CustomerInfo/PersonName templates
   Date: 08 Dec 2025 - Riasnenko - Added Corporate Fare 
   Date: 31 Oct 2025 - Samokhvalov - FareFamilyCode fixes
   Date: 01 Dec 2023 - Kobelev - Segment Numbers for Tickets.
@@ -389,7 +390,7 @@
 				<xsl:value-of select="../SabreCommandLLSRS/Response"/>
 			</xsl:variable>-->
 
-			<xsl:apply-templates select="CustomerInfo//PersonName">
+			<xsl:apply-templates select="CustomerInfo/PersonName">
 				<xsl:with-param name="pd">
 					<xsl:value-of select="$pd"/>
 				</xsl:with-param>
