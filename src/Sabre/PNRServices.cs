@@ -790,6 +790,20 @@ namespace Sabre
                 try
                 {
                     var strReadResp = ttSA.SendMessage(strRequest, "TravelItineraryReadRQ", "TravelItineraryReadRQ", ConversationID);
+
+                    /*****************************************************************
+                    * AK: FareQualifier.PRC should be used for Published Fares in Sabre
+                    * https://github.com/Downtown-Travel-TT/TicketingRobot/issues/383
+                    ******************************************************************/
+                    bool isPublishedFareRequest = oRoot.SelectSingleNode("//StoredFare[@FareQualifier='PRC']") != null;
+                    if (isPublishedFareRequest)
+                    {
+                        return GetPublishedFarePrices(oDoc, ttSA, strPQS, strReadResp);
+                    }
+
+                    // *******************************************************************************
+                    // Send Transformed Request to the Sabre Adapter and Getting Native Response  *
+                    // ******************************************************************************* 
                     strReadResp = strReadResp.Replace(" xmlns=\"http://webservices.sabre.com/sabreXML/2011/10\"", "").Replace(" Version=\"2.17.0\"", "");
                     // strReadResp = strReadResp.Replace("<or:", "<").Replace("</or:", "</").Replace("xsi:type=""or:", "type=""")
 
@@ -2055,9 +2069,166 @@ namespace Sabre
 
             return request;
         }
+
+        private string GetPublishedFarePrices(XmlDocument document, SabreAdapter ttSA, string pqsRequest, string itineraryRead)
+        {
+            var requestDatas = new List<PublishedFareRequestData>();
+
+            var storedFares = document.SelectNodes("//StoredFare");
+            if (storedFares == null)
+            {
+                throw new Exception("Stored fare not found in request.");
+            }
+
+            foreach (XmlNode sf in storedFares)
+            {
+                var rph = sf.Attributes?["RPH"]?.Value ?? string.Empty;
+                var passengerType = sf.SelectSingleNode("PassengerType");
+                var quantity = passengerType?.Attributes?["Quantity"]?.Value ?? string.Empty;
+                var code = passengerType?.Attributes?["Code"]?.Value ?? string.Empty;
+
+                code = code == "CHD" ? "CNN" : code;
+
+                var airSegmentNodes = sf.SelectNodes(".//AirSegments");
+                var airSegments = new List<string>();
+
+                if (airSegmentNodes != null)
+                {
+                    foreach (XmlNode node in airSegmentNodes)
+                    {
+                        var value = node?.Attributes?["RPH"]?.Value?.Trim();
+                        if (!string.IsNullOrEmpty(value))
+                        {
+                            airSegments.Add(value);
+                        }
+                    }
+                }
+
+                var fareFamilies = new List<(string, string)>();
+                var fareFamilyNodes = sf.SelectNodes(".//FareFamily");
+                if (fareFamilyNodes != null)
+                {
+                    foreach (XmlNode node in fareFamilyNodes)
+                    {
+                        var value = node.InnerText?.Trim();
+                        var rphFF = node?.Attributes?["RPH"]?.Value?.Trim();
+                        if (!string.IsNullOrEmpty(value))
+                        {
+                            fareFamilies.Add((rphFF, value));
+                        }
+                    }
+                }
+
+                requestDatas.Add(new PublishedFareRequestData(rph, quantity, code, airSegments, fareFamilies));
+            }
+
+            var pqsLines = GetPQS(ttSA, pqsRequest);
+
+            var regex = new Regex(@"\*(?<val>\d+\.\d+)\*+?(?<key>\d+)\*\*");
+
+            var dict = regex.Matches(pqsLines)
+                .Cast<Match>()
+                .GroupBy(m => m.Groups["key"].Value)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(m => m.Groups["val"].Value).ToList()
+                );
+
+            var strRepriceResp = new StringBuilder();
+
+            foreach (var fareData in requestDatas)
+            {
+                fareData.SetNameSelects(dict);
+
+                var airPriceRequest = BuildAirPriceRequest(fareData);
+
+                var priceResp = ttSA.SendMessage(airPriceRequest, "Price", "OTA_AirPriceLLSRQ", ConversationID);
+
+                priceResp = priceResp.Replace("<OTA_AirPriceRS Version=\"2.17.0\">", "").Replace("</OTA_AirPriceRS>", "");
+                strRepriceResp.Append(priceResp);
+            }
+
+            var strResponse = !strRepriceResp.ToString().Contains("<OTA_AirPriceRS")
+                ? itineraryRead.Replace("</TravelItineraryReadRS>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS></TravelItineraryReadRS>")
+                : itineraryRead.Replace("</TravelItineraryReadRS>", $"{strRepriceResp}</TravelItineraryReadRS>");
+
+            strResponse = strResponse.Replace("</TravelItineraryReadRS>", $"<ConversationID><![CDATA[{ConversationID.Replace("<", "&lt;").Replace(">", "&gt;")}]]></ConversationID></TravelItineraryReadRS>");
+            CoreLib.SendTrace(ProviderSystems.UserID, "PNRReprice", "Final response", strResponse, ProviderSystems.LogUUID);
+            return CoreLib.TransformXML(strResponse, XslPath, $"{Version}Sabre_PNRRepriceRS.xsl");
+        }
+
+        private string BuildAirPriceRequest(PublishedFareRequestData data)
+        {
+            var doc = new XmlDocument();
+            var ns = "http://webservices.sabre.com/sabreXML/2011/10";
+
+            var pricing = doc.AddElement("OTA_AirPriceRQ", ns)
+                .WithAttribute("Version", "2.17.0")
+                .AddElement("PriceRequestInformation", ns).WithAttribute("Retain", "false")
+                .AddElement("OptionalQualifiers", ns)
+                .AddElement("PricingQualifiers", ns);
+
+            if(data.AirSegments.Count > 0)
+            {
+                pricing.AddElements(data.Brands, "Brand", ns, (el, brand) =>
+                    el.WithAttribute("RPH", brand.Item1).WithText(brand.Item2));
+            }
+
+            pricing.AddElement("FareOptions", ns).WithAttribute("Public", "true");
+
+            if(data.AirSegments.Count > 0 && data.Brands.Count > 0)
+            {
+                pricing.AddElement("ItineraryOptions", ns)
+                    .AddElements(data.AirSegments, "SegmentSelect", ns, (el, segment) =>
+                        el.WithAttribute("Number", segment).WithAttribute("RPH", segment));
+            }
+
+            pricing.AddElements(data.NameSelectList, "NameSelect", ns, (el, name) =>
+                el.WithAttribute("NameNumber", name));
+
+            pricing.AddElement("PassengerType", ns)
+                .WithAttribute("Quantity", data.Quantity)
+                .WithAttribute("Code", data.Code);
+
+            return doc.OuterXml;
+        }
     }
 
-        public enum CorporateFareType
+
+        class PublishedFareRequestData
+    {
+        public PublishedFareRequestData(
+            string rph,
+            string quantity,
+            string code,
+            List<string> airSegments,
+            List<(string, string)> brands
+            )
+        {
+            RPH = rph;
+            Quantity = quantity;
+            Code = code;
+            AirSegments = airSegments;
+            Brands = brands;
+        }
+        public string RPH { get; set; }
+        public string Quantity { get; set; }
+        public string Code { get; set; }
+
+        public List<string> NameSelectList { get; set; } = new List<string>();
+        public List<string> AirSegments { get; set; } = new List<string>();
+        public List<(string, string)> Brands { get; set; } = new List<(string, string)>();
+
+        public void SetNameSelects(Dictionary<string, List<string>> dist)
+        {
+            if (dist.TryGetValue(RPH, out var list))
+            {
+                NameSelectList = list;
+            }
+        }
+    }
+
+    public enum CorporateFareType
     {
         None,
         CorporateId,
