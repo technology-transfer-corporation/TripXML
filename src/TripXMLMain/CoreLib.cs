@@ -545,4 +545,44 @@ namespace TripXMLMain
             }
         }
     }
+
+    public static class XmlExtensions
+    {
+        public static XmlElement AddElement(this XmlNode parent, string name, string namespaceUri = null)
+        {
+            var doc = parent.OwnerDocument ?? (XmlDocument)parent;
+            var element = string.IsNullOrEmpty(namespaceUri)
+                ? doc.CreateElement(name)
+                : doc.CreateElement(name, namespaceUri);
+            parent.AppendChild(element);
+            return element;
+        }
+
+        public static XmlElement WithAttribute(this XmlElement element, string name, string value)
+        {
+            element.SetAttribute(name, value);
+            return element;
+        }
+
+        public static XmlElement WithText(this XmlElement element, string text)
+        {
+            element.InnerText = text;
+            return element;
+        }
+
+        public static XmlElement AddElements<T>(
+            this XmlElement parent,
+            IEnumerable<T> items,
+            string elementName,
+            string namespaceUri,
+            Action<XmlElement, T> configure)
+        {
+            foreach (var item in items)
+            {
+                var element = parent.AddElement(elementName, namespaceUri);
+                configure(element, item);
+            }
+            return parent;
+        }
+    }
 }
