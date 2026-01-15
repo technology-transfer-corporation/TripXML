@@ -61,7 +61,7 @@ Namespace wsTravelTalk
 #Region " Process Service Request All GDS "
         Private sb As StringBuilder = New StringBuilder()
 
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
+        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As ttServices) As String
             Dim strResponse As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
@@ -74,7 +74,7 @@ Namespace wsTravelTalk
                 strRequest = strRequest.Replace(" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema""", "")
                 strRequest = strRequest.Replace(" xmlns=""http://tripxml.downtowntravel.com/tripxml/wsQueue""", "")
                 PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, startTime, ttServiceID, Server.MachineName, UUID)
-                validateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
+                validateXSDOut = CBool(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()))
                 sb.Remove(0, sb.Length())
 
                 Select Case ttCredential.Providers(0).Name.ToLower

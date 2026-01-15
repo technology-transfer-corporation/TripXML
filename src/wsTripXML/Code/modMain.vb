@@ -1,10 +1,11 @@
-Imports System.Xml
 Imports System.Linq
-Imports TripXMLMain
-Imports System.Threading
 Imports System.Net
-Imports TripXMLMain.modCore
+Imports System.Threading
+Imports System.Xml
 Imports PaymentServices
+Imports TripXML.Core.Models.Base
+Imports TripXMLMain
+Imports TripXMLMain.modCore
 
 
 Namespace wsTravelTalk
@@ -53,7 +54,7 @@ Namespace wsTravelTalk
                     'startCounter = Now
                     oLog = New cLog
                     With ttCredential
-                        oLog.LogResponse(UUID, ServerName, .RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, strResp, StartTime)
+                        oLog.LogResponse(UUID, ServerName, TravelTalkCredential.RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, strResp, StartTime)
                         sb.Remove(0, sb.Length())
                     End With
                 End If
@@ -91,9 +92,9 @@ Namespace wsTravelTalk
                     ttCredential = GetTravelTalkCredential(strRequest, ttServiceID)
                 End If
 
-                oDoc = oApp.Get("ttACL")
+                oDoc = CType(oApp.Get("ttACL"), XmlDocument)
                 'validateXSDIn = oApp.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("In").ToString())
-                validateXSDIn = oApp.Get($"XSD{ttCredential.UserID}In")
+                validateXSDIn = CBool(oApp.Get($"XSD{ttCredential.UserID}In"))
 
                 ' SQL Message Log
                 Try
@@ -101,7 +102,7 @@ Namespace wsTravelTalk
                         oLog = New cLog
                         With ttCredential
                             'sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString()
-                            UUID = oLog.LogRequest(ServerName, .RequestorID, .UserID, $"{ .Providers(0).Name } { .System }", ttServiceID, strRequest, StartTime)
+                            UUID = oLog.LogRequest(ServerName, TravelTalkCredential.RequestorID, .UserID, $"{ .Providers(0).Name } { .System }", ttServiceID, strRequest, StartTime)
                         End With
                     End If
                     logged = True
@@ -160,7 +161,7 @@ Namespace wsTravelTalk
 
                     If Not UUID Is Nothing Then
                         With ttCredential
-                            LogMessageToFile(enLogType.Request, UUID, ServerName, .RequestorID, .UserID, $"{ .Providers(0).Name} { .System}", ttServiceID, strRequest, StartTime, 0, ex.Message)
+                            LogMessageToFile(enLogType.Request, UUID, ServerName, TravelTalkCredential.RequestorID, .UserID, $"{ .Providers(0).Name} { .System}", ttServiceID, strRequest, StartTime, 0, ex.Message)
                         End With
                     End If
                 End If
@@ -183,13 +184,13 @@ Namespace wsTravelTalk
             Try
                 ttCredential = GetTravelTalkCredential(strRequest, ttServiceID)
 
-                oDoc = oApp.Get("ttACL")
+                oDoc = CType(oApp.Get("ttACL"), XmlDocument)
                 'If oDoc Is Nothing Then
                 '    Throw New Exception("Failed to find ttACL")
                 'End If
 
                 'validateXSDIn = oApp.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("In").ToString())
-                validateXSDIn = oApp.Get($"XSD{ttCredential.UserID}In")
+                validateXSDIn = CBool(oApp.Get($"XSD{ttCredential.UserID}In"))
                 sb.Remove(0, sb.Length())
 
                 ' SQL Message Log
@@ -198,11 +199,11 @@ Namespace wsTravelTalk
                     oLog = New cLog
                     With ttCredential
                         If ttServiceID <> 2 And ttServiceID <> 6 And ttServiceID <> 7 And ttServiceID <> 24 And ttServiceID <> 25 And ttServiceID <> 81 And ttServiceID <> 85 Then
-                            UUID = oLog.LogRequest(ServerName, .RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, strRequest, StartTime)
+                            UUID = oLog.LogRequest(ServerName, TravelTalkCredential.RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, strRequest, StartTime)
                             sb.Remove(0, sb.Length())
                         Else
                             ' request set to empty to to send data over network for nothing 
-                            UUID = oLog.LogRequest(ServerName, .RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, "", StartTime)
+                            UUID = oLog.LogRequest(ServerName, TravelTalkCredential.RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, "", StartTime)
                             sb.Remove(0, sb.Length())
                         End If
                     End With
@@ -237,7 +238,7 @@ Namespace wsTravelTalk
                     sb.Remove(0, sb.Length())
                     If Not UUID Is Nothing Then
                         With ttCredential
-                            LogMessageToFile(enLogType.Request, UUID, ServerName, .RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, strRequest, StartTime, 0, ex.Message)
+                            LogMessageToFile(enLogType.Request, UUID, ServerName, TravelTalkCredential.RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, strRequest, StartTime, 0, ex.Message)
                             sb.Remove(0, sb.Length())
                         End With
                     End If
@@ -274,8 +275,8 @@ Namespace wsTravelTalk
             Try
                 ttCredential = ndcGetTravelTalkCredential(strRequest, ttServiceID, POS)
 
-                oDoc = oApp.Get("ttACL")
-                ValidateXSDIn = oApp.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("In").ToString())
+                oDoc = DirectCast(oApp.Get("ttACL"), XmlDocument)
+                ValidateXSDIn = CBool(oApp.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("In").ToString()))
                 sb.Remove(0, sb.Length())
 
                 If Trace Then CoreLib.SendTrace(ttCredential.UserID, sb.Append("ttMain ").Append(ttServiceID).ToString(), "============= OTA Request ============= ", strRequest, ttProviderSystems.LogUUID)
@@ -287,11 +288,11 @@ Namespace wsTravelTalk
                     oLog = New cLog
                     With ttCredential
                         If ttServiceID <> 2 And ttServiceID <> 6 And ttServiceID <> 7 And ttServiceID <> 24 And ttServiceID <> 25 And ttServiceID <> 81 And ttServiceID <> 85 Then
-                            UUID = oLog.LogRequest(ServerName, .RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, strRequest, StartTime)
+                            UUID = oLog.LogRequest(ServerName, TravelTalkCredential.RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, strRequest, StartTime)
                             sb.Remove(0, sb.Length())
                         Else
                             ' request set to empty to to send data over network for nothing 
-                            UUID = oLog.LogRequest(ServerName, .RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, "", StartTime)
+                            UUID = oLog.LogRequest(ServerName, TravelTalkCredential.RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, "", StartTime)
                             sb.Remove(0, sb.Length())
                         End If
                     End With
@@ -324,7 +325,7 @@ Namespace wsTravelTalk
                     sb.Remove(0, sb.Length())
                     If Not UUID Is Nothing Then
                         With ttCredential
-                            LogMessageToFile(enLogType.Request, UUID, ServerName, .RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, strRequest, StartTime, 0, ex.Message)
+                            LogMessageToFile(enLogType.Request, UUID, ServerName, TravelTalkCredential.RequestorID, .UserID, sb.Append(.Providers(0).Name).Append(" ").Append(.System).ToString(), ttServiceID, strRequest, StartTime, 0, ex.Message)
                             sb.Remove(0, sb.Length())
                         End With
                     End If
@@ -414,7 +415,7 @@ Namespace wsTravelTalk
                 End If
 
                 With ttCredential
-                    .RequestorID = oNodePOS.SelectSingleNode("Source/RequestorID").Attributes("ID").Value
+                    TravelTalkCredential.RequestorID = oNodePOS.SelectSingleNode("Source/RequestorID").Attributes("ID").Value
                     .System = oNodePOS.SelectSingleNode("TPA_Extensions/Provider/System").InnerText
                     .UserID = "Travelport"
                     .Password = oNodePOS.SelectSingleNode("TPA_Extensions/Provider/Password").InnerText
@@ -493,7 +494,7 @@ Namespace wsTravelTalk
                 End If
 
                 With ttCredential
-                    .RequestorID = oNodePOS.SelectSingleNode("Source/RequestorID").Attributes("ID").Value
+                    TravelTalkCredential.RequestorID = oNodePOS.SelectSingleNode("Source/RequestorID").Attributes("ID").Value
                     .System = oNodePOS.SelectSingleNode("TPA_Extensions/Provider/System").InnerText
                     .UserID = "Sabre"
                     .Password = oNodePOS.SelectSingleNode("TPA_Extensions/Provider/Password").InnerText
@@ -565,7 +566,7 @@ Namespace wsTravelTalk
                 End If
 
                 With ttCredential
-                    .RequestorID = oNodePOS.SelectSingleNode("Source/RequestorID").Attributes("ID").Value
+                    TravelTalkCredential.RequestorID = oNodePOS.SelectSingleNode("Source/RequestorID").Attributes("ID").Value
                     .System = oNodePOS.SelectSingleNode("TPA_Extensions/Provider/System").InnerText
                     .UserID = "Amadeus"
                     .Password = oNodePOS.SelectSingleNode("TPA_Extensions/Provider/Password").InnerText
@@ -657,7 +658,7 @@ Namespace wsTravelTalk
                 End If
 
                 With ttCredential
-                    .RequestorID = oNodePOS.SelectSingleNode("Source/RequestorID").Attributes("ID").Value
+                    TravelTalkCredential.RequestorID = oNodePOS.SelectSingleNode("Source/RequestorID").Attributes("ID").Value
                     .System = oNodePOS.SelectSingleNode("TPA_Extensions/Provider/System").InnerText
                     .UserID = oNodePOS.SelectSingleNode("TPA_Extensions/Provider/Userid").InnerText
                     .Password = oNodePOS.SelectSingleNode("TPA_Extensions/Provider/Password").InnerText
@@ -757,7 +758,7 @@ Namespace wsTravelTalk
                 With ttCredential
 
                     If POS.Source.RequestorID.ID IsNot Nothing Then
-                        .RequestorID = POS.Source.RequestorID.ID.ToString()
+                        TravelTalkCredential.RequestorID = POS.Source.RequestorID.ID.ToString()
                     End If
 
                     If POS.TPA_Extensions.Provider.GDSSystem IsNot Nothing Then
@@ -836,16 +837,16 @@ Namespace wsTravelTalk
 
             oRoot = oDoc.DocumentElement
 
-            oNode = oRoot.SelectSingleNode(sb.Append("Customer[@RequestorID='").Append(ttCredential.RequestorID).Append("']").ToString())
+            oNode = oRoot.SelectSingleNode(sb.Append("Customer[@RequestorID='").Append(TravelTalkCredential.RequestorID).Append("']").ToString())
             sb.Remove(0, sb.Length())
 
             If oNode Is Nothing Then
-                Throw New Exception(sb.Append("Customer ").Append(ttCredential.RequestorID).Append(" is not valid.").ToString())
+                Throw New Exception(sb.Append("Customer ").Append(TravelTalkCredential.RequestorID).Append(" is not valid.").ToString())
             Else
                 oNode = oNode.SelectSingleNode(sb.Append("User[Username='").Append(ttCredential.UserID).Append("']").ToString())
                 sb.Remove(0, sb.Length())
                 If oNode Is Nothing Then
-                    Throw New Exception(sb.Append("User  ").Append(ttCredential.UserID).Append(" is not valid for Customer ").Append(ttCredential.RequestorID).ToString())
+                    Throw New Exception(sb.Append("User  ").Append(ttCredential.UserID).Append(" is not valid for Customer ").Append(TravelTalkCredential.RequestorID).ToString())
                 End If
             End If
 
@@ -866,17 +867,17 @@ Namespace wsTravelTalk
             Dim sb As StringBuilder = New StringBuilder()
 
             oRoot = oDoc.DocumentElement
-            oNode = oRoot.SelectSingleNode(sb.Append("Customer[@RequestorID='").Append(ttCredential.RequestorID).Append("']").ToString())
+            oNode = oRoot.SelectSingleNode(sb.Append("Customer[@RequestorID='").Append(TravelTalkCredential.RequestorID).Append("']").ToString())
             sb.Remove(0, sb.Length())
 
             If oNode Is Nothing Then
-                Throw New Exception(sb.Append("Customer ").Append(ttCredential.RequestorID).Append(" is not valid.").ToString())
+                Throw New Exception(sb.Append("Customer ").Append(TravelTalkCredential.RequestorID).Append(" is not valid.").ToString())
                 sb.Remove(0, sb.Length())
             Else
                 oNode = oNode.SelectSingleNode(sb.Append("User[Username='").Append(ttCredential.UserID).Append("']").ToString())
                 sb.Remove(0, sb.Length())
                 If oNode Is Nothing Then
-                    Throw New Exception(sb.Append("User  ").Append(ttCredential.UserID).Append(" is not valid for Customer ").Append(ttCredential.RequestorID).ToString())
+                    Throw New Exception(sb.Append("User  ").Append(ttCredential.UserID).Append(" is not valid for Customer ").Append(TravelTalkCredential.RequestorID).ToString())
                     sb.Remove(0, sb.Length())
                 End If
             End If
@@ -914,7 +915,7 @@ Namespace wsTravelTalk
                 Next
 
                 'AK: This has to be perform if nothing were found. 
-                Dim elems As List(Of String) = strCode.Split(" ").ToList()
+                Dim elems As List(Of String) = strCode.Split(" "c).ToList()
 
                 For Each word As String In elems
                     For Each row As DataRow In oDV.Table.Rows
@@ -1099,13 +1100,27 @@ Namespace wsTravelTalk
 
         End Function
 
+        'Public Function IsNothing(ByVal Item As Object, ByVal Replace As Object) As Object
+        '    If Item Is Nothing Then
+        '        Return Replace
+        '    Else
+        '        Return Item.Value
+        '    End If
+        'End Function
         Public Function IsNothing(ByVal Item As Object, ByVal Replace As Object) As Object
             If Item Is Nothing Then
                 Return Replace
             Else
-                Return Item.Value
+                ' Cast to the specific type that has the .Value property
+                Dim node = TryCast(Item, System.Xml.XmlNode)
+                If node IsNot Nothing Then
+                    Return node.Value
+                End If
+
+                Return Item
             End If
         End Function
+
 
 #End Region
 
@@ -1170,7 +1185,7 @@ Namespace wsTravelTalk
 
                     Select Case Service
                         Case ttServices.AirFlifo
-                            If (Not ttProviderSystems.AmadeusWS) Or (ttProviderSystems.AmadeusWS And ttProviderSystems.AmadeusWSSchema("Air_FlightInfo") <> "") Then
+                            If (Not ttProviderSystems.AmadeusWS) Or (ttProviderSystems.AmadeusWS And ttProviderSystems.AmadeusWSSchema(enAmadeusWSSchema.Air_FlightInfo) <> "") Then
                                 strResponse = .AirFlifo()
                             Else
                                 Throw New Exception("Air_FlightInfo not authorized")
@@ -2526,9 +2541,9 @@ Namespace wsTravelTalk
 
         End Function
 
-        Public Function SendPaymentRequest(ByVal Service As ttServices, ByRef ttCredential As TravelTalkCredential, ByRef ttProviderSystems As TripXMLProviderSystems, ByRef request As Object) As Object
+        Public Function SendPaymentRequest(Of T)(ByVal Service As ttServices, ByRef ttCredential As TravelTalkCredential, ByRef ttProviderSystems As TripXMLProviderSystems, ByRef request As VirtualCardRQBase) As T
             Dim strResponse As String = ""
-            Dim responseObj As Object = Nothing
+            Dim responseObj As T = Nothing
 
             Try
                 Dim paymentServices = New VirtualCardPaymentService
@@ -2540,15 +2555,15 @@ Namespace wsTravelTalk
 
                     Select Case Service
                         Case ttServices.GenerateVirtualCard
-                            responseObj = .CreateVirtualCard()
+                            responseObj = DirectCast(DirectCast(.CreateVirtualCard(), Object), T) ' .CreateVirtualCard()
                             'Case ttServices.CancelVirtualCardLoad
                             '    strResponse = .CancelVirtualCardLoad()
                         Case ttServices.DeleteVirtualCard
-                            responseObj = .DeleteVirtualCard()
+                            responseObj = DirectCast(DirectCast(.DeleteVirtualCard(), Object), T) ' .DeleteVirtualCard()
                         Case ttServices.GetVirtualCardDetails
-                            responseObj = .GetVirtualCardDetails()
+                            responseObj = DirectCast(DirectCast(.GetVirtualCardDetails(), Object), T) ' .GetVirtualCardDetails()
                         Case ttServices.ListVirtualCards
-                            responseObj = .ListVirtualCards()
+                            responseObj = DirectCast(DirectCast(.ListVirtualCards(), Object), T) ' .ListVirtualCards()
                             'Case ttServices.ManageDBIData
                             '    strResponse = .ManageDBIData()
                             'Case ttServices.ScheduleVirtualCardLoad

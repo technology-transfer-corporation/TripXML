@@ -246,7 +246,7 @@ Namespace wsTravelTalk
                     Provider = oNode.Attributes("Provider").Value
                     oNodeOnd = oNode.SelectSingleNode("AirItineraryPricingInfo/ItinTotalFare/TotalFare")
                     Fare = oNodeOnd.Attributes("Amount").Value
-                    Fare = Fare.Insert(Fare.Length - oNodeOnd.Attributes("DecimalPlaces").Value, ".")
+                    Fare = Fare.Insert(Fare.Length - CInt(oNodeOnd.Attributes("DecimalPlaces").Value), ".")
                     TotalFare = CType(Fare, Single)
                     If Not FlightSegments Is Nothing Then Erase FlightSegments
                     j = 0
@@ -300,7 +300,7 @@ Namespace wsTravelTalk
                                     ' Check Price
                                     oNodeOnd = oNode.SelectSingleNode("AirItineraryPricingInfo/ItinTotalFare/TotalFare")
                                     Fare = oNodeOnd.Attributes("Amount").Value
-                                    Fare = Fare.Insert(Fare.Length - oNodeOnd.Attributes("DecimalPlaces").Value, ".")
+                                    Fare = Fare.Insert(Fare.Length - CInt(oNodeOnd.Attributes("DecimalPlaces").Value), ".")
                                     Select Case CType(Fare, Single)
                                         Case TotalFare
                                             ' Same Price Check Provider (OfficeID)
@@ -369,7 +369,7 @@ Namespace wsTravelTalk
 
 #Region " Process Service Request All GDS "
 
-        Private Function ServiceRequest(ByVal request As String, ByVal ttServiceID As Integer) As String
+        Private Function ServiceRequest(ByVal request As String, ByVal ttServiceID As ttServices) As String
             Dim _response As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
@@ -421,7 +421,7 @@ Namespace wsTravelTalk
                     Dim farPrefs As String = ""
                     For Each oNode In oRoot.SelectNodes("FaringPreferences/FaringPreference")
                         If Not oNode.Attributes("MaxResponses") Is Nothing Then
-                            oNode.Attributes("MaxResponses").Value = 125
+                            oNode.Attributes("MaxResponses").Value = CInt(125).ToString()
                         End If
 
                         oNode.InnerXml = oNode.InnerXml.Replace("Both", "Published")
@@ -450,7 +450,7 @@ Namespace wsTravelTalk
 
                 PreServiceRequestPool(request, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
                 sb.Append("XSD").Append(ttCredential.UserID).Append("Out")
-                ValidateXSDOut = Application.Get(sb.ToString())
+                ValidateXSDOut = CBool(Application.Get(sb.ToString()))
                 sb.Remove(0, sb.Length)
 
                 With ttCredential
@@ -579,7 +579,7 @@ Namespace wsTravelTalk
 
                                                     DoAmadeusWSSearches(j) = New SearchAmadeusWS_v03(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oAmadeusWS)
                                                     DoAmadeusWSSearches(j).Request = lfstrRequest(j)
-                                                    DoAmadeusWSSearches(j).ServiceID = ttServiceID
+                                                    DoAmadeusWSSearches(j).ServiceID = CInt(ttServiceID).ToString()
                                                     DoAmadeusWSSearches(j).BeginSearch()
 
                                                     ttProviderSystems = Nothing
@@ -592,7 +592,7 @@ Namespace wsTravelTalk
                                             Case "apollo", "galileo"
                                                 Try
                                                     sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC.ToUpper())
-                                                    ttProviderSystems = Application.Get(sb.ToString())
+                                                    ttProviderSystems = CType(Application.Get(sb.ToString()), TripXMLProviderSystems)
                                                     sb.Remove(0, sb.Length)
 
                                                     If ttProviderSystems.System Is Nothing Then
@@ -618,7 +618,7 @@ Namespace wsTravelTalk
 
                                                     DoGalileoSearches(j) = New SearchGalileo_v03(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oGalileo)
                                                     DoGalileoSearches(j).Request = lfstrRequest(j)
-                                                    DoGalileoSearches(j).ServiceID = ttServiceID
+                                                    DoGalileoSearches(j).ServiceID = CInt(ttServiceID).ToString()
                                                     DoGalileoSearches(j).BeginSearch()
 
                                                 Catch e As Exception
@@ -699,7 +699,7 @@ Namespace wsTravelTalk
 
                                                     DoSabreSearches(j) = New SearchSabre_v03(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oSabre)
                                                     DoSabreSearches(j).Request = lfstrRequest(j)
-                                                    DoSabreSearches(j).ServiceID = ttServiceID
+                                                    DoSabreSearches(j).ServiceID = CInt(ttServiceID).ToString()
                                                     DoSabreSearches(j).BeginSearch()
                                                 Catch e As Exception
                                                     GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))
@@ -708,7 +708,7 @@ Namespace wsTravelTalk
                                             Case "worldspan", "Worldspan"
                                                 Try
                                                     sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC.ToUpper())
-                                                    ttProviderSystems = Application.Get(sb.ToString())
+                                                    ttProviderSystems = CType(Application.Get(sb.ToString()), TripXMLProviderSystems)
                                                     sb.Remove(0, sb.Length)
 
                                                     If ttProviderSystems.System Is Nothing Then
@@ -738,7 +738,7 @@ Namespace wsTravelTalk
 
                                                     DoWorldspanSearches(j) = New SearchWorldspan_v03(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oWorldspan)
                                                     DoWorldspanSearches(j).Request = lfstrRequest(j)
-                                                    DoWorldspanSearches(j).ServiceID = ttServiceID
+                                                    DoWorldspanSearches(j).ServiceID = CInt(ttServiceID).ToString()
                                                     DoWorldspanSearches(j).BeginSearch()
 
                                                 Catch e As Exception
@@ -776,7 +776,7 @@ Namespace wsTravelTalk
                                                 '        End With
                                                 '        DoTravelFusionSearches(j) = New SearchTravelFusion_v03(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oTravelFusion)
                                                 '        DoTravelFusionSearches(j).Request = lfstrRequest(j)
-                                                '        DoTravelFusionSearches(j).ServiceID = ttServiceID
+                                                '        DoTravelFusionSearches(j).ServiceID =CInt(ttServiceID).ToString()
                                                 '        DoTravelFusionSearches(j).BeginSearch()
                                                 '    Catch e As Exception
                                                 '        GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))
@@ -812,7 +812,7 @@ Namespace wsTravelTalk
 
                                                 '        DoAirCanadaSearches(j) = New SearchAirCanada_v03(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oAirCanada)
                                                 '        DoAirCanadaSearches(j).Request = lfstrRequest(j)
-                                                '        DoAirCanadaSearches(j).ServiceID = ttServiceID
+                                                '        DoAirCanadaSearches(j).ServiceID =CInt(ttServiceID).ToString()
                                                 '        DoAirCanadaSearches(j).BeginSearch()
 
                                                 '    Catch e As Exception
@@ -851,7 +851,7 @@ Namespace wsTravelTalk
 
                                                 '        DoVukaSearches(j) = New SearchVuka_v03(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oVuka)
                                                 '        DoVukaSearches(j).Request = lfstrRequest(j)
-                                                '        DoVukaSearches(j).ServiceID = ttServiceID
+                                                '        DoVukaSearches(j).ServiceID =CInt(ttServiceID).ToString()
                                                 '        DoVukaSearches(j).BeginSearch()
 
                                                 '    Catch e As Exception
@@ -890,7 +890,7 @@ Namespace wsTravelTalk
 
                                                 '        DoPytonSearches(j) = New SearchPyton_v03(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oPyton)
                                                 '        DoPytonSearches(j).Request = lfstrRequest(j)
-                                                '        DoPytonSearches(j).ServiceID = ttServiceID
+                                                '        DoPytonSearches(j).ServiceID =CInt(ttServiceID).ToString()
                                                 '        DoPytonSearches(j).BeginSearch()
 
                                                 '    Catch e As Exception

@@ -21,8 +21,8 @@ Namespace wsTravelTalk
         Private mintResponseTime As Integer
         Private sb As StringBuilder = New StringBuilder()
 
-        Public Function LogRequest(ByVal ServerName As String, ByVal Customer As String, ByVal UserName As String, _
-                                    ByVal Provider As String, ByVal MessageID As Integer, ByRef Message As String, _
+        Public Function LogRequest(ByVal ServerName As String, ByVal Customer As String, ByVal UserName As String,
+                                    ByVal Provider As String, ByVal MessageID As Integer, ByRef Message As String,
                                     ByVal StartTime As Date) As String
 
 
@@ -51,7 +51,7 @@ Namespace wsTravelTalk
 
         End Function
 
-        Public Sub LogResponse(ByVal UUID As String, ByRef ServerName As String, ByVal Customer As String, ByVal UserName As String, _
+        Public Sub LogResponse(ByVal UUID As String, ByRef ServerName As String, ByVal Customer As String, ByVal UserName As String,
                                 ByVal Provider As String, ByVal MessageID As Integer, ByRef Message As String, ByVal StartTime As Date)
 
             mdtMessageDate = Now
@@ -221,7 +221,7 @@ Namespace wsTravelTalk
                                         intLength = message.IndexOf(">", intStart) - (intStart + 1)
                                         recLoc = message.Substring(intStart, intLength)
 
-                                        oDA.UpdateBookingStatus(recLoc, "C")
+                                        oDA.UpdateBookingStatus(recLoc, "C"c)
 
                                     End If
                             End Select

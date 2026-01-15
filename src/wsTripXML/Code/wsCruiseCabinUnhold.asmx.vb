@@ -161,7 +161,7 @@ Namespace wsTravelTalk
                 End If
 
                 ' Check ShipCode
-                mstrShipCode = IsNothing(oNode.Attributes("ShipCode"), "")
+                mstrShipCode = CStr(IsNothing(oNode.Attributes("ShipCode"), ""))
                 If mstrShipCode.Length > 0 Then
                     If Not IsCruiseFilterValue(ttCruiseShips, mstrVendorCode, mstrShipCode) Then
                         Throw New Exception(sb.Append("Invalid Ship code - ").Append(mstrShipCode).Append(" for cruise line ").Append(mstrVendorCode).ToString())
@@ -179,7 +179,7 @@ Namespace wsTravelTalk
                 ' Check Voyage Number
                 Select Case mstrVendorCode
                     Case "RCC", "CEL", "ICL"
-                        If String.Compare(IsNothing(oNode.Attributes("VoyageID"), ""), CVoyageID) <> 0 Then
+                        If String.Compare(CStr(IsNothing(oNode.Attributes("VoyageID"), "")), CVoyageID) <> 0 Then
                             Throw New Exception(sb.Append("Invalid VoyageID number, it must be ").Append(CVoyageID).Append(".").ToString())
                             sb.Remove(0, sb.Length())
                         End If
@@ -197,7 +197,7 @@ Namespace wsTravelTalk
 
 #Region " Process Service Request All GDS "
 
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
+        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As ttServices) As String
             Dim strResponse As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
@@ -209,7 +209,7 @@ Namespace wsTravelTalk
                 StartTime = Now
 
                 PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
-                ValidateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
+                ValidateXSDOut = CBool(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()))
                 sb.Remove(0, sb.Length())
 
                 ' Validate Rules for CruiseCabinUnhold

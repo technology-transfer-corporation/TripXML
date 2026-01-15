@@ -151,7 +151,7 @@ Namespace wsTravelTalk
 #Region " Process Service Request All GDS "
         Private sb As StringBuilder = New StringBuilder()
 
-        Private Function ServiceRequest(ByVal request As String, ByVal ttServiceID As Integer) As String
+        Private Function ServiceRequest(ByVal request As String, ByVal ttServiceID As ttServices) As String
             Dim response As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
@@ -163,7 +163,7 @@ Namespace wsTravelTalk
                 StartTime = Now
 
                 PreServiceRequest(request, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
-                ValidateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
+                ValidateXSDOut = CBool(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()))
                 sb.Remove(0, sb.Length())
                 If request.Contains("OTA_ShowMilesRQ") Then
                     'All comunicatioon for this purpose will be gone through Sabe
@@ -274,12 +274,12 @@ Namespace wsTravelTalk
                 'JFK IST 100P 650A\u00871 M    333 9.50  9.50  5000 N
                 'Error: ChrW(135) & "INVALID FLT"
 
-                If response.Errors?.ToList().Exists(Function(e) e.Value?.Contains("INVALID FLT")) Then
+                If response.Errors?.ToList().Exists(Function(e) If(e.Value?.Contains("INVALID FLT"), False)) Then
                     response.OperatingCarrier = "INVALID FLT"
                     Return
                 End If
 
-                Dim elems As List(Of String) = response.Remarks.Remark(1).Split(" ").ToList
+                Dim elems As List(Of String) = response.Remarks.Remark(1).Split(" "c).ToList
                 response.FromCity = elems(enMile.FromCity)
                 response.ToCity = New ToCity With {.Value = elems(enMile.ToCity), .Mileage = elems(enMile.MILES), .AccumulativeMileage = elems(enMile.ACCUM)}
                 response.TotalMileage = elems(enMile.MILES)

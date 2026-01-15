@@ -118,7 +118,7 @@ Namespace wsTravelTalk
 
 #Region " Process Service Request All GDS "
 
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
+        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As ttServices) As String
             Dim strResponse As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
@@ -145,7 +145,7 @@ Namespace wsTravelTalk
                 StartTime = Now
 
                 PreServiceRequestPool(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
-                ValidateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
+                ValidateXSDOut = CBool(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()))
                 sb.Remove(0, sb.Length())
 
                 oDoc = New XmlDocument
@@ -160,7 +160,7 @@ Namespace wsTravelTalk
 
                 With ttCredential
                     For i = 0 To .Providers.Length - 1
-                        For Each oNodeCriterion In oRootVendorPrefs.SelectNodes("VendorPref")
+                        For Each oNodeCriterion As XmlNode In oRootVendorPrefs.SelectNodes("VendorPref")
                             oNodeNewVendorPrefs.InnerXml = oNodeCriterion.OuterXml
                             strRequest = oRoot.OuterXml
                             oNodeNewVendorPrefs.RemoveAll()
@@ -211,7 +211,7 @@ Namespace wsTravelTalk
                                             'oThreadAmadeusWS.Start()
                                             DoAmadeusWSSearches(j) = New SearchCarAmadeusWS(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oAmadeusWS)
                                             DoAmadeusWSSearches(j).Request = strRequest
-                                            DoAmadeusWSSearches(j).ServiceID = ttServiceID
+                                            DoAmadeusWSSearches(j).ServiceID = CInt(ttServiceID).ToString()
                                             DoAmadeusWSSearches(j).BeginSearch()
                                             ttProviderSystems = Nothing
                                             'Else
@@ -234,7 +234,7 @@ Namespace wsTravelTalk
 
                                             '    DoAmadeusSearches(j) = New SearchCarAmadeus(.Providers(i).PCC, .UserID, .System, ttAA, oAmadeus)
                                             '    DoAmadeusSearches(j).Request = strRequest
-                                            '    DoAmadeusSearches(j).ServiceID = ttServiceID
+                                            '    DoAmadeusSearches(j).ServiceID =CInt(ttServiceID).ToString()
                                             '    DoAmadeusSearches(j).BeginSearch()
 
                                             '    Application.Set(sb.Append("API").Append(.UserID).Append(.System).ToString(), ttAA)
@@ -245,7 +245,7 @@ Namespace wsTravelTalk
                                     End Try
                                 Case "apollo", "galileo"
                                     Try
-                                        ttProviderSystems = Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString())
+                                        ttProviderSystems = CType(Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString()), TripXMLProviderSystems)
                                         sb.Remove(0, sb.Length())
                                         If ttProviderSystems.System Is Nothing Then
                                             GotResponse(FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(.System).Append(" system. Or invalid provider.").ToString(), .Providers(i).Name))
@@ -270,14 +270,14 @@ Namespace wsTravelTalk
                                         'oThreadGalileo.Start()
                                         DoGalileoSearches(j) = New SearchCarGalileo(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oGalileo)
                                         DoGalileoSearches(j).Request = strRequest
-                                        DoGalileoSearches(j).ServiceID = ttServiceID
+                                        DoGalileoSearches(j).ServiceID = CInt(ttServiceID).ToString()
                                         DoGalileoSearches(j).BeginSearch()
                                     Catch e As Exception
                                         GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))
                                     End Try
                                 Case "sabre"
                                     Try
-                                        ttProviderSystems = Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString())
+                                        ttProviderSystems = CType(Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString()), TripXMLProviderSystems)
                                         sb.Remove(0, sb.Length())
                                         If ttProviderSystems.System Is Nothing Then
                                             GotResponse(FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(.System).Append(" system. Or invalid provider.").ToString(), .Providers(i).Name))
@@ -304,7 +304,7 @@ Namespace wsTravelTalk
                                         'oThreadSabre.Start()
                                         DoSabreSearches(j) = New SearchCarSabre(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oSabre)
                                         DoSabreSearches(j).Request = strRequest
-                                        DoSabreSearches(j).ServiceID = ttServiceID
+                                        DoSabreSearches(j).ServiceID = CInt(ttServiceID).ToString()
                                         DoSabreSearches(j).BeginSearch()
                                     Catch e As Exception
                                         GotResponse(FormatErrorMessage(ttServiceID, e.Message, .Providers(i).Name))

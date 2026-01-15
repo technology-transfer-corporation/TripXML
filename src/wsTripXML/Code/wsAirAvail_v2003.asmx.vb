@@ -112,7 +112,7 @@ Namespace wsTravelTalk
 
 #Region " Process Service Request All GDS "
 
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
+        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As ttServices) As String
             Dim strResponse As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
@@ -125,7 +125,7 @@ Namespace wsTravelTalk
                 StartTime = Now
 
                 PreServiceRequestPool(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID, "2005A")
-                ValidateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
+                ValidateXSDOut = CBool(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()))
                 sb.Remove(0, sb.Length())
 
                 With ttCredential
@@ -165,7 +165,10 @@ Namespace wsTravelTalk
                                 'End Try
                             Case "apollo", "galileo"
                                 Try
-                                    ttProviderSystems = Application.Get("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
+                                    'ttProviderSystems = Application.Get("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
+                                    Dim cacheKey As New StringBuilder()
+                                    cacheKey.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC)
+                                    ttProviderSystems = DirectCast(Application.Get(cacheKey.ToString()), TripXMLProviderSystems)
                                     If ttProviderSystems.System Is Nothing Then
                                         GotResponse(FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(.System).Append(" system. Or invalid provider.").ToString(), .Providers(i).Name))
                                         sb.Remove(0, sb.Length())
@@ -192,7 +195,7 @@ Namespace wsTravelTalk
                                 End Try
                             Case "sabre"
                                 Try
-                                    ttProviderSystems = Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString())
+                                    ttProviderSystems = CType(Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString()), TripXMLProviderSystems)
                                     sb.Remove(0, sb.Length())
                                     If ttProviderSystems.System Is Nothing Then
                                         GotResponse(FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(.System).Append(" system. Or invalid provider.").ToString(), .Providers(i).Name))
@@ -301,7 +304,7 @@ Namespace wsTravelTalk
 
         End Function
 
-        <WebMethod(Description:="Process Air Availability Xml Messages Request. OTA version 2.003.")> _
+        <WebMethod(Description:="Process Air Availability Xml Messages Request. OTA version 2.003.")>
         Public Function wmAirAvailXml(ByVal xmlRequest As String) As String
             If xmlRequest.IndexOf("Version=""2.003""") > 0 Then
                 Return ServiceRequest(xmlRequest, ttServices.AirAvail)

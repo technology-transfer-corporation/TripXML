@@ -35,7 +35,7 @@ Partial Public Class RulesResult
 
 
         Dim tb As Table = CType(e.Item.FindControl("tb"), Table)
-        For Each oNode In ndList
+        For Each oNode As XmlNode In ndList
 
             Dim row As TableRow = New TableRow()
             Dim cell As TableCell = New TableCell()

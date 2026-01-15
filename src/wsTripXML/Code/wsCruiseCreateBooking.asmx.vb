@@ -162,7 +162,7 @@ Namespace wsTravelTalk
                 End If
 
                 ' Check ShipCode
-                mstrShipCode = IsNothing(oNode.Attributes("ShipCode"), "")
+                mstrShipCode = CStr(IsNothing(oNode.Attributes("ShipCode"), ""))
                 If mstrShipCode.Length > 0 Then
                     If Not IsCruiseFilterValue(ttCruiseShips, mstrVendorCode, mstrShipCode) Then
                         Throw New Exception(sb.Append("Invalid Ship code - ").Append(mstrShipCode).Append(" for cruise line ").Append(mstrVendorCode).ToString())
@@ -175,7 +175,7 @@ Namespace wsTravelTalk
                 ' Check Voyage Number
                 Select Case mstrVendorCode
                     Case "RCC", "CEL", "ICL"
-                        If String.Compare(IsNothing(oNode.Attributes("VoyageID"), ""), CVoyageID) <> 0 Then
+                        If String.Compare(CStr(IsNothing(oNode.Attributes("VoyageID"), "")), CVoyageID) <> 0 Then
                             Throw New Exception(sb.Append("Invalid VoyageID number, it must be ").Append(CVoyageID).Append(".").ToString())
                             sb.Remove(0, sb.Length())
                         End If
@@ -189,7 +189,7 @@ Namespace wsTravelTalk
                 If CType((GetCruiseFilterValue(ttCruiseProfiles, mstrVendorCode, "currencyRequiredFareAvailabilityRequest") = "true"), Boolean) Then
                     If oRoot.SelectSingleNode("SailingInfo/Currency") Is Nothing Then
                         Throw New Exception("Currency Code is mandatory for this Cruise line.")
-                    ElseIf IsNothing(oRoot.SelectSingleNode("SailingInfo/Currency").Attributes("CurrencyCode"), "") = "" Then
+                    ElseIf String.IsNullOrEmpty(oRoot.SelectSingleNode("SailingInfo/Currency")?.Attributes("CurrencyCode")?.Value) Then
                         Throw New Exception("Currency Code is mandatory for this Cruise line.")
                     ElseIf Not IsCruiseFilterValue(ttCruiseCurrency, mstrVendorCode, oRoot.SelectSingleNode("SailingInfo/Currency").Attributes("CurrencyCode").Value) Then
                         Throw New Exception(sb.Append("Currency code - ").Append(oRoot.SelectSingleNode("SailingInfo/Currency").Attributes("CurrencyCode").Value).Append(" not supported by this cruise line ").Append(mstrVendorCode).ToString())
@@ -247,15 +247,21 @@ Namespace wsTravelTalk
                         Next    ' GuestTransportation
 
                         ' Check Emergency Flag
-                        If CType((GetCruiseFilterValue(ttCruiseProfiles, mstrVendorCode, "emergencyContactInformation") <> "E"), Boolean) Then
-                            If CType((IsNothing(oNodeChild.Attributes("EmergencyFlag"), "") = "true"), Boolean) Then
-                                Throw New Exception("Emergengy contact not supported by this cruise line.")
+                        'If CType((GetCruiseFilterValue(ttCruiseProfiles, mstrVendorCode, "emergencyContactInformation") <> "E"), Boolean) Then
+                        '    If CType(If(oNodeChild.Attributes("EmergencyFlag"), "") = "true", Boolean) Then
+                        '        Throw New Exception("Emergengy contact not supported by this cruise line.")
+                        '    End If
+                        'End If
+
+                        If GetCruiseFilterValue(ttCruiseProfiles, mstrVendorCode, "emergencyContactInformation") <> "E" Then
+                            If oNodeChild.Attributes("EmergencyFlag") IsNot Nothing AndAlso oNodeChild.Attributes("EmergencyFlag").Value = "true" Then
+                                Throw New Exception("Emergency contact not supported by this cruise line.")
                             End If
                         End If
 
                         ' Check Contact Info BirthDate
-                        If CType((GetCruiseFilterValue(ttCruiseProfiles, mstrVendorCode, "paxBirthDateSupported") <> "true"), Boolean) Then
-                            If IsNothing(oNodeChild.Attributes("BirthDate"), "").ToString.Length > 0 Then
+                        If GetCruiseFilterValue(ttCruiseProfiles, mstrVendorCode, "paxBirthDateSupported") <> "E" Then
+                            If oNodeChild.Attributes("BirthDate") IsNot Nothing AndAlso oNodeChild.Attributes("BirthDate").Value.Length > 0 Then
                                 Throw New Exception("Guest birth date not supported by this cruise line.")
                             End If
                         End If
@@ -601,8 +607,8 @@ Namespace wsTravelTalk
                     End If
 
                     ' Check Extended Payment
-                    If CType((GetCruiseFilterValue(ttCruiseProfiles, mstrVendorCode, "extendedPaymentSupported") = "false"), Boolean) _
-                        And CType((IsNothing(oNode.Attributes("ExtendedIndicator"), "") = "true"), Boolean) Then
+                    If GetCruiseFilterValue(ttCruiseProfiles, mstrVendorCode, "extendedPaymentSupported") = "false" AndAlso
+                        oNode.Attributes("ExtendedIndicator") IsNot Nothing AndAlso oNode.Attributes("ExtendedIndicator").Value = "true" Then
                         Throw New Exception("Extended payment not supported by this cruise line.")
                     End If
 
@@ -629,7 +635,7 @@ Namespace wsTravelTalk
 
 #Region " Process Service Request All GDS "
 
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
+        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As ttServices) As String
             Dim strResponse As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
@@ -641,7 +647,7 @@ Namespace wsTravelTalk
                 StartTime = Now
 
                 PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
-                ValidateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
+                ValidateXSDOut = CBool(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()))
                 sb.Remove(0, sb.Length())
 
                 ' Validate Rules for CruiseCreateBooking

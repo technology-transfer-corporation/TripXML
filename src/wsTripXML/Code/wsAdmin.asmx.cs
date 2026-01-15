@@ -5,6 +5,7 @@ using System.Web.Services;
 using Microsoft.VisualBasic.CompilerServices;
 using TripXMLMain;
 using static TripXMLMain.modCore;
+using TripXMLTools;
 
 namespace wsTripXML.wsTravelTalk
 {
@@ -18,7 +19,7 @@ namespace wsTripXML.wsTravelTalk
     {
         private StringBuilder sb = new StringBuilder();
 
-        private string ServiceRequest(string strRequest, int ttServiceID)
+        private string ServiceRequest(string strRequest, ttServices ttServiceID)
         {
             string strResponse = "";
             TravelTalkCredential ttCredential = default;
@@ -32,7 +33,7 @@ namespace wsTripXML.wsTravelTalk
                 StartTime = DateTime.Now;
 
                 var argoApp = Application;
-                wsTravelTalk.modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, StartTime, ttServiceID, Server.MachineName, ref UUID);
+                modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
                 ValidateXSDOut = Conversions.ToBoolean(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
                 sb.Remove(0, sb.Length);
 
@@ -44,13 +45,13 @@ namespace wsTripXML.wsTravelTalk
                         }
                     case "AmadeusWS":
                         {
-                            if (ttServiceID == (int)ttServices.AddPNRToAdmin)
+                            if (ttServiceID == ttServices.AddPNRToAdmin)
                             {
-                                strResponse = wsTravelTalk.modMain.SendTravelRequestAmadeusWS((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
+                                strResponse = modMain.SendTravelRequestAmadeusWS(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
                             }
                             else
                             {
-                                strResponse = wsTravelTalk.modMain.SendPNRRequestAmadeusWS((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
+                                strResponse = modMain.SendPNRRequestAmadeusWS(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
                             }
 
                             break;
@@ -58,7 +59,7 @@ namespace wsTripXML.wsTravelTalk
                     case "Apollo":
                     case "Galileo":
                         {
-                            strResponse = wsTravelTalk.modMain.SendTravelRequestGalileo((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
+                            strResponse = modMain.SendTravelRequestGalileo(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
                             break;
                         }
                     case "Sabre":
@@ -66,23 +67,23 @@ namespace wsTripXML.wsTravelTalk
 
                             if (ttProviderSystems.System is null)
                             {
-                                FormatErrorMessage((ttServices)ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers[0].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers[0].Name);
+                                FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers[0].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers[0].Name);
                                 sb.Remove(0, sb.Length);
                                 break;
                             }
 
                             ttProviderSystems.AAAPCC = ttCredential.Providers[0].PCC;
-                            strResponse = wsTravelTalk.modMain.SendTravelRequestSabre((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
+                            strResponse = modMain.SendTravelRequestSabre(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
                             break;
                         }
                     case "Worldspan":
                         {
-                            strResponse = wsTravelTalk.modMain.SendTravelRequestWorldspan((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
+                            strResponse = modMain.SendTravelRequestWorldspan(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
                             break;
                         }
                     case "Travelport":
                         {
-                            strResponse = wsTravelTalk.modMain.SendTravelRequestTravelport((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
+                            strResponse = modMain.SendTravelRequestTravelport(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
                             break;
                         }
 
@@ -94,12 +95,12 @@ namespace wsTripXML.wsTravelTalk
                         }
                 }
 
-                wsTravelTalk.modMain.PostServiceRequest(ref strResponse, ValidateXSDOut, ttServiceID, ttCredential.UserID);
+                modMain.PostServiceRequest(ref strResponse, ValidateXSDOut, (int)ttServiceID, ttCredential.UserID);
             }
 
             catch (Exception ex)
             {
-                strResponse = FormatErrorMessage((ttServices)ttServiceID, ex.Message, ttCredential.Providers[0].Name);
+                strResponse = FormatErrorMessage(ttServiceID, ex.Message, ttCredential.Providers[0].Name);
             }
             finally
             {
@@ -114,33 +115,51 @@ namespace wsTripXML.wsTravelTalk
         [WebMethod(Description = "Add a PNR to the Admin by TravelBuild response XML.")]
         public string AddPNRToAdmin(string xmlRequest)
         {
-            return ServiceRequest(xmlRequest, (int)ttServices.AddPNRToAdmin);
+            return ServiceRequest(xmlRequest, ttServices.AddPNRToAdmin);
         }
 
         [WebMethod(Description = "Add a PNR to the Admin by record locator.")]
         public string AddRecLocToAdmin(string xmlRequest)
         {
-            return ServiceRequest(xmlRequest, (int)ttServices.AddRecLocToAdmin);
+            return ServiceRequest(xmlRequest, ttServices.AddRecLocToAdmin);
         }
 
         [WebMethod(Description = "Add a PNR to the Admin by record locator.")]
         public string AddRecLocToNewAdminOnly(string xmlRequest)
         {
-            return ServiceRequest(xmlRequest, (int)ttServices.AddRecLocToNewAdminOnly);
+            return ServiceRequest(xmlRequest, ttServices.AddRecLocToNewAdminOnly);
         }
 
         [WebMethod(Description = "Update Markups.")]
         public string UpdateMarkups(string xmlRequest)
         {
-            var markUp = new wsTravelTalk.wsUpdateMarkups();
+            var markUp = new wsUpdateMarkups();
             return markUp.UpdateMarkups(xmlRequest);
         }
 
         [WebMethod(Description = "Admin status management.")]
         public string CreateTicketInvoice(string xmlRequest)
         {
-            var tktInvoice = new wsTravelTalk.wsCreateTicketInvoice();
+            var tktInvoice = new wsCreateTicketInvoice();
             return tktInvoice.CreateTicketInvoice(xmlRequest);
+        }
+
+        [WebMethod(Description = "Get Server Settings.")]
+        public TripXmlSettings GetServerConfig()
+        {
+            return SettingsService.GetAppSettings(Context.Request.Headers);
+        }
+
+        [WebMethod(Description = "Get Server Version.")]
+        public TripXmlVersion GetServerVersion()
+        {
+            return SettingsService.GetAppVersion();
+        }
+
+        [WebMethod(Description = "Update Cached Objects.")]
+        public UpdateCacheResponse UpdateCache()
+        {
+            return TripXMLLoad.UpdateCachedObjects().Result;
         }
 
     }

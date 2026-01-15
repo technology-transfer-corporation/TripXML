@@ -16,7 +16,7 @@ namespace wsTripXML.wsTravelTalk
     [WebService(Namespace = "http://tripxml.downtowntravel.com/tripxml/wsPNRReprice", Name = "wsPNRReprice", Description = "A TripXML Web Service to Process PNR Reprice Request.")]
     public class wsPNRReprice : WebService
     {
-        public wsTravelTalk.TripXML TXML;
+        public TripXML TXML;
 
         #region  Web Services Designer Generated Code 
 
@@ -61,7 +61,7 @@ namespace wsTripXML.wsTravelTalk
         #region  Process Service Request All GDS 
         private readonly StringBuilder sb = new StringBuilder();
 
-        private string StoredFareServiceRequest(string request, int ttServiceID, string sessionID = "")
+        private string StoredFareServiceRequest(string request, ttServices ttServiceID, string sessionID = "")
         {
             string response = "";
             TravelTalkCredential ttCredential = default;
@@ -75,7 +75,7 @@ namespace wsTripXML.wsTravelTalk
                 startTime = DateTime.Now;
 
                 var argoApp = Application;
-                wsTravelTalk.modMain.PreServiceRequest(ref request, ref argoApp, ref ttCredential, ref ttProviderSystems, startTime, ttServiceID, Server.MachineName, ref UUID);
+                modMain.PreServiceRequest(ref request, ref argoApp, ref ttCredential, ref ttProviderSystems, startTime, (int)ttServiceID, Server.MachineName, ref UUID);
                 validateXSDOut = Conversions.ToBoolean(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
                 sb.Remove(0, sb.Length);
 
@@ -83,24 +83,43 @@ namespace wsTripXML.wsTravelTalk
                 {
                     case "AmadeusWS":
                         {
-                            response = wsTravelTalk.modMain.SendPNRRequestAmadeusWS((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
+                            response = modMain.SendPNRRequestAmadeusWS(ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
                             break;
                         }
                     case "Sabre":
                         {
                             if (ttProviderSystems.System is null)
                             {
-                                FormatErrorMessage((ttServices)ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers[0].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers[0].Name);
+                                FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers[0].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers[0].Name);
                                 sb.Remove(0, sb.Length);
                                 break;
                             }
 
                             ttProviderSystems.AAAPCC = ttCredential.Providers[0].PCC;
-                            response = wsTravelTalk.modMain.SendPNRRequestSabre((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
+                            response = modMain.SendPNRRequestSabre(ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
                             break;
                         }
-
                     case "Worldspan":
+                        {
+                            if (Conversions.ToBoolean(WebConfigurationManager.AppSettings["IsTravelportWorldspan"]))
+                            {
+                                var ttDefProvider = new TripXMLProviderSystems();
+                                if (!string.IsNullOrEmpty(sessionID))
+                                {
+                                    request = request.Replace(sessionID, "");
+                                }
+                                var argoApp1 = Application;
+                                modMain.PreServiceRequest(ref request, ref argoApp1, ref ttCredential, ref ttDefProvider, startTime, (int)ttServiceID, Server.MachineName, ref UUID, "", true);
+                                response = modMain.SendPNRRequestTravelPort(ttServiceID, ref ttCredential, ref ttDefProvider, ref request);
+                                response = response.Replace("</OTA_PNRRepriceRS>", $"<ConversationID>{sessionID}</ConversationID></OTA_PNRRepriceRS>");
+                            }
+                            else
+                            {
+                                response = modMain.SendPNRRequestWorldspan(ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
+                            }
+
+                            break;
+                        }
                     case "Galileo":
                         {
                             if (Conversions.ToBoolean(WebConfigurationManager.AppSettings["IsTravelportReprice"]))
@@ -110,33 +129,30 @@ namespace wsTripXML.wsTravelTalk
                                 {
                                     request = request.Replace(sessionID, "");
                                 }
-                                var argoApp1 = Application;
-                                wsTravelTalk.modMain.PreServiceRequest(ref request, ref argoApp1, ref ttCredential, ref ttDefProvider, startTime, ttServiceID, Server.MachineName, ref UUID, "", true);
-                                response = wsTravelTalk.modMain.SendPNRRequestTravelPort((ttServices)ttServiceID, ref ttCredential, ref ttDefProvider, ref request);
+
+                                string aaapcc = ttDefProvider.AAAPCC;
+                                string _pcc = ttCredential.Providers[0].PCC;
+
+                                ttDefProvider.AAAPCC = ttCredential.Providers[0].PCC;
+                                ttCredential.Providers[0].PCC = "3M2Y";
+                                var argoApp2 = Application;
+                                modMain.PreServiceRequest(ref request, ref argoApp2, ref ttCredential, ref ttDefProvider, startTime, (int)ttServiceID, Server.MachineName, ref UUID, "", true);
+                                response = modMain.SendPNRRequestTravelPort(ttServiceID, ref ttCredential, ref ttDefProvider, ref request);
                                 response = response.Replace("</OTA_PNRRepriceRS>", $"<ConversationID>{sessionID}</ConversationID></OTA_PNRRepriceRS>");
+
+                                // ttDefProvider.AAAPCC = aaapcc
+                                ttCredential.Providers[0].PCC = _pcc;
                             }
                             else
                             {
-                                switch (ttCredential.Providers[0].Name ?? "")
-                                {
-                                    case "Galileo":
-                                        {
-                                            response = wsTravelTalk.modMain.SendPNRRequestGalileo((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
-                                            break;
-                                        }
-                                    case "Worldspan":
-                                        {
-                                            response = wsTravelTalk.modMain.SendPNRRequestWorldspan((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
-                                            break;
-                                        }
-                                }
+                                response = modMain.SendPNRRequestGalileo(ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
                             }
 
                             break;
                         }
                     case "Travelport":
                         {
-                            response = wsTravelTalk.modMain.SendPNRRequestTravelPort((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
+                            response = modMain.SendPNRRequestTravelPort(ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
                             break;
                         }
 
@@ -146,16 +162,16 @@ namespace wsTripXML.wsTravelTalk
                         }
                 }
 
-                wsTravelTalk.modMain.PostServiceRequest(ref response, validateXSDOut, ttServiceID, ttCredential.UserID);
+                modMain.PostServiceRequest(ref response, validateXSDOut, (int)ttServiceID, ttCredential.UserID);
             }
 
             catch (Exception ex)
             {
-                response = FormatErrorMessage((ttServices)ttServiceID, ex.Message, ttCredential.Providers[0].Name);
+                response = FormatErrorMessage(ttServiceID, ex.Message, ttCredential.Providers[0].Name);
             }
             finally
             {
-                wsTravelTalk.modMain.LogResponse(ref response, ref ttCredential, startTime, ttServiceID, Server.MachineName, ref UUID);
+                modMain.LogResponse(ref response, ref ttCredential, startTime, (int)ttServiceID, Server.MachineName, ref UUID);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsPNRReprice", "============= OTA Response ============= ", response, UUID);
             }
@@ -163,7 +179,7 @@ namespace wsTripXML.wsTravelTalk
             return response;
         }
 
-        private string ServiceRequest(string request, int ttServiceID)
+        private string ServiceRequest(string request, ttServices ttServiceID)
         {
             string response = "";
             TravelTalkCredential ttCredential = default;
@@ -177,7 +193,7 @@ namespace wsTripXML.wsTravelTalk
                 startTime = DateTime.Now;
 
                 var argoApp = Application;
-                wsTravelTalk.modMain.PreServiceRequest(ref request, ref argoApp, ref ttCredential, ref ttProviderSystems, startTime, ttServiceID, Server.MachineName, ref UUID);
+                modMain.PreServiceRequest(ref request, ref argoApp, ref ttCredential, ref ttProviderSystems, startTime, (int)ttServiceID, Server.MachineName, ref UUID);
                 validateXSDOut = Conversions.ToBoolean(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
                 sb.Remove(0, sb.Length);
 
@@ -185,7 +201,7 @@ namespace wsTripXML.wsTravelTalk
                 {
                     case "AmadeusWS":
                         {
-                            response = wsTravelTalk.modMain.SendPNRRequestAmadeusWS((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
+                            response = modMain.SendPNRRequestAmadeusWS(ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
                             break;
                         }
                     case "Sabre":
@@ -193,28 +209,28 @@ namespace wsTripXML.wsTravelTalk
 
                             if (ttProviderSystems.System is null)
                             {
-                                FormatErrorMessage((ttServices)ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers[0].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers[0].Name);
+                                FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers[0].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers[0].Name);
                                 sb.Remove(0, sb.Length);
                                 break;
                             }
 
                             ttProviderSystems.AAAPCC = ttCredential.Providers[0].PCC;
-                            response = wsTravelTalk.modMain.SendPNRRequestSabre((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
+                            response = modMain.SendPNRRequestSabre(ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
                             break;
                         }
                     case "Worldspan":
                         {
-                            response = wsTravelTalk.modMain.SendPNRRequestWorldspan((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
+                            response = modMain.SendPNRRequestWorldspan(ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
                             break;
                         }
                     case "Galileo":
                         {
-                            response = wsTravelTalk.modMain.SendPNRRequestGalileo((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
+                            response = modMain.SendPNRRequestGalileo(ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
                             break;
                         }
                     case "Travelport":
                         {
-                            response = wsTravelTalk.modMain.SendPNRRequestTravelPort((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
+                            response = modMain.SendPNRRequestTravelPort(ttServiceID, ref ttCredential, ref ttProviderSystems, ref request);
                             break;
                         }
 
@@ -224,16 +240,16 @@ namespace wsTripXML.wsTravelTalk
                         }
                 }
 
-                wsTravelTalk.modMain.PostServiceRequest(ref response, validateXSDOut, ttServiceID, ttCredential.UserID);
+                modMain.PostServiceRequest(ref response, validateXSDOut, (int)ttServiceID, ttCredential.UserID);
             }
 
             catch (Exception ex)
             {
-                response = FormatErrorMessage((ttServices)ttServiceID, ex.Message, ttCredential.Providers[0].Name);
+                response = FormatErrorMessage(ttServiceID, ex.Message, ttCredential.Providers[0].Name);
             }
             finally
             {
-                wsTravelTalk.modMain.LogResponse(ref response, ref ttCredential, startTime, ttServiceID, Server.MachineName, ref UUID);
+                modMain.LogResponse(ref response, ref ttCredential, startTime, (int)ttServiceID, Server.MachineName, ref UUID);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsPNRReprice", "============= OTA Response ============= ", response, UUID);
             }
@@ -248,11 +264,11 @@ namespace wsTripXML.wsTravelTalk
         [CompressionExtension.CompressionExtension()]
         [WebMethod(Description = "Process PNR Reprice Messages Request.")]
         [System.Web.Services.Protocols.SoapHeader("TXML")]
-        public wsTravelTalk.wmPNRRepriceOut.OTA_PNRRepriceRS wmPNRReprice(wsTravelTalk.wmPNRRepriceIn.OTA_PNRRepriceRQ OTA_PNRRepriceRQ)
+        public wmPNRRepriceOut.OTA_PNRRepriceRS wmPNRReprice(wmPNRRepriceIn.OTA_PNRRepriceRQ OTA_PNRRepriceRQ)
         {
-            wsTravelTalk.wmPNRRepriceOut.OTA_PNRRepriceRS oPNRRepriceRS = null;
+            wmPNRRepriceOut.OTA_PNRRepriceRS oPNRRepriceRS = null;
 
-            var oSerializer = new XmlSerializer(typeof(wsTravelTalk.wmPNRRepriceIn.OTA_PNRRepriceRQ));
+            var oSerializer = new XmlSerializer(typeof(wmPNRRepriceIn.OTA_PNRRepriceRQ));
             var oWriter = new StringWriter(new StringBuilder());
             oSerializer.Serialize(oWriter, OTA_PNRRepriceRQ);
             string xmlMessage = oWriter.ToString();
@@ -260,16 +276,16 @@ namespace wsTripXML.wsTravelTalk
             string sid = OTA_PNRRepriceRQ.ConversationID;
 
             // If OTA_PNRRepriceRQ.StoreFare Then
-            xmlMessage = StoredFareServiceRequest(xmlMessage, (int)ttServices.PNRReprice, sid);
+            xmlMessage = StoredFareServiceRequest(xmlMessage, ttServices.PNRReprice, sid);
             // Else
             // xmlMessage = ServiceRequest(xmlMessage, ttServices.PNRReprice)
             // End If
 
             try
             {
-                oSerializer = new XmlSerializer(type: typeof(wsTravelTalk.wmPNRRepriceOut.OTA_PNRRepriceRS));
+                oSerializer = new XmlSerializer(@type: typeof(wmPNRRepriceOut.OTA_PNRRepriceRS));
                 var oReader = new StringReader(xmlMessage);
-                oPNRRepriceRS = (wsTravelTalk.wmPNRRepriceOut.OTA_PNRRepriceRS)oSerializer.Deserialize(oReader);
+                oPNRRepriceRS = (wmPNRRepriceOut.OTA_PNRRepriceRS)oSerializer.Deserialize(oReader);
             }
             catch (Exception ex)
             {
@@ -283,7 +299,7 @@ namespace wsTripXML.wsTravelTalk
         [WebMethod(Description = "Process PNR Reprice Xml Messages Request.")]
         public string wmPNRRepriceXml(string xmlRequest)
         {
-            return ServiceRequest(xmlRequest, (int)ttServices.PNRReprice);
+            return ServiceRequest(xmlRequest, ttServices.PNRReprice);
         }
 
         #endregion

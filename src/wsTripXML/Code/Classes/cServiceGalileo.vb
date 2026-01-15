@@ -247,7 +247,7 @@ Namespace wsTravelTalk
                 End With
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(ServiceID, ex.Message, "Galileo", "", False, Version)
+                strResponse = FormatErrorMessage(CType(ServiceID, ttServices), ex.Message, "Galileo", "", False, Version)
             Finally
                 If Not ttService Is Nothing Then ttService = Nothing
                 RaiseEvent GotResponse(strResponse)
@@ -278,7 +278,7 @@ Namespace wsTravelTalk
                 End With
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(ServiceID, ex.Message, "Galileo", "", False, Version)
+                strResponse = FormatErrorMessage(CType(ServiceID, ttServices), ex.Message, "Galileo", "", False, Version)
             Finally
                 If Not ttService Is Nothing Then ttService = Nothing
                 RaiseEvent GotResponse(strResponse)
@@ -311,7 +311,7 @@ Namespace wsTravelTalk
                 End With
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(ServiceID, ex.Message, "Galileo", "", False, Version)
+                strResponse = FormatErrorMessage(CType(ServiceID, ttServices), ex.Message, "Galileo", "", False, Version)
             Finally
                 If Not ttService Is Nothing Then ttService = Nothing
                 RaiseEvent GotResponse(strResponse)
@@ -342,7 +342,7 @@ Namespace wsTravelTalk
                 End With
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(ServiceID, ex.Message, "Galileo", "", False, Version)
+                strResponse = FormatErrorMessage(CType(ServiceID, ttServices), ex.Message, "Galileo", "", False, Version)
             Finally
                 If Not ttService Is Nothing Then ttService = Nothing
                 RaiseEvent GotResponse(strResponse)
@@ -493,30 +493,58 @@ Namespace wsTravelTalk
 
         Public Function BusinessLogic(ByVal strResponse As String, ByVal strBusiness As String, ByVal xslPath As String, ByVal strMsg As String) As String
 
-            If strResponse.IndexOf("<Success />") <> -1 Or strResponse.IndexOf("<Success></Success>") Then
-                strResponse = strResponse.Replace("<Success />", sb.Append(strBusiness).Append("<Success />").ToString())
-                sb.Remove(0, sb.Length())
-                strResponse = strResponse.Replace("<Success></Success>", sb.Append(strBusiness).Append("<Success></Success>").ToString())
-                sb.Remove(0, sb.Length())
-                CoreLib.SendTrace("", "cServiceGalileo", sb.Append("Before ").Append(strMsg).Append(" business logic").ToString(), strResponse, ttProviderSystems.LogUUID)
-                sb.Remove(0, sb.Length())
-                strResponse = CoreLib.TransformXML(strResponse, xslPath, sb.Append(Version).Append("BL_").Append(strMsg).Append("RS.xsl").ToString())
-                sb.Remove(0, sb.Length())
+            'If strResponse.IndexOf("<Success />") <> -1 Or strResponse.IndexOf("<Success></Success>") Then
+            '    strResponse = strResponse.Replace("<Success />", sb.Append(strBusiness).Append("<Success />").ToString())
+            '    sb.Remove(0, sb.Length())
+            '    strResponse = strResponse.Replace("<Success></Success>", sb.Append(strBusiness).Append("<Success></Success>").ToString())
+            '    sb.Remove(0, sb.Length())
+            '    CoreLib.SendTrace("", "cServiceGalileo", sb.Append("Before ").Append(strMsg).Append(" business logic").ToString(), strResponse, ttProviderSystems.LogUUID)
+            '    sb.Remove(0, sb.Length())
+            '    strResponse = CoreLib.TransformXML(strResponse, xslPath, sb.Append(Version).Append("BL_").Append(strMsg).Append("RS.xsl").ToString())
+            '    sb.Remove(0, sb.Length())
+            'End If
+            If strResponse.IndexOf("<Success />") <> -1 OrElse strResponse.IndexOf("<Success></Success>") <> -1 Then
+                sb.Clear()
+                sb.Append(strBusiness).Append("<Success />")
+                strResponse = strResponse.Replace("<Success />", sb.ToString())
+
+                sb.Clear()
+                sb.Append(strBusiness).Append("<Success></Success>")
+                strResponse = strResponse.Replace("<Success></Success>", sb.ToString())
+
+                sb.Clear()
+                sb.Append("Before ").Append(strMsg).Append(" business logic")
+                CoreLib.SendTrace("", "cServiceGalileo", sb.ToString(), strResponse, ttProviderSystems.LogUUID)
+
+                sb.Clear()
+                sb.Append(Version).Append("BL_").Append(strMsg).Append("RS.xsl")
+                strResponse = CoreLib.TransformXML(strResponse, xslPath, sb.ToString())
+
+                sb.Clear()
             End If
 
             Return strResponse
             sb = Nothing
         End Function
 
-        Public Function BusinessLogic(ByVal strResponse As String, ByVal strBusiness As String, ByVal xslPath As String, ByVal strMsg As String, ByVal strExt As String) As String
+        'Public Function BusinessLogic(ByVal strResponse As String, ByVal strBusiness As String, ByVal xslPath As String, ByVal strMsg As String, ByVal strExt As String) As String
 
-            If strResponse.IndexOf("<Success />") <> -1 Or strResponse.IndexOf("<Success></Success>") Then
+        '    If strResponse.IndexOf("<Success />") <> -1 Or strResponse.IndexOf("<Success></Success>") Then
+        '        strResponse = strResponse.Replace("<Success />", strBusiness & "<Success />")
+        '        strResponse = strResponse.Replace("<Success></Success>", strBusiness & "<Success></Success>")
+        '        CoreLib.SendTrace("", "cServiceGalileo", "Before " & strMsg & " business logic", strResponse, ttProviderSystems.LogUUID)
+        '        strResponse = CoreLib.TransformXML(strResponse, xslPath, Version & "BL_" & strMsg & strExt & "RS.xsl")
+        '    End If
+
+        '    Return strResponse
+        'End Function
+        Public Function BusinessLogic(ByVal strResponse As String, ByVal strBusiness As String, ByVal xslPath As String, ByVal strMsg As String, ByVal strExt As String) As String
+            If strResponse.IndexOf("<Success />") <> -1 OrElse strResponse.IndexOf("<Success></Success>") <> -1 Then
                 strResponse = strResponse.Replace("<Success />", strBusiness & "<Success />")
                 strResponse = strResponse.Replace("<Success></Success>", strBusiness & "<Success></Success>")
                 CoreLib.SendTrace("", "cServiceGalileo", "Before " & strMsg & " business logic", strResponse, ttProviderSystems.LogUUID)
                 strResponse = CoreLib.TransformXML(strResponse, xslPath, Version & "BL_" & strMsg & strExt & "RS.xsl")
             End If
-
             Return strResponse
         End Function
 

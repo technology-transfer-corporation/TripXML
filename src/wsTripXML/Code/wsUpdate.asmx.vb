@@ -70,7 +70,7 @@ Namespace wsTravelTalk
         Public tXML As TripXML
 
 #Region " Process Service Request All Suppliers "
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
+        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As ttServices) As String
             Dim strResponse As String = ""
             'Dim ttAA As AmadeusAdapter = Nothing
             Dim ttCredential As TravelTalkCredential = Nothing
@@ -84,7 +84,7 @@ Namespace wsTravelTalk
                 StartTime = Now
 
                 PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
-                ValidateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
+                ValidateXSDOut = CBool(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()))
                 sb.Remove(0, sb.Length())
 
                 With ttCredential
@@ -113,7 +113,7 @@ Namespace wsTravelTalk
                             strResponse = SendTravelRequestAmadeusWS(ttServiceID, ttCredential, ttProviderSystems, strRequest)
 
                         Case "apollo", "galileo"
-                            ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
+                            ttProviderSystems = CType(Application.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString()), TripXMLProviderSystems)
                             sb.Remove(0, sb.Length())
                             If ttProviderSystems.System Is Nothing Then
                                 FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers(0).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers(0).Name)

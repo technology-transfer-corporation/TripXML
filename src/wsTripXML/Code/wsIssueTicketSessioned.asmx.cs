@@ -14,7 +14,7 @@ namespace wsTripXML.wsTravelTalk
     [WebService(Namespace = "http://tripxml.downtowntravel.com/tripxml/wsIssueTicketSessioned", Name = "wsIssueTicketSessioned", Description = "A TripXML Web Service to Process Issue ticket with open session")]
     public class wsIssueTicketSessioned : WebService
     {
-        public wsTravelTalk.TripXML tXML;
+        public TripXML tXML;
 
         #region  Web Services Designer Generated Code 
 
@@ -63,7 +63,7 @@ namespace wsTripXML.wsTravelTalk
         #region  Process Service Request All GDS 
         private StringBuilder sb = new StringBuilder();
 
-        private string ServiceRequest(string strRequest, int ttServiceID)
+        private string ServiceRequest(string strRequest, ttServices ttServiceID)
         {
             string strResponse = "";
             TravelTalkCredential ttCredential = default;
@@ -77,7 +77,7 @@ namespace wsTripXML.wsTravelTalk
                 startTime = DateTime.Now;
 
                 var argoApp = Application;
-                wsTravelTalk.modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, startTime, ttServiceID, Server.MachineName, ref uuid);
+                modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, startTime, (int)ttServiceID, Server.MachineName, ref uuid);
                 validateXSDOut = Conversions.ToBoolean(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
                 sb.Remove(0, sb.Length);
 
@@ -85,13 +85,13 @@ namespace wsTripXML.wsTravelTalk
                 {
                     case "amadeus":
                         {
-                            strResponse = wsTravelTalk.modMain.SendTravelRequestAmadeusWS((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
+                            strResponse = modMain.SendTravelRequestAmadeusWS(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
                             break;
                         }
 
                     case "amadeusws":
                         {
-                            strResponse = wsTravelTalk.modMain.SendTravelRequestAmadeusWS((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
+                            strResponse = modMain.SendTravelRequestAmadeusWS(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
                             break;
                         }
 
@@ -101,27 +101,26 @@ namespace wsTripXML.wsTravelTalk
                             // sb.Remove(0, sb.Length())
                             if (ttProviderSystems.System is null)
                             {
-                                FormatErrorMessage((ttServices)ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers[0].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers[0].Name);
+                                FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers[0].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers[0].Name);
                                 sb.Remove(0, sb.Length);
                                 break;
                             }
 
                             ttProviderSystems.AAAPCC = ttCredential.Providers[0].PCC;
-                            strResponse = wsTravelTalk.modMain.SendTravelRequestSabre((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
+                            strResponse = modMain.SendTravelRequestSabre(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
                             break;
                         }
-
                     case "worldspan":
                         {
-                            strResponse = wsTravelTalk.modMain.SendTravelRequestWorldspan((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
+                            strResponse = modMain.SendTravelRequestWorldspan(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
                             break;
                         }
 
                     case "apollo":
                     case "galileo":
                         {
-
-                            strResponse = wsTravelTalk.modMain.SendTravelRequestGalileo((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
+                            ttProviderSystems.AAAPCC = ttCredential.Providers[0].PCC;
+                            strResponse = modMain.SendTravelRequestGalileo(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
                             break;
                         }
 
@@ -131,16 +130,16 @@ namespace wsTripXML.wsTravelTalk
                         }
                 }
 
-                wsTravelTalk.modMain.PostServiceRequest(ref strResponse, validateXSDOut, ttServiceID, ttCredential.UserID);
+                modMain.PostServiceRequest(ref strResponse, validateXSDOut, (int)ttServiceID, ttCredential.UserID);
             }
 
             catch (Exception ex)
             {
-                strResponse = FormatErrorMessage((ttServices)ttServiceID, ex.Message, ttCredential.Providers[0].Name);
+                strResponse = FormatErrorMessage(ttServiceID, ex.Message, ttCredential.Providers[0].Name);
             }
             finally
             {
-                wsTravelTalk.modMain.LogResponse(ref strResponse, ref ttCredential, startTime, ttServiceID, Server.MachineName, ref uuid);
+                modMain.LogResponse(ref strResponse, ref ttCredential, startTime, (int)ttServiceID, Server.MachineName, ref uuid);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsIssueTicket", "============= OTA Response ============= ", strResponse, uuid);
             }
@@ -156,28 +155,28 @@ namespace wsTripXML.wsTravelTalk
         [CompressionExtension.CompressionExtension()]
         [WebMethod(Description = "Process Issue Ticket Messages Request.")]
         [System.Web.Services.Protocols.SoapHeader("tXML")]
-        public wsTravelTalk.wmIssueTicketSessionedOut.TT_IssueTicketRS wmIssueTicketSessioned(wsTravelTalk.wmIssueTicketSessionedIn.TT_IssueTicketRQ TT_IssueTicketRQ)
+        public wmIssueTicketSessionedOut.TT_IssueTicketRS wmIssueTicketSessioned(wmIssueTicketSessionedIn.TT_IssueTicketRQ TT_IssueTicketRQ)
         {
-            wsTravelTalk.wmIssueTicketSessionedOut.TT_IssueTicketRS oIssueTicketRS = null;
+            wmIssueTicketSessionedOut.TT_IssueTicketRS oIssueTicketRS = null;
             XmlSerializer oSerializer;
             System.IO.StringWriter oWriter;
             System.IO.StringReader oReader;
 
-            oSerializer = new XmlSerializer(typeof(wsTravelTalk.wmIssueTicketSessionedIn.TT_IssueTicketRQ));
+            oSerializer = new XmlSerializer(typeof(wmIssueTicketSessionedIn.TT_IssueTicketRQ));
             oWriter = new System.IO.StringWriter(new StringBuilder());
             oSerializer.Serialize(oWriter, TT_IssueTicketRQ);
             string xmlMessage = oWriter.ToString();
             xmlMessage = xmlMessage.Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"", "");
             xmlMessage = xmlMessage.Replace(" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
 
-            xmlMessage = ServiceRequest(xmlMessage, (int)ttServices.IssueTicketSessioned);
+            xmlMessage = ServiceRequest(xmlMessage, ttServices.IssueTicketSessioned);
 
             try
             {
                 oSerializer = null;
-                oSerializer = new XmlSerializer(type: typeof(wsTravelTalk.wmIssueTicketSessionedOut.TT_IssueTicketRS));
+                oSerializer = new XmlSerializer(@type: typeof(wmIssueTicketSessionedOut.TT_IssueTicketRS));
                 oReader = new System.IO.StringReader(xmlMessage);
-                oIssueTicketRS = (wsTravelTalk.wmIssueTicketSessionedOut.TT_IssueTicketRS)oSerializer.Deserialize(oReader);
+                oIssueTicketRS = (wmIssueTicketSessionedOut.TT_IssueTicketRS)oSerializer.Deserialize(oReader);
             }
             catch (Exception ex)
             {
@@ -191,7 +190,7 @@ namespace wsTripXML.wsTravelTalk
         [WebMethod(Description = "Process Issue Ticket Xml Messages Request.")]
         public string wmIssueTicketSessionedXml(string xmlRequest)
         {
-            return ServiceRequest(xmlRequest, (int)ttServices.IssueTicketSessioned);
+            return ServiceRequest(xmlRequest, ttServices.IssueTicketSessioned);
         }
 
         #endregion

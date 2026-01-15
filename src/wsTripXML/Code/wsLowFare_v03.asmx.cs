@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using Microsoft.VisualBasic.CompilerServices;
 using TripXMLMain;
 using static TripXMLMain.modCore;
+using TripXMLTools;
 
 namespace wsTripXML.wsTravelTalk
 {
@@ -26,7 +27,7 @@ namespace wsTripXML.wsTravelTalk
             mintProviders += 1;
         }
 
-        public wsTravelTalk.TripXML tXML;
+        public TripXML tXML;
 
         #region  Web Services Designer Generated Code 
 
@@ -72,26 +73,12 @@ namespace wsTripXML.wsTravelTalk
 
         private string DecodeLowFare(string strResponse, string UserID)
         {
-            XmlDocument oDoc = null;
-            XmlElement oRoot = null;
-            DataView ttAirports;
-            DataView ttAirlines;
-            // Dim ttHiddenAirlines As DataView
-            DataView ttEquipments;
-            XmlNode oFareNode = null;
-
             try
             {
 
-                oDoc = new XmlDocument();
+                var oDoc = new XmlDocument();
                 oDoc.LoadXml(strResponse);
-                oRoot = oDoc.DocumentElement;
-
-                ttAirports = (DataView)Application.Get("ttAirports");
-                ttAirlines = (DataView)Application.Get("ttAirlines");
-                // ttHiddenAirlines = CType(Application.Get("ttHiddenAirlines"), DataView)
-                ttEquipments = (DataView)Application.Get("ttEquipments");
-
+                var oRoot = oDoc.DocumentElement;
                 foreach (XmlNode oNode in oRoot.SelectNodes("PricedItineraries/PricedItinerary"))
                 {
                     foreach (XmlNode oFlightNode in oNode.SelectNodes("AirItinerary/OriginDestinationOptions/OriginDestinationOption/FlightSegment"))
@@ -100,12 +87,10 @@ namespace wsTripXML.wsTravelTalk
                         // *******************
                         // Decode Airports   *
                         // *******************
-                        string argstrCode = oFlightNode.SelectSingleNode("DepartureAirport").Attributes["LocationCode"].Value;
-                        oFlightNode.SelectSingleNode("DepartureAirport").InnerText = wsTravelTalk.modMain.GetDecodeValue(ref ttAirports, ref argstrCode);
-                        oFlightNode.SelectSingleNode("DepartureAirport").Attributes["LocationCode"].Value = argstrCode;
-                        string argstrCode1 = oFlightNode.SelectSingleNode("ArrivalAirport").Attributes["LocationCode"].Value;
-                        oFlightNode.SelectSingleNode("ArrivalAirport").InnerText = wsTravelTalk.modMain.GetDecodeValue(ref ttAirports, ref argstrCode1);
-                        oFlightNode.SelectSingleNode("ArrivalAirport").Attributes["LocationCode"].Value = argstrCode1;
+                        oFlightNode.SelectSingleNode("DepartureAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oFlightNode.SelectSingleNode("DepartureAirport").Attributes["LocationCode"].Value);
+                        // GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value)
+                        oFlightNode.SelectSingleNode("ArrivalAirport").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airport, oFlightNode.SelectSingleNode("ArrivalAirport").Attributes["LocationCode"].Value);
+                        // GetDecodeValue(ttAirports, oFlightNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value)
 
                         // *******************
                         // Decode Airlines   *
@@ -123,9 +108,8 @@ namespace wsTripXML.wsTravelTalk
                             // Else
                             if (!string.IsNullOrEmpty(oFlightNode.SelectSingleNode("OperatingAirline").Attributes["Code"].Value))
                             {
-                                string argstrCode2 = oFlightNode.SelectSingleNode("OperatingAirline").Attributes["Code"].Value;
-                                oFlightNode.SelectSingleNode("OperatingAirline").InnerText = wsTravelTalk.modMain.GetDecodeValue(ref ttAirlines, ref argstrCode2);
-                                oFlightNode.SelectSingleNode("OperatingAirline").Attributes["Code"].Value = argstrCode2;
+                                oFlightNode.SelectSingleNode("OperatingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oFlightNode.SelectSingleNode("OperatingAirline").Attributes["Code"].Value);
+                                // GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value)
                             }
                             // End If
 
@@ -141,9 +125,8 @@ namespace wsTripXML.wsTravelTalk
                             // oFlightNode.SelectSingleNode("MarketingAirline").InnerText = GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                             // End If
                             // Else
-                            string argstrCode3 = oFlightNode.SelectSingleNode("MarketingAirline").Attributes["Code"].Value;
-                            oFlightNode.SelectSingleNode("MarketingAirline").InnerText = wsTravelTalk.modMain.GetDecodeValue(ref ttAirlines, ref argstrCode3);
-                            oFlightNode.SelectSingleNode("MarketingAirline").Attributes["Code"].Value = argstrCode3;
+                            oFlightNode.SelectSingleNode("MarketingAirline").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Airline, oFlightNode.SelectSingleNode("MarketingAirline").Attributes["Code"].Value);
+                            // GetDecodeValue(ttAirlines, oFlightNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value)
                             // End If
                         }
 
@@ -152,9 +135,8 @@ namespace wsTripXML.wsTravelTalk
                         // *******************
                         if (oFlightNode.SelectSingleNode("Equipment") is not null)
                         {
-                            string argstrCode4 = oFlightNode.SelectSingleNode("Equipment").Attributes["AirEquipType"].Value;
-                            oFlightNode.SelectSingleNode("Equipment").InnerText = wsTravelTalk.modMain.GetDecodeValue(ref ttEquipments, ref argstrCode4);
-                            oFlightNode.SelectSingleNode("Equipment").Attributes["AirEquipType"].Value = argstrCode4;
+                            oFlightNode.SelectSingleNode("Equipment").InnerText = TripXMLLoad.DecodeValue(TripXMLLoad.DecodingType.Equipment, oFlightNode.SelectSingleNode("Equipment").Attributes["AirEquipType"].Value);
+                            // GetDecodeValue(ttEquipments, oFlightNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value)
                         }
                     }
                 }
@@ -237,7 +219,7 @@ namespace wsTripXML.wsTravelTalk
                     Provider = oNode.Attributes["Provider"].Value;
                     oNodeOnd = oNode.SelectSingleNode("AirItineraryPricingInfo/ItinTotalFare/TotalFare");
                     Fare = oNodeOnd.Attributes["Amount"].Value;
-                    Fare = Fare.Insert((int)Math.Round(Fare.Length - Conversions.ToDouble(oNodeOnd.Attributes["DecimalPlaces"].Value)), ".");
+                    Fare = Fare.Insert(Fare.Length - Conversions.ToInteger(oNodeOnd.Attributes["DecimalPlaces"].Value), ".");
                     TotalFare = Conversions.ToSingle(Fare);
                     if (FlightSegments is not null)
                         FlightSegments = null;
@@ -308,9 +290,8 @@ namespace wsTripXML.wsTravelTalk
                                     // Check Price
                                     oNodeOnd = oNode.SelectSingleNode("AirItineraryPricingInfo/ItinTotalFare/TotalFare");
                                     Fare = oNodeOnd.Attributes["Amount"].Value;
-                                    Fare = Fare.Insert((int)Math.Round(Fare.Length - Conversions.ToDouble(oNodeOnd.Attributes["DecimalPlaces"].Value)), ".");
+                                    Fare = Fare.Insert(Fare.Length - Conversions.ToInteger(oNodeOnd.Attributes["DecimalPlaces"].Value), ".");
                                     bool exitFor = false;
-                                    bool exitFor1 = false;
                                     switch (Conversions.ToSingle(Fare))
                                     {
                                         case var @case when @case == TotalFare:
@@ -351,17 +332,12 @@ namespace wsTripXML.wsTravelTalk
                                                 oNode = oRoot.SelectNodes("PricedItineraries/PricedItinerary").Item(i);
                                                 oNode.Attributes["Flag"].Value = "Deleted";
                                                 // Skip Further Node A Comparison
-                                                exitFor1 = true;
+                                                exitFor = true;
                                                 break;
                                             }
                                     }
 
                                     if (exitFor)
-                                    {
-                                        break;
-                                    }
-
-                                    if (exitFor1)
                                     {
                                         break;
                                     }
@@ -398,10 +374,10 @@ namespace wsTripXML.wsTravelTalk
                 strResponse = oDoc.OuterXml.Replace("Flag=\"\" ", "");
             }
 
+            // Error Filtering Flights
             catch (Exception ex)
             {
             }
-            // Error Filtering Flights
             finally
             {
                 oDoc = null;
@@ -413,7 +389,7 @@ namespace wsTripXML.wsTravelTalk
 
         #region  Process Service Request All GDS 
 
-        private string ServiceRequest(string strRequest, int ttServiceID)
+        private string ServiceRequest(string strRequest, ttServices ttServiceID)
         {
             string strResponse = "";
             TravelTalkCredential ttCredential = default;
@@ -424,10 +400,10 @@ namespace wsTripXML.wsTravelTalk
             int i;
             DateTime StartCounter;
             // Dim DoAmadeusSearches(99) As SearchAmadeus_v03
-            var DoAmadeusWSSearches = new wsTravelTalk.SearchAmadeusWS_v03[100];
-            var DoGalileoSearches = new wsTravelTalk.SearchGalileo_v03[100];
-            var DoSabreSearches = new wsTravelTalk.SearchSabre_v03[100];
-            var DoWorldspanSearches = new wsTravelTalk.SearchWorldspan_v03[100];
+            var DoAmadeusWSSearches = new SearchAmadeusWS_v03[100];
+            var DoGalileoSearches = new SearchGalileo_v03[100];
+            var DoSabreSearches = new SearchSabre_v03[100];
+            var DoWorldspanSearches = new SearchWorldspan_v03[100];
             // Dim DoPortalSearches(99) As SearchPortal_v03
             // Dim DoPortalXMLSearches(99) As SearchPortalXML_v03
             StringBuilder sb = null;
@@ -485,7 +461,7 @@ namespace wsTripXML.wsTravelTalk
                 sb.Remove(0, sb.Length);
 
                 var argoApp = Application;
-                wsTravelTalk.modMain.PreServiceRequestPool(ref strRequest, ref argoApp, ref ttCredential, StartTime, ttServiceID, Server.MachineName, ref UUID);
+                modMain.PreServiceRequestPool(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
                 sb.Append("XSD").Append(ttCredential.UserID).Append("Out");
                 ValidateXSDOut = Conversions.ToBoolean(Application.Get(sb.ToString()));
                 sb.Remove(0, sb.Length);
@@ -555,7 +531,7 @@ namespace wsTripXML.wsTravelTalk
                                                 if (ttProviderSystems.AmadeusWS == false)
                                                 {
                                                     sb.Append("Access denied to ").Append(withBlock.Providers[i].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.");
-                                                    GotResponse(FormatErrorMessage((ttServices)ttServiceID, sb.ToString(), withBlock.Providers[i].Name));
+                                                    GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), withBlock.Providers[i].Name));
                                                     sb.Remove(0, sb.Length);
                                                     break;
                                                 }
@@ -583,20 +559,20 @@ namespace wsTripXML.wsTravelTalk
                                                         ttProviderSystems.URL = "https://production.webservices.amadeus.com";
                                                     }
 
-                                                    var oAmadeusWS = new wsTravelTalk.cServiceAmadeusWS();
-                                                    oAmadeusWS.GotResponse += this.GotResponse;
+                                                    var oAmadeusWS = new cServiceAmadeusWS();
+                                                    oAmadeusWS.GotResponse += GotResponse;
 
                                                     {
                                                         ref var withBlock1 = ref oAmadeusWS;
-                                                        withBlock1.ServiceID = ttServiceID;
+                                                        withBlock1.ServiceID = (int)ttServiceID;
                                                         withBlock1.Request = lfstrRequest[j];
                                                         withBlock1.ttProviderSystems = ttProviderSystems;
                                                         // .Version = "v03"
                                                     }
 
-                                                    DoAmadeusWSSearches[j] = new wsTravelTalk.SearchAmadeusWS_v03(withBlock.Providers[i].PCC, withBlock.UserID, withBlock.System, ref ttProviderSystems, ref oAmadeusWS);
+                                                    DoAmadeusWSSearches[j] = new SearchAmadeusWS_v03(withBlock.Providers[i].PCC, withBlock.UserID, withBlock.System, ref ttProviderSystems, ref oAmadeusWS);
                                                     DoAmadeusWSSearches[j].Request = lfstrRequest[j];
-                                                    DoAmadeusWSSearches[j].ServiceID = ttServiceID.ToString();
+                                                    DoAmadeusWSSearches[j].ServiceID = ((int)ttServiceID).ToString();
                                                     DoAmadeusWSSearches[j].BeginSearch();
 
                                                     ttProviderSystems = default;
@@ -621,7 +597,7 @@ namespace wsTripXML.wsTravelTalk
 
                                                     // DoAmadeusSearches(j) = New SearchAmadeus_v03(.Providers(i).PCC, .UserID, .System, ttAA, oAmadeus)
                                                     // DoAmadeusSearches(j).Request = lfstrRequest(j)
-                                                    // DoAmadeusSearches(j).ServiceID = ttServiceID
+                                                    // DoAmadeusSearches(j).ServiceID =CInt(ttServiceID).ToString()
                                                     // DoAmadeusSearches(j).BeginSearch()
 
                                                     // sb.Append("API").Append(.UserID).Append(.System)
@@ -631,7 +607,7 @@ namespace wsTripXML.wsTravelTalk
                                             }
                                             catch (Exception e)
                                             {
-                                                GotResponse(FormatErrorMessage((ttServices)ttServiceID, e.Message, withBlock.Providers[i].Name));
+                                                GotResponse(FormatErrorMessage(ttServiceID, e.Message, withBlock.Providers[i].Name));
 
                                             }
 
@@ -650,7 +626,7 @@ namespace wsTripXML.wsTravelTalk
                                                 if (ttProviderSystems.System is null)
                                                 {
                                                     sb.Append("Access denied to ").Append(withBlock.Providers[i].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.");
-                                                    GotResponse(FormatErrorMessage((ttServices)ttServiceID, sb.ToString(), withBlock.Providers[i].Name));
+                                                    GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), withBlock.Providers[i].Name));
                                                     sb.Remove(0, sb.Length);
                                                     break;
                                                 }
@@ -660,26 +636,26 @@ namespace wsTripXML.wsTravelTalk
                                                     ttProviderSystems.PCC = ttCredential.Providers[i].PCC;
                                                 }
 
-                                                var oGalileo = new wsTravelTalk.cServiceGalileo();
-                                                oGalileo.GotResponse += this.GotResponse;
+                                                var oGalileo = new cServiceGalileo();
+                                                oGalileo.GotResponse += GotResponse;
 
                                                 {
                                                     ref var withBlock2 = ref oGalileo;
-                                                    withBlock2.ServiceID = ttServiceID;
+                                                    withBlock2.ServiceID = (int)ttServiceID;
                                                     withBlock2.Request = lfstrRequest[j];
                                                     withBlock2.ProviderSystems = ttProviderSystems;
                                                     // .Version = "v03"
                                                 }
 
-                                                DoGalileoSearches[j] = new wsTravelTalk.SearchGalileo_v03(withBlock.Providers[i].PCC, withBlock.UserID, withBlock.System, ref ttProviderSystems, ref oGalileo);
+                                                DoGalileoSearches[j] = new SearchGalileo_v03(withBlock.Providers[i].PCC, withBlock.UserID, withBlock.System, ref ttProviderSystems, ref oGalileo);
                                                 DoGalileoSearches[j].Request = lfstrRequest[j];
-                                                DoGalileoSearches[j].ServiceID = ttServiceID.ToString();
+                                                DoGalileoSearches[j].ServiceID = ((int)ttServiceID).ToString();
                                                 DoGalileoSearches[j].BeginSearch();
                                             }
 
                                             catch (Exception e)
                                             {
-                                                GotResponse(FormatErrorMessage((ttServices)ttServiceID, e.Message, withBlock.Providers[i].Name));
+                                                GotResponse(FormatErrorMessage(ttServiceID, e.Message, withBlock.Providers[i].Name));
                                             }
 
                                             break;
@@ -697,7 +673,7 @@ namespace wsTripXML.wsTravelTalk
                                                 if (ttProviderSystems.System is null)
                                                 {
                                                     sb.Append("Access denied to ").Append(withBlock.Providers[i].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.");
-                                                    GotResponse(FormatErrorMessage((ttServices)ttServiceID, sb.ToString(), withBlock.Providers[i].Name));
+                                                    GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), withBlock.Providers[i].Name));
                                                     sb.Remove(0, sb.Length);
                                                     break;
                                                 }
@@ -708,8 +684,8 @@ namespace wsTripXML.wsTravelTalk
                                                 // ttProviderSystems.PCC = ttCredential.Providers(i).PCC
                                                 // End If
 
-                                                var oSabre = new wsTravelTalk.cServiceSabre();
-                                                oSabre.GotResponse += this.GotResponse;
+                                                var oSabre = new cServiceSabre();
+                                                oSabre.GotResponse += GotResponse;
 
                                                 DataView ttCities;
                                                 ttCities = (DataView)Application.Get("ttCities");
@@ -723,15 +699,15 @@ namespace wsTripXML.wsTravelTalk
                                                     withBlock3.ttCities = ttCities;
                                                 }
 
-                                                DoSabreSearches[j] = new wsTravelTalk.SearchSabre_v03(withBlock.Providers[i].PCC, withBlock.UserID, withBlock.System, ref ttProviderSystems, ref oSabre);
+                                                DoSabreSearches[j] = new SearchSabre_v03(withBlock.Providers[i].PCC, withBlock.UserID, withBlock.System, ref ttProviderSystems, ref oSabre);
                                                 DoSabreSearches[j].Request = lfstrRequest[j];
-                                                DoSabreSearches[j].ServiceID = ttServiceID.ToString();
+                                                DoSabreSearches[j].ServiceID = ((int)ttServiceID).ToString();
                                                 DoSabreSearches[j].BeginSearch();
                                             }
 
                                             catch (Exception e)
                                             {
-                                                GotResponse(FormatErrorMessage((ttServices)ttServiceID, e.Message, withBlock.Providers[i].Name));
+                                                GotResponse(FormatErrorMessage(ttServiceID, e.Message, withBlock.Providers[i].Name));
                                             }
 
                                             break;
@@ -749,7 +725,7 @@ namespace wsTripXML.wsTravelTalk
                                                 if (ttProviderSystems.System is null)
                                                 {
                                                     sb.Append("Access denied to ").Append(withBlock.Providers[i].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.");
-                                                    GotResponse(FormatErrorMessage((ttServices)ttServiceID, sb.ToString(), withBlock.Providers[i].Name));
+                                                    GotResponse(FormatErrorMessage(ttServiceID, sb.ToString(), withBlock.Providers[i].Name));
                                                     sb.Remove(0, sb.Length);
                                                     break;
                                                 }
@@ -759,8 +735,8 @@ namespace wsTripXML.wsTravelTalk
                                                     ttProviderSystems.PCC = ttCredential.Providers[i].PCC;
                                                 }
 
-                                                var oWorldspan = new wsTravelTalk.cServiceWorldspan();
-                                                oWorldspan.GotResponse += this.GotResponse;
+                                                var oWorldspan = new cServiceWorldspan();
+                                                oWorldspan.GotResponse += GotResponse;
 
                                                 DataView ttCities;
                                                 ttCities = (DataView)Application.Get("ttCities");
@@ -774,15 +750,15 @@ namespace wsTripXML.wsTravelTalk
                                                     withBlock4.ttCities = ttCities;
                                                 }
 
-                                                DoWorldspanSearches[j] = new wsTravelTalk.SearchWorldspan_v03(withBlock.Providers[i].PCC, withBlock.UserID, withBlock.System, ref ttProviderSystems, ref oWorldspan);
+                                                DoWorldspanSearches[j] = new SearchWorldspan_v03(withBlock.Providers[i].PCC, withBlock.UserID, withBlock.System, ref ttProviderSystems, ref oWorldspan);
                                                 DoWorldspanSearches[j].Request = lfstrRequest[j];
-                                                DoWorldspanSearches[j].ServiceID = ttServiceID.ToString();
+                                                DoWorldspanSearches[j].ServiceID = ((int)ttServiceID).ToString();
                                                 DoWorldspanSearches[j].BeginSearch();
                                             }
 
                                             catch (Exception e)
                                             {
-                                                GotResponse(FormatErrorMessage((ttServices)ttServiceID, e.Message, withBlock.Providers[i].Name));
+                                                GotResponse(FormatErrorMessage(ttServiceID, e.Message, withBlock.Providers[i].Name));
                                             }
 
                                             break;
@@ -820,7 +796,7 @@ namespace wsTripXML.wsTravelTalk
 
                                     // DoPortalSearches(j) = New SearchPortal_v03(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oPortal)
                                     // DoPortalSearches(j).Request = lfstrRequest(j)
-                                    // DoPortalSearches(j).ServiceID = ttServiceID
+                                    // DoPortalSearches(j).ServiceID =CInt(ttServiceID).ToString()
                                     // DoPortalSearches(j).BeginSearch()
 
                                     // Catch e As Exception
@@ -855,7 +831,7 @@ namespace wsTripXML.wsTravelTalk
 
                                     // DoPortalXMLSearches(j) = New SearchPortalXML_v03(.Providers(i).PCC, .UserID, .System, ttProviderSystems, oPortalXML)
                                     // DoPortalXMLSearches(j).Request = lfstrRequest(j)
-                                    // DoPortalXMLSearches(j).ServiceID = ttServiceID
+                                    // DoPortalXMLSearches(j).ServiceID =CInt(ttServiceID).ToString()
                                     // DoPortalXMLSearches(j).BeginSearch()
 
                                     // Catch e As Exception
@@ -886,7 +862,7 @@ namespace wsTripXML.wsTravelTalk
                 // Do While mintProviders < ttCredential.Providers.Length
                 while (mintProviders < j)
                 {
-                    if ((int)Math.Round(DateTime.Now.Subtract(StartCounter).TotalSeconds) > wsTravelTalk.modMain.CPrdTimeOut)
+                    if ((int)Math.Round(DateTime.Now.Subtract(StartCounter).TotalSeconds) > modMain.CPrdTimeOut)
                         break;
                     System.Threading.Thread.Sleep(10);
                 }
@@ -896,7 +872,7 @@ namespace wsTripXML.wsTravelTalk
                 {
                     strResponse = string.Concat("<SuperRS>", mstrResponse, "</SuperRS>");
                     // Aggregate
-                    wsTravelTalk.cAggregation.Aggregate((ttServices)ttServiceID, XslPath, "", ref strResponse);
+                    cAggregation.Aggregate(ttServiceID, XslPath, "", ref strResponse);
 
                     // Filter Flights
 
@@ -919,20 +895,20 @@ namespace wsTripXML.wsTravelTalk
 
                 if (strResponse.IndexOf("<SearchPromotionsResponse>") != -1)
                 {
-                    wsTravelTalk.cAggregation.ProcessMarkup(XslPath, "", ref strResponse);
+                    cAggregation.ProcessMarkup(XslPath, "", ref strResponse);
                 }
 
-                wsTravelTalk.modMain.PostServiceRequest(ref strResponse, ValidateXSDOut, ttServiceID, ttCredential.UserID);
+                modMain.PostServiceRequest(ref strResponse, ValidateXSDOut, (int)ttServiceID, ttCredential.UserID);
             }
 
             catch (Exception ex)
             {
-                strResponse = FormatErrorMessage((ttServices)ttServiceID, ex.Message, "");
+                strResponse = FormatErrorMessage(ttServiceID, ex.Message, "");
             }
             finally
             {
-                wsTravelTalk.modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, ttServiceID, Server.MachineName, ref UUID);
-                wsTravelTalk.modMain.LogDeals(ref strRequest, ref strResponse);
+                modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
+                modMain.LogDeals(ref strRequest, ref strResponse);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsLowFare_v03", "============= OTA Response ============= ", strResponse, UUID);
             }
@@ -948,30 +924,30 @@ namespace wsTripXML.wsTravelTalk
         [CompressionExtension.CompressionExtension()]
         [WebMethod(Description = "Process Low Fare Messages Request.")]
         [System.Web.Services.Protocols.SoapHeader("tXML")]
-        public wsTravelTalk.wmLowFareOut.OTA_AirLowFareSearchRS wmLowFare(wsTravelTalk.wmLowFareIn_v03.OTA_AirLowFareSearchRQ OTA_AirLowFareSearchRQ)
+        public wmLowFareOut.OTA_AirLowFareSearchRS wmLowFare(wmLowFareIn_v03.OTA_AirLowFareSearchRQ OTA_AirLowFareSearchRQ)
         {
 
             string xmlMessage = "";
-            wsTravelTalk.wmLowFareOut.OTA_AirLowFareSearchRS oLowFareRS = null;
+            wmLowFareOut.OTA_AirLowFareSearchRS oLowFareRS = null;
             XmlSerializer oSerializer = null;
             System.IO.StringWriter oWriter = null;
             System.IO.StringReader oReader = null;
 
-            oSerializer = new XmlSerializer(typeof(wsTravelTalk.wmLowFareIn_v03.OTA_AirLowFareSearchRQ));
+            oSerializer = new XmlSerializer(typeof(wmLowFareIn_v03.OTA_AirLowFareSearchRQ));
 
             oWriter = new System.IO.StringWriter(new StringBuilder());
             oSerializer.Serialize(oWriter, OTA_AirLowFareSearchRQ);
             xmlMessage = oWriter.ToString();
             xmlMessage = xmlMessage.Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
 
-            xmlMessage = ServiceRequest(xmlMessage, (int)ttServices.LowFare);
+            xmlMessage = ServiceRequest(xmlMessage, ttServices.LowFare);
 
             try
             {
                 oSerializer = null;
-                oSerializer = new XmlSerializer(type: typeof(wsTravelTalk.wmLowFareOut.OTA_AirLowFareSearchRS));
+                oSerializer = new XmlSerializer(@type: typeof(wmLowFareOut.OTA_AirLowFareSearchRS));
                 oReader = new System.IO.StringReader(xmlMessage);
-                oLowFareRS = (wsTravelTalk.wmLowFareOut.OTA_AirLowFareSearchRS)oSerializer.Deserialize(oReader);
+                oLowFareRS = (wmLowFareOut.OTA_AirLowFareSearchRS)oSerializer.Deserialize(oReader);
             }
             catch (Exception ex)
             {
@@ -985,7 +961,7 @@ namespace wsTripXML.wsTravelTalk
         [WebMethod(Description = "Process Low Fare Xml Messages Request.")]
         public string wmLowFareXml(string xmlRequest)
         {
-            return ServiceRequest(xmlRequest, (int)ttServices.LowFare);
+            return ServiceRequest(xmlRequest, ttServices.LowFare);
         }
 
         #endregion

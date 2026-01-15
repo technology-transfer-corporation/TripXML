@@ -211,7 +211,7 @@ Namespace wsTravelTalk
                     Provider = oNode.Attributes("Provider").Value
                     oNodeOnd = oNode.SelectSingleNode("AirItineraryPricingInfo/ItinTotalFare/TotalFare")
                     Fare = oNodeOnd.Attributes("Amount").Value
-                    Fare = Fare.Insert(Fare.Length - oNodeOnd.Attributes("DecimalPlaces").Value, ".")
+                    Fare = Fare.Insert(Fare.Length - CInt(oNodeOnd.Attributes("DecimalPlaces").Value), ".")
                     TotalFare = CType(Fare, Single)
                     If Not FlightSegments Is Nothing Then Erase FlightSegments
                     j = 0
@@ -265,7 +265,7 @@ Namespace wsTravelTalk
                                     ' Check Price
                                     oNodeOnd = oNode.SelectSingleNode("AirItineraryPricingInfo/ItinTotalFare/TotalFare")
                                     Fare = oNodeOnd.Attributes("Amount").Value
-                                    Fare = Fare.Insert(Fare.Length - oNodeOnd.Attributes("DecimalPlaces").Value, ".")
+                                    Fare = Fare.Insert(Fare.Length - CInt(oNodeOnd.Attributes("DecimalPlaces").Value), ".")
                                     Select Case CType(Fare, Single)
                                         Case TotalFare
                                             ' Same Price Check Provider (OfficeID)
@@ -325,7 +325,7 @@ Namespace wsTravelTalk
 
 #Region " Process Service Request All GDS "
 
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
+        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As ttServices) As String
             Dim strResponse As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
@@ -341,7 +341,7 @@ Namespace wsTravelTalk
                 StartTime = Now
 
                 PreServiceRequestPool(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
-                ValidateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
+                ValidateXSDOut = CBool(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()))
                 sb.Remove(0, sb.Length())
 
                 With ttCredential
@@ -357,7 +357,7 @@ Namespace wsTravelTalk
 
                                     'If ttAA Is Nothing Then
                                     Dim ekbpPCC As String = .Providers(i).PCC.Replace("*", "")
-                                    ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ekbpPCC).ToString())
+                                    ttProviderSystems = CType(Application.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ekbpPCC).ToString()), TripXMLProviderSystems)
                                     sb.Remove(0, sb.Length())
 
                                     If ttProviderSystems.AmadeusWS = False Then
@@ -423,7 +423,7 @@ Namespace wsTravelTalk
                                 End Try
                             Case "apollo", "galileo"
                                 Try
-                                    ttProviderSystems = Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString())
+                                    ttProviderSystems = CType(Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString()), TripXMLProviderSystems)
                                     sb.Remove(0, sb.Length())
                                     If ttProviderSystems.System Is Nothing Then
                                         GotResponse(FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(.System).Append(" system. Or invalid provider.").ToString(), .Providers(i).Name))
@@ -452,7 +452,7 @@ Namespace wsTravelTalk
                                 End Try
                             Case "sabre"
                                 Try
-                                    ttProviderSystems = Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString())
+                                    ttProviderSystems = CType(Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString()), TripXMLProviderSystems)
                                     sb.Remove(0, sb.Length())
                                     If ttProviderSystems.System Is Nothing Then
                                         GotResponse(FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(.System).Append(" system. Or invalid provider.").ToString(), .Providers(i).Name))
@@ -488,7 +488,7 @@ Namespace wsTravelTalk
                                 End Try
                             Case "worldspan"
                                 Try
-                                    ttProviderSystems = Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString())
+                                    ttProviderSystems = CType(Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString()), TripXMLProviderSystems)
                                     sb.Remove(0, sb.Length())
                                     If ttProviderSystems.System Is Nothing Then
                                         GotResponse(FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(.System).Append(" system. Or invalid provider.").ToString(), .Providers(i).Name))
@@ -707,7 +707,7 @@ Namespace wsTravelTalk
 
         End Function
 
-        <WebMethod(Description:="Process Low Fare Xml Messages Request.")> _
+        <WebMethod(Description:="Process Low Fare Xml Messages Request.")>
         Public Function wmLowFareXml(ByVal xmlRequest As String) As String
             Return ServiceRequest(xmlRequest, ttServices.LowFare)
         End Function

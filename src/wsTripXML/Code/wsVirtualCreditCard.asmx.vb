@@ -55,7 +55,7 @@ Namespace wsTravelTalk
 #Region " Process Service Request All GDS "
         Private sb As StringBuilder = New StringBuilder()
 
-        Private Function ServiceRequest(Of T)(ByVal request As VirtualCardRQBase, ByVal ttServiceID As Integer) As T
+        Private Function ServiceRequest(Of T)(ByVal request As VirtualCardRQBase, ByVal ttServiceID As ttServices) As T
             Dim strResponse As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
@@ -70,10 +70,10 @@ Namespace wsTravelTalk
                 PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, startTime, ttServiceID, Server.MachineName, uuid)
                 Select Case request.BankSource
                     Case VirtualCardSourceType.ConnexPay
-                        responseObj = SendPaymentRequest(ttServiceID, ttCredential, ttProviderSystems, request)
+                        responseObj = SendPaymentRequest(Of T)(ttServiceID, ttCredential, ttProviderSystems, request)
                         strResponse = TripXMLSerializer.Serialize(responseObj)
                     Case VirtualCardSourceType.Airwallex
-                        responseObj = SendPaymentRequest(ttServiceID, ttCredential, ttProviderSystems, request)
+                        responseObj = SendPaymentRequest(Of T)(ttServiceID, ttCredential, ttProviderSystems, request)
                         strResponse = TripXMLSerializer.Serialize(responseObj)
                     Case VirtualCardSourceType.USBank
                         Select Case ttCredential.Providers(0).Name.ToLower
@@ -88,7 +88,7 @@ Namespace wsTravelTalk
                                 responseObj = TripXMLSerializer.Deserialize(Of T)(strResponse)
                         End Select
                 End Select
-                validateXSDOut = Application.Get($"XSD{ttCredential.UserID}Out")
+                validateXSDOut = CBool(Application.Get($"XSD{ttCredential.UserID}Out"))
                 PostServiceRequest(strResponse, validateXSDOut, ttServiceID, ttCredential.UserID)
             Catch ex As Exception
                 strResponse = FormatErrorMessage(ttServiceID, ex.Message, ttCredential.Providers(0).Name)

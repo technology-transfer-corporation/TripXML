@@ -12,7 +12,7 @@ Namespace wsTravelTalk
         Private sb As StringBuilder = New StringBuilder()
         Private ttProviderSystems As TripXMLProviderSystems
 
-        Public Property ServiceID() As Integer
+        Public Property ServiceID() As ttServices
 
         Public Property Request() As String = ""
 
@@ -162,7 +162,7 @@ Namespace wsTravelTalk
 
         Public Function BusinessLogic(ByVal strResponse As String, ByVal strBusiness As String, ByVal xslPath As String, ByVal strMsg As String) As String
 
-            If strResponse.IndexOf("<Success />") <> -1 Or strResponse.IndexOf("<Success></Success>") Then
+            If strResponse.IndexOf("<Success />") <> -1 OrElse strResponse.IndexOf("<Success></Success>") <> -1 Then
                 strResponse = strResponse.Replace("<Success />", sb.Append(strBusiness).Append("<Success />").ToString())
                 sb.Remove(0, sb.Length())
                 strResponse = strResponse.Replace("<Success></Success>", sb.Append(strBusiness).Append("<Success></Success>").ToString())

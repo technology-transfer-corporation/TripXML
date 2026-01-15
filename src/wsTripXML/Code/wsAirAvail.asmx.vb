@@ -83,24 +83,24 @@ Namespace wsTravelTalk
                     ' *******************
                     ' Decode Airports   *
                     ' *******************
-                    oNode.SelectSingleNode("DepartureAirport").InnerText = DecodeValue(oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value, DecodingType.Airport)
-                    oNode.SelectSingleNode("ArrivalAirport").InnerText = DecodeValue(oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value, DecodingType.Airport)
+                    oNode.SelectSingleNode("DepartureAirport").InnerText = DecodeValue(CType(oNode.SelectSingleNode("DepartureAirport").Attributes("LocationCode").Value, DecodingType), CStr(DecodingType.Airport))
+                    oNode.SelectSingleNode("ArrivalAirport").InnerText = DecodeValue(CType(oNode.SelectSingleNode("ArrivalAirport").Attributes("LocationCode").Value, DecodingType), CStr(DecodingType.Airport))
 
                     ' *******************
                     ' Decode Airlines   *
                     ' *******************
                     If Not oNode.SelectSingleNode("OperatingAirline") Is Nothing Then
-                        oNode.SelectSingleNode("OperatingAirline").InnerText = DecodeValue(oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value, DecodingType.Airline)
+                        oNode.SelectSingleNode("OperatingAirline").InnerText = DecodeValue(CType(oNode.SelectSingleNode("OperatingAirline").Attributes("Code").Value, DecodingType), CStr(DecodingType.Airline))
                     End If
                     If Not oNode.SelectSingleNode("MarketingAirline") Is Nothing Then
-                        oNode.SelectSingleNode("MarketingAirline").InnerText = DecodeValue(oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value, DecodingType.Airline)
+                        oNode.SelectSingleNode("MarketingAirline").InnerText = DecodeValue(CType(oNode.SelectSingleNode("MarketingAirline").Attributes("Code").Value, DecodingType), CStr(DecodingType.Airline))
                     End If
 
                     ' *******************
                     ' Decode Equipments *
                     ' *******************
                     If Not oNode.SelectSingleNode("Equipment") Is Nothing Then
-                        oNode.SelectSingleNode("Equipment").InnerText = DecodeValue(oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value, DecodingType.Equipment)
+                        oNode.SelectSingleNode("Equipment").InnerText = DecodeValue(CType(oNode.SelectSingleNode("Equipment").Attributes("AirEquipType").Value, DecodingType), CStr(DecodingType.Equipment))
                     End If
                 Next
 
@@ -126,7 +126,7 @@ Namespace wsTravelTalk
 
 #Region " Process Service Request All GDS "
 
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
+        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As ttServices) As String
             Dim strResponse As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
@@ -139,7 +139,7 @@ Namespace wsTravelTalk
                 StartTime = Now
 
                 PreServiceRequestPool(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
-                ValidateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
+                ValidateXSDOut = CBool(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()))
                 sb.Remove(0, sb.Length())
 
                 With ttCredential
@@ -152,7 +152,7 @@ Namespace wsTravelTalk
                                     'ttAA = Application.Get(sb.Append("API").Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString())
                                     sb.Remove(0, sb.Length())
                                     'If ttAA Is Nothing Then
-                                    ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(i).PCC).ToString())
+                                    ttProviderSystems = CType(Application.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(i).PCC).ToString()), TripXMLProviderSystems)
                                     sb.Remove(0, sb.Length())
 
                                     If ttProviderSystems.AmadeusWS = False Then
@@ -212,7 +212,7 @@ Namespace wsTravelTalk
                                 End Try
                             Case "apollo", "galileo"
                                 Try
-                                    ttProviderSystems = Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString())
+                                    ttProviderSystems = CType(Application.Get(sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC).ToString()), TripXMLProviderSystems)
                                     sb.Remove(0, sb.Length())
                                     If ttProviderSystems.System Is Nothing Then
                                         GotResponse(FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(.System).Append(" system. Or invalid provider.").ToString(), .Providers(i).Name))

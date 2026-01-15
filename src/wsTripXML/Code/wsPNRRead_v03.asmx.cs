@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web.Configuration;
 using System.Web.Services;
 using System.Xml;
 using System.Xml.Serialization;
@@ -20,7 +21,7 @@ namespace wsTripXML.wsTravelTalk
     [WebService(Namespace = "http://tripxml.downtowntravel.com/tripxml/wsPNRRead", Name = "wsPNRRead", Description = "A TripXML Web Service to Process PNR Read Request - version 03.")]
     public class wsPNRRead_v03 : WebService
     {
-        public wsTravelTalk.TripXML tXML;
+        public TripXML tXML;
 
         #region  Web Services Designer Generated Code 
 
@@ -146,6 +147,16 @@ namespace wsTripXML.wsTravelTalk
                                             oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower());
                                         }
                                     }
+                                    else
+                                    {
+                                        attCode.Value = EncodeValue(DecodingType.Airline, oNode.SelectSingleNode("OperatingAirline").InnerText);
+
+                                        if (!string.IsNullOrEmpty(attCode.Value))
+                                        {
+                                            oNode.SelectSingleNode("OperatingAirline").Attributes.Append(attCode);
+                                            oNode.SelectSingleNode("OperatingAirline").InnerText = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(oNode.SelectSingleNode("OperatingAirline").InnerText.ToLower());
+                                        }
+                                    }
                                 }
                             }
                             else if (oNode.SelectSingleNode("OperatingAirline") is not null)
@@ -200,7 +211,7 @@ namespace wsTripXML.wsTravelTalk
         #region  Process Service Request All GDS 
         private StringBuilder sb = new StringBuilder();
 
-        private string ServiceRequest(string strRequest, int ttServiceID)
+        private string ServiceRequest(string strRequest, ttServices ttServiceID)
         {
             string strResponse = "";
             TravelTalkCredential ttCredential = default;
@@ -214,7 +225,7 @@ namespace wsTripXML.wsTravelTalk
                 startTime = DateTime.Now;
 
                 var argoApp = Application;
-                wsTravelTalk.modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, startTime, ttServiceID, Server.MachineName, ref uuid);
+                modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, startTime, (int)ttServiceID, Server.MachineName, ref uuid);
                 validateXSDOut = Conversions.ToBoolean(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
                 sb.Remove(0, sb.Length);
 
@@ -222,41 +233,48 @@ namespace wsTripXML.wsTravelTalk
                 {
                     case "AmadeusWS":
                         {
-                            strResponse = wsTravelTalk.modMain.SendPNRRequestAmadeusWS((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest, "v03");
-                            break;
-                        }
-                    case "Apollo":
-                    case "Galileo":
-                        {
-                            strResponse = wsTravelTalk.modMain.SendPNRRequestGalileo((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest, "v03");
+                            strResponse = modMain.SendPNRRequestAmadeusWS(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest, "v03");
                             break;
                         }
                     case "Sabre":
                         {
                             if (ttProviderSystems.System is null)
                             {
-                                FormatErrorMessage((ttServices)ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers[0].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers[0].Name);
+                                FormatErrorMessage(ttServiceID, sb.Append("Access denied to ").Append(ttCredential.Providers[0].Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString(), ttCredential.Providers[0].Name);
                                 sb.Remove(0, sb.Length);
                                 break;
                             }
 
                             ttProviderSystems.AAAPCC = ttCredential.Providers[0].PCC;
-                            strResponse = wsTravelTalk.modMain.SendPNRRequestSabre((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest, "v03");
+                            strResponse = modMain.SendPNRRequestSabre(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest, "v03");
                             break;
                         }
-
                     case "Travelport":
                         {
-                            strResponse = wsTravelTalk.modMain.SendPNRRequestTravelPort((ttServices)ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest, "v03");
+                            strResponse = modMain.SendPNRRequestTravelPort(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest, "v03");
+                            break;
+                        }
+                    case "Apollo":
+                    case "Galileo":
+                        {
+                            strResponse = modMain.SendPNRRequestGalileo(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest, "v03");
                             break;
                         }
                     case "Worldspan":
                         {
-                            var ttDefProvider = new TripXMLProviderSystems();
-                            var argoApp1 = Application;
-                            wsTravelTalk.modMain.PreServiceRequest(ref strRequest, ref argoApp1, ref ttCredential, ref ttDefProvider, startTime, ttServiceID, Server.MachineName, ref uuid, "", true);
-                            // strResponse = SendPNRRequestWorldspan(ttServiceID, ttCredential, ttProviderSystems, strRequest, "v03")
-                            strResponse = wsTravelTalk.modMain.SendPNRRequestTravelPort((ttServices)ttServiceID, ref ttCredential, ref ttDefProvider, ref strRequest, "v03");
+
+                            if (Conversions.ToBoolean(WebConfigurationManager.AppSettings["IsTravelportWorldspan"]))
+                            {
+                                var ttDefProvider = new TripXMLProviderSystems();
+                                var argoApp1 = Application;
+                                modMain.PreServiceRequest(ref strRequest, ref argoApp1, ref ttCredential, ref ttDefProvider, startTime, (int)ttServiceID, Server.MachineName, ref uuid, "", true);
+                                strResponse = modMain.SendPNRRequestTravelPort(ttServiceID, ref ttCredential, ref ttDefProvider, ref strRequest, "v03");
+                            }
+                            else
+                            {
+                                strResponse = modMain.SendPNRRequestWorldspan(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest, "v03");
+                            }
+
                             break;
                         }
 
@@ -268,16 +286,16 @@ namespace wsTripXML.wsTravelTalk
 
                 strResponse = DecodePNRRead(strResponse, ttCredential.UserID, uuid);
 
-                wsTravelTalk.modMain.PostServiceRequest(ref strResponse, validateXSDOut, ttServiceID, ttCredential.UserID);
+                modMain.PostServiceRequest(ref strResponse, validateXSDOut, (int)ttServiceID, ttCredential.UserID);
             }
 
             catch (Exception ex)
             {
-                strResponse = FormatErrorMessage((ttServices)ttServiceID, ex.Message, ttCredential.Providers[0].Name);
+                strResponse = FormatErrorMessage(ttServiceID, ex.Message, ttCredential.Providers[0].Name);
             }
             finally
             {
-                wsTravelTalk.modMain.LogResponse(ref strResponse, ref ttCredential, startTime, ttServiceID, Server.MachineName, ref uuid);
+                modMain.LogResponse(ref strResponse, ref ttCredential, startTime, (int)ttServiceID, Server.MachineName, ref uuid);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsPNRRead", "============= OTA Response ============= ", strResponse, uuid);
             }
@@ -293,25 +311,25 @@ namespace wsTripXML.wsTravelTalk
         [CompressionExtension.CompressionExtension()]
         [WebMethod(Description = "Process PNR Read Messages Request.")]
         [System.Web.Services.Protocols.SoapHeader("tXML")]
-        public wsTravelTalk.wmTravelItineraryOut_v03.OTA_TravelItineraryRS wmPNRRead(wsTravelTalk.wmPNRReadIn.OTA_ReadRQ OTA_ReadRQ)
+        public wmTravelItineraryOut_v03.OTA_TravelItineraryRS wmPNRRead(wmPNRReadIn.OTA_ReadRQ OTA_ReadRQ)
         {
 
-            wsTravelTalk.wmTravelItineraryOut_v03.OTA_TravelItineraryRS oPNRReadRS;
+            wmTravelItineraryOut_v03.OTA_TravelItineraryRS oPNRReadRS;
             string xmlMessage = string.Empty;
             try
             {
-                var oSerializer = new XmlSerializer(typeof(wsTravelTalk.wmPNRReadIn.OTA_ReadRQ));
+                var oSerializer = new XmlSerializer(typeof(wmPNRReadIn.OTA_ReadRQ));
                 var oWriter = new StringWriter(new StringBuilder());
                 oSerializer.Serialize(oWriter, OTA_ReadRQ);
 
                 xmlMessage = oWriter.ToString();
                 xmlMessage = xmlMessage.Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
 
-                xmlMessage = ServiceRequest(xmlMessage, (int)ttServices.PNRRead);
+                xmlMessage = ServiceRequest(xmlMessage, ttServices.PNRRead);
 
-                oSerializer = new XmlSerializer(type: typeof(wsTravelTalk.wmTravelItineraryOut_v03.OTA_TravelItineraryRS));
+                oSerializer = new XmlSerializer(@type: typeof(wmTravelItineraryOut_v03.OTA_TravelItineraryRS));
                 var oReader = new StringReader(xmlMessage);
-                oPNRReadRS = (wsTravelTalk.wmTravelItineraryOut_v03.OTA_TravelItineraryRS)oSerializer.Deserialize(oReader);
+                oPNRReadRS = (wmTravelItineraryOut_v03.OTA_TravelItineraryRS)oSerializer.Deserialize(oReader);
             }
             catch (Exception ex)
             {
@@ -322,9 +340,9 @@ namespace wsTripXML.wsTravelTalk
 
         }
 
-        private wsTravelTalk.wmTravelItineraryOut_v03.OTA_TravelItineraryRS GetErrorPNRObject(Exception ex, string xmlMessage)
+        private wmTravelItineraryOut_v03.OTA_TravelItineraryRS GetErrorPNRObject(Exception ex, string xmlMessage)
         {
-            wsTravelTalk.wmTravelItineraryOut_v03.OTA_TravelItineraryRS oPNRReadRS;
+            wmTravelItineraryOut_v03.OTA_TravelItineraryRS oPNRReadRS;
             var errList = new List<Exception>();
 
             try
@@ -345,21 +363,21 @@ namespace wsTripXML.wsTravelTalk
                 }
 
                 string itinRefXmlList;
-                wsTravelTalk.wmTravelItineraryOut_v03.ItineraryRef oItinRef;
+                wmTravelItineraryOut_v03.ItineraryRef oItinRef;
 
-                var oCustInfos = new wsTravelTalk.wmTravelItineraryOut_v03.CustomerInfosRS();
-                wsTravelTalk.wmTravelItineraryOut_v03.TPA_ExtensionsRS oTPA;
+                var oCustInfos = new wmTravelItineraryOut_v03.CustomerInfosRS();
+                wmTravelItineraryOut_v03.TPA_ExtensionsRS oTPA;
 
                 try
                 {
                     itinRefXmlList = oRoot.SelectSingleNode("TravelItinerary/ItineraryRef")?.OuterXml;
-                    oSerializer = new XmlSerializer(type: typeof(wsTravelTalk.wmTravelItineraryOut_v03.ItineraryRef));
+                    oSerializer = new XmlSerializer(@type: typeof(wmTravelItineraryOut_v03.ItineraryRef));
                     oReader = new StringReader(itinRefXmlList);
-                    oItinRef = (wsTravelTalk.wmTravelItineraryOut_v03.ItineraryRef)oSerializer.Deserialize(oReader);
+                    oItinRef = (wmTravelItineraryOut_v03.ItineraryRef)oSerializer.Deserialize(oReader);
                 }
                 catch (Exception eref)
                 {
-                    oItinRef = new wsTravelTalk.wmTravelItineraryOut_v03.ItineraryRef();
+                    oItinRef = new wmTravelItineraryOut_v03.ItineraryRef();
                     errList.Add(eref);
                 }
 
@@ -367,14 +385,14 @@ namespace wsTripXML.wsTravelTalk
                 try
                 {
                     custInfoXmlList = oRoot.SelectSingleNode("TravelItinerary/CustomerInfos")?.OuterXml;
-                    oSerializer = new XmlSerializer(type: typeof(wsTravelTalk.wmTravelItineraryOut_v03.CustomerInfosRS), new XmlRootAttribute("CustomerInfos"));
+                    oSerializer = new XmlSerializer(@type: typeof(wmTravelItineraryOut_v03.CustomerInfosRS), new XmlRootAttribute("CustomerInfos"));
                     oReader = new StringReader(custInfoXmlList);
-                    oCustInfos = (wsTravelTalk.wmTravelItineraryOut_v03.CustomerInfosRS)oSerializer.Deserialize(oReader);
+                    oCustInfos = (wmTravelItineraryOut_v03.CustomerInfosRS)oSerializer.Deserialize(oReader);
                 }
 
                 catch (Exception ecust)
                 {
-                    oCustInfos = new wsTravelTalk.wmTravelItineraryOut_v03.CustomerInfosRS();
+                    oCustInfos = new wmTravelItineraryOut_v03.CustomerInfosRS();
                     errList.Add(ecust);
                 }
 
@@ -382,29 +400,29 @@ namespace wsTripXML.wsTravelTalk
                 try
                 {
                     tpaInfoXmlList = oRoot.SelectSingleNode("TravelItinerary/TPA_Extensions")?.OuterXml;
-                    oSerializer = new XmlSerializer(type: typeof(wsTravelTalk.wmTravelItineraryOut_v03.TPA_ExtensionsRS), new XmlRootAttribute("TPA_Extensions"));
+                    oSerializer = new XmlSerializer(@type: typeof(wmTravelItineraryOut_v03.TPA_ExtensionsRS), new XmlRootAttribute("TPA_Extensions"));
                     oReader = new StringReader(tpaInfoXmlList);
-                    oTPA = (wsTravelTalk.wmTravelItineraryOut_v03.TPA_ExtensionsRS)oSerializer.Deserialize(oReader);
+                    oTPA = (wmTravelItineraryOut_v03.TPA_ExtensionsRS)oSerializer.Deserialize(oReader);
                 }
                 catch (Exception etpa)
                 {
-                    oTPA = new wsTravelTalk.wmTravelItineraryOut_v03.TPA_ExtensionsRS();
+                    oTPA = new wmTravelItineraryOut_v03.TPA_ExtensionsRS();
                     errList.Add(etpa);
                 }
 
-                var travelItin = new wsTravelTalk.wmTravelItineraryOut_v03.TravelItinerary()
+                var travelItin = new wmTravelItineraryOut_v03.TravelItinerary()
                 {
                     ItineraryRef = oItinRef,
                     CustomerInfos = oCustInfos,
                     TPA_Extensions = oTPA
                 };
 
-                oPNRReadRS = new wsTravelTalk.wmTravelItineraryOut_v03.OTA_TravelItineraryRS()
+                oPNRReadRS = new wmTravelItineraryOut_v03.OTA_TravelItineraryRS()
                 {
                     Errors = GetErrorObject(errList),
                     ConversationID = sessionID,
                     TravelItinerary = travelItin,
-                    Success = (string)null
+                    Success = null
                 };
             }
 
@@ -412,30 +430,30 @@ namespace wsTripXML.wsTravelTalk
             {
                 errList.Add(exX);
 
-                oPNRReadRS = new wsTravelTalk.wmTravelItineraryOut_v03.OTA_TravelItineraryRS() { Errors = GetErrorObject(errList) };
+                oPNRReadRS = new wmTravelItineraryOut_v03.OTA_TravelItineraryRS() { Errors = GetErrorObject(errList) };
             }
 
             return oPNRReadRS;
         }
 
-        private wsTravelTalk.wmTravelItineraryOut_v03.Error[] GetErrorObject(List<Exception> exs)
+        private wmTravelItineraryOut_v03.Error[] GetErrorObject(List<Exception> exs)
         {
-            var errMessage = new List<wsTravelTalk.wmTravelItineraryOut_v03.Error>();
+            var errMessage = new List<wmTravelItineraryOut_v03.Error>();
             try
             {
                 foreach (Exception ex in exs)
                 {
-                    errMessage.Add(new wsTravelTalk.wmTravelItineraryOut_v03.Error() { Value = ex.Message });
+                    errMessage.Add(new wmTravelItineraryOut_v03.Error() { Value = ex.Message });
                     if (ex.InnerException is not null)
                     {
-                        errMessage.Add(new wsTravelTalk.wmTravelItineraryOut_v03.Error() { Value = ex.InnerException.Message });
+                        errMessage.Add(new wmTravelItineraryOut_v03.Error() { Value = ex.InnerException.Message });
                     }
                 }
             }
             catch (Exception exp)
             {
-                errMessage.Add(new wsTravelTalk.wmTravelItineraryOut_v03.Error() { Value = exp.Message });
-                errMessage.Add(new wsTravelTalk.wmTravelItineraryOut_v03.Error() { Value = exs.FirstOrDefault().Message });
+                errMessage.Add(new wmTravelItineraryOut_v03.Error() { Value = exp.Message });
+                errMessage.Add(new wmTravelItineraryOut_v03.Error() { Value = exs.FirstOrDefault().Message });
             }
 
             return errMessage.ToArray();
@@ -444,10 +462,8 @@ namespace wsTripXML.wsTravelTalk
         [WebMethod(Description = "Process PNR Read Xml Messages Request.")]
         public string wmPNRReadXml(string xmlRequest)
         {
-            return ServiceRequest(xmlRequest, (int)ttServices.PNRRead);
+            return ServiceRequest(xmlRequest, ttServices.PNRRead);
         }
-
-
 
         #endregion
 

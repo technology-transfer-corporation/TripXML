@@ -176,10 +176,10 @@ Namespace wsTravelTalk
                 If oRoot.SelectSingleNode("SailingDateRange").Attributes("Duration") Is Nothing Then
                     intdefaultSailingDuration = 0
                     oAttr = oDoc.CreateAttribute("Duration")
-                    oAttr.Value = intdefaultSailingDuration
+                    oAttr.Value = intdefaultSailingDuration.ToString()
                     oRoot.SelectSingleNode("SailingDateRange").Attributes.Append(oAttr)
                 Else
-                    intdefaultSailingDuration = oRoot.SelectSingleNode("SailingDateRange").Attributes("Duration").Value
+                    intdefaultSailingDuration = CInt(oRoot.SelectSingleNode("SailingDateRange").Attributes("Duration").Value)
                 End If
                 AddDuration = (intdefaultSailingDuration = 0)
 
@@ -203,12 +203,12 @@ Namespace wsTravelTalk
                         sb.Remove(0, sb.Length())
                     Else
                         ' Check ShipCode for Single Cruise Line
-                        ShipCode = IsNothing(oNode.Attributes("ShipCode"), "")
+                        ShipCode = CStr(IsNothing(oNode.Attributes("ShipCode"), ""))
                         ' Get inclusiveFilteringSupportedForSailAvl
                         If oNode.SelectSingleNode("InclusivePackageOption") Is Nothing Then
                             InclusiveFilter = ""
                         Else
-                            InclusiveFilter = IsNothing(oNode.SelectSingleNode("InclusivePackageOption").Attributes("InclusiveIndicator"), "")
+                            InclusiveFilter = CStr(IsNothing(oNode.SelectSingleNode("InclusivePackageOption").Attributes("InclusiveIndicator"), ""))
                         End If
                         If ShipCode.Length > 0 Then
                             If Not IsCruiseFilterValue(ttCruiseShips, VendorCode, ShipCode) Then
@@ -252,7 +252,7 @@ Namespace wsTravelTalk
                         If oNode.SelectSingleNode("InclusivePackageOption") Is Nothing Then
                             InclusiveFilter = ""
                         Else
-                            InclusiveFilter = IsNothing(oNode.SelectSingleNode("InclusivePackageOption").Attributes("InclusiveIndicator"), "")
+                            InclusiveFilter = CStr(IsNothing(oNode.SelectSingleNode("InclusivePackageOption").Attributes("InclusiveIndicator"), ""))
                         End If
                         If InclusiveFilter.ToString.Length > 0 Then
                             Throw New Exception("GroupIndicator not allowed if multiple cruise lines selected in the request.")
@@ -261,13 +261,13 @@ Namespace wsTravelTalk
                         If oNode.Attributes("VendorCode") Is Nothing Then
                             Throw New Exception("Invalid request. Cruise line vendor code is mandatory.")
                         End If
-                        VendorCode = IsNothing(oNode.Attributes("VendorCode"), "")
+                        VendorCode = CStr(IsNothing(oNode.Attributes("VendorCode"), ""))
                         If Not IsDecodeValue(ttCruiseLines, VendorCode) Then
                             Throw New Exception(sb.Append("Invalid Cruise Line Code - ").Append(VendorCode).ToString())
                             sb.Remove(0, sb.Length())
                         Else
                             ' Check ShipCode
-                            ShipCode = IsNothing(oNode.Attributes("ShipCode"), "")
+                            ShipCode = CStr(IsNothing(oNode.Attributes("ShipCode"), ""))
                             If ShipCode.Length > 0 Then
                                 Throw New Exception("Ship code not allow with more than one preferred cruise line selection.")
                             End If
@@ -307,7 +307,7 @@ Namespace wsTravelTalk
                 End If
 
                 If AddDuration Then
-                    oRoot.SelectSingleNode("SailingDateRange").Attributes("Duration").Value = intdefaultSailingDuration
+                    oRoot.SelectSingleNode("SailingDateRange").Attributes("Duration").Value = intdefaultSailingDuration.ToString()
                     strRequest = oDoc.OuterXml
                 End If
 
@@ -322,7 +322,7 @@ Namespace wsTravelTalk
 
 #Region " Process Service Request All GDS "
 
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
+        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As ttServices) As String
             Dim strResponse As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
@@ -334,7 +334,7 @@ Namespace wsTravelTalk
                 StartTime = Now
 
                 PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
-                ValidateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
+                ValidateXSDOut = CBool(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()))
                 sb.Remove(0, sb.Length())
 
                 ' Validate Rules for CruiseSailAvail

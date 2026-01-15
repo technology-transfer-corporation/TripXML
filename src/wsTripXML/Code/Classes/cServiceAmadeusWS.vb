@@ -362,7 +362,7 @@ Namespace wsTravelTalk
 
             Catch ex As Exception
                 sb.Append("AmadeusWS").Append("-").Append(ttProviderSystems.PCC)
-                strResponse = FormatErrorMessage(ServiceID, ex.Message, sb.ToString(), "", False, Version)
+                strResponse = FormatErrorMessage(CType(ServiceID, ttServices), ex.Message, sb.ToString(), "", False, Version)
                 sb.Remove(0, sb.Length)
             Finally
                 If Not ttService Is Nothing Then ttService = Nothing
@@ -397,7 +397,7 @@ Namespace wsTravelTalk
                 End With
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(ServiceID, ex.Message, "Amadeus", "", False, Version)
+                strResponse = FormatErrorMessage(CType(ServiceID, ttServices), ex.Message, "Amadeus", "", False, Version)
             Finally
                 If Not ttService Is Nothing Then ttService = Nothing
                 RaiseEvent GotResponse(strResponse)
@@ -431,7 +431,7 @@ Namespace wsTravelTalk
                 End With
 
             Catch ex As Exception
-                strResponse = FormatErrorMessage(ServiceID, ex.Message, "Amadeus", "", False, Version)
+                strResponse = FormatErrorMessage(CType(ServiceID, ttServices), ex.Message, "Amadeus", "", False, Version)
             Finally
                 If Not ttService Is Nothing Then ttService = Nothing
                 RaiseEvent GotResponse(strResponse)
@@ -905,7 +905,7 @@ Namespace wsTravelTalk
 
         Public Function BusinessLogic(ByVal strResponse As String, ByVal strBusiness As String, ByVal xslPath As String, ByVal strMsg As String, ByVal strExt As String) As String
 
-            If strResponse.IndexOf("<Success />") <> -1 Or strResponse.IndexOf("<Success></Success>") Then
+            If strResponse.Contains("<Success />") Or strResponse.Contains("<Success></Success>") Then
                 Dim sb As StringBuilder = New StringBuilder()
                 sb.Append(strBusiness).Append("<Success />")
                 strResponse = strResponse.Replace("<Success />", sb.ToString())

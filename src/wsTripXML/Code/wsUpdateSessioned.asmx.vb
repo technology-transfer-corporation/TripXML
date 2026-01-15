@@ -220,7 +220,7 @@ Namespace wsTravelTalk
         Public tXML As TripXML
 
 #Region " Process Service Request All Suppliers "
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
+        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As ttServices) As String
             Dim strResponse As String = ""
             'Dim ttAA As AmadeusAdapter = Nothing
             Dim ttCredential As TravelTalkCredential = Nothing
@@ -234,7 +234,7 @@ Namespace wsTravelTalk
                 startTime = Now
 
                 PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, startTime, ttServiceID, Server.MachineName, uuID)
-                validateXSDOut = Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString())
+                validateXSDOut = CBool(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()))
                 sb.Remove(0, sb.Length())
 
                 With ttCredential

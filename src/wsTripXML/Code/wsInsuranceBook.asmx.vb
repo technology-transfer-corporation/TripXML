@@ -56,7 +56,7 @@ Namespace wsTravelTalk
 
 #Region " Process Service Request All GDS "
 
-        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As Integer) As String
+        Private Function ServiceRequest(ByVal strRequest As String, ByVal ttServiceID As ttServices) As String
             Dim strResponse As String = ""
             Dim ttCredential As TravelTalkCredential = Nothing
             Dim ttProviderSystems As TripXMLProviderSystems = Nothing
@@ -68,7 +68,7 @@ Namespace wsTravelTalk
                 StartTime = Now
 
                 PreServiceRequest(strRequest, Application, ttCredential, ttProviderSystems, StartTime, ttServiceID, Server.MachineName, UUID)
-                ValidateXSDOut = Application.Get("XSD" & ttCredential.UserID & "Out")
+                ValidateXSDOut = CBool(Application.Get("XSD" & ttCredential.UserID & "Out"))
 
                 Select Case ttCredential.Providers(0).Name
                     Case "iTravelInsured", "iTI"

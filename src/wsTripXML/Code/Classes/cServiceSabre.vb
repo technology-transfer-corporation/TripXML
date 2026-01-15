@@ -16,7 +16,7 @@ Namespace wsTravelTalk
         Private sb As StringBuilder = New StringBuilder()
 
 
-        Public Property ServiceID() As Integer
+        Public Property ServiceID() As ttServices
         Public Property Request() As String = ""
         Public Property Version() As String = ""
         Public Property ProviderSystems() As TripXMLProviderSystems
@@ -119,9 +119,9 @@ Namespace wsTravelTalk
 
                     If dt.Rows.Count > 0 Then
                         Select Case ServiceID
-                            Case 6, 7
+                            Case ttServices.LowFare, ttServices.LowFarePlus
                                 strResponse = FilterAirLineClasses(strResponse, dt)
-                            Case 68
+                            Case ttServices.LowFareSchedule
                                 'strResponse = FilterAirLineClasses_LFS(strResponse, dt)
                         End Select
                     End If
@@ -420,7 +420,7 @@ Namespace wsTravelTalk
 
         Public Function BusinessLogic(ByVal strResponse As String, ByVal strBusiness As String, ByVal xslPath As String, ByVal strMsg As String, ByVal strExt As String) As String
             Dim sb1 As StringBuilder = New StringBuilder()
-            If strResponse.IndexOf("<Success />") <> -1 Or strResponse.IndexOf("<Success></Success>") Then
+            If strResponse.IndexOf("<Success />") <> -1 OrElse strResponse.IndexOf("<Success></Success>") <> -1 Then
                 strResponse = strResponse.Replace("<Success />", sb1.Append(strBusiness).Append("<Success />").ToString())
                 sb1.Remove(0, sb1.Length())
                 strResponse = strResponse.Replace("<Success></Success>", sb1.Append(strBusiness).Append("<Success></Success>").ToString())
