@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<!-- ================================================================== -->
-	<!-- Sabre_IssueTicketRS.xsl 															-->
-	<!-- ================================================================== -->
-  <!-- Date: 20 Jan 2026 - Riasnenko Fixed Error messages				-->
-	<!-- Date: 11 Mar 2025 - Riasnenko Fixed Error messages				-->
-  <!-- Date: 19 May 2014 - Suraj Chaged the code to read the e ticket no				-->
-	<!-- Date: 27 Mar 2014 - added support for designate printer errors					-->
-	<!-- Date: 05 Mar 2014 - corrected mapping of ticket control type					-->
-	<!-- Date: 21 Feb 2014 - indicate a ticket when it is void								-->
+	<!-- ==================================================================			-->
+	<!-- Sabre_IssueTicketRS.xsl 													-->
+	<!-- ==================================================================			-->
+    <!-- Date: 20 Jan 2026 - Riasnenko Fixed Error messages							-->
+	<!-- Date: 11 Mar 2025 - Riasnenko Fixed Error messages							-->
+    <!-- Date: 19 May 2014 - Suraj Chaged the code to read the e ticket no			-->
+	<!-- Date: 27 Mar 2014 - added support for designate printer errors				-->
+	<!-- Date: 05 Mar 2014 - corrected mapping of ticket control type				-->
+	<!-- Date: 21 Feb 2014 - indicate a ticket when it is void						-->
 	<!-- Date: 29 Jan 2014 - added optional ConversationID mapping					-->
 	<!-- Date: 09 May 2012- Kasun done the mapping of ETicket no					-->
-	<!-- Date: 10 Dec 2010 - Rastko														-->
-	<!-- ================================================================== -->
+	<!-- Date: 10 Dec 2010 - Rastko													-->
+	<!-- ==================================================================			-->
 	<xsl:output method="xml" omit-xml-declaration="yes"/>
 	<xsl:template match="/">
 		<xsl:apply-templates select="AirTicketRS"/>
