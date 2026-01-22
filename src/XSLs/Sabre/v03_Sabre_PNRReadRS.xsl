@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 22 Jan 2026 - Samokhvalov  - FormOfPayment-MCO fixes
   Date: 13 Jan 2026 - Riasnenko - Fixed CustomerInfo/PersonName templates
   Date: 08 Dec 2025 - Riasnenko - Added Corporate Fare 
   Date: 05 Dec 2025 - Samokhvalov - FormOfPayment-MCO fixes
@@ -5003,17 +5004,19 @@
 					<xsl:value-of select="@RPH"/>
 				</xsl:attribute>
 
-				<xsl:variable name="tkn">
-					<xsl:value-of select="$accMCO[TicketingInfo/OriginalTicketNumber]/TicketingInfo/OriginalTicketNumber"/>
-				</xsl:variable>
-				
-				<xsl:if test="count($accMCO) > 0">
-					<xsl:apply-templates select="$accMCO[DocumentInfo/Document[@Number=substring($tkn,4)] or 
+				<xsl:for-each select="$accMCO[TicketingInfo/OriginalTicketNumber]/TicketingInfo/OriginalTicketNumber">
+					<xsl:variable name="tkn">
+						<!--<xsl:value-of select="$accMCO[TicketingInfo/OriginalTicketNumber]/TicketingInfo/OriginalTicketNumber"/>-->
+						<xsl:value-of select="."/>
+					</xsl:variable>
+
+					<xsl:if test="count($accMCO) > 0">
+						<xsl:apply-templates select="$accMCO[DocumentInfo/Document[@Number=substring($tkn,4)] or 
 											 substring(DocumentInfo/Document[@Number=substring($tkn,4)],1,3)=890 or
 										     Airline/@Code='XD']" mode="mco">
-					</xsl:apply-templates>
-
-				</xsl:if>
+						</xsl:apply-templates>
+					</xsl:if>
+				</xsl:for-each>
 
 				<xsl:choose>
 					<xsl:when test="(Text='CHECK') or (Text='CASH')">
