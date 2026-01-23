@@ -7,7 +7,7 @@ xcopy "*.dll"  "..\..\TripXMLMain\Xsl\TCML"  /c /d /i /y
 xcopy "*.dll"  "..\..\wsTripXML\Xsl\TXML"  /c /d /i /y
 
 del "*.dll" 
-pause
+rem pause
 
 
 

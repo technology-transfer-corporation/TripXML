@@ -86,8 +86,8 @@ xsltc /settings:document+,script+ v04_Galileo_QueueReadRQ.xsl
 xsltc /settings:document+,script+ v03_Galileo_PNREndRQ.xsl
 
 xcopy "*.dll"  "..\..\wsTripXML\bin"  /c /d /i /y
-xcopy "*.dll"  "..\..\TripXMLMain\Xsl\Galileo"  /c /d /i /y
-xcopy "*.dll"  "C:\TripXML\Xsl\Galileo"  /c /d /i /y
+xcopy "*.dll"  "..\..\TripXMLMain\Xsl\AmadeusWS"  /c /d /i /y
+xcopy "*.dll"  "C:\TripXML\Xsl\AmadeusWS"  /c /d /i /y
 
 del "*.dll" 
-pause
+rem pause
