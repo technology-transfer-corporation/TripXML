@@ -1983,7 +1983,7 @@ namespace Sabre
 
         private (CorporateFareType, string) GetCorporateFareInfo(XmlDocument doc)
         {
-            XmlNode node = doc.DocumentElement.SelectSingleNode("//NetTicketingInfo");
+            XmlNode node = doc.DocumentElement.SelectSingleNode("//PricedItinerary[@StatusCode!='H']/NetTicketingInfo");
             if (node != null)
             {
                 string accountCode = node.Attributes["AccountCode"]?.Value;
