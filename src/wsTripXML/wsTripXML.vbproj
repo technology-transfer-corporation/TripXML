@@ -112,7 +112,7 @@
       <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.8\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PaymentServices, Version=1.0.33.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PaymentServices.1.0.33\lib\net48\PaymentServices.dll</HintPath>
@@ -267,6 +267,7 @@
     <Content Include="bin\Microsoft.Practices.EnterpriseLibrary.Logging.dll" />
     <Content Include="bin\Microsoft.Practices.ServiceLocation.dll" /> 
 	-->
+    <None Include="packages.config" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -399,6 +400,7 @@
     <Content Include="wsLowFareMatrix.asmx" />
     <Content Include="wsLowFarePlus.asmx" />
     <Content Include="wsLowFarePlus_v03.asmx" />
+    <Content Include="wsLowFarePlus_vJR.asmx" />
     <Content Include="wsLowFareSchedule.asmx" />
     <Content Include="wsLowFareSchedule_v03.asmx" />
     <Content Include="wsLowFare_v03.asmx" />
@@ -961,7 +963,6 @@
     <None Include="My Project\PublishProfiles\LocalPlatform.pubxml" />
     <None Include="My Project\PublishProfiles\RegularTripXML.pubxml" />
     <None Include="My Project\PublishProfiles\UKRAINE.pubxml" />
-    <Content Include="packages.config" />
     <Content Include="nuget.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1029,6 +1030,14 @@
     <EmbeddedResource Include="wsTravelModify.asmx.resx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\technologytransferusa\PaymentServices\PaymentServices.csproj">
+      <Project>{80df741e-1409-bdf8-df52-a408214f3741}</Project>
+      <Name>PaymentServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\technologytransferusa\TripXML.Core\TripXML.Core.csproj">
+      <Project>{691d22cd-c4e8-2e12-f879-292f583d6b20}</Project>
+      <Name>TripXML.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Amadeus\AmadeusWS.csproj">
       <Project>{deb7aa8c-6eff-4085-af1c-55dfc4a13083}</Project>
       <Name>AmadeusWS</Name>
@@ -1116,7 +1125,7 @@
     <CopyAllFilesToSingleFolderForMsdeployDependsOn>
 			CustomCollectFiles;
 			$(CopyAllFilesToSingleFolderForPackageDependsOn);
-		</CopyAllFilesToSingleFolderForMsdeployDependsOn>
+			</CopyAllFilesToSingleFolderForMsdeployDependsOn>
   </PropertyGroup>
   <Import Project="..\packages\OctoPack.3.6.5\build\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.6.5\build\OctoPack.targets')" />
   <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
@@ -1128,6 +1137,6 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets'))" />
+    <!--<Error Condition="!Exists('..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets'))" />-->
   </Target>
 </Project>
