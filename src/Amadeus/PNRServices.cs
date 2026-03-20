@@ -1351,7 +1351,7 @@ namespace AmadeusWS
 
                 bool bMarkup = oRootReq
                   .XPathSelectElements("StoredFare/Markup")
-                  .Any(x => !string.IsNullOrWhiteSpace(x.Value));
+                  .Any(x => x.Attribute("Amount") != null);
 
                 bool bPrivate = oRootReq
                   .XPathSelectElements("StoredFare[@FareType='Private']")
