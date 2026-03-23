@@ -1467,7 +1467,7 @@ namespace AmadeusWS
 
                     if (!strResponseTST.Contains("NO TST RECORD EXISTS"))
                     {
-                        var paxAssoc = new Dictionary<Tuple<string, int>, Tuple<int, decimal, decimal>>();
+                        var paxAssoc = new Dictionary<Tuple<string, int>, Tuple<int, decimal, decimal, decimal>>();
                         string strFareType;
 
                         if (Request.Contains("StoreHistoricalFare") && bStoreFare)
@@ -1486,6 +1486,7 @@ namespace AmadeusWS
                                     var paxTST = int.Parse(tst.XPathSelectElement("fareReference/uniqueReference")?.Value);
                                     var paxBase = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='B' or fareDataQualifier='700']/fareAmount").Value ?? "0.0");
                                     var paxTotal = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='712']/fareAmount").Value ?? "0.0");
+                                    var paxEqv = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='E']/fareAmount").Value ?? "0.0");
 
                                     var pn = oRootReq.XPathSelectElement($"StoredFare[@RPH='{paxTST}']");
 
@@ -1493,7 +1494,7 @@ namespace AmadeusWS
                                         new Tuple<string, int>(
                                             (string)pn?.XPathSelectElement("PassengerType")?.Attribute("Code"),
                                             paxTST),
-                                        new Tuple<int, decimal, decimal>(paxRPH, paxBase, paxTotal));
+                                        new Tuple<int, decimal, decimal, decimal>(paxRPH, paxBase, paxTotal, paxEqv));
                                 }
                             }
 
@@ -1579,7 +1580,8 @@ namespace AmadeusWS
 
                                         if (fxxParsed.Format == FareQuoteFormat.Detail)
                                         {
-                                            if (Math.Abs(paxAssoc.First().Value.Item2 - fxxParsed.Detail.BaseFare.Amount) > 1)
+                                            if (!(Math.Abs(paxAssoc.First().Value.Item2 - fxxParsed.Detail.BaseFare.Amount) <= 1 ||
+                                                Math.Abs(paxAssoc.First().Value.Item4 - fxxParsed.Detail.BaseFare.Amount) <= 1))
                                             {
                                                 throw new Exception("THE FARE HAS CHANGED. PLEASE RESTORE THE FARE MANUALLY AND SEND BACK TO ISSUE.");
                                             }
@@ -1912,13 +1914,14 @@ namespace AmadeusWS
                                     var paxTST = int.Parse(tst.XPathSelectElement("fareReference/uniqueReference")?.Value);
                                     var paxBase = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='B' or fareDataQualifier='700']/fareAmount").Value ?? "0.0");
                                     var paxTotal = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='712']/fareAmount").Value ?? "0.0");
+                                    var paxEqv = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='E']/fareAmount").Value ?? "0.0");
 
                                     var pn = oRootReq.XPathSelectElement($"StoredFare[@RPH='{paxTST}']");
                                     paxAssoc.Add(
                                         new Tuple<string, int>(
                                             (string)pn?.XPathSelectElement("PassengerType")?.Attribute("Code"),
                                             paxTST),
-                                        new Tuple<int, decimal, decimal>(paxRPH, paxBase, paxTotal));
+                                        new Tuple<int, decimal, decimal, decimal>(paxRPH, paxBase, paxTotal, paxEqv));
                                 }
                             }
 
