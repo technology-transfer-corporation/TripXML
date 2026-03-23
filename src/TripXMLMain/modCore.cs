@@ -958,7 +958,7 @@ namespace TripXMLMain
                     case ttServices.PNRReprice:
                         {
                             tag = "OTA_PNRRepriceRS";
-                            version = "v03";
+                            version = "1.003";
                             break;
                         }
                     case ttServices.IssueMCO:
@@ -1003,7 +1003,6 @@ namespace TripXMLMain
                     new JProperty("Errors", 
                         new JObject( new JProperty("Error", GetListToJSON(lstError))))
                 );
-
 
                 AddLog(LogType.Error, ref tag, providerSystems, trace);
                 string jsonTrace = JsonConvert.SerializeObject(trace);
@@ -1153,7 +1152,7 @@ namespace TripXMLMain
                     case ttServices.PNRReprice:
                         {
                             tag = "OTA_PNRRepriceRS";
-                            version = "v03";
+                            version = "1.003";
                             break;
                         }
 
