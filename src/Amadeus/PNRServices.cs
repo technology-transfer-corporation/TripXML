@@ -1484,9 +1484,9 @@ namespace AmadeusWS
                                 {
                                     var paxRPH = int.Parse(tst.XPathSelectElement("paxSegReference/refDetails/refNumber")?.Value);
                                     var paxTST = int.Parse(tst.XPathSelectElement("fareReference/uniqueReference")?.Value);
-                                    var paxBase = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='B' or fareDataQualifier='700']/fareAmount").Value ?? "0.0");
-                                    var paxTotal = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='712']/fareAmount").Value ?? "0.0");
-                                    var paxEqv = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='E']/fareAmount").Value ?? "0.0");
+                                    var paxBase = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='B' or fareDataQualifier='700']/fareAmount")?.Value ?? "0.0");
+                                    var paxTotal = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='712']/fareAmount")?.Value ?? "0.0");
+                                    var paxEqv = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='E']/fareAmount")?.Value ?? "0.0");
 
                                     var pn = oRootReq.XPathSelectElement($"StoredFare[@RPH='{paxTST}']");
 
@@ -1912,9 +1912,9 @@ namespace AmadeusWS
                                 {
                                     var paxRPH = int.Parse(tst.XPathSelectElement("paxSegReference/refDetails/refNumber")?.Value);
                                     var paxTST = int.Parse(tst.XPathSelectElement("fareReference/uniqueReference")?.Value);
-                                    var paxBase = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='B' or fareDataQualifier='700']/fareAmount").Value ?? "0.0");
-                                    var paxTotal = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='712']/fareAmount").Value ?? "0.0");
-                                    var paxEqv = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='E']/fareAmount").Value ?? "0.0");
+                                    var paxBase = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='B' or fareDataQualifier='700']/fareAmount")?.Value ?? "0.0");
+                                    var paxTotal = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='712']/fareAmount")?.Value ?? "0.0");
+                                    var paxEqv = decimal.Parse(tst.XPathSelectElement("fareDataInformation/fareDataSupInformation[fareDataQualifier='E']/fareAmount")?.Value ?? "0.0");
 
                                     var pn = oRootReq.XPathSelectElement($"StoredFare[@RPH='{paxTST}']");
                                     paxAssoc.Add(
