@@ -273,13 +273,25 @@ namespace TripXMLTools
                 if (!string.IsNullOrEmpty(_code))
                     return _code;
             }
-            var ratioLst = DecodingTables.Airlines.Select(a => new { Ratio = Fuzz.WeightedRatio(a.Name, code), a.Code });
-            var firstRatio = ratioLst.OrderByDescending(x => x.Ratio).First();
-            if (firstRatio.Ratio >= 90)
-                return firstRatio.Code;
-            //ratioLst = DecodingTables.Airlines.Select(a => new { Ratio = Fuzz.Ratio(a.Name, code), a.Code });
-            //ratioLst = DecodingTables.Airlines.Select(a => new { Ratio = Fuzz.TokenSortRatio(a.Name, code), a.Code });
-            //ratioLst = DecodingTables.Airlines.Select(a => new { Ratio = Fuzz.PartialTokenSetRatio(a.Name, code), a.Code });
+
+            var airwayVariants = new[]
+            {
+                code,
+                code.Replace("AIRWAYS", "AIRLINES"  ),
+                code.Replace("AIRLINES", "AIRWAYS"  ),
+                code.Replace("AIR LINES", "AIRWAYS"  ),
+            };
+
+            foreach (var variant in airwayVariants)
+            {
+                var ratioLst = DecodingTables.Airlines.Select(a => new { Ratio = Fuzz.WeightedRatio(a.Name, variant), a.Code });
+                var firstRatio = ratioLst.OrderByDescending(x => x.Ratio).First();
+                if (firstRatio.Ratio >= 90)
+                    return firstRatio.Code;
+                //ratioLst = DecodingTables.Airlines.Select(a => new { Ratio = Fuzz.Ratio(a.Name, code), a.Code });
+                //ratioLst = DecodingTables.Airlines.Select(a => new { Ratio = Fuzz.TokenSortRatio(a.Name, code), a.Code });
+                //ratioLst = DecodingTables.Airlines.Select(a => new { Ratio = Fuzz.PartialTokenSetRatio(a.Name, code), a.Code });
+            }
 
             if (DecodingTables.Airlines.FindAll(c => c.Name.Contains(code)).Count.Equals(1))
             {
