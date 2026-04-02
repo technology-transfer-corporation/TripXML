@@ -1335,12 +1335,6 @@ namespace AmadeusWS
                 bool bStoreFare = true;
                 _tracerID = string.Empty;
                 string strRequest = SetRequest($"AmadeusWS_PNRRepriceRQ.xsl");
-                //bool bMarkup = Request.Contains("Markup");
-                //bool bPrivate = Request.Contains("Private");
-                //bool bPublished = Request.Contains("Published");
-                //bool bExchange = Request.Contains("FareQualifier=\"EXC\"")
-                //               || Request.Contains("FareQualifier=\"EX\"")
-                //               || Request.Contains("FareQualifier=\"EXL\"");
 
                 if (string.IsNullOrEmpty(strRequest))
                     throw new Exception("Transformation produced empty xml.");
@@ -1365,7 +1359,6 @@ namespace AmadeusWS
                     .XPathSelectElements("StoredFare[@FareQualifier='EXC' or @FareQualifier='EX' or @FareQualifier='EXL']")
                     .Any();
 
-                // Was: oRootReq.HasAttribute("StoreFare") && oRootReq.SelectSingleNode("@StoreFare")?.InnerText == "false"
                 if (oRootReq?.Attribute("StoreFare") != null
                     && (string)oRootReq.Attribute("StoreFare") == "false")
                     bStoreFare = false;
@@ -1509,10 +1502,8 @@ namespace AmadeusWS
                                 }
                                 else
                                 {
-                                    // Was: oRootReq.SelectSingleNode("StoredFare").SelectSingleNode("@FareType") != null
                                     if (oRootReq.XPathSelectElement("StoredFare")?.Attribute("FareType") != null)
                                     {
-                                        // Was: .SelectSingleNode("StoredFare").SelectSingleNode("@FareType").InnerXml == "Private"
                                         strFareType = bPrivate
                                                 ? "/R,U"
                                                 : "/R";
@@ -2250,6 +2241,7 @@ namespace AmadeusWS
             catch (Exception exx)
             {
                 _response = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, exx.Message, ttProviderSystems);
+                _response = _response.Replace("</OTA_PNRRepriceRS>", $"<ConversationID>{ConversationID}</ConversationID></OTA_PNRRepriceRS>");
             }
             return _response;
         }
@@ -2555,34 +2547,26 @@ namespace AmadeusWS
         }
         private List<Tuple<string, string, string>> GetPricingOptionsFXX(string request, string tstResp, string pnrRead, XElement oRootStored)
         {
-            // Was: new XmlDocument(); doc.LoadXml(request); doc.DocumentElement
             XElement root = XDocument.Parse(request).Root;
 
-            // Was: new XmlDocument(); tstdoc.LoadXml("<Ticket_GetPricingOptions>" + tstResp + "..."); tstdoc.DocumentElement
             XElement tstRsp = XDocument.Parse("<Ticket_GetPricingOptions>" + tstResp + "</Ticket_GetPricingOptions>").Root;
 
             var res = new List<Tuple<string, string, string>>();
 
-            // Was: root.SelectNodes("//StoredFare")
             var storedFaresNodes = root.XPathSelectElements("//StoredFare").ToList();
 
-            // Was: new XmlDocument(); pnr.LoadXml(pnrRead); pnr.DocumentElement
             XElement pnrRoot = XDocument.Parse(pnrRead).Root;
 
-            // Was: pnr.DocumentElement.SelectNodes("//travellerInfo/elementManagementPassenger")
             var paxLines = pnrRoot.XPathSelectElements("//travellerInfo/elementManagementPassenger");
 
             var paxMap = new Dictionary<string, string>();
             foreach (XElement fnode in paxLines)
             {
-                // Was: fnode.SelectSingleNode("reference/number").InnerText
-                //      fnode.SelectSingleNode("lineNumber").InnerText
                 paxMap.Add(
                     fnode.XPathSelectElement("reference/number").Value,
                     fnode.XPathSelectElement("lineNumber").Value);
             }
 
-            // Was: pnr.DocumentElement.SelectNodes("//originDestinationDetails/itineraryInfo[...]").Count
             var segCount = pnrRoot
                 .XPathSelectElements("//originDestinationDetails/itineraryInfo[elementManagementItinerary/segmentName='AIR']")
                 .Count();
@@ -2591,7 +2575,6 @@ namespace AmadeusWS
 
             foreach (XElement fnode in storedFaresNodes)
             {
-                // Was: fnode.Attributes["RPH"].Value
                 var tst = (string)fnode.Attribute("RPH");
 
                 if (!paxFareSegs.Any(fs => fs.Item1 == tst))
@@ -2600,14 +2583,11 @@ namespace AmadeusWS
 
                 if (!paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Any(i => i.Item2.StartsWith("P")))
                 {
-                    // Was: oRootStored.SelectSingleNode("fareList[fareReference/uniqueReference = '...']/paxSegReference")
                     var elemPax = oRootStored.XPathSelectElement(
                         $"fareList[fareReference/uniqueReference = '{(string)fnode.Attribute("RPH")}']/paxSegReference");
 
-                    // Was: fnode.SelectSingleNode("PassengerType").Attributes["Code"].Value
                     var strTSTpax = (string)fnode.XPathSelectElement("PassengerType")?.Attribute("Code");
 
-                    // Was: foreach (XmlNode pax in elemPax.SelectNodes("refDetails/refNumber"))
                     foreach (XElement pax in elemPax.XPathSelectElements("refDetails/refNumber"))
                     {
                         paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Add(new Tuple<string, string, string>(
@@ -2619,15 +2599,11 @@ namespace AmadeusWS
 
                 if (paxFareSegs.Any(fs => fs.Item1 == tst))
                 {
-                    // Was: tstRsp.SelectNodes($"//documentInformation[...]/pricingOptionsGroup[...]/optionDetail")
                     foreach (XElement optDet in tstRsp.XPathSelectElements(
                         $"//documentInformation[documentSelection/referenceType='TST' and " +
                         $"documentSelection/uniqueReference='{tst}']/pricingOptionsGroup" +
                         $"[pricingOptionKey/pricingOptionKey='PRM']/optionDetail"))
                     {
-                        // Was: new XmlDocument(); poks.LoadXml(optDet.OuterXml)
-                        //      poks.SelectSingleNode("//criteriaDetails/attributeType").InnerText
-                        // XElement is already parsed — query directly, no re-parse needed
                         var attrType = optDet.XPathSelectElement("criteriaDetails/attributeType")?.Value;
 
                         paxFareSegs.Find(fs => fs.Item1 == tst).Item2.Add(
@@ -2650,23 +2626,19 @@ namespace AmadeusWS
                     var fbCodes = new Dictionary<string, string>();
                     var tktDes = new Dictionary<string, string>();
 
-                    // Was: root.SelectSingleNode($"//StoredFare[@RPH='{ps.Item1}']").SelectNodes("FareSegments/AirSegments")
                     var storedFareNode = root.XPathSelectElement($"//StoredFare[@RPH='{ps.Item1}']");
                     foreach (XElement item in storedFareNode.XPathSelectElements("FareSegments/AirSegments"))
                     {
-                        // Was: root.SelectSingleNode($"//StoredFare[@RPH='{ps.Item1}']/@FareType").Value != "Private"
                         if ((string)storedFareNode.Attribute("FareType") != "Private")
                         {
-                            // Was: item.InnerText, item.Attributes["RPH"].Value
                             var key = item.Value.TrimEnd('/');
                             fbCodes[key] = fbCodes.ContainsKey(key)
                                 ? fbCodes[key] + "," + (string)item.Attribute("RPH")
                                 : (string)item.Attribute("RPH");
                         }
 
-                        // Was: item.Attributes["TicketDesignator"] != null
                         var tdVal = (string)item.Attribute("TicketDesignator");
-                        if (tdVal != null)
+                        if (!string.IsNullOrEmpty(tdVal))
                             tktDes[tdVal] = tktDes.ContainsKey(tdVal)
                                 ? tktDes[tdVal] + "," + (string)item.Attribute("RPH")
                                 : (string)item.Attribute("RPH");
