@@ -274,13 +274,44 @@ namespace TripXMLTools
                     return _code;
             }
 
-            var airwayVariants = new[]
-            {
-                code,
-                code.Replace("AIRWAYS", "AIRLINES"  ),
-                code.Replace("AIRLINES", "AIRWAYS"  ),
-                code.Replace("AIR LINES", "AIRWAYS"  ),
-            };
+            var alCodeToCheck = code;
+            if (code.Contains(" FOR "))
+                alCodeToCheck = code.Substring(0, code.IndexOf(" FOR "));
+
+            var airwayVariants = new HashSet<string>
+                {
+                    alCodeToCheck,
+
+                    // AIRWAYS → others
+                    alCodeToCheck.Replace("AIRWAYS", "AIRLINES"),
+                    alCodeToCheck.Replace("AIRWAYS", "AIRLINE"),
+                    alCodeToCheck.Replace("AIRWAYS", "AIR LINES"),
+                    alCodeToCheck.Replace("AIRWAYS", "AIR LINE"),
+
+                    // AIRLINES → others
+                    alCodeToCheck.Replace("AIRLINES", "AIRWAYS"),
+                    alCodeToCheck.Replace("AIRLINES", "AIRLINE"),
+                    alCodeToCheck.Replace("AIRLINES", "AIR LINES"),
+                    alCodeToCheck.Replace("AIRLINES", "AIR LINE"),
+
+                    // AIRLINE → others
+                    alCodeToCheck.Replace("AIRLINE", "AIRWAYS"),
+                    alCodeToCheck.Replace("AIRLINE", "AIRLINES"),
+                    alCodeToCheck.Replace("AIRLINE", "AIR LINES"),
+                    alCodeToCheck.Replace("AIRLINE", "AIR LINE"),
+
+                    // AIR LINES → others
+                    alCodeToCheck.Replace("AIR LINES", "AIRWAYS"),
+                    alCodeToCheck.Replace("AIR LINES", "AIRLINES"),
+                    alCodeToCheck.Replace("AIR LINES", "AIRLINE"),
+                    alCodeToCheck.Replace("AIR LINES", "AIR LINE"),
+
+                    // AIR LINE → others
+                    alCodeToCheck.Replace("AIR LINE", "AIRWAYS"),
+                    alCodeToCheck.Replace("AIR LINE", "AIRLINES"),
+                    alCodeToCheck.Replace("AIR LINE", "AIRLINE"),
+                    alCodeToCheck.Replace("AIR LINE", "AIR LINES"),
+                };
 
             foreach (var variant in airwayVariants)
             {
