@@ -776,6 +776,7 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
          System.Xml.Serialization.XmlElementAttribute("CarType", GetType(System.String)),
          System.Xml.Serialization.XmlElementAttribute("AgencyServiceFee", GetType(AgencyServiceFee)),
          System.Xml.Serialization.XmlElementAttribute("CorporateFareInfo", GetType(CorporateFareInfo)),
+         System.Xml.Serialization.XmlElementAttribute("LastTicketingDate", GetType(System.DateTime)),
          System.Xml.Serialization.XmlElementAttribute("CorporateDiscount", GetType(System.String)),
          System.Xml.Serialization.XmlElementAttribute("RateRequested", GetType(System.String)),
          System.Xml.Serialization.XmlElementAttribute("RollawayAdult", GetType(System.String)),
@@ -1829,6 +1830,9 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
 
         '<remarks/>
         CorporateFareInfo
+
+        '<remarks/>
+        LastTicketingDate
     End Enum
 
     '<remarks/>
