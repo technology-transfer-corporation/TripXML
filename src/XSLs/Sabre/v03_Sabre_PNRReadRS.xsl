@@ -163,6 +163,7 @@
   Date: 16 Jul 2010 - Rastko - fixed ticket time limit parsing when code is 7TAW/		
   Date: 06 Sep 2010 - Rastko - corrected calculation of base and total fares			
   Date: 17 Sep 2010 - Rastko - added support for warning messages				
+  Date: 06 APR 2026 - Riasnenko - added LastTicketingDate
   ================================================================== 
   -->
 
@@ -4280,6 +4281,33 @@
 				</TotalFare>
 			</PassengerFare>
 			<TPA_Extensions>
+				<xsl:variable name="dispRest" select="//DisplayPriceQuoteRS/PriceQuote[@RPH=normalize-space($pqRPH)]/PricedItinerary/AirItineraryPricingInfo/ResTicketingRestrictions[contains(., 'T')]" />
+
+				<xsl:if test="$dispRest != ''">
+					<xsl:variable name="month" select="substring($dispRest, 1, 2)" />
+					<xsl:variable name="day" select="substring($dispRest, 4, 2)" />
+					<xsl:variable name="time" select="substring-after($dispRest, 'T')" />
+
+					<xsl:variable name="timeStamp" select="//TravelItineraryReadRS/ApplicationResults/Success/@timeStamp" />
+					<xsl:variable name="curMonth" select="number(substring($timeStamp, 6, 2))" />
+					<xsl:variable name="curYear" select="number(substring($timeStamp, 1, 4))" />
+					<xsl:variable name="tktMonth" select="number($month)" />
+
+					<xsl:variable name="year">
+						<xsl:choose>
+							<xsl:when test="$curMonth = 12 and $tktMonth = 1">
+								<xsl:value-of select="$curYear + 1" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="$curYear" />
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:variable>
+
+					<LastTicketingDate>
+						<xsl:value-of select="concat($year, '-', $month, '-', $day, 'T', $time, ':00')"/>
+					</LastTicketingDate>
+				</xsl:if>
 				<xsl:if test="PTC_FareBreakdown/FareCalculation/Text!=''">
 					<FareCalculation>
 						<xsl:value-of select="PTC_FareBreakdown/FareCalculation/Text"/>
