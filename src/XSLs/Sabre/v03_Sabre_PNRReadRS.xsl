@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 06 APR 2026 - Riasnenko - added LastTicketingDate
   Date: 22 Jan 2026 - Samokhvalov  - FormOfPayment-MCO fixes
   Date: 13 Jan 2026 - Riasnenko - Fixed CustomerInfo/PersonName templates
   Date: 08 Dec 2025 - Riasnenko - Added Corporate Fare 
@@ -162,8 +163,7 @@
   Date: 02 Jul 2010 - Rastko - fixed missing remarks in display					
   Date: 16 Jul 2010 - Rastko - fixed ticket time limit parsing when code is 7TAW/		
   Date: 06 Sep 2010 - Rastko - corrected calculation of base and total fares			
-  Date: 17 Sep 2010 - Rastko - added support for warning messages				
-  Date: 06 APR 2026 - Riasnenko - added LastTicketingDate
+  Date: 17 Sep 2010 - Rastko - added support for warning messages				  
   ================================================================== 
   -->
 
