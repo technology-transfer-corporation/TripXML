@@ -1581,7 +1581,8 @@ namespace AmadeusWS
                                         {
                                             foreach (var pax in paxAssoc)
                                             {
-                                                if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Value.Item1) && Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Value.Item1).BaseFare) > 1)
+                                                if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Key.Item2) && 
+                                                    Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Key.Item2).BaseFare) > 1)
                                                 {
                                                     throw new Exception("THE FARE HAS CHANGED. PLEASE RESTORE THE FARE MANUALLY AND SEND BACK TO ISSUE.");
                                                 }
@@ -1705,7 +1706,9 @@ namespace AmadeusWS
                                             {
                                                 foreach (var pax in paxAssoc)
                                                 {
-                                                    if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Value.Item1) && Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Value.Item1).BaseFare) > 1)
+                                                    //if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Value.Item1) && Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Value.Item1).BaseFare) > 1)
+                                                    if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Key.Item2) &&
+                                                        Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Key.Item2).BaseFare) > 1)
                                                     {
                                                         throw new Exception("THE FARE HAS CHANGED. PLEASE RESTORE THE FARE MANUALLY AND SEND BACK TO ISSUE.");
                                                     }
@@ -1740,7 +1743,9 @@ namespace AmadeusWS
                                             {
                                                 foreach (var pax in paxAssoc)
                                                 {
-                                                    if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Value.Item1) && Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Value.Item1).BaseFare) > 1)
+                                                    //if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Value.Item1) && Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Value.Item1).BaseFare) > 1)
+                                                    if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Key.Item2) &&
+                                                        Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Key.Item2).BaseFare) > 1)
                                                     {
                                                         throw new Exception("THE FARE HAS CHANGED. PLEASE RESTORE THE FARE MANUALLY AND SEND BACK TO ISSUE.");
                                                     }
