@@ -1580,14 +1580,22 @@ namespace AmadeusWS
                                         }
                                         else if (fxxParsed.Format == FareQuoteFormat.Summary)
                                         {
-                                            foreach (var pax in paxAssoc)
+                                            foreach (var pax in fxxParsed.Summary.Passengers)
                                             {
-                                                if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Key.Item2) &&
-                                                    Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Key.Item2).BaseFare) > 1)
+                                                if (!paxAssoc.Any(p => (p.Value.Item2 - pax.BaseFare < 1.0M) || (p.Value.Item4 - pax.BaseFare < 1.0M)))
                                                 {
                                                     throw new Exception("THE FARE HAS CHANGED. PLEASE RESTORE THE FARE MANUALLY AND SEND BACK TO ISSUE.");
                                                 }
                                             }
+
+                                            //foreach (var pax in paxAssoc)
+                                            //{
+                                            //    if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Key.Item2) &&
+                                            //        Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Key.Item2).BaseFare) > 1)
+                                            //    {
+                                            //        throw new Exception("THE FARE HAS CHANGED. PLEASE RESTORE THE FARE MANUALLY AND SEND BACK TO ISSUE.");
+                                            //    }
+                                            //}
                                         }
 
                                         // https://github.com/Downtown-Travel-TT/TicketingRobot/issues/341
@@ -1707,17 +1715,14 @@ namespace AmadeusWS
                                             }
                                             else if (fxxParsed.Format == FareQuoteFormat.Summary)
                                             {
-                                                foreach (var pax in paxAssoc)
+                                                foreach (var pax in fxxParsed.Summary.Passengers)
                                                 {
-                                                    //if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Value.Item1) && Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Value.Item1).BaseFare) > 1)
-                                                    if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Key.Item2) &&
-                                                        Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Key.Item2).BaseFare) > 1)
+                                                    if (!paxAssoc.Any(p => (p.Value.Item2 - pax.BaseFare < 1.0M) || (p.Value.Item4 - pax.BaseFare < 1.0M)))
                                                     {
                                                         throw new Exception("THE FARE HAS CHANGED. PLEASE RESTORE THE FARE MANUALLY AND SEND BACK TO ISSUE.");
                                                     }
                                                 }
                                             }
-
                                         }
                                     }
                                     else
@@ -1745,11 +1750,9 @@ namespace AmadeusWS
                                             }
                                             else if (fxxParsed.Format == FareQuoteFormat.Summary)
                                             {
-                                                foreach (var pax in paxAssoc)
+                                                foreach (var pax in fxxParsed.Summary.Passengers)
                                                 {
-                                                    //if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Value.Item1) && Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Value.Item1).BaseFare) > 1)
-                                                    if (fxxParsed.Summary.Passengers.Any(p => p.SequenceNumber == pax.Key.Item2) &&
-                                                        Math.Abs(pax.Value.Item2 - fxxParsed.Summary.Passengers.First(p => p.SequenceNumber == pax.Key.Item2).BaseFare) > 1)
+                                                    if (!paxAssoc.Any(p => (p.Value.Item2 - pax.BaseFare < 1.0M) || (p.Value.Item4 - pax.BaseFare < 1.0M)))
                                                     {
                                                         throw new Exception("THE FARE HAS CHANGED. PLEASE RESTORE THE FARE MANUALLY AND SEND BACK TO ISSUE.");
                                                     }
