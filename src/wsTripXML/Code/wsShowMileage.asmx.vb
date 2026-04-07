@@ -124,13 +124,13 @@ Namespace wsTravelTalk
                 Else
                     '*MCO-FRA OPERATED BY EW DISCOVER GMBH.
                     'In this case correct answer is EW
-                    Dim _code As String = remark.Substring(index + 12).Trim
-                    Dim _reg As New Regex("^([A-Z]){2}\s")
+                    'Dim _code As String = remark.Substring(index + 12).Trim
+                    'Dim _reg As New Regex("^([A-Z]){2}\s")
 
-                    If _reg.IsMatch(_remark.Replace("OPERATED BY ", "")) Then
-                        _remark = _code.Substring(0, 2)
-                        Return _remark
-                    End If
+                    'If _reg.IsMatch(_remark.Replace("OPERATED BY ", "")) Then
+                    '    _remark = _code.Substring(0, 2)
+                    '    Return _remark
+                    'End If
 
                     If _remark.Contains(" AS ") Then
                         Dim elem As List(Of String) = _remark.Replace("OPERATED BY ", "").Split({" AS "}, StringSplitOptions.None).ToList()
