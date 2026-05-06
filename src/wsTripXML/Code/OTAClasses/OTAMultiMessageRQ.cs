@@ -17,7 +17,7 @@ namespace wsTripXML.wsTravelTalk.wmMultiMessageIn
     }
 
     // <remarks/>
-    public class POSType
+    public class POSType : Code.IPOS
     {
 
         // <remarks/>

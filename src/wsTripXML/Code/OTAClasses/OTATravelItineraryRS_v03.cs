@@ -798,6 +798,7 @@ namespace wsTripXML.wsTravelTalk.wmTravelItineraryOut_v03
         [System.Xml.Serialization.XmlElement("CarType", typeof(string))]
         [System.Xml.Serialization.XmlElement("AgencyServiceFee", typeof(AgencyServiceFee))]
         [System.Xml.Serialization.XmlElement("CorporateFareInfo", typeof(CorporateFareInfo))]
+        [System.Xml.Serialization.XmlElement("LastTicketingDate", typeof(System.DateTime))]
         [System.Xml.Serialization.XmlElement("CorporateDiscount", typeof(string))]
         [System.Xml.Serialization.XmlElement("RateRequested", typeof(string))]
         [System.Xml.Serialization.XmlElement("RollawayAdult", typeof(string))]
@@ -1890,7 +1891,9 @@ namespace wsTripXML.wsTravelTalk.wmTravelItineraryOut_v03
         ExtraChild,
 
         // <remarks/>
-        CorporateFareInfo
+        CorporateFareInfo,
+        // <remarks/>
+        LastTicketingDate
     }
 
     // <remarks/>

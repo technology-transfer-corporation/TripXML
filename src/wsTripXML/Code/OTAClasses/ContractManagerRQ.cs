@@ -26,7 +26,7 @@ namespace wsTripXML.wsTravelTalk.wmContractManager
 
     // <remarks/>
     [System.Xml.Serialization.XmlRoot(IsNullable = false)]
-    public class POS
+    public class POS : Code.IPOS
     {
 
         // <remarks/>

@@ -151,14 +151,14 @@ namespace wsTripXML.wsTravelTalk
                 {
                     // *MCO-FRA OPERATED BY EW DISCOVER GMBH.
                     // In this case correct answer is EW
-                    string _code = remark.Substring(index + 12).Trim();
-                    var _reg = new Regex(@"^([A-Z]){2}\s");
+                    //string _code = remark.Substring(index + 12).Trim();
+                    //var _reg = new Regex(@"^([A-Z]){2}\s");
 
-                    if (_reg.IsMatch(_remark.Replace("OPERATED BY ", "")))
-                    {
-                        _remark = _code.Substring(0, 2);
-                        return _remark;
-                    }
+                    //if (_reg.IsMatch(_remark.Replace("OPERATED BY ", "")))
+                    //{
+                    //    _remark = _code.Substring(0, 2);
+                    //    return _remark;
+                    //}
 
                     if (_remark.Contains(" AS "))
                     {

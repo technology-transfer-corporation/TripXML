@@ -553,7 +553,7 @@ namespace wsTripXML.wsTravelTalk.wmFareDisplayIn
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
-    public class POS
+    public class POS : Code.IPOS
     {
 
         // <remarks/>

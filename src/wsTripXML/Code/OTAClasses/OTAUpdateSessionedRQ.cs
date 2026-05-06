@@ -422,7 +422,7 @@ namespace wsTripXML.wsTravelTalk.wmUpdateSessionedIn
 
     // <remarks/>
     [XmlType()]
-    public class POS_Type
+    public class POS_Type : Code.IPOS
     {
 
         // <remarks/>

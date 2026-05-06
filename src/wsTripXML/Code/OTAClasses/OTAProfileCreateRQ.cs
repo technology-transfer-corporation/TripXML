@@ -117,7 +117,7 @@ namespace wsTripXML.wsTravelTalk.wmProfileCreateIn
     // <remarks/>
     [XmlType()]
     [XmlInclude(typeof(OTA_ProfileCreateRQPOS))]
-    public class POS_Type
+    public class POS_Type : Code.IPOS
     {
 
         // <remarks/>

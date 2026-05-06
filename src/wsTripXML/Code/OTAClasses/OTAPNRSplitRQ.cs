@@ -150,7 +150,7 @@ namespace wsTripXML.wsTravelTalk.wmPNRSplitIn
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
-    public class POS
+    public class POS : Code.IPOS
     {
 
         // <remarks/>

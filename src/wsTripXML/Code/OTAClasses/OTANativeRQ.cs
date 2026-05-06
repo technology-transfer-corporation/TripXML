@@ -30,7 +30,7 @@ namespace wsTripXML.wsTravelTalk.wmNativeIn
     }
 
     // <remarks/>
-    public class POS
+    public class POS : Code.IPOS
     {
 
         // <remarks/>

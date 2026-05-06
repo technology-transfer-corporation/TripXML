@@ -77,7 +77,7 @@ namespace wsTripXML.wsTravelTalk.wmCCValidIn
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
-    public class POS
+    public class POS : Code.IPOS
     {
 
         // <remarks/>

@@ -12,7 +12,7 @@ namespace wsTripXML.wsTravelTalk
         public bool compressed = true;
     }
 
-    public class POS
+    public class POS : Code.IPOS
     {
         public Source Source;
 

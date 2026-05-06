@@ -1609,7 +1609,7 @@ namespace wsTripXML.wsTravelTalk.wmLowFareFlightsIn
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
-    public class POS
+    public class POS : Code.IPOS
     {
 
         // <remarks/>

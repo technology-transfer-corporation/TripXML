@@ -4254,7 +4254,7 @@ namespace wsTripXML.wsTravelTalk.wmTravelItineraryIn_v04
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
-    public class POS
+    public class POS : Code.IPOS
     {
 
         // <remarks/>

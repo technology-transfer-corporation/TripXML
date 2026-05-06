@@ -131,7 +131,7 @@ namespace wsTripXML.wsTravelTalk.wmStoredFareUpdateIn
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
-    public class POS
+    public class POS : Code.IPOS
     {
 
         // <remarks/>
