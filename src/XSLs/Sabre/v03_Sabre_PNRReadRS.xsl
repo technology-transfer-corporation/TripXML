@@ -4,6 +4,7 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
+  Date: 12 MAY 2026 - Kobelev - added NDC Air segment handler
   Date: 06 APR 2026 - Riasnenko - added LastTicketingDate
   Date: 22 Jan 2026 - Samokhvalov  - FormOfPayment-MCO fixes
   Date: 13 Jan 2026 - Riasnenko - Fixed CustomerInfo/PersonName templates
@@ -714,6 +715,10 @@
 								<xsl:otherwise>
 									<xsl:apply-templates select="ItineraryInfo/ReservationItems/Item/FlightSegment | ItineraryInfo/ReservationItems/Item/Arunk" mode ="Air">
 										<xsl:sort data-type="number" order="ascending" select="@SegmentNumber"/>
+									</xsl:apply-templates>
+									<!-- NDC (Sabre Order / AIR_NDC) air segments: structurally different - product is under Item/Product/ProductDetails/Air -->
+									<xsl:apply-templates select="ItineraryInfo/ReservationItems/Item[Product/ProductBase/ProductType='AIR_NDC']" mode="AirNDC">
+										<xsl:sort data-type="number" order="ascending" select="@RPH"/>
 									</xsl:apply-templates>
 								</xsl:otherwise>
 							</xsl:choose>
@@ -2553,6 +2558,194 @@
 					</TPA_Extensions>
 				</xsl:otherwise>
 			</xsl:choose>
+		</Item>
+	</xsl:template>
+
+	<!-- ============================================================ -->
+	<!-- AIR_NDC (Sabre Order / NDC) segment template                 -->
+	<!-- Maps Item/Product/ProductDetails/Air to the same output      -->
+	<!-- shape produced by the legacy FlightSegment Air template.     -->
+	<!-- ============================================================ -->
+	<xsl:template match="Item" mode="AirNDC">
+		<Item>
+			<xsl:attribute name="ItinSeqNumber">
+				<xsl:choose>
+					<xsl:when test="@RPH">
+						<xsl:value-of select="format-number(@RPH,'#0')"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="0"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
+
+			<!-- Passive segment flag: GK indicator -->
+			<xsl:if test="Product/ProductDetails/Air/ActionCode = 'GK' or Product/ProductBase/StatusCode = 'GK'">
+				<xsl:attribute name="IsPassive">Y</xsl:attribute>
+			</xsl:if>
+
+			<Air>
+				<!-- Departure / Arrival datetimes (NDC ships ISO 8601 already; ensure :ss present) -->
+				<xsl:variable name="ndcDep">
+					<xsl:choose>
+						<xsl:when test="Product/ProductDetails/Air/DepartureDateTime != ''">
+							<xsl:value-of select="Product/ProductDetails/Air/DepartureDateTime"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="Product/ProductBase/StartDateTime"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:variable name="ndcArr">
+					<xsl:choose>
+						<xsl:when test="Product/ProductDetails/Air/ArrivalDateTime != ''">
+							<xsl:value-of select="Product/ProductDetails/Air/ArrivalDateTime"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="Product/ProductBase/EndDateTime"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+
+				<xsl:if test="$ndcDep != ''">
+					<xsl:attribute name="DepartureDateTime">
+						<xsl:choose>
+							<xsl:when test="string-length($ndcDep) = 19">
+								<xsl:value-of select="$ndcDep"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="concat($ndcDep,':00')"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+				</xsl:if>
+				<xsl:if test="$ndcArr != ''">
+					<xsl:attribute name="ArrivalDateTime">
+						<xsl:choose>
+							<xsl:when test="string-length($ndcArr) = 19">
+								<xsl:value-of select="$ndcArr"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="concat($ndcArr,':00')"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+				</xsl:if>
+
+				<!-- RPH (segment sequence) -->
+				<xsl:if test="@RPH">
+					<xsl:attribute name="RPH">
+						<xsl:value-of select="format-number(@RPH,'#0')"/>
+					</xsl:attribute>
+				</xsl:if>
+
+				<!-- Flight number -->
+				<xsl:if test="Product/ProductDetails/Air/MarketingFlightNumber != ''">
+					<xsl:attribute name="FlightNumber">
+						<xsl:value-of select="Product/ProductDetails/Air/MarketingFlightNumber"/>
+					</xsl:attribute>
+				</xsl:if>
+
+				<!-- Class of service -->
+				<xsl:if test="Product/ProductDetails/Air/ClassOfService != ''">
+					<xsl:attribute name="ResBookDesigCode">
+						<xsl:value-of select="Product/ProductDetails/Air/ClassOfService"/>
+					</xsl:attribute>
+				</xsl:if>
+
+				<!-- Number in party -->
+				<xsl:if test="Product/ProductDetails/Air/NumberInParty != ''">
+					<xsl:attribute name="NumberInParty">
+						<xsl:value-of select="Product/ProductDetails/Air/NumberInParty"/>
+					</xsl:attribute>
+				</xsl:if>
+
+				<!-- Status: prefer Air/ActionCode (HK/HL/etc.), fallback to ProductBase/StatusCode -->
+				<xsl:variable name="ndcStatus">
+					<xsl:choose>
+						<xsl:when test="Product/ProductDetails/Air/ActionCode != ''">
+							<xsl:value-of select="Product/ProductDetails/Air/ActionCode"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="Product/ProductBase/StatusCode"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<xsl:if test="$ndcStatus != ''">
+					<xsl:attribute name="Status">
+						<xsl:value-of select="$ndcStatus"/>
+					</xsl:attribute>
+				</xsl:if>
+
+				<!-- NDC = always electronic ticket -->
+				<xsl:attribute name="E_TicketEligibility">Eligible</xsl:attribute>
+
+				<!-- GI lookup against priced itinerary (parity with legacy template) -->
+				<xsl:variable name="orig">
+					<xsl:value-of select="Product/ProductDetails/Air/DepartureAirport"/>
+				</xsl:variable>
+				<xsl:variable name="dest">
+					<xsl:value-of select="Product/ProductDetails/Air/ArrivalAirport"/>
+				</xsl:variable>
+				<xsl:if test="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown[Departure/@AirportCode=$orig and Departure/@ArrivalAirportCode=$dest]/FareBasis/@GlobalInd">
+					<xsl:attribute name="GI">
+						<xsl:value-of select="//OTA_AirPriceRS/PriceQuote/PricedItinerary/AirItineraryPricingInfo/FareCalculationBreakdown[Departure/@AirportCode=$orig and Departure/@ArrivalAirportCode=$dest]/FareBasis/@GlobalInd"/>
+					</xsl:attribute>
+				</xsl:if>
+
+				<DepartureAirport>
+					<xsl:attribute name="LocationCode">
+						<xsl:value-of select="Product/ProductDetails/Air/DepartureAirport"/>
+					</xsl:attribute>
+				</DepartureAirport>
+				<ArrivalAirport>
+					<xsl:attribute name="LocationCode">
+						<xsl:value-of select="Product/ProductDetails/Air/ArrivalAirport"/>
+					</xsl:attribute>
+				</ArrivalAirport>
+
+				<!-- Operating airline: not separately provided in NDC sample - mirror marketing -->
+				<OperatingAirline>
+					<xsl:attribute name="Code">
+						<xsl:choose>
+							<xsl:when test="Product/ProductDetails/Air/OperatingAirlineCode != ''">
+								<xsl:value-of select="Product/ProductDetails/Air/OperatingAirlineCode"/>
+							</xsl:when>
+							<xsl:when test="Product/ProductDetails/Air/MarketingAirlineCode != ''">
+								<xsl:value-of select="Product/ProductDetails/Air/MarketingAirlineCode"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="Product/ProductBase/VendorCode"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+				</OperatingAirline>
+
+				<MarketingAirline>
+					<xsl:attribute name="Code">
+						<xsl:choose>
+							<xsl:when test="Product/ProductDetails/Air/MarketingAirlineCode != ''">
+								<xsl:value-of select="Product/ProductDetails/Air/MarketingAirlineCode"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="Product/ProductBase/VendorCode"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+				</MarketingAirline>
+
+				<TPA_Extensions>
+					<xsl:attribute name="ConfirmationNumber">
+						<xsl:value-of select="../../../ItineraryRef/@ID"/>
+					</xsl:attribute>
+					<xsl:if test="Product/ProductDetails/Air/AirlineRefId != ''">
+						<xsl:attribute name="AirlineRefID">
+							<xsl:value-of select="Product/ProductDetails/Air/AirlineRefId"/>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:attribute name="SourceType">NDC</xsl:attribute>
+				</TPA_Extensions>
+			</Air>
 		</Item>
 	</xsl:template>
 
