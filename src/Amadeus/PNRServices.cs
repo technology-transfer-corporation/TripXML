@@ -1582,7 +1582,7 @@ namespace AmadeusWS
                                         {
                                             foreach (var pax in fxxParsed.Summary.Passengers)
                                             {
-                                                if (!paxAssoc.Any(p => (p.Value.Item2 - pax.BaseFare < 1.0M) || (p.Value.Item4 - pax.BaseFare < 1.0M)))
+                                                if (!paxAssoc.Any(p => (Math.Abs(p.Value.Item2 - pax.BaseFare) < 1.0M) || (Math.Abs(p.Value.Item4 - pax.BaseFare) < 1.0M)))
                                                 {
                                                     throw new Exception("THE FARE HAS CHANGED. PLEASE RESTORE THE FARE MANUALLY AND SEND BACK TO ISSUE.");
                                                 }
@@ -1752,7 +1752,8 @@ namespace AmadeusWS
                                             {
                                                 foreach (var pax in fxxParsed.Summary.Passengers)
                                                 {
-                                                    if (!paxAssoc.Any(p => (p.Value.Item2 - pax.BaseFare < 1.0M) || (p.Value.Item4 - pax.BaseFare < 1.0M)))
+                                                    if (!paxAssoc.Any(p => (Math.Abs(p.Value.Item2 - pax.BaseFare) < 1.0M) || (Math.Abs(p.Value.Item4 - pax.BaseFare) < 1.0M)))
+                                                    //if (!paxAssoc.Any(p => (p.Value.Item2 - pax.BaseFare < 1.0M) || (p.Value.Item4 - pax.BaseFare < 1.0M)))
                                                     {
                                                         throw new Exception("THE FARE HAS CHANGED. PLEASE RESTORE THE FARE MANUALLY AND SEND BACK TO ISSUE.");
                                                     }
