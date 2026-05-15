@@ -153,11 +153,7 @@ namespace wsTripXML.wsTravelTalk.wmIssueMCOModels
     [System.Xml.Serialization.XmlRoot(IsNullable = false)]
     public class POS : Code.IPOS
     {
-
-        // <remarks/>
-        public Source Source;
-
-        // <remarks/>
+        //        public Source Source;
         public TPA_Extensions TPA_Extensions;
     }
 

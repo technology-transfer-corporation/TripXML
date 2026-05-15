@@ -1598,15 +1598,10 @@ namespace wsTripXML.wsTravelTalk.wmLowOfferSearchIn
         public bool AvailableFlightsOnlySpecified;
     }
 
-    // <remarks/>
+
     [XmlRoot(IsNullable = false)]
     public class POS : Code.IPOS
     {
-
-        // <remarks/>
-        public Source Source;
-
-        // <remarks/>
         public TPA_Extensions TPA_Extensions;
     }
 
@@ -1710,7 +1705,7 @@ namespace wsTripXML.wsTravelTalk.wmLowOfferSearchIn
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
-    public class TPA_Extensions
+    public class TPA_Extensions : Code.ITPA_Extensions
     {
 
         // <remarks/>

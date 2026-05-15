@@ -31357,18 +31357,14 @@ namespace wsTripXML.wsTravelTalk.VirtualCreditCard
     [XmlRoot(IsNullable = false)]
     public class POS : Code.IPOS
     {
-
-        // <remarks/>
-        [XmlElement("Source")]
-        public Source[] Source;
-
-        // <remarks/>
+        //[XmlElement("Source")]
+        //public Source[] Source;
         public TPA_Extensions TPA_Extensions;
     }
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
-    public class TPA_Extensions
+    public class TPA_Extensions : Code.ITPA_Extensions
     {
 
         // <remarks/>

@@ -925,9 +925,9 @@ namespace wsTripXML.wsTravelTalk
                 // End If
 
 
-                if (POS.Source.RequestorID.ID is not null)
+                if (POS.Source.First()?.RequestorID.ID is not null)
                 {
-                    TravelTalkCredential.RequestorID = POS.Source.RequestorID.ID.ToString();
+                    TravelTalkCredential.RequestorID = POS.Source.First().RequestorID.ID.ToString();
                 }
 
                 if (POS.TPA_Extensions.Provider.GDSSystem is not null)
@@ -961,7 +961,7 @@ namespace wsTripXML.wsTravelTalk
                 // If POS.Source.PseudoCityCode Is Nothing Then
                 // .Providers(0).PCC = ""
                 // Else
-                ttCredential.Providers[0].PCC = POS.Source.PseudoCityCode.ToString();
+                ttCredential.Providers[0].PCC = POS.Source.First().PseudoCityCode.ToString();
                 // End If
 
                 // oNodePOS = oNodePOS.SelectSingleNode("TPA_Extensions/Provider")

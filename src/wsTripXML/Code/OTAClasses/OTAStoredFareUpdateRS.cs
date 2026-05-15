@@ -139,7 +139,7 @@ namespace wsTripXML.wsTravelTalk.wmStoredFareUpdateOut
 
     // <remarks/>
     [XmlRoot(Namespace = "", IsNullable = false)]
-    public class POS : Code.IPOS
+    public class POS
     {
 
         // <remarks/>

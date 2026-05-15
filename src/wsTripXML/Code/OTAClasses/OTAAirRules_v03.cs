@@ -893,80 +893,42 @@ namespace wsTripXML.wsTravelTalk.wmAirRulesIn_v03
     [XmlRoot(IsNullable = false)]
     public class OTA_AirRulesRQ
     {
-
-        // <remarks/>
         public POS POS;
-
-        // <remarks/>
         public AirItinerary AirItinerary;
-
-        // <remarks/>
         public TravelerInfoSummary TravelerInfoSummary;
-
-        // <remarks/>
         [XmlAttribute()]
         public string EchoToken;
-
-        // <remarks/>
         [XmlAttribute()]
         public DateTime TimeStamp;
-
-        // <remarks/>
         [XmlIgnore()]
         public bool TimeStampSpecified;
-
-        // <remarks/>
         [XmlAttribute()]
         [System.ComponentModel.DefaultValue(OTA_AirRulesRQTarget.Production)]
         public OTA_AirRulesRQTarget Target = OTA_AirRulesRQTarget.Production;
-
-        // <remarks/>
         [XmlAttribute()]
         public double Version;
-
-        // <remarks/>
         [XmlIgnore()]
         public bool VersionSpecified;
-
-        // <remarks/>
         [XmlAttribute()]
         public string TransactionIdentifier;
-
-        // <remarks/>
         [XmlAttribute()]
         public int SequenceNmbr;
-
-        // <remarks/>
         [XmlIgnore()]
         public bool SequenceNmbrSpecified;
-
-        // <remarks/>
         [XmlAttribute()]
         public OTA_AirRulesRQTransactionStatusCode TransactionStatusCode;
-
-        // <remarks/>
         [XmlIgnore()]
         public bool TransactionStatusCodeSpecified;
-
-        // <remarks/>
         [XmlAttribute()]
         public string PrimaryLangID;
-
-        // <remarks/>
         [XmlAttribute()]
         public string AltLangID;
     }
 
-    // <remarks/>
     [XmlRoot(IsNullable = false)]
     public class POS : Code.IPOS
     {
 
-        // <remarks/>
-        [XmlElement("Source")]
-        public Source[] Source;
-
-        // <remarks/>
         public TPA_Extensions TPA_Extensions;
     }
 
@@ -1070,12 +1032,10 @@ namespace wsTripXML.wsTravelTalk.wmAirRulesIn_v03
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
-    public class TPA_Extensions
+    public class TPA_Extensions : Code.ITPA_Extensions
     {
-
-        // <remarks/>
         public Provider Provider;
-        public string ConversationID;
+        //public string ConversationID;
     }
 
     // <remarks/>

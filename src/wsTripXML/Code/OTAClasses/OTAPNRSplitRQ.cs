@@ -153,11 +153,6 @@ namespace wsTripXML.wsTravelTalk.wmPNRSplitIn
     public class POS : Code.IPOS
     {
 
-        // <remarks/>
-        [XmlElement("Source")]
-        public Source[] Source;
-
-        // <remarks/>
         public TPA_Extensions TPA_Extensions;
     }
 
@@ -237,7 +232,7 @@ namespace wsTripXML.wsTravelTalk.wmPNRSplitIn
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
-    public class TPA_Extensions
+    public class TPA_Extensions : Code.ITPA_Extensions
     {
 
         // <remarks/>

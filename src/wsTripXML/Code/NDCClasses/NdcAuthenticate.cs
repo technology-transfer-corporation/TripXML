@@ -3,8 +3,6 @@ using System.Xml.Serialization;
 
 namespace wsTripXML.wsTravelTalk
 {
-
-
     public class ndcAuthenticate : System.Web.Services.Protocols.SoapHeader
     {
 
@@ -14,9 +12,7 @@ namespace wsTripXML.wsTravelTalk
 
     public class POS : Code.IPOS
     {
-        public Source Source;
-
-        // <remarks/>
+//        public Source Source;
         public TPA_Extensions TPA_Extensions;
     }
 
@@ -62,7 +58,7 @@ namespace wsTripXML.wsTravelTalk
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
-    public class TPA_Extensions
+    public class TPA_Extensions : Code.ITPA_Extensions
     {
 
         // <remarks/>
