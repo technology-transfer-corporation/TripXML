@@ -316,6 +316,16 @@
 				<TravelItinerary>
 					<ItineraryRef>
 						<xsl:attribute name="Type">PNR</xsl:attribute>
+            <xsl:attribute name="NDC">
+              <xsl:choose>
+                <xsl:when test="//ReservationItems/Item/Product/ProductBase/ProductType = 'AIR_NDC'">
+                  <xsl:text>true</xsl:text>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:text>false</xsl:text>
+                </xsl:otherwise>
+              </xsl:choose>
+            </xsl:attribute>
 						<xsl:attribute name="ID">
 							<xsl:value-of select="TravelItinerary/ItineraryRef/@ID"/>
 						</xsl:attribute>
