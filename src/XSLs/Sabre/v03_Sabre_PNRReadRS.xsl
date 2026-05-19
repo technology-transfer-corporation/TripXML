@@ -1,14 +1,15 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:stl="http://services.sabre.com/STL/v01"
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:ext="http://exslt.org/common" exclude-result-prefixes="ext">
-	<!-- 
-  ================================================================== 
-  v03_Sabre_PNRReadRS.xsl 														
+	<!--
   ==================================================================
+  v03_Sabre_PNRReadRS.xsl
+  ==================================================================
+  Date: 19 May 2026 - Riasnenko - added NDC identification
   Date: 12 May 2026 - Kobelev - added NDC Air segment handler
   Date: 06 Apr 2026 - Riasnenko - added LastTicketingDate
   Date: 22 Jan 2026 - Samokhvalov  - FormOfPayment-MCO fixes
   Date: 13 Jan 2026 - Riasnenko - Fixed CustomerInfo/PersonName templates
-  Date: 08 Dec 2025 - Riasnenko - Added Corporate Fare 
+  Date: 08 Dec 2025 - Riasnenko - Added Corporate Fare
   Date: 05 Dec 2025 - Samokhvalov - FormOfPayment-MCO fixes
   Date: 31 Oct 2025 - Samokhvalov - FareFamilyCode fixes
   Date: 01 Dec 2023 - Kobelev - Segment Numbers for Tickets.
@@ -40,7 +41,7 @@
   Date: 04 Mar 2021 - Kobelev - Air Segments Display Fix (with or without ARNK).
   Date: 03 Mar 2021 - Kobelev - Side Trip Fix.
   Date: 17 Feb 2021 - Kobelev - BSR Calculations
-  Date: 03 Feb 2021 - Kobelev - Better implamentation of Exchange PNR with two PQ (one correct one not, both active) vs. regular PNR  
+  Date: 03 Feb 2021 - Kobelev - Better implamentation of Exchange PNR with two PQ (one correct one not, both active) vs. regular PNR
   Date: 29 Dec 2020 - Kobelev - Fixed Exchange PNR with two PQ (one correct one not, both active)
   Date: 05 Dec 2020 - Samokhvalov - Fixed overnight flight 31 Dec arrival date BUG: 1366
   Date: 02 Dec 2020 - Samokhvalov - Fixed PTC_FareBreakdown/@PricingSource BUG: 1357
@@ -89,13 +90,13 @@
   Date: 05 Apr 2017 - Kobelev - Fix for credit card with only 3 digit for Expiration Date. ex: *VI4XXXXXXXXXXX1111?1/19.
   Date: 21 Feb 2017 - Kobelev - ReservationItems has to take last element from PriceQuote.
   Date: 20 Feb 2017 - Kobelev - EquivFare fix. First step to BUG 529
-  Date: 06 Feb 2017 - Kobelev - Form Of Payment check for CC number. 
-  Date: 06 Jan 2017 - Kobelev - Correction on passanger RPH for Issued Tickets. 
-  Date: 22 Dec 2016 - Kobelev - Expiration Date parsing FIX. 
-  Date: 21 Dec 2016 - Kobelev - Added TravelerReferenceRPHList to PTC_FareBreakdown in ItemPricing. Also, added TourCode to SpecailRemarks. 
-  Date: 10 Oct 2016 - Kobelev - Credit Card number can have leading "*" or not. Thats creates problem during parsing. 
-  Date: 09 Sep 2016 - Kobelev - New Infant identifier. PNR 'HSPTHB'. 
-  Date: 06 Sep 2016 - Kobelev - Canceled Air segments display. PNR 'WXQMTH'. 
+  Date: 06 Feb 2017 - Kobelev - Form Of Payment check for CC number.
+  Date: 06 Jan 2017 - Kobelev - Correction on passanger RPH for Issued Tickets.
+  Date: 22 Dec 2016 - Kobelev - Expiration Date parsing FIX.
+  Date: 21 Dec 2016 - Kobelev - Added TravelerReferenceRPHList to PTC_FareBreakdown in ItemPricing. Also, added TourCode to SpecailRemarks.
+  Date: 10 Oct 2016 - Kobelev - Credit Card number can have leading "*" or not. Thats creates problem during parsing.
+  Date: 09 Sep 2016 - Kobelev - New Infant identifier. PNR 'HSPTHB'.
+  Date: 06 Sep 2016 - Kobelev - Canceled Air segments display. PNR 'WXQMTH'.
   Date: 22 Aug 2016 - Kobelev - Price Quote did not display. Bug Fix of #349
   Date: 19 Aug 2016 - Kobelev - Correct display of Secured PNR.
   Date: 19 Aug 2016 - Kobelev - Canceled Air Segemnts just not getting displayed.
@@ -104,68 +105,68 @@
   Date: 25 Jul 2016 - Samokhvalov - AirSegments filled from AirItineraryPricingInfo/PTC_FareBreakdown instead of ItineraryInfo/ReservationItems
   Date: 12 Jyl 2016 - Kobelev - Fix check for attribute existance ItinTotalFare when PriceQuoteTotals absent. bug fix of #317
   Date: 22 Jun 2016 - Samokhvalov - Set Amount=0 for ItinTotalFare when PriceQuoteTotals absent. bug fix #317
-  Date: 11 May 2016 - Kobelev - Total Price correct price quote. bug fix #290 
-  Date: 21 Apr 2016 - Kobelev - MiscSegment vs. Misc element. after implementation of new version of messages. bug fix #269	
-  Date: 19 Apr 2016 - Kobelev - Price Qoute Siaplaying correct price quote bug fix #267	
-  Date: 12 Apr 2016 - Kobelev - Passanger type passanger identification bug fix	
-  Date: 06 Apr 2016 - Rastko - corrected credit card mapping for verson 3.6.0		
-  Date: 18 Mar 2016 - Rastko - corrected text error display		
-  Date: 18 Dec 2015 - Rastko - change to car version 2.0.1		
-  Date: 17 Dec 2015 - Rastko	- parse *PQS instead of PD for pax types					
-  Date: 21 Jul 2015 - Rastko	- corrected mapping of EquivFare						
-  Date: 17 Jun 2015 - Rastko	- mapped segment marriage info						
+  Date: 11 May 2016 - Kobelev - Total Price correct price quote. bug fix #290
+  Date: 21 Apr 2016 - Kobelev - MiscSegment vs. Misc element. after implementation of new version of messages. bug fix #269
+  Date: 19 Apr 2016 - Kobelev - Price Qoute Siaplaying correct price quote bug fix #267
+  Date: 12 Apr 2016 - Kobelev - Passanger type passanger identification bug fix
+  Date: 06 Apr 2016 - Rastko - corrected credit card mapping for verson 3.6.0
+  Date: 18 Mar 2016 - Rastko - corrected text error display
+  Date: 18 Dec 2015 - Rastko - change to car version 2.0.1
+  Date: 17 Dec 2015 - Rastko	- parse *PQS instead of PD for pax types
+  Date: 21 Jul 2015 - Rastko	- corrected mapping of EquivFare
+  Date: 17 Jun 2015 - Rastko	- mapped segment marriage info
   Date: 28 Feb 2015 - Tkachenko - added DQB parser template
-  Date: 26 Feb 2015 - Rastko - 	take pax type from Sabre if in response		
-  Date: 16 Sep 2014 - Rastko - do not display hotel rate if no numeric value in Sabre response	
-  Date: 20 May 2014 - Rastko - corrected tax amount when no tax returned in response	
-  Date: 01 May 2014 - Rastko - mapped DisplayPriceQuoteRS to get private fare info		
-  Date: 17 Apr 2014 - Rastko - added TransactionStatusCode attribute when PNR ticketed	
-  Date: 15 Apr 2014 - Rastko - corrected RPH value of stored fare				
-  Date: 10 Apr 2014 - Rastko - fixed parsing of foprm of payment CK, CHEQUE and CC	
-  Date: 07 Apr 2014 - Rastko - made corrections in parsing manual hotel segment		
-  Date: 03 Apr 2014 - Rastko - change test to identify if there are stored fares or not		
-  Date: 02 Apr 2014 - Rastko - do not try to display stored fare priced starting with WS	
-  Date: 02 Apr 2014 - Rastko - fixed FOP parsing when it is in first text line			
-  Date: 01 Apr 2014 - Rastko - fixed car and form of payment free flow text			
-  Date: 01 Apr 2014 - Rastko - fixed car and hotel segments parsiing issues			
-  Date: 22 Mar 2014 - Rastko - fixed parsing issue on stored fares				
-  Date: 21 Mar 2014 - Rastko - do not try to display stored fare priced as WS			
-  Date: 19 Mar 2014 - Rastko - do not try to display stored fare if not any exist		
-  Date: 18 Mar 2014 - Rastko - corrected fares calculation to include number of pax in it	
-  Date: 25 Feb 2014 - Rastko - connect mapping of fare basis code				
-  Date: 24 Feb 2014 - Rastko - if remark does not have a text return a space in text field	
-  Date: 21 Feb 2014 - Rastko - do not show RPH in IssueTicket if it does not exist		
-  Date: 05 Feb 2014 - Rastko - formatted RPH number in Payment and Remarks elements	
-  Date: 05 Feb 2014 - Rastko - corrected Remark Type attribute into Category attribute	
-  Date: 24 Jan 2014 - Rastko - corrected parsing of accounting line				
-  Date: 18 Jan 2014 - Rastko - corrected display of Warning to be put after Success 		
-  Date: 16 Jan 2014 - Rastko - mapped accounting info and future price info and PTC Breakdown RPH	
-  Date: 13 Jan 2014 - Rastko - mapped Calc line									
-  Date: 08 Jan 2014 - Rastko - mapped Cash and Check FOP					
-  Date: 08 Jan 2014 - Rastko - set ReservationItems optional and corrected tkt time limit	
-  Date: 08 Jan 2014 - Rastko - added mapping of pax types, accounting line and fare type	
-  Date: 07 Jan 2014 - Rastko - added mapping of misc segments				
-  Date: 02 Jan 2014 - Rastko - added mapping of arunk segments				
-  Date: 01 Aug 2012 - Rastko - corrected FOP and baggage allowance mapping		
-  Date: 06 Jun 2012 - Kasun - include Validating Airline Code					
-  Date: 24 May 2012 - Kasun - include RPH in Issued Tickets					
-  Date: 17 May 2012 - Kasun - corrected Arrival date format						
-  Date: 25 Apr 2012 - Kasun - corrected error mapping							
-  Date: 22 Mar 2012 - Kasun - mapped cash and check form of payments			
-  Date: 11 Mar 2012 - Shashin - corrected year part in ticketingtimelimit			
-  Date: 14 Feb 2012 - Rastko - corrected misc segment mapping				
-  Date: 13 Jan 2012 - Rastko - added mapping of accounting line				
-  Date: 24 Oct 2010 - Rastko - Made FOP multiple in response					
-  Date: 26 Sep 2010 - Rastko - mapped CustLoyalty	  							
-  Date: 08 Apr 2010 - Rastko - fixed total fares calculation 						
-  Date: 29 Apr 2010 - Rastko - fixed parsing of fares when hostorical fares exist		
-  Date: 20 May 2010 - Rastko - fixed ticket time limit parsing					
-  Date: 25 May 2010 - Rastko - fixed ticket time limit parsing when code is 7TAW/		
-  Date: 02 Jul 2010 - Rastko - fixed missing remarks in display					
-  Date: 16 Jul 2010 - Rastko - fixed ticket time limit parsing when code is 7TAW/		
-  Date: 06 Sep 2010 - Rastko - corrected calculation of base and total fares			
-  Date: 17 Sep 2010 - Rastko - added support for warning messages				  
-  ================================================================== 
+  Date: 26 Feb 2015 - Rastko - 	take pax type from Sabre if in response
+  Date: 16 Sep 2014 - Rastko - do not display hotel rate if no numeric value in Sabre response
+  Date: 20 May 2014 - Rastko - corrected tax amount when no tax returned in response
+  Date: 01 May 2014 - Rastko - mapped DisplayPriceQuoteRS to get private fare info
+  Date: 17 Apr 2014 - Rastko - added TransactionStatusCode attribute when PNR ticketed
+  Date: 15 Apr 2014 - Rastko - corrected RPH value of stored fare
+  Date: 10 Apr 2014 - Rastko - fixed parsing of foprm of payment CK, CHEQUE and CC
+  Date: 07 Apr 2014 - Rastko - made corrections in parsing manual hotel segment
+  Date: 03 Apr 2014 - Rastko - change test to identify if there are stored fares or not
+  Date: 02 Apr 2014 - Rastko - do not try to display stored fare priced starting with WS
+  Date: 02 Apr 2014 - Rastko - fixed FOP parsing when it is in first text line
+  Date: 01 Apr 2014 - Rastko - fixed car and form of payment free flow text
+  Date: 01 Apr 2014 - Rastko - fixed car and hotel segments parsiing issues
+  Date: 22 Mar 2014 - Rastko - fixed parsing issue on stored fares
+  Date: 21 Mar 2014 - Rastko - do not try to display stored fare priced as WS
+  Date: 19 Mar 2014 - Rastko - do not try to display stored fare if not any exist
+  Date: 18 Mar 2014 - Rastko - corrected fares calculation to include number of pax in it
+  Date: 25 Feb 2014 - Rastko - connect mapping of fare basis code
+  Date: 24 Feb 2014 - Rastko - if remark does not have a text return a space in text field
+  Date: 21 Feb 2014 - Rastko - do not show RPH in IssueTicket if it does not exist
+  Date: 05 Feb 2014 - Rastko - formatted RPH number in Payment and Remarks elements
+  Date: 05 Feb 2014 - Rastko - corrected Remark Type attribute into Category attribute
+  Date: 24 Jan 2014 - Rastko - corrected parsing of accounting line
+  Date: 18 Jan 2014 - Rastko - corrected display of Warning to be put after Success
+  Date: 16 Jan 2014 - Rastko - mapped accounting info and future price info and PTC Breakdown RPH
+  Date: 13 Jan 2014 - Rastko - mapped Calc line
+  Date: 08 Jan 2014 - Rastko - mapped Cash and Check FOP
+  Date: 08 Jan 2014 - Rastko - set ReservationItems optional and corrected tkt time limit
+  Date: 08 Jan 2014 - Rastko - added mapping of pax types, accounting line and fare type
+  Date: 07 Jan 2014 - Rastko - added mapping of misc segments
+  Date: 02 Jan 2014 - Rastko - added mapping of arunk segments
+  Date: 01 Aug 2012 - Rastko - corrected FOP and baggage allowance mapping
+  Date: 06 Jun 2012 - Kasun - include Validating Airline Code
+  Date: 24 May 2012 - Kasun - include RPH in Issued Tickets
+  Date: 17 May 2012 - Kasun - corrected Arrival date format
+  Date: 25 Apr 2012 - Kasun - corrected error mapping
+  Date: 22 Mar 2012 - Kasun - mapped cash and check form of payments
+  Date: 11 Mar 2012 - Shashin - corrected year part in ticketingtimelimit
+  Date: 14 Feb 2012 - Rastko - corrected misc segment mapping
+  Date: 13 Jan 2012 - Rastko - added mapping of accounting line
+  Date: 24 Oct 2010 - Rastko - Made FOP multiple in response
+  Date: 26 Sep 2010 - Rastko - mapped CustLoyalty
+  Date: 08 Apr 2010 - Rastko - fixed total fares calculation
+  Date: 29 Apr 2010 - Rastko - fixed parsing of fares when hostorical fares exist
+  Date: 20 May 2010 - Rastko - fixed ticket time limit parsing
+  Date: 25 May 2010 - Rastko - fixed ticket time limit parsing when code is 7TAW/
+  Date: 02 Jul 2010 - Rastko - fixed missing remarks in display
+  Date: 16 Jul 2010 - Rastko - fixed ticket time limit parsing when code is 7TAW/
+  Date: 06 Sep 2010 - Rastko - corrected calculation of base and total fares
+  Date: 17 Sep 2010 - Rastko - added support for warning messages
+  ==================================================================
   -->
 
 	<xsl:output omit-xml-declaration="yes"/>
@@ -272,7 +273,7 @@
 			</xsl:when>
 
 			<!--
-	   <xsl:when test="not(TravelItinerary/ItineraryRef) and not(Errors/Error)">			
+	   <xsl:when test="not(TravelItinerary/ItineraryRef) and not(Errors/Error)">
 						<Errors>
 								<Error>
 									<xsl:attribute name="Type">Sabre</xsl:attribute>
@@ -516,7 +517,7 @@
 
 									<xsl:choose>
 										<xsl:when test="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo]">
-											<!-- We don't need it now, BUT it may help us later 
+											<!-- We don't need it now, BUT it may help us later
                       <xsl:variable name="hasARNK" select="count(ItineraryInfo/ItineraryPricing/PriceQuote[@RPH=$pqRPH]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/FlightSegment[@SegmentNumber!='0' and FareBasis/@Code[1]='VOID'])" />
                       -->
 											<xsl:for-each select="ItineraryInfo/ReservationItems/Item">
@@ -741,7 +742,7 @@
           </xsl:if>
           -->
 
-							<!-- 
+							<!--
           <xsl:apply-templates select="ItineraryInfo/ReservationItems/Item/FlightSegment | ItineraryInfo/ReservationItems/Item/Arunk" mode="Air">
             <xsl:sort data-type="number" order="ascending" select="@SegmentNumber"/>
           </xsl:apply-templates>
@@ -756,12 +757,12 @@
 							<xsl:apply-templates select="ItineraryInfo/ReservationItems/Item/MiscSegment" mode="Misc2"/>
 
 							<!--
-          <xsl:apply-templates select="ItineraryInfo/ReservationItems/Item/General" mode="Other" />          
+          <xsl:apply-templates select="ItineraryInfo/ReservationItems/Item/General" mode="Other" />
           <xsl:if test="ItineraryInfo/ReservationItems/ItemPricing/AirFareInfo">
 						<ItemPricing>
 							<xsl:apply-templates select="ItineraryInfo/ReservationItems/ItemPricing/AirFareInfo" mode="Air" />
 						</ItemPricing>
-					</xsl:if>          
+					</xsl:if>
           <xsl:if test="ItineraryInfo/ItineraryPricing/PriceQuote[not(contains(ResponseHeader/Text[1],'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))][1]/PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/BaseFare/@Amount">
 
           <xsl:if test="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/ItinTotalFare/BaseFare/@Amount">
@@ -835,13 +836,13 @@
 				<xsl:if test="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/TourCode/Text or ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo][1]/PricedItinerary/AirItineraryPricingInfo/PTC_FareBreakdown/Endorsements/Endorsement[@type='SYSTEM_ENDORSEMENT']">
 					<SpecialRemarks>
 
-						<!--              
+						<!--
               <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[contains(elementManagementData/segmentName,'RI')]" mode="InvoiceItinRemark"/>
               <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='RIF']" mode="InvoiceRemark"/>
 						  <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='RIT']" mode="InvoiceRemark"/>
 						  <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='RIR']" mode="ItinRemark"/>
               <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[contains(elementManagementData/segmentName,'RC')]" mode="ConfRemark"/>
-              <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FE']" mode="Endorsement"/>              
+              <xsl:apply-templates select="dataElementsMaster/dataElementsIndiv[elementManagementData/segmentName='FE']" mode="Endorsement"/>
               -->
 
 						<xsl:apply-templates select="ItineraryInfo/ItineraryPricing/PriceQuote[PriceQuotePlus/PassengerInfo]" mode="TourCode"/>
@@ -3361,7 +3362,7 @@
                           <xsl:value-of 	select="count(PriceQuote)+1"/>
                         </xsl:with-param>
                       </xsl:apply-templates>
-                    </xsl:variable>            
+                    </xsl:variable>
                     <xsl:choose>
                       <xsl:when test="$tax=''">0</xsl:when>
                       <xsl:otherwise>
@@ -3421,7 +3422,7 @@
 						</TotalFare>
 					</ItinTotalFare>
 					<PTC_FareBreakdowns>
-						<!--        
+						<!--
         <xsl:apply-templates select="PriceQuote[not(contains(ResponseHeader/Text[1],'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))][PricedItinerary/@InputMessage!='M-A']"/>
 -->
 						<xsl:apply-templates select="../../../DisplayPriceQuoteRS/PriceQuote">
@@ -3893,7 +3894,7 @@
                           <xsl:value-of 	select="count(PriceQuote)+1"/>
                         </xsl:with-param>
                       </xsl:apply-templates>
-                    </xsl:variable>            
+                    </xsl:variable>
                     <xsl:choose>
                       <xsl:when test="$tax=''">0</xsl:when>
                       <xsl:otherwise>
@@ -3953,7 +3954,7 @@
 						</TotalFare>
 					</ItinTotalFare>
 					<PTC_FareBreakdowns>
-						<!--        
+						<!--
         <xsl:apply-templates select="PriceQuote[not(contains(ResponseHeader/Text[1],'HISTORY'))][not(starts-with(PricedItinerary/@InputMessage,'WS'))][PricedItinerary/@InputMessage!='M-A']"/>
         -->
 						<xsl:apply-templates select="../../../DisplayPriceQuoteRS/PriceQuote">
@@ -4599,8 +4600,8 @@
 	</xsl:template>
 
 	<xsl:template match="FlightSegment" mode="ffSegmental">
-		<!-- 
-    S1*BRECONOMY?S2*BRECOFLEX 
+		<!--
+    S1*BRECONOMY?S2*BRECOFLEX
     S1/2$S3-5*BRMAIN
     -->
 		<xsl:param name="brID"/>
@@ -4704,7 +4705,7 @@
 		</xsl:if>
 	</xsl:template>
 
-	<!-- This Template if FareRQ were used 
+	<!-- This Template if FareRQ were used
   <xsl:template match="SegmentInfo" mode="FareFamily">
     <xsl:if test="BrandedFare/@description">
       <FareFamily>
@@ -5242,7 +5243,7 @@
 					</xsl:variable>
 
 					<xsl:if test="count($accMCO) > 0">
-						<xsl:apply-templates select="$accMCO[DocumentInfo/Document[@Number=substring($tkn,4)] or 
+						<xsl:apply-templates select="$accMCO[DocumentInfo/Document[@Number=substring($tkn,4)] or
 											 substring(DocumentInfo/Document[@Number=substring($tkn,4)],1,3)=890 or
 										     Airline/@Code='XD']" mode="mco">
 						</xsl:apply-templates>
@@ -5347,9 +5348,9 @@
 									</xsl:choose>
 								</xsl:attribute>
 								<xsl:attribute name="ExpireDate">
-									<!-- 
+									<!--
                   *VI4XXXXXXXXXXX8882?03/20-XN
-                  *VI4XXXXXXXXXXX1111?1/19 
+                  *VI4XXXXXXXXXXX1111?1/19
                   *CA5XXXXXXXXXXX2120¥11/22
                   -->
 									<xsl:variable name="exp">
