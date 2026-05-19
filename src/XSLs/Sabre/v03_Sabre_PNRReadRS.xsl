@@ -4,8 +4,8 @@
   ================================================================== 
   v03_Sabre_PNRReadRS.xsl 														
   ==================================================================
-  Date: 12 MAY 2026 - Kobelev - added NDC Air segment handler
-  Date: 06 APR 2026 - Riasnenko - added LastTicketingDate
+  Date: 12 May 2026 - Kobelev - added NDC Air segment handler
+  Date: 06 Apr 2026 - Riasnenko - added LastTicketingDate
   Date: 22 Jan 2026 - Samokhvalov  - FormOfPayment-MCO fixes
   Date: 13 Jan 2026 - Riasnenko - Fixed CustomerInfo/PersonName templates
   Date: 08 Dec 2025 - Riasnenko - Added Corporate Fare 
