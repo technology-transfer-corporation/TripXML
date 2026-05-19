@@ -6149,6 +6149,10 @@ Namespace wsTravelTalk.wmTravelItineraryOut_v03
         '<remarks/>
         <System.Xml.Serialization.XmlAttributeAttribute>
         Public ID_Context As String
+
+        '<remarks/>
+        <System.Xml.Serialization.XmlAttributeAttribute>
+        Public NDC As Boolean
     End Class
 
     '<remarks/>
