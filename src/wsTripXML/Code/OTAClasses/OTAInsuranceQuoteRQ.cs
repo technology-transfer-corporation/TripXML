@@ -139,7 +139,7 @@ namespace wsTripXML.wsTravelTalk.wmInsuranceQuoteIn
         [XmlElement("URL")]
         public URL[] URL;
 
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyName[] CompanyName;
 
         [XmlElement("EmployeeInfo")]
@@ -264,7 +264,7 @@ namespace wsTripXML.wsTravelTalk.wmInsuranceQuoteIn
         [XmlElement("URL")]
         public URL[] URL;
 
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyName[] CompanyName;
 
         [XmlElement("EmployeeInfo")]

@@ -116,7 +116,7 @@ namespace wsTripXML.wsTravelTalk.wmPNRRepriceIn
     public class BookingChannel
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string Type;
@@ -152,7 +152,7 @@ namespace wsTripXML.wsTravelTalk.wmPNRRepriceIn
     public class UserID
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute(DataType = "anyURI")]
         public string URL;
@@ -319,7 +319,7 @@ namespace wsTripXML.wsTravelTalk.wmPNRRepriceIn
     public class UniqueIDRQ
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute(DataType = "anyURI")]
         public string URL;
@@ -337,25 +337,25 @@ namespace wsTripXML.wsTravelTalk.wmPNRRepriceIn
         public string ID_Context;
     }
 
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
+    //[XmlRoot(IsNullable = false)]
+    //public class CompanyNameFull
+    //{
 
-        [XmlAttribute()]
-        public string CompanyShortName;
+    //    [XmlAttribute()]
+    //    public string CompanyShortName;
 
-        [XmlAttribute()]
-        public string TravelSector;
+    //    [XmlAttribute()]
+    //    public string TravelSector;
 
-        [XmlAttribute()]
-        public string Code;
+    //    [XmlAttribute()]
+    //    public string Code;
 
-        [XmlAttribute()]
-        public string CodeContext;
+    //    [XmlAttribute()]
+    //    public string CodeContext;
 
-        [XmlText()]
-        public string Value;
-    }
+    //    [XmlText()]
+    //    public string Value;
+    //}
 
     public enum Target
     {

@@ -248,7 +248,7 @@ namespace wsTripXML.wsTravelTalk.wmAirRulesIn_v03
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]
@@ -271,31 +271,31 @@ namespace wsTripXML.wsTravelTalk.wmAirRulesIn_v03
         public string ID_Context;
     }
 
-    // <remarks/>
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
+    //// <remarks/>
+    //[XmlRoot(IsNullable = false)]
+    //public class CompanyName
+    //{
 
-        // <remarks/>
-        [XmlAttribute()]
-        public string CompanyShortName;
+    //    // <remarks/>
+    //    [XmlAttribute()]
+    //    public string CompanyShortName;
 
-        // <remarks/>
-        [XmlAttribute()]
-        public string TravelSector;
+    //    // <remarks/>
+    //    [XmlAttribute()]
+    //    public string TravelSector;
 
-        // <remarks/>
-        [XmlAttribute()]
-        public string Code;
+    //    // <remarks/>
+    //    [XmlAttribute()]
+    //    public string Code;
 
-        // <remarks/>
-        [XmlAttribute()]
-        public string CodeContext;
+    //    // <remarks/>
+    //    [XmlAttribute()]
+    //    public string CodeContext;
 
-        // <remarks/>
-        [XmlText()]
-        public string Value;
-    }
+    //    // <remarks/>
+    //    [XmlText()]
+    //    public string Value;
+    //}
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
@@ -826,7 +826,7 @@ namespace wsTripXML.wsTravelTalk.wmAirRulesIn_v03
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute()]
@@ -989,7 +989,7 @@ namespace wsTripXML.wsTravelTalk.wmAirRulesIn_v03
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]

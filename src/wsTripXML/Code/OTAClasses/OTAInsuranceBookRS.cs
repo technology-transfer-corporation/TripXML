@@ -170,7 +170,7 @@ namespace wsTripXML.wsTravelTalk.wmInsuranceBookOut
         public URL[] URL;
 
         // <remarks/>
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyName[] CompanyName;
 
         // <remarks/>
@@ -328,7 +328,7 @@ namespace wsTripXML.wsTravelTalk.wmInsuranceBookOut
         public URL[] URL;
 
         // <remarks/>
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyName[] CompanyName;
 
         // <remarks/>

@@ -612,45 +612,45 @@ namespace wsTripXML.wsTravelTalk.wmAuthorizationOut
     }
 
     /// <remarks/>
-    [XmlInclude(typeof(OperatingAirline))]
-    [XmlType()]
-    public class CompanyName
-    {
+    //[XmlInclude(typeof(OperatingAirline))]
+    //[XmlType()]
+    //public class CompanyNameFull
+    //{
 
-        /// <remarks/>
-        [XmlAttribute()]
-        public string CompanyShortName;
+    //    /// <remarks/>
+    //    [XmlAttribute()]
+    //    public string CompanyShortName;
 
 
-        /// <remarks/>
-        [XmlAttribute()]
-        public string TravelSector;
+    //    /// <remarks/>
+    //    [XmlAttribute()]
+    //    public string TravelSector;
 
-        /// <remarks/>
-        [XmlAttribute()]
-        public string Code;
+    //    /// <remarks/>
+    //    [XmlAttribute()]
+    //    public string Code;
 
-        /// <remarks/>
-        [XmlAttribute()]
-        public string CodeContext;
+    //    /// <remarks/>
+    //    [XmlAttribute()]
+    //    public string CodeContext;
 
-        /// <remarks/>
-        [XmlAttribute()]
-        public string Division;
+    //    /// <remarks/>
+    //    [XmlAttribute()]
+    //    public string Division;
 
-        /// <remarks/>
-        [XmlAttribute()]
-        public string Department;
+    //    /// <remarks/>
+    //    [XmlAttribute()]
+    //    public string Department;
 
-        /// <remarks/>
-        [XmlText()]
-        public string Value;
+    //    /// <remarks/>
+    //    [XmlText()]
+    //    public string Value;
 
-    }
+    //}
 
     /// <remarks/>
     [XmlType()]
-    public class OperatingAirline : CompanyName
+    public class OperatingAirline : wmAuthorizationIn.CompanyNameFull
     {
 
         /// <remarks/>
@@ -670,7 +670,7 @@ namespace wsTripXML.wsTravelTalk.wmAuthorizationOut
     {
 
         /// <remarks/>
-        public CompanyName CompanyName;
+        public wmAuthorizationIn.CompanyNameFull CompanyName;
 
         /// <remarks/>
         [XmlAttribute(DataType = "anyURI")]

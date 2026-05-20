@@ -4045,7 +4045,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelModifyIn
     public class CompanyInfo
     {
 
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyName[] CompanyName;
 
         [XmlElement("AddressInfo")]
@@ -4281,7 +4281,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelModifyIn
         [XmlElement("URL", DataType = "anyURI")]
         public string[] URL;
 
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyName[] CompanyName;
 
         [XmlElement("EmployeeInfo")]

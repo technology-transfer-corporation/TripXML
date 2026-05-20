@@ -34,7 +34,7 @@ namespace wsTripXML.wsTravelTalk.wmSalesReportIn
     public class TPA_Extensions : Code.ITPA_Extensions
 
     {
-        public Provider Provider;
+        public Code.Provider Provider;
 
     }
 }

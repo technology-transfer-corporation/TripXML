@@ -330,7 +330,7 @@ namespace wsTripXML.wsTravelTalk.wmAirAvailIn
     public class UniqueID
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute(DataType = "anyURI")]
         public string URL;
@@ -348,25 +348,25 @@ namespace wsTripXML.wsTravelTalk.wmAirAvailIn
         public string ID_Context;
     }
 
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
+    //[XmlRoot(IsNullable = false)]
+    //public class CompanyName
+    //{
 
-        [XmlAttribute()]
-        public string CompanyShortName;
+    //    [XmlAttribute()]
+    //    public string CompanyShortName;
 
-        [XmlAttribute()]
-        public string TravelSector;
+    //    [XmlAttribute()]
+    //    public string TravelSector;
 
-        [XmlAttribute()]
-        public string Code;
+    //    [XmlAttribute()]
+    //    public string Code;
 
-        [XmlAttribute()]
-        public string CodeContext;
+    //    [XmlAttribute()]
+    //    public string CodeContext;
 
-        [XmlText()]
-        public string Value;
-    }
+    //    [XmlText()]
+    //    public string Value;
+    //}
 
     [XmlRoot(IsNullable = false)]
     public class PersonName
@@ -830,7 +830,7 @@ namespace wsTripXML.wsTravelTalk.wmAirAvailIn
     public class BookingChannel
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string Type;

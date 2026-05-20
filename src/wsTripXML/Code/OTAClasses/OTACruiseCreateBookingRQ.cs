@@ -346,7 +346,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseCreateBookingIn
         [XmlElement("URL")]
         public URL[] URL;
 
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyName[] CompanyName;
 
         [XmlElement("EmployeeInfo")]

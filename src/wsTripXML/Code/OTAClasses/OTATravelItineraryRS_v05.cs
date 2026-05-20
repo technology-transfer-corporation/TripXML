@@ -227,7 +227,7 @@ namespace wsTripXML.wsTravelTalk.wmTravelItineraryOut_v05
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         public AddressRS Address;
@@ -558,7 +558,7 @@ namespace wsTripXML.wsTravelTalk.wmTravelItineraryOut_v05
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]
@@ -2719,7 +2719,7 @@ namespace wsTripXML.wsTravelTalk.wmTravelItineraryOut_v05
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]
@@ -3324,7 +3324,7 @@ namespace wsTripXML.wsTravelTalk.wmTravelItineraryOut_v05
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]
@@ -3372,8 +3372,8 @@ namespace wsTripXML.wsTravelTalk.wmTravelItineraryOut_v05
         public URL[] URL;
 
         // <remarks/>
-        [XmlElement("CompanyName")]
-        public CompanyName[] CompanyName;
+        [XmlElement("CompanyNameFull")]
+        public Code.CompanyName[] CompanyName;
 
         // <remarks/>
         [XmlElement("EmployeeInfo")]
@@ -3565,8 +3565,8 @@ namespace wsTripXML.wsTravelTalk.wmTravelItineraryOut_v05
         public URL[] URL;
 
         // <remarks/>
-        [XmlElement("CompanyName")]
-        public CompanyName[] CompanyName;
+        [XmlElement("CompanyNameFull")]
+        public Code.CompanyName[] CompanyName;
 
         // <remarks/>
         [XmlElement("EmployeeInfo")]
@@ -4150,7 +4150,7 @@ namespace wsTripXML.wsTravelTalk.wmTravelItineraryOut_v05
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]
@@ -6007,7 +6007,7 @@ namespace wsTripXML.wsTravelTalk.wmTravelItineraryOut_v05
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]

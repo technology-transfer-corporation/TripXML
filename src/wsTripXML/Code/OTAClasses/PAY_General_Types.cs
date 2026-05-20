@@ -9413,7 +9413,7 @@ namespace wsTripXML.wsTravelTalk.VirtualCreditCard
         }
 
         /// <remarks/>
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyNameType[] CompanyName
         {
             get

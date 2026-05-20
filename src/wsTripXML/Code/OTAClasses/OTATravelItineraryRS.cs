@@ -221,7 +221,7 @@ namespace wsTripXML
         {
 
             // <remarks/>
-            public CompanyName CompanyName;
+            public Code.CompanyName CompanyName;
 
             // <remarks/>
             public AddressRS Address;
@@ -549,7 +549,7 @@ namespace wsTripXML
         {
 
             // <remarks/>
-            public CompanyName CompanyName;
+            public Code.CompanyName CompanyName;
 
             // <remarks/>
             [System.Xml.Serialization.XmlAttribute(DataType = "anyURI")]
@@ -2125,7 +2125,7 @@ namespace wsTripXML
         {
 
             // <remarks/>
-            public CompanyName CompanyName;
+            public Code.CompanyName CompanyName;
 
             // <remarks/>
             [System.Xml.Serialization.XmlAttribute(DataType = "anyURI")]
@@ -2703,7 +2703,7 @@ namespace wsTripXML
         {
 
             // <remarks/>
-            public CompanyName CompanyName;
+            public Code.CompanyName CompanyName;
 
             // <remarks/>
             [System.Xml.Serialization.XmlAttribute(DataType = "anyURI")]
@@ -2751,8 +2751,8 @@ namespace wsTripXML
             public URL[] URL;
 
             // <remarks/>
-            [System.Xml.Serialization.XmlElement("CompanyName")]
-            public CompanyName[] CompanyName;
+            [System.Xml.Serialization.XmlElement("CompanyNameFull")]
+            public Code.CompanyName[] CompanyName;
 
             // <remarks/>
             [System.Xml.Serialization.XmlElement("EmployeeInfo")]
@@ -2944,8 +2944,8 @@ namespace wsTripXML
             public URL[] URL;
 
             // <remarks/>
-            [System.Xml.Serialization.XmlElement("CompanyName")]
-            public CompanyName[] CompanyName;
+            [System.Xml.Serialization.XmlElement("CompanyNameFull")]
+            public Code.CompanyName[] CompanyName;
 
             // <remarks/>
             [System.Xml.Serialization.XmlElement("EmployeeInfo")]
@@ -3503,7 +3503,7 @@ namespace wsTripXML
         {
 
             // <remarks/>
-            public CompanyName CompanyName;
+            public Code.CompanyName CompanyName;
 
             // <remarks/>
             [System.Xml.Serialization.XmlAttribute(DataType = "anyURI")]
@@ -5346,7 +5346,7 @@ namespace wsTripXML
         {
 
             // <remarks/>
-            public CompanyName CompanyName;
+            public Code.CompanyName CompanyName;
 
             // <remarks/>
             [System.Xml.Serialization.XmlAttribute(DataType = "anyURI")]

@@ -125,7 +125,7 @@ namespace wsTripXML.wsTravelTalk.wmPNRSplitIn
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]
@@ -207,7 +207,7 @@ namespace wsTripXML.wsTravelTalk.wmPNRSplitIn
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]

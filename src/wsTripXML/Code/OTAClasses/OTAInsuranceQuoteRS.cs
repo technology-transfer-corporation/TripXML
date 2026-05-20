@@ -449,7 +449,7 @@ namespace wsTripXML.wsTravelTalk.wmInsuranceQuoteOut
         public URL[] URL;
 
         // <remarks/>
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyName[] CompanyName;
 
         // <remarks/>

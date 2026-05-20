@@ -3045,7 +3045,7 @@ namespace wsTripXML.wsTravelTalk.wmTravelModifyIn
     public class UniqueIDRQ
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute(DataType = "anyURI")]
         public string URL;

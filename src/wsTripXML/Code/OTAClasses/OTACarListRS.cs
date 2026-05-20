@@ -5129,7 +5129,7 @@ namespace wsTripXML.wsTravelTalk.wmCarListOut
         public URL_TypeRS[] URL;
 
         // <remarks/>
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyNameTypeRS[] CompanyName;
 
         // <remarks/>

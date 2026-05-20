@@ -1536,7 +1536,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvail
         public URL[] URL;
 
         // <remarks/>
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyName[] CompanyName;
 
         // <remarks/>
@@ -5597,7 +5597,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvail
     {
 
         // <remarks/>
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyName[] CompanyName;
 
         // <remarks/>

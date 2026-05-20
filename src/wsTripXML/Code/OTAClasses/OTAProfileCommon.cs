@@ -681,7 +681,7 @@ namespace wsTripXML.wsTravelTalk.wmProfileCommon
     {
 
         // <remarks/>
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyNameType[] CompanyName;
 
         // <remarks/>
@@ -2786,7 +2786,7 @@ namespace wsTripXML.wsTravelTalk.wmProfileCommon
         public URL_Type[] URL;
 
         // <remarks/>
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyNameType[] CompanyName;
 
         // <remarks/>

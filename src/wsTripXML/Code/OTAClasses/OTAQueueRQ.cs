@@ -8,7 +8,7 @@ namespace wsTripXML.wsTravelTalk.wmQueueIn
     public class BookingChannel
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string Type;

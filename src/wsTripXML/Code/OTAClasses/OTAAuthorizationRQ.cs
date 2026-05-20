@@ -2327,7 +2327,7 @@ namespace wsTripXML.wsTravelTalk.wmAuthorizationIn
     public partial class UniqueID_Type
     {
 
-        private CompanyName companyNameField;
+        private CompanyNameFull companyNameField;
 
         private string uRLField;
 
@@ -2337,7 +2337,7 @@ namespace wsTripXML.wsTravelTalk.wmAuthorizationIn
 
         private string iD_ContextField;
 
-        public CompanyName CompanyName
+        public CompanyNameFull CompanyName
         {
             get
             {
@@ -2406,7 +2406,7 @@ namespace wsTripXML.wsTravelTalk.wmAuthorizationIn
     [Serializable()]
     [DebuggerStepThrough()]
     [XmlType()]
-    public partial class CompanyName
+    public partial class CompanyNameFull
     {
 
         private string companyShortNameField;
@@ -2518,7 +2518,7 @@ namespace wsTripXML.wsTravelTalk.wmAuthorizationIn
     [Serializable()]
     [DebuggerStepThrough()]
     [XmlType()]
-    public partial class OperatingAirlineType : CompanyName
+    public partial class OperatingAirlineType : CompanyNameFull
     {
 
         private string flightNumberField;
@@ -2734,7 +2734,7 @@ namespace wsTripXML.wsTravelTalk.wmAuthorizationIn
     public partial class SourceTypeBookingChannel
     {
 
-        private CompanyName companyNameField;
+        private CompanyNameFull companyNameField;
 
         private string typeField;
 
@@ -2742,7 +2742,7 @@ namespace wsTripXML.wsTravelTalk.wmAuthorizationIn
 
         private bool primaryFieldSpecified;
 
-        public CompanyName CompanyName
+        public CompanyNameFull CompanyName
         {
             get
             {

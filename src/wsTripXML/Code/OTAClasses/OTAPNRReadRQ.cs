@@ -200,7 +200,7 @@ namespace wsTripXML.wsTravelTalk.wmPNRReadIn
     public class BookingChannel
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string Type;
@@ -819,7 +819,7 @@ namespace wsTripXML.wsTravelTalk.wmPNRReadIn
     public class UserID
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute(DataType = "anyURI")]
         public string URL;
@@ -1143,7 +1143,7 @@ namespace wsTripXML.wsTravelTalk.wmPNRReadIn
     public class UniqueIDRQ
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute(DataType = "anyURI")]
         public string URL;

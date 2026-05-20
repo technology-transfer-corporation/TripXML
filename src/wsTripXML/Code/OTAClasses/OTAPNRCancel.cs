@@ -10,7 +10,7 @@ namespace wsTripXML.wsTravelTalk.wmPNRCancel
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]
@@ -33,31 +33,31 @@ namespace wsTripXML.wsTravelTalk.wmPNRCancel
         public string ID_Context;
     }
 
-    // <remarks/>
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
+    //// <remarks/>
+    //[XmlRoot(IsNullable = false)]
+    //public class CompanyName
+    //{
 
-        // <remarks/>
-        [XmlAttribute()]
-        public string CompanyShortName;
+    //    // <remarks/>
+    //    [XmlAttribute()]
+    //    public string CompanyShortName;
 
-        // <remarks/>
-        [XmlAttribute()]
-        public string TravelSector;
+    //    // <remarks/>
+    //    [XmlAttribute()]
+    //    public string TravelSector;
 
-        // <remarks/>
-        [XmlAttribute()]
-        public string Code;
+    //    // <remarks/>
+    //    [XmlAttribute()]
+    //    public string Code;
 
-        // <remarks/>
-        [XmlAttribute()]
-        public string CodeContext;
+    //    // <remarks/>
+    //    [XmlAttribute()]
+    //    public string CodeContext;
 
-        // <remarks/>
-        [XmlText()]
-        public string Value;
-    }
+    //    // <remarks/>
+    //    [XmlText()]
+    //    public string Value;
+    //}
 
 
 }

@@ -156,7 +156,7 @@ namespace wsTripXML.wsTravelTalk
             return SettingsService.GetAppVersion();
         }
 
-        [WebMethod(Description = "Update Cached Objects.")]
+        [WebMethod(Description = "Update Cached Objects.", MessageName = "UpdateCacheResult")]
         public UpdateCacheResponse UpdateCache()
         {
             return TripXMLLoad.UpdateCachedObjects().Result;

@@ -3647,7 +3647,7 @@ namespace wsTripXML.wsTravelTalk.wmCarListIn
         [XmlElement("URL")]
         public URL_Type[] URL;
 
-        [XmlElement("CompanyName")]
+        [XmlElement("CompanyNameFull")]
         public CompanyNameType[] CompanyName;
 
         [XmlElement("EmployeeInfo")]

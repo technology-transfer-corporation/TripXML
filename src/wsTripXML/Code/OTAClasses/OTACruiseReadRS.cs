@@ -196,7 +196,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseReadOut
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         public AddressRS Address;
@@ -553,7 +553,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseReadOut
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [System.Xml.Serialization.XmlAttribute()]
@@ -1897,7 +1897,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseReadOut
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [System.Xml.Serialization.XmlAttribute()]
@@ -2385,7 +2385,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseReadOut
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [System.Xml.Serialization.XmlAttribute()]
@@ -2433,8 +2433,8 @@ namespace wsTripXML.wsTravelTalk.wmCruiseReadOut
         public URL[] URL;
 
         // <remarks/>
-        [System.Xml.Serialization.XmlElement("CompanyName")]
-        public CompanyName[] CompanyName;
+        [System.Xml.Serialization.XmlElement("CompanyNameFull")]
+        public Code.CompanyName[] CompanyName;
 
         // <remarks/>
         [System.Xml.Serialization.XmlElement("EmployeeInfo")]
@@ -2600,8 +2600,8 @@ namespace wsTripXML.wsTravelTalk.wmCruiseReadOut
         public URL[] URL;
 
         // <remarks/>
-        [System.Xml.Serialization.XmlElement("CompanyName")]
-        public CompanyName[] CompanyName;
+        [System.Xml.Serialization.XmlElement("CompanyNameFull")]
+        public Code.CompanyName[] CompanyName;
 
         // <remarks/>
         [System.Xml.Serialization.XmlElement("EmployeeInfo")]
@@ -2930,7 +2930,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseReadOut
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [System.Xml.Serialization.XmlAttribute()]
@@ -3884,7 +3884,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseReadOut
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [System.Xml.Serialization.XmlAttribute()]
@@ -5328,7 +5328,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseReadOut
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [System.Xml.Serialization.XmlAttribute()]

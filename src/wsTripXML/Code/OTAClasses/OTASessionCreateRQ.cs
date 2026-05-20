@@ -14,7 +14,7 @@ namespace wsTripXML.wsTravelTalk.wmSessionCreateIn
 
         public string Name;
 
-        public string System;
+        public string @System;
 
         public string Userid;
 

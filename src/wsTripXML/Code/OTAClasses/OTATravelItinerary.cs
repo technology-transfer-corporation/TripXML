@@ -897,30 +897,30 @@ namespace wsTripXML.wsTravelTalk.wmTravelItinerary
     }
 
     // <remarks/>
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
+    //[XmlRoot(IsNullable = false)]
+    //public class CompanyNameFull
+    //{
 
-        // <remarks/>
-        [XmlAttribute()]
-        public string CompanyShortName;
+    //    // <remarks/>
+    //    [XmlAttribute()]
+    //    public string CompanyShortName;
 
-        // <remarks/>
-        [XmlAttribute()]
-        public string TravelSector;
+    //    // <remarks/>
+    //    [XmlAttribute()]
+    //    public string TravelSector;
 
-        // <remarks/>
-        [XmlAttribute()]
-        public string Code;
+    //    // <remarks/>
+    //    [XmlAttribute()]
+    //    public string Code;
 
-        // <remarks/>
-        [XmlAttribute()]
-        public string CodeContext;
+    //    // <remarks/>
+    //    [XmlAttribute()]
+    //    public string CodeContext;
 
-        // <remarks/>
-        [XmlText()]
-        public string Value;
-    }
+    //    // <remarks/>
+    //    [XmlText()]
+    //    public string Value;
+    //}
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
@@ -1136,7 +1136,7 @@ namespace wsTripXML.wsTravelTalk.wmTravelItinerary
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]
