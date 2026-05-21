@@ -2,15 +2,12 @@
 using static System.IO.File;
 using System.Text;
 using System.Threading;
-using Microsoft.VisualBasic;
-using Microsoft.VisualBasic.CompilerServices;
 using TripXMLMain;
 using static TripXMLMain.modCore;
+using System.Data;
 
 namespace wsTripXML.wsTravelTalk
 {
-
-
     public class cLog
     {
         private int mintLogType;
@@ -158,13 +155,13 @@ namespace wsTripXML.wsTravelTalk
             intLength = xmlData.IndexOf(sb.Append("</").Append(sNode).Append(">").ToString()) - intStart;
             sb.Remove(0, sb.Length);
 
-            return xmlData.Substring(intStart, intLength).Replace(Constants.vbCr, "").Replace(Constants.vbLf, "").Trim();
+            return xmlData.Substring(intStart, intLength).Replace("\r", "").Replace("\n", "").Trim();
             sb = null;
         }
 
-        public void ImportLog()
+        /*public void ImportLog()
         {
-            var fileNumber = default(int);
+            //var fileNumber = default(int);
             string strLine;
             cDA oDA = null;
             var startCounter = default(DateTime);
@@ -200,27 +197,27 @@ namespace wsTripXML.wsTravelTalk
                     throw new Exception(sb.Append("Log File ").Append(LogPath).Append("Log.txt Not found.").ToString());
                 }
 
-                fileNumber = FileSystem.FreeFile();
+                //fileNumber = FileSystem.FreeFile();
 
-                FileSystem.FileOpen(fileNumber, sb.Append(LogPath).Append("LogImport.txt").ToString(), OpenMode.Input, OpenAccess.Read, OpenShare.LockWrite);
-                sb.Remove(0, sb.Length);
+                //FileSystem.FileOpen(fileNumber, sb.Append(LogPath).Append("LogImport.txt").ToString(), OpenMode.Input, OpenAccess.Read, OpenShare.LockWrite);
+                //sb.Remove(0, sb.Length);
 
                 oDA = new cDA();
 
-                while (!FileSystem.EOF(fileNumber))
+                //while (!FileSystem.EOF(fileNumber))
                 {
-                    strLine = FileSystem.LineInput(fileNumber);
+                    //strLine = FileSystem.LineInput(fileNumber);
 
-                    logType = Conversions.ToInteger(GetNodeInnerText(ref strLine, "LogType"));
+                    logType = Int32.Parse(GetNodeInnerText(ref strLine, "LogType"));
                     UUID = GetNodeInnerText(ref strLine, "UUID");
                     webServer = GetNodeInnerText(ref strLine, "WebServer");
                     customer = GetNodeInnerText(ref strLine, "Customer");
                     userName = GetNodeInnerText(ref strLine, "UserName");
                     provider = GetNodeInnerText(ref strLine, "Provider");
-                    messageID = Conversions.ToInteger(GetNodeInnerText(ref strLine, "MessageID"));
+                    messageID = Int32.Parse(GetNodeInnerText(ref strLine, "MessageID"));
                     message = GetNodeInnerText(ref strLine, "Message");
-                    messageDate = Conversions.ToDate(GetNodeInnerText(ref strLine, "MessageDate"));
-                    responseTime = Conversions.ToInteger(GetNodeInnerText(ref strLine, "ResponseTime"));
+                    messageDate = DateTime.Parse(GetNodeInnerText(ref strLine, "MessageDate"));
+                    responseTime = Int32.Parse(GetNodeInnerText(ref strLine, "ResponseTime"));
 
                     switch (logType)
                     {
@@ -318,7 +315,7 @@ namespace wsTripXML.wsTravelTalk
             }
             sb = null;
         }
-
+        */
     }
 
 }

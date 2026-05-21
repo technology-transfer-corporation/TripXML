@@ -1,13 +1,11 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Text;
 using System.Threading;
-using System.Web.Configuration;
 using TripXMLMain;
-
 
 namespace wsTripXML.wsTravelTalk
 {
-
 
     public class cLogData
     {
@@ -15,6 +13,12 @@ namespace wsTripXML.wsTravelTalk
         private string mstrResponse = "";
 
         private StringBuilder sb = new StringBuilder();
+        private readonly IConfiguration _configuration;
+
+        public cLogData(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         public void LogDataDeals(string strRequest, string strResponse)
         {
@@ -22,7 +26,7 @@ namespace wsTripXML.wsTravelTalk
             mstrRequest = strRequest;
             mstrResponse = strResponse;
 
-            if (!string.IsNullOrEmpty(WebConfigurationManager.AppSettings["DataDatabase"]))
+            if (!string.IsNullOrEmpty(_configuration["DataDatabase"]))
             {
                 var oLofThread = new Thread(new ThreadStart(LogDeals));
 
@@ -61,7 +65,7 @@ namespace wsTripXML.wsTravelTalk
 
             try
             {
-                if (!string.IsNullOrEmpty(WebConfigurationManager.AppSettings["DataDatabase"]))
+                if (!string.IsNullOrEmpty(_configuration["DataDatabase"]))
                 {
                     oDA = new cDA("DataDatabase");
                     strResponse = oDA.GetDeals(strRequest);
