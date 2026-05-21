@@ -1,125 +1,117 @@
 ﻿using System;
-using System.Threading;
-using System.Web.Services.Protocols;
+using System.IO;
+using System.ServiceModel.Channels;
+using System.Threading.Tasks;
+using System.Xml;
+using CoreWCF;
+using CoreWCF.Channels;
+using CoreWCF.Description;
+using CoreWCF.Dispatcher;
+using Microsoft.Extensions.Logging;
 using TripXMLMain;
-
 
 namespace wsTripXML.wsTravelTalk
 {
-
-
-    public class cSoapRQ : SoapExtension
+    public class cSoapRQ : IDispatchMessageInspector
     {
+        private readonly ILogger<cSoapRQ> _logger;
 
-        private string mstrSoapEnvelope = "";
-        private string mstrSoapException = "";
-        private System.IO.StreamReader sr;
-
-        public override object GetInitializer(Type serviceType)
+        public cSoapRQ(ILogger<cSoapRQ> logger)
         {
-            return null;
+            _logger = logger;
         }
 
-        public override object GetInitializer(LogicalMethodInfo methodInfo, SoapExtensionAttribute attribute)
+        // Equivalent to SoapMessageStage.BeforeDeserialize
+        public object AfterReceiveRequest(ref Message request, IClientChannel channel, InstanceContext instanceContext)
         {
-            return null;
+            string soapEnvelope = CaptureEnvelope(ref request);
+            // The returned object is handed back to BeforeSendReply as correlationState
+            return soapEnvelope;
         }
 
-        public override void Initialize(object initializer)
+        // Equivalent to SoapMessageStage.AfterSerialize (+ exception handling)
+        public void BeforeSendReply(ref Message reply, object correlationState)
         {
+            string soapEnvelope = correlationState as string ?? string.Empty;
 
+            if (reply is not null && reply.IsFault)
+            {
+                string faultText = ExtractFaultMessage(ref reply);
+                _ = Task.Run(() => LogSoapException(faultText, soapEnvelope));
+            }
         }
 
-        public override void ProcessMessage(SoapMessage message)
+        private static string CaptureEnvelope(ref Message request)
+        {
+            // Message bodies can only be read once, so buffer and replace it
+            using MessageBuffer buffer = request.CreateBufferedCopy(int.MaxValue);
+            request = buffer.CreateMessage();
+
+            using Message copy = buffer.CreateMessage();
+            using var sw = new StringWriter();
+            using var xw = XmlWriter.Create(sw, new XmlWriterSettings { OmitXmlDeclaration = true });
+            copy.WriteMessage(xw);
+            xw.Flush();
+            return sw.ToString();
+        }
+
+        private static string ExtractFaultMessage(ref Message reply)
+        {
+            using MessageBuffer buffer = reply.CreateBufferedCopy(int.MaxValue);
+            reply = buffer.CreateMessage();
+
+            using Message copy = buffer.CreateMessage();
+            MessageFault fault = MessageFault.CreateFault(copy, int.MaxValue);
+            return fault.Reason?.GetMatchingTranslation()?.Text ?? "Unknown SOAP fault";
+        }
+
+        private void LogSoapException(string soapException, string soapEnvelope)
         {
             try
             {
-                switch (message.Stage)
-                {
-                    case SoapMessageStage.BeforeDeserialize:
-                        {
-                            GetSoapEnvelope(ref message);
-                            break;
-                        }
-                    case SoapMessageStage.AfterSerialize:
-                        {
-                            if (sr is not null)
-                            {
-                                sr.Close();
-                                sr = null;
-                            }
-                            GC.Collect();
-                            break;
-                        }
-                }
-
-                if (message.Exception is not null)
-                {
-
-                    mstrSoapException = message.Exception.Message;
-
-                    var oLofThread = new Thread(new ThreadStart(LogSoapException));
-
-                    oLofThread.Start();
-
-                    throw message.Exception;
-
-                }
+                using var oDA = new cDA();
+                oDA.AddSoapException(ref soapException, ref soapEnvelope);
             }
-            catch (SoapException ex)
-            {
-                throw ex;
-            }
-
-        }
-
-        public void GetSoapEnvelope(ref SoapMessage myMessage)
-        {
-
-            try
-            {
-                sr = new System.IO.StreamReader(myMessage.Stream);
-
-                if (sr.BaseStream.CanSeek)
-                {
-                    if (sr.BaseStream.CanRead)
-                        mstrSoapEnvelope = sr.ReadToEnd();
-                    myMessage.Stream.Position = 0L;
-                }
-            }
-            finally
-            {
-
-            }
-
-        }
-
-        private void LogSoapException()
-        {
-            cDA oDA = null;
-
-            try
-            {
-                oDA = new cDA();
-
-                oDA.AddSoapException(ref mstrSoapException, ref mstrSoapEnvelope);
-            }
-
             catch (Exception ex)
             {
-                modMain.LogSoapExceptionToFile(ref mstrSoapException, ref mstrSoapEnvelope, ex.Message);
+                modMain.LogSoapExceptionToFile(ref soapException, ref soapEnvelope, ex.Message);
+                _logger.LogError(ex, "Failed to persist SOAP exception");
             }
-            finally
-            {
-                if (oDA is not null)
-                {
-                    oDA.Dispose();
-                    oDA = null;
-                }
-            }
-
         }
-
     }
 
+    // Attach the inspector to every endpoint via a service behavior
+    public class SoapRequestInspectorBehavior : IServiceBehavior
+    {
+        private readonly ILogger<cSoapRQ> _logger;
+
+        public SoapRequestInspectorBehavior(ILogger<cSoapRQ> logger)
+        {
+            _logger = logger;
+        }
+
+        public void AddBindingParameters(ServiceDescription serviceDescription,
+            ServiceHostBase serviceHostBase,
+            System.Collections.ObjectModel.Collection<ServiceEndpoint> endpoints,
+            BindingParameterCollection bindingParameters)
+        { }
+
+        public void Validate(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase) { }
+
+        public void ApplyDispatchBehavior(ServiceDescription serviceDescription, ServiceHostBase serviceHostBase)
+        {
+            var inspector = new cSoapRQ(_logger);
+
+            foreach (ChannelDispatcherBase cdb in serviceHostBase.ChannelDispatchers)
+            {
+                if (cdb is ChannelDispatcher cd)
+                {
+                    foreach (EndpointDispatcher ed in cd.Endpoints)
+                    {
+                        ed.DispatchRuntime.MessageInspectors.Add(inspector);
+                    }
+                }
+            }
+        }
+    }
 }
