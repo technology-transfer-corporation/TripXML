@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -22,7 +21,8 @@ namespace TripXMLMain
         public static bool NonDirectFlights = false;
         public static int LFSchRequestCount = 0;
         public static Log Logger;
-        public static System.Collections.Specialized.NameValueCollection config => ConfigurationManager.AppSettings;
+        // Populated by the host at startup from IConfiguration (replaces ConfigurationManager.AppSettings)
+        public static System.Collections.Specialized.NameValueCollection config { get; set; } = new System.Collections.Specialized.NameValueCollection();
 
         #region  Structures 
 

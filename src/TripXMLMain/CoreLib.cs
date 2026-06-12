@@ -8,7 +8,6 @@ using System.Threading;
 using System.Collections.Concurrent;
 using WebSocket = WebSocketSharp.WebSocket;
 using WebSocketState = WebSocketSharp.WebSocketState;
-using System.Configuration;
 using System.Collections.Generic;
 
 namespace TripXMLMain
@@ -23,12 +22,13 @@ namespace TripXMLMain
 
         #region  Transform XML with XSLs 
 
+        private static readonly ConcurrentDictionary<string, System.Xml.Xsl.XslCompiledTransform> _xslCache =
+            new ConcurrentDictionary<string, System.Xml.Xsl.XslCompiledTransform>(StringComparer.OrdinalIgnoreCase);
+
         public static string TransformXML(string inputXml, string xslPath, string xslName, bool fromFile = false)
         {
-            System.Xml.Xsl.XslCompiledTransform xslt;
             XmlDocument oDoc;
             StringWriter oWriter = null;
-            System.Xml.Xsl.XsltSettings settings = null;
 
             try
             {
@@ -42,27 +42,27 @@ namespace TripXMLMain
                     oDoc.LoadXml(inputXml);
                 }
 
+                string xslFile = Path.Combine(xslPath ?? "", xslName);
+                if (!xslFile.EndsWith(".xsl", StringComparison.OrdinalIgnoreCase))
+                {
+                    xslFile += ".xsl";
+                }
+
+                // Stylesheets are loaded from source and compiled once per process; the cache
+                // replicates the performance profile of the retired xsltc-precompiled assemblies.
+                var xslt = _xslCache.GetOrAdd(xslFile, static path =>
+                {
+                    var t = new System.Xml.Xsl.XslCompiledTransform();
+                    var settings = new System.Xml.Xsl.XsltSettings(enableDocumentFunction: true, enableScript: false);
+                    t.Load(path, settings, new XmlUrlResolver());
+                    return t;
+                });
+
+                var args = new System.Xml.Xsl.XsltArgumentList();
+                args.AddExtensionObject(TtVbXsltFunctions.Namespace, TtVbXsltFunctions.Instance);
+
                 oWriter = new StringWriter();
-                xslt = new System.Xml.Xsl.XslCompiledTransform();
-                settings = new System.Xml.Xsl.XsltSettings(true, true);
-
-                string xxslt = xslName.Replace(".xsl", "");
-                xslt.Load(System.Reflection.Assembly.Load(xxslt).GetType(xxslt));
-
-                /*
-                #if xslTInline == true
-                                string xxslt = xslName.Replace(".xsl", "");
-                                xslt.Load(System.Reflection.Assembly.Load(xxslt).GetType(xxslt));
-
-                #else
-                                if (!xslPath.EndsWith("\\"))
-                                    xslPath += "\\";                
-
-                                xslt.Load($"{xslPath}{xslName}", settings, new XmlUrlResolver());
-                #endif
-                */
-
-                xslt.Transform(oDoc.DocumentElement.ParentNode, null, oWriter);
+                xslt.Transform(oDoc.DocumentElement.ParentNode, args, oWriter);
                 return oWriter.ToString();
             }
             catch (Exception ex)
@@ -76,6 +76,12 @@ namespace TripXMLMain
                     oWriter.Close();
                 }
             }
+        }
+
+        /// <summary>Drops all compiled stylesheets so edited .xsl files are picked up (wsRefreshMem hook).</summary>
+        public static void ClearXslCache()
+        {
+            _xslCache.Clear();
         }
 
         #endregion
@@ -102,7 +108,7 @@ namespace TripXMLMain
 
                 userID = userID ?? "";                
 
-                var msg = $"<{file}><Server>{ConfigurationManager.AppSettings["ServerGuid"]}</Server><Text>{text}</Text><UUID>{UUID}</UUID><Item>{item}</Item><UserID>{userID}</UserID></{file}>";
+                var msg = $"<{file}><Server>{modCore.config["ServerGuid"]}</Server><Text>{text}</Text><UUID>{UUID}</UUID><Item>{item}</Item><UserID>{userID}</UserID></{file}>";
                 if (_senderQueue.Count < 50)
                     _senderQueue.Add(msg);
             }
@@ -116,7 +122,7 @@ namespace TripXMLMain
         {
             try
             {
-              TraceSender(new string[] { "ws://localhost:3070/Trace", ConfigurationManager.AppSettings["TraceServerUrl"] });
+              TraceSender(new string[] { "ws://localhost:3070/Trace", modCore.config["TraceServerUrl"] });
               //TraceSender(new string[] { "ws://localhost:3070/Trace", "ws://localhost:8111/Trace" });
               //TraceSender("ws://localhost:3070/Trace");
             }
@@ -132,6 +138,9 @@ namespace TripXMLMain
 
             foreach (string path in paths)
             {
+                // TraceServerUrl may be unset; an empty url throws in the WebSocket ctor and a
+                // background-thread exception would take the whole host down on modern .NET.
+                if (string.IsNullOrWhiteSpace(path)) continue;
                 WebSocket ws = new WebSocket(path);
                 webSockets.Add(ws);
             }
