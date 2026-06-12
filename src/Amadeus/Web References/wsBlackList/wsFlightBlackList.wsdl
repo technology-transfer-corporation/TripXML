@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://admintalk/wsFlightBlackList" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://admintalk/wsFlightBlackList" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">An AdminTalk Web Service to manage flights black list.</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://admintalk/wsFlightBlackList">
+      <s:element name="wmFlightDisplay">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Airline" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="wmFlightDisplayResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="wmFlightDisplayResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="wmFlightAdd">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Airline" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FlightNo" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="Departure" type="s:dateTime" />
+            <s:element minOccurs="0" maxOccurs="1" name="COS" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="wmFlightAddResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="wmFlightAddResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="wmFlightDelete">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteDate" type="s:dateTime" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="wmFlightDeleteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="wmFlightDeleteResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="wmFlightDisplaySoapIn">
+    <wsdl:part name="parameters" element="tns:wmFlightDisplay" />
+  </wsdl:message>
+  <wsdl:message name="wmFlightDisplaySoapOut">
+    <wsdl:part name="parameters" element="tns:wmFlightDisplayResponse" />
+  </wsdl:message>
+  <wsdl:message name="wmFlightAddSoapIn">
+    <wsdl:part name="parameters" element="tns:wmFlightAdd" />
+  </wsdl:message>
+  <wsdl:message name="wmFlightAddSoapOut">
+    <wsdl:part name="parameters" element="tns:wmFlightAddResponse" />
+  </wsdl:message>
+  <wsdl:message name="wmFlightDeleteSoapIn">
+    <wsdl:part name="parameters" element="tns:wmFlightDelete" />
+  </wsdl:message>
+  <wsdl:message name="wmFlightDeleteSoapOut">
+    <wsdl:part name="parameters" element="tns:wmFlightDeleteResponse" />
+  </wsdl:message>
+  <wsdl:portType name="wsFlightBlackListSoap">
+    <wsdl:operation name="wmFlightDisplay">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Display flights on black list</wsdl:documentation>
+      <wsdl:input message="tns:wmFlightDisplaySoapIn" />
+      <wsdl:output message="tns:wmFlightDisplaySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="wmFlightAdd">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Add a new flight to black list</wsdl:documentation>
+      <wsdl:input message="tns:wmFlightAddSoapIn" />
+      <wsdl:output message="tns:wmFlightAddSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="wmFlightDelete">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Delete flights from black list</wsdl:documentation>
+      <wsdl:input message="tns:wmFlightDeleteSoapIn" />
+      <wsdl:output message="tns:wmFlightDeleteSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="wsFlightBlackListSoap" type="tns:wsFlightBlackListSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="wmFlightDisplay">
+      <soap:operation soapAction="http://admintalk/wsFlightBlackList/wmFlightDisplay" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="wmFlightAdd">
+      <soap:operation soapAction="http://admintalk/wsFlightBlackList/wmFlightAdd" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="wmFlightDelete">
+      <soap:operation soapAction="http://admintalk/wsFlightBlackList/wmFlightDelete" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsFlightBlackListSoap12" type="tns:wsFlightBlackListSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="wmFlightDisplay">
+      <soap12:operation soapAction="http://admintalk/wsFlightBlackList/wmFlightDisplay" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="wmFlightAdd">
+      <soap12:operation soapAction="http://admintalk/wsFlightBlackList/wmFlightAdd" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="wmFlightDelete">
+      <soap12:operation soapAction="http://admintalk/wsFlightBlackList/wmFlightDelete" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="wsFlightBlackList">
+    <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">An AdminTalk Web Service to manage flights black list.</wsdl:documentation>
+    <wsdl:port name="wsFlightBlackListSoap" binding="tns:wsFlightBlackListSoap">
+      <soap:address location="http://localhost/AdminTalk/WebServices/wsFlightBlackList.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsFlightBlackListSoap12" binding="tns:wsFlightBlackListSoap12">
+      <soap12:address location="http://localhost/AdminTalk/WebServices/wsFlightBlackList.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,1326 @@
+﻿using TripXMLMain;
+using System.Xml;
+using System.Text;
+using System;
+using System.Threading;
+using System.Data;
+using System.IO;
+using System.Globalization;
+
+public class AmadeusWSAdapter
+{
+
+    private StringBuilder sb = new StringBuilder();
+
+    private modCore.TripXMLProviderSystems ttProviderSystems;
+
+    string NewSessionID = "";
+    int MaximumCount = 0;
+    int InitialBlockSize = 0;
+    int NextBlockSize = 0;
+
+    int SessionCount = 0;
+    int BlockIDNum = 1;
+    char IsInitialBlock = 'Y';
+    string BlockID = "";
+    int NewSessions = 0;
+
+    //static int counts = 0;
+
+
+    public int InitialBlock
+    {
+        get
+        {
+            return InitialBlockSize;
+        }
+    }
+    public bool isSOAP2 { get; set; }
+
+    public bool GetStoredFares { get; set; }
+
+    public AmadeusWSAdapter(modCore.TripXMLProviderSystems ProviderSystems)
+    {
+        ttProviderSystems = ProviderSystems;
+    }
+
+    
+    public AmadeusWSAdapter(modCore.TripXMLProviderSystems ProviderSystems,string version)
+    {
+        
+        
+        cDA oDa = null;
+        oDa = new cDA("ConnectionString");
+
+        ttProviderSystems = ProviderSystems;
+        ttProviderSystems = oDa.SetPCCBlock(ttProviderSystems);
+        //ttProviderSystems = oDa.SetPCCBlock(ttProviderSystems,"system");
+
+        MaximumCount = ttProviderSystems.ProviderSession.MaximumCount;
+        InitialBlockSize = ttProviderSystems.ProviderSession.InitialBlockSize;
+        NextBlockSize = ttProviderSystems.ProviderSession.NextBlockSize;
+        SessionCount = ttProviderSystems.ProviderSession.SessionsUsed;
+
+        //if (ttProviderSystems.PCC == "MIA1S21AV")
+        //{ 
+        //    counts++;
+        //    if (counts == 1)
+        //        ttProviderSystems.ProviderSession.MultipleAccess = false;
+        //    else
+        //        ttProviderSystems.ProviderSession.MultipleAccess = true;
+                
+        //}
+
+        oDa.Dispose();
+    }
+    
+
+    private string ComposeHeader(string ServiceType, string AmadeusWSService, string AmadeusWSAction, string SessionID)
+    {
+        string strHeader = "";
+        string[] sessionid;
+        int intSession = 0;
+        
+        sessionid = SessionID.Split(char.Parse("|"));
+        if (isSOAP2)
+        {
+            intSession = Convert.ToInt32(sessionid[2]);
+            intSession += 1;
+            SessionID = sb.Append(sessionid[0]).Append("|").Append(sessionid[1]).Append("|").Append(intSession.ToString()).ToString();
+            sb.Remove(0, sb.Length);
+            strHeader = sb.Append("<Session><SessionId>").Append(sessionid[1]).Append("</SessionId><SequenceNumber>").Append(intSession.ToString()) .Append("</SequenceNumber><SecurityToken>").Append(sessionid[0]).Append("</SecurityToken></Session>").ToString();
+            sb.Remove(0, sb.Length);
+        }
+        else
+        {
+            intSession = Convert.ToInt32(sessionid[1]);
+            intSession += 1;
+            SessionID = sb.Append(sessionid[0]).Append("|").Append(intSession.ToString()).ToString();
+            sb.Remove(0, sb.Length);
+            strHeader = sb.Append("<SessionId>").Append(SessionID).Append("</SessionId>").ToString();
+            sb.Remove(0, sb.Length);
+        }
+        return strHeader;
+    }
+
+
+
+
+    private string Send(string Header, string Body, string AmadeusWSAction)
+    {
+        ttHttpWebClient oHttpWebClient;
+        string strResponse = "";
+        string log = "";
+        try
+        {
+            oHttpWebClient = new ttHttpWebClient();
+
+            oHttpWebClient.SoapAction = AmadeusWSAction;
+            oHttpWebClient.ServiceURL = ttProviderSystems.URL;
+            oHttpWebClient.HttpMethod = "POST";
+            oHttpWebClient.Header = Header;
+            oHttpWebClient.Body = Body;
+
+           log = oHttpWebClient.ComposeMessage();
+
+           if (ttProviderSystems.AddLog)
+               addLog(log, ttProviderSystems.UserID);
+
+            strResponse = oHttpWebClient.SendHttpRequest(ttProviderSystems.UserID, "");
+
+            if (ttProviderSystems.AddLog)
+                addLog(strResponse, ttProviderSystems.UserID);
+
+            return strResponse;
+        }
+        catch (Exception ex)
+        {
+            string errroText = sb.Append("Error Sending Request to AmadeusWS.").Append("\r\n").Append(ex.Message).ToString();
+            sb.Remove(0, sb.Length);
+            throw new Exception(errroText);
+        }
+        finally
+        {
+            oHttpWebClient = null;
+        }
+    }
+
+    private string Send(string Message, string AmadeusWSAction)
+    {
+        ttHttpWebClient oHttpWebClient;
+        string strResponse = "";
+        try
+        {
+            oHttpWebClient = new ttHttpWebClient();
+
+            oHttpWebClient.SoapAction = AmadeusWSAction;
+            oHttpWebClient.ServiceURL = ttProviderSystems.URL;
+            oHttpWebClient.HttpMethod = "POST";
+            oHttpWebClient.Header = "";
+            oHttpWebClient.Body = Message;
+
+            string log = oHttpWebClient.ComposeMessage();
+
+            if (ttProviderSystems.AddLog)
+                addLog(log, ttProviderSystems.UserID);
+
+            strResponse = oHttpWebClient.SendHttpRequest(ttProviderSystems.UserID, Message);
+
+            return strResponse;
+        }
+        catch (Exception ex)
+        {
+            addLog("<EXOR><M>" + Message + "</M><Send/>", ttProviderSystems.UserID);
+            throw new Exception(ex.Message);
+        }
+        finally
+        {
+            oHttpWebClient = null;
+        }
+    }
+
+    private string SendSOAP2(string Message, string AmadeusWSAction)
+    {
+        ttHttpWebClient oHttpWebClient;
+        string strResponse = "";
+        try
+        {
+            oHttpWebClient = new ttHttpWebClient();
+
+            oHttpWebClient.SoapAction = AmadeusWSAction;
+            oHttpWebClient.ServiceURL = ttProviderSystems.URL;
+            oHttpWebClient.HttpMethod = "POST";
+            oHttpWebClient.Header = "<Session><SessionId></SessionId><SequenceNumber></SequenceNumber><SecurityToken></SecurityToken></Session>";
+            oHttpWebClient.Body = Message;
+
+            string log = oHttpWebClient.ComposeMessage();
+
+            if (ttProviderSystems.AddLog)
+                addLog(log, ttProviderSystems.UserID);
+
+            strResponse = oHttpWebClient.SendHttpRequest(ttProviderSystems.UserID, Message);
+
+            return strResponse;
+        }
+        catch (Exception ex)
+        {
+            addLog("<EXOR><M>" + Message + "</M><SendSoap2/>", ttProviderSystems.UserID);
+            throw new Exception(ex.Message);
+        }
+        finally
+        {
+            oHttpWebClient = null;
+        }
+    }
+
+    private string GetResponseFromSoap(string strResponse, string AmadeusWSService, enRequestType RequestType)
+    {
+        XmlDocument oDoc = null;
+        XmlElement oRoot = null;
+        XmlNode oNode = null;
+        try
+        {
+            oDoc = new XmlDocument();
+            oDoc.LoadXml(strResponse);
+            oRoot = oDoc.DocumentElement;
+            //  Get The Body
+            oNode = oRoot.LastChild;
+            // ********************************
+            //  Check for Errors in Response  *
+            // ********************************
+            if ((oNode.FirstChild.Name == "soap-env:Fault") || (oNode.FirstChild.Name == "soap:Fault"))
+            {
+                oNode = oNode.FirstChild;
+                oNode = oNode.SelectSingleNode("faultstring");
+                throw new Exception(oNode.InnerXml.Replace(" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"", "").Replace("soap:", ""));
+            }
+            else if (strResponse == "")
+            {
+                throw new Exception("No response from Amadeus");
+            }
+            // *************************
+            //  Get Response From Soap *
+            // *************************
+            if (RequestType == enRequestType.CreateSession)
+            {
+                //  Get The Header
+
+                if (strResponse.IndexOf("<statusCode>P</statusCode>") == -1)
+                {
+                    throw new Exception("Cannot open session with Amadeus");
+                }
+                
+                oNode = oRoot.FirstChild;
+                if (isSOAP2)
+                {
+                    strResponse = oNode.FirstChild.ChildNodes[2].InnerText + "|" + oNode.FirstChild.ChildNodes[0].InnerText + "|" + oNode.FirstChild.ChildNodes[1].InnerText;
+                }
+                else
+                {
+                    oNode = oNode.LastChild;
+                    strResponse = oNode.InnerText;
+                }
+            }
+            else
+            {
+                //  Get The Body
+                oNode = oRoot.LastChild;
+                strResponse = oNode.InnerXml;
+                strResponse = strResponse.Replace(" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"", "").Replace("soap:", "");
+
+                CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Soap body response", strResponse);
+            }
+
+            return strResponse;
+        }
+        catch (Exception ex)
+        {
+            addLog("<EXOR><M>" + strResponse + "</M><GetResponseFromSoap/>", ttProviderSystems.UserID);
+            strResponse = "<Errors><Error>" + ex.Message + "</Error></Errors>";
+            return strResponse;
+        }
+    }
+    private string GetResponseFromSoap2(string strResponse, string AmadeusWSService, enRequestType RequestType)
+    {
+        XmlDocument oDoc = null;
+        XmlElement oRoot = null;
+        XmlNode oNode = null;
+        try
+        {
+            oDoc = new XmlDocument();
+            oDoc.LoadXml(strResponse);
+            oRoot = oDoc.DocumentElement;
+            //  Get The Body
+            oNode = oRoot.LastChild;
+            // ********************************
+            //  Check for Errors in Response  *
+            // ********************************
+            if ((oNode.FirstChild.Name == "soap-env:Fault") || (oNode.FirstChild.Name == "soap:Fault"))
+            {
+                oNode = oNode.FirstChild;
+                oNode = oNode.SelectSingleNode("faultstring");
+                throw new Exception(oNode.InnerXml.Replace(" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"", "").Replace("soap:", ""));
+            }
+            // *************************
+            //  Get Response From Soap *
+            // *************************
+            if (RequestType == enRequestType.CreateSession)
+            {
+                //  Get The Header
+
+                oNode = oRoot.FirstChild;
+                if (isSOAP2)
+                {
+                    strResponse = oNode.SelectSingleNode("SecurityToken").InnerText + "|" + oNode.SelectSingleNode("SessionId").InnerText + "|" + oNode.SelectSingleNode("SequenceNumber").InnerText;
+                }
+                else
+                {
+                    oNode = oNode.LastChild;
+                    strResponse = oNode.InnerText;
+                }
+            }
+            else
+            {
+                //  Get The Body
+                oNode = oRoot.LastChild;
+                strResponse = oNode.InnerXml;
+                strResponse = strResponse.Replace(" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"", "").Replace("soap:", "");
+
+                CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Soap body response", strResponse);
+            }
+
+            return strResponse;
+        }
+        catch (Exception ex)
+        {
+            strResponse = "<Errors><Error>" + ex.Message + "</Error></Errors>";
+            return strResponse;
+        }
+    }
+
+    private string GetSessionFromSoap(string strResponse)
+    {
+        XmlDocument oDoc = null;
+        XmlElement oRoot = null;
+        XmlNode oNode = null;
+        string strsession = "";
+        try
+        {
+            oDoc = new XmlDocument();
+            oDoc.LoadXml(strResponse);
+            oRoot = oDoc.DocumentElement;
+            //  Get The Body
+            oNode = oRoot.FirstChild;
+            // ********************************
+            //  Check for Errors in Response  *
+            // ********************************
+            if (oNode.Name == "soap:Header")
+            {
+               
+
+                if (isSOAP2)
+                {
+
+                    strsession = oNode.FirstChild.ChildNodes[2].InnerText + "|" + oNode.FirstChild.ChildNodes[0].InnerText + "|" + oNode.FirstChild.ChildNodes[1].InnerText;
+                }
+                else
+                {
+                    oNode = oNode.FirstChild;
+                    strsession = oNode.InnerText;
+                }
+            }
+
+            return strsession;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+   
+    //New Session Pooling Method
+    public string CheckSessionV3()
+    {
+        string SessionID = "";
+        cDA oDa = null;
+        //int SessionPoolSize = 0;
+        //int NumOfNextBlocks = 0;
+        //int RemainingNumOfSessions = 0;
+
+        while (modCore.gIsCreating)
+        {
+            ;
+        }
+        try
+        {
+
+            oDa = new cDA("ConnectionString");
+            //modCore.gIsCreating = true;
+            //Check in tblSessionPool for available Sessions 
+            if (oDa.CheckAvailableSessions(ttProviderSystems.PCC, ttProviderSystems.System, ttProviderSystems.UserID))
+            {
+                SessionID = oDa.SessionUpdate(ttProviderSystems.PCC, ttProviderSystems.System, ttProviderSystems.UserID, isSOAP2);
+                    //strResponse = SendMessageV2(Message, AmadeusWSService, AmadeusWSAction, SessionID);
+                    //modCore.gIsCreating = false;
+                    CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Updated Session", SessionID);
+            }
+
+            // Rastko March 5, 2011 rewriting the else routine to make more simple
+            // the idea is to not have additional blocks any more
+            // we now have the initial block and then only one session created at a time above the block (when needed)
+            else
+            {
+
+                //Check PCC has exceeded the Session Limit
+                if (SessionCount < MaximumCount)
+                {
+                    IsInitialBlock = 'N';
+                    BlockIDNum = 2;
+
+
+                    //Create one Session in the main Thread
+                    modCore.gIsCreating = true;
+                    SessionID = CreateSessionV3();
+
+                    if (SessionID.IndexOf("<Error") != -1 || SessionID == "")
+                    {
+                        modCore.gIsCreating = false;
+                        return SessionID;
+                    }
+
+                    //SessionID = oDa.SessionUpdate(ttProviderSystems.PCC, ttProviderSystems.System, ttProviderSystems.UserID);
+
+                    NewSessions++;
+
+                    
+                    modCore.gIsCreating = false;
+                }
+
+                oDa.UpdatePCCSessions(ttProviderSystems.PCC, NewSessions,ttProviderSystems.UserID);
+            }
+            //else
+            //{
+
+            //    //Check PCC has exceeded the Session Limit
+            //    if (SessionCount < MaximumCount)
+            //    {
+            //        NumOfNextBlocks = (MaximumCount - InitialBlockSize) / NextBlockSize;
+            //        RemainingNumOfSessions = (MaximumCount - InitialBlockSize) % NextBlockSize;
+
+
+            //        if (SessionCount != 0)
+            //        {
+            //            IsInitialBlock = 'N';
+            //            BlockIDNum = (SessionCount - InitialBlockSize) / NextBlockSize;
+
+            //            //Next Block 
+            //            if (BlockIDNum != NumOfNextBlocks)
+            //                SessionPoolSize = NextBlockSize;
+            //            //Remaining Block
+            //            else
+            //                SessionPoolSize = RemainingNumOfSessions;
+
+            //            BlockIDNum = BlockIDNum + 2;
+            //        }
+
+
+            //        //Create one Session in the main Thread
+            //        modCore.gIsCreating = true;
+            //        CreateSessionV2();
+            //        SessionID = oDa.SessionUpdate(ttProviderSystems.PCC, ttProviderSystems.System, ttProviderSystems.UserID);
+            //        //SessionCount++;
+            //        NewSessions++;
+
+            //        // Create other Sessions in Threads based on the Block Size
+            //        for (int i = 0; i < SessionPoolSize - 1; i++)
+            //        {
+            //            Thread CreateSessionThread = new Thread(new ThreadStart(CreateSessionV2));
+            //            CreateSessionThread.Start();
+            //            //SessionCount++;
+            //            NewSessions++;
+            //        }
+            //        modCore.gIsCreating = false;
+            //    }
+            //    //Save SessionCount in the DB
+            //    //oDa.UpdatePCCSessions(ttProviderSystems.PCC, SessionCount); 
+            //    oDa.UpdatePCCSessions(ttProviderSystems.PCC, NewSessions,ttProviderSystems.UserID);
+            //    //oDa.UpdatePCCSessions(ttProviderSystems.PCC, NewSessions, ttProviderSystems.UserID, ttProviderSystems.System);
+            //}
+
+            return SessionID;
+
+        }
+
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            oDa.Dispose();
+
+        }
+    }
+
+    public string CheckSessionV2()
+    {
+        string SessionID = "";
+        cDA oDa = null;
+        int SessionPoolSize = 0;
+        int NumOfNextBlocks = 0;
+        int RemainingNumOfSessions = 0;
+
+        while (modCore.gIsCreating)
+        {
+            ;
+        }
+        try
+        {
+
+            oDa = new cDA("ConnectionString");
+            //modCore.gIsCreating = true;
+            //Check in tblSessionPool for available Sessions 
+            if (oDa.CheckAvailableSessions(ttProviderSystems.PCC, ttProviderSystems.System, ttProviderSystems.UserID))
+            {
+                SessionID = oDa.SessionUpdate(ttProviderSystems.PCC, ttProviderSystems.System, ttProviderSystems.UserID, isSOAP2);
+                //strResponse = SendMessageV2(Message, AmadeusWSService, AmadeusWSAction, SessionID);
+                //modCore.gIsCreating = false;
+                CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Updated Session", SessionID);
+            }
+
+            else
+            {
+
+                //Check PCC has exceeded the Session Limit
+                if (SessionCount < MaximumCount)
+                {
+                    //NumOfNextBlocks = (MaximumCount - InitialBlockSize) / NextBlockSize;
+                    //RemainingNumOfSessions = (MaximumCount - InitialBlockSize) % NextBlockSize;
+
+
+                    //if (SessionCount != 0)
+                    //{
+                    //    IsInitialBlock = 'N';
+                    //    BlockIDNum = (SessionCount - InitialBlockSize) / NextBlockSize;
+
+                    //    //Next Block 
+                    //    if (BlockIDNum != NumOfNextBlocks)
+                    //        SessionPoolSize = NextBlockSize;
+                    //    //Remaining Block
+                    //    else
+                    //        SessionPoolSize = RemainingNumOfSessions;
+
+                    //    BlockIDNum = BlockIDNum + 2;
+                    //}
+
+                    IsInitialBlock = 'N';
+                    BlockIDNum = 2;
+
+                    //Create one Session in the main Thread
+                    modCore.gIsCreating = true;
+                    SessionID = CreateSessionV3();
+                    SessionID = oDa.SessionUpdate(ttProviderSystems.PCC, ttProviderSystems.System, ttProviderSystems.UserID, isSOAP2);
+                    //SessionCount++;
+                    //NewSessions++;
+
+                    //// Create other Sessions in Threads based on the Block Size
+                    //for (int i = 0; i < SessionPoolSize - 1; i++)
+                    //{
+                    //    Thread CreateSessionThread = new Thread(new ThreadStart(CreateSessionV2));
+                    //    CreateSessionThread.Start();
+                    //    //SessionCount++;
+                    //    NewSessions++;
+                    //}
+                    modCore.gIsCreating = false;
+                }
+                //Save SessionCount in the DB
+                //oDa.UpdatePCCSessions(ttProviderSystems.PCC, SessionCount); 
+                //oDa.UpdatePCCSessions(ttProviderSystems.PCC, NewSessions, ttProviderSystems.UserID);
+                //oDa.UpdatePCCSessions(ttProviderSystems.PCC, NewSessions, ttProviderSystems.UserID, ttProviderSystems.System);
+            }
+
+            return SessionID;
+
+        }
+
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            oDa.Dispose();
+
+        }
+    }
+
+    public string CreateSession()
+    {
+        string SessionID = "";
+        string Body = "";
+        string length = "";
+        string password = "";
+        //cDA oDa = null;
+        //DateTime CreatedTime = DateTime.Now;
+        //DateTime LastMessageTime = DateTime.Now;
+
+        CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Create Session", "");
+        try
+        {
+            //oDa = new cDA("ConnectionString");
+
+            length = ttProviderSystems.Password.Substring(0, 2);
+            password = ttProviderSystems.Password.Substring(2);
+            sb.Append("<Security_Authenticate><userIdentifier><originIdentification><sourceOffice>").Append(ttProviderSystems.PCC).Append("</sourceOffice></originIdentification>");
+            sb.Append("<originatorTypeCode>U</originatorTypeCode><originator>").Append(ttProviderSystems.UserName).Append("</originator></userIdentifier><dutyCode><dutyCodeDetails><referenceQualifier>DUT</referenceQualifier><referenceIdentifier>SU</referenceIdentifier></dutyCodeDetails></dutyCode>");
+            sb.Append("<systemDetails><organizationDetails><organizationId>").Append(ttProviderSystems.Origin).Append("</organizationId></organizationDetails></systemDetails>");
+            sb.Append("<passwordInfo><dataLength>").Append(length).Append("</dataLength><dataType>E</dataType><binaryData>").Append(password).Append("</binaryData></passwordInfo></Security_Authenticate>"); ;
+
+            Body = sb.ToString();
+            sb.Remove(0, sb.Length);
+ 
+            if (isSOAP2)
+            {
+                SessionID = SendSOAP2(Body, "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/VLSSLQ_06_1_1A");
+            }
+            else
+            {
+                SessionID = Send(Body, "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/VLSSLQ_06_1_1A");
+            }
+
+            // ****************************************
+            //  Get SecurityToken From AmadeusWS Response *
+            // ****************************************
+            if (ttProviderSystems.AddLog)
+                addLog(SessionID, ttProviderSystems.UserID);
+
+            SessionID = GetResponseFromSoap(SessionID, "SessionCreate", enRequestType.CreateSession);
+            //  check if change of AAA required
+            //if (((ttProviderSystems.AAAPCC != "") 
+            //            && (ttProviderSystems.AAAPCC != ttProviderSystems.PCC))) {
+            //    //  AAA into another PCC
+            //    strAAA = "<ChangeAAARQ xmlns=\"http://webservices.AmadeusWS.com/AmadeusWSXML/2003/07\" xmlns:xs=\"http://www.w3.org/2001/X" +
+            //    "MLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2003A.TAmadeusWSXML1.0.1\"><POS>" +
+            //    "<Source PseudoCityCode=\"";
+            //    strAAA = sb.Append(strAAA).Append(ttProviderSystems.PCC).Append("\"/></POS><AAA PseudoCityCode=\"").Append(ttProviderSystems.AAAPCC).Append("\"/></ChangeAAARQ>").ToString();
+            //    sb.Remove(0, sb.Length);
+            //    strResponse = SendMessage(strAAA, "ChangeAAA", "ChangeAAALLSRQ", SecurityToken);
+            //}
+            //oDa.InsertNewSession(NewSessionID, 0, "AmadeusWSAdapter", CreatedTime, LastMessageTime, ttProviderSystems.UserID, "Active", 'N', 'N', ttProviderSystems.URL, BlockID, IsInitialBlock, ttProviderSystems.PCC, ttProviderSystems.Profile);
+
+            return SessionID;
+        }
+        catch (Exception ex)
+        {
+            addLog("<EXOR><M>" + Body + "</M><CreateSession/>", ttProviderSystems.UserID);
+
+            if (ttProviderSystems.AddLog)
+                addLog("<EXCOS/>" + SessionID + " " + Body, ttProviderSystems.UserID);
+
+            if (isSOAP2)
+            {
+                SessionID = SendSOAP2(Body, "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/VLSSLQ_06_1_1A");
+            }
+            else
+            {
+                SessionID = Send(Body, "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/VLSSLQ_06_1_1A");
+            }
+
+            if (ttProviderSystems.AddLog)
+                addLog("<EXOK/>" + SessionID, ttProviderSystems.UserID);
+
+            SessionID = GetResponseFromSoap(SessionID, "SessionCreate", enRequestType.CreateSession);
+
+            return SessionID;
+        }
+        
+        /*finally
+        {
+            oDa.Dispose();
+        }
+        */
+   }
+    public string CreateSessionSOAP2()
+    {
+        string SessionID = "";
+        string Body = "";
+        string length = "";
+        string password = "";
+        //cDA oDa = null;
+        //DateTime CreatedTime = DateTime.Now;
+        //DateTime LastMessageTime = DateTime.Now;
+
+        CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Create Session SOAP2", "");
+        try
+        {
+            //oDa = new cDA("ConnectionString");
+
+            length = ttProviderSystems.Password.Substring(0, 2);
+            password = ttProviderSystems.Password.Substring(2);
+            sb.Append("<Security_Authenticate><userIdentifier><originIdentification><sourceOffice>").Append(ttProviderSystems.PCC).Append("</sourceOffice></originIdentification>");
+            sb.Append("<originatorTypeCode>U</originatorTypeCode><originator>").Append(ttProviderSystems.UserName).Append("</originator></userIdentifier><dutyCode><dutyCodeDetails><referenceQualifier>DUT</referenceQualifier><referenceIdentifier>SU</referenceIdentifier></dutyCodeDetails></dutyCode>");
+            sb.Append("<systemDetails><organizationDetails><organizationId>").Append(ttProviderSystems.Origin).Append("</organizationId></organizationDetails></systemDetails>");
+            sb.Append("<passwordInfo><dataLength>").Append(length).Append("</dataLength><dataType>E</dataType><binaryData>").Append(password).Append("</binaryData></passwordInfo></Security_Authenticate>"); ;
+
+            Body = sb.ToString();
+            sb.Remove(0, sb.Length);
+            //SessionID = Send(Body, "http://webservices.amadeus.com/1ASIWBBTTHX/VLSSLQ_06_1_1A");
+            SessionID = Send(Body, "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/VLSSLQ_06_1_1A");
+
+            // ****************************************
+            //  Get SecurityToken From AmadeusWS Response *
+            // ****************************************
+            if (ttProviderSystems.AddLog)
+                addLog(SessionID, ttProviderSystems.UserID);
+
+            SessionID = GetResponseFromSoap(SessionID, "SessionCreate", enRequestType.CreateSession);
+            //  check if change of AAA required
+            //if (((ttProviderSystems.AAAPCC != "") 
+            //            && (ttProviderSystems.AAAPCC != ttProviderSystems.PCC))) {
+            //    //  AAA into another PCC
+            //    strAAA = "<ChangeAAARQ xmlns=\"http://webservices.AmadeusWS.com/AmadeusWSXML/2003/07\" xmlns:xs=\"http://www.w3.org/2001/X" +
+            //    "MLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2003A.TAmadeusWSXML1.0.1\"><POS>" +
+            //    "<Source PseudoCityCode=\"";
+            //    strAAA = sb.Append(strAAA).Append(ttProviderSystems.PCC).Append("\"/></POS><AAA PseudoCityCode=\"").Append(ttProviderSystems.AAAPCC).Append("\"/></ChangeAAARQ>").ToString();
+            //    sb.Remove(0, sb.Length);
+            //    strResponse = SendMessage(strAAA, "ChangeAAA", "ChangeAAALLSRQ", SecurityToken);
+            //}
+            //oDa.InsertNewSession(NewSessionID, 0, "AmadeusWSAdapter", CreatedTime, LastMessageTime, ttProviderSystems.UserID, "Active", 'N', 'N', ttProviderSystems.URL, BlockID, IsInitialBlock, ttProviderSystems.PCC, ttProviderSystems.Profile);
+
+            return SessionID;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+
+        /*finally
+        {
+            oDa.Dispose();
+        }
+        */
+    }
+
+    public void CreateSessionV2()
+    {
+        modCore.gIsCreating = true;
+        string Body = "";
+        string length = "";
+        string password = "";
+     
+        cDA oDa = null;
+        DateTime CreatedTime = DateTime.Now;
+        DateTime LastMessageTime = DateTime.Now;
+        StringBuilder sb = new StringBuilder();
+
+        //Block Naming
+        BlockID = "B2";
+        
+        CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Create Session", "");
+        try
+        {
+            length = ttProviderSystems.Password.Substring(0, 2);
+            password = ttProviderSystems.Password.Substring(2);
+            sb.Append("<Security_Authenticate><userIdentifier><originIdentification><sourceOffice>").Append(ttProviderSystems.PCC).Append("</sourceOffice></originIdentification>");
+            sb.Append("<originatorTypeCode>U</originatorTypeCode><originator>").Append(ttProviderSystems.UserName).Append("</originator></userIdentifier><dutyCode><dutyCodeDetails><referenceQualifier>DUT</referenceQualifier><referenceIdentifier>SU</referenceIdentifier></dutyCodeDetails></dutyCode>");
+            sb.Append("<systemDetails><organizationDetails><organizationId>").Append(ttProviderSystems.Origin).Append("</organizationId></organizationDetails></systemDetails>");
+            sb.Append("<passwordInfo><dataLength>").Append(length).Append("</dataLength><dataType>E</dataType><binaryData>").Append(password).Append("</binaryData></passwordInfo></Security_Authenticate>"); ;
+
+            Body = sb.ToString();
+            sb.Remove(0, sb.Length);
+            //SessionID = Send(Body, "http://webservices.amadeus.com/1ASIWBBTTHX/VLSSLQ_06_1_1A");
+
+            if (isSOAP2)
+            {
+                NewSessionID = SendSOAP2(Body, "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/VLSSLQ_06_1_1A");
+            }
+            else
+            {
+                NewSessionID = Send(Body, "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/VLSSLQ_06_1_1A");
+            }
+
+            //NewSessionID = Send(Body, "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/VLSSLQ_06_1_1A");
+
+            // ****************************************
+            //  Get SecurityToken From AmadeusWS Response *
+            // ****************************************
+            if (ttProviderSystems.AddLog)
+                addLog(NewSessionID, ttProviderSystems.UserID);
+
+            NewSessionID = GetResponseFromSoap(NewSessionID, "SessionCreate", enRequestType.CreateSession);
+
+            if (NewSessionID.IndexOf("<Error") == -1)
+            {
+                //  check if change of AAA required
+                //if (((ttProviderSystems.AAAPCC != "") 
+                //            && (ttProviderSystems.AAAPCC != ttProviderSystems.PCC))) {
+                //    //  AAA into another PCC
+                //    strAAA = "<ChangeAAARQ xmlns=\"http://webservices.AmadeusWS.com/AmadeusWSXML/2003/07\" xmlns:xs=\"http://www.w3.org/2001/X" +
+                //    "MLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2003A.TAmadeusWSXML1.0.1\"><POS>" +
+                //    "<Source PseudoCityCode=\"";
+                //    strAAA = sb.Append(strAAA).Append(ttProviderSystems.PCC).Append("\"/></POS><AAA PseudoCityCode=\"").Append(ttProviderSystems.AAAPCC).Append("\"/></ChangeAAARQ>").ToString();
+                //    sb.Remove(0, sb.Length);
+                //    strResponse = SendMessage(strAAA, "ChangeAAA", "ChangeAAALLSRQ", SecurityToken);
+                //}
+                //Thread.Sleep(10);
+                CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", NewSessionID, "");
+                oDa = new cDA("ConnectionString");
+                oDa.InsertNewSession(NewSessionID, 1, ttProviderSystems.Provider, CreatedTime, LastMessageTime, ttProviderSystems.GReqID, ttProviderSystems.UserID, "Active", 'N', 'N', ttProviderSystems.URL, BlockID, IsInitialBlock, ttProviderSystems.PCC, ttProviderSystems.Profile, ttProviderSystems.System, ttProviderSystems.GPass);
+                oDa.Dispose();
+            }
+            modCore.gIsCreating = false;
+            //Public Function InsertNewSession(ByVal SessionID As String, ByVal SequenceNo As Integer, ByVal GDS As String, ByVal CreatedTime As DateTime, ByVal LastMessageTime As DateTime, ByVal UserName As String, ByVal Status As String, ByVal IsUse As Char, ByVal TobeDeleted As Char, ByVal URL As String, ByVal BlockId As String, ByVal IsInitialBlock As Boolean, ByVal PCC As String, ByVal Profile As String) As Boolean
+            //return SessionID;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            modCore.gIsCreating = false;
+            if(oDa != null)
+                oDa.Dispose();
+        }
+    }
+
+    public string CreateSessionV3()
+    {
+        string SessionID = "";
+        modCore.gIsCreating = true;
+        string Body = "";
+        string length = "";
+        string password = "";
+
+        cDA oDa = null;
+        DateTime CreatedTime = DateTime.Now;
+        DateTime LastMessageTime = DateTime.Now;
+        StringBuilder sb = new StringBuilder();
+
+        //Block Naming
+        BlockID = "B2";
+
+        CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Create Session", "");
+        try
+        {
+            length = ttProviderSystems.Password.Substring(0, 2);
+            password = ttProviderSystems.Password.Substring(2);
+            sb.Append("<Security_Authenticate><userIdentifier><originIdentification><sourceOffice>").Append(ttProviderSystems.PCC).Append("</sourceOffice></originIdentification>");
+            sb.Append("<originatorTypeCode>U</originatorTypeCode><originator>").Append(ttProviderSystems.UserName).Append("</originator></userIdentifier><dutyCode><dutyCodeDetails><referenceQualifier>DUT</referenceQualifier><referenceIdentifier>SU</referenceIdentifier></dutyCodeDetails></dutyCode>");
+            sb.Append("<systemDetails><organizationDetails><organizationId>").Append(ttProviderSystems.Origin).Append("</organizationId></organizationDetails></systemDetails>");
+            sb.Append("<passwordInfo><dataLength>").Append(length).Append("</dataLength><dataType>E</dataType><binaryData>").Append(password).Append("</binaryData></passwordInfo></Security_Authenticate>"); ;
+
+            Body = sb.ToString();
+            sb.Remove(0, sb.Length);
+            //SessionID = Send(Body, "http://webservices.amadeus.com/1ASIWBBTTHX/VLSSLQ_06_1_1A");
+
+
+            if (isSOAP2)
+            {
+                NewSessionID = SendSOAP2(Body, "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/VLSSLQ_06_1_1A");
+            }
+            else
+            {
+                NewSessionID = Send(Body, "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/VLSSLQ_06_1_1A");
+            }
+
+            //NewSessionID = Send(Body, "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/VLSSLQ_06_1_1A");
+
+            // ****************************************
+            //  Get SecurityToken From AmadeusWS Response *
+            // ****************************************
+            if (ttProviderSystems.AddLog)
+                addLog(NewSessionID, ttProviderSystems.UserID);
+
+            NewSessionID = GetResponseFromSoap(NewSessionID, "SessionCreate", enRequestType.CreateSession);
+
+            if (NewSessionID.StartsWith("<Error"))
+            {
+                modCore.gIsCreating = false;
+                return NewSessionID;
+            }
+
+            CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", NewSessionID, "");
+            oDa = new cDA("ConnectionString");
+            oDa.InsertNewSession(NewSessionID.Substring(0,NewSessionID.Length - 1) + "2", 2, ttProviderSystems.Provider, CreatedTime, LastMessageTime, ttProviderSystems.GReqID, ttProviderSystems.UserID, "Active", 'N', 'N', ttProviderSystems.URL, BlockID, IsInitialBlock, ttProviderSystems.PCC, ttProviderSystems.Profile, ttProviderSystems.System, ttProviderSystems.GPass);
+            oDa.Dispose();
+            modCore.gIsCreating = false;
+            SessionID = NewSessionID;
+            //Public Function InsertNewSession(ByVal SessionID As String, ByVal SequenceNo As Integer, ByVal GDS As String, ByVal CreatedTime As DateTime, ByVal LastMessageTime As DateTime, ByVal UserName As String, ByVal Status As String, ByVal IsUse As Char, ByVal TobeDeleted As Char, ByVal URL As String, ByVal BlockId As String, ByVal IsInitialBlock As Boolean, ByVal PCC As String, ByVal Profile As String) As Boolean
+            return SessionID;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        finally
+        {
+            modCore.gIsCreating = false;
+            if (oDa != null)
+                oDa.Dispose();
+        }
+    }
+    
+    public string CloseSession(string SessionID)
+    {
+        string Header = "";
+        string Body = "";
+        string strResponse = "";
+
+
+        CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Close Session", "");
+
+        if (SessionID.Contains("Error"))
+            return SessionID;
+
+        try
+        {
+            Header = ComposeHeader("AmadeusWSXML", "Session", "SessionCloseRQ", SessionID);
+            //  check if change of AAA required
+            //if (((ttProviderSystems.AAAPCC != "") 
+            //            && (ttProviderSystems.AAAPCC != ttProviderSystems.PCC))) {
+            //    //  AAA into another PCC
+            //    strAAA = "<ChangeAAARQ xmlns=\"http://webservices.AmadeusWS.com/AmadeusWSXML/2003/07\" xmlns:xs=\"http://www.w3.org/2001/X" +
+            //    "MLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2003A.TAmadeusWSXML1.0.1\"><POS>" +
+            //    "<Source PseudoCityCode=\"";
+            //    strAAA = sb.Append(strAAA).Append(ttProviderSystems.AAAPCC).Append("\"/></POS><AAA PseudoCityCode=\"").Append(ttProviderSystems.PCC).Append("\"/></ChangeAAARQ>").ToString();
+            //    sb.Remove(0, sb.Length);
+            //    strResponse = SendMessage(strAAA, "ChangeAAA", "ChangeAAALLSRQ", SecurityToken);
+            //}
+            Body = "<Security_SignOut/>";
+
+            strResponse = Send(Header, Body, "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/VLSSOQ_04_1_1A");
+
+            return strResponse;
+        }
+        catch (Exception ex)
+        {
+            addLog("<EXOR><M>" + SessionID + "</M><CloseSession/>", ttProviderSystems.UserID);
+
+            if (ttProviderSystems.AddLog)
+                addLog("<EXCCS/>" + SessionID, ttProviderSystems.UserID);
+
+            throw ex;
+        }
+    }
+    /// <summary>
+    /// New close methods for session pooling - Shashin - 23-2-2010
+    /// </summary>
+    /// <param name="SessionID">Session ID assigned by GDS</param>
+    /// <returns></returns>
+    public string CloseSessionFromPool(string SessionID)
+    {
+        string Header = "";
+        string Body = "";
+        string strResponse = "";
+        cDA oDB = new cDA("ConnectionString");
+        bool blTest = oDB.CheckSession(SessionID, isSOAP2);
+        oDB.Dispose();
+
+        if (!blTest)
+        {
+            CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Close Session", "");
+
+            try
+            {
+                Header = ComposeHeader("AmadeusWSXML", "Session", "SessionCloseRQ", SessionID);
+
+                Body = "<Security_SignOut/>";
+
+                strResponse = Send(Header, Body, "http://webservices.amadeus.com/" + ttProviderSystems.Profile + "/VLSSOQ_04_1_1A");
+
+                return strResponse;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        else
+        {
+            return "";
+        }
+
+    }
+
+    public string SendMessage(string Message, string AmadeusWSService, string AmadeusWSAction, string SessionID)
+    {
+        string Header = "";
+        string Body = "";
+        string strResponse = "";
+        string soapResponse = "";
+        bool CloseThisSession = false;
+
+        try
+        {
+            if (SessionID.Length == 0)
+            {
+                CloseThisSession = true;
+                string soapAction = "";
+                soapAction = AmadeusWSAction;
+                SessionID = CreateSession();
+                AmadeusWSAction = soapAction;
+            }
+            else
+            {
+                CloseThisSession = false;
+            }
+
+            if (SessionID.StartsWith("<Error"))
+            {
+                strResponse = SessionID;
+                return strResponse;
+            }
+
+            Header = ComposeHeader("AmadeusWSXML", AmadeusWSService, AmadeusWSAction, SessionID);
+            Body = Message;
+            //if (isSOAP2)
+            //{
+            //    soapResponse = SendSOAP2(Header, Body, AmadeusWSAction);
+            //}
+            //else
+            //{
+
+            //    if (ttProviderSystems.AddLog)
+            //        addLog(Header + Body, ttProviderSystems.UserID);
+
+                soapResponse = Send(Header, Body, AmadeusWSAction);
+
+            //}
+            // *************************
+            //  Get Response From Soap *
+            // *************************
+            
+            if (soapResponse.StartsWith("<Error"))
+            {
+                strResponse = soapResponse;
+            }
+            else 
+            {
+                soapResponse = soapResponse.Replace("", "");
+                strResponse = GetResponseFromSoap(soapResponse, "SendMessage", enRequestType.Message);
+            }
+
+            //if (ttProviderSystems.AddLog)
+            //    addLog(strResponse, ttProviderSystems.UserID);
+
+            if (CloseThisSession)
+            {
+                if(!strResponse.StartsWith("<Error"))
+                    SessionID = GetSessionFromSoap(soapResponse);
+
+                if (SessionID != null && SessionID != "")
+                    CloseSession(SessionID);//CloseSessionFromPool(SessionID);
+            }
+
+            return strResponse;
+        }
+        catch (Exception ex)
+        {
+            addLog("<EXOR><M>" + Message + "<SendMessage/>", ttProviderSystems.UserID);
+
+            if (ttProviderSystems.AddLog)
+                addLog("<EXCSM/>" + strResponse + " " + soapResponse, ttProviderSystems.UserID);
+
+            if (CloseThisSession)
+            {
+                if (soapResponse != "")
+                    SessionID = GetSessionFromSoap(soapResponse);
+                else
+                {
+                    int intSession = 0;
+                    string[] sessionid;
+
+                    sessionid = SessionID.Split(char.Parse("|"));
+
+                    if (isSOAP2)
+                    {
+                        
+                        intSession = Convert.ToInt32(sessionid[2]);
+                        intSession -= 1;
+                        SessionID = sb.Append(sessionid[0]).Append("|").Append(sessionid[1]).Append("|").Append(intSession.ToString()).ToString();
+                        
+                    }
+                    else
+                    {
+                        intSession = Convert.ToInt32(sessionid[1]);
+                        intSession += 1;
+                        SessionID = sb.Append(sessionid[0]).Append("|").Append(intSession.ToString()).ToString();
+                    
+                    }
+
+
+                    sb.Remove(0, sb.Length);
+                }
+
+                if (SessionID != null)
+                    CloseSession(SessionID);//CloseSessionFromPool(SessionID);
+            }
+            throw ex;
+        }
+    }
+
+
+
+    public string SendMessageV3(string Message, string AmadeusWSService, string AmadeusWSAction, string SessionID)
+    {
+        string Header = "";
+        string Body = "";
+        string strResponse = "";
+        string soapResponse = "";
+        bool CloseThisSession = false;
+        cDA oDB = null;
+
+        try
+        {
+            if (SessionID.Length == 0)
+            {
+                CloseThisSession = true;
+                string soapAction = "";
+                soapAction = AmadeusWSAction;
+                SessionID = CheckSessionV3();
+                AmadeusWSAction = soapAction;
+            }
+            else
+            {
+                CloseThisSession = false;
+            }
+
+            if (SessionID == "")
+            {
+                strResponse = "<Errors><Error>Cannot create session with Amadeus</Error></Errors>";
+                return strResponse;
+            }
+
+            Header = ComposeHeader("AmadeusWSXML", AmadeusWSService, AmadeusWSAction, SessionID);
+            //Header = sb.Append("<SessionId>").Append(SessionID).Append("</SessionId>").ToString();
+            sb.Remove(0, sb.Length);
+
+            Body = Message;
+
+            //if (ttProviderSystems.AddLog)
+            //    addLog(Header + Body, ttProviderSystems.UserID);
+
+            soapResponse = Send(Header, Body, AmadeusWSAction);
+            // *************************
+            //  Get Response From Soap *
+            // *************************
+            //if (ttProviderSystems.AddLog)
+            //    addLog(soapResponse, ttProviderSystems.UserID);
+
+            strResponse = GetResponseFromSoap(soapResponse, "SendMessage", enRequestType.Message);
+
+            //if (ttProviderSystems.AddLog)
+            //    addLog(strResponse, ttProviderSystems.UserID);
+
+            if (strResponse.IndexOf("Inactive conversation") != -1
+                || strResponse.IndexOf("Bad SecurityToken") != -1)
+            {
+                oDB = new cDA("ConnectionString");
+
+                DataTable dtSession;
+                //if (strResponse.IndexOf("Inactive conversation") != -1)
+                //{
+                    dtSession = oDB.ToBeDeleted(SessionID);
+                    NewSessions--;
+                    oDB.UpdatePCCSessions(ttProviderSystems.PCC, NewSessions, ttProviderSystems.UserID);
+                //}
+
+                IsInitialBlock = System.Convert.ToChar("N");
+                //string tBlock = dtSession.Rows[0][1].ToString();
+                BlockIDNum = 2;
+
+                modCore.gIsCreating = true;
+                SessionID = CreateSessionV3();
+                //SessionID = oDB.SessionUpdate(ttProviderSystems.PCC, ttProviderSystems.System, ttProviderSystems.UserID);
+                ////SessionCount++;
+                NewSessions++;
+
+
+                modCore.gIsCreating = false;
+
+                oDB.UpdatePCCSessions(ttProviderSystems.PCC, NewSessions, ttProviderSystems.UserID);
+                oDB.Dispose();
+
+                Header = ComposeHeader("AmadeusWSXML", AmadeusWSService, AmadeusWSAction, SessionID);
+                soapResponse = Send(Header, Body, AmadeusWSAction);
+                strResponse = GetResponseFromSoap(soapResponse, "SendMessage", enRequestType.Message);
+            }
+            //else if (strResponse.IndexOf("Bad SecurityToken") != -1)
+            //{
+            //    oDB = new cDA("ConnectionString");
+
+            //    DataTable dtSession;
+            //    dtSession = oDB.ToBeDeleted(SessionID);
+            //    NewSessions--;
+            //    oDB.UpdatePCCSessions(ttProviderSystems.PCC, NewSessions, ttProviderSystems.UserID);
+            //    CloseThisSession = false;
+            //}
+
+            if (CloseThisSession)
+            {
+                SessionID = GetSessionFromSoap(soapResponse);
+
+                if (SessionID != null && SessionID != "")
+                    CloseSessionFromPool(SessionID);// CloseSession(SessionID);
+            }
+
+            return strResponse;
+        }
+        catch (Exception ex)
+        {
+            addLog("<EXOR><M>" + Message + "<SendMessage3/>", ttProviderSystems.UserID);
+
+            if (CloseThisSession)
+            {
+                if (soapResponse != "")
+                    SessionID = GetSessionFromSoap(soapResponse);
+                else
+                {
+                    int intSession = 0;
+                    string[] sessionid;
+
+                    sessionid = SessionID.Split(char.Parse("|"));
+
+                    if (isSOAP2)
+                    {
+
+                        intSession = Convert.ToInt32(sessionid[2]);
+                        intSession -= 1;
+                        SessionID = sb.Append(sessionid[0]).Append("|").Append(sessionid[1]).Append("|").Append(intSession.ToString()).ToString();
+
+                    }
+                    else
+                    {
+                        intSession = Convert.ToInt32(sessionid[1]);
+                        intSession += 1;
+                        SessionID = sb.Append(sessionid[0]).Append("|").Append(intSession.ToString()).ToString();
+
+                    }
+
+                    sb.Remove(0, sb.Length);
+                }
+
+                if (SessionID != null)
+                    CloseSessionFromPool(SessionID);//CloseSession(SessionID);
+            }
+            throw ex;
+        }
+        finally
+        {
+            if (oDB != null)
+                oDB.Dispose();
+        }
+    }
+
+    //public string SendNativeMessage(string Message, string SecurityToken, void =, void ) {
+    //    string strResponse = "";
+    //    // Warning!!! Optional parameters not supported
+    //    bool CloseThisSession;
+    //    // Const CRLOR As Char = ChrW(&HE7)
+    //    // Const CHGKEY As Char = ChrW(&HA5)
+    //    // Const ENDITEM As Char = ChrW(&HA7)
+    //    try {
+    //        if ((SecurityToken.Length == 0)) {
+    //            CloseThisSession = true;
+    //            SecurityToken = CreateSession();
+    //            Message = Message.Replace("</MessageHeader>", sb.Append("</MessageHeader>").Append(SecurityToken).ToString());
+    //            sb.Remove(0, sb.Length());
+    //        }
+    //        else {
+    //            CloseThisSession = false;
+    //        }
+    //        strResponse = Send(Message);
+    //        if (CloseThisSession) {
+    //            CloseSession(SecurityToken);
+    //        }
+    //        return strResponse;
+    //    }
+    //    catch (Exception ex) {
+    //        throw ex;
+    //    }
+    //}
+
+    public static void addLog(string msg, string username)
+    {
+        try
+        {
+            string FilePath = "log\\" + username + "_" + DateTime.Today.ToString("dd-MM-yyyy");
+            string DirPath = "C:\\TripXML\\log";
+            FilePath = "C:\\TripXML\\" + FilePath + ".txt";
+
+            if (!Directory.Exists(DirPath))
+            {
+                Directory.CreateDirectory(DirPath);
+            }
+            if (!File.Exists(FilePath))
+            {
+                using (StreamWriter sw = File.CreateText(FilePath))
+                {
+                    sw.WriteLine("created On - " + DateTime.Now.ToString() + "\r\n");
+                    sw.Flush();
+                    sw.Close();
+                }
+            }
+            using (StreamWriter sw = File.AppendText(FilePath))
+            {
+                DateTimeFormatInfo myDTFI = new CultureInfo("fr-FR",true).DateTimeFormat;
+               
+                sw.WriteLine(DateTime.UtcNow.ToString(myDTFI).Substring(11) + " GMT - " + msg + "\r\n");
+                sw.Flush();
+                sw.Close();
+            }
+        }
+        catch (Exception)
+        {
+        }
+    }
+
+    private enum enRequestType
+    {
+        CreateSession = 1,
+        CloseSession = 2,
+        Message = 3,
+    }
+}
+
