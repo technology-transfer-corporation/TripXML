@@ -1,0 +1,1443 @@
+<SearchPromotionsResponse>
+	<Promotion>
+		<PromotionId>6</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode/>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>International Published</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>10.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType>InternationalPublished</FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>7</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode/>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>Domestic Private</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>10.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType>DomesticPrivate</FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>8</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode/>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>Domestic Published</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>10.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType>DomesticPublished</FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>9</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode/>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>International Private</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>25.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType>InternationalPrivate</FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>10</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>A7</SupplierCode>
+		<SupplierId>983</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(A7) Air Comet CC FEE</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>8.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>11</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>FI</SupplierCode>
+		<SupplierId>380</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(FI) Icelandair CC FEE</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>8.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType>InternationalPrivate</FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>12</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>IB</SupplierCode>
+		<SupplierId>461</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(IB) Iberia CC FEE</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>8.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType>InternationalPrivate</FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>14</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>FM</SupplierCode>
+		<SupplierId>384</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(FM) Shanghai airlines</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>25.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>15</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>FN</SupplierCode>
+		<SupplierId>385</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(FN) Regional Airlines</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>25.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>16</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>IR</SupplierCode>
+		<SupplierId>476</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(IR) Iran NO CC </Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>8.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>17</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>JU</SupplierCode>
+		<SupplierId>510</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(JU) JAT CC SURCHARGE</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>8.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>19</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>U8</SupplierCode>
+		<SupplierId>986</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(U8) EXTRA CC SURCHARGE</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>7.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Total</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>22</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>6A</SupplierCode>
+		<SupplierId>126</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(6A/UA) Paper ticket fee</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>25.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType>InternationalPublished</FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>22</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>UA</SupplierCode>
+		<SupplierId>822</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(6A/UA) Paper ticket fee</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>25.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType>InternationalPublished</FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>24</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>G3</SupplierCode>
+		<SupplierId>982</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(G3) CC Fee</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>8.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>25</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>PW</SupplierCode>
+		<SupplierId>693</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(PW) CC Surcharge</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>8.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>26</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>VN</SupplierCode>
+		<SupplierId>866</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(VN) No CC</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>8.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>27</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>U9</SupplierCode>
+		<SupplierId>995</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(U9) NO TGAD</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>60.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>29</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode/>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(OTHER CONSOLIDATORS EXTRA MARKUP)</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID>ATL1S211D</officeID>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>50.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType>DomesticPrivate</FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>29</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode/>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(OTHER CONSOLIDATORS EXTRA MARKUP)</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID>ATL1S2144</officeID>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>50.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType>DomesticPrivate</FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>29</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode/>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(OTHER CONSOLIDATORS EXTRA MARKUP)</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID>CHI1S211S</officeID>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>50.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType>DomesticPrivate</FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>93</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>3K</SupplierCode>
+		<SupplierId>69</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>EXTRA SURCHARGE FOR LOW COST AIRLINES</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>35.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Total</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>93</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>4U</SupplierCode>
+		<SupplierId>99</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>EXTRA SURCHARGE FOR LOW COST AIRLINES</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>35.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Total</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>93</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>GL</SupplierCode>
+		<SupplierId>415</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>EXTRA SURCHARGE FOR LOW COST AIRLINES</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>35.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Total</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>93</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>JQ</SupplierCode>
+		<SupplierId>506</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>EXTRA SURCHARGE FOR LOW COST AIRLINES</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>35.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Total</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>93</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>VF</SupplierCode>
+		<SupplierId>858</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>EXTRA SURCHARGE FOR LOW COST AIRLINES</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>35.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Total</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>93</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>VX</SupplierCode>
+		<SupplierId>876</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>EXTRA SURCHARGE FOR LOW COST AIRLINES</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>35.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Total</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>96</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>YM</SupplierCode>
+		<SupplierId>937</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(YM) EXTRA CC SURCHARGE</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>7.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Total</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>98</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>UT</SupplierCode>
+		<SupplierId>841</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(UT) EXTRA % CC SURCHARGE</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>6.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Total</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>99</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>LI</SupplierCode>
+		<SupplierId>563</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(LI) LIAT EXTRA CC SURCHARGE</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>100.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>100</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>MX</SupplierCode>
+		<SupplierId>608</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(MX) EXTRA CREDIT CARD SURCHARGE</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>50.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Total</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>100</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>QA</SupplierCode>
+		<SupplierId>701</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(MX) EXTRA CREDIT CARD SURCHARGE</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>50.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Total</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>101</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>9U</SupplierCode>
+		<SupplierId>205</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(9U) EXTRA % CC SURCHARGE</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>6.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Total</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>102</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>XF</SupplierCode>
+		<SupplierId>911</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(XF) EXTGERA 6% CC SURCHARGE</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>6.0000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>103</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>OK</SupplierCode>
+		<SupplierId>650</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(OK) EXTRA MARKUP</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>25.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType>DomesticPrivate</FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>105</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>CY</SupplierCode>
+		<SupplierId>301</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(CY) EXTRA CC SURCHARGE 6.5%</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>6.5000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>106</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>DT</SupplierCode>
+		<SupplierId>329</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(DT) EXTRA CC SURCHARGE 6.5%</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>6.5000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>107</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>HX</SupplierCode>
+		<SupplierId>457</SupplierId>
+		<SupplierExclude>False</SupplierExclude>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(HX) EXTRA CREDIT CARD SURCHARGE</Name>
+		<BookingClass/>
+		<BookingClassExclude>False</BookingClassExclude>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude>False</CodeShareExclude>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>6.5000</YieldAmount>
+		<YieldType>%</YieldType>
+		<FareType/>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>108</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>9W</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(9W) International Surcharge</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>100.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType>InternationalPublished</FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>110</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>S7</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(S7) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>111</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>EY</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(EY) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>112</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>UT</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(UT) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>113</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>AB</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(AB) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>114</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>9W</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(9W) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>115</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>VV</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(VV) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>116</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>AI</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(AI) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>117</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>TS</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(TS) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>118</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>CZ</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(CZ) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>119</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>AR</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(AR) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>120</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>LY</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(LY) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>121</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>EK</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(EK) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>122</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>HX</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(HX) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>123</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>UN</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(UN) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>124</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>GF</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(GF) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>125</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>HU</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(HU) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>126</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>UN</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(UN) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>127</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>JP</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(JP) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>128</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>SU</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(SU) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>129</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>VT</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(VT) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+	<Promotion>
+		<PromotionId>130</PromotionId>
+		<ProductTypeId>2</ProductTypeId>
+		<SiteItemId>20</SiteItemId>
+		<PromotionTypeId>6</PromotionTypeId>
+		<SupplierCode>9U</SupplierCode>
+		<SupplierId>0</SupplierId>
+		<SupplierExclude/>
+		<PromotionTypeName>Owner Markup</PromotionTypeName>
+		<Name>(9U) International Discount</Name>
+		<BookingClass/>
+		<BookingClassExclude/>
+		<CodeShareCode/>
+		<CodeShareId>0</CodeShareId>
+		<CodeShareExclude/>
+		<officeID/>
+		<StartDate>1/1/1900 12:00:00 AM</StartDate>
+		<EndDate>1/1/1900 12:00:00 AM</EndDate>
+		<YieldAmount>-5.0000</YieldAmount>
+		<YieldType>$</YieldType>
+		<FareType></FareType>
+		<ApplicationTypeID/>
+		<AppliedMarkup>Base</AppliedMarkup>
+	</Promotion>
+</SearchPromotionsResponse>
+
