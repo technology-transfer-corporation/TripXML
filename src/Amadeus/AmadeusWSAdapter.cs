@@ -4,9 +4,6 @@ using System.Text;
 using System;
 using System.Data;
 using System.Security.Cryptography;
-using System.Net;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
 using System.Linq;
 using static TripXMLMain.modCore.enAmadeusWSSchema;
 
@@ -61,10 +58,8 @@ public class AmadeusWSAdapter
             isSOAP2 = providerSystems.SOAP2;
             isSOAP4 = providerSystems.SOAP4;
         }
-        ServicePointManager.ServerCertificateValidationCallback = delegate
-        {
-            return true;
-        };
+        // Certificate-validation bypass moved to the SocketsHttpHandler inside
+        // ttHttpWebClient (see AmadeusSkipCertValidation config key).
     }
 
     public AmadeusWSAdapter(modCore.TripXMLProviderSystems providerSystems, string version)
@@ -88,10 +83,6 @@ public class AmadeusWSAdapter
         //    else
         //        ttProviderSystems.ProviderSession.MultipleAccess = true;
         //}
-        ServicePointManager.ServerCertificateValidationCallback = delegate
-        {
-            return true;
-        };
 
         oDa.Dispose();
     }
@@ -286,7 +277,6 @@ public class AmadeusWSAdapter
             if (!string.IsNullOrEmpty(ttProviderSystems.ProxyURL))
             {
                 oHttpWebClient.ServiceURL = ttProviderSystems.ProxyURL;
-                ServicePointManager.ServerCertificateValidationCallback = TrustAllCertificatesCallback;
             }
             else
             {
@@ -324,7 +314,6 @@ public class AmadeusWSAdapter
             if (ttProviderSystems.ProxyURL != "")
             {
                 oHttpWebClient.ServiceURL = ttProviderSystems.ProxyURL;
-                ServicePointManager.ServerCertificateValidationCallback = TrustAllCertificatesCallback;
             }
             else
             {
@@ -362,7 +351,6 @@ public class AmadeusWSAdapter
             if (ttProviderSystems.ProxyURL != "")
             {
                 oHttpWebClient.ServiceURL = ttProviderSystems.ProxyURL;
-                ServicePointManager.ServerCertificateValidationCallback = TrustAllCertificatesCallback;
             }
             else
             {
@@ -412,11 +400,6 @@ public class AmadeusWSAdapter
             string errroText = $"Error Sending Request to AmadeusWS.\r\n{ex.Message}";
             throw new Exception(errroText);
         }
-    }
-
-    public static bool TrustAllCertificatesCallback(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors errors)
-    {
-        return true;
     }
 
     private string GetResponseFromSoap(string strResponse, string AmadeusWSService, enRequestType RequestType)

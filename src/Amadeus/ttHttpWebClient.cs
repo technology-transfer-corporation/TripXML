@@ -1,10 +1,11 @@
-﻿using System.Net;
+using System.Net;
 using System.IO;
 using System.IO.Compression;
 using TripXMLMain;
 using System.Text;
 using System;
-using System.Reflection;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 
 public class ttHttpWebClient
@@ -21,12 +22,16 @@ public class ttHttpWebClient
     private const string XSI_APP = "http://xml.amadeus.com/2010/06/AppMdw_CommonTypes_v3";
     private const string XSI_LINK = "http://wsdl.amadeus.com/2010/06/ws/Link_v1";
     private const string XSI_SES = "http://xml.amadeus.com/2010/06/Session_v3";
-    private const string XSI_FLIR = "http://xml.amadeus.com/"; 
+    private const string XSI_FLIR = "http://xml.amadeus.com/";
     #endregion
 
     #region Declaration
 
-    private HttpWebRequest mHttpRequest;
+    // One pooled client for the process (replaces the per-call HttpWebRequest);
+    // pooled connection lifetime keeps DNS fresh. Created lazily so that
+    // TripXMLMain.modCore.config is populated before the certificate policy is read.
+    private static readonly Lazy<HttpClient> _httpClient = new Lazy<HttpClient>(CreateHttpClient);
+
     public string ServiceURL { get; set; } = "";
 
     public string SoapAction { get; set; } = "";
@@ -42,6 +47,33 @@ public class ttHttpWebClient
     #endregion
 
     #region Methods
+
+    private static HttpClient CreateHttpClient()
+    {
+        var handler = new SocketsHttpHandler
+        {
+            // Legacy code sent "Accept-Encoding: gzip,deflate" and manually decompressed
+            // the response; AutomaticDecompression does both based on Content-Encoding.
+            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+            PooledConnectionLifetime = TimeSpan.FromMinutes(5),
+            // Legacy: mHttpRequest.Credentials = CredentialCache.DefaultCredentials
+            Credentials = CredentialCache.DefaultCredentials
+        };
+
+        // The legacy adapter disabled TLS certificate validation process-wide via
+        // ServicePointManager.ServerCertificateValidationCallback. Preserve that default,
+        // scoped to the Amadeus handler only. Ops can re-enable validation by setting
+        // AmadeusSkipCertValidation=false in configuration.
+        string skipCertValidation = modCore.config["AmadeusSkipCertValidation"];
+        if (skipCertValidation == null || skipCertValidation.Equals("true", StringComparison.OrdinalIgnoreCase))
+        {
+            handler.SslOptions.RemoteCertificateValidationCallback = (s, c, ch, e) => true;
+        }
+
+        // Legacy: mHttpRequest.Timeout = 90000
+        return new HttpClient(handler) { Timeout = TimeSpan.FromMilliseconds(90000) };
+    }
+
     private String Convert(byte[] input, Decoder decoder)
     {
         char[] char_array = new char[decoder.GetCharCount(input, 0, input.Length, true)];
@@ -79,33 +111,54 @@ public class ttHttpWebClient
         return Message;
     }
 
-    private void HttpConnect(modCore.TripXMLProviderSystems ttProviderSystems)
+    /// <summary>
+    /// Builds the HttpRequestMessage the way the legacy HttpConnect/StreamWriter pair did.
+    /// When ProxyURL is configured the legacy code posted the plain (uncompressed) message
+    /// to the proxy endpoint and did not add the gzip headers.
+    /// </summary>
+    private HttpRequestMessage BuildRequest(string url, string message, bool compressBody, bool markCompressed)
     {
-        if (!string.IsNullOrEmpty(ttProviderSystems.ProxyURL))
-        {
-            mHttpRequest = (HttpWebRequest)WebRequest.Create(ttProviderSystems.ProxyURL);
-        }
-        else
-        {
-            mHttpRequest = (HttpWebRequest)WebRequest.Create(ServiceURL);
-            mHttpRequest.Headers.Add("Content-Encoding: gzip");
-            mHttpRequest.Headers.Add("Accept-Encoding: gzip,deflate");
-        }
+        var request = new HttpRequestMessage(
+            new System.Net.Http.HttpMethod(string.IsNullOrEmpty(this.HttpMethod) ? "POST" : this.HttpMethod), url);
 
-        mHttpRequest.Method = HttpMethod;
-        mHttpRequest.ContentType = "text/xml;charset=\"utf-8\"";
-        mHttpRequest.Headers.Add("SOAPAction", SoapAction);
-        mHttpRequest.UserAgent = "TripXML";
-        mHttpRequest.Accept = "text/xml";
-        mHttpRequest.KeepAlive = true;
-        mHttpRequest.Credentials = CredentialCache.DefaultCredentials;
-        mHttpRequest.Timeout = 90000;
+        byte[] requestBytes = compressBody ? CompressGZip(message) : Encoding.UTF8.GetBytes(message);
+        var content = new ByteArrayContent(requestBytes);
+        // Legacy: mHttpRequest.ContentType = "text/xml;charset=\"utf-8\""
+        content.Headers.TryAddWithoutValidation("Content-Type", "text/xml;charset=\"utf-8\"");
+        if (markCompressed)
+        {
+            // Legacy: mHttpRequest.Headers.Add("Content-Encoding: gzip")
+            content.Headers.TryAddWithoutValidation("Content-Encoding", "gzip");
+        }
+        request.Content = content;
+
+        request.Headers.TryAddWithoutValidation("SOAPAction", SoapAction);
+        request.Headers.TryAddWithoutValidation("User-Agent", "TripXML");
+        request.Headers.TryAddWithoutValidation("Accept", "text/xml");
+
+        return request;
+    }
+
+    private static byte[] CompressGZip(string message)
+    {
+        using var memoryStream = new MemoryStream();
+        using (var gzipStream = new GZipStream(memoryStream, CompressionMode.Compress, false))
+        using (var writer = new StreamWriter(gzipStream))
+        {
+            writer.Write(message);
+        }
+        return memoryStream.ToArray();
+    }
+
+    private static bool IsTimeout(Exception ex)
+    {
+        // HttpClient surfaces its Timeout as TaskCanceledException (inner TimeoutException).
+        return ex is TaskCanceledException || ex is TimeoutException || ex.InnerException is TimeoutException;
     }
 
     public string SendHttpRequest(modCore.TripXMLProviderSystems ttProviderSystems)
     {
-        
-        StreamReader oReader = null;
+        HttpRequestMessage oRequest;
         DateTime StartTime;
 
         try
@@ -114,41 +167,36 @@ public class ttHttpWebClient
 
             StartTime = System.DateTime.Now;
             CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Sent to AmadeusWS", message.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), ttProviderSystems.LogUUID);
-            HttpConnect(ttProviderSystems);
 
-            StreamWriter oWriter = !string.IsNullOrEmpty(ttProviderSystems.ProxyURL)
-                ? new StreamWriter(mHttpRequest.GetRequestStream())
-                : new StreamWriter(new GZipStream(mHttpRequest.GetRequestStream(), CompressionMode.Compress, false));
-
-            oWriter.Write(message);
-            oWriter.Close();
+            bool useProxyEndpoint = !string.IsNullOrEmpty(ttProviderSystems.ProxyURL);
+            oRequest = BuildRequest(
+                useProxyEndpoint ? ttProviderSystems.ProxyURL : ServiceURL,
+                message,
+                compressBody: !useProxyEndpoint,
+                markCompressed: !useProxyEndpoint);
         }
         catch (Exception ex)
         {
             throw new Exception(ex.Message);
         }
-        
+
         string strResponse;
         try
         {
-            var oHttpResponse = (HttpWebResponse)mHttpRequest.GetResponse();
+            using var oHttpResponse = _httpClient.Value.Send(oRequest, HttpCompletionOption.ResponseContentRead);
 
-            if (oHttpResponse == null)
+            using (var oReader = new StreamReader(oHttpResponse.Content.ReadAsStream()))
             {
-                throw new Exception("<Error>Connection problem with Amadeus</Error>");
+                strResponse = oReader.ReadToEnd();
             }
 
-            if (ttProviderSystems.ProxyURL != "")
-                oReader = new StreamReader(oHttpResponse.GetResponseStream());
-            else
+            if (!oHttpResponse.IsSuccessStatusCode)
             {
-                Stream stream = oHttpResponse.GetResponseStream();
-                Stream decompressionStream = null;
-                decompressionStream = new GZipStream(stream, CompressionMode.Decompress, false);
-                oReader = new StreamReader(decompressionStream);
+                // Legacy behaviour: GetResponse() threw on a non-2xx status and the catch
+                // block returned the response body (read via the reflected _HttpResponse)
+                // without the "Received from AmadeusWS" trace.
+                return strResponse;
             }
-
-            strResponse = oReader.ReadToEnd();
 
             if (strResponse.Length > 50000)
                 CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Received from AmadeusWS", strResponse.Substring(0, 50000).Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), ttProviderSystems.LogUUID);
@@ -159,55 +207,25 @@ public class ttHttpWebClient
         }
         catch (Exception ex)
         {
-            if (!ex.Message.Contains("SSL/TLS"))
+            if (IsTimeout(ex))
             {
-                if (ex.Message == "The operation has timed out")
-                {
-                    strResponse = "<Error>Time out received from Amadeus</Error>";
-                    return strResponse;
-                }
-
-                FieldInfo fi = mHttpRequest.GetType().GetField("_HttpResponse", BindingFlags.NonPublic | BindingFlags.Instance);
-                if (fi != null)
-                {
-                    var oHttpResponse = (HttpWebResponse)fi.GetValue(mHttpRequest);
-                    Stream stream = oHttpResponse.GetResponseStream();
-                    if (ttProviderSystems.ProxyURL != "")
-                        oReader = new StreamReader(stream);
-                    else
-                    {
-                        Stream decompressionStream = null;
-                        decompressionStream = new GZipStream(stream, CompressionMode.Decompress, false);
-                        oReader = new StreamReader(decompressionStream);
-                    }
-
-                    strResponse = oReader.ReadToEnd();
-
-                    return strResponse;
-                }
+                strResponse = "<Error>Time out received from Amadeus</Error>";
+                return strResponse;
             }
+
             throw new Exception($"Error Getting Response.\r\n{ex.Message}");
         }
         finally
         {
             CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", $"AmadeusWS Response Time = {DateTime.Now.Subtract(StartTime).TotalSeconds} seconds.", "", ttProviderSystems.LogUUID);
 
-            if (oReader != null)
-            {
-                oReader.Close();
-            }
-            if (mHttpRequest != null)
-            {
-                mHttpRequest = null;
-            }
+            oRequest.Dispose();
         }
     }
 
     public string SendHttpRequestSoap4(modCore.TripXMLProviderSystems ttProviderSystems, string strMessage)
     {
-        StreamWriter oWriter = null;
-        // Warning!!! Optional parameters not supported
-        HttpWebResponse oHttpResponse = null;
+        HttpRequestMessage oRequest = null;
 
         string message = "";
         System.DateTime StartTime;
@@ -216,35 +234,41 @@ public class ttHttpWebClient
             message = strMessage;
             StartTime = System.DateTime.Now;
             CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Sent to AmadeusWS", message.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), ttProviderSystems.LogUUID);
-            HttpConnect(ttProviderSystems);
-            oWriter = new StreamWriter(new GZipStream(mHttpRequest.GetRequestStream(), CompressionMode.Compress, false));
-            oWriter.Write(message);
+
+            // Legacy SendHttpRequestSoap4 always gzip-compressed the body, but HttpConnect
+            // only added the gzip headers when no proxy endpoint was configured.
+            bool useProxyEndpoint = !string.IsNullOrEmpty(ttProviderSystems.ProxyURL);
+            oRequest = BuildRequest(
+                useProxyEndpoint ? ttProviderSystems.ProxyURL : ServiceURL,
+                message,
+                compressBody: true,
+                markCompressed: !useProxyEndpoint);
         }
         catch (Exception ex)
         {
             addLog($"<M>{message}</M><SendHttpRequest/>", ttProviderSystems);
             throw new Exception(ex.Message);
         }
-        finally
-        {
-            if (!(oWriter == null))
-            {
-                oWriter.Close();
-            }
-        }
+
         string strResponse;
         try
         {
+            using var oHttpResponse = _httpClient.Value.Send(oRequest, HttpCompletionOption.ResponseContentRead);
 
-            oHttpResponse = (HttpWebResponse)mHttpRequest.GetResponse();
-            Stream stream = oHttpResponse.GetResponseStream();
+            using (var oReader = new StreamReader(oHttpResponse.Content.ReadAsStream()))
+            {
+                strResponse = oReader.ReadToEnd();
+            }
 
-            /***********************************/
-            Stream decompressionStream = new GZipStream(stream, CompressionMode.Decompress, false);
-            var oReader = new StreamReader(decompressionStream);
-            /***********************************/
-            strResponse = oReader.ReadToEnd();
-            oReader.Close();
+            if (!oHttpResponse.IsSuccessStatusCode)
+            {
+                // Legacy behaviour: GetResponse() threw on a non-2xx status and the catch
+                // block read the body off the reflected response, traced and logged it.
+                CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Soap error response", strResponse.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), ttProviderSystems.LogUUID);
+
+                addLog($"<EXSHR/><M>{message}</M><R>{strResponse}</R>", ttProviderSystems);
+                return strResponse;
+            }
 
             if (strResponse.Length > 50000)
                 CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Received from AmadeusWS", strResponse.Substring(0, 50000).Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), ttProviderSystems.LogUUID);
@@ -257,37 +281,19 @@ public class ttHttpWebClient
         {
             addLog($"<M>{message}</M><SendHttpRequest/>", ttProviderSystems);
 
-            if (ex.Message == "The operation has timed out")
+            if (IsTimeout(ex))
             {
                 strResponse = "<Error>Time out received from Amadeus</Error>";
                 return strResponse;
             }
 
-            FieldInfo fi = mHttpRequest.GetType().GetField("_HttpResponse", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (fi != null)
+            if (ex is HttpRequestException)
             {
-                oHttpResponse = (HttpWebResponse)fi.GetValue(mHttpRequest);
-
-                if (oHttpResponse == null)
-                {
-                    addLog($"<EXHRN/>{message}", ttProviderSystems);
-                    strResponse = "<Error>Connection problem with Amadeus</Error>";
-                    return strResponse;
-                }
-
-                Stream stream = oHttpResponse.GetResponseStream();
-                Stream decompressionStream = null;
-                decompressionStream = new GZipStream(stream, CompressionMode.Decompress, false);
-                var oReader = new StreamReader(decompressionStream);
-                strResponse = oReader.ReadToEnd();
-                oReader.Close();
-                CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", "Soap error response", strResponse.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", ""), ttProviderSystems.LogUUID);
-
-                addLog($"<EXSHR/><M>{message}</M><R>{strResponse}</R>", ttProviderSystems);
+                // Legacy: reflected _HttpResponse was null -> connection problem.
+                addLog($"<EXHRN/>{message}", ttProviderSystems);
+                strResponse = "<Error>Connection problem with Amadeus</Error>";
                 return strResponse;
             }
-
-
 
             throw new Exception($"Error Getting Response.\r\n{ex.Message}");
         }
@@ -295,13 +301,9 @@ public class ttHttpWebClient
         {
             CoreLib.SendTrace(ttProviderSystems.UserID, "AmadeusWSAdapter", $"AmadeusWS Response Time = {DateTime.Now.Subtract(StartTime).TotalSeconds} seconds.", "", ttProviderSystems.LogUUID);
 
-            if (oHttpResponse != null)
+            if (oRequest != null)
             {
-                oHttpResponse.Close();
-            }
-            if (mHttpRequest != null)
-            {
-                mHttpRequest = null;
+                oRequest.Dispose();
             }
         }
     }

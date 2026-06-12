@@ -3073,7 +3073,6 @@ namespace AmadeusWS
         {
             try
             {
-                var bl = new wsBlackList.wsFlightBlackList();
                 string airline = "";
                 string flno = "";
                 string cos = "";
@@ -3095,7 +3094,7 @@ namespace AmadeusWS
                         flno = strError.Substring(9, strError.IndexOf("Class") - 1 - 9);
                         cos = strError.Substring(strError.IndexOf("Class") + 6, 1);
                         dep = Convert.ToDateTime(strError.Substring(strError.IndexOf("Date") + 5, 10));
-                        bl.wmFlightAdd(airline, flno, dep, cos);
+                        BlackListClient.wmFlightAdd(airline, flno, dep, cos);
                     }
                 }
 
@@ -3385,7 +3384,6 @@ namespace AmadeusWS
                 System.IO.StreamReader SR = null;
                 try
                 {
-                    //SR = new System.IO.StreamReader(System.Web.HttpContext.Current.Server.MapPath("~") + "\\MailTemplates\\BookingEmail.html");
                     SR = new System.IO.StreamReader("C:\\tripxml\\MailTemplates\\BookingEmail.html");
 
                     StrBody = SR.ReadToEnd();
@@ -3458,9 +3456,9 @@ namespace AmadeusWS
                 oDoc.LoadXml(strResponse);
                 XmlElement oRoot = oDoc.DocumentElement;
 
-                DataView ttAirports = (DataView)System.Web.HttpContext.Current.Application.Get("ttAirports");
-                DataView ttAirlines = (DataView)System.Web.HttpContext.Current.Application.Get("ttAirlines");
-                DataView ttEquipments = (DataView)System.Web.HttpContext.Current.Application.Get("ttEquipments");
+                DataView ttAirports = (DataView)TripXMLMain.AppState.Get("ttAirports");
+                DataView ttAirlines = (DataView)TripXMLMain.AppState.Get("ttAirlines");
+                DataView ttEquipments = (DataView)TripXMLMain.AppState.Get("ttEquipments");
 
                 foreach (XmlNode oNode in oRoot.SelectNodes("TravelItinerary/ItineraryInfo/ReservationItems/Item/Air"))
                 {
