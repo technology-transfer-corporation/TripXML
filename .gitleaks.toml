@@ -1,0 +1,10 @@
+# Gitleaks configuration for the TripXML monorepo.
+# History was scrubbed with git-filter-repo on 2026-06-12 (see docs/monorepo-consolidation-design.md).
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "CoreLib.SendTrace trace-banner string literals (e.g. \"======= OTA Response =======\") trip the generic-api-key rule because the first argument is named ttCredential.UserID. The quoted strings are log banners, not secrets."
+regexTarget = "line"
+regexes = ['''SendTrace\s*\(\s*ttCredential\.UserID''']
