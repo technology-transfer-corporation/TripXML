@@ -2,13 +2,12 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.Data;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Configuration;
 using System.Xml.Linq;
 using static TripXMLMain.modCore;
 
@@ -25,7 +24,7 @@ namespace TripXMLTools
         {
             if (UsersObject == null || isRefresh)
             {
-                UsersObject = GetProvidersObject(new { id = new Guid(WebConfigurationManager.AppSettings["ServerGuid"]) });
+                UsersObject = GetProvidersObject(new { id = new Guid(config["ServerGuid"]) });
             }
         }
 
@@ -64,7 +63,7 @@ namespace TripXMLTools
             }
 
             var body = JsonConvert.SerializeObject(rqObject);
-            var _response = GetServerData($"{WebConfigurationManager.AppSettings["HasuraEndpoint"]}/tripxmlload", body);
+            var _response = GetServerData($"{config["HasuraEndpoint"]}/tripxmlload", body);
 
             var providers = JsonConvert.DeserializeObject<TripXMLProviderDTO>(_response);
 
@@ -81,18 +80,52 @@ namespace TripXMLTools
         {
             if (DecodingTables == null || isRefresh)
             {
-                var _response = GetServerData($"{WebConfigurationManager.AppSettings["HasuraEndpoint"]}/decoding");
+                var _response = GetServerData($"{config["HasuraEndpoint"]}/decoding");
                 var decoded = JsonConvert.DeserializeObject<Decoding>(_response);
 
                 DecodingTables = decoded;
             }
         }
 
+        /// <summary>
+        /// Builds the three decode DataViews the OTA services expect in application state
+        /// (legacy: HttpApplicationState, now TripXMLMain.AppState) from the already-loaded
+        /// Hasura decoding data. Consumers (e.g. Amadeus TravelServices.GetDecodeValue,
+        /// wsTripXML modMain.GetDecodeValue/GetEncodeValue/IsDecodeValue) look rows up via
+        /// DataView.Find(code) and read row["Name"]/row["Code"], so each view has columns
+        /// "Code" and "Name" and is sorted on "Code".
+        /// The host calls this once at startup, after GetDecodingTables().
+        /// </summary>
+        public static void BuildDecodingDataViews()
+        {
+            if (DecodingTables == null)
+                GetDecodingTables();
+
+            TripXMLMain.AppState.Set("ttAirports", BuildDecodingView("Airports", DecodingTables.Airports));
+            TripXMLMain.AppState.Set("ttAirlines", BuildDecodingView("Airlines", DecodingTables.Airlines));
+            TripXMLMain.AppState.Set("ttEquipments", BuildDecodingView("Equipments", DecodingTables.Equipments));
+        }
+
+        private static DataView BuildDecodingView<T>(string tableName, IEnumerable<T> rows) where T : DecodingBase
+        {
+            var table = new DataTable(tableName);
+            table.Columns.Add("Code", typeof(string));
+            table.Columns.Add("Name", typeof(string));
+
+            if (rows != null)
+            {
+                foreach (var row in rows)
+                    table.Rows.Add(row.Code ?? string.Empty, row.Name ?? string.Empty);
+            }
+
+            return new DataView(table) { Sort = "Code" };
+        }
+
         private static string GetServerData(string url, string body = "")
         {
             try
             {
-                var hasuraKey = WebConfigurationManager.AppSettings["HasuraKey"];
+                var hasuraKey = config["HasuraKey"];
 
                 var client = new HttpClient();
                 var request = string.IsNullOrEmpty(body) ? new HttpRequestMessage(HttpMethod.Get, url) : new HttpRequestMessage(HttpMethod.Post, url);

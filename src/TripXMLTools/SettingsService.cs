@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Reflection;
-using System.Web.Configuration;
 using System.Xml.Serialization;
 
 namespace TripXMLTools
@@ -22,12 +21,12 @@ namespace TripXMLTools
                 if(Authorize(headers))
                 {
 
-                    foreach ( var key in WebConfigurationManager.AppSettings.AllKeys )
+                    foreach ( var key in TripXMLMain.modCore.config.AllKeys )
                     {
                         settings.Setting.Add(new Setting
                         {
                             Key= key,
-                            Value= WebConfigurationManager.AppSettings[key]
+                            Value= TripXMLMain.modCore.config[key]
                         });
                     }
                 }
