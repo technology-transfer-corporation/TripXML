@@ -37,13 +37,13 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvailOut
         public DirectBill DirectBill;
 
         // <remarks/>
-        public Voucher Voucher;
+        public wmHotelAvail.Voucher Voucher;
 
         // <remarks/>
-        public LoyaltyRedemption LoyaltyRedemption;
+        public wmHotelAvail.LoyaltyRedemption LoyaltyRedemption;
 
         // <remarks/>
-        public MiscChargeOrder MiscChargeOrder;
+        public wmHotelAvail.MiscChargeOrder MiscChargeOrder;
 
         // <remarks/>
         [XmlAttribute()]
@@ -880,10 +880,10 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvailOut
         public VendorMessage[] VendorMessages;
 
         // <remarks/>
-        public Position Position;
+        public wsTripXML.Code.Position Position;
 
         // <remarks/>
-        public Address Address;
+        public wmHotelAvail.Address Address;
 
         // <remarks/>
         [XmlArrayItem(IsNullable = false)]
@@ -901,7 +901,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvailOut
         public HotelAmenity[] HotelAmenity;
 
         // <remarks/>
-        public TPA_Extensions TPA_Extensions;
+        public wmHotelAvail.TPA_Extensions TPA_Extensions;
 
         // <remarks/>
         [XmlAttribute()]
@@ -2260,13 +2260,13 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvailOut
         public DirectBill DirectBill;
 
         // <remarks/>
-        public Voucher Voucher;
+        public wmHotelAvail.Voucher Voucher;
 
         // <remarks/>
-        public LoyaltyRedemption LoyaltyRedemption;
+        public wmHotelAvail.LoyaltyRedemption LoyaltyRedemption;
 
         // <remarks/>
-        public MiscChargeOrder MiscChargeOrder;
+        public wmHotelAvail.MiscChargeOrder MiscChargeOrder;
 
         // <remarks/>
         [XmlAttribute()]

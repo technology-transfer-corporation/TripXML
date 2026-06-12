@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Diagnostics;
 using System.Text;
-using System.Web.Services;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.VisualBasic.CompilerServices;
@@ -12,10 +11,7 @@ using static TripXMLTools.TripXMLLoad;
 
 namespace wsTripXML.wsTravelTalk
 {
-
-    [System.Web.Services.Protocols.SoapDocumentService(RoutingStyle = System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement)]
-    [WebService(Namespace = "http://tripxml.downtowntravel.com/tripxml/wsLowFarePlus", Name = "wsLowFarePlus", Description = "A TripXML Web Service to Process Low Fare Plus Messages Request.")]
-    public class wsLowFarePlus : WebService
+    public partial class wsLowFarePlus
     {
 
         private string mstrResponse = "";
@@ -30,45 +26,12 @@ namespace wsTripXML.wsTravelTalk
         public TripXML tXML;
 
 
-        #region  Web Services Designer Generated Code 
+        private readonly modMain _modMain;
 
-        public wsLowFarePlus() : base()
+        public wsLowFarePlus(modMain modMain)
         {
-
-            // This call is required by the Web Services Designer.
-            InitializeComponent();
-
-            // Add your own initialization code after the InitializeComponent() call
-
+            _modMain = modMain;
         }
-
-        // Required by the Web Services Designer
-        private System.ComponentModel.IContainer components;
-
-        // NOTE: The following procedure is required by the Web Services Designer
-        // It can be modified using the Web Services Designer.  
-        // Do not modify it using the code editor.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            // CODEGEN: This procedure is required by the Web Services Designer
-            // Do not modify it using the code editor.
-            if (disposing)
-            {
-                if (components is not null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
 
         #region  Decode Functions 
 
@@ -401,9 +364,8 @@ namespace wsTripXML.wsTravelTalk
             try
             {
                 StartTime = DateTime.Now;
-                var argoApp = Application;
-                modMain.PreServiceRequestPool(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
-                ValidateXSDOut = Conversions.ToBoolean(Application.Get($"XSD{ttCredential.UserID}Out"));
+                _modMain.PreServiceRequestPool(ref strRequest, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
+                ValidateXSDOut = Conversions.ToBoolean(TripXMLMain.AppState.Get($"XSD{ttCredential.UserID}Out"));
                 // strRequest= "<?xml version="1.0" encoding="utf-16"?><OTA_AirLowFareSearchPlusRQ><POS><Source PseudoCityCode="MIA1S21AV"><RequestorID Type="21" ID="Thomalex" /></Source><TPA_Extensions><Provider><Name>Amadeus</Name><System>Test</System><Userid>Thomalex</Userid><Password>thefalls</Password></Provider></TPA_Extensions></POS><OriginDestinationInformation><DepartureDateTime>2010-03-04T00:00:00</DepartureDateTime><OriginLocation LocationCode="ATL" /><DestinationLocation LocationCode="MIA" /></OriginDestinationInformation><TravelerInfoSummary><SeatsRequested>1</SeatsRequested><FaringPreferences><FaringPreference PseudoCityCode="ATL1S2157"><TravelPreferences><VendorPref Code="DL" PreferLevel="Preferred"/><VendorPref Code="UA" PreferLevel="Preferred"/><CabinPref PreferLevel="Preferred" Cabin="Economy"/></TravelPreferences><AirTravelerAvail><PassengerTypeQuantity Code="JCB" Quantity="1"/></AirTravelerAvail><PriceRequestInformation PricingSource="Private"/></FaringPreference><FaringPreference PseudoCityCode="ATL1S2157"><TravelPreferences><VendorPref Code="AA" PreferLevel </AirTravelerAvail><PriceRequestInformation PricingSource="Published"/></FaringPreference><FaringPreference PseudoCityCode="NYC1S218Z"><TravelPreferences><VendorPref Code="AA" PreferLevel="Preferred"/><CabinPref PreferLevel="Preferred" Cabin="Business"/></TravelPreferences><AirTravelerAvail><PassengerTypeQuantity Code="JCB" Quantity="1"/></AirTravelerAvail><PriceRequestInformation PricingSource="Private"/></FaringPreference></FaringPreferences></TravelerInfoSummary></OTA_AirLowFareSearchPlusRQ>"
 
                 {
@@ -418,10 +380,10 @@ namespace wsTripXML.wsTravelTalk
                                     try
                                     {
                                         // Dim ttAA As AmadeusAPIAdapter
-                                        // ttAA = Application.Get($"API{.UserID}{.System}{.Providers(i).PCC}")
+                                        // ttAA = TripXMLMain.AppState.Get($"API{.UserID}{.System}{.Providers(i).PCC}")
                                         // 'If ttAA Is Nothing Then
                                         // Dim ekbpPCC As String = .Providers(i).PCC.Replace("*", "")
-                                        // ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ekbpPCC).ToString())
+                                        // ttProviderSystems = TripXMLMain.AppState.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ekbpPCC).ToString())
                                         // sb.Remove(0, sb.Length())
 
                                         if (ttProviderSystems.AmadeusWS == false)
@@ -528,7 +490,7 @@ namespace wsTripXML.wsTravelTalk
                                         var oSabre = new cServiceSabre();
                                         oSabre.GotResponse += GotResponse;
                                         DataView ttCities;
-                                        ttCities = (DataView)Application.Get("ttCities");
+                                        ttCities = (DataView)TripXMLMain.AppState.Get("ttCities");
 
                                         {
                                             ref var withBlock3 = ref oSabre;
@@ -573,7 +535,7 @@ namespace wsTripXML.wsTravelTalk
                                         oWorldspan.GotResponse += GotResponse;
 
                                         DataView ttCities;
-                                        ttCities = (DataView)Application.Get("ttCities");
+                                        ttCities = (DataView)TripXMLMain.AppState.Get("ttCities");
 
                                         {
                                             ref var withBlock4 = ref oWorldspan;
@@ -655,7 +617,7 @@ namespace wsTripXML.wsTravelTalk
                     // Filter Flights
                     if (ttProviderSystems.AggFilter == true)
                     {
-                        FilterFlights(ref strResponse, Conversions.ToString(Application.Get($"ttFP{ttCredential.UserID}")));
+                        FilterFlights(ref strResponse, Conversions.ToString(TripXMLMain.AppState.Get($"ttFP{ttCredential.UserID}")));
                     }
                 }
                 else
@@ -710,8 +672,8 @@ namespace wsTripXML.wsTravelTalk
             }
             finally
             {
-                modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
-                modMain.LogDeals(ref strRequest, ref strResponse);
+                _modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
+                _modMain.LogDeals(ref strRequest, ref strResponse);
                 if (modCore.Trace)
                 {
                     if (strResponse.Length > 2999)
@@ -732,10 +694,6 @@ namespace wsTripXML.wsTravelTalk
         #endregion
 
         #region  Web Methods 
-
-        [CompressionExtension.CompressionExtension()]
-        [WebMethod(Description = "Process Low Fare Messages Request.")]
-        [System.Web.Services.Protocols.SoapHeader("tXML")]
         public wmLowFarePlusOut.OTA_AirLowFareSearchPlusRS wmLowFarePlus(wmLowFarePlusIn.OTA_AirLowFareSearchPlusRQ OTA_AirLowFareSearchPlusRQ)
         {
             var oSerializer = new XmlSerializer(typeof(wmLowFarePlusIn.OTA_AirLowFareSearchPlusRQ));
@@ -764,8 +722,6 @@ namespace wsTripXML.wsTravelTalk
             return oLowFarePlusRS;
 
         }
-
-        [WebMethod(Description = "Process Low Fare Plus Xml Messages Request.")]
         public string wmLowFarePlusXml(string xmlRequest)
         {
             return ServiceRequest(xmlRequest, ttServices.LowFarePlus);

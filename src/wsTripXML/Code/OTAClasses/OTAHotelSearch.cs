@@ -1,59 +1,10 @@
-﻿
+
 using System.Xml.Serialization;
 
 namespace wsTripXML.wsTravelTalk.wmHotelSearch
 {
 
-    // <remarks/>
-    [XmlRoot(IsNullable = false)]
-    public class Source
-    {
-
-        // <remarks/>
-        public RequestorID RequestorID;
-
-        // <remarks/>
-        public Position Position;
-
-        // <remarks/>
-        public BookingChannel BookingChannel;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string AgentSine;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string PseudoCityCode;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string ISOCountry;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string ISOCurrency;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string AgentDutyCode;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string AirlineVendorID;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string AirportCode;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string FirstDepartPoint;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string ERSP_UserID;
-    }
+    // local Source removed: subset of shared wsTripXML.Code.Source (XML type-name collision in one serializer scope); references re-pointed to wsTripXML.Code.Source
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
@@ -61,7 +12,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelSearch
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]
@@ -84,23 +35,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelSearch
         public string ID_Context;
     }
 
-    // <remarks/>
-    [XmlRoot(IsNullable = false)]
-    public class Position
-    {
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string Latitude;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string Longitude;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string Altitude;
-    }
+    // local Position removed: identical to shared wsTripXML.Code.Position (XML type-name collision in one serializer scope)
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
@@ -108,7 +43,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelSearch
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute()]
@@ -123,31 +58,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelSearch
         public bool PrimarySpecified;
     }
 
-    // <remarks/>
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string CompanyShortName;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string TravelSector;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string Code;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string CodeContext;
-
-        // <remarks/>
-        [XmlText()]
-        public string Value;
-    }
+    // local CompanyName removed: identical to shared wsTripXML.Code.CompanyName (XML type-name collision in one serializer scope)
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
@@ -291,7 +202,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelSearch
     {
 
         // <remarks/>
-        public Position Position;
+        public wsTripXML.Code.Position Position;
 
         // <remarks/>
         public Address Address;

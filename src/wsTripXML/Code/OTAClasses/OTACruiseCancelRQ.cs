@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Xml.Serialization;
 using wsTripXML.wsTravelTalk.wmCruiseCancel;
 
@@ -191,7 +191,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseCancelIn
     public class BookingChannel
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string Type;

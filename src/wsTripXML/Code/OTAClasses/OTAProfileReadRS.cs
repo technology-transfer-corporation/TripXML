@@ -104,7 +104,7 @@ namespace wsTripXML.wsTravelTalk.wmProfileReadOut
 
     // <remarks/>
     [XmlType()]
-    public class ErrorType : FreeTextType
+    public class ErrorType : wmProfileCommon.FreeTextType
     {
 
         // <remarks/>
@@ -142,7 +142,7 @@ namespace wsTripXML.wsTravelTalk.wmProfileReadOut
 
     // <remarks/>
     [XmlType()]
-    public class WarningType : FreeTextType
+    public class WarningType : wmProfileCommon.FreeTextType
     {
 
         // <remarks/>

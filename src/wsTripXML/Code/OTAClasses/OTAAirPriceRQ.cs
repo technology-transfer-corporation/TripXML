@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Xml.Serialization;
 
 namespace wsTripXML.wsTravelTalk.wmAirPriceIn
@@ -176,7 +176,7 @@ namespace wsTripXML.wsTravelTalk.wmAirPriceIn
     public class UniqueID
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute(DataType = "anyURI")]
         public string URL;
@@ -194,25 +194,7 @@ namespace wsTripXML.wsTravelTalk.wmAirPriceIn
         public string ID_Context;
     }
 
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
-
-        [XmlAttribute()]
-        public string CompanyShortName;
-
-        [XmlAttribute()]
-        public string TravelSector;
-
-        [XmlAttribute()]
-        public string Code;
-
-        [XmlAttribute()]
-        public string CodeContext;
-
-        [XmlText()]
-        public string Value;
-    }
+    // local CompanyName removed: identical to shared wsTripXML.Code.CompanyName (XML type-name collision in one serializer scope)
 
     [XmlRoot(IsNullable = false)]
     public class PersonName
@@ -606,7 +588,7 @@ namespace wsTripXML.wsTravelTalk.wmAirPriceIn
     public class BookingChannel
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string Type;

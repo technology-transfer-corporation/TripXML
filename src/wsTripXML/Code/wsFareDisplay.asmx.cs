@@ -1,64 +1,23 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Text;
-using System.Web.Services;
-using System.Web.Services.Protocols;
 using System.Xml.Serialization;
-using CompressionExtension;
 using Microsoft.VisualBasic.CompilerServices;
 using TripXMLMain;
 using static TripXMLMain.modCore;
 
 namespace wsTripXML.wsTravelTalk
 {
-
-    [SoapDocumentService(RoutingStyle = SoapServiceRoutingStyle.RequestElement)]
-    [WebService(Namespace = "http://tripxml.downtowntravel.com/tripxml/wsFareDisplay", Name = "wsFareDisplay", Description = "A TripXML Web Service to Process Air Fare Display Messages Request.")]
-
-
-    public class wsFareDisplay : WebService
+    public partial class wsFareDisplay
     {
         public TripXML tXML;
 
-        #region  Web Services Designer Generated Code 
+        private readonly modMain _modMain;
 
-        public wsFareDisplay() : base()
+        public wsFareDisplay(modMain modMain)
         {
-
-            // This call is required by the Web Services Designer.
-            InitializeComponent();
-
-            // Add your own initialization code after the InitializeComponent() call
-
+            _modMain = modMain;
         }
-
-        // Required by the Web Services Designer
-        private System.ComponentModel.IContainer components;
-
-        // NOTE: The following procedure is required by the Web Services Designer
-        // It can be modified using the Web Services Designer.  
-        // Do not modify it using the code editor.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            // CODEGEN: This procedure is required by the Web Services Designer
-            // Do not modify it using the code editor.
-            if (disposing)
-            {
-                if (components is not null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
 
         #region  Decode Functions 
 
@@ -79,10 +38,8 @@ namespace wsTripXML.wsTravelTalk
             try
             {
                 StartTime = DateTime.Now;
-
-                var argoApp = Application;
-                modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
-                ValidateXSDOut = Conversions.ToBoolean(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
+                _modMain.PreServiceRequest(ref strRequest, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
+                ValidateXSDOut = Conversions.ToBoolean(TripXMLMain.AppState.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
                 sb.Remove(0, sb.Length);
 
                 switch (ttCredential.Providers[0].Name ?? "")
@@ -93,7 +50,7 @@ namespace wsTripXML.wsTravelTalk
                         }
                     // Dim ttAA As AmadeusAPIAdapter
 
-                    // ttAA = Application.Get(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
+                    // ttAA = TripXMLMain.AppState.Get(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
                     // sb.Remove(0, sb.Length())
                     // If ttAA Is Nothing Then
                     // Throw New Exception(sb.Append("Access denied to Amadeus - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString())
@@ -105,7 +62,7 @@ namespace wsTripXML.wsTravelTalk
                     // End If
 
                     // strResponse = SendAirRequestAmadeus(ttServiceID, ttCredential, ttAA, strRequest)
-                    // Application.Set(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).ToString(), ttAA)
+                    // TripXMLMain.AppState.Set(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).ToString(), ttAA)
                     // sb.Remove(0, sb.Length())
 
                     case "AmadeusWS":
@@ -126,7 +83,7 @@ namespace wsTripXML.wsTravelTalk
                     case "Sabre":
                         {
 
-                            // ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
+                            // ttProviderSystems = TripXMLMain.AppState.Get(sb.Append("PS").Append(ttCredential.Providers(0).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
                             // sb.Remove(0, sb.Length())
                             if (ttProviderSystems.System is null)
                             {
@@ -171,7 +128,7 @@ namespace wsTripXML.wsTravelTalk
             }
             finally
             {
-                modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
+                _modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsFareDisplay", "============= OTA Response ============= ", strResponse, UUID);
             }
@@ -183,10 +140,6 @@ namespace wsTripXML.wsTravelTalk
         #endregion
 
         #region  Web Methods 
-
-        [CompressionExtension()]
-        [WebMethod(Description = "Process Air Fare Display Messages Request.")]
-        [SoapHeader("tXML")]
         public wmFareDisplayOut.OTA_AirFareDisplayRS wmFareDisplay(wmFareDisplayIn.OTA_AirFareDisplayRQ OTA_AirFareDisplayRQ)
         {
             string xmlMessage = "";
@@ -218,8 +171,6 @@ namespace wsTripXML.wsTravelTalk
             return oFareDisplayRS;
 
         }
-
-        [WebMethod(Description = "Process Air Fare Display Xml Messages Request.")]
         public string wmFareDisplayXml(string xmlRequest)
         {
             return ServiceRequest(xmlRequest, ttServices.FareDisplay);

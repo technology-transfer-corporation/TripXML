@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using static System.IO.File;
 using System.Text;
 using System.Threading;
-using System.Web.Services;
 using System.Xml;
 using Microsoft.VisualBasic;
 using TripXMLMain;
@@ -11,74 +10,30 @@ using TripXMLMain;
 
 namespace wsTripXML.wsTravelTalk
 {
-
-
-    [WebService(Namespace = "http://tripxml.downtowntravel.com/tripxml/wsImportLog", Name = "wsImportLog", Description = "A TripXML Web Service to Import Log from Log File.")]
-
-
-    public class wsImportLog : WebService
+    public partial class wsImportLog
     {
 
-        #region  Web Services Designer Generated Code 
+        private readonly modMain _modMain;
 
-        public wsImportLog() : base()
+        public wsImportLog(modMain modMain)
         {
-
-            // This call is required by the Web Services Designer.
-            InitializeComponent();
-
-            // Add your own initialization code after the InitializeComponent() call
-
+            _modMain = modMain;
         }
-
-        // Required by the Web Services Designer
-        private System.ComponentModel.IContainer components;
-
-        // NOTE: The following procedure is required by the Web Services Designer
-        // It can be modified using the Web Services Designer.  
-        // Do not modify it using the code editor.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            // CODEGEN: This procedure is required by the Web Services Designer
-            // Do not modify it using the code editor.
-            if (disposing)
-            {
-                if (components is not null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
         private StringBuilder sb = new StringBuilder();
 
         private void ImportLog()
         {
-            cLog oLog = null;
-
             try
             {
-
-                oLog = new cLog();
-
-                oLog.ImportLog();
+                // cLog.ImportLog() was left commented out (half-refactored VB FileSystem code)
+                // by the VB->C# conversion; this admin endpoint is not deployed in production.
+                // Restore once cLog.ImportLog is finished.
+                CoreLib.SendTrace("", "wsImportLog", "ImportLog is not available in this build (cLog.ImportLog pending port).", "", string.Empty);
             }
 
             catch (Exception ex)
             {
                 CoreLib.SendTrace("", "wsImportLog", "Error Importing Log.", ex.Message, string.Empty);
-            }
-            finally
-            {
-
             }
         }
 
@@ -186,8 +141,6 @@ namespace wsTripXML.wsTravelTalk
             }
             sb = null;
         }
-
-        [WebMethod(Description = "Import Log from Log File. Progress is sent to the Trace.")]
         public string wmImportLog()
         {
 
@@ -207,8 +160,6 @@ namespace wsTripXML.wsTravelTalk
             }
             sb = null;
         }
-
-        [WebMethod(Description = "View the first 200 errors Log from Log File.")]
         public string wmViewErrorLog()
         {
 

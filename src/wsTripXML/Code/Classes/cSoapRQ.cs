@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.ServiceModel.Channels;
 using System.Threading.Tasks;
 using System.Xml;
 using CoreWCF;

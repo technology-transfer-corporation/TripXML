@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Text;
-using System.Web.Services;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.VisualBasic.CompilerServices;
@@ -11,51 +10,15 @@ using TripXMLTools;
 
 namespace wsTripXML.wsTravelTalk
 {
-
-
-    [WebService(Namespace = "http://tripxml.downtowntravel.com/tripxml/wsHotelModify", Name = "wsHotelModify", Description = "A TripXML Web Service to Process Hotel Modify Messages Request.")]
-    public class wsHotelModify : WebService
+    public partial class wsHotelModify
     {
 
-        #region  Web Services Designer Generated Code 
+        private readonly modMain _modMain;
 
-        public wsHotelModify() : base()
+        public wsHotelModify(modMain modMain)
         {
-
-            // This call is required by the Web Services Designer.
-            InitializeComponent();
-
-            // Add your own initialization code after the InitializeComponent() call
-
+            _modMain = modMain;
         }
-
-        // Required by the Web Services Designer
-        private System.ComponentModel.IContainer components;
-
-        // NOTE: The following procedure is required by the Web Services Designer
-        // It can be modified using the Web Services Designer.  
-        // Do not modify it using the code editor.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            // CODEGEN: This procedure is required by the Web Services Designer
-            // Do not modify it using the code editor.
-            if (disposing)
-            {
-                if (components is not null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
 
         #region  Decode Function 
 
@@ -66,8 +29,8 @@ namespace wsTripXML.wsTravelTalk
                 var oDoc = new XmlDocument();
                 oDoc.LoadXml(strResponse);
 
-                // Dim ttAirports As DataView = CType(Application.Get("ttAirports"), DataView)
-                // Dim ttAirlines As DataView = CType(Application.Get("ttAirlines"), DataView)
+                // Dim ttAirports As DataView = CType(TripXMLMain.AppState.Get("ttAirports"), DataView)
+                // Dim ttAirlines As DataView = CType(TripXMLMain.AppState.Get("ttAirlines"), DataView)
 
                 var oRoot = oDoc.DocumentElement;
                 foreach (XmlNode oNode in oRoot.SelectNodes("TravelItinerary/ItineraryInfo/ReservationItems/Item/Air"))
@@ -129,10 +92,8 @@ namespace wsTripXML.wsTravelTalk
             try
             {
                 StartTime = DateTime.Now;
-
-                var argoApp = Application;
-                modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
-                ValidateXSDOut = Conversions.ToBoolean(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
+                _modMain.PreServiceRequest(ref strRequest, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
+                ValidateXSDOut = Conversions.ToBoolean(TripXMLMain.AppState.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
                 sb.Remove(0, sb.Length);
 
                 // Case "OutriggerR"
@@ -165,7 +126,7 @@ namespace wsTripXML.wsTravelTalk
             }
             finally
             {
-                modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
+                _modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsHotelModify", "============= OTA Response ============= ", strResponse, ttProviderSystems.LogUUID);
             }
@@ -177,8 +138,6 @@ namespace wsTripXML.wsTravelTalk
         #endregion
 
         #region  Web Methods 
-
-        [WebMethod(Description = "Process Hotel Modify Messages Request.")]
         public wmTravelItineraryOut.OTA_TravelItineraryRS wmHotelModify(wmHotelModifyIn.OTA_HotelResModifyRQ OTA_HotelResModifyRQ)
         {
             string xmlMessage = "";
@@ -210,8 +169,6 @@ namespace wsTripXML.wsTravelTalk
             return oTravelBuildRS;
 
         }
-
-        [WebMethod(Description = "Process Hotel Modify Xml Messages Request.")]
         public string wmHotelModifyXml(string xmlRequest)
         {
             return ServiceRequest(xmlRequest, ttServices.HotelModify);

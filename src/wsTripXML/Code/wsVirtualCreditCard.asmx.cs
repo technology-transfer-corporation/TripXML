@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Text;
-using System.Web.Services;
 using System.Xml.Serialization;
 using Microsoft.VisualBasic.CompilerServices;
 using TripXML.Core.Enums;
@@ -14,51 +13,16 @@ using wsTripXML.wsTravelTalk.wmCancelVirtualCardLoad;
 
 namespace wsTripXML.wsTravelTalk
 {
-    [System.Web.Services.Protocols.SoapDocumentService(RoutingStyle = System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement)]
-    [WebService(Namespace = "http://tripxml.downtowntravel.com/wsVirtualCreditCard", Name = "wsVirtualCreditCard", Description = "A TripXML Web Service to Process Virtual Card Requests.")]
-    public class wsVirtualCreditCard : WebService
+    public partial class wsVirtualCreditCard
     {
         public TripXML tXML;
 
-        #region  Web Services Designer Generated Code 
+        private readonly modMain _modMain;
 
-        public wsVirtualCreditCard() : base()
+        public wsVirtualCreditCard(modMain modMain)
         {
-
-            // This call is required by the Web Services Designer.
-            InitializeComponent();
-
-            // Add your own initialization code after the InitializeComponent() call
-
+            _modMain = modMain;
         }
-
-        // Required by the Web Services Designer
-        private System.ComponentModel.IContainer components;
-
-        // NOTE: The following procedure is required by the Web Services Designer
-        // It can be modified using the Web Services Designer.  
-        // Do not modify it using the code editor.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            // CODEGEN: This procedure is required by the Web Services Designer
-            // Do not modify it using the code editor.
-            if (disposing)
-            {
-                if (components is not null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
 
         #region  Process Service Request All GDS 
         private StringBuilder sb = new StringBuilder();
@@ -77,8 +41,7 @@ namespace wsTripXML.wsTravelTalk
             {
                 startTime = DateTime.Now;
                 string strRequest = SerializeRequest(request);
-                var argoApp = Application;
-                modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, startTime, (int)ttServiceID, Server.MachineName, ref uuid);
+                _modMain.PreServiceRequest(ref strRequest, ref ttCredential, ref ttProviderSystems, startTime, (int)ttServiceID, Environment.MachineName, ref uuid);
                 switch (request.BankSource)
                 {
                     case VirtualCardSourceType.ConnexPay:
@@ -107,8 +70,7 @@ namespace wsTripXML.wsTravelTalk
                                 default:
                                     {
                                         TripXMLProviderSystems ttDefProvider = default;
-                                        var argoApp1 = Application;
-                                        modMain.PreServiceRequest(ref strRequest, ref argoApp1, ref ttCredential, ref ttDefProvider, startTime, (int)ttServiceID, Server.MachineName, ref uuid, "", true);
+                                        _modMain.PreServiceRequest(ref strRequest, ref ttCredential, ref ttDefProvider, startTime, (int)ttServiceID, Environment.MachineName, ref uuid, "", true);
 
                                         strResponse = modMain.SendPaymentRequestAmadeusWS(ttServiceID, ref ttCredential, ref ttDefProvider, ref strRequest);
                                         responseObj = TripXMLSerializer.Deserialize<T>(strResponse);
@@ -119,7 +81,7 @@ namespace wsTripXML.wsTravelTalk
                             break;
                         }
                 }
-                validateXSDOut = Conversions.ToBoolean(Application.Get($"XSD{ttCredential.UserID}Out"));
+                validateXSDOut = Conversions.ToBoolean(TripXMLMain.AppState.Get($"XSD{ttCredential.UserID}Out"));
                 modMain.PostServiceRequest(ref strResponse, validateXSDOut, (int)ttServiceID, ttCredential.UserID);
             }
             catch (Exception ex)
@@ -128,7 +90,7 @@ namespace wsTripXML.wsTravelTalk
             }
             finally
             {
-                modMain.LogResponse(ref strResponse, ref ttCredential, startTime, (int)ttServiceID, Server.MachineName, ref uuid);
+                _modMain.LogResponse(ref strResponse, ref ttCredential, startTime, (int)ttServiceID, Environment.MachineName, ref uuid);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsGenerateVirtualCard", "============= OTA Response ============= ", strResponse, uuid);
             }
@@ -139,10 +101,6 @@ namespace wsTripXML.wsTravelTalk
         #endregion
 
         #region  Web Methods 
-
-        [CompressionExtension.CompressionExtension]
-        [WebMethod(Description = "Process Generate Virtual Card Messages Request.")]
-        [System.Web.Services.Protocols.SoapHeader("tXML")]
         public PAY_GenerateVirtualCardRS GenerateVirtualCard(PAY_GenerateVirtualCardRQ PAY_GenerateVirtualCardRQ)
         {
             PAY_GenerateVirtualCardRS oVCCRS = null;
@@ -156,10 +114,6 @@ namespace wsTripXML.wsTravelTalk
             }
             return oVCCRS;
         }
-
-        [CompressionExtension.CompressionExtension]
-        [WebMethod(Description = "Process Cancel Virtual Card Load Messages Request.")]
-        [System.Web.Services.Protocols.SoapHeader("tXML")]
         public PAY_CancelVirtualCardLoadRS CancelVirtualCardLoad(PAY_CancelVirtualCardLoadRQ PAY_CancelVirtualCardLoadRQ)
         {
             PAY_CancelVirtualCardLoadRS oVCCRS = null;
@@ -176,10 +130,6 @@ namespace wsTripXML.wsTravelTalk
             return oVCCRS;
 
         }
-
-        [CompressionExtension.CompressionExtension]
-        [WebMethod(Description = "Process Delete Virtual Card Messages Request.")]
-        [System.Web.Services.Protocols.SoapHeader("tXML")]
         public PAY_DeleteVirtualCardRS DeleteVirtualCard(PAY_DeleteVirtualCardRQ PAY_DeleteVirtualCardRQ)
         {
             PAY_DeleteVirtualCardRS oVCCRS = null;
@@ -196,10 +146,6 @@ namespace wsTripXML.wsTravelTalk
             return oVCCRS;
 
         }
-
-        [CompressionExtension.CompressionExtension]
-        [WebMethod(Description = "Process Detail Virtual Card Messages Request.")]
-        [System.Web.Services.Protocols.SoapHeader("tXML")]
         public PAY_GetVirtualCardDetailsRS GetVirtualCardDetails(PAY_GetVirtualCardDetailsRQ PAY_GetVirtualCardDetailsRQ)
         {
             PAY_GetVirtualCardDetailsRS oVCCRS = null;
@@ -217,10 +163,6 @@ namespace wsTripXML.wsTravelTalk
             return oVCCRS;
 
         }
-
-        [CompressionExtension.CompressionExtension]
-        [WebMethod(Description = "Process List Virtual Credit Cards Request.")]
-        [System.Web.Services.Protocols.SoapHeader("tXML")]
         public PAY_ListVirtualCardsRS ListVirtualCards(PAY_ListVirtualCardsRQ PAY_ListVirtualCardsRQ)
         {
             PAY_ListVirtualCardsRS oVCCRS = null;

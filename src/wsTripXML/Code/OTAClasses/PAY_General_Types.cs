@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Xml.Serialization;
 
@@ -31465,7 +31465,7 @@ namespace wsTripXML.wsTravelTalk.VirtualCreditCard
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]
@@ -31506,31 +31506,7 @@ namespace wsTripXML.wsTravelTalk.VirtualCreditCard
         public string Altitude;
     }
 
-    // <remarks/>
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string CompanyShortName;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string TravelSector;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string Code;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string CodeContext;
-
-        // <remarks/>
-        [XmlText()]
-        public string Value;
-    }
+    // local CompanyName removed: identical to shared wsTripXML.Code.CompanyName (XML type-name collision in one serializer scope)
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
@@ -31538,7 +31514,7 @@ namespace wsTripXML.wsTravelTalk.VirtualCreditCard
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute()]

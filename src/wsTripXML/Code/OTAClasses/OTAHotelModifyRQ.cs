@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Xml.Serialization;
 
 
@@ -162,31 +162,13 @@ namespace wsTripXML.wsTravelTalk.wmHotelModifyIn
         public string SeriesCode;
     }
 
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
-
-        [XmlAttribute()]
-        public string CompanyShortName;
-
-        [XmlAttribute()]
-        public string TravelSector;
-
-        [XmlAttribute()]
-        public string Code;
-
-        [XmlAttribute()]
-        public string CodeContext;
-
-        [XmlText()]
-        public string Value;
-    }
+    // local CompanyName removed: identical to shared wsTripXML.Code.CompanyName (XML type-name collision in one serializer scope)
 
     [XmlRoot(IsNullable = false)]
     public class DirectBill
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         public Address Address;
 
@@ -1373,7 +1355,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelModifyIn
     public class Employer
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlElement("RelatedEmployer")]
         public RelatedEmployer[] RelatedEmployer;
@@ -2862,7 +2844,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelModifyIn
         [XmlArrayItem(typeof(VendorMessage), IsNullable = false)]
         public VendorMessage[] VendorMessages;
 
-        public Position Position;
+        public wsTripXML.Code.Position Position;
 
         public Address Address;
 
@@ -2983,19 +2965,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelModifyIn
         public string Language;
     }
 
-    [XmlRoot(IsNullable = false)]
-    public class Position
-    {
-
-        [XmlAttribute()]
-        public string Latitude;
-
-        [XmlAttribute()]
-        public string Longitude;
-
-        [XmlAttribute()]
-        public string Altitude;
-    }
+    // local Position removed: identical to shared wsTripXML.Code.Position (XML type-name collision in one serializer scope)
 
     [XmlRoot(IsNullable = false)]
     public class ContactNumber
@@ -3212,7 +3182,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelModifyIn
     public class BookingChannel
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string Type;
@@ -3570,7 +3540,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelModifyIn
     public class UniqueIDRQ
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute(DataType = "anyURI")]
         public string URL;
@@ -4046,7 +4016,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelModifyIn
     {
 
         [XmlElement("CompanyNameFull")]
-        public CompanyName[] CompanyName;
+        public Code.CompanyName[] CompanyName;
 
         [XmlElement("AddressInfo")]
         public AddressInfo[] AddressInfo;
@@ -4282,7 +4252,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelModifyIn
         public string[] URL;
 
         [XmlElement("CompanyNameFull")]
-        public CompanyName[] CompanyName;
+        public Code.CompanyName[] CompanyName;
 
         [XmlElement("EmployeeInfo")]
         public EmployeeInfoRQ[] EmployeeInfo;

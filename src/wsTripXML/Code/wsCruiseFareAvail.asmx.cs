@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Diagnostics;
 using System.Text;
-using System.Web.Services;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.VisualBasic.CompilerServices;
@@ -11,51 +10,15 @@ using static TripXMLMain.modCore;
 
 namespace wsTripXML.wsTravelTalk
 {
-
-
-    [WebService(Namespace = "http://tripxml.downtowntravel.com/tripxml/wsCruiseFareAvail", Name = "wsCruiseFareAvail", Description = "A TripXML Web Service to Process Cruise Fare Availibility Messages Request.")]
-    public class wsCruiseFareAvail : WebService
+    public partial class wsCruiseFareAvail
     {
 
-        #region  Web Services Designer Generated Code 
+        private readonly modMain _modMain;
 
-        public wsCruiseFareAvail() : base()
+        public wsCruiseFareAvail(modMain modMain)
         {
-
-            // This call is required by the Web Services Designer.
-            InitializeComponent();
-
-            // Add your own initialization code after the InitializeComponent() call
-
+            _modMain = modMain;
         }
-
-        // Required by the Web Services Designer
-        private System.ComponentModel.IContainer components;
-
-        // NOTE: The following procedure is required by the Web Services Designer
-        // It can be modified using the Web Services Designer.  
-        // Do not modify it using the code editor.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            // CODEGEN: This procedure is required by the Web Services Designer
-            // Do not modify it using the code editor.
-            if (disposing)
-            {
-                if (components is not null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
 
         #region  Decode Function 
         private StringBuilder sb = new StringBuilder();
@@ -82,15 +45,15 @@ namespace wsTripXML.wsTravelTalk
                 oDoc.LoadXml(strResponse);
                 oRoot = oDoc.DocumentElement;
 
-                ttCruiseAdvisory = (DataView)Application.Get("ttCruiseAdvisory");
+                ttCruiseAdvisory = (DataView)TripXMLMain.AppState.Get("ttCruiseAdvisory");
 
                 if (oRoot.SelectSingleNode("Errors") is null)
                 {
 
-                    ttwsCruiseCities = (DataView)Application.Get("ttwsCruiseCities");
-                    ttCruiseRegions = (DataView)Application.Get("ttCruiseRegions");
-                    ttCruiseLines = (DataView)Application.Get("ttCruiseLines");
-                    ttCruiseShips = (DataView)Application.Get("ttCruiseShips");
+                    ttwsCruiseCities = (DataView)TripXMLMain.AppState.Get("ttwsCruiseCities");
+                    ttCruiseRegions = (DataView)TripXMLMain.AppState.Get("ttCruiseRegions");
+                    ttCruiseLines = (DataView)TripXMLMain.AppState.Get("ttCruiseLines");
+                    ttCruiseShips = (DataView)TripXMLMain.AppState.Get("ttCruiseShips");
 
                     oNode = oRoot.SelectSingleNode("SailingInfo");
                     // Departure Date and Duration
@@ -203,12 +166,12 @@ namespace wsTripXML.wsTravelTalk
                 oDoc.LoadXml(strRequest);
                 oRoot = oDoc.DocumentElement;
 
-                ttCruiseLines = (DataView)Application.Get("ttCruiseLines");
-                ttCruiseMot = (DataView)Application.Get("ttCruiseMot");
-                ttCruiseShips = (DataView)Application.Get("ttCruiseShips");
-                ttCruiseProfiles = (DataView)Application.Get("ttCruiseProfiles");
-                ttCruiseCities = (DataView)Application.Get("ttCruiseCities");
-                ttCruiseCurrency = (DataView)Application.Get("ttCruiseCurrency");
+                ttCruiseLines = (DataView)TripXMLMain.AppState.Get("ttCruiseLines");
+                ttCruiseMot = (DataView)TripXMLMain.AppState.Get("ttCruiseMot");
+                ttCruiseShips = (DataView)TripXMLMain.AppState.Get("ttCruiseShips");
+                ttCruiseProfiles = (DataView)TripXMLMain.AppState.Get("ttCruiseProfiles");
+                ttCruiseCities = (DataView)TripXMLMain.AppState.Get("ttCruiseCities");
+                ttCruiseCurrency = (DataView)TripXMLMain.AppState.Get("ttCruiseCurrency");
 
                 // Check Cruise Line Code - Vendor Code
                 oNode = oRoot.SelectSingleNode("SailingInfo/SelectedSailing");
@@ -346,10 +309,8 @@ namespace wsTripXML.wsTravelTalk
             try
             {
                 StartTime = DateTime.Now;
-
-                var argoApp = Application;
-                modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
-                ValidateXSDOut = Conversions.ToBoolean(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
+                _modMain.PreServiceRequest(ref strRequest, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
+                ValidateXSDOut = Conversions.ToBoolean(TripXMLMain.AppState.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
                 sb.Remove(0, sb.Length);
 
                 // Validate Rules for CruiseFareAvail
@@ -363,7 +324,7 @@ namespace wsTripXML.wsTravelTalk
                         }
                     // Dim ttAA As AmadeusAPIAdapter
 
-                    // ttAA = Application.Get(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
+                    // ttAA = TripXMLMain.AppState.Get(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).Append(ttCredential.Providers(0).PCC).ToString())
                     // sb.Remove(0, sb.Length())
                     // If ttAA Is Nothing Then
                     // Throw New Exception(sb.Append("Access denied to Amadeus - ").Append(ttCredential.System).Append(" system. Or invalid provider.").ToString())
@@ -376,7 +337,7 @@ namespace wsTripXML.wsTravelTalk
 
                     // 'Send Reuest
                     // strResponse = SendCruiseRequestAmadeus(ttServiceID, ttCredential, ttAA, strRequest)
-                    // Application.Set(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).ToString(), ttAA)
+                    // TripXMLMain.AppState.Set(sb.Append("API").Append(ttCredential.UserID).Append(ttCredential.System).ToString(), ttAA)
                     // sb.Remove(0, sb.Length())
 
                     case "amadeusws":
@@ -413,7 +374,7 @@ namespace wsTripXML.wsTravelTalk
             }
             finally
             {
-                modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
+                _modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsCruiseFareAvail", "============= OTA Response ============= ", strResponse, UUID);
             }
@@ -425,8 +386,6 @@ namespace wsTripXML.wsTravelTalk
         #endregion
 
         #region  Web Methods 
-
-        [WebMethod(Description = "Process Cruise Fare Availability Messages Request.")]
         public wmCruiseFareAvailOut.OTA_CruiseFareAvailRS wmCruiseFareAvail(wmCruiseFareAvailIn.OTA_CruiseFareAvailRQ OTA_CruiseFareAvailRQ)
         {
             string xmlMessage = "";
@@ -458,8 +417,6 @@ namespace wsTripXML.wsTravelTalk
             return oCruiseFareAvailRS;
 
         }
-
-        [WebMethod(Description = "Process Cruise Fare Availibility Xml Messages Request.")]
         public string wmCruiseFareAvailXml(string xmlRequest)
         {
             return ServiceRequest(xmlRequest, ttServices.CruiseFareAvail);

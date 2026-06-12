@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Xml.Serialization;
 
 namespace wsTripXML.wsTravelTalk.wmAirFlifoIn
@@ -43,7 +43,7 @@ namespace wsTripXML.wsTravelTalk.wmAirFlifoIn
     public class BookingChannel
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string Type;
@@ -55,25 +55,7 @@ namespace wsTripXML.wsTravelTalk.wmAirFlifoIn
         public bool PrimarySpecified;
     }
 
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
-
-        [XmlAttribute()]
-        public string CompanyShortName;
-
-        [XmlAttribute()]
-        public string TravelSector;
-
-        [XmlAttribute()]
-        public string Code;
-
-        [XmlAttribute()]
-        public string CodeContext;
-
-        [XmlText()]
-        public string Value;
-    }
+    // local CompanyName removed: identical to shared wsTripXML.Code.CompanyName (XML type-name collision in one serializer scope)
 
     [XmlRoot(IsNullable = false)]
     public class DepartureAirport

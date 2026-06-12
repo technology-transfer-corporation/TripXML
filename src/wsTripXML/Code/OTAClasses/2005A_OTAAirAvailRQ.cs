@@ -1,4 +1,4 @@
-﻿using System.Xml.Serialization;
+using System.Xml.Serialization;
 
 namespace wsTripXML.wsTravelTalk.wmAirAvail2005AIn
 {
@@ -313,7 +313,7 @@ namespace wsTripXML.wsTravelTalk.wmAirAvail2005AIn
     public class UniqueID
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string URL;
@@ -331,25 +331,9 @@ namespace wsTripXML.wsTravelTalk.wmAirAvail2005AIn
         public string ID_Context;
     }
 
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
-
-        [XmlAttribute()]
-        public string CompanyShortName;
-
-        [XmlAttribute()]
-        public string TravelSector;
-
-        [XmlAttribute()]
-        public string Code;
-
-        [XmlAttribute()]
-        public string CodeContext;
-
-        [XmlText()]
-        public string Value;
-    }
+    // local CompanyName removed: identical in shape to the shared wsTripXML.Code.CompanyName,
+    // and both reachable in one XmlSerializer scope would collide on the XML type name
+    // (the legacy ASMX WSDL also exposes a single CompanyName type)
 
     [XmlRoot(IsNullable = false)]
     public class PersonName
@@ -739,7 +723,7 @@ namespace wsTripXML.wsTravelTalk.wmAirAvail2005AIn
     public class BookingChannel
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string Type;

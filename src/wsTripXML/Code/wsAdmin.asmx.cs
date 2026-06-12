@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Text;
-using System.Web.Services;
 using Microsoft.VisualBasic.CompilerServices;
 using TripXMLMain;
 using static TripXMLMain.modCore;
@@ -12,11 +11,18 @@ namespace wsTripXML.wsTravelTalk
 
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line.
     // <System.Web.Script.Services.ScriptService()> _
-    [WebService(Namespace = "http://tripxml.com/wsAdmin")]
-    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ToolboxItem(false)]
-    public class wsAdmin : WebService
+    public partial class wsAdmin
     {
+        private readonly modMain _modMain;
+        private readonly Microsoft.AspNetCore.Http.IHttpContextAccessor _http;
+
+        public wsAdmin(modMain modMain, Microsoft.AspNetCore.Http.IHttpContextAccessor http)
+        {
+            _modMain = modMain;
+            _http = http;
+        }
+
         private StringBuilder sb = new StringBuilder();
 
         private string ServiceRequest(string strRequest, ttServices ttServiceID)
@@ -31,10 +37,8 @@ namespace wsTripXML.wsTravelTalk
             try
             {
                 StartTime = DateTime.Now;
-
-                var argoApp = Application;
-                modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
-                ValidateXSDOut = Conversions.ToBoolean(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
+                _modMain.PreServiceRequest(ref strRequest, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
+                ValidateXSDOut = Conversions.ToBoolean(TripXMLMain.AppState.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
                 sb.Remove(0, sb.Length);
 
                 switch (ttCredential.Providers[0].Name ?? "")
@@ -111,52 +115,46 @@ namespace wsTripXML.wsTravelTalk
             return strResponse;
             sb = null;
         }
-
-        [WebMethod(Description = "Add a PNR to the Admin by TravelBuild response XML.")]
         public string AddPNRToAdmin(string xmlRequest)
         {
             return ServiceRequest(xmlRequest, ttServices.AddPNRToAdmin);
         }
-
-        [WebMethod(Description = "Add a PNR to the Admin by record locator.")]
         public string AddRecLocToAdmin(string xmlRequest)
         {
             return ServiceRequest(xmlRequest, ttServices.AddRecLocToAdmin);
         }
-
-        [WebMethod(Description = "Add a PNR to the Admin by record locator.")]
         public string AddRecLocToNewAdminOnly(string xmlRequest)
         {
             return ServiceRequest(xmlRequest, ttServices.AddRecLocToNewAdminOnly);
         }
-
-        [WebMethod(Description = "Update Markups.")]
         public string UpdateMarkups(string xmlRequest)
         {
             var markUp = new wsUpdateMarkups();
             return markUp.UpdateMarkups(xmlRequest);
         }
-
-        [WebMethod(Description = "Admin status management.")]
         public string CreateTicketInvoice(string xmlRequest)
         {
             var tktInvoice = new wsCreateTicketInvoice();
             return tktInvoice.CreateTicketInvoice(xmlRequest);
         }
-
-        [WebMethod(Description = "Get Server Settings.")]
         public TripXmlSettings GetServerConfig()
         {
-            return SettingsService.GetAppSettings(Context.Request.Headers);
+            // ASMX Context.Request.Headers was a NameValueCollection; adapt from ASP.NET Core
+            var headers = new System.Collections.Specialized.NameValueCollection();
+            var request = _http.HttpContext?.Request;
+            if (request is not null)
+            {
+                foreach (var h in request.Headers)
+                {
+                    headers[h.Key] = h.Value.ToString();
+                }
+            }
+            return SettingsService.GetAppSettings(headers);
         }
-
-        [WebMethod(Description = "Get Server Version.")]
         public TripXmlVersion GetServerVersion()
         {
             return SettingsService.GetAppVersion();
         }
-
-        [WebMethod(Description = "Update Cached Objects.", MessageName = "UpdateCacheResult")]
         public UpdateCacheResponse UpdateCache()
         {
             return TripXMLLoad.UpdateCachedObjects().Result;

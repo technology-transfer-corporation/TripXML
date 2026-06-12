@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Xml.Serialization;
 using wsTripXML.wsTravelTalk.wmHotelAvail_v03;
 
@@ -234,7 +234,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvailIn_v03
     public class BookingChannel
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string Type;
@@ -410,7 +410,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvailIn_v03
     [XmlRoot(IsNullable = false)]
     public class POS : Code.IPOS
     {
-        public TPA_Extensions TPA_Extensions;
+        public wmHotelAvail_v03.TPA_Extensions TPA_Extensions;
     }
 
     public enum OTA_HotelAvailRQTarget

@@ -2146,7 +2146,9 @@ namespace wsTripXML.wsTravelTalk
             // ✅ GC.Collect() removed
         }
     }
-    public class TripXML : System.Web.Services.Protocols.SoapHeader
+    // Formerly derived from System.Web.Services.Protocols.SoapHeader; the wire shape is
+    // now declared by the generated MessageContracts ([MessageHeader] TripXML members).
+    public class TripXML
     {
 
         public string userName;

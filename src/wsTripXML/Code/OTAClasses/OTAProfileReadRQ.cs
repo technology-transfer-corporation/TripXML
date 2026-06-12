@@ -179,7 +179,9 @@ namespace wsTripXML.wsTravelTalk.wmProfileReadIn
     [XmlRoot(IsNullable = false)]
     public class POS : Code.IPOS
     {
-        public TPA_Extensions TPA_Extensions;
+        // re-pointed from the local wmProfileReadIn.TPA_Extensions to wmProfileCommon.TPA_Extensions:
+        // both map to XML type 'TPA_Extensions' in one serializer scope (OTA_ProfileReadRS pulls in wmProfileCommon)
+        public wmProfileCommon.TPA_Extensions TPA_Extensions;
     }
 
 
@@ -200,12 +202,8 @@ namespace wsTripXML.wsTravelTalk.wmProfileReadIn
         public bool PrimarySpecified;
     }
 
-    [XmlRoot(IsNullable = false)]
-    public class TPA_Extensions : Code.ITPA_Extensions
-    {
-
-        public Provider Provider;
-    }
+    // local TPA_Extensions removed: collided with wmProfileCommon.TPA_Extensions on XML type name 'TPA_Extensions'
+    // in the IwsProfileRead serializer scope; POS now uses wmProfileCommon.TPA_Extensions
 
     [XmlRoot(IsNullable = false)]
     public class Provider

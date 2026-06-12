@@ -1,4 +1,4 @@
-﻿
+
 using System.Xml.Serialization;
 
 namespace wsTripXML.wsTravelTalk.wmHotelInfo
@@ -61,7 +61,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelInfo
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]
@@ -108,7 +108,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelInfo
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute()]
@@ -123,30 +123,6 @@ namespace wsTripXML.wsTravelTalk.wmHotelInfo
         public bool PrimarySpecified;
     }
 
-    // <remarks/>
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string CompanyShortName;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string TravelSector;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string Code;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string CodeContext;
-
-        // <remarks/>
-        [XmlText()]
-        public string Value;
-    }
+    // local CompanyName removed: identical to shared wsTripXML.Code.CompanyName (XML type-name collision in one serializer scope)
 
 }

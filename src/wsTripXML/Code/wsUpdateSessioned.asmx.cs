@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
-using System.Web.Services;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.VisualBasic;
@@ -13,51 +12,15 @@ using static TripXMLTools.TripXMLLoad;
 
 namespace wsTripXML.wsTravelTalk
 {
-
-    [System.Web.Services.Protocols.SoapDocumentService(RoutingStyle = System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement)]
-    [WebService(Namespace = "http://tripxml.downtowntravel.com/tripxml/wsUpdateSessioned", Name = "wsUpdateSessioned", Description = "A TripXML Web Service to Process UpdateSessioned Messages Request.")]
-    public class wsUpdateSessioned : WebService
+    public partial class wsUpdateSessioned
     {
 
-        #region  Web Services Designer Generated Code 
+        private readonly modMain _modMain;
 
-        public wsUpdateSessioned() : base()
+        public wsUpdateSessioned(modMain modMain)
         {
-
-            // This call is required by the Web Services Designer.
-            InitializeComponent();
-
-            // Add your own initialization code after the InitializeComponent() call
-
+            _modMain = modMain;
         }
-
-        // Required by the Web Services Designer
-        private System.ComponentModel.IContainer components;
-
-        // NOTE: The following procedure is required by the Web Services Designer
-        // It can be modified using the Web Services Designer.  
-        // Do not modify it using the code editor.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            // CODEGEN: This procedure is required by the Web Services Designer
-            // Do not modify it using the code editor.
-            if (disposing)
-            {
-                if (components is not null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
 
         #region  Decode Function 
 
@@ -266,10 +229,8 @@ namespace wsTripXML.wsTravelTalk
             try
             {
                 startTime = DateTime.Now;
-
-                var argoApp = Application;
-                modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, startTime, (int)ttServiceID, Server.MachineName, ref uuID);
-                validateXSDOut = Conversions.ToBoolean(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
+                _modMain.PreServiceRequest(ref strRequest, ref ttCredential, ref ttProviderSystems, startTime, (int)ttServiceID, Environment.MachineName, ref uuID);
+                validateXSDOut = Conversions.ToBoolean(TripXMLMain.AppState.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
                 sb.Remove(0, sb.Length);
 
                 {
@@ -317,7 +278,7 @@ namespace wsTripXML.wsTravelTalk
 
                                 // Dim ttDefProvider As New TripXMLProviderSystems()
                                 // Dim sTPRequest As String = CreatePNRRead(strRequest)
-                                // PreServiceRequest(sTPRequest, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Server.MachineName, uuID, "", True)
+                                // PreServiceRequest(sTPRequest, Application, ttCredential, ttDefProvider, startTime, ttServiceID, Environment.MachineName, uuID, "", True)
                                 // strResponse = SendPNRRequestTravelPort(ttServiceID, ttCredential, ttDefProvider, sTPRequest, "v03")
 
                                 strResponse = modMain.SendTravelRequestWorldspan(ttServiceID, ref ttCredential, ref ttProviderSystems, ref strRequest);
@@ -344,7 +305,7 @@ namespace wsTripXML.wsTravelTalk
             }
             finally
             {
-                modMain.LogResponse(ref strResponse, ref ttCredential, startTime, (int)ttServiceID, Server.MachineName, ref uuID);
+                _modMain.LogResponse(ref strResponse, ref ttCredential, startTime, (int)ttServiceID, Environment.MachineName, ref uuID);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsUpdateSessioned", "============= OTA Response ============= ", strResponse, ttProviderSystems.LogUUID);
             }
@@ -356,10 +317,6 @@ namespace wsTripXML.wsTravelTalk
         #endregion
 
         #region  Web Methods 
-
-        [CompressionExtension.CompressionExtension()]
-        [WebMethod(Description = "Process UpdateSessioned Info Messages Request.")]
-        [System.Web.Services.Protocols.SoapHeader("tXML")]
         public wmTravelItineraryOut_v03.OTA_TravelItineraryRS wmUpdateSessioned(wmUpdateSessionedIn.OTA_UpdateSessionedRQ OTA_UpdateSessionedRQ)
         {
             string xmlMessage = string.Empty;
@@ -426,8 +383,6 @@ namespace wsTripXML.wsTravelTalk
             return otaUpdateSessionedRS;
 
         }
-
-        [WebMethod(Description = "Process UpdateSessioned Info Xml Messages Request.")]
         public string wmUpdateSessionedXml(string xmlRequest)
         {
             return ServiceRequest(xmlRequest, ttServices.UpdateSessioned);

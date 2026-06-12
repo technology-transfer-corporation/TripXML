@@ -1,10 +1,8 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web.Services;
-using System.Web.UI.WebControls;
 using System.Xml.Serialization;
 using Microsoft.VisualBasic.CompilerServices;
 using TripXMLMain;
@@ -14,50 +12,15 @@ using wsTripXML.wsTravelTalk.wmShowMileageOut;
 
 namespace wsTripXML.wsTravelTalk
 {
-
-    [WebService(Namespace = "http://tripxml.downtowntravel.com/tripxml/wsShowMileage", Name = "wsShowMileage", Description = "A TripXML Web Service to Process Show Mileage Messages Request.")]
-    public class wsShowMileage : WebService
+    public partial class wsShowMileage
     {
 
-        #region  Web Services Designer Generated Code 
+        private readonly modMain _modMain;
 
-        public wsShowMileage() : base()
+        public wsShowMileage(modMain modMain)
         {
-
-            // This call is required by the Web Services Designer.
-            InitializeComponent();
-
-            // Add your own initialization code after the InitializeComponent() call
-
+            _modMain = modMain;
         }
-
-        // Required by the Web Services Designer
-        private System.ComponentModel.IContainer components;
-
-        // NOTE: The following procedure is required by the Web Services Designer
-        // It can be modified using the Web Services Designer.  
-        // Do not modify it using the code editor.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            // CODEGEN: This procedure is required by the Web Services Designer
-            // Do not modify it using the code editor.
-            if (disposing)
-            {
-                if (components is not null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
 
         #region  Decode Function 
         public enum enMile
@@ -194,10 +157,8 @@ namespace wsTripXML.wsTravelTalk
             try
             {
                 StartTime = DateTime.Now;
-
-                var argoApp = Application;
-                modMain.PreServiceRequest(ref request, ref argoApp, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
-                ValidateXSDOut = Conversions.ToBoolean(Application.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
+                _modMain.PreServiceRequest(ref request, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
+                ValidateXSDOut = Conversions.ToBoolean(TripXMLMain.AppState.Get(sb.Append("XSD").Append(ttCredential.UserID).Append("Out").ToString()));
                 sb.Remove(0, sb.Length);
                 if (request.Contains("OTA_ShowMilesRQ"))
                 {
@@ -208,9 +169,7 @@ namespace wsTripXML.wsTravelTalk
 
                     ttDefProvider.AAAPCC = ttCredential.Providers[0].PCC;
                     ttCredential.Providers[0].PCC = "A5C6";
-
-                    var argoApp1 = Application;
-                    modMain.PreServiceRequest(ref request, ref argoApp1, ref ttCredential, ref ttDefProvider, StartTime, (int)ttServiceID, Server.MachineName, ref UUID, "", true);
+                    _modMain.PreServiceRequest(ref request, ref ttCredential, ref ttDefProvider, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID, "", true);
                     response = modMain.SendOtherRequestSabre(ttServiceID, ref ttCredential, ref ttDefProvider, ref request);
                     ttCredential.Providers[0].PCC = _pcc;
                 }
@@ -263,7 +222,7 @@ namespace wsTripXML.wsTravelTalk
             }
             finally
             {
-                modMain.LogResponse(ref response, ref ttCredential, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
+                _modMain.LogResponse(ref response, ref ttCredential, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsShowMileage", "============= OTA Response ============= ", response, UUID);
             }
@@ -275,8 +234,6 @@ namespace wsTripXML.wsTravelTalk
         #endregion
 
         #region  Web Methods 
-
-        [WebMethod(Description = "Process Show Mileage Messages Request.")]
         public OTA_ShowMileageRS wmShowMileage(wmShowMileageIn.OTA_ShowMileageRQ OTA_ShowMileageRQ)
         {
             OTA_ShowMileageRS oShowMileageRS = null;
@@ -304,8 +261,6 @@ namespace wsTripXML.wsTravelTalk
             return oShowMileageRS;
 
         }
-
-        [WebMethod(Description = "Process Show Universal Mileage Messages Request  regarding GDS.")]
         public OTA_ShowMileageRS wmShowMiles(wmShowMileageIn.OTA_ShowMilesRQ OTA_ShowMilesRQ)
         {
             OTA_ShowMileageRS oShowMileageRS = null;
@@ -388,14 +343,10 @@ namespace wsTripXML.wsTravelTalk
             }
             return string.Empty;
         }
-
-        [WebMethod(Description = "Process Show Mileage Xml Messages Request.")]
         public string wmShowMileageXml(string xmlRequest)
         {
             return ServiceRequest(xmlRequest, ttServices.ShowMileage);
         }
-
-        [WebMethod(Description = "Process Universal Mileage Xml Messages Request.")]
         public string wmShowMilesXml(string xmlRequest)
         {
             return ServiceRequest(xmlRequest, ttServices.ShowMileage);

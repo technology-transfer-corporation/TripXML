@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
-using System.Web.Services;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.VisualBasic.CompilerServices;
@@ -13,10 +12,7 @@ using TripXMLTools;
 
 namespace wsTripXML.wsTravelTalk
 {
-
-    [System.Web.Services.Protocols.SoapDocumentService(RoutingStyle = System.Web.Services.Protocols.SoapServiceRoutingStyle.RequestElement)]
-    [WebService(Namespace = "http://tripxml.downtowntravel.com/tripxml/wsLowFarePlus", Name = "wsLowFarePlus", Description = "A TripXML Web Service to Process Low Fare Plus Messages Request - version 03.")]
-    public class wsLowFarePlus_v03 : WebService
+    public partial class wsLowFarePlus_v03
     {
 
         private string mstrResponse = "";
@@ -30,45 +26,12 @@ namespace wsTripXML.wsTravelTalk
 
         public TripXML tXML;
 
-        #region  Web Services Designer Generated Code 
+        private readonly modMain _modMain;
 
-        public wsLowFarePlus_v03() : base()
+        public wsLowFarePlus_v03(modMain modMain)
         {
-
-            // This call is required by the Web Services Designer.
-            InitializeComponent();
-
-            // Add your own initialization code after the InitializeComponent() call
-
+            _modMain = modMain;
         }
-
-        // Required by the Web Services Designer
-        private System.ComponentModel.IContainer components;
-
-        // NOTE: The following procedure is required by the Web Services Designer
-        // It can be modified using the Web Services Designer.  
-        // Do not modify it using the code editor.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            // CODEGEN: This procedure is required by the Web Services Designer
-            // Do not modify it using the code editor.
-            if (disposing)
-            {
-                if (components is not null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
 
         #region  Decode Functions 
 
@@ -90,11 +53,11 @@ namespace wsTripXML.wsTravelTalk
                 oDoc.LoadXml(strResponse);
                 oRoot = oDoc.DocumentElement;
 
-                ttAirports = (DataView)Application.Get("ttAirports");
-                ttAirlines = (DataView)Application.Get("ttAirlines");
-                ttAirlinesNames = (DataView)Application.Get("ttAirlinesNames");
-                // ttHiddenAirlines = CType(Application.Get("ttHiddenAirlines"), DataView)
-                ttEquipments = (DataView)Application.Get("ttEquipments");
+                ttAirports = (DataView)TripXMLMain.AppState.Get("ttAirports");
+                ttAirlines = (DataView)TripXMLMain.AppState.Get("ttAirlines");
+                ttAirlinesNames = (DataView)TripXMLMain.AppState.Get("ttAirlinesNames");
+                // ttHiddenAirlines = CType(TripXMLMain.AppState.Get("ttHiddenAirlines"), DataView)
+                ttEquipments = (DataView)TripXMLMain.AppState.Get("ttEquipments");
 
                 foreach (XmlNode oNode in oRoot.SelectNodes("PricedItineraries/PricedItinerary"))
                 {
@@ -538,11 +501,9 @@ namespace wsTripXML.wsTravelTalk
                 TravelSum = sb.ToString();
                 uTravelSum = oRoot.SelectSingleNode("TravelerInfoSummary").InnerXml.ToString();
                 sb.Remove(0, sb.Length);
-
-                var argoApp = Application;
-                modMain.PreServiceRequestPool(ref request, ref argoApp, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
+                _modMain.PreServiceRequestPool(ref request, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
                 sb.Append("XSD").Append(ttCredential.UserID).Append("Out");
-                ValidateXSDOut = Conversions.ToBoolean(Application.Get(sb.ToString()));
+                ValidateXSDOut = Conversions.ToBoolean(TripXMLMain.AppState.Get(sb.ToString()));
                 sb.Remove(0, sb.Length);
 
                 {
@@ -658,11 +619,11 @@ namespace wsTripXML.wsTravelTalk
                                                     {
 
                                                         // sb.Append("API").Append(.UserID).Append(.System).Append(.Providers(i).PCC.ToUpper())
-                                                        // ttProviderSystems = Application.Get(sb.ToString())
+                                                        // ttProviderSystems = TripXMLMain.AppState.Get(sb.ToString())
                                                         string tPCC;
 
                                                         tPCC = ttCredential.Providers[i].PCC.Replace("*", "");
-                                                        // ttProviderSystems = Application.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(tPCC).ToString())
+                                                        // ttProviderSystems = TripXMLMain.AppState.Get(sb.Append("PS").Append(ttCredential.Providers(i).Name).Append(ttCredential.UserID).Append(ttCredential.System).Append(tPCC).ToString())
                                                         sb.Remove(0, sb.Length);
 
                                                         if (ttProviderSystems.System is null)
@@ -727,7 +688,7 @@ namespace wsTripXML.wsTravelTalk
                                                     try
                                                     {
                                                         sb.Append("PS").Append(withBlock.Providers[i].Name).Append(withBlock.UserID).Append(withBlock.System).Append(withBlock.Providers[i].PCC.ToUpper());
-                                                        ttProviderSystems = (TripXMLProviderSystems)Application.Get(sb.ToString());
+                                                        ttProviderSystems = (TripXMLProviderSystems)TripXMLMain.AppState.Get(sb.ToString());
                                                         sb.Remove(0, sb.Length);
 
                                                         if (ttProviderSystems.System is null)
@@ -813,7 +774,7 @@ namespace wsTripXML.wsTravelTalk
                                                     try
                                                     {
                                                         // sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC.ToUpper())
-                                                        // ttProviderSystems = Application.Get(sb.ToString())
+                                                        // ttProviderSystems = TripXMLMain.AppState.Get(sb.ToString())
                                                         // sb.Remove(0, sb.Length)
 
                                                         if (ttProviderSystems.System is null)
@@ -834,7 +795,7 @@ namespace wsTripXML.wsTravelTalk
                                                         oSabre.GotResponse += GotResponse;
 
                                                         DataView ttCities;
-                                                        ttCities = (DataView)Application.Get("ttCities");
+                                                        ttCities = (DataView)TripXMLMain.AppState.Get("ttCities");
 
                                                         {
                                                             ref var withBlock3 = ref oSabre;
@@ -864,7 +825,7 @@ namespace wsTripXML.wsTravelTalk
                                                     try
                                                     {
                                                         sb.Append("PS").Append(withBlock.Providers[i].Name).Append(withBlock.UserID).Append(withBlock.System).Append(withBlock.Providers[i].PCC.ToUpper());
-                                                        ttProviderSystems = (TripXMLProviderSystems)Application.Get(sb.ToString());
+                                                        ttProviderSystems = (TripXMLProviderSystems)TripXMLMain.AppState.Get(sb.ToString());
                                                         sb.Remove(0, sb.Length);
 
                                                         if (ttProviderSystems.System is null)
@@ -884,7 +845,7 @@ namespace wsTripXML.wsTravelTalk
                                                         oWorldspan.GotResponse += GotResponse;
 
                                                         DataView ttCities;
-                                                        ttCities = (DataView)Application.Get("ttCities");
+                                                        ttCities = (DataView)TripXMLMain.AppState.Get("ttCities");
 
                                                         {
                                                             ref var withBlock4 = ref oWorldspan;
@@ -915,7 +876,7 @@ namespace wsTripXML.wsTravelTalk
                                                         // Throw New Exception("Travel Fusion does not support multi destination searches")
                                                         // End If
                                                         // sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC.ToUpper())
-                                                        // ttProviderSystems = Application.Get(sb.ToString())
+                                                        // ttProviderSystems = TripXMLMain.AppState.Get(sb.ToString())
                                                         // sb.Remove(0, sb.Length)
                                                         // If ttProviderSystems.System Is Nothing Then
                                                         // sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
@@ -947,7 +908,7 @@ namespace wsTripXML.wsTravelTalk
                                                         // 'oDoc.LoadXml(strRequest)
                                                         // 'oRoot = oDoc.DocumentElement
                                                         // sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC.ToUpper())
-                                                        // ttProviderSystems = Application.Get(sb.ToString())
+                                                        // ttProviderSystems = TripXMLMain.AppState.Get(sb.ToString())
                                                         // sb.Remove(0, sb.Length)
                                                         // If ttProviderSystems.System Is Nothing Then
                                                         // sb.Append("Access denied to ").Append(.Providers(i).Name).Append(" - ").Append(ttCredential.System).Append(" system. Or invalid provider.")
@@ -985,7 +946,7 @@ namespace wsTripXML.wsTravelTalk
                                                         // 'oRoot = oDoc.DocumentElement
 
                                                         // sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC.ToUpper())
-                                                        // ttProviderSystems = Application.Get(sb.ToString())
+                                                        // ttProviderSystems = TripXMLMain.AppState.Get(sb.ToString())
                                                         // sb.Remove(0, sb.Length)
 
                                                         // If ttProviderSystems.System Is Nothing Then
@@ -1024,7 +985,7 @@ namespace wsTripXML.wsTravelTalk
                                                         // 'oRoot = oDoc.DocumentElement
 
                                                         // sb.Append("PS").Append(.Providers(i).Name).Append(.UserID).Append(.System).Append(.Providers(i).PCC.ToUpper())
-                                                        // ttProviderSystems = Application.Get(sb.ToString())
+                                                        // ttProviderSystems = TripXMLMain.AppState.Get(sb.ToString())
                                                         // sb.Remove(0, sb.Length)
 
                                                         // If ttProviderSystems.System Is Nothing Then
@@ -1102,7 +1063,7 @@ namespace wsTripXML.wsTravelTalk
                     if (ttProviderSystems.AggFilter == true)
                     {
                         sb.Append("ttFP").Append(ttCredential.UserID);
-                        FilterFlights(ref _response, Conversions.ToString(Application.Get(sb.ToString())));
+                        FilterFlights(ref _response, Conversions.ToString(TripXMLMain.AppState.Get(sb.ToString())));
                         sb.Remove(0, sb.Length);
                     }
                 }
@@ -1130,8 +1091,8 @@ namespace wsTripXML.wsTravelTalk
             }
             finally
             {
-                modMain.LogResponse(ref _response, ref ttCredential, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
-                modMain.LogDeals(ref request, ref _response);
+                _modMain.LogResponse(ref _response, ref ttCredential, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
+                _modMain.LogDeals(ref request, ref _response);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsLowFarePlus_v03", "============= OTA Response ============= ", _response, ttProviderSystems.LogUUID);
             }
@@ -1143,10 +1104,6 @@ namespace wsTripXML.wsTravelTalk
         #endregion
 
         #region  Web Methods 
-
-        [CompressionExtension.CompressionExtension()]
-        [WebMethod(Description = "Process Low Fare Messages Request.")]
-        [System.Web.Services.Protocols.SoapHeader("tXML")]
         public wmLowFarePlusOut.OTA_AirLowFareSearchPlusRS wmLowFarePlus(wmLowFarePlusIn_v03.OTA_AirLowFareSearchPlusRQ OTA_AirLowFareSearchPlusRQ)
         {
 
@@ -1180,8 +1137,6 @@ namespace wsTripXML.wsTravelTalk
             return oLowFarePlusRS;
 
         }
-
-        [WebMethod(Description = "Process Low Fare Plus Xml Messages Request.")]
         public string wmLowFarePlusXml(string xmlRequest)
         {
             return ServiceRequest(xmlRequest, ttServices.LowFarePlus);

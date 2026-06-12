@@ -1,4 +1,4 @@
-﻿
+
 using System.Xml.Serialization;
 using wsTripXML.wsTravelTalk.wmCruiseBooking;
 
@@ -104,7 +104,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseCreateBooking
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute()]

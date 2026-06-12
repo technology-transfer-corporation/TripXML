@@ -1,4 +1,4 @@
-﻿using System.Xml.Serialization;
+using System.Xml.Serialization;
 using wsTripXML.wsTravelTalk.wmCruiseBooking;
 using wsTripXML.wsTravelTalk.wmCruiseCreateBooking;
 
@@ -245,7 +245,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseCreateBookingIn
     public class BookingChannel
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string Type;
@@ -347,7 +347,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseCreateBookingIn
         public URL[] URL;
 
         [XmlElement("CompanyNameFull")]
-        public CompanyName[] CompanyName;
+        public Code.CompanyName[] CompanyName;
 
         [XmlElement("EmployeeInfo")]
         public EmployeeInfo[] EmployeeInfo;
@@ -524,7 +524,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseCreateBookingIn
     public class DirectBill
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         public Address Address;
 
@@ -696,7 +696,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseCreateBookingIn
     public class UniqueID
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string URL;

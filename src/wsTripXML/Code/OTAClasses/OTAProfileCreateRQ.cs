@@ -60,7 +60,9 @@ namespace wsTripXML.wsTravelTalk.wmProfileCreateIn
     [XmlType()]
     public class OTA_ProfileCreateRQPOS : Code.IPOS
     {
-        public TPA_Extensions TPA_Extensions;
+        // re-pointed from the parent-namespace wsTravelTalk.TPA_Extensions (ndcAuthenticate header type) to
+        // wmProfileCommon.TPA_Extensions: both map to XML type 'TPA_Extensions' in one serializer scope
+        public wmProfileCommon.TPA_Extensions TPA_Extensions;
     }
 
     [XmlType(IncludeInSchema = false)]

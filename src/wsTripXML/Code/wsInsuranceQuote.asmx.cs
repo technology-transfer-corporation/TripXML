@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Text;
-using System.Web.Services;
 using System.Xml.Serialization;
 using Microsoft.VisualBasic.CompilerServices;
 using TripXMLMain;
@@ -9,52 +8,17 @@ using static TripXMLMain.modCore;
 
 namespace wsTripXML.wsTravelTalk
 {
-
-    [WebService(Namespace = "http://tripxml.downtowntravel.com/tripxml/wsInsuranceQuote", Name = "wsInsuranceQuote", Description = "A TravelTalk Web Service to Process Insurance Booking Messages Request.")]
-    public class wsInsuranceQuote : WebService
+    public partial class wsInsuranceQuote
     {
 
         public TripXML tXML;
 
-        #region  Web Services Designer Generated Code 
+        private readonly modMain _modMain;
 
-        public wsInsuranceQuote() : base()
+        public wsInsuranceQuote(modMain modMain)
         {
-
-            // This call is required by the Web Services Designer.
-            InitializeComponent();
-
-            // Add your own initialization code after the InitializeComponent() call
-
+            _modMain = modMain;
         }
-
-        // Required by the Web Services Designer
-        private System.ComponentModel.IContainer components;
-
-        // NOTE: The following procedure is required by the Web Services Designer
-        // It can be modified using the Web Services Designer.  
-        // Do not modify it using the code editor.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            // CODEGEN: This procedure is required by the Web Services Designer
-            // Do not modify it using the code editor.
-            if (disposing)
-            {
-                if (components is not null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
 
         #region  Decode Functions 
 
@@ -76,10 +40,8 @@ namespace wsTripXML.wsTravelTalk
             try
             {
                 StartTime = DateTime.Now;
-
-                var argoApp = Application;
-                modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
-                ValidateXSDOut = Conversions.ToBoolean(Application.Get("XSD" + ttCredential.UserID + "Out"));
+                _modMain.PreServiceRequest(ref strRequest, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
+                ValidateXSDOut = Conversions.ToBoolean(TripXMLMain.AppState.Get("XSD" + ttCredential.UserID + "Out"));
 
                 switch (ttCredential.Providers[0].Name ?? "")
                 {
@@ -114,7 +76,7 @@ namespace wsTripXML.wsTravelTalk
             }
             finally
             {
-                modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
+                _modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsInsuranceQuote", "============= OTA Response ============= ", strResponse, ttProviderSystems.LogUUID);
             }
@@ -126,16 +88,10 @@ namespace wsTripXML.wsTravelTalk
         #endregion
 
         #region  Web Methods 
-
-        [CompressionExtension.CompressionExtension()]
-        [WebMethod(Description = "Process Insurance Booking Xml Messages Request.")]
-        [System.Web.Services.Protocols.SoapHeader("tXML")]
         public string wmInsuranceQuoteXml(string xmlRequest)
         {
             return ServiceRequest(xmlRequest, ttServices.InsuranceQuote);
         }
-
-        [WebMethod(Description = "Process Insurance Booking Messages Request.")]
         public wmInsuranceQuoteOut.OTA_InsuranceQuoteRS wmInsuranceQuote(wmInsuranceQuoteIn.OTA_InsuranceQuoteRQ OTA_InsuranceQuoteRQ)
         {
             string xmlMessage = "";

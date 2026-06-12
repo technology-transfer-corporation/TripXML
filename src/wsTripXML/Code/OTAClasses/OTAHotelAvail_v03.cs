@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Xml.Serialization;
 
 namespace wsTripXML.wsTravelTalk.wmHotelAvail_v03
@@ -926,7 +926,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvail_v03
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlAttribute(DataType = "anyURI")]
@@ -949,31 +949,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvail_v03
         public string ID_Context;
     }
 
-    // <remarks/>
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string CompanyShortName;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string TravelSector;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string Code;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string CodeContext;
-
-        // <remarks/>
-        [XmlText()]
-        public string Value;
-    }
+    // local CompanyName removed: identical to shared wsTripXML.Code.CompanyName (XML type-name collision in one serializer scope)
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]
@@ -1298,7 +1274,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvail_v03
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         public Address Address;
@@ -1528,7 +1504,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvail_v03
 
         // <remarks/>
         [XmlElement("CompanyNameFull")]
-        public CompanyName[] CompanyName;
+        public Code.CompanyName[] CompanyName;
 
         // <remarks/>
         [XmlElement("EmployeeInfo")]
@@ -2491,7 +2467,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvail_v03
     {
 
         // <remarks/>
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         // <remarks/>
         [XmlElement("RelatedEmployer")]
@@ -5589,7 +5565,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvail_v03
 
         // <remarks/>
         [XmlElement("CompanyNameFull")]
-        public CompanyName[] CompanyName;
+        public Code.CompanyName[] CompanyName;
 
         // <remarks/>
         [XmlElement("AddressInfo")]
@@ -5876,7 +5852,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvail_v03
     {
 
         // <remarks/>
-        public Position Position;
+        public wsTripXML.Code.Position Position;
 
         // <remarks/>
         public Address Address;
@@ -5922,23 +5898,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelAvail_v03
         public bool ImportanceTypeSpecified;
     }
 
-    // <remarks/>
-    [XmlRoot(IsNullable = false)]
-    public class Position
-    {
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string Latitude;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string Longitude;
-
-        // <remarks/>
-        [XmlAttribute()]
-        public string Altitude;
-    }
+    // local Position removed: identical to shared wsTripXML.Code.Position (XML type-name collision in one serializer scope)
 
     // <remarks/>
     [XmlRoot(IsNullable = false)]

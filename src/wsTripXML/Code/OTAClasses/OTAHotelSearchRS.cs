@@ -440,7 +440,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelSearchOut
 
         // <remarks/>
         [XmlArrayItem(IsNullable = false)]
-        public wmHotelSearch.Source[] POS;
+        public wsTripXML.Code.Source[] POS;
 
         // <remarks/>
         public Success Success;
@@ -573,7 +573,7 @@ namespace wsTripXML.wsTravelTalk.wmHotelSearchOut
         public VendorMessage[] VendorMessages;
 
         // <remarks/>
-        public wmHotelSearch.Position Position;
+        public wsTripXML.Code.Position Position;
 
         // <remarks/>
         public wmHotelSearch.Address Address;

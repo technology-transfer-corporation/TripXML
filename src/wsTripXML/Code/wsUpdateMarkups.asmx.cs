@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Configuration;
 using System.IO;
 using System.Text;
-using System.Web.Services;
 using System.Xml;
 using TripXMLMain;
 
@@ -12,10 +11,8 @@ namespace wsTripXML.wsTravelTalk
 
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line.
     // <System.Web.Script.Services.ScriptService()> _
-    [WebService(Namespace = "http://tripxml.com/wsUpdateMarkups")]
-    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ToolboxItem(false)]
-    public class wsUpdateMarkups : WebService
+    public partial class wsUpdateMarkups
     {
         private StringBuilder sb = new StringBuilder();
 
@@ -124,8 +121,6 @@ namespace wsTripXML.wsTravelTalk
             return strResponse;
             sb = null;
         }
-
-        [WebMethod(Description = "Update Markups.")]
         public string UpdateMarkups(string xmlRequest)
         {
             return ServiceRequest(xmlRequest);

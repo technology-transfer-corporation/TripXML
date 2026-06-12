@@ -6354,6 +6354,10 @@ namespace wsTripXML.wsTravelTalk.wmTravelItineraryOut_v03
         // <remarks/>
         [System.Xml.Serialization.XmlAttribute]
         public string ID_Context;
+
+        // <remarks/>
+        [System.Xml.Serialization.XmlAttribute]
+        public bool NDC;
     }
 
     // <remarks/>

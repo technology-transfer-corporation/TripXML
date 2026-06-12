@@ -1,61 +1,22 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Text;
-using System.Web.Services;
-using System.Web.Services.Protocols;
 using System.Xml.Serialization;
-using CompressionExtension;
 using TripXMLMain;
 using static TripXMLMain.modCore;
 
 namespace wsTripXML.wsTravelTalk
 {
-
-    [SoapDocumentService(RoutingStyle = SoapServiceRoutingStyle.RequestElement)]
-    [WebService(Namespace = "http://tripxml.downtowntravel.com/tripxml/wsIssueMCO", Name = "wsIssueMCO", Description = "A TripXML Web Service to Process Issue MCO Messages Request.")]
-    public class wsIssueMCO : WebService
+    public partial class wsIssueMCO
     {
         public TripXML tXML;
 
-        #region  Web Services Designer Generated Code 
+        private readonly modMain _modMain;
 
-        public wsIssueMCO() : base()
+        public wsIssueMCO(modMain modMain)
         {
-
-            // This call is required by the Web Services Designer.
-            InitializeComponent();
-
-            // Add your own initialization code after the InitializeComponent() call
-
+            _modMain = modMain;
         }
-
-        // Required by the Web Services Designer
-        private System.ComponentModel.IContainer components;
-
-        // NOTE: The following procedure is required by the Web Services Designer
-        // It can be modified using the Web Services Designer.  
-        // Do not modify it using the code editor.
-        [DebuggerStepThrough()]
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            // CODEGEN: This procedure is required by the Web Services Designer
-            // Do not modify it using the code editor.
-            if (disposing)
-            {
-                if (components is not null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-        }
-
-        #endregion
 
         #region  Process Service Request All GDS 
 
@@ -70,8 +31,7 @@ namespace wsTripXML.wsTravelTalk
 
             try
             {
-                var argoApp = Application;
-                modMain.PreServiceRequest(ref strRequest, ref argoApp, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
+                _modMain.PreServiceRequest(ref strRequest, ref ttCredential, ref ttProviderSystems, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
 
                 switch (ttCredential.Providers[0].Name.ToLower() ?? "")
                 {
@@ -108,7 +68,7 @@ namespace wsTripXML.wsTravelTalk
             }
             finally
             {
-                modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, (int)ttServiceID, Server.MachineName, ref UUID);
+                _modMain.LogResponse(ref strResponse, ref ttCredential, StartTime, (int)ttServiceID, Environment.MachineName, ref UUID);
                 if (modCore.Trace)
                     CoreLib.SendTrace(ttCredential.UserID, "wsIssueTicket", "============= OTA Response ============= ", strResponse, UUID);
             }
@@ -119,10 +79,6 @@ namespace wsTripXML.wsTravelTalk
         #endregion
 
         #region  Web Methods 
-
-        [CompressionExtension()]
-        [WebMethod(Description = "Process Issue MCO Messages Request.")]
-        [SoapHeader("tXML")]
         public wmIssueMCOOut.TT_IssueMCORS wmIssueMCO(wmIssueMCOIn.TT_IssueMCORQ TT_IssueMCORQ)
         {
             string xmlMessage;
@@ -153,8 +109,6 @@ namespace wsTripXML.wsTravelTalk
             return oIssueMCORS;
 
         }
-
-        [WebMethod(Description = "Process Issue Ticket Xml Messages Request.")]
         public string wmIssueMCOXml(string xmlRequest)
         {
             return ServiceRequest(xmlRequest, ttServices.IssueTicket);

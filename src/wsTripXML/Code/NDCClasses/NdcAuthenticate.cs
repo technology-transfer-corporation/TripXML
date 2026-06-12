@@ -3,7 +3,9 @@ using System.Xml.Serialization;
 
 namespace wsTripXML.wsTravelTalk
 {
-    public class ndcAuthenticate : System.Web.Services.Protocols.SoapHeader
+    // Formerly derived from System.Web.Services.Protocols.SoapHeader; the wire shape is
+    // now declared by the generated MessageContracts ([MessageHeader] members).
+    public class ndcAuthenticate
     {
 
         public POS POS;

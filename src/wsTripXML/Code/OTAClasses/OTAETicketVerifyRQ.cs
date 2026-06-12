@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Xml.Serialization;
 
 namespace wsTripXML.wsTravelTalk.wmETicketVerifyIn
@@ -270,24 +270,7 @@ namespace wsTripXML.wsTravelTalk.wmETicketVerifyIn
         public TPA_Extensions TPA_Extensions;
     }
 
-    public class CompanyName
-    {
-
-        [XmlAttribute()]
-        public string CompanyShortName;
-
-        [XmlAttribute()]
-        public string TravelSector;
-
-        [XmlAttribute()]
-        public string Code;
-
-        [XmlAttribute()]
-        public string CodeContext;
-
-        [XmlText()]
-        public string Value;
-    }
+    // local CompanyName removed: identical to shared wsTripXML.Code.CompanyName (XML type-name collision in one serializer scope)
 
 [XmlRoot(IsNullable = false)]
     public class TPA_Extensions : Code.ITPA_Extensions

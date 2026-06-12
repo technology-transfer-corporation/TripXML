@@ -1,4 +1,4 @@
-﻿using System.Xml.Serialization;
+using System.Xml.Serialization;
 using wsTripXML.wsTravelTalk.wmInsuranceBook;
 
 namespace wsTripXML.wsTravelTalk.wmInsuranceBookIn
@@ -25,7 +25,7 @@ namespace wsTripXML.wsTravelTalk.wmInsuranceBookIn
 
         public CountryName CountryName;
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string FormattedInd;
@@ -96,7 +96,7 @@ namespace wsTripXML.wsTravelTalk.wmInsuranceBookIn
     public class BookingChannel
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string Type;
@@ -140,7 +140,7 @@ namespace wsTripXML.wsTravelTalk.wmInsuranceBookIn
         public URL[] URL;
 
         [XmlElement("CompanyNameFull")]
-        public CompanyName[] CompanyName;
+        public Code.CompanyName[] CompanyName;
 
         [XmlElement("EmployeeInfo")]
         public EmployeeInfo[] EmployeeInfo;
@@ -265,7 +265,7 @@ namespace wsTripXML.wsTravelTalk.wmInsuranceBookIn
         public URL[] URL;
 
         [XmlElement("CompanyNameFull")]
-        public CompanyName[] CompanyName;
+        public Code.CompanyName[] CompanyName;
 
         [XmlElement("EmployeeInfo")]
         public EmployeeInfo[] EmployeeInfo;
@@ -345,7 +345,7 @@ namespace wsTripXML.wsTravelTalk.wmInsuranceBookIn
     public class DirectBill
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         public Address Address;
 
@@ -622,7 +622,7 @@ namespace wsTripXML.wsTravelTalk.wmInsuranceBookIn
     public class UniqueID
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string URL;

@@ -1,4 +1,4 @@
-﻿using System.Xml.Serialization;
+using System.Xml.Serialization;
 
 namespace wsTripXML.wsTravelTalk.wmCruiseItineraryDescIn
 {
@@ -7,7 +7,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseItineraryDescIn
     public class BookingChannel
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute()]
         public string Type;
@@ -16,25 +16,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseItineraryDescIn
         public string Primary;
     }
 
-    [XmlRoot(IsNullable = false)]
-    public class CompanyName
-    {
-
-        [XmlAttribute()]
-        public string CompanyShortName;
-
-        [XmlAttribute()]
-        public string TravelSector;
-
-        [XmlAttribute()]
-        public string Code;
-
-        [XmlAttribute()]
-        public string CodeContext;
-
-        [XmlText()]
-        public string Value;
-    }
+    // local CompanyName removed: identical to shared wsTripXML.Code.CompanyName (XML type-name collision in one serializer scope)
 
     [XmlRoot()]
     public class PackageOption
@@ -179,7 +161,7 @@ namespace wsTripXML.wsTravelTalk.wmCruiseItineraryDescIn
     public class ReservationID
     {
 
-        public CompanyName CompanyName;
+        public Code.CompanyName CompanyName;
 
         [XmlAttribute(DataType = "anyURI")]
         public string URL;
