@@ -1,0 +1,262 @@
+﻿using System;
+using System.Xml.Serialization;
+
+namespace wsTripXML.wsTravelTalk.wmTransferOwnershipIn
+{
+
+    [XmlRoot(IsNullable = false)]
+    public class OTA_TransferOwnershipRQ
+    {
+
+        public POS POS;
+
+        // <remarks/>
+        public UniqueID UniqueID;
+
+        // <remarks/>
+        [XmlElement("NewOwner")]
+        public OTA_TransferOwnershipRQNewOwner[] NewOwner;
+
+        // <remarks/>
+        public OTA_TransferOwnershipRQOtherOwner OtherOwner;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string EchoToken;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public DateTime TimeStamp;
+
+        // <remarks/>
+        [XmlIgnore()]
+        public bool TimeStampSpecified;
+
+        // <remarks/>
+        [XmlAttribute()]
+        [System.ComponentModel.DefaultValue(OTA_TransferOwnershipRQTarget.Production)]
+        public OTA_TransferOwnershipRQTarget Target = OTA_TransferOwnershipRQTarget.Production;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string Version;
+
+        // <remarks/>
+        [XmlIgnore()]
+        public bool VersionSpecified;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string TransactionIdentifier;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public int SequenceNmbr;
+
+        // <remarks/>
+        [XmlIgnore()]
+        public bool SequenceNmbrSpecified;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public OTA_TransferOwnershipRQTransactionStatusCode TransactionStatusCode;
+
+        // <remarks/>
+        [XmlIgnore()]
+        public bool TransactionStatusCodeSpecified;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string PrimaryLangID;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string AltLangID;
+    }
+
+    // <remarks/>
+    [XmlRoot(IsNullable = false)]
+    public class POS : Code.IPOS
+    {
+        public TPA_Extensions TPA_Extensions;
+    }
+
+    // <remarks/>
+    [XmlRoot(IsNullable = false)]
+    public class Source
+    {
+
+        // <remarks/>
+        public RequestorID RequestorID;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string AgentSine;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string PseudoCityCode;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string ISOCountry;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string ISOCurrency;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string AgentDutyCode;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string AirlineVendorID;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string AirportCode;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string FirstDepartPoint;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string ERSP_UserID;
+    }
+
+    // <remarks/>
+    [XmlRoot(IsNullable = false)]
+    public class RequestorID
+    {
+
+        // <remarks/>
+        [XmlAttribute(DataType = "anyURI")]
+        public string URL;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string Type;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string Instance;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string ID;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string ID_Context;
+    }
+
+    // <remarks/>
+    public class OTA_TransferOwnershipRQOtherOwner
+    {
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string ID;
+    }
+
+    // <remarks/>
+    public class OTA_TransferOwnershipRQNewOwnerChange
+    {
+
+        // <remarks/>
+        [XmlAttribute()]
+        public OTA_TransferOwnershipRQNewOwnerChangeActionCode ActionCode;
+    }
+
+    // <remarks/>
+    public enum OTA_TransferOwnershipRQNewOwnerChangeActionCode
+    {
+
+        // <remarks/>
+        QueuingOffice,
+
+        // <remarks/>
+        TicketingOffice,
+
+        // <remarks/>
+        QueueElement
+    }
+
+    // <remarks/>
+    public class OTA_TransferOwnershipRQNewOwner
+    {
+
+        // <remarks/>
+        [XmlElement("Change")]
+        public OTA_TransferOwnershipRQNewOwnerChange[] Change;
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string PseudoCityCode;
+    }
+
+    // <remarks/>
+    [XmlRoot(IsNullable = false)]
+    public class UniqueID
+    {
+
+        // <remarks/>
+        [XmlAttribute()]
+        public string ID;
+    }
+
+    // <remarks/>
+    [XmlRoot(IsNullable = false)]
+    public class Provider
+    {
+
+        // <remarks/>
+        public object Name;
+
+        // <remarks/>
+        public string System;
+
+        // <remarks/>
+        public string Userid;
+
+        // <remarks/>
+        public string Password;
+    }
+
+    // <remarks/>
+    [XmlRoot(IsNullable = false)]
+    public class TPA_Extensions : Code.ITPA_Extensions
+    {
+        public Provider Provider;
+    }
+
+    // <remarks/>
+    public enum OTA_TransferOwnershipRQTarget
+    {
+
+        // <remarks/>
+        Test,
+
+        // <remarks/>
+        Production
+    }
+
+    // <remarks/>
+    public enum OTA_TransferOwnershipRQTransactionStatusCode
+    {
+
+        // <remarks/>
+        Start,
+
+        // <remarks/>
+        End,
+
+        // <remarks/>
+        Rollback,
+
+        // <remarks/>
+        InSeries
+    }
+}

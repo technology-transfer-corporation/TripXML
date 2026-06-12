@@ -1,0 +1,1 @@
+<%@ WebService Language="vb" Codebehind="~/Code/wsAirAvail_v03.asmx.vb" Class="wsTripXML.wsTravelTalk.wsAirAvail_v03" %>

@@ -1,0 +1,49 @@
+﻿using System.Xml.Serialization;
+
+namespace wsTripXML.wsTravelTalk.wmSessionCloseIn
+{
+    [XmlRoot(IsNullable = false)]
+    public class POS : Code.IPOS
+    {
+        public TPA_Extensions TPA_Extensions;
+    }
+
+    [XmlRoot(IsNullable = false)]
+    public class Provider
+    {
+
+        public string Name;
+
+        public string System;
+
+        public string Userid;
+
+        public string Password;
+    }
+
+    [XmlRoot(IsNullable = false)]
+    public class TPA_Extensions : Code.ITPA_Extensions
+    {
+        public Provider Provider;
+
+        //public string ConversationID;
+    }
+
+    [XmlRoot(IsNullable = false)]
+    public class SessionCloseRQ
+    {
+        [XmlAttribute()]
+        [System.ComponentModel.DefaultValue(Target.GAL)]
+        public Target Target = Target.GAL;
+
+        public POS POS;
+    }
+
+    public enum Target
+    {
+
+        GAL,
+        WSP,
+        APL
+    }
+}
