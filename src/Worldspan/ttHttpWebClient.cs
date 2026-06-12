@@ -1,7 +1,9 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net;
-using System.Reflection;
+using System.Net.Http;
+using System.Text;
+using System.Threading;
 using TripXMLMain;
 
 namespace Worldspan
@@ -9,7 +11,19 @@ namespace Worldspan
     public class ttHttpWebClient
     {
         #region Declaration
-        private HttpWebRequest mHttpRequest;
+        // One pooled client for the process; pooled connection lifetime keeps DNS fresh.
+        // No global Timeout here - the legacy 3-minute timeout is applied per request below.
+        private static readonly HttpClient _httpClient = new HttpClient(new SocketsHttpHandler
+        {
+            AutomaticDecompression = DecompressionMethods.GZip,
+            PooledConnectionLifetime = TimeSpan.FromMinutes(5)
+        })
+        {
+            // Disable the client-wide 100 s default so the per-request 180 s token below
+            // is the only timeout (matches legacy HttpWebRequest.Timeout = 180000).
+            Timeout = Timeout.InfiniteTimeSpan
+        };
+
         public string ServiceURL { get; set; } = "";
         public string SoapAction { get; set; } = "";
         public string HttpMethod { get; set; } = "";
@@ -39,19 +53,11 @@ namespace Worldspan
             return strEnvelop;
         }
 
-        private void HttpConnect()
-        {
-            mHttpRequest = (HttpWebRequest)WebRequest.Create(ServiceURL);
-            mHttpRequest.Method = HttpMethod;
-            mHttpRequest.ContentType = "text/xml; charset=utf-8";
-            mHttpRequest.Timeout = 180000;   // 3 Minutes
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-        }
-
         public string SendHttpRequest(string userID, string token, string uuid)
         {
             string strResponse;
             var startTime = DateTime.Now;
+            HttpResponseMessage oHttpResponse;
             try
             {
                 string strRequest = Body.Contains("GetProviderSession") | Body.Contains("ReleaseProviderSession")
@@ -59,11 +65,14 @@ namespace Worldspan
                     : GetEnvelop(token);
 
                 CoreLib.SendTrace(userID, "ttWorldspanAdapter", "Sent to Worldspan", strRequest, uuid);
-                HttpConnect();
-                mHttpRequest.ContentLength = strRequest.Length;
-                var oWriter = new StreamWriter(mHttpRequest.GetRequestStream());
-                oWriter.Write(strRequest);
-                oWriter.Close();
+
+                using var oHttpRequest = new HttpRequestMessage(new System.Net.Http.HttpMethod(HttpMethod), ServiceURL);
+                oHttpRequest.Content = new StringContent(strRequest, Encoding.UTF8, "text/xml");
+
+                // Legacy HttpWebRequest.Timeout was 180000 ms (3 minutes); enforce it per request
+                // so the shared HttpClient keeps its default (no short global timeout).
+                using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(180000));
+                oHttpResponse = _httpClient.Send(oHttpRequest, HttpCompletionOption.ResponseContentRead, cts.Token);
             }
             catch (Exception ex)
             {
@@ -72,35 +81,33 @@ namespace Worldspan
 
             try
             {
-                HttpWebResponse oHttpResponse = (HttpWebResponse)mHttpRequest.GetResponse();
-                var oReader = new StreamReader(oHttpResponse.GetResponseStream() ?? throw new InvalidOperationException());
-                strResponse = oReader.ReadToEnd();
-                oReader.Close();
-                CoreLib.SendTrace(userID, "ttWorldspanAdapter", "Received from Worldspan", strResponse, uuid);
-                return strResponse;
+                using (oHttpResponse)
+                {
+                    // Always read the body, success or not - error responses carry the provider's
+                    // error payload (this replaces the legacy reflection on "_HttpResponse").
+                    var oReader = new StreamReader(oHttpResponse.Content.ReadAsStream());
+                    strResponse = oReader.ReadToEnd();
+                    oReader.Close();
+
+                    if (!oHttpResponse.IsSuccessStatusCode)
+                    {
+                        CoreLib.SendTrace(userID, "ttWorldspanAdapter", "Worldspan Exception error", strResponse, uuid);
+                        return strResponse;
+                    }
+
+                    CoreLib.SendTrace(userID, "ttWorldspanAdapter", "Received from Worldspan", strResponse, uuid);
+                    return strResponse;
+                }
             }
             catch (Exception ex)
             {
-                FieldInfo fi;
-                fi = mHttpRequest.GetType().GetField("_HttpResponse", BindingFlags.NonPublic | BindingFlags.Instance);
-                if (fi != null)
-                {
-                    HttpWebResponse oHttpResponse = (HttpWebResponse)fi.GetValue(mHttpRequest);
-                    var stream = oHttpResponse?.GetResponseStream();
-                    var oReader = new StreamReader(stream ?? throw new InvalidOperationException());
-                    strResponse = oReader.ReadToEnd();
-                    oReader.Close();
-                    CoreLib.SendTrace(userID, "ttWorldspanAdapter", "Worldspan Exception error", strResponse, uuid);
-                    return strResponse;
-                }
-
                 throw new Exception($"Error Getting Response.\r\n{ex.Message}");
             }
             finally
             {
                 CoreLib.SendTrace(userID, "ttWorldspanAdapter", $"Worldspan Response Time = {Convert.ToInt32(DateTime.Now.Subtract(startTime).TotalSeconds)} seconds.", "", uuid);
             }
-        } 
+        }
         #endregion
     }
 }
