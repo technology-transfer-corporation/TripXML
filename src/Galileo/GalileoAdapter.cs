@@ -5,14 +5,13 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Xml;
-using System.Xml.Serialization;
 using TripXMLMain;
 
 namespace Galileo
 {
     public class GalileoAdapter : GalileoBase
     {
-        protected object ows = null;
+        protected GalileoSoapClient ows = null;
         private XmlDocument mxmlFilter = null;
         private string mstrProfile = "";
         private string mstrSystem = "";
@@ -37,16 +36,15 @@ namespace Galileo
         public GalileoAdapter(modCore.TripXMLProviderSystems provider, string version = "")
         {
             NetworkCredential oNc;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             try
             {
                 provider.UserName = !provider.UserName.Contains("GWS/") ? $"GWS/{provider.UserName}" : provider.UserName;
-                
+
                 ProviderSystems = provider;
 
-                ows = ProviderSystems.System == "Production"
-                    ? new wsGalileoProd.XmlSelect { Url = ProviderSystems.URL }
-                    : new wsGalileoCopy.XmlSelect { Url = ProviderSystems.URL };
+                // Prod and copy systems differ only in endpoint URL and SOAPAction prefix
+                // (the legacy wsGalileoProd/wsGalileoCopy proxies); GalileoSoapClient keeps both.
+                ows = new GalileoSoapClient(ProviderSystems.URL, ProviderSystems.System == "Production");
 
                 mstrProfile = ProviderSystems.Profile.Text;
                 mstrSystem = ProviderSystems.System;
@@ -54,22 +52,10 @@ namespace Galileo
                 oNc = new NetworkCredential(ProviderSystems.UserName, ProviderSystems.Password);
                 oCc = new CredentialCache();
 
-
-                if (ProviderSystems.System == "Production")
-                {
-                    oCc.Add(new Uri((ows as wsGalileoProd.XmlSelect).Url.ToString()), "Basic", oNc);
-                    ((wsGalileoProd.XmlSelect)ows).Timeout = 60000; // 1 Minute
-                    ((wsGalileoProd.XmlSelect)ows).Credentials = oCc;
-                    ((wsGalileoProd.XmlSelect)ows).PreAuthenticate = true;
-                }
-                else
-                {
-                    oCc.Add(new Uri(((wsGalileoCopy.XmlSelect)ows).Url.ToString()), "Basic", oNc);
-                    ((wsGalileoCopy.XmlSelect)ows).Timeout = 60000; // 1 Minute
-                    ((wsGalileoCopy.XmlSelect)ows).Credentials = oCc;
-                    ((wsGalileoCopy.XmlSelect)ows).PreAuthenticate = true;
-                }
-
+                oCc.Add(new Uri(ows.Url.ToString()), "Basic", oNc);
+                ows.Timeout = 60000; // 1 Minute
+                ows.Credentials = oCc;
+                ows.PreAuthenticate = true;
 
                 // Creating Filter
                 mxmlFilter = new XmlDocument();
@@ -109,15 +95,11 @@ namespace Galileo
             {
                 if (ows == null)
                 {
-                    ows = ProviderSystems.System == "Production"
-                            ? new wsGalileoProd.XmlSelect { Url = ProviderSystems.URL }
-                            : new wsGalileoCopy.XmlSelect { Url = ProviderSystems.URL };
+                    ows = new GalileoSoapClient(ProviderSystems.URL, ProviderSystems.System == "Production");
                 }
                 // CoreLib.SendTrace(sb.Append($"{mstrUserID}").ToString(), "ttGalileoAdapter", "Create Session", mstrProfile, String.Empty)
                 CoreLib.SendTrace(ProviderSystems.UserID, "ttGalileoAdapter", "Create Session", $"Creating session for \"{mstrProfile}\" - profile", ProviderSystems.LogUUID);
-                string token = ProviderSystems.System == "Production"
-                    ? (ows as wsGalileoProd.XmlSelect).BeginSession(mstrProfile).ToString()
-                    : ((wsGalileoCopy.XmlSelect)ows).BeginSession(mstrProfile).ToString();
+                string token = ows.BeginSession(mstrProfile).ToString();
 
                 if (!string.IsNullOrEmpty(ProviderSystems.AAAPCC) & (ProviderSystems.AAAPCC ?? "") != (ProviderSystems.PCC ?? ""))
                 {
@@ -174,15 +156,7 @@ namespace Galileo
 
                 try
                 {
-                    switch (ProviderSystems.System)
-                    {
-                        case "Production":
-                            Token = (ows as wsGalileoProd.XmlSelect).BeginSession(mstrProfile).ToString();
-                            break;
-                        default:
-                            Token = ((wsGalileoCopy.XmlSelect)ows).BeginSession(mstrProfile).ToString();
-                            break;
-                    }
+                    Token = ows.BeginSession(mstrProfile).ToString();
                 }
                 catch (Exception ex)
                 {
@@ -295,16 +269,7 @@ namespace Galileo
         public void CloseSession(string SessionToken)
         {
             CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Close Session", SessionToken, ProviderSystems.LogUUID);
-            switch (ProviderSystems.System)
-            {
-                case "Production":
-                    (ows as wsGalileoProd.XmlSelect).EndSession(SessionToken);
-                    break;
-                default:
-                    ((wsGalileoCopy.XmlSelect)ows).EndSession(SessionToken);
-                    break;
-            }
-
+            ows.EndSession(SessionToken);
         }
 
         public string CloseSessionFromPool(string SecurityToken)
@@ -351,19 +316,9 @@ namespace Galileo
                 var requesttime = DateTime.Now;
 
 
-                switch (ProviderSystems.System)
-                {
-                    case "Production":
-                        xmlResponse = string.IsNullOrEmpty(SessionToken)
-                           ? (ows as wsGalileoProd.XmlSelect).SubmitXml(mstrProfile, oReqDoc.DocumentElement, mxmlFilter.DocumentElement)
-                           : (ows as wsGalileoProd.XmlSelect).SubmitXmlOnSession(SessionToken, oReqDoc.DocumentElement, mxmlFilter.DocumentElement);
-                        break;
-                    default:
-                        xmlResponse = string.IsNullOrEmpty(SessionToken)
-                           ? (ows as wsGalileoCopy.XmlSelect).SubmitXml(mstrProfile, oReqDoc.DocumentElement, mxmlFilter.DocumentElement)
-                           : (ows as wsGalileoCopy.XmlSelect).SubmitXmlOnSession(SessionToken, oReqDoc.DocumentElement, mxmlFilter.DocumentElement);
-                        break;
-                }
+                xmlResponse = string.IsNullOrEmpty(SessionToken)
+                   ? ows.SubmitXml(mstrProfile, oReqDoc.DocumentElement, mxmlFilter.DocumentElement)
+                   : ows.SubmitXmlOnSession(SessionToken, oReqDoc.DocumentElement, mxmlFilter.DocumentElement);
 
                 var responsetime = DateTime.Now;
 
@@ -412,15 +367,7 @@ namespace Galileo
             {
                 CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Send to Galileo", Message, ProviderSystems.LogUUID);
 
-                switch (ProviderSystems.System)
-                {
-                    case "Production":
-                        strResponse = (ows as wsGalileoProd.XmlSelect).SubmitTerminalTransaction(sessionToken, Message, "").ToString();
-                        break;
-                    default:
-                        strResponse = (ows as wsGalileoCopy.XmlSelect).SubmitTerminalTransaction(sessionToken, Message, "").ToString();
-                        break;
-                }
+                strResponse = ows.SubmitTerminalTransaction(sessionToken, Message, "").ToString();
 
                 strResponse = strResponse.Replace("<", "&lt;").Replace(">", "&gt;");
                 CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Receive from Galileo", strResponse, ProviderSystems.LogUUID);
@@ -475,23 +422,13 @@ namespace Galileo
 
             try
             {
-                wsGalileoProdIV.ImageViewer owsPrdIV = null;
-                wsGalileoCopyIV.ImageViewer owsCopyIV = null;
-
                 CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Send to Galileo", oReqDoc.DocumentElement.OuterXml, ProviderSystems.LogUUID);
 
-                if (mstrSystem == "Production")
-                {
-                    owsPrdIV = new wsGalileoProdIV.ImageViewer();
-                    owsPrdIV.Credentials = oCc;
-                    xmlResponse = owsPrdIV.RetrievePhotoInformation(oReqDoc.DocumentElement);
-                }
-                else
-                {
-                    owsCopyIV = new wsGalileoCopyIV.ImageViewer();
-                    owsCopyIV.Credentials = oCc;
-                    xmlResponse = owsCopyIV.RetrievePhotoInformation(oReqDoc.DocumentElement);
-                }
+                // The legacy wsGalileoProdIV/wsGalileoCopyIV proxies were identical (same default
+                // URL and SOAPAction); a fresh client per call keeps the proxy-default 100s timeout.
+                var owsIV = new GalileoSoapClient(GalileoSoapClient.DefaultImageViewerUrl, mstrSystem == "Production");
+                owsIV.Credentials = oCc;
+                xmlResponse = owsIV.RetrievePhotoInformation(oReqDoc.DocumentElement);
 
                 CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Receive from Galileo", xmlResponse.OuterXml, ProviderSystems.LogUUID);
 
@@ -516,16 +453,7 @@ namespace Galileo
 
                 CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Send to Galileo", oReqDoc.DocumentElement.OuterXml, ProviderSystems.LogUUID);
 
-                XmlElement xmlResponse;
-                switch (ProviderSystems.System)
-                {
-                    case "Production":
-                        xmlResponse = (ows as wsGalileoProd.XmlSelect).MultiSubmitXml(mstrProfile, oReqDoc.DocumentElement);
-                        break;
-                    default:
-                        xmlResponse = ((wsGalileoCopy.XmlSelect)ows).MultiSubmitXml(mstrProfile, oReqDoc.DocumentElement);
-                        break;
-                }
+                XmlElement xmlResponse = ows.MultiSubmitXml(mstrProfile, oReqDoc.DocumentElement);
                 strResponse = xmlResponse.OuterXml;
                 CoreLib.SendTrace($"{mstrUserID}", "ttGalileoAdapter", "Receive from Galileo", strResponse, ProviderSystems.LogUUID);
 

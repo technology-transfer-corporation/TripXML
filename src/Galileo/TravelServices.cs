@@ -9,7 +9,6 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.IO;
 using System.Xml.Serialization;
-using System.Runtime.Remoting.Messaging;
 using WebSocketSharp;
 
 namespace Galileo
