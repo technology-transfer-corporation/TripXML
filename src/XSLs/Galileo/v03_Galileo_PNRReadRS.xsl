@@ -3947,22 +3947,6 @@
 		</UniqueRemark>
 	</xsl:template>
 	<!--**********************************************************************************************-->
-	<msxsl:script language="VisualBasic" implements-prefix="ttVB">
-		<![CDATA[
-		Function FctArrDate(byval p_startDate as string, byval p_DateChange as double) as date   	
-			If IsDate(p_startDate) Then
-				FctArrDate = DateAdd("d", p_DateChange, p_startDate)
-			Else
-				FctArrDate = p_startDate
-			End If
-		End Function
-
-		Function GetBirthDate(ByVal age As String) As String
-            Return DateTime.Now.AddYears(Convert.ToInt32(age) * -1).ToString("yyyy-MM-dd")
-        End Function	
-		
-]]>
-	</msxsl:script>
 
 	<!--
   ************************************************************************************

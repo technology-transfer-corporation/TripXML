@@ -81,13 +81,6 @@ Date: 23 Feb 2015 - Rastko
 -->
 	<xsl:output method="xml" omit-xml-declaration="yes" />
 	
-<msxsl:script language="VisualBasic" implements-prefix="ttVB">
-<![CDATA[
-Function datenow() as string
-   	return DateTime.Now.ToString("ddMMMyy")
-End Function
-]]>
-</msxsl:script>
 
 	<xsl:key name="trPTC" match="//DPW8/PNR_4_INF/Line/@TR" use="." />
 	<xsl:key name="conCarr" match="//DPW8/AIR_SEG_INF/AIR_ITM/ARL_COD" use="." />

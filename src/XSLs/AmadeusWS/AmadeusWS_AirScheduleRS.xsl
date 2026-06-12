@@ -285,19 +285,6 @@
 		</FlightSegment>
 	</xsl:template>
 <!--**********************************************************************************************-->	
-<msxsl:script language="VisualBasic" implements-prefix="ttVB">
-<![CDATA[
-Function FctDateDuration(byval p_startDate as string, byval p_endDate as string) as string
-   	
-    If (IsDate(p_startDate) And IsDate(p_endDate)) Then
-        FctDateDuration = CStr(DateDiff("d", p_startDate, p_endDate)) 
-    Else
-        FctDateDuration = p_startDate & p_endDate
-    End If
-
-End Function
-]]>
-</msxsl:script>
 	
 </xsl:stylesheet>
 <!-- Stylus Studio meta-information - (c) 2004-2009. Progress Software Corporation. All rights reserved.

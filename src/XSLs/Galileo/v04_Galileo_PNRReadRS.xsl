@@ -2853,17 +2853,4 @@
     </UniqueRemark>
   </xsl:template>
   <!--**********************************************************************************************-->
-  <msxsl:script language="VisualBasic" implements-prefix="ttVB">
-    <![CDATA[
-Function FctArrDate(byval p_startDate as string, byval p_DateChange as double) as date
-   	
-    If IsDate(p_startDate) Then
-        FctArrDate = DateAdd("d", p_DateChange, p_startDate)
-    Else
-        FctArrDate = p_startDate
-    End If
-
-End Function
-]]>
-  </msxsl:script>
 </xsl:stylesheet>

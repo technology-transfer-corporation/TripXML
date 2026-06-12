@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-	<xsl:import href="D:\WORK\DTT\GIT\TripXML\XSLs\Galileo\v03_Galileo_PNRReadRS.xsl"/>	
+	<xsl:import href="v03_Galileo_PNRReadRS.xsl"/>
 <!-- 
 ================================================================== 
 Galileo_QueueRS.xsl 															

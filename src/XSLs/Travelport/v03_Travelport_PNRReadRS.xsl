@@ -4482,21 +4482,4 @@
 	</xsl:template>
 
 	<!--**********************************************************************************************-->
-	<msxsl:script language="VisualBasic" implements-prefix="ttVB">
-		<![CDATA[        
-        Function ShortDateFormat(ByVal p_startDate As String) As String
-
-            If IsDate(p_startDate) Then
-                Return Convert.ToDateTime(p_startDate).ToString("yyyy-MM-d")
-            Else
-                Return p_startDate
-            End If
-
-        End Function
-		
-		Function GetBirthDate(ByVal age As String) As String
-            Return DateTime.Now.AddYears(Convert.ToInt32(age) * -1).ToString("yyyy-MM-dd")
-        End Function
-]]>
-	</msxsl:script>
 </xsl:stylesheet>
