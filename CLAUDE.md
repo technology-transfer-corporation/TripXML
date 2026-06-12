@@ -1,7 +1,32 @@
+# TripXML
+
+Travel-industry SOAP middleware on **.NET 10**: `src/wsTripXML` is a CoreWCF/Kestrel host exposing 104 SOAP endpoints wire-compatible with the original ASMX services; it brokers requests to five GDS providers (Amadeus, Galileo, Sabre, TravelPort, Worldspan) through their adapter libraries and the XSLT engine in `src/TripXMLMain`. Migrated from .NET Framework 4.x on 2026-06-11.
+
+## Commands
+
+```powershell
+dotnet build TripXML.slnx                                  # expect 0 errors
+dotnet test src/TripXMLMain/tests/TripXML.XsltTests        # expect 24/24
+dotnet run --project src/wsTripXML                         # http://localhost:63072
+```
+
+## Required reading before changing code
+
+- `docs/development-guide.md` — recipes (endpoints, adapters, XSLTs), contract regeneration, config/secrets rules.
+- `docs/architecture.md` — request lifecycle and the **wire-parity invariants** section: the list of things that MUST NOT change (contract serialization attributes, `TripXML` header, `{m}Result` naming, RequestElement routing, Galileo envelope byte-rules, en-US culture pinning).
+- `docs/adr/README.md` — decision records. Do not undo an ADR-documented decision (AppState facade, modCore.config bridge, hand-rolled SOAP clients, runtime XSLT compilation) without revisiting the ADR.
+
+## Hard rules
+
+- `src/wsTripXML/Code/Generated/*.g.cs` is generated — never hand-edit; regenerate with `tools/Generate-Contracts.ps1` and pre-flight with `tools/ContractScan`.
+- `appsettings.json` is placeholders-only. Never commit real connection strings, keys, or endpoints. Real values come from `AppSettings__*` environment variables or user-secrets.
+- Keep this file and `AGENTS.md` byte-identical (the GitNexus block below is auto-managed in both).
+- For C# symbol-level impact analysis, the cwm-roslyn-navigator MCP tools (`find_references`, `find_callers`, `get_dependency_graph`) complement GitNexus with Roslyn-level accuracy.
+
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 
-This project is indexed by GitNexus as **TripXML** (32 symbols, 36 relationships, 1 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
+This project is indexed by GitNexus as **TripXML** (17318 symbols, 25975 relationships, 281 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
 
 > Index stale? Run `node .gitnexus/run.cjs analyze` from the project root — it auto-selects an available runner. No `.gitnexus/run.cjs` yet? `npx gitnexus analyze` (npm 11 crash → `npm i -g gitnexus`; #1939).
 

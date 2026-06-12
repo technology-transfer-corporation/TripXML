@@ -1,5 +1,10 @@
 # TripXML .NET Migration Status
 
+> **Historical document.** This is the pre-migration audit of 2026-06-10. The migration it scopes was
+> executed 2026-06-11 and committed 2026-06-12; the monorepo consolidation followed the same week.
+> For the current state see [docs/migration-report.md](docs/migration-report.md); for ongoing work see
+> [docs/development-guide.md](docs/development-guide.md). The body below is preserved unchanged as the "before" record.
+
 Reviewed: 2026-06-10 (automated multi-agent audit of all 17 ADO repos + branches)
 
 ---
