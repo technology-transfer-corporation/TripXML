@@ -1,0 +1,760 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml;
+using TripXMLMain;
+
+namespace Galileo
+{
+    public class PNRServices : GalileoBase
+    {
+
+        public string PNRRead()
+        {
+            string response;
+
+            // *****************************************************************
+            // Transform OTA PNRRead Request into Native Galileo Request     *
+            // ***************************************************************** 
+            try
+            {
+                var requestTime = DateTime.Now;
+
+                #region Get Tracer ID
+
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
+                string _request = SetRequest("Galileo_PNRReadRQ.xsl");
+
+                if (string.IsNullOrEmpty(Version))
+                    Version = "v03_";
+
+                if (string.IsNullOrEmpty(_request))
+                    throw new Exception("Transformation produced empty xml.");
+
+
+                #endregion
+
+                #region Send Transformed Request to the Galileo Adapter and Getting Native Response
+
+
+                // CoreLib.SendTrace(ProviderSystems.UserID, "Galileo", "PNR Read Request", strRequest, ProviderSystems.LogUUID)
+                response = ttGA.SendMessage(_request, ConversationID);
+                var strMessage = $"{_request}\r\n{response}";
+
+
+                #endregion
+
+                #region Read History of PNR throught *HI
+                string strDisplayHI = GetHistory(ConversationID, ttGA);
+                response = response.Replace("</PNRBFManagement_53>", $"{strDisplayHI}<ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
+                #endregion
+
+                #region Read Ticket History of PNR throught *HTI
+                string displayHTI = GetTicketHistory(ConversationID, ttGA);
+                response = response.Replace("</PNRBFManagement_53>", $"{displayHTI}</PNRBFManagement_53>");
+                #endregion
+
+                #region Transform Native Worldspan PNRRead Response into OTA Response
+
+                try
+                {
+                    //if (response.Length > 1500)
+                    //{
+                    //    var chunks = CoreLib.SplitBy(response, 1500).ToList();
+                    //    chunks.ForEach(c => CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", $"Final response {chunks.IndexOf(c)}", c, ProviderSystems.LogUUID));
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", response, ProviderSystems.LogUUID);
+                    //}
+
+                    //var tagToReplace = response.Contains("</PNRBFManagement_17>")
+                    //    ? "</PNRBFManagement_17>"
+                    //    : "</PNRBFManagement_53>";
+
+                    //if (inSession)
+                    //    response = response.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
+
+                    response = CoreLib.TransformXML(response, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
+                    if (!inSession)
+                        response = response.Replace($"<ConversationID>{ConversationID}</ConversationID>", "<ConversationID/>");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                response = modCore.FormatErrorMessage(modCore.ttServices.PNRRead, ex.Message, ProviderSystems);
+            }
+
+            return response;
+        }
+
+        public string PNRCancel()
+        {
+            string strResponse;
+
+            try
+            {
+                var requestTime = DateTime.Now;
+
+                // Create Session
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
+                // *****************************************************************
+                // Transform OTA PNRCancel Request into Native Galileo Request     *
+                // ***************************************************************** 
+                string strRequest = SetRequest("Galileo_PNRCancelRQ.xsl");
+
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(strRequest);
+                var oRoot = oDoc.DocumentElement;
+                var strRecLocator = oRoot.SelectSingleNode("PNRBFRetrieveMods/PNRAddr/RecLoc").InnerText;
+
+                if (string.IsNullOrEmpty(strRequest))
+                    throw new Exception("Transformation produced empty xml.");
+
+                // ************************************************************
+                // Send Transformed Request PNR Read to the Galileo Adapter  *
+                // ************************************************************                 
+                strResponse = ttGA.SendMessage(strRequest, ConversationID);
+                var strMessage = $"{strRequest}\r\n{strResponse}";
+
+                // ***************************************
+                // Check for End Transaction Warnings    
+                // ***************************************
+
+                if (strResponse.Contains("<ErrSeverityInd>W</ErrSeverityInd>"))
+                {
+                    // *******************************************************************
+                    // Send Transformed Request End Transaction to the Galileo Adapter  *
+                    // ******************************************************************* 
+                    strRequest = $"<PNRBFManagement_17>{oRoot.SelectSingleNode("EndTransactionMods")?.OuterXml}</PNRBFManagement_17>";
+                    // End Transaction Request
+                    ttGA.SendCrypticMessage("ER", ConversationID);
+                    strResponse = ttGA.SendMessage(strRequest, ConversationID);
+                }
+
+                // *****************************************************************
+                // Transform Native Galileo PNRCancel Response into OTA Response   *
+                // ***************************************************************** 
+                try
+                {
+
+                    var tagToReplace = strResponse.Contains("</PNRBFManagement_17>")
+                        ? "</PNRBFManagement_17>"
+                        : "</PNRBFManagement_53>";
+
+                    if (inSession)
+                        strResponse = strResponse.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
+
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_PNRCancelRS.xsl");
+
+                    if (strResponse.Contains("<UniqueID ID=\"\""))
+                    {
+                        strResponse = strResponse.Replace("<UniqueID ID=\"\"", $"<UniqueID ID=\"{strRecLocator}\"");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.PNRCancel, ex.Message, ProviderSystems);
+            }
+
+            return strResponse;
+        }
+
+        public string PNRReprice()
+        {
+            string response;
+            try
+            {
+                bool bStoreFare = false;
+
+
+                // Create Session
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
+                #region Transform OTA PNRRead Request into Native Sabre Request
+
+                string strRequest = SetRequest("Galileo_PNRRePriceRQ.xsl");
+
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(Request);
+                var oRoot = oDoc.DocumentElement;
+
+                string strRead = ""; // oRoot.SelectSingleNode("PNRRead").InnerXml;
+                string strPriceCombined = ""; //oRoot.SelectSingleNode("PriceCombined").InnerXml;
+                string strRedisplay = strRequest; // oRootT.SelectSingleNode("PNRRedisplay").InnerXml
+
+                if (oRoot.SelectSingleNode("@StoreFare") != null)
+                    bStoreFare = Convert.ToBoolean(oRoot.SelectSingleNode("@StoreFare")?.InnerText);
+
+                #endregion
+
+                #region Send Transformed Request to the Sabre Adapter and Getting Native Response
+
+                try
+                {
+                    string strReadResp = ttGA.SendMessage(strRequest, ConversationID);
+                    strReadResp = strReadResp.Replace(" xmlns=\"http://www.opentravel.org/OTA_RS/2003/05\"", "").Replace(" Version=\"2.0.0\"", "");
+
+                    if (!bStoreFare)
+                    {
+                        string strRepriceReq = CoreLib.TransformXML(strReadResp.Replace("</PNRBFManagement_53>", $"{Request}</PNRBFManagement_53>"), XslPath, $"{Version}Galileo_PNRRePriceRQ.xsl");
+                        string strRepriceResp;
+                        if (strRepriceReq.Contains("Error Type=\"Galileo\""))
+                        {
+                            strRepriceResp = strRepriceReq;
+                        }
+                        else
+                        {
+                            strRepriceResp = ttGA.SendMessage(strRepriceReq, ConversationID);
+                            if (strRepriceResp.Contains("NO COMBINABLE FARES FOR CLASS USED"))
+                            {
+                                strPriceCombined = strPriceCombined.Replace("<NameSelect>NS</NameSelect>", ""); //strPaxCombined
+                                strRepriceResp = ttGA.SendMessage(strPriceCombined, ConversationID);
+                                strRepriceResp = strRepriceResp.Replace("<OTA_AirPriceRS Version=\"2.4.0\">", "").Replace("</OTA_AirPriceRS>", "");
+                            }
+                        }
+                        response = strReadResp.Replace("</PNRBFManagement_53>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS><ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
+                        //CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", response, ProviderSystems.LogUUID);
+                    }
+                    else
+                    {
+                        string strRePriceRQ = strReadResp.Replace("</PNRBFManagement_53>", $"{Request}</PNRBFManagement_53>");
+                        string strRepriceStoreReq = CoreLib.TransformXML(strRePriceRQ, XslPath, $"{Version}Galileo_PNRRePriceRQ.xsl");
+                        string strRepriceResp = ttGA.SendMessage(strRepriceStoreReq, ConversationID);
+                        //CoreLib.SendTrace(ProviderSystems.UserID, "wsPNRReprice", "RePrice", strRepriceResp, ProviderSystems.LogUUID);
+
+                        #region Save PNR
+
+                        string strER = strRedisplay.Replace("<PNRBFRetrieveMods><CurrentPNR /></PNRBFManagement_53>", "<EndTransactionMods><EndTransactRequest><ETInd>R</ETInd><RcvdFrom>TRIPXML</RcvdFrom></EndTransactRequest></EndTransactionMods>");
+                        strRepriceResp = ttGA.SendMessage(strER, ConversationID);
+                        if (strRepriceResp.Contains("<Text>CHECK CONTINUITY SEGMENT"))
+                        {
+                            strER = strRedisplay.Replace("</PNRBFRetrieveMods>", "</PNRBFRetrieveMods><EndTransactionMods><EndTransactRequest><ETInd>R</ETInd><RcvdFrom>TRIPXML</RcvdFrom></EndTransactRequest></EndTransactionMods>");
+                            strRepriceResp = ttGA.SendMessage(strER, ConversationID);
+                        }
+
+                        #endregion
+
+                        response = strReadResp.Replace("</PNRBFManagement_53>", $"<OTA_AirPriceRS>{strRepriceResp}</OTA_AirPriceRS><ConversationID>{ConversationID}</ConversationID></PNRBFManagement_53>");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("PNRReprice", ex);
+                }
+                #endregion
+
+                #region Transform Native Sabre PNRRead Response into OTA Response
+                try
+                {
+                    //if (response.Length > 1499)
+                    //{
+                    //    var chunks = CoreLib.SplitBy(response, 1499).ToList();
+                    //    chunks.ForEach(c => CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", $"Final response {chunks.IndexOf(c)}", c, ProviderSystems.LogUUID));
+                    //}
+                    //else
+                    //{
+                    CoreLib.SendTrace(ProviderSystems.UserID, "PNRRead", "Final response", response, ProviderSystems.LogUUID);
+                    //}
+
+                    var tagToReplace = response.Contains("</PNRBFManagement_17>")
+                        ? "</PNRBFManagement_17>"
+                        : "</PNRBFManagement_53>";
+
+                    if (inSession)
+                        response = response.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
+
+                    response = CoreLib.TransformXML(response, XslPath, $"{Version}Galileo_PNRRepriceRS.xsl");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                response = modCore.FormatErrorMessage(modCore.ttServices.PNRReprice, ex.Message, ProviderSystems);
+            }
+
+            return response;
+        }
+
+        public string PNREnd()
+        {
+            string response;
+
+            try
+            {
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
+                //*****************************************************************
+                // Transform OTA PNREnd Request into Native Amadeus Request     *
+                //***************************************************************** 
+                string _request = SetRequest($"Galileo_PNREndRQ.xsl");
+                if (string.IsNullOrEmpty(_request))
+                    throw new Exception("Transformation produced empty xml.");
+
+                var oDoc = new XmlDocument();
+                oDoc.LoadXml(Request);
+                var oRoot = oDoc.DocumentElement;
+                var _recloc = oRoot.SelectSingleNode("UniqueID/@ID").InnerText;
+
+                oDoc.LoadXml(_request);
+                oRoot = oDoc.DocumentElement;
+                var _read = oRoot.SelectSingleNode("Read").InnerXml;
+                var _et = oRoot.SelectSingleNode("ET").InnerXml;
+
+                //*******************************************************************************
+                // Send Transformed Request to the Amadeus Adapter and Getting Native Response  *
+                //******************************************************************************* 
+                /* 
+                response = ttGA.SendMessage(_et, ConversationID);
+                var warning = string.Empty;
+                // ***************************************
+                // Check for End Transaction Warnings    
+                // ***************************************
+                if (response.Contains("<ErrSeverityInd>W</ErrSeverityInd>"))
+                {
+                    // *******************************************************************
+                    // Send Transformed Request End Transaction to the Galileo Adapter  *
+                    // *******************************************************************                     
+                    // End Transaction Request
+                    ttGA.SendCrypticMessage("ER", ConversationID);
+                    response = ttGA.SendMessage(_request, ConversationID);
+                }
+                */
+
+                response = ttGA.SendCrypticMessage("R.TRIPXML,ER", ConversationID);
+                if (response.Contains("*"))
+                    response = ttGA.SendCrypticMessage("ER", ConversationID);
+
+                if (response.Contains("CONFIRM SEGMENT"))
+                    response = ttGA.SendCrypticMessage("ER", ConversationID);
+
+                if (response.StartsWith(_recloc))
+                {
+                    //response = ttGA.SendCrypticMessage("ER", ConversationID);
+                    if (string.IsNullOrEmpty(Version))
+                        Version = "v03_";
+
+                    response = ttGA.SendMessage(_read, ConversationID);
+                }
+
+                // *****************************************************************
+                // Transform Native Galileo PNRCancel Response into OTA Response   *
+                // ***************************************************************** 
+                try
+                {
+                    var tagToReplace = response.Contains("</PNRBFManagement_17>")
+                        ? "</PNRBFManagement_17>"
+                        : "</PNRBFManagement_53>";
+
+                    if (inSession)
+                        response = response.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
+
+                    response = CoreLib.TransformXML(response, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
+
+                    if (response.Contains("<UniqueID ID=\"\""))
+                    {
+                        response = response.Replace("<UniqueID ID=\"\"", $"<UniqueID ID=\"{_recloc}\"");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+            }
+            catch (Exception exx)
+            {
+                response = modCore.FormatErrorMessage(modCore.ttServices.PNREnd, exx.Message, ProviderSystems);
+            }
+            return response;
+        }
+
+        public string Queue()
+        {
+            string strResponse;
+
+            // *****************************************************************
+            // Transform OTA Queue Request into Native Galileo Request     *
+            // ***************************************************************** 
+
+            try
+            {
+
+                var ttGA = SetAdapter();
+                bool inSession = SetConversationID(ttGA);
+
+                string strRequest = SetRequest("Galileo_QueueRQ.xsl");
+                if (string.IsNullOrEmpty(strRequest))
+                    throw new Exception("Transformation produced empty xml.");
+
+
+                // check if action is queue count or anything else
+                if (strRequest.Contains("<Action>QCT</Action>"))
+                    inSession = false;
+
+                strResponse = ttGA.SendMessage(strRequest, ConversationID);
+
+
+                // *****************************************************************
+                // Transform Native Galileo Queue Response into OTA Response   *
+                // ***************************************************************** 
+                try
+                {
+                    var tagToReplace = strResponse.Contains("</PNRBFManagement_17>") ? "</PNRBFManagement_17>" : "</PNRBFManagement_53>";
+
+                    if (strResponse.Contains("QueueProcessing_16"))
+                    {
+                        tagToReplace = "</QueueProcessing_16>";
+                    }
+                    else if (strResponse.Contains("PoweredQueue_CountTotalReply"))
+                    {
+                        tagToReplace = "</PoweredQueue_CountTotalReply>";
+                    }
+                    else if (strResponse.Contains("PoweredQueue_ListReply"))
+                    {
+                        tagToReplace = "</PoweredQueue_ListReply>";
+                    }
+                    else if (strResponse.Contains("PoweredQueue_MoveItemReply"))
+                    {
+                        tagToReplace = "</PoweredQueue_MoveItemReply>";
+                    }
+                    else if (strResponse.Contains("PoweredQueue_RemoveItemReply"))
+                    {
+                        tagToReplace = "</PoweredQueue_RemoveItemReply>";
+                    }
+
+                    if (inSession)
+                        strResponse = strResponse.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
+
+                    strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_QueueRS.xsl");
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.Queue, ex.Message, ProviderSystems);
+            }
+
+            return strResponse;
+        }
+
+        public string QueueRead()
+        {
+            string strResponse;
+
+            // *****************************************************************
+            // Transform OTA Queue Request into Native Galileo Request     *
+            // ***************************************************************** 
+            try
+            {
+                bool queueAccess = false;
+                bool queueRemove = false;
+                bool queueKeep = false;
+                bool queueExit = false;
+
+                //if (string.IsNullOrEmpty(Version))
+                Version = "";
+
+                // *******************************************************************************
+                // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
+                // ******************************************************************************* 
+                var ttGA = SetAdapter();
+                bool inSession = true; /* This service will always return Session. Will either create one or return existing */
+                SetConversationID(ttGA);
+
+                string _request = SetRequest("Galileo_QueueReadRQ.xsl");
+                if (string.IsNullOrEmpty(_request))
+                    throw new Exception("Transformation produced empty xml.");
+
+
+                try
+                {
+                    queueAccess = _request.Contains("<Action>Q</Action>");
+                    queueRemove = _request.Contains("<Action>QR</Action>");
+                    queueKeep = _request.Contains("<Cryptic>I</Cryptic>");
+
+                    // Send Transformed Request to the Galileo Adapter and Getting Native Response  *
+                    strResponse = queueKeep
+                        ? ttGA.SendCrypticMessage("I", ConversationID)
+                        : ttGA.SendMessage(_request, ConversationID);
+
+                    // Check PNR or Errors in Native Response
+                    if (queueAccess & strResponse.Contains("<PNRBFRetrieve>") | queueKeep | queueRemove & strResponse.Contains("<PNRBFRetrieve>"))
+                    {
+
+                        // Send PNR Redisplay
+                        _request = "<PNRBFManagement_53><PNRBFRetrieveMods><CurrentPNR/></PNRBFRetrieveMods>"
+                            + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>1</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>"
+                            + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>2</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>"
+                            + "<FareRedisplayMods><DisplayAction><Action>D</Action></DisplayAction><FareNumInfo><FareNumAry><FareNum>3</FareNum></FareNumAry></FareNumInfo></FareRedisplayMods>"
+                            + "</PNRBFManagement_53>";
+                        strResponse = ttGA.SendMessage(_request, ConversationID);
+
+                        #region Read History of PNR throught *HI
+                        string strDisplayHI = GetHistory(ConversationID, ttGA);
+                        strResponse = strResponse.Replace("</PNRBFManagement_53>", $"{strDisplayHI}</PNRBFManagement_53>");
+                        #endregion
+
+
+                        #region Read Ticket History of PNR throught *HTI
+                        string displayHTI = GetTicketHistory(ConversationID, ttGA);
+                        strResponse = strResponse.Replace("</PNRBFManagement_53>", $"{displayHTI}</PNRBFManagement_53>");
+                        #endregion
+
+
+                        // Transform PNR Read
+                        var tagToReplace = strResponse.Contains("</PNRBFManagement_53>")
+                        ? strResponse.Contains("</PNRBFManagement_17>")
+                            ? "</PNRBFManagement_17>"
+                            : "</PNRBFManagement_53>"
+                        : "</QueueProcessing_16>";
+
+                        if (inSession)
+                            strResponse = strResponse.Replace(tagToReplace, $"<ConversationID>{ConversationID}</ConversationID>{tagToReplace}");
+
+                        CoreLib.SendTrace(ProviderSystems.UserID, "QRead", "Final response", strResponse, ProviderSystems.LogUUID);
+
+                        if (string.IsNullOrEmpty(Version))
+                            Version = "v03_";
+
+                        strResponse = CoreLib.TransformXML(strResponse, XslPath, $"{Version}Galileo_PNRReadRS.xsl");
+                    }
+                    else if (queueAccess)
+                    {
+                        inSession = false;
+                        strResponse = CoreLib.GetNodeInnerText(strResponse, "Txt", false);
+                        if (strResponse == "QUEUE EMPTY")
+                        {
+                            strResponse = "QUEUE CATEGORY EMPTY";
+                        }
+
+                        strResponse = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, strResponse, ProviderSystems);
+                    }
+                    else if (queueRemove)
+                    {
+                        inSession = false;
+                        strResponse = CoreLib.GetNodeInnerText(strResponse, "Txt", false);
+                        if (strResponse == "OFF QUEUE")
+                            strResponse = "Queue Empty";
+
+                        strResponse = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, strResponse, ProviderSystems);
+                    }
+                    else
+                    {
+                        inSession = false;
+                        strResponse = CoreLib.GetNodeInnerText(strResponse, "Txt", false);
+                        strResponse = strResponse.Contains("IGNORED") ? "<OTA_TravelItineraryRS Version=\"v03\"><Success/><Warnings><Warning Type=\"Queue\">IGNORED - OFF QUEUE</Warning></Warnings></OTA_TravelItineraryRS>" : modCore.FormatErrorMessage(modCore.ttServices.QueueRead, strResponse, ProviderSystems);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error Transforming Native Response.\r\n{ex.Message}");
+                }
+                finally
+                {
+                    if (!inSession)
+                    {
+                        ttGA.CloseSession(ConversationID);
+                        ConversationID = string.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                strResponse = modCore.FormatErrorMessage(modCore.ttServices.QueueRead, ex.Message, ProviderSystems);
+            }
+
+            return strResponse;
+        }
+
+        private string GetHistory(string conversationID, GalileoAdapter ttGA)
+        {
+            var sbH = new StringBuilder("<PNR_HI_INF>");
+            var lstLines = new List<string>();
+            try
+            {
+                string strDisplayHI = ttGA.SendCrypticMessage("*HI", conversationID);
+                string strScreen = strDisplayHI.Replace("\r", "\r\n");
+                strScreen = strScreen.Replace("\r", "\r\n");
+                strDisplayHI = FormatGalileo(strScreen);
+                lstLines = strDisplayHI.Split(new[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                // Conduct Move Bottom (MB)
+                if (lstLines.Last().Contains(")&gt;"))
+                {
+                    string strDHMore = ttGA.SendCrypticMessage("MB", conversationID);
+                    var lstMoreLines = strDHMore.Split(new[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    foreach (string line in lstMoreLines)
+                    {
+                        if (!lstLines.Contains(line))
+                        {
+                            lstLines.Add(line);
+                        }
+                    }
+                }
+
+                // CRDT- ATS/533W/1G AG WS       0448Z/04MAR
+                // CRDT- ATS/533W/1G AG WS       1801Z/26FEB
+                // CRDT- ATS/533W/1G AG WS       0513Z/27FEB
+                // CRDT- HDQ/    /1G RM UA       0500Z/02MAR
+                // CRDT- QSB/3LM3/1G AG 96       1741Z/05MAR
+
+                foreach (string line in lstLines.GetRange(1, lstLines.Count - 1))
+                {
+                    var strline = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                    if (!string.IsNullOrEmpty(strline) && line.Trim().StartsWith("CRDT- "))
+                    {
+                        var elems = strline.Split(new[] { "-", " ", "/" }, StringSplitOptions.None).ToList();
+                        string pcc = elems[3].Trim();
+                        sbH.Append($"<Line PCC='{pcc}'>{strline}</Line>");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sbH.Append($"<Line Error=true>{ex.Message}</Line>");
+            }
+            finally
+            {
+                sbH.Append("</PNR_HI_INF>");
+            }
+
+            //if(lstLines.FindAll(l=> l.Contains("XK") || l.Contains("AFQ")).Count() > 0)
+            //    sbH.Append(GetTicketHistory(lstLines.FindAll(l => l.Contains("XK")))); //|| l.Contains("AFQ")
+
+            return sbH.ToString();
+        }
+
+        private string GetTicketHistory(string conversationID, GalileoAdapter ttGA)
+        {
+
+            try
+            {
+                string strDisplayHI = ttGA.SendCrypticMessage("*HTI", conversationID);
+                string strScreen = strDisplayHI.Replace("\r", "\r\n");
+                strScreen = strScreen.Replace("\r", "\r\n");
+                strDisplayHI = FormatGalileo(strScreen);
+                var lstLines = strDisplayHI.Split(new[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                // Conduct Move Bottom (MB)
+                if (lstLines.Last().Contains(")&gt;"))
+                {
+                    string strDHMore = ttGA.SendCrypticMessage("MB", conversationID);
+                    var lstMoreLines = strDHMore.Split(new[] { "<Screen>", "<Line>", "</Screen>", "</Line>" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    foreach (string line in lstMoreLines)
+                    {
+                        if (!lstLines.Contains(line))
+                        {
+                            lstLines.Add(line);
+                        }
+                    }
+                }
+
+                var sbH = new StringBuilder();
+                sbH.Append(GetTicketHistory(lstLines.FindAll(l => l.Contains("XK"))));
+                return sbH.ToString();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        private string GetTicketHistory(List<string> lstLines)
+        {
+            var sbH = new StringBuilder("<PNR_DH_INF>");
+            try
+            {
+
+                // XK MOROZ/MARK-/0827854509002/-USD/876.48/ET /VOID
+
+                foreach (string line in lstLines)
+                {
+                    var strline = line.Trim().Replace(")&gt;", "").Replace("&gt;", "");
+                    if (!string.IsNullOrEmpty(strline))
+                    {
+                        var elems = strline.Split(new[] { "-", " ", "/" }, StringSplitOptions.None).ToList();
+                        string tkt = elems[4].Trim();
+                        if (!string.IsNullOrEmpty(tkt))
+                            sbH.Append($"<Line TicketNumber='{tkt}'>{line}</Line>");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                sbH.Append($"<Line Error=true>{ex.Message}</Line>");
+            }
+            finally
+            {
+                sbH.Append("</PNR_DH_INF>");
+            }
+
+            return sbH.ToString();
+        }
+
+    }
+}
