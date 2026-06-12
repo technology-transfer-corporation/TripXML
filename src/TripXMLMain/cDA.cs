@@ -1498,7 +1498,6 @@ namespace TripXMLMain
                 StringBuilder sb = new StringBuilder();
                 sb.Append("data source=").Append(Server).Append(";initial Catalog=").Append(Database).Append(";User ID=").Append(User).Append(";Password=").Append(Password);
                 CnnString = sb.ToString();
-                // CnnString = "data source=***REMOVED***\DEDICATED8-VM6,1433;initial Catalog=Traveltalk;User ID=***REMOVED***;Password=***REMOVED***"
             }
 
             var cmd = new SqlCommand();
