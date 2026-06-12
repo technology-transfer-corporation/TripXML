@@ -1,16 +1,22 @@
-﻿using System;
-using System.Text;
+using System;
 using System.Net;
-using TripXMLMain;
-using System.IO;
+using System.Net.Http;
+using System.Text;
 using System.Xml;
+using TripXMLMain;
 
 namespace Travelport
 {
     public class ttHttpWebClient
     {
         #region Declaration
-        private HttpWebRequest mHttpRequest;
+        // One pooled client for the process; pooled connection lifetime keeps DNS fresh.
+        private static readonly HttpClient _httpClient = new HttpClient(new SocketsHttpHandler
+        {
+            AutomaticDecompression = DecompressionMethods.GZip,
+            PooledConnectionLifetime = TimeSpan.FromMinutes(5)
+        });
+
         private StringBuilder sb = new StringBuilder();
         public string LastError { get; set; }
 
@@ -54,37 +60,13 @@ namespace Travelport
             return requestBytes;
         }
 
-        private HttpWebRequest HttpConnect(modCore.TripXMLProviderSystems ttProviderSystems)
-        {
-            HttpWebRequest serverRequest = (HttpWebRequest)WebRequest.Create(ttProviderSystems.URL + this.ServiceName);
-
-            // We are posting a XML request
-            serverRequest.Method = "POST";
-            serverRequest.ContentType = "text/xml";
-
-            // Set up the connection to optimize for web services and receive compressed responses.
-            ServicePointManager.UseNagleAlgorithm = false;
-            ServicePointManager.Expect100Continue = false;
-            serverRequest.AutomaticDecompression = DecompressionMethods.GZip;
-
-            // Always add authentication to the header - avoids issue with internal URL's that doesn't require
-            // authentication.
-            byte[] authBytes = Encoding.UTF8.GetBytes((ttProviderSystems.UserName + ":" + ttProviderSystems.Password).ToCharArray());
-            serverRequest.Headers["Authorization"] = $"Basic {Convert.ToBase64String(authBytes)}";
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-            return serverRequest;
-
-        }
-
         public string SendHttpRequest(string message, modCore.TripXMLProviderSystems ttProviderSystems)
         {
             if (string.IsNullOrEmpty(message))
                 throw new ArgumentNullException("request");
 
-            //mHttpRequest = this.CreateRequestObject();
-            mHttpRequest = HttpConnect(ttProviderSystems);
             byte[] requestBytes = ComposeMessage();
-            string result = ProcessRequest(requestBytes);
+            string result = ProcessRequest(requestBytes, ttProviderSystems);
 
             // Remove SOAP elements
             XmlDocument filteredDocument = this.GetResponseDocument(result);
@@ -92,54 +74,45 @@ namespace Travelport
             return filteredDocument.OuterXml.ToString();
         }
 
-        private string ProcessRequest(byte[] requestBytes)
+        private string ProcessRequest(byte[] requestBytes, modCore.TripXMLProviderSystems ttProviderSystems)
         {
-            //Receive response
-            Stream receiveStream;
-            StreamReader streamReader;
             try
             {
-                //Send request to the server
-                Stream stream = mHttpRequest.GetRequestStream();
-                stream.Write(requestBytes, 0, requestBytes.Length);
-                stream.Close();
-                                
-                HttpWebResponse webResponse = (HttpWebResponse)mHttpRequest.GetResponse();
-                receiveStream = webResponse.GetResponseStream();
+                using var request = new HttpRequestMessage(System.Net.Http.HttpMethod.Post, ttProviderSystems.URL + this.ServiceName);
+                request.Content = new ByteArrayContent(requestBytes);
+                request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/xml");
 
-                // Read output stream
-                streamReader = new StreamReader(receiveStream, Encoding.UTF8);
+                // Always add authentication to the header - avoids issue with internal URL's that doesn't require authentication.
+                byte[] authBytes = Encoding.UTF8.GetBytes(ttProviderSystems.UserName + ":" + ttProviderSystems.Password);
+                request.Headers.TryAddWithoutValidation("Authorization", $"Basic {Convert.ToBase64String(authBytes)}");
+
+                using var response = _httpClient.Send(request, HttpCompletionOption.ResponseContentRead);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    // The request failed, but the response body may still carry a better error message
+                    // (matches the legacy WebException.Response path).
+                    this.SetErrorMessage(response.StatusCode);
+                }
+
+                using var receiveStream = response.Content.ReadAsStream();
+                using var streamReader = new System.IO.StreamReader(receiveStream, Encoding.UTF8);
+                return streamReader.ReadToEnd();
             }
-            catch (WebException exception)
+            catch (Exception ex)
             {
-                this.SetErrorMessage(exception);
-
-                if (exception.Response == null)
-                    return string.Empty;
-
-                // Although the request failed, we can still get a response that might
-                // contain a better error message.
-                receiveStream = exception.Response.GetResponseStream();
-
-                // Read output stream
-                streamReader = new StreamReader(receiveStream, Encoding.UTF8);
-            }
-            catch(Exception ex)
-            {
-                this.LastError = ex.Message;
+                this.LastError = ex.GetBaseException().Message;
                 return string.Empty;
             }
-
-            return streamReader.ReadToEnd();
         }
 
-        private void SetErrorMessage(WebException exception)
+        private void SetErrorMessage(HttpStatusCode statusCode)
         {
-            if (exception.Response != null && ((HttpWebResponse)exception.Response).StatusCode == HttpStatusCode.Unauthorized)
+            if (statusCode == HttpStatusCode.Unauthorized)
             {
                 this.LastError = "The server returned Unauthorized. Please ensure that you are using the correct user name and password.";
             }
-            else if (exception.Response != null && ((HttpWebResponse)exception.Response).StatusCode == HttpStatusCode.NotFound)
+            else if (statusCode == HttpStatusCode.NotFound)
             {
                 this.LastError = "The service could not be found on the server. Please check that you are using the correct URL.";
                 this.LastError += Environment.NewLine + Environment.NewLine;
@@ -147,7 +120,7 @@ namespace Travelport
             }
             else
             {
-                this.LastError = exception.Message;
+                this.LastError = $"The remote server returned an error: ({(int)statusCode}) {statusCode}.";
             }
         }
 
@@ -186,7 +159,7 @@ namespace Travelport
             }
 
             return filteredDocument;
-        } 
+        }
         #endregion
 
     }
