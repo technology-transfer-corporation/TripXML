@@ -1,0 +1,18 @@
+# Local-only files (never commit: env.txt holds credentials, baselines/ holds recorded traffic)
+env.txt
+baselines/
+build-output.log
+
+# Legacy per-repo clones (retired after monorepo import; remove this entry once deleted)
+repos/
+
+# Build output
+bin/
+obj/
+
+# IDE / local tooling state
+.vs/
+.gitnexus/
+.remember/
+.claude/settings.local.json
+*.user
