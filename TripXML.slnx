@@ -1,0 +1,30 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="LocalDebug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Project Path="src/Amadeus/AmadeusWS.csproj" Id="deb7aa8c-6eff-4085-af1c-55dfc4a13083">
+    <BuildType Solution="LocalDebug|*" Project="Release" />
+  </Project>
+  <Project Path="src/Galileo/Galileo.csproj" Id="e7d7bbb7-e6f5-04bf-3e34-f99a5351e8e1">
+    <BuildType Solution="LocalDebug|*" Project="Release" />
+  </Project>
+  <Project Path="src/Sabre/Sabre.csproj" Id="e7280d0f-fdef-0eca-020a-4183f59428c1">
+    <BuildType Solution="LocalDebug|*" Project="Release" />
+  </Project>
+  <Project Path="src/TravelPort/TravelPort.csproj" Id="0c66b5e2-1e92-471a-a5fb-c83c241e4ce4">
+    <BuildType Solution="LocalDebug|*" Project="Release" />
+  </Project>
+  <Project Path="src/TripXMLMain/TripXMLMain.csproj" Id="c9d99008-6b09-0fb3-2941-ac1bb23825fa">
+    <BuildType Solution="LocalDebug|*" Project="Release" />
+  </Project>
+  <Project Path="src/TripXMLTools/TripXMLTools.csproj" Id="b362f5bf-5f86-4997-9ef4-067c8e3db74e">
+    <BuildType Solution="LocalDebug|*" Project="Release" />
+  </Project>
+  <Project Path="src/Worldspan/Worldspan.csproj" Id="08b45e83-8921-0869-3fb1-53ed81167882">
+    <BuildType Solution="LocalDebug|*" Project="Release" />
+  </Project>
+  <Project Path="src/wsTripXML/wsTripXML.csproj" />
+  <Project Path="src/TripXMLMain/tests/TripXML.XsltTests/TripXML.XsltTests.csproj" />
+</Solution>
